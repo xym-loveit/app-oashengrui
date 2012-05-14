@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd" version="2.0">
+
+	<description>ltag</description>
+	<tlib-version>1.0</tlib-version>
+	<short-name>ltag</short-name>
+	<uri>http://www.lzcp.com</uri>
+
+<function>
+   <description>
+     subString by max bytes
+   </description>
+   <name>subString</name>
+   <function-class>com.lzcp.jstl.tags.JstlTagString</function-class>
+   <!--方法的声明，依次为返回类型、方法名、参数1类型、参数2类型，应在同一行，否则可能出错 -->
+   <function-signature>java.lang.String subString(java.lang.String, int, java.lang.String)</function-signature>
+     <example>
+        name: ${ltag:subString(name,20,'...')}
+     </example>
+</function>
+
+</taglib>
