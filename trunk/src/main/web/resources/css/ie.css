@@ -1,0 +1,68 @@
+#col-container a.button {
+	line-height: 1.4em;
+	margin: 1px;
+	padding: 4px 6px;
+}
+#col-container input {
+	line-height: 1;
+}
+#col-container .row-actions {
+	visibility: visible;
+}
+#col-container .inline-edit-row p.submit {
+	zoom: 100%;
+}
+#col-container .inline-edit-row fieldset label span.title {
+	display: block;
+	float: left;
+	width: 5em;
+}
+#col-container .inline-edit-row fieldset label span.input-text-wrap {
+	margin-left: 0;
+	zoom: 100%;
+}
+#col-container * html .edit-box {
+	display: inline;
+}
+#col-container .tablenav .button-secondary, .nav .button-secondary {
+	padding: 0 1px;
+	vertical-align: middle;
+}
+#col-container .tablenav select {
+	font-size: 13px;
+	display: inline-block;
+	vertical-align: top;
+	margin-top: 2px;
+}
+#col-container .tablenav .actions select {
+	width: 155px;
+}
+#col-container table.ie-fixed {
+	table-layout: fixed;
+}
+#col-container .widefat tr, .widefat th {
+	margin-bottom: 0;
+	border-spacing: 0;
+}
+#col-container .widefat th input {
+	margin: 0 0 0 5px;
+}
+#col-container .widefat thead th input, .widefat tfoot th input {
+	margin: 0 0 7px 5px;
+}
+#col-container .widefat .check-column {
+	padding: 6px 0 2px;
+	width: 2.2em;
+}
+#col-container .widefat tbody th.check-column {
+	padding: 4px 0 25px;
+}
+#col-container .widefat {
+	empty-cells: show;
+	border-collapse: collapse;
+}
+#col-container .tablenav a.button-secondary {
+	display: inline-block;
+	padding: 2px 5px;
+}
+#col-container .widefat td, .widefat th {vertical-align:middle;}

@@ -1,0 +1,7 @@
+html,body,table,tr,td,span,label,div {margin:0; padding:0;font-size:9pt;font-family:arial;}
+table {border-collapse:collapse;border-color:#444444;table-layout:fixed;}
+table td{text-align:center;}
+table th{background-color:#DDD;}
+
+.print_area{font-size:9pt;}
+.print_toptitle{line-height: 30px; font-weight: bold; font-size: 130%;text-align:center;margin:15px 0;}

@@ -1,0 +1,93 @@
+
+/* ---------->>> jtip <<<---------------------------------------------------------------*/
+
+#JT_arrow_left{
+	background-image: url(../../images/jquerylib/arrow_left.gif);
+	background-repeat: no-repeat;
+	background-position: left top;
+	z-index:9999;
+	/*position: absolute;
+	left:-12px;*/
+	height:23px;
+	width:10px;
+    top:-3px;
+	float:left;
+}
+
+#JT_arrow_right{
+	background-image: url(../../images/jquerylib/arrow_right.gif);
+	background-repeat: no-repeat;
+	background-position: left top;
+	position: absolute;
+	z-index:9999;
+	height:23px;
+	width:11px;
+    top:-2px;
+}
+
+#JT {
+	position: absolute;
+	z-index:100;
+	/*border: 2px solid #CCCCCC;*/
+	background-color: #fff;
+	z-index:1999;
+}
+
+#JT_copy{
+	border:2px solid #CCCCCC;
+	padding:10px 10px 10px 10px;
+	color:#333333;
+}
+
+#JT_copy ul{
+	list-style-type:inherit;
+	list-style-image:inherit;
+	list-style-position:inherit;
+}
+
+#JT_copy ul li{
+	margin:5px; 0;
+}
+
+.JT_loader{
+	/*background-image: url(../../images/jquerylib/loader.gif);
+	background-repeat: no-repeat;
+	background-position: center center;*/
+	width:100%;
+	height:12px;
+}
+
+#JT_close_left{
+	background-color: #CCCCCC;
+	text-align: left;
+	/*padding-left: 8px;
+	padding-bottom: 5px;
+	padding-top: 2px;*/
+	padding-left: 8px;
+	font-weight:normal;
+	height:21px;
+	line-height:21px;
+	color:#FFF;
+}
+
+#JT_close_right{
+	background-color: #CCCCCC;
+	text-align: left;
+	padding-left: 8px;
+	padding-bottom: 5px;
+	padding-top: 2px;
+	font-weight:bold;
+}
+
+#JT_copy p{
+margin:3px 0;
+}
+
+#JT_copy img{
+	padding: 1px;
+	border: 1px solid #CCCCCC;
+}
+
+.jTip{
+cursor:help;
+}
