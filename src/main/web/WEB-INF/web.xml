@@ -67,11 +67,6 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
-	<!-- site context listener -->
-	<listener>
-		<listener-class>com.lzcp.web.servlet.ServletContextLoaderListener</listener-class>
-	</listener>
-	
 	<!-- Open Session View -->
 	<filter>
 		<filter-name>openSessionInViewFilter</filter-name>
@@ -83,7 +78,7 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
-	<!-- Security Control -->
+	<!-- Security Control 
 	<filter>
 		<filter-name>securityFilterChain</filter-name>
 		<filter-class>com.lzcp.components.security.UserAuthenticationFilter</filter-class>
@@ -105,8 +100,9 @@
 		<filter-name>securityFilterChain</filter-name>
 		<url-pattern>/admin/*</url-pattern>
 	</filter-mapping>
+	-->
 	
-	<!-- UrlRewrite configuration -->
+	<!-- UrlRewrite configuration
 	<filter>
 		<filter-name>rewriteFilter</filter-name>
 		<filter-class>
@@ -126,7 +122,8 @@
 		<filter-name>rewriteFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+	 -->
+	 
 	<!-- struts configuration -->
 	<servlet>
 		<servlet-name>action</servlet-name>
@@ -135,28 +132,8 @@
 			<param-name>config</param-name>
 			<param-value>
 				/WEB-INF/classes/struts/struts.xml,
-				/WEB-INF/classes/struts/struts-web-account.xml,
-				/WEB-INF/classes/struts/struts-web-admin.xml,
-				/WEB-INF/classes/struts/struts-web-album.xml,
-				/WEB-INF/classes/struts/struts-web-artworks.xml,
-				/WEB-INF/classes/struts/struts-web-business.xml,
-				/WEB-INF/classes/struts/struts-web-category.xml,
-				/WEB-INF/classes/struts/struts-web-comments.xml,
-				/WEB-INF/classes/struts/struts-web-contact.xml,
-				/WEB-INF/classes/struts/struts-web-culture.xml,
-				/WEB-INF/classes/struts/struts-web-entry.xml,
-				/WEB-INF/classes/struts/struts-web-entry-news.xml,
-				/WEB-INF/classes/struts/struts-web-home.xml,
-				/WEB-INF/classes/struts/struts-web-job.xml,
-				/WEB-INF/classes/struts/struts-web-jobapplicant.xml,
-				/WEB-INF/classes/struts/struts-web-links.xml,
-				/WEB-INF/classes/struts/struts-web-master.xml,
-				/WEB-INF/classes/struts/struts-web-meta.xml,
-				/WEB-INF/classes/struts/struts-web-park.xml,
-				/WEB-INF/classes/struts/struts-web-search.xml,
-				/WEB-INF/classes/struts/struts-web-service.xml,
-				/WEB-INF/classes/struts/struts-web-settings.xml,
-				/WEB-INF/classes/struts/struts-web-upload.xml
+				/WEB-INF/classes/struts/struts-web-index.xml,
+				/WEB-INF/classes/struts/struts-web-personal.xml
 			</param-value>
 		</init-param>
 		<init-param>
@@ -173,18 +150,6 @@
 	<servlet-mapping>
 		<servlet-name>action</servlet-name>
 		<url-pattern>*.do</url-pattern>
-	</servlet-mapping>
-	
-	<!-- Discuz API -->
-	<servlet>
-		<servlet-name>api</servlet-name>
-		<servlet-class>com.fivestars.interfaces.bbs.api.UC</servlet-class>
-		<load-on-startup>2</load-on-startup>
-	</servlet>
-	
-	<servlet-mapping>
-		<servlet-name>api</servlet-name>
-		<url-pattern>/api/uc.php</url-pattern>
 	</servlet-mapping>
 	
 	<!-- Tag lib -->
@@ -217,14 +182,6 @@
 			<taglib-uri>/tags/struts-nested</taglib-uri>
 			<taglib-location>/WEB-INF/tld/struts-nested.tld</taglib-location>
 		</taglib>
-		
-		<!--
-		<jsp-property-group>
-			<page-encoding>
-				<page-encoding>utf-8</page-encoding>
-			</page-encoding>
-		</jsp-property-group>
-		-->
 		
 	</jsp-config>
 	

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+       
+<tiles-definitions>
+	
+	<!-- Home Index -->
+	<definition name="index.page" extends="base.layout">
+		<put name="title"     value="晟睿教育内部管理系统" />
+		<put name="body"    value="/WEB-INF/jsp/index.jsp"/>
+	</definition>
+	
+</tiles-definitions>

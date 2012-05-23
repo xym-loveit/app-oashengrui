@@ -10,29 +10,8 @@
 		<set-property property="definitions-config" 
 			value="
 				/WEB-INF/tiles/tiles-defs.xml,
-				
-				/WEB-INF/tiles/home/tiles-defs-account.xml,
-				/WEB-INF/tiles/home/tiles-defs-artworks.xml,
-				/WEB-INF/tiles/home/tiles-defs-business.xml,
-				/WEB-INF/tiles/home/tiles-defs-contact.xml,
-				/WEB-INF/tiles/home/tiles-defs-culture.xml,
-				/WEB-INF/tiles/home/tiles-defs-entry-news.xml,
-				/WEB-INF/tiles/home/tiles-defs-index.xml,
-				/WEB-INF/tiles/home/tiles-defs-park.xml,
-				/WEB-INF/tiles/home/tiles-defs-search.xml,
-				/WEB-INF/tiles/home/tiles-defs-service.xml,
-				/WEB-INF/tiles/home/tiles-defs-master.xml,
-				
-				/WEB-INF/tiles/admin/tiles-defs-account.xml,
-				/WEB-INF/tiles/admin/tiles-defs-album.xml,
-				/WEB-INF/tiles/admin/tiles-defs-category.xml,
-				/WEB-INF/tiles/admin/tiles-defs-contact.xml,
-				/WEB-INF/tiles/admin/tiles-defs-culture.xml,
-				/WEB-INF/tiles/admin/tiles-defs-entry.xml,
-				/WEB-INF/tiles/admin/tiles-defs-index.xml,
-				/WEB-INF/tiles/admin/tiles-defs-links.xml,
-				/WEB-INF/tiles/admin/tiles-defs-master.xml,
-				/WEB-INF/tiles/admin/tiles-defs-settings.xml
+				/WEB-INF/tiles/tiles-defs-index.xml,
+				/WEB-INF/tiles/tiles-defs-personal.xml
 			"
 		/>
 		<set-property property="definitions-debug" value="2" />
