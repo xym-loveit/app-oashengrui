@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+       
+<tiles-definitions>
+	
+	<definition name="page.my.workplan"  path="/WEB-INF/jsp/application/personal/myWorkPlan.jsp"/>
+	
+	<definition name="page.my.conference"  path="/WEB-INF/jsp/application/personal/myConference.jsp"/>
+	
+	<definition name="page.my.news"  path="/WEB-INF/jsp/application/personal/myNews.jsp"/>
+	
+	<definition name="page.my.doc"  path="/WEB-INF/jsp/application/personal/myDoc.jsp"/>
+	
+	<definition name="page.my.baron"  path="/WEB-INF/jsp/application/personal/myBaron.jsp"/>
+	
+</tiles-definitions>

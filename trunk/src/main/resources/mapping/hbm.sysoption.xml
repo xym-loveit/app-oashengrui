@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="com.lzcp.model.ModelSystemOption" table="lz_sysoptions">
+    <class name="org.shengrui.oa.model.ModelSystemOption" table="oa_sysoptions">
         <id name="id" type="string">
             <column name="id" />
             <generator class="native" />

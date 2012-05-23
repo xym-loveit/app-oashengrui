@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	
+	<action-mappings>
+		<!-- Home Action -->
+		<action path="/app/personal"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="page.my.workplan" path="page.my.workplan" />
+			<forward name="page.my.conference" path="page.my.conference" />
+			<forward name="page.my.news" path="page.my.news" />
+			<forward name="page.my.doc" path="page.my.doc" />
+			<forward name="page.my.baron" path="page.my.baron" />
+		</action>
+		
+	</action-mappings>
+
+</struts-config>

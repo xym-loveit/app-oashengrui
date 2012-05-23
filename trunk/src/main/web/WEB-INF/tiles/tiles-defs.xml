@@ -6,7 +6,7 @@
 	
 	<!-- 后台模板 -->
 	<definition name="base.layout" path="/WEB-INF/jsp/public/layout/layout.jsp">
-		<put name="title"     value="玛丽英语内部管理系统" />
+		<put name="title"     value="晟睿教育内部管理系统" />
 		<put name="tld"		  value="/WEB-INF/jsp/public/inc_tld.jsp" />
 		<put name="path"	  value="/WEB-INF/jsp/public/inc_path.jsp"/>
 		<put name="header"    value="/WEB-INF/jsp/public/layout/header.jsp"/>
@@ -15,22 +15,6 @@
 		<put name="footer"    value="/WEB-INF/jsp/public/layout/footer.jsp"/> 
 	</definition>
 	
-	<!-- Ext布局 -->
-	<definition name="ext.layout" path="/WEB-INF/jsp/public/layout/ext/layout.jsp">
-		<put name="title"     value="玛丽英语内部管理系统" />
-		<put name="tld"		  value="/WEB-INF/jsp/public/inc_tld.jsp" />
-		<put name="path"	  value="/WEB-INF/jsp/public/inc_path.jsp"/>
-		<put name="header"    value="/WEB-INF/jsp/public/layout/ext/header.jsp"/>
-		<put name="body"      value="/WEB-INF/jsp/public/blank.jsp"/>
-		<put name="menu"      value="/WEB-INF/jsp/public/layout/ext/menu.jsp"/> 
-		<put name="footer"    value="/WEB-INF/jsp/public/layout/ext/footer.jsp"/> 
-	</definition>
-	
-	<!-- 弹窗页面模板 -->
-	<definition name="pop.layout" path="/WEB-INF/jsp/public/layout/popLayout.jsp">
-		<put name="path"	  value="/WEB-INF/jsp/public/inc_path.jsp"/>
-		<put name="body"      value="/WEB-INF/jsp/public/blank.jsp"/>
-	</definition>
 	<!-- 登陆页面 -->
 	<definition name="login.index" path="/WEB-INF/jsp/public/login/login.jsp" />
 	

@@ -91,43 +91,12 @@
 		</property>
 		<property name="interceptorNames">
 			<list>
-				<value>luceneMethodCachePointCutAdvice</value>
 				<!--
 				<value>methodCachePointCut</value>
 				<value>methodCachePointCutAdvice</value>
 				-->
 			</list> 
 		</property> 
-	</bean>
-	
-	<bean id="indexedEntityForEntry" class="com.lzcp.components.lucene.LuceneIndexedEntity">
-		<property name="className" value="com.lzcp.model.ModelEntry" />
-		<property name="indexDir" value="${lucene.index.dir.entry}" />
-		<property name="fieldsStr" value="id,title,content" />
-	</bean>
-	
-	<bean id="indexedEntityForMaster" class="com.lzcp.components.lucene.LuceneIndexedEntity">
-		<property name="className" value="com.lzcp.model.ModelMaster" />
-		<property name="indexDir" value="${lucene.index.dir.master}" />
-		<property name="fieldsStr" value="id,title,masterWorks,masterStyles,masterIntro" />
-	</bean>
-	
-	<!-- Lucene Searcher -->
-	<bean id="luceneSearcher" class="com.lzcp.components.lucene.LuceneSearcher">
-		<property name="indexedEntites">
-			<list>
-				<ref bean="indexedEntityForEntry" />
-				<ref bean="indexedEntityForMaster" />
-			</list>
-		</property>
-		<property name="defaultIndexDir">
-			<value>${lucene.index.dir}</value>
-		</property>
-		<property name="hibernateTemplate" ref="hibernateTemplate" />
-		<property name="className" value="com.lzcp.model.ModelEntry" />
-		<property name="fieldsStr" value="id,title,content" />
-		<property name="fragmentSize" value="500" />
-		<property name="fieldWithClassName" value="true" />
 	</bean>
 	
 </beans>
