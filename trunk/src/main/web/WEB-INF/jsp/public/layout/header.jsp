@@ -7,8 +7,12 @@
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
+<style>
+	.ltxt {color: white; line-height: 50px; padding-left: 5px;}
+</style>
+
 <div class="headerNav">
-		<a class="logo" href="http://j-ui.com">标志</a>
+		<a href="#" class="ltxt">晟睿教育内部管理系统</a>
 		<ul class="nav">
 			<li style="background: none;"><a href="app/index.do?action=index">首页</a></li>
 			<li><a href="javascript:void(0);">退出</a></li>

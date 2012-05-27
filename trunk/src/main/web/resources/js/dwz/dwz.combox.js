@@ -37,7 +37,7 @@
 						if(top + options.height() > $(window).height() - 20) {
 							top =  $(window).height() - 20 - options.height();
 						}
-						options.css({top:top,left:box.offset().left}).show();
+						options.css({top:top,left:box.offset().left, width:box.width() - 10}).show();
 						killAllBox(box.attr("id"));
 						$(document).click(killAllBox);
 					} else {
@@ -83,14 +83,15 @@
 				var label = $("option[value=" + value + "]",$this).text();
 				var ref = $this.attr("ref");
 				var refUrl = $this.attr("refUrl") || "";
-
+				var width = $(this).css("width") || "auto";
+				
 				var cid = $this.attr("id") || Math.round(Math.random()*10000000);
 				var select = '<div class="combox"><div id="combox_'+ cid +'" class="select"' + (ref?' ref="' + ref + '"' : '') + '>';
-				select += '<a href="javascript:" class="'+$this.attr("class")+'" name="' + name +'" value="' + value + '">' + label +'</a></div></div>';
-				var options = '<ul class="comboxop" id="op_combox_'+ cid +'">';
+				select += '<a style="width:' + width + '" href="javascript:void(0);" class="'+$this.attr("class")+'" name="' + name +'" value="' + value + '">' + label +'</a></div></div>';
+				var options = '<ul class="comboxop" id="op_combox_'+ cid +'" style="width:' + width + '">';
 				$("option", $this).each(function(){
 					var option = $(this);
-					options +="<li><a class=\""+ (value==option[0].value?"selected":"") +"\" href=\"#\" value=\"" + option[0].value + "\">" + option[0].text + "</a></li>";
+					options +="<li><a class=\""+ (value==option[0].value?"selected":"") +"\" href=\"javascript:void(0);\" value=\"" + option[0].value + "\">" + option[0].text + "</a></li>";
 				});
 				options +="</ul>";
 				

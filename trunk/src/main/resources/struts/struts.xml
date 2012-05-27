@@ -10,6 +10,7 @@
 		<set-property property="definitions-config" 
 			value="
 				/WEB-INF/tiles/tiles-defs.xml,
+				/WEB-INF/tiles/tiles-defs-admin.xml,
 				/WEB-INF/tiles/tiles-defs-index.xml,
 				/WEB-INF/tiles/tiles-defs-personal.xml
 			"

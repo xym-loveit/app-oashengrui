@@ -27,7 +27,8 @@ import org.shengrui.oa.utilities.UtilString;
  * @author  Jeccy.Zhao
  *
  */
-public class BaseAction extends DispatchAction
+public class BaseAction 
+extends DispatchAction
 {
 	
 	/**
@@ -56,8 +57,8 @@ public class BaseAction extends DispatchAction
 		public AjaxResponse()
 		{
 		}
-		public static final String RESPONSE_ERROR = "fail";
-		public static final String RESPONSE_SUCCESS = "success";
+		public static final String RESPONSE_ERROR = "{\"statusCode\":\"300\", \"message\":\"操作失败\"}";
+		public static final String RESPONSE_SUCCESS = "{\"statusCode\":\"200\", \"message\":\"操作成功\"}";
 	}
 	
 	/**

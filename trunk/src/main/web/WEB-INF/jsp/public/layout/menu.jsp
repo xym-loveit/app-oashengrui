@@ -39,15 +39,15 @@
 		</div>
 		<div class="accordionContent">
 			<ul class="tree treeFolder">
-				<li treeicon="icon-adminnews"><a href="demo_page1.html" target="navTab" rel="demo_page1">新闻发布与管理</a></li>
-				<li treeicon="icon-admintask"><a href="demo_page1.html" target="navTab" rel="demo_page2">任务委托管理</a></li>
+				<li treeicon="icon-adminnews"><a href="app/admin.do?action=adminPageEntryIndex" target="navTab" rel="admin_entry">新闻发布与管理</a></li>
+				<li treeicon="icon-admintask"><a href="app/admin.do?action=adminPageTaskDelegateIndex" target="navTab" rel="admin_task">任务委托管理</a></li>
 				<li treeicon="icon-admindutyStaff"><a>员工考勤管理</a>
 					<ul>
-						<li treeicon="icon-admindutyArrange"><a href="demo_page1.html" target="navTab" rel="demo_page2">工作安排</a></li>
-						<li treeicon="icon-adminduty"><a href="demo_page1.html" target="navTab" rel="demo_page2">员工考勤</a></li>
+						<li treeicon="icon-admindutyArrange"><a href="app/admin.do?action=adminPageStaffWorkArrange" target="navTab" rel="admin_workArrange">工作安排</a></li>
+						<li treeicon="icon-adminduty"><a href="app/admin.do?action=adminPageStaffAttendance" target="navTab" rel="admin_staffAttendance">员工考勤</a></li>
 					</ul>
 				</li>
-				<li treeicon="icon-infoshared"><a href="demo_page5.html" target="navTab" rel="demo_page5">文档上传与管理</a></li>
+				<li treeicon="icon-infoshared"><a href="app/admin.do?action=adminPageDocument" target="navTab" rel="admin_doc">文档上传与管理</a></li>
 			</ul>
 		</div>
 		

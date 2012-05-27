@@ -1,3 +1,7 @@
+a.oplink {
+    color: blue;
+    text-decoration: underline;
+}
 
 .x-panel {
 	margin:5px;
@@ -36,7 +40,8 @@
 }
 
 .tabsPage .tabsPageHeader li span.icon {
-	padding-left: 20px;
+	padding: 0 0 0 20px;
+	line-height: 23px;
 }
 
 .icon-infodoc,
@@ -145,6 +150,7 @@
 	background: url("../images/menus/administrator.png") no-repeat left center;
 }
 
+.panelBar .toolBar a.icon span.icon-adminnews, 
 .tabsPage .tabsPageHeader li span.icon-adminnews,
 .tree div.icon-adminnews {
 	background: url("../images/menus/administrator/news_menu.png") no-repeat left center;
@@ -288,4 +294,10 @@
 .tabsPage .tabsPageHeader li span.icon-sysmlogs,
 .tree div.icon-sysmlogs {
 	background: url("../images/menus/system/logs.png") no-repeat left center;
+}
+
+.icon-edit, 
+.panelBar .toolBar a.icon span.icon-edit, 
+.tabsPage .tabsPageHeader li span.icon-edit {
+	background: url("../images/icons/template_edit.png") no-repeat left center;
 }
