@@ -196,7 +196,8 @@ function initUI(_box){
 			var url = unescape($this.attr("href")).replaceTmById($(event.target).parents(".unitBox:first"));
 			
 			// added by Jeccy.Zhao on 2012-05-24
-			var show_icon = $this.parent().parent().attr("treeicon") ? $this.parent().parent().attr("treeicon") + " icon" : ""; 
+			var show_icon = $this.attr("treeicon") ? ($(this).attr("treeicon") + " icon") : 
+								($this.parent().parent().attr("treeicon") ? $this.parent().parent().attr("treeicon") + " icon" : ""); 
 			
 			DWZ.debug(url);
 			if (!url.isFinishedTm()) {

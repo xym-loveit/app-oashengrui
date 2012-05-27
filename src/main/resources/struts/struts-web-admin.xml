@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	
+	<action-mappings>
+		<!-- Home Action -->
+		<action path="/app/admin"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="admin.page.entry.index" path="admin.page.entry.index" />
+			<forward name="admin.page.entry.approval.index" path="admin.page.entry.approval.index" />
+			<forward name="admin.page.entry.detail" path="admin.page.entry.detail" />
+			<forward name="admin.page.task.delegate.index" path="admin.page.task.delegate.index" />
+			<forward name="admin.page.staff.work.arrange" path="admin.page.staff.work.arrange" />
+			<forward name="admin.page.staff.attendance" path="admin.page.staff.attendance" />
+			<forward name="admin.page.staff.attendance.onpunch" path="admin.page.staff.attendance.onpunch" />
+			<forward name="admin.page.staff.attendance.onleave" path="admin.page.staff.attendance.onleave" />
+			<forward name="admin.page.staff.attendance.onabsence" path="admin.page.staff.attendance.onabsence" />
+			<forward name="admin.page.staff.attendance.ontravel" path="admin.page.staff.attendance.ontravel" />
+			<forward name="admin.page.document" path="admin.page.document" />
+		</action>
+		
+	</action-mappings>
+
+</struts-config>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+       
+<tiles-definitions>
+	
+	<!-- 新闻发布与管理 -->
+	<definition name="admin.page.entry.index"  
+		path="/WEB-INF/jsp/application/administrator/entry/entryIndex.jsp"/>
+	
+	<!-- 新闻审批与管理 -->
+	<definition name="admin.page.entry.approval.index"  
+		path="/WEB-INF/jsp/application/administrator/entry/entryApprovalIndex.jsp"/>
+		
+	<!-- 新闻详细页面 (新增 & 编辑) -->
+	<definition name="admin.page.entry.detail" 
+		path="/WEB-INF/jsp/application/administrator/entry/entryPage.jsp"/>
+	
+	<!-- 任务委托管理 -->
+	<definition name="admin.page.task.delegate.index" 
+		path="/WEB-INF/jsp/application/administrator/task/taskDelegateIndex.jsp"/>
+	
+	<!-- 员工考勤管理 - 工作安排 -->
+	<definition name="admin.page.staff.work.arrange" 
+		path="/WEB-INF/jsp/application/administrator/staff/work/workArrangeIndex.jsp"/>
+	
+	<!-- 员工考勤管理 - 员工考勤 -->
+	<definition name="admin.page.staff.attendance" 
+		path="/WEB-INF/jsp/application/administrator/staff/attendance/attendanceIndex.jsp"/>
+	
+	<!-- 员工考勤管理 - 员工考勤 - 打卡 -->
+	<definition name="admin.page.staff.attendance.onpunch" 
+		path="/WEB-INF/jsp/application/administrator/staff/attendance/attendanceOnPunch.jsp" />
+	
+	<!-- 员工考勤管理 - 员工考勤 - 出差安排 -->
+	<definition name="admin.page.staff.attendance.ontravel" 
+		path="/WEB-INF/jsp/application/administrator/staff/attendance/attendanceOnTravel.jsp" />
+	
+	<!-- 员工考勤管理 - 员工考勤 - 请假 -->
+	<definition name="admin.page.staff.attendance.onleave" 
+		path="/WEB-INF/jsp/application/administrator/staff/attendance/attendanceOnLeave.jsp" />
+	
+	<!-- 员工考勤管理 - 员工考勤 - 旷工 -->
+	<definition name="admin.page.staff.attendance.onabsence" 
+		path="/WEB-INF/jsp/application/administrator/staff/attendance/attendanceOnAbsence.jsp" />
+	
+	<!-- 文档上传与管理 -->
+	<definition name="admin.page.document" 
+		path="/WEB-INF/jsp/application/administrator/doc/documentIndex.jsp"/>
+	
+</tiles-definitions>
