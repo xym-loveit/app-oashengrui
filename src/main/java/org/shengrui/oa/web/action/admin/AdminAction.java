@@ -57,10 +57,10 @@ extends BaseAction
 	/**
 	 * <b>[WebAction]</b> 
 	 * <br/>
-	 * The administrator entry remove action.
+	 * 新闻发布与管理 - 新闻删除操作.
 	 * @throws WebException 
 	 */
-	public ActionForward adminPageEntryRemove (ActionMapping mapping, ActionForm form,
+	public ActionForward adminOprEntryRemove (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws WebException 
 	{
 		return ajaxPrint(response, AjaxResponse.RESPONSE_SUCCESS);
@@ -156,10 +156,22 @@ extends BaseAction
 	 * 文档上传与管理
 	 * @throws WebException 
 	 */
-	public ActionForward adminPageDocument (ActionMapping mapping, ActionForm form,
+	public ActionForward adminPageDocumentIndex (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws WebException 
 	{
-		return mapping.findForward("admin.page.document");
+		return mapping.findForward("admin.page.document.index");
+	}
+	
+	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
+	 * 文档上传与管理 - 文档详细页面
+	 * @throws WebException 
+	 */
+	public ActionForward adminPageDocumentDetail (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) throws WebException 
+	{
+		return mapping.findForward("admin.page.document.detail");
 	}
 	
 }

@@ -65,7 +65,7 @@
 		<ul class="toolBar">
 			<li><a class="add" href="app/admin.do?action=adminPageEntryDetail" target="dialog" title="添加新闻" width="900" height="500" rel="dia_admin_entryadd"><span>添加</span></a></li>
 			<li class="line">line</li>
-			<li><a class="delete" href="app/admin.do?action=adminPageEntryRemove&id={sid}" target="ajaxTodo" title="确定要删除吗?" callback="hello"><span>删除</span></a></li>
+			<li><a class="delete" href="app/admin.do?action=adminOprEntryRemove&id={sid}" target="ajaxTodo" title="确定要删除吗?" callback="hello"><span>删除</span></a></li>
 			<li class="line">line</li>
 			<li><a class="edit" href="app/admin.do?action=adminPageEntryDetail&id={sid}" target="dialog" title="修改新闻" width="900" height="500" rel="dia_admin_entryedit{sid}"><span>修改</span></a></li>
 			<!--
@@ -93,7 +93,7 @@
 				<td>杭州总部 总经办</td>
 				<td>2012-02-22</td>
 				<td>
-					<a href="app/admin.do?action=adminPageEntryRemove&id=1" target="ajaxTodo" title="确定要删除吗?" callback="hello"><img class="opr" src="resources/images/icons/remove.png" /></a>&nbsp;
+					<a href="app/admin.do?action=adminOprEntryRemove&id=1" target="ajaxTodo" title="确定要删除吗?" callback="hello"><img class="opr" src="resources/images/icons/remove.png" /></a>&nbsp;
 					<a href="app/admin.do?action=adminPageEntryDetail&id=1" target="dialog" title="修改新闻" width="900" height="500"><img class="opr" src="resources/images/icons/edit.gif" /></a>
 				</td>
 			</tr>

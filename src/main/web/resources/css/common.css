@@ -51,12 +51,14 @@ b.symbol {
 }
 
 .icon-infodoc,
-.tree div.icon-infodoc {
+.tree div.icon-infodoc,
+.tabsPage .tabsPageHeader li span.icon-infodoc {
 	background: url("../images/menus/info/arch_template.png") no-repeat left center;
 }
 
 .icon-infoshared,
-.tree div.icon-infoshared {
+.tree div.icon-infoshared,
+.tabsPage .tabsPageHeader li span.icon-infoshared{
 	background: url("../images/menus/info/folder_shared.png") no-repeat left center;
 }
 

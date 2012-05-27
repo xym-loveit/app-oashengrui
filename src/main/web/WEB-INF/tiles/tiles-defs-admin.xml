@@ -46,7 +46,11 @@
 		path="/WEB-INF/jsp/application/administrator/staff/attendance/attendanceOnAbsence.jsp" />
 	
 	<!-- 文档上传与管理 -->
-	<definition name="admin.page.document" 
+	<definition name="admin.page.document.index" 
 		path="/WEB-INF/jsp/application/administrator/doc/documentIndex.jsp"/>
 	
+	<!-- 文档上传与管理 - 文档详细 -->
+	<definition name="admin.page.document.detail" 
+		path="/WEB-INF/jsp/application/administrator/doc/documentPage.jsp"/>
+		
 </tiles-definitions>

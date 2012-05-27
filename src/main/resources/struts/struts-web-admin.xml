@@ -12,14 +12,18 @@
 			<forward name="admin.page.entry.index" path="admin.page.entry.index" />
 			<forward name="admin.page.entry.approval.index" path="admin.page.entry.approval.index" />
 			<forward name="admin.page.entry.detail" path="admin.page.entry.detail" />
+			
 			<forward name="admin.page.task.delegate.index" path="admin.page.task.delegate.index" />
+			
 			<forward name="admin.page.staff.work.arrange" path="admin.page.staff.work.arrange" />
 			<forward name="admin.page.staff.attendance" path="admin.page.staff.attendance" />
 			<forward name="admin.page.staff.attendance.onpunch" path="admin.page.staff.attendance.onpunch" />
 			<forward name="admin.page.staff.attendance.onleave" path="admin.page.staff.attendance.onleave" />
 			<forward name="admin.page.staff.attendance.onabsence" path="admin.page.staff.attendance.onabsence" />
 			<forward name="admin.page.staff.attendance.ontravel" path="admin.page.staff.attendance.ontravel" />
-			<forward name="admin.page.document" path="admin.page.document" />
+			
+			<forward name="admin.page.document.index" path="admin.page.document.index" />
+			<forward name="admin.page.document.detail" path="admin.page.document.detail" />
 		</action>
 		
 	</action-mappings>
