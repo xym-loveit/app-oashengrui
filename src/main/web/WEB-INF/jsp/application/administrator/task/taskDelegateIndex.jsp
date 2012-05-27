@@ -70,18 +70,19 @@
 	<table class="table" width="100%" layoutH="138">
 		<thead>
 			<tr>
-				<th width="120" align="center">任务类型</th>
+				<th align="center">任务类型</th>
 				<th align="center">任务名称</th>
-				<th width="100" align="center">发起人</th>
-				<th width="150" align="center">负责人</th>
-				<th width="80" align="center">任务状态</th>
+				<th align="center">发起人</th>
+				<th align="center">负责人</th>
+				<th align="center">任务状态</th>
 				<th align="center">发布审批</th>
 				<th align="center">剩余时间</th>
 				<th align="center">开始时间</th>
 				<th align="center">结束时间</th>
 				<th align="center">实际完成时间</th>
 				<th align="center">审批</th>
-				<th align="center">操作</th>
+				<th align="center">编辑</th>
+				<th align="center">删除</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -97,11 +98,13 @@
 				<td>2012-02-22</td>
 				<td>2012-02-19</td>
 				<td>
-					<a href="app/admin.do?action=adminPageEntryDetail&id=1" target="dialog" title="审批" width="900" height="500"><img class="opr" src="resources/images/icons/dutySection.png" /></a>&nbsp;
+					<a href="app/admin.do?action=adminPageEntryDetail&id=1" target="dialog" title="任务审批" width="900" height="500" class="oplink" rel="admin_taskapproval-1">审批</a>
 				</td>
 				<td>
-					<a href="app/admin.do?action=adminPageEntryRemove&id=1" target="ajaxTodo" title="确定要删除吗?" callback="hello"><img class="opr" src="resources/images/icons/remove.png" /></a>&nbsp;
-					<a href="app/admin.do?action=adminPageEntryDetail&id=1" target="dialog" title="修改新闻" width="900" height="500"><img class="opr" src="resources/images/icons/edit.gif" /></a>
+					<a href="app/admin.do?action=adminPageEntryDetail&id=1" target="dialog" title="任务编辑" width="900" height="500" class="oplink" rel="admin_taskedit-1">编辑</a>
+				</td>
+				<td>
+					<a href="app/admin.do?action=adminPageEntryRemove&id=1" target="ajaxTodo" title="确定要删除吗" width="900" height="500" class="oplink" rel="admin_taskdel-1">删除</a>
 				</td>
 			</tr>
 			<tr target="sid" rel="1">
@@ -116,11 +119,13 @@
 				<td>2012-02-22</td>
 				<td>2012-02-19</td>
 				<td>
-					<a href="app/admin.do?action=adminPageEntryDetail&id=1" target="dialog" title="审批" width="900" height="500"><img class="opr" src="resources/images/icons/dutySection.png" /></a>&nbsp;
+					<a href="app/admin.do?action=adminPageEntryDetail&id=1" target="dialog" title="任务审批" width="900" height="500" class="oplink" rel="admin_taskapproval-2">审批</a>
 				</td>
 				<td>
-					<a href="app/admin.do?action=adminPageEntryRemove&id=1" target="ajaxTodo" title="确定要删除吗?" callback="hello"><img class="opr" src="resources/images/icons/remove.png" /></a>&nbsp;
-					<a href="app/admin.do?action=adminPageEntryDetail&id=1" target="dialog" title="修改新闻" width="900" height="500"><img class="opr" src="resources/images/icons/edit.gif" /></a>
+					<a href="app/admin.do?action=adminPageEntryDetail&id=1" target="dialog" title="任务编辑" width="900" height="500" class="oplink" rel="admin_taskedit-2">编辑</a>
+				</td>
+				<td>
+					<a href="app/admin.do?action=adminPageEntryRemove&id=1" target="ajaxTodo" title="确定要删除吗" width="900" height="500" class="oplink" rel="admin_taskdel-2">删除</a>
 				</td>
 			</tr>
 			<tr target="sid" rel="1">
@@ -135,11 +140,13 @@
 				<td>2012-02-22</td>
 				<td>2012-02-19</td>
 				<td>
-					<a href="app/admin.do?action=adminPageEntryDetail&id=1" target="dialog" title="审批" width="900" height="500"><img class="opr" src="resources/images/icons/dutySection.png" /></a>&nbsp;
+					<a href="app/admin.do?action=adminPageEntryDetail&id=1" target="dialog" title="任务审批" width="900" height="500" class="oplink" rel="admin_taskapproval-3">审批</a>
 				</td>
 				<td>
-					<a href="app/admin.do?action=adminPageEntryRemove&id=1" target="ajaxTodo" title="确定要删除吗?" callback="hello"><img class="opr" src="resources/images/icons/remove.png" /></a>&nbsp;
-					<a href="app/admin.do?action=adminPageEntryDetail&id=1" target="dialog" title="修改新闻" width="900" height="500"><img class="opr" src="resources/images/icons/edit.gif" /></a>
+					<a href="app/admin.do?action=adminPageEntryDetail&id=1" target="dialog" title="任务编辑" width="900" height="500" class="oplink" rel="admin_taskedit-3">编辑</a>
+				</td>
+				<td>
+					<a href="app/admin.do?action=adminPageEntryRemove&id=1" target="ajaxTodo" title="确定要删除吗" width="900" height="500" class="oplink" rel="admin_taskdel-3">删除</a>
 				</td>
 			</tr>
 			<tr target="sid" rel="1">
@@ -154,11 +161,13 @@
 				<td>2012-02-22</td>
 				<td>2012-02-19</td>
 				<td>
-					<a href="app/admin.do?action=adminPageEntryDetail&id=1" target="dialog" title="审批" width="900" height="500"><img class="opr" src="resources/images/icons/dutySection.png" /></a>&nbsp;
+					<a href="app/admin.do?action=adminPageEntryDetail&id=1" target="dialog" title="任务审批" width="900" height="500" class="oplink" rel="admin_taskapproval-4">审批</a>
 				</td>
 				<td>
-					<a href="app/admin.do?action=adminPageEntryRemove&id=1" target="ajaxTodo" title="确定要删除吗?" callback="hello"><img class="opr" src="resources/images/icons/remove.png" /></a>&nbsp;
-					<a href="app/admin.do?action=adminPageEntryDetail&id=1" target="dialog" title="修改新闻" width="900" height="500"><img class="opr" src="resources/images/icons/edit.gif" /></a>
+					<a href="app/admin.do?action=adminPageEntryDetail&id=1" target="dialog" title="任务编辑" width="900" height="500" class="oplink" rel="admin_taskedit-4">编辑</a>
+				</td>
+				<td>
+					<a href="app/admin.do?action=adminPageEntryRemove&id=1" target="ajaxTodo" title="确定要删除吗" width="900" height="500" class="oplink" rel="admin_taskdel-4">删除</a>
 				</td>
 			</tr>
 		</tbody>
