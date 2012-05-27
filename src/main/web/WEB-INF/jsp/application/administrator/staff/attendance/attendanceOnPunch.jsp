@@ -10,39 +10,71 @@
 <!-- Body -->	
 <div class="pageContent">
 	<form onsubmit="return navTabSearch(this);" action="app/admin.do?action=adminPageEntryIndex" method="post">
-		<div class="searchBar">
-			<table class="searchContent">
+		<div class="pageFormContent" layoutH="56">
+			<table cellspacing="10" cellpadding="10" style="border-spacing:12">
 				<tr>
 					<td>
-						员工姓名：<input type="text" />
-					</td>
-					<td>
-						工作日期：<input type="text" class="date" /> - <input type="text" class="date" />
+						<label>员工姓名：</label><input type="text" />
 					</td>
 				</tr>
 				<tr>
 					<td>
-						工作时间：<input type="text" />
+						<label>工作日期：</label><input type="text" class="date" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>工作时间：</label><input type="text" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>打卡：</label>
+						<select id="ph" class="combox">
+							<option selected="selected" value="08">08</option>
+							<option value="09">09</option>
+							<option value="10">10</option>
+							<option value="20">20</option>
+							<option value="21">21</option>
+							<option value="22">22</option>
+						</select>
+						<b class="symbol">：</b>
+						<select id="pm" class="combox">
+							<option selected="selected" value="01">01</option>
+							<option value="02">02</option>
+							<option value="03">03</option>
+							<option value="58">58</option>
+							<option value="59">59</option>
+						</select> 
+						<b class="symbol">-</b>
+						<select id="th" class="combox">
+							<option value="08">08</option>
+							<option value="09">09</option>
+							<option value="10">10</option>
+							<option selected="selected" value="17">17</option>
+							<option value="21">21</option>
+							<option value="22">22</option>
+						</select>
+						<b class="symbol">：</b>
+						<select id="tm" class="combox">
+							<option value="01">01</option>
+							<option value="02">02</option>
+							<option value="03">03</option>
+							<option selected="selected" value="40">40</option>
+							<option value="58">58</option>
+							<option value="59">59</option>
+						</select>
 					</td>
 				</tr>
 			</table>
-			<div class="subBar">
-				<ul>
-					<li><div class="buttonActive"><div class="buttonContent"><button type="submit">检索</button></div></div></li>
-				</ul>
-			</div>
 		</div>
-	</form>
-	<div class="formBar">
-		<ul>
-			<!--<li><a class="buttonActive" href="javascript:;"><span>保存</span></a></li>-->
-			<li><div class="buttonActive"><div class="buttonContent"><button type="submit">提交审核</button></div></div></li>
-			<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存草稿</button></div></div></li>
-			<li>
-				<div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
-			</li>
-		</ul>
-	</div>
-		
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">打卡</button></div></div></li>
+				<li>
+					<div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
+				</li>
+			</ul>
+		</div>
 	</form>
 </div>

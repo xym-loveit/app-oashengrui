@@ -3,6 +3,12 @@ a.oplink {
     text-decoration: underline;
 }
 
+b.symbol {
+	float:left;
+	font-weight: normal;
+	line-height: 20px;
+}
+
 .x-panel {
 	margin:5px;
 	float:left;

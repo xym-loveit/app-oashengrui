@@ -199,8 +199,8 @@
 			this.show();
 			var task = $("#"+id,this._taskList);
 			if (!task[0]) {
-				var taskFrag = '<li id="#taskid#"><div class="taskbutton"><span>#title#</span></div><div class="close">Close</div></li>';
-				this._taskList.append(taskFrag.replace("#taskid#", id).replace("#title#", title));
+				var taskFrag = '<li id="#taskid#" title="#title#"><div class="taskbutton"><span>#title#</span></div><div class="close">Close</div></li>';
+				this._taskList.append(taskFrag.replace("#taskid#", id).replaceAll("#title#", title));
 				task = $("#"+id,this._taskList);
 				task.jTask();
 			} else {
