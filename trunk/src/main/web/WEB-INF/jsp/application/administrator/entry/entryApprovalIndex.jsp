@@ -72,7 +72,7 @@
 		</ul>
 		
 		<ul class="toolBar">
-			<li><a class="delete" href="app/admin.do?action=adminPageEntryRemove&id={sid}" target="ajaxTodo" title="确定要删除吗?" callback="hello"><span>删除</span></a></li>
+			<li><a class="delete" href="app/admin.do?action=adminOprEntryRemove&id={sid}" target="ajaxTodo" title="确定要删除吗?" callback="hello"><span>删除</span></a></li>
 			<li class="line">line</li>
 			<li><a class="edit" href="app/admin.do?action=adminPageEntryDetail&id={sid}" target="dialog" title="修改新闻" width="900" height="500"><span>修改</span></a></li>
 			
@@ -108,13 +108,13 @@
 					<a class="oplink" href="app/admin.do?action=adminPageEntryDetail&id=1&op=approval" target="dialog" width="900" height="500" title="新闻审批" rel="dia_admin_entryapproval-id">审批</a>
 				</td>
 				<td>
-					<a class="oplink" href="app/admin.do?action=adminPageEntryRemove&id=1" target="ajaxTodo" title="确定要置顶么?">置顶</a>
+					<a class="oplink" href="app/admin.do?action=adminOprEntryRemove&id=1" target="ajaxTodo" title="确定要置顶么?">置顶</a>
 				</td>
 				<td>
 					<a class="oplink" href="app/admin.do?action=adminPageEntryDetail&id=1" target="dialog" width="900" height="500" title="新闻编辑" rel="dia_admin_entryedit-id">编辑</a>
 				</td>
 				<td>
-					<a class="oplink" href="app/admin.do?action=adminPageEntryRemove&id=1" target="ajaxTodo" title="确定要删除‘晟睿教育获得资本相亲会本周最具投资价值奖’吗?">删除</a>
+					<a class="oplink" href="app/admin.do?action=adminOprEntryRemove&id=1" target="ajaxTodo" title="确定要删除‘晟睿教育获得资本相亲会本周最具投资价值奖’吗?">删除</a>
 				</td>
 			</tr>
 		</tbody>

@@ -55,10 +55,13 @@
 <!-- Body -->	
 <div class="pageContent">
 	<div class="panelBar">
+		<ul class="toolBar" style="float:right">
+			<li><a treeicon="icon-edit" class="icon" href="app/admin.do?action=adminPageEntryApprovalIndex" target="navTab" rel="admin_staffWorkView"><span class="icon-edit">工作安排查看</span></a></li>
+		</ul>
 		<ul class="toolBar">
 			<li><a class="add" href="app/admin.do?action=adminPageEntryDetail" target="dialog" title="添加工作安排" width="900" height="500"><span>添加工作安排</span></a></li>
 			<li class="line">line</li>
-			<li><a class="delete" href="app/admin.do?action=adminPageEntryRemove&id={sid}" target="ajaxTodo" title="确定要删除吗?" callback="hello"><span>删除</span></a></li>
+			<li><a class="delete" href="app/admin.do?action=adminOprEntryRemove&id={sid}" target="ajaxTodo" title="确定要删除吗?" callback="hello"><span>删除</span></a></li>
 			<li class="line">line</li>
 			<li><a class="edit" href="app/admin.do?action=adminPageEntryDetail&id={sid}" target="dialog" title="修改工作安排" width="900" height="500"><span>修改</span></a></li>
 			<!--
@@ -70,12 +73,13 @@
 	<table class="table" width="100%" layoutH="138">
 		<thead>
 			<tr>
-				<th width="120" align="center">工作日期</th>
+				<th align="center">工作日期</th>
 				<th align="center">工作时间</th>
-				<th width="100" align="center">姓名</th>
-				<th width="150" align="center">上班类型</th>
-				<th width="80" align="center">工作内容</th>
-				<th align="center">操作</th>
+				<th align="center">姓名</th>
+				<th align="center">上班类型</th>
+				<th align="center">工作内容</th>
+				<th align="center">编辑</th>
+				<th align="center">删除</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -85,10 +89,8 @@
 				<td>王伟平</td>
 				<td>正常上班</td>
 				<td></td>
-				<td>
-					<a href="app/admin.do?action=adminPageEntryRemove&id=1" target="ajaxTodo" title="确定要删除吗?" callback="hello"><img class="opr" src="resources/images/icons/remove.png" /></a>&nbsp;
-					<a href="app/admin.do?action=adminPageEntryDetail&id=1" target="dialog" title="修改新闻" width="900" height="500"><img class="opr" src="resources/images/icons/edit.gif" /></a>
-				</td>
+				<td><a href="app/admin.do?action=adminPageStaffAttendanceOnPunch&id=1" class="oplink" target="dialog" title="员工工作安排编辑" width="550" height="250" rel="admin_staffWorkEdit-1">编辑</a></td>
+				<td><a href="app/admin.do?action=adminPageStaffAttendanceOnTravel&id=1" class="oplink" target="ajaxToDo" title="确定要删除吗？"rel="admin_staffWorkRemove-1">删除</a></td>
 			</tr>
 			<tr target="sid" rel="1">
 				<td>2012-02-27</td>
@@ -96,10 +98,8 @@
 				<td>王伟平</td>
 				<td>正常上班</td>
 				<td></td>
-				<td>
-					<a href="app/admin.do?action=adminPageEntryRemove&id=1" target="ajaxTodo" title="确定要删除吗?" callback="hello"><img class="opr" src="resources/images/icons/remove.png" /></a>&nbsp;
-					<a href="app/admin.do?action=adminPageEntryDetail&id=1" target="dialog" title="修改新闻" width="900" height="500"><img class="opr" src="resources/images/icons/edit.gif" /></a>
-				</td>
+				<td><a href="app/admin.do?action=adminPageStaffAttendanceOnPunch&id=1" class="oplink" target="dialog" title="员工工作安排编辑" width="550" height="250" rel="admin_staffWorkEdit-2">编辑</a></td>
+				<td><a href="app/admin.do?action=adminPageStaffAttendanceOnTravel&id=1" class="oplink" target="ajaxToDo" title="确定要删除吗？">删除</a></td>
 			</tr>
 		</tbody>
 	</table>
