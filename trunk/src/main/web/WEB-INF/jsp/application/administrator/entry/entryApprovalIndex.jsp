@@ -86,11 +86,11 @@
 	<table class="table" width="100%" layoutH="138">
 		<thead>
 			<tr>
-				<th width="120" align="center">新闻类型</th>
+				<th align="center">新闻类型</th>
 				<th align="center">新闻标题</th>
-				<th width="100" align="center">状态</th>
-				<th width="150" align="center">发布校区与部门</th>
-				<th width="80" align="center">发布时间</th>
+				<th align="center">状态</th>
+				<th align="center">发布校区与部门</th>
+				<th align="center">发布时间</th>
 				<th align="center">审批</th>
 				<th align="center">置顶</th>
 				<th align="center">编辑</th>

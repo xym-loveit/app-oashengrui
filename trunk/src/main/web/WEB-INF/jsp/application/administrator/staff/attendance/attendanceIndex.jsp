@@ -72,11 +72,11 @@
 	<table class="table" width="100%" layoutH="138">
 		<thead>
 			<tr>
-				<th width="120" align="center">工作日期</th>
+				<th align="center">工作日期</th>
 				<th align="center">工作时间</th>
-				<th width="100" align="center">姓名</th>
-				<th width="150" align="center">上班类型</th>
-				<th width="80" align="center">实际上下班时间</th>
+				<th align="center">姓名</th>
+				<th align="center">上班类型</th>
+				<th align="center">实际上下班时间</th>
 				<th align="center">上班状态</th>
 				<th align="center">代班人</th>
 				<th align="center">考勤结果</th>
@@ -98,10 +98,10 @@
 				<td>梅杰</td>
 				<td>---</td>
 				<td></td>
-				<td><a href="app/admin.do?action=adminPageStaffAttendanceOnPunch&id=1" class="oplink" target="dialog" title="员工考勤-打卡" width="900" height="500">打卡</a></td>
-				<td><a href="app/admin.do?action=adminPageStaffAttendanceOnTravel&id=1" class="oplink" target="dialog" title="员工考勤-出差安排" width="900" height="500">出差安排</a></td>
-				<td><a href="app/admin.do?action=adminPageStaffAttendanceOnLeave&id=1" class="oplink" target="dialog" title="员工考勤-请假" width="900" height="500">请假</a></td>
-				<td><a href="app/admin.do?action=adminPageStaffAttendanceOnAbsence&id=1" class="oplink" target="dialog" title="员工考勤-旷工" width="900" height="500">旷工</a></td>
+				<td><a href="app/admin.do?action=adminPageStaffAttendanceOnPunch&id=1" class="oplink" target="dialog" title="员工考勤-打卡" width="550" height="250" rel="admin_dutypunch-1">打卡</a></td>
+				<td><a href="app/admin.do?action=adminPageStaffAttendanceOnTravel&id=1" class="oplink" target="dialog" title="员工考勤-出差安排" width="350" height="220" rel="admin_dutytravel-1">出差安排</a></td>
+				<td><a href="app/admin.do?action=adminPageStaffAttendanceOnLeave&id=1" class="oplink" target="dialog" title="员工考勤-请假" width="550" height="320" rel="admin_dutyleave-1">请假</a></td>
+				<td><a href="app/admin.do?action=adminPageStaffAttendanceOnAbsence&id=1" class="oplink" target="dialog" title="员工考勤-旷工" width="550" height="300" rel="admin_dutyabsence-1">旷工</a></td>
 			</tr>
 			<tr target="sid" rel="1">
 				<td>2012-02-27</td>
@@ -113,10 +113,11 @@
 				<td>---</td>
 				<td>---</td>
 				<td></td>
-				<td><a href="javascript:void(0);" class="oplink">打卡</a></td>
-				<td><a href="javascript:void(0);" class="oplink">出差安排</a></td>
-				<td><a href="javascript:void(0);" class="oplink">请假</a></td>
-				<td><a href="javascript:void(0);" class="oplink">旷工</a></td>
+				<td><a href="app/admin.do?action=adminPageStaffAttendanceOnPunch&id=2" class="oplink" target="dialog" title="员工考勤-打卡" width="550" height="250" rel="admin_dutypunch-2">打卡</a></td>
+				<td><a href="app/admin.do?action=adminPageStaffAttendanceOnTravel&id=2" class="oplink" target="dialog" title="员工考勤-出差安排" width="350" height="220" rel="admin_dutytravel-2">出差安排</a></td>
+				<td><a href="app/admin.do?action=adminPageStaffAttendanceOnLeave&id=2" class="oplink" target="dialog" title="员工考勤-请假" width="550" height="320" rel="admin_dutyleave-2">请假</a></td>
+				<td><a href="app/admin.do?action=adminPageStaffAttendanceOnAbsence&id=2" class="oplink" target="dialog" title="员工考勤-旷工" width="550" height="300" rel="admin_dutyabsence-2">旷工</a></td>
+
 			</tr>
 		</tbody>
 	</table>
