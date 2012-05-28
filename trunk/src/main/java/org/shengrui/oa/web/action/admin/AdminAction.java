@@ -6,8 +6,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.shengrui.oa.common.WebException;
-import org.shengrui.oa.web.action.BaseAction;
+
+import cn.trymore.core.exception.WebException;
+import cn.trymore.core.web.action.BaseAction;
 
 /**
  * The administrator web action.
