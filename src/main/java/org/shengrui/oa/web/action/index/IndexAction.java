@@ -6,7 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.shengrui.oa.web.action.BaseAction;
+
+import cn.trymore.core.web.action.BaseAction;
 
 /**
  * The index web action, it shows the index page for system.
