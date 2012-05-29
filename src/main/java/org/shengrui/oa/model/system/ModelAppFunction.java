@@ -6,7 +6,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import cn.trymore.core.model.ModelBase;
 
 /**
- * The model of application function
+ * Model: 权限功能
  * 
  * @author Jeccy.Zhao
  *
@@ -17,8 +17,14 @@ extends ModelBase
 	
 	private static final long serialVersionUID = -4529440894418751772L;
 	
+	/**
+	 * 权限Key
+	 */
 	protected String funKey;
 	
+	/**
+	 * 权限名称
+	 */
 	protected String funName;
 	
 	/**
@@ -72,12 +78,19 @@ extends ModelBase
 		}
 		
 		ModelAppFunction localAppFunction = (ModelAppFunction)paramObject;
-		return new EqualsBuilder().append(this.id, localAppFunction.id).append(this.funKey, localAppFunction.funKey).append(this.funName, localAppFunction.funName).isEquals();
+		
+		return new EqualsBuilder()
+				.append(this.id, localAppFunction.id)
+					.append(this.funKey, localAppFunction.funKey)
+						.append(this.funName, localAppFunction.funName).isEquals();
 	}
 	
 	@Override
 	public String toString()
 	{
-		return new ToStringBuilder(this).append("functionId", this.id).append("funKey", this.funKey).append("funName", this.funName).toString();
+		return new ToStringBuilder(this)
+					.append("functionId", this.id)
+						.append("funKey", this.funKey)
+							.append("funName", this.funName).toString();
 	}
 }
