@@ -30,11 +30,17 @@ extends ServiceGenericImpl<ModelAppFunction> implements ServiceAppFunction
 	 * @see org.shengrui.oa.service.system.ServiceAppFunction#getByKey(java.lang.String)
 	 */
 	@Override
-	public ModelAppFunction getByKey(String paramString)
+	public ModelAppFunction getByKey(String funcKey)
 			throws ServiceException
 	{
-		// TODO Auto-generated method stub
-		return null;
+		try
+		{
+			return this.daoAppFunction.getByKey(funcKey);
+		} 
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
 	}
 
 	public DAOAppFunction getDaoAppFunction()

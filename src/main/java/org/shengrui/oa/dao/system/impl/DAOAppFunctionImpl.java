@@ -23,7 +23,7 @@ extends DAOGenericImpl<ModelAppFunction> implements DAOAppFunction
 	 */
 	public ModelAppFunction getByKey(String paramFunKey) throws DAOException
 	{
-		String hsql = "from ModelAppFunction af where af.funKey=?";
+		String hsql = "from ModelAppFunction af where af.funcKey=?";
 		List<ModelAppFunction> result = this.findListByHSQL(hsql);
 		
 		return result != null && result.size() > 0 ? result.get(0) : null;

@@ -72,6 +72,11 @@ extends BaseTest
 		}
 	}
 	
+	public void testDeleteRootMenu() throws ServiceException
+	{
+		this.serviceAppMenu.remove("1");
+	}
+	
 	public void setServiceAppMenu(ServiceAppMenu serviceAppMenu)
 	{
 		this.serviceAppMenu = serviceAppMenu;

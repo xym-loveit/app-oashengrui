@@ -25,7 +25,7 @@ extends ModelBase
 	/**
 	 * 功能
 	 */
-	protected ModelAppFunction appFunction;
+	protected transient ModelAppFunction appFunction;
 
 	/**
 	 * 默认构造函数
