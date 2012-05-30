@@ -16,7 +16,6 @@ import org.apache.struts.util.MessageResources;
 
 import cn.trymore.core.common.Constants;
 import cn.trymore.core.exception.WebException;
-import cn.trymore.core.model.ModelUser;
 import cn.trymore.core.util.UtilString;
 
 /**
@@ -69,9 +68,9 @@ extends DispatchAction
 	 *          the HTTP servlet request
 	 * @return the user entity model 
 	 */
-	protected ModelUser getCurrentUser (HttpServletRequest request)
+	protected Object getCurrentUser (HttpServletRequest request)
 	{
-		return (ModelUser) request.getSession().getAttribute(
+		return request.getSession().getAttribute(
 				Constants.DefaultUsrParamSessionHolder);
 	}
 	
@@ -83,7 +82,7 @@ extends DispatchAction
 	 * @param account
 	 *          the account entity model
 	 */
-	protected void setCurrentUser (HttpServletRequest request, ModelUser account)
+	protected void setCurrentUser (HttpServletRequest request, Object account)
 	{
 		request.getSession().setAttribute(Constants.DefaultUsrParamSessionHolder, account);
 	}

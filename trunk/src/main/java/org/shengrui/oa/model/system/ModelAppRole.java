@@ -3,6 +3,8 @@ package org.shengrui.oa.model.system;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 import com.google.gson.annotations.Expose;
 
 import cn.trymore.core.model.ModelBase;
@@ -22,17 +24,17 @@ extends ModelBase
 	/**
 	 * 公共角色
 	 */
-	public static String ROLE_PUBLIC = "ROLE_PUBLIC";
+	public static final String ROLE_PUBLIC = "ROLE_PUBLIC";
 	
 	/**
 	 * 匿名角色
 	 */
-	public static String ROLE_ANONYMOUS = "ROLE_ANONYMOUS";
+	public static final String ROLE_ANONYMOUS = "ROLE_ANONYMOUS";
 	
 	/**
 	 * 超级管理员的角色ID
 	 */
-	public static final Long SUPER_ROLEID = Long.valueOf(-1L);
+	public static final String SUPER_ROLEID = String.valueOf(-1L);
 	
 	/**
 	 * 超级权限
@@ -67,6 +69,17 @@ extends ModelBase
 	 * 角色拥有的功能Model集合
 	 */
 	private Set<ModelAppFunction> functions = new HashSet<ModelAppFunction>();
+	
+	/**
+	 * 角色拥有的菜单集合
+	 */
+	private Set<ModelAppMenu> menus = new HashSet<ModelAppMenu>();
+	
+	/**
+	 * 角色对应的用户集合
+	 */
+	@XmlTransient
+	private Set<ModelAppUser> users = new HashSet<ModelAppUser>();
 	
 	public String getRoleName()
 	{
@@ -116,6 +129,26 @@ extends ModelBase
 	public Set<ModelAppFunction> getFunctions()
 	{
 		return functions;
+	}
+
+	public void setMenus(Set<ModelAppMenu> menus)
+	{
+		this.menus = menus;
+	}
+
+	public Set<ModelAppMenu> getMenus()
+	{
+		return menus;
+	}
+
+	public void setUsers(Set<ModelAppUser> users)
+	{
+		this.users = users;
+	}
+
+	public Set<ModelAppUser> getUsers()
+	{
+		return users;
 	}
 	
 }

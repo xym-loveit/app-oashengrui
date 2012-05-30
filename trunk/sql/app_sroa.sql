@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主機: localhost
--- 建立日期: May 30, 2012, 03:20 PM
+-- 建立日期: May 30, 2012, 05:41 PM
 -- 伺服器版本: 5.0.91
 -- PHP 版本: 5.2.13
 
@@ -111,8 +111,6 @@ CREATE TABLE IF NOT EXISTS `app_function` (
 -- 列出以下資料庫的數據： `app_function`
 --
 
-INSERT INTO `app_function` (`func_id`, `func_key`, `func_name`, `func_icon`, `menu_id`) VALUES
-(1, '_SYSTEM_MENU_EDIT', 'Menu Edit', NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -273,9 +271,6 @@ CREATE TABLE IF NOT EXISTS `app_menu` (
 -- 列出以下資料庫的數據： `app_menu`
 --
 
-INSERT INTO `app_menu` (`menu_id`, `menu_title`, `menu_icon`, `menu_url`, `menu_key`, `menu_desc`, `menu_parent`, `menu_order`) VALUES
-(1, 'My Desktop', 'icon-desktop', 'javascript:void(0)', 'mdesk', NULL, NULL, 0),
-(2, 'My Task', 'icon-task', 'javascript:void(0)', 'stask', NULL, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -418,7 +413,8 @@ CREATE TABLE IF NOT EXISTS `app_role` (
   `role_desc` int(150) default NULL COMMENT '角色描述',
   `role_status` smallint(11) NOT NULL COMMENT '角色状态',
   `role_rights` text COMMENT '权限功能列表',
-  PRIMARY KEY  (`role_id`)
+  PRIMARY KEY  (`role_id`),
+  UNIQUE KEY `role_name` (`role_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色表' AUTO_INCREMENT=1 ;
 
 --
