@@ -318,6 +318,14 @@ var navTab = {
 	getCurrentPanel: function() {
 		return this._getPanels().eq(this._currentIndex);
 	},
+	// added by Jeccy.Zhao
+	getCurrentTabId: function() {
+		return this._tabBox.find("> li.selected").attr("tabId");
+	},
+	// added by Jeccy.Zhao
+	getCurrentTabUrl: function() {
+		return this._tabBox.find("> li.selected").attr("url");
+	},
 	checkTimeout:function(){
 		var json = DWZ.jsonEval(this.getCurrentPanel().html());
 		if (json && json.statusCode == DWZ.statusCode.timeout) this.closeCurrentTab();

@@ -1,5 +1,7 @@
 package org.shengrui.oa.service.system;
 
+import java.util.List;
+
 import org.shengrui.oa.model.system.ModelAppFunction;
 
 import cn.trymore.core.exception.ServiceException;
@@ -21,4 +23,13 @@ extends ServiceGeneric<ModelAppFunction>
 	 * @throws ServiceException
 	 */
 	ModelAppFunction getByKey(String paramString) throws ServiceException;
+	
+	/**
+	 * 
+	 * @param menuId
+	 * @return
+	 * @throws ServiceException
+	 */
+	List<ModelAppFunction> getByMenuId(String menuId) throws ServiceException;
+	
 }

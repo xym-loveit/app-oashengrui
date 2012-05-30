@@ -3,15 +3,26 @@
 
 <struts-config>
 	
+	<form-beans>
+		<form-bean name="form.system.menu" type="org.shengrui.oa.model.system.ModelAppMenu"></form-bean>
+	</form-beans>
+	
 	<action-mappings>
 		
 		<!-- 系统设置 -->
-		<action path="/app/system/resource"
+		<action path="/app/system/menu"
+				name="form.system.menu"
 				scope="request"
 				parameter="action"
 				type="org.springframework.web.struts.DelegatingActionProxy">
-			<forward name="page.sys.setting.res.menu.list" path="page.sys.setting.res.menu.list" />
-			<forward name="page.sys.setting.res.func.list" path="page.sys.setting.res.func.list" />
+			<forward name="page.sys.setting.menu.list" path="page.sys.setting.menu.list" />
+			
+			<forward name="data.sys.setting.menu.tree" path="data.sys.setting.menu.tree" />
+			<forward name="data.sys.setting.menu.func" path="data.sys.setting.menu.func" />
+			
+			<forward name="dialog.sys.setting.menu.item" path="dialog.sys.setting.menu.item" />
+			<forward name="dialog.sys.setting.menu.func" path="dialog.sys.setting.menu.func" />
+		
 		</action>
 		
 	</action-mappings>

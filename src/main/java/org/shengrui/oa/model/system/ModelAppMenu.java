@@ -1,6 +1,5 @@
 package org.shengrui.oa.model.system;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -57,17 +56,17 @@ extends ModelBase
 	/**
 	 * 父节点菜单
 	 */
-	protected transient ModelAppMenu menuParent;
+	protected transient ModelAppMenu menuParent = null;
 	
 	/**
 	 * 子节点菜单
 	 */
-	protected Set<ModelAppMenu> menuChildren = new HashSet<ModelAppMenu>();
+	protected Set<ModelAppMenu> menuChildren;
 	
 	/**
 	 * 菜单功能表
 	 */
-	protected Set<ModelAppFunction> functions = new HashSet<ModelAppFunction>();
+	protected Set<ModelAppFunction> functions;
 	
 	public String getMenuTitle()
 	{

@@ -2,11 +2,14 @@ package org.shengrui.oa.dao.system.impl;
 
 import java.util.List;
 
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.system.DAOAppFunction;
 import org.shengrui.oa.model.system.ModelAppFunction;
 
 import cn.trymore.core.dao.impl.DAOGenericImpl;
 import cn.trymore.core.exception.DAOException;
+import cn.trymore.core.util.UtilString;
 
 /**
  * The application function repository.
@@ -23,10 +26,31 @@ extends DAOGenericImpl<ModelAppFunction> implements DAOAppFunction
 	 */
 	public ModelAppFunction getByKey(String paramFunKey) throws DAOException
 	{
-		String hsql = "from ModelAppFunction af where af.funcKey=?";
-		List<ModelAppFunction> result = this.findListByHSQL(hsql);
-		
-		return result != null && result.size() > 0 ? result.get(0) : null;
+		if(UtilString.isNotEmpty(paramFunKey))
+		{
+			DetachedCriteria criteria = DetachedCriteria.forClass(ModelAppFunction.class);
+			criteria.add(Restrictions.eq("funcKey", paramFunKey));
+			
+			List<ModelAppFunction> result = this.getListByCriteria(criteria);
+			return result != null && result.size() > 0 ? result.get(0) : null;
+		}
+		return null;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.dao.system.DAOAppFunction#getByMenuId(java.lang.String)
+	 */
+	public List<ModelAppFunction> getByMenuId(String menuId) throws DAOException
+	{
+		if(UtilString.isNotEmpty(menuId))
+		{
+			DetachedCriteria criteria = DetachedCriteria.forClass(ModelAppFunction.class);
+			criteria.createCriteria("menu").add(Restrictions.eq("id", menuId));
+			
+			return this.getListByCriteria(criteria);
+		}
+		return null;
 	}
 	
 }

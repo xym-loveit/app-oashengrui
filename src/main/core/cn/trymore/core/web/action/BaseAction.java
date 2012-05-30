@@ -15,7 +15,6 @@ import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.util.MessageResources;
 
 import cn.trymore.core.common.Constants;
-import cn.trymore.core.exception.WebException;
 import cn.trymore.core.util.UtilString;
 
 /**
@@ -45,6 +44,67 @@ extends DispatchAction
 	 * The default action page on error
 	 */
 	protected final String ACTION_PAGE_ERROR = "error";
+	
+	/**
+	 * The default response for remote succeed operations
+	 */
+	protected final String AJAX_RESPONSE_TRUE = "true";
+	
+	/**
+	 * The default response for remote failed operations
+	 */
+	protected final String AJAX_RESPONSE_FALSE = "false";
+	
+	/**
+	 * The success status code
+	 */
+	protected final int STATUS_CODE_SUCCESS = 200;
+	
+	/**
+	 * The error status code
+	 */
+	protected final int STATUS_CODE_ERROR = 300;
+	
+	/**
+	 * The none callback type
+	 */
+	protected final String CALLBACK_TYPE_NONE = "";
+	
+	/**
+	 * The forward callback type
+	 */
+	protected final String CALLBACK_TYPE_FORWARD = "forward";
+	
+	/**
+	 * The forward confirmation callback type
+	 */
+	protected final String CALLBACK_TYPE_FORWARD_CONFIRM = "forwardConfirm";
+
+	/**
+	 * The close current navTab or dialog callback type
+	 */
+	protected final String CALLBACK_TYPE_CLOSE = "closeCurrent";
+	
+	/**
+	 * The reload callback type
+	 */
+	protected final String CALLBACK_TYPE_RELOAD = "reload";
+	
+	/**
+	 * The current navtabId
+	 */
+	protected final String CURRENT_NAVTABID = "navTabIdCurrent";
+	
+	/**
+	 * The AJAXDONE callback JSON string
+	 */
+	protected final String DWZ_CALLBACK_AJAXDONE_JSON = "{" +
+			"\"statusCode\"   : \"#statusCode#\"," +
+			" \"message\"      : \"#message#\", " +
+			"\"navTabId\"      : \"#navTabId#\"," +
+			" \"forwardUrl\"    : \"#forwardUrl#\", " +
+			"\"callbackType\" : \"#callbackType#\"," +
+			"\"formClear\"      : \"#formClear#\"}";
 	
 	/**
 	 * The AJAX response entity
@@ -152,17 +212,19 @@ extends DispatchAction
 	 * @return an empty action forward
 	 */
 	protected ActionForward ajaxPrint(HttpServletResponse response,
-			String message) throws WebException
+			String message) //throws WebException
 	{
 		try
 		{
 			response.getWriter().write(message);
-			return null;
 		} 
 		catch (IOException e)
 		{
-			throw new WebException("Ajax print message failed:" + message, e);
+			// do nothing here.
+			// throw new WebException("Ajax print message failed:" + message, e);
 		}
+		
+		return null;
 	}
 	
 	/**
@@ -315,6 +377,99 @@ extends DispatchAction
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * 
+	 * @param message
+	 * @return
+	 */
+	protected String getSuccessCallback (String message)
+	{
+		return  getSuccessCallback(message, CALLBACK_TYPE_CLOSE, null, null, true);
+	}
+	
+	/**
+	 * 
+	 * @param message
+	 * @param navTabId
+	 * @return
+	 */
+	protected String getSuccessCallbackAndReloadCurrent (String message)
+	{
+		return  getSuccessCallback(message, CALLBACK_TYPE_RELOAD, CURRENT_NAVTABID, null, true);
+	}
+	
+	/**
+	 * 
+	 * @param message
+	 * @param callbackType
+	 * @param navTabId
+	 * @param forwardURL
+	 * @return
+	 */
+	protected String getSuccessCallback (String message, String callbackType, String navTabId, String forwardURL, boolean formClear)
+	{
+		return generateCallbackJson(STATUS_CODE_SUCCESS, message, callbackType, navTabId, forwardURL, formClear);
+	}
+	
+	/**
+	 * 
+	 * @param message
+	 * @return
+	 */
+	protected String getErrorCallback (String message)
+	{
+		return  getErrorCallback(message, CALLBACK_TYPE_NONE, null, null, true);
+	}
+	
+	/**
+	 * 
+	 * @param message
+	 * @param callbackType
+	 * @param navTabId
+	 * @param forwardURL
+	 * @return
+	 */
+	protected String getErrorCallback (String message, String callbackType, String navTabId, String forwardURL, boolean formClear)
+	{
+		return generateCallbackJson(STATUS_CODE_ERROR, message, callbackType, navTabId, forwardURL, formClear);
+	}
+	
+	/**
+	 * Generates the callback JSON string regarding to the callback JSON template,
+	 * it looks like, <br/>
+	 * 
+	 *{"statusCode":"200", "message":"操作成功", "navTabId":"navNewsLi", "forwardUrl":"", "callbackType":"closeCurrent"}
+	 *
+	 * @param statusCode
+	 * @param message
+	 * @param callbackType
+	 * @param navTabId
+	 * @param forwardURL
+	 * @return
+	 */
+	private String generateCallbackJson (Integer statusCode, 
+			String message, String callbackType, String navTabId, String forwardURL, boolean formClear)
+	{
+		String callbackJson = DWZ_CALLBACK_AJAXDONE_JSON;
+		
+		callbackJson = callbackJson.replace("#statusCode#", 
+				statusCode != null ? statusCode.toString() : "");
+		
+		callbackJson = callbackJson.replace("#message#", 
+				UtilString.isNotEmpty(message) ? message : "");
+		
+		callbackJson = callbackJson.replace("#callbackType#", 
+				UtilString.isNotEmpty(callbackType) ? callbackType : "");
+		
+		callbackJson = callbackJson.replace("#navTabId#", 
+				(CALLBACK_TYPE_RELOAD.equals(callbackType) && UtilString.isNotEmpty(navTabId)) ? navTabId : "");
+		
+		callbackJson = callbackJson.replace("#forwardUrl#", 
+				((CALLBACK_TYPE_FORWARD.equals(callbackType) || CALLBACK_TYPE_FORWARD_CONFIRM.equals(callbackType)) && UtilString.isNotEmpty(forwardURL)) ? forwardURL : "");
+		
+		return callbackJson;
 	}
 	
 }

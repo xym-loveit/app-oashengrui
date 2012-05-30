@@ -14,7 +14,7 @@
 				/WEB-INF/tiles/tiles-defs-index.xml,
 				/WEB-INF/tiles/tiles-defs-personal.xml,
 				
-				/WEB-INF/tiles/tiles-defs-sysmgr-resource.xml,
+				/WEB-INF/tiles/tiles-defs-sysmgr-menu.xml,
 				/WEB-INF/tiles/tiles-defs-sysmgr-roles.xml
 			"
 		/>
