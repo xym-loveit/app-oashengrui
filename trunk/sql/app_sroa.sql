@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主機: localhost
--- 建立日期: May 29, 2012, 04:45 PM
+-- 建立日期: May 30, 2012, 03:20 PM
 -- 伺服器版本: 5.0.91
 -- PHP 版本: 5.2.13
 
@@ -100,14 +100,19 @@ CREATE TABLE IF NOT EXISTS `app_function` (
   `func_id` int(11) NOT NULL auto_increment,
   `func_key` varchar(60) NOT NULL COMMENT '功能key',
   `func_name` varchar(120) NOT NULL COMMENT '功能名称',
+  `func_icon` varchar(32) default NULL COMMENT '功能显示图片',
+  `menu_id` bigint(20) NOT NULL COMMENT '所属菜单',
   PRIMARY KEY  (`func_id`),
-  UNIQUE KEY `func_key` (`func_key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='功能表' AUTO_INCREMENT=1 ;
+  UNIQUE KEY `func_key` (`func_key`),
+  KEY `menu_id` (`menu_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能表' AUTO_INCREMENT=2 ;
 
 --
 -- 列出以下資料庫的數據： `app_function`
 --
 
+INSERT INTO `app_function` (`func_id`, `func_key`, `func_name`, `func_icon`, `menu_id`) VALUES
+(1, '_SYSTEM_MENU_EDIT', 'Menu Edit', NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -251,21 +256,26 @@ CREATE TABLE IF NOT EXISTS `app_hrm_resum_file` (
 --
 
 CREATE TABLE IF NOT EXISTS `app_menu` (
-  `menu_id` int(11) NOT NULL auto_increment,
+  `menu_id` bigint(20) NOT NULL auto_increment,
   `menu_title` varchar(50) NOT NULL COMMENT '菜单名称',
   `menu_icon` varchar(20) default NULL COMMENT '菜单图标',
   `menu_url` varchar(100) NOT NULL COMMENT '菜单链接',
+  `menu_key` varchar(64) NOT NULL COMMENT '菜单key',
   `menu_desc` varchar(100) default NULL COMMENT '菜单描述',
   `menu_parent` int(11) default NULL COMMENT '父菜单',
   `menu_order` int(11) default NULL COMMENT '菜单项顺序',
   PRIMARY KEY  (`menu_id`),
+  UNIQUE KEY `menu_key` (`menu_key`),
   KEY `menu_parent` (`menu_parent`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统菜单' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统菜单' AUTO_INCREMENT=3 ;
 
 --
 -- 列出以下資料庫的數據： `app_menu`
 --
 
+INSERT INTO `app_menu` (`menu_id`, `menu_title`, `menu_icon`, `menu_url`, `menu_key`, `menu_desc`, `menu_parent`, `menu_order`) VALUES
+(1, 'My Desktop', 'icon-desktop', 'javascript:void(0)', 'mdesk', NULL, NULL, 0),
+(2, 'My Task', 'icon-task', 'javascript:void(0)', 'stask', NULL, 1, 0);
 
 -- --------------------------------------------------------
 
