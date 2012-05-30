@@ -1,5 +1,10 @@
 package org.shengrui.oa.model.system;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import cn.trymore.core.model.ModelBase;
 
 /**
@@ -15,6 +20,11 @@ extends ModelBase
 	private static final long serialVersionUID = -3143630665962191945L;
 	
 	/**
+	 * 默认菜单链接
+	 */
+	public static final String DEFAULT_MENU_URL = "javascript:void(0)";
+	
+	/**
 	 * 菜单名称
 	 */
 	protected String menuTitle;
@@ -25,9 +35,14 @@ extends ModelBase
 	protected String menuIcon;
 	
 	/**
+	 * 菜单Key
+	 */
+	protected String menuKey;
+	
+	/**
 	 * 菜单链接
 	 */
-	protected String menuUrl;
+	protected String menuUrl = DEFAULT_MENU_URL;
 	
 	/**
 	 * 菜单描述
@@ -42,8 +57,18 @@ extends ModelBase
 	/**
 	 * 父节点菜单
 	 */
-	protected ModelAppMenu menuParent;
-
+	protected transient ModelAppMenu menuParent;
+	
+	/**
+	 * 子节点菜单
+	 */
+	protected Set<ModelAppMenu> menuChildren = new HashSet<ModelAppMenu>();
+	
+	/**
+	 * 菜单功能表
+	 */
+	protected Set<ModelAppFunction> functions = new HashSet<ModelAppFunction>();
+	
 	public String getMenuTitle()
 	{
 		return menuTitle;
@@ -102,6 +127,45 @@ extends ModelBase
 	public void setMenuParent(ModelAppMenu menuParent)
 	{
 		this.menuParent = menuParent;
+	}
+	
+	public Set<ModelAppMenu> getMenuChildren()
+	{
+		return menuChildren;
+	}
+
+	public void setMenuChildren(Set<ModelAppMenu> menuChildren)
+	{
+		this.menuChildren = menuChildren;
+	}
+	
+	public String getMenuKey()
+	{
+		return menuKey;
+	}
+
+	public void setMenuKey(String menuKey)
+	{
+		this.menuKey = menuKey;
+	}
+
+	public Set<ModelAppFunction> getFunctions()
+	{
+		return functions;
+	}
+
+	public void setFunctions(Set<ModelAppFunction> functions)
+	{
+		this.functions = functions;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return new ToStringBuilder(this)
+			.append("menuId", this.id)
+				.append("menuTitle", this.menuTitle)
+					.append("menuKey", this.menuKey).toString();
 	}
 	
 }

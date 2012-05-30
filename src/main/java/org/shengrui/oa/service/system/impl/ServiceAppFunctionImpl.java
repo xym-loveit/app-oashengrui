@@ -19,6 +19,12 @@ extends ServiceGenericImpl<ModelAppFunction> implements ServiceAppFunction
 	
 	private DAOAppFunction daoAppFunction;
 	
+	public ServiceAppFunctionImpl(DAOAppFunction dao)
+	{
+		super(dao);
+		this.daoAppFunction = dao;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.shengrui.oa.service.system.ServiceAppFunction#getByKey(java.lang.String)

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="org.shengrui.oa.model.system.ModelAppMenu" table="app_menu">
+        <id name="id" type="java.lang.String">
+            <column name="menu_id" />
+            <generator class="native" />
+        </id>
+        <property name="menuTitle" type="java.lang.String">
+            <column name="menu_title" not-null="true" />
+        </property>
+        <property name="menuIcon" type="java.lang.String">
+            <column name="menu_icon" />
+        </property>
+        <property name="menuKey" type="java.lang.String" unique="true">
+            <column name="menu_key" not-null="true" />
+        </property>
+         <property name="menuUrl" type="java.lang.String">
+            <column name="menu_url" not-null="true" />
+        </property>
+         <property name="menuDesc" type="java.lang.String">
+            <column name="menu_desc" />
+        </property>
+        <property name="menuOrder" type="integer">
+			<column name="menu_order" />
+		</property>
+		
+		<many-to-one not-found="ignore" name="menuParent" class="org.shengrui.oa.model.system.ModelAppMenu">
+        	<column name="menu_parent" />
+        </many-to-one>
+        
+        <set name="menuChildren" inverse="true" cascade="delete" lazy="false" order-by="menu_id asc">
+        	<!-- <cache usage="read-write" /> -->
+        	<key column="menu_parent"/>
+        	<one-to-many class="org.shengrui.oa.model.system.ModelAppMenu"/>
+        </set>
+        
+        <set name="functions" inverse="true" cascade="delete" lazy="false" order-by="func_id asc">
+        	<!-- <cache usage="read-write" /> -->
+        	<key column="menu_id"/>
+        	<one-to-many class="org.shengrui.oa.model.system.ModelAppFunction"/>
+        </set>
+        
+    </class>
+	
+	<query name="menu.all.root">
+		<![CDATA[
+			from ModelAppMenu as menu where menu.menuParent is null
+			order by menu.menuOrder asc
+		]]>
+	</query>
+	
+</hibernate-mapping>

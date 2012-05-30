@@ -37,12 +37,50 @@ public interface DAOGeneric<T extends ModelBase>
 			throws DAOException;
 	
 	/**
-	 * Get object by identity
+	 * Get object by identity id.
 	 * 
 	 * @param id Identity of object
 	 * @return Object
 	 */
 	T get(Serializable id) 
+			throws DAOException;
+	
+	/**
+	 * Get all of available objects
+	 * 
+	 * @return all available objects
+	 * @throws DAOException
+	 */
+	List<T> getAll()
+			throws DAOException;
+	
+	/**
+	 * Flushes current session
+	 * 
+	 * @throws DAOException
+	 */
+	void flush()
+			throws DAOException;
+	
+	/**
+	 * Merges the object from database
+	 * 
+	 * @param domain
+	 *          object to be merged
+	 * @return
+	 * @throws DAOException
+	 */
+	T merge(final T domain)
+			throws DAOException;
+	
+	/**
+	 * Evicts the object from database
+	 * 
+	 * @param domain
+	 *           object to be evicted
+	 * @throws DAOException
+	 */
+	void evict(final T domain)
 			throws DAOException;
 	
 	/**

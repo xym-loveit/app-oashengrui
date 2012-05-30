@@ -20,12 +20,22 @@ extends ModelBase
 	/**
 	 * 权限Key
 	 */
-	protected String funKey;
+	protected String funcKey;
 	
 	/**
 	 * 权限名称
 	 */
-	protected String funName;
+	protected String funcName;
+	
+	/**
+	 * 权限显示样式
+	 */
+	protected String funcIcon;
+	
+	/**
+	 * 权限所属菜单
+	 */
+	protected transient ModelAppMenu menu;
 	
 	/**
 	 * 默认构造函数
@@ -38,35 +48,55 @@ extends ModelBase
 	/**
 	 * 带参的构造函数
 	 * 
-	 * @param paramFunKey
+	 * @param paramfuncKey
 	 *                 the function key
-	 * @param paramFunName
+	 * @param paramfuncName
 	 *                  the function name
 	 */
-	public ModelAppFunction(String paramFunKey, String paramFunName)
+	public ModelAppFunction(String paramfuncKey, String paramfuncName)
 	{
-		this.funKey = paramFunKey;
-		this.funName = paramFunName;
+		this.funcKey = paramfuncKey;
+		this.funcName = paramfuncName;
 	}
 	
-	public String getFunKey()
+	public String getFuncKey()
 	{
-		return funKey;
+		return funcKey;
 	}
 
-	public void setFunKey(String funKey)
+	public void setFuncKey(String funcKey)
 	{
-		this.funKey = funKey;
+		this.funcKey = funcKey;
 	}
 
-	public String getFunName()
+	public String getFuncName()
 	{
-		return funName;
+		return funcName;
 	}
 
-	public void setFunName(String funName)
+	public void setFuncName(String funcName)
 	{
-		this.funName = funName;
+		this.funcName = funcName;
+	}
+	
+	public String getFuncIcon()
+	{
+		return funcIcon;
+	}
+
+	public void setFuncIcon(String funcIcon)
+	{
+		this.funcIcon = funcIcon;
+	}
+	
+	public ModelAppMenu getMenu()
+	{
+		return menu;
+	}
+
+	public void setMenu(ModelAppMenu menu)
+	{
+		this.menu = menu;
 	}
 	
 	@Override
@@ -81,8 +111,8 @@ extends ModelBase
 		
 		return new EqualsBuilder()
 				.append(this.id, localAppFunction.id)
-					.append(this.funKey, localAppFunction.funKey)
-						.append(this.funName, localAppFunction.funName).isEquals();
+					.append(this.funcKey, localAppFunction.funcKey)
+						.append(this.funcName, localAppFunction.funcName).isEquals();
 	}
 	
 	@Override
@@ -90,7 +120,7 @@ extends ModelBase
 	{
 		return new ToStringBuilder(this)
 					.append("functionId", this.id)
-						.append("funKey", this.funKey)
-							.append("funName", this.funName).toString();
+						.append("funcKey", this.funcKey)
+							.append("funcName", this.funcName).toString();
 	}
 }

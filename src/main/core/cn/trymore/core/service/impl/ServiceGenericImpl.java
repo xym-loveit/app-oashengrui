@@ -2,7 +2,10 @@ package cn.trymore.core.service.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import cn.trymore.core.dao.DAOGeneric;
+import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.model.ModelBase;
 import cn.trymore.core.service.ServiceGeneric;
 
@@ -17,96 +20,170 @@ implements ServiceGeneric<T>
 {
 	
 	/**
-	 * The repository
+	 * The LOGGER
 	 */
-	protected DAOGeneric<T> dao = null;
+	private static final Logger LOGGER = Logger.getLogger(ServiceGenericImpl.class);
 	
-	/*
-	 * (non-Javadoc)
-	 * @see cn.trymore.core.service.ServiceBase#save(cn.trymore.core.model.ModelBase)
+	/**
+	 * The generic repository
 	 */
-	@Override
-	public T save(T paramT)
+	protected DAOGeneric<T> dao;
+	
+	/**
+	 * The constructor with parameter of generic DAO.
+	 *  
+	 * @param dao
+	 */
+	public ServiceGenericImpl (DAOGeneric<T> dao)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		this.dao = dao;
 	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see cn.trymore.core.service.ServiceBase#merge(cn.trymore.core.model.ModelBase)
+	 * @see cn.trymore.core.service.ServiceGeneric#save(cn.trymore.core.model.ModelBase)
 	 */
 	@Override
-	public T merge(T paramT)
+	public T save(T domain) throws ServiceException
 	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see cn.trymore.core.service.ServiceBase#evict(cn.trymore.core.model.ModelBase)
-	 */
-	@Override
-	public void evict(T paramT)
-	{
-		// TODO Auto-generated method stub
+		try
+		{
+			dao.saveOrUpdate(domain);
+		} 
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
 		
+		return domain;
 	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see cn.trymore.core.service.ServiceBase#get(java.lang.String)
+	 * @see cn.trymore.core.service.ServiceGeneric#merge(cn.trymore.core.model.ModelBase)
 	 */
 	@Override
-	public T get(String paramPK)
+	public T merge(T domain) throws ServiceException
 	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see cn.trymore.core.service.ServiceBase#getAll()
-	 */
-	@Override
-	public List<T> getAll()
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see cn.trymore.core.service.ServiceBase#remove(java.lang.String)
-	 */
-	@Override
-	public void remove(String paramPK)
-	{
-		// TODO Auto-generated method stub
+		try
+		{
+			dao.merge(domain);
+		} 
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
 		
+		return domain;
 	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see cn.trymore.core.service.ServiceBase#remove(cn.trymore.core.model.ModelBase)
+	 * @see cn.trymore.core.service.ServiceGeneric#evict(cn.trymore.core.model.ModelBase)
 	 */
 	@Override
-	public void remove(T paramT)
+	public void evict(T domain) throws ServiceException
 	{
-		// TODO Auto-generated method stub
-		
+		try
+		{
+			dao.evict(domain);
+		} 
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
 	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see cn.trymore.core.service.ServiceBase#flush()
+	 * @see cn.trymore.core.service.ServiceGeneric#get(java.lang.String)
 	 */
 	@Override
-	public void flush()
+	public T get(String id) throws ServiceException
 	{
-		// TODO Auto-generated method stub
-		
+		try
+		{
+			return dao.get(id);
+		}
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see cn.trymore.core.service.ServiceGeneric#getAll()
+	 */
+	@Override
+	public List<T> getAll() throws ServiceException
+	{
+		try
+		{
+			return dao.getAll();
+		}
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see cn.trymore.core.service.ServiceGeneric#remove(java.lang.String)
+	 */
+	@Override
+	public void remove(String id) throws ServiceException
+	{
+		remove(get(id));
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see cn.trymore.core.service.ServiceGeneric#remove(cn.trymore.core.model.ModelBase)
+	 */
+	@Override
+	public void remove(T domain) throws ServiceException
+	{
+		try
+		{
+			dao.remove(domain);
+		}
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see cn.trymore.core.service.ServiceGeneric#flush()
+	 */
+	@Override
+	public void flush() throws ServiceException
+	{
+		try
+		{
+			dao.flush();
+		}
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
+	}
+	
+	public DAOGeneric<T> getDao()
+	{
+		return dao;
+	}
+
+	public void setDao(DAOGeneric<T> dao)
+	{
+		this.dao = dao;
+	}
+
+	public static Logger getLogger()
+	{
+		return LOGGER;
+	}
 }

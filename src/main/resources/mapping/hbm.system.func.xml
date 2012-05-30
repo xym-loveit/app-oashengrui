@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="org.shengrui.oa.model.system.ModelAppFunction" table="app_function">
+        <id name="id" type="java.lang.String">
+            <column name="func_id" />
+            <generator class="native" />
+        </id>
+        <property name="funcKey" type="java.lang.String" unique="true">
+            <column name="func_key" not-null="true" />
+        </property>
+        <property name="funcName" type="java.lang.String">
+            <column name="func_name" />
+        </property>
+        <property name="funcIcon" type="java.lang.String">
+            <column name="func_icon" />
+        </property>
+        <many-to-one name="menu" class="org.shengrui.oa.model.system.ModelAppMenu">
+        	<column name="menu_id" />
+        </many-to-one>
+	</class>
+</hibernate-mapping>
