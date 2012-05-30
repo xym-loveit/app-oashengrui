@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+       
+<tiles-definitions>
+	
+	<!-- 系统设置 - 资源设置 - 菜单设置页面 -->
+	<definition name="page.sys.setting.res.menu.list" 
+		path="/WEB-INF/jsp/application/system/resource/menu/menuIndex.jsp"/>
+	
+	<!-- 系统设置 - 资源设置 - 功能设置页面 -->
+	<definition name="page.sys.setting.res.func.list" 
+		path="/WEB-INF/jsp/application/system/resource/func/funcIndex.jsp"/>
+	
+</tiles-definitions>

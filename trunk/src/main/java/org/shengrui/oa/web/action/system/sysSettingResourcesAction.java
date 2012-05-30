@@ -10,12 +10,12 @@ import org.apache.struts.action.ActionMapping;
 import cn.trymore.core.web.action.BaseAction;
 
 /**
- * 系统设置 - 菜单设置
+ * 系统设置 - 资源设置
  * 
  * @author Jeccy.Zhao
  *
  */
-public class sysSettingMenuAction
+public class sysSettingResourcesAction
 extends BaseAction
 {
 	
@@ -27,7 +27,7 @@ extends BaseAction
 	public ActionForward pageMenuIndex (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) 
 	{
-		return mapping.findForward("page.sys.setting.menu.list");
+		return mapping.findForward("page.sys.setting.res.menu.list");
 	}
 	
 	/**
@@ -38,30 +38,18 @@ extends BaseAction
 	public ActionForward pageMenuDetail (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) 
 	{
-		return mapping.findForward("page.sys.setting.menu.detail");
+		return mapping.findForward("page.sys.setting.res.menu.deail");
 	}
 	
 	/**
 	 * <b>[WebAction]</b> 
 	 * <br/>
-	 * 菜单设置-菜单删除
+	 * 功能设置-列表展现
 	 */
-	public ActionForward opRoleRemove (ActionMapping mapping, ActionForm form,
+	public ActionForward pageFuncIndex (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) 
 	{
-		return null;
+		return mapping.findForward("page.sys.setting.res.func.list");
 	}
-	
-	/**
-	 * <b>[WebAction]</b> 
-	 * <br/>
-	 * 菜单设置-菜单保存
-	 */
-	public ActionForward opRoleSave (ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) 
-	{
-		return null;
-	}
-	
 	
 }

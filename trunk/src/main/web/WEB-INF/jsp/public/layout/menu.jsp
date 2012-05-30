@@ -113,6 +113,7 @@
 		<div class="accordionContent">
 			<ul class="tree treeFolder">
 				<li treeicon="icon-setdic"><a href="demo_page1.html" target="navTab" rel="demo_page1">数据字典设置</a></li>
+				<li treeicon="icon-setrole"><a href="demo_page1.html" target="navTab" rel="demo_page1">权限组配置</a></li>
 				<li treeicon="icon-setaskm"><a>工作安排设置</a>
 					<ul>
 						<li treeicon="icon-setaskmTpl"><a href="demo_page1.html" target="navTab" rel="demo_page2">工作安排模板设置</a></li>
@@ -132,7 +133,7 @@
 						<li treeicon="icon-setorgBricks"><a href="demo_page1.html" target="navTab" rel="demo_page2">岗位权限设置</a></li>
 					</ul>
 				</li>
-				<li treeicon="icon-setrole"><a href="demo_page1.html" target="navTab" rel="demo_page1">权限组配置</a></li>
+				<li treeicon="icon-setres"><a href="app/system/resource.do?action=pageMenuIndex" target="navTab" rel="sys_resmenu">菜单设置</a></li>
 			</ul>
 		</div>
 		

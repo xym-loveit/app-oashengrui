@@ -134,7 +134,8 @@
 				/WEB-INF/classes/struts/struts.xml,
 				/WEB-INF/classes/struts/struts-web-admin.xml,
 				/WEB-INF/classes/struts/struts-web-index.xml,
-				/WEB-INF/classes/struts/struts-web-personal.xml
+				/WEB-INF/classes/struts/struts-web-personal.xml,
+				/WEB-INF/classes/struts/struts-web-system.xml,
 			</param-value>
 		</init-param>
 		<init-param>
