@@ -2,8 +2,8 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping>
-    <class name="org.shengrui.oa.model.system.ModelAppFunction" table="app_function">
+<hibernate-mapping package="org.shengrui.oa.model.system">
+    <class name="ModelAppFunction" table="app_function">
         <id name="id" type="java.lang.String">
             <column name="func_id" />
             <generator class="native" />
@@ -17,7 +17,7 @@
         <property name="funcIcon" type="java.lang.String">
             <column name="func_icon" />
         </property>
-        <many-to-one name="menu" class="org.shengrui.oa.model.system.ModelAppMenu">
+        <many-to-one name="menu" class="ModelAppMenu">
         	<column name="menu_id" />
         </many-to-one>
 	</class>
