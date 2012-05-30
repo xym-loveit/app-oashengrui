@@ -140,7 +140,24 @@ function dialogAjaxDone(json){
 	DWZ.ajaxDone(json);
 	if (json.statusCode == DWZ.statusCode.ok){
 		if (json.navTabId){
-			navTab.reload(json.forwardUrl, {navTabId: json.navTabId});
+			// added by Jeccy.Zhao
+			var tabId = json.navTabId;
+			var tabUrl = json.forwardUrl;
+			if (json.navTabId == "navTabIdCurrent") {
+				tabId = navTab.getCurrentTabId();
+				tabUrl = navTab.getCurrentTabUrl();
+			}
+			
+			navTab.reload(tabUrl, {navTabId: tabId});
+			
+			// clears the form input if true returned
+			if (json.formClear) {
+				var cdialog = $.pdialog._current;
+				cdialog.find("input[type='text']").val("");
+				cdialog.find("input[type='hidden']").val("");
+				cdialog.find("textarea").val("");
+			}
+			
 		} else if (json.rel) {
 			navTabPageBreak({}, json.rel);
 		}

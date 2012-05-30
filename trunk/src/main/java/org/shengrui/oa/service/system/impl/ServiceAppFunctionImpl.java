@@ -1,5 +1,7 @@
 package org.shengrui.oa.service.system.impl;
 
+import java.util.List;
+
 import org.shengrui.oa.dao.system.DAOAppFunction;
 import org.shengrui.oa.model.system.ModelAppFunction;
 import org.shengrui.oa.service.system.ServiceAppFunction;
@@ -36,6 +38,24 @@ extends ServiceGenericImpl<ModelAppFunction> implements ServiceAppFunction
 		try
 		{
 			return this.daoAppFunction.getByKey(funcKey);
+		} 
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.system.ServiceAppFunction#getByMenuId(java.lang.String)
+	 */
+	@Override
+	public List<ModelAppFunction> getByMenuId(String menuId)
+			throws ServiceException
+	{
+		try
+		{
+			return this.daoAppFunction.getByMenuId(menuId);
 		} 
 		catch (Exception e)
 		{

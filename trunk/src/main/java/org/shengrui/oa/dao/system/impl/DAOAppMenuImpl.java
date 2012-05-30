@@ -17,6 +17,24 @@ extends DAOGenericImpl<ModelAppMenu> implements DAOAppMenu
 	
 	/*
 	 * (non-Javadoc)
+	 * @see org.shengrui.oa.dao.system.DAOAppMenu#getMenuByKey(java.lang.String)
+	 */
+	@Override
+	public ModelAppMenu getMenuByKey(String menuKey) throws DAOException
+	{
+		if(UtilString.isNotEmpty(menuKey))
+		{
+			DetachedCriteria criteria = DetachedCriteria.forClass(ModelAppMenu.class);
+			criteria.add(Restrictions.eq("menuKey", menuKey));
+			List<ModelAppMenu> result = getListByCriteria(criteria);
+			
+			return result != null && result.size() > 0 ? result.get(0) : null;
+		}
+		return null;
+	}
+	
+	/*
+	 * (non-Javadoc)
 	 * @see org.shengrui.oa.dao.system.DAOAppMenu#getAllRootMenus()
 	 */
 	@Override

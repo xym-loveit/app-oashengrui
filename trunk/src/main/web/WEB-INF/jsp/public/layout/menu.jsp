@@ -133,7 +133,7 @@
 						<li treeicon="icon-setorgBricks"><a href="demo_page1.html" target="navTab" rel="demo_page2">岗位权限设置</a></li>
 					</ul>
 				</li>
-				<li treeicon="icon-setres"><a href="app/system/resource.do?action=pageMenuIndex" target="navTab" rel="sys_resmenu">菜单设置</a></li>
+				<li treeicon="icon-setres"><a href="app/system/menu.do?action=pageMenuIndex" target="navTab" rel="sys_resmenu">菜单设置</a></li>
 			</ul>
 		</div>
 		

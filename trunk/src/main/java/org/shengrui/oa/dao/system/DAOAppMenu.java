@@ -16,6 +16,17 @@ import cn.trymore.core.exception.DAOException;
 public interface DAOAppMenu
 extends DAOGeneric<ModelAppMenu>
 {
+
+	/**
+	 * 根据菜单Key查询菜单项
+	 * 
+	 * @param menuKey
+	 *                 菜单Key
+	 * @return 菜单项
+	 * @throws DAOException
+	 */
+	ModelAppMenu getMenuByKey(String menuKey) throws DAOException;
+	
 	/**
 	 * 获取所有父节点菜单.
 	 * 

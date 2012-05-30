@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+       
+<tiles-definitions>
+	
+	<!-- 系统设置 - 菜单设置页面 -->
+	<definition name="page.sys.setting.menu.list" 
+		path="/WEB-INF/jsp/application/system/menu/menuIndex.jsp"/>
+	
+	<!-- 系统设置 - 添加菜单项(弹框) -->
+	<definition name="dialog.sys.setting.menu.item" 
+		path="/WEB-INF/jsp/application/system/menu/dialog/dialogMenuItemPage.jsp"/>
+	
+	<!-- 系统设置 - 添加菜单功能项(弹框) -->
+	<definition name="dialog.sys.setting.menu.func" 
+		path="/WEB-INF/jsp/application/system/menu/dialog/dialogMenuFuncPage.jsp"/>
+	
+	<!-- 系统设置 - 菜单树页面(数据) -->
+	<definition name="data.sys.setting.menu.tree" 
+		path="/WEB-INF/jsp/application/system/menu/data/dataMenuTree.jsp"/>
+		
+	<!-- 系统设置 - 菜单功能列表页面(数据) -->
+	<definition name="data.sys.setting.menu.func" 
+		path="/WEB-INF/jsp/application/system/menu/data/dataMenuFunc.jsp"/>
+	
+</tiles-definitions>
