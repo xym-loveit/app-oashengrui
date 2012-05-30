@@ -35,6 +35,10 @@
 .tabsPage .tabsPageHeader .home_icon { background:url(./images/icon.png) no-repeat;}
 .tabsPage .tabsPageContent { border-color:#88a0be; background:#FFF;}
 
+/* added by Jeccy.Zhao*/
+.tabsPage .tabsPageContent .bor { border-right: 1px solid #88a0be;}
+.tabsPage .tabsPageContent .bol { border-left: 1px solid #88a0be;}
+
 /* Alert */
 .alert .alertFooter, .alert .alertFooter_r, .alert .alertFooter_c { background:url(./images/alert/alertpanel.png) no-repeat;}
 .alert .alertContent { border-color:#88a0be; background:#ced9e7;}

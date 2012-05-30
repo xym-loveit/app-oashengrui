@@ -12,7 +12,10 @@
 				/WEB-INF/tiles/tiles-defs.xml,
 				/WEB-INF/tiles/tiles-defs-admin.xml,
 				/WEB-INF/tiles/tiles-defs-index.xml,
-				/WEB-INF/tiles/tiles-defs-personal.xml
+				/WEB-INF/tiles/tiles-defs-personal.xml,
+				
+				/WEB-INF/tiles/tiles-defs-sysmgr-resource.xml,
+				/WEB-INF/tiles/tiles-defs-sysmgr-roles.xml
 			"
 		/>
 		<set-property property="definitions-debug" value="2" />

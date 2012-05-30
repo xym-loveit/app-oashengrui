@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	
+	<action-mappings>
+		
+		<!-- 系统设置 -->
+		<action path="/app/system/resource"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="page.sys.setting.res.menu.list" path="page.sys.setting.res.menu.list" />
+			<forward name="page.sys.setting.res.func.list" path="page.sys.setting.res.func.list" />
+		</action>
+		
+	</action-mappings>
+
+</struts-config>

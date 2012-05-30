@@ -63,7 +63,9 @@ b.symbol {
 }
 
 /*----MY DESKTOP---*/
-#menu-desktop {
+#menu-desktop,
+.tree div.icon-desktop,
+.accordion .accordionHeader h2 span.icon-desktop {
 	background: url("../images/menus/monitor.png") no-repeat left center;
 }
 
@@ -109,7 +111,9 @@ b.symbol {
 }
 
 /*----HR---*/
-#menu-hr {
+#menu-hr,
+.tree div.icon-hr,
+.accordion .accordionHeader h2 span.icon-hr {
 	background: url("../images/menus/hr.png") no-repeat left center;
 }
 
@@ -154,7 +158,9 @@ b.symbol {
 }
 
 /*----ADMINISTRATOR---*/
-#menu-administrator {
+#menu-administrator,
+.tree div.icon-admin,
+.accordion .accordionHeader h2 span.icon-admin {
 	background: url("../images/menus/administrator.png") no-repeat left center;
 }
 
@@ -185,7 +191,9 @@ b.symbol {
 }
 
 /*----ADMINISTRATOR---*/
-#menu-financial {
+#menu-financial,
+.tree div.icon-financial,
+.accordion .accordionHeader h2 span.icon-financial {
 	background: url("../images/menus/financial.png") no-repeat left center;
 }
 
@@ -220,13 +228,30 @@ b.symbol {
 }
 
 /*----SETTINGS---*/
-#menu-settings {
+#menu-settings,
+.tree div.icon-settings,
+.accordion .accordionHeader h2 span.icon-settings {
 	background: url("../images/menus/settings.png") no-repeat left center;
 }
 
 .tabsPage .tabsPageHeader li span.icon-setdic,
 .tree div.icon-setdic {
 	background: url("../images/menus/settings/dictionary.png") no-repeat left center;
+}
+
+.tabsPage .tabsPageHeader li span.icon-setres,
+.tree div.icon-setres {
+	background: url("../images/menus/settings/menu.png") no-repeat left center;
+}
+
+.tabsPage .tabsPageHeader li span.icon-setresMenu,
+.tree div.icon-setresMenu {
+	background: url("../images/menus/settings/menu-form.png") no-repeat left center;
+}
+
+.tabsPage .tabsPageHeader li span.icon-setresFunc,
+.tree div.icon-setresFunc {
+	background: url("../images/menus/settings/plantype.png") no-repeat left center;
 }
 
 .tabsPage .tabsPageHeader li span.icon-setflowm,
@@ -285,7 +310,9 @@ b.symbol {
 }
 
 /*----SYSTEM---*/
-#menu-system {
+#menu-system ,
+.tree div.icon-system,
+.accordion .accordionHeader h2 span.icon-system {
 	background: url("../images/menus/system.png") no-repeat left center;
 }
 
