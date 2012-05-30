@@ -3,12 +3,15 @@ package cn.trymore.core.service.impl;
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import cn.trymore.core.dao.DAODynamic;
+import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.ServiceDynamic;
 
 /**
- * The dynamic base service
+ * The implementation of dynamic base service
  * 
  * @author Jeccy.Zhao
  *
@@ -17,27 +20,14 @@ public class ServiceDynamicImpl
 implements ServiceDynamic
 {
 	/**
+	 * The LOGGER
+	 */
+	private static final Logger LOGGER = Logger.getLogger(ServiceDynamicImpl.class);
+	
+	/**
 	 * The dynamic repository
 	 */
 	private DAODynamic daoDynamic;
-	
-	/**
-	 * The default constructor
-	 */
-	public ServiceDynamicImpl()
-	{
-		
-	}
-	
-	/**
-	 * The sole constructor
-	 * 
-	 * @param paramDynamicDao
-	 */
-	public ServiceDynamicImpl(DAODynamic paramDynamicDao)
-	{
-		this.daoDynamic = paramDynamicDao;
-	}
 	
 	/*
 	 * (non-Javadoc)
@@ -46,8 +36,16 @@ implements ServiceDynamic
 	@Override
 	public Object save(Object paramObject) throws ServiceException
 	{
-		// TODO Auto-generated method stub
-		return null;
+		try
+		{
+			this.daoDynamic.save(paramObject);
+		} 
+		catch (DAOException e)
+		{
+			throw new ServiceException(e);
+		}
+		
+		return paramObject;
 	}
 	
 	/*
@@ -57,8 +55,16 @@ implements ServiceDynamic
 	@Override
 	public Object merge(Object paramObject) throws ServiceException
 	{
-		// TODO Auto-generated method stub
-		return null;
+		try
+		{
+			this.daoDynamic.merge(paramObject);
+		} 
+		catch (DAOException e)
+		{
+			throw new ServiceException(e);
+		}
+		
+		return paramObject;
 	}
 	
 	/*
@@ -68,8 +74,14 @@ implements ServiceDynamic
 	@Override
 	public Object get(Serializable paramSerializable) throws ServiceException
 	{
-		// TODO Auto-generated method stub
-		return null;
+		try
+		{
+			return this.daoDynamic.get(paramSerializable);
+		} 
+		catch (DAOException e)
+		{
+			throw new ServiceException(e);
+		}
 	}
 	
 	/*
@@ -79,8 +91,7 @@ implements ServiceDynamic
 	@Override
 	public void remove(Serializable paramSerializable) throws ServiceException
 	{
-		// TODO Auto-generated method stub
-		
+		remove(get(paramSerializable));
 	}
 	
 	/*
@@ -90,8 +101,14 @@ implements ServiceDynamic
 	@Override
 	public void remove(Object paramObject) throws ServiceException
 	{
-		// TODO Auto-generated method stub
-		
+		try
+		{
+			this.daoDynamic.remove(paramObject);
+		} 
+		catch (DAOException e)
+		{
+			throw new ServiceException(e);
+		}
 	}
 	
 	/*
@@ -101,8 +118,14 @@ implements ServiceDynamic
 	@Override
 	public void evict(Object paramObject) throws ServiceException
 	{
-		// TODO Auto-generated method stub
-		
+		try
+		{
+			this.daoDynamic.evict(paramObject);
+		} 
+		catch (DAOException e)
+		{
+			throw new ServiceException(e);
+		}
 	}
 	
 	/*
@@ -112,8 +135,14 @@ implements ServiceDynamic
 	@Override
 	public List<Object> getAll() throws ServiceException
 	{
-		// TODO Auto-generated method stub
-		return null;
+		try
+		{
+			return this.daoDynamic.getAll();
+		} 
+		catch (DAOException e)
+		{
+			throw new ServiceException(e);
+		}
 	}
 
 	public DAODynamic getDaoDynamic()
@@ -124,6 +153,11 @@ implements ServiceDynamic
 	public void setDaoDynamic(DAODynamic daoDynamic)
 	{
 		this.daoDynamic = daoDynamic;
+	}
+
+	public static Logger getLogger()
+	{
+		return LOGGER;
 	}
 	
 }

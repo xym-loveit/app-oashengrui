@@ -24,7 +24,7 @@ import cn.trymore.core.model.ModelBase;
 import cn.trymore.core.web.paging.PaginationSupport;
 
 /**
- * The implementation of base repository.
+ * The implementation of base generic repository.
  *  
  * @param <T> Target domain
  * @author Jeccy.Zhao
@@ -79,6 +79,27 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 		return id;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see cn.trymore.core.dao.DAOGeneric#merge(cn.trymore.core.model.ModelBase)
+	 */
+	@Override
+	public T merge(T domain) throws DAOException
+	{
+		getHibernateTemplate().merge(domain);
+		
+		return domain;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see cn.trymore.core.dao.DAOGeneric#evict(cn.trymore.core.model.ModelBase)
+	 */
+	@Override
+	public void evict(T domain) throws DAOException
+	{
+		getHibernateTemplate().evict(domain);
+	}
 	
 	/*
 	 * (non-Javadoc)
@@ -91,6 +112,37 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 		return id != null ? (T)getHibernateTemplate().get(entityClass, id) : null;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see cn.trymore.core.dao.DAOGeneric#getAll()
+	 */
+	@SuppressWarnings("unchecked")
+	public List<T> getAll()
+			throws DAOException
+	{
+		return (List<T>)getHibernateTemplate().execute(new HibernateCallback()
+		{
+			
+			@Override
+			public Object doInHibernate(Session paramSession) throws HibernateException,
+					SQLException
+			{
+				String str = "from " + DAOGenericImpl.this.entityClass;
+				return paramSession.createQuery(str).list();
+			}
+		});
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see cn.trymore.core.dao.DAOGeneric#flush()
+	 */
+	public void flush()
+			throws DAOException
+	{
+		getHibernateTemplate().flush();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.mary.dao.common.BaseDAO#findListByNativeSQL(java.lang.String)
