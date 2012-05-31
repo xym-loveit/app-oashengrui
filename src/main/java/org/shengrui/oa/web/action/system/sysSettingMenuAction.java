@@ -309,7 +309,9 @@ extends BaseAction
 			ModelAppMenu formModelAppMenu = (ModelAppMenu) form;
 			ModelAppMenu entity = null;
 			
-			if (this.isObjectIdValid(formModelAppMenu.getId()))
+			boolean isCreation = this.isObjectIdValid(formModelAppMenu.getId());
+			
+			if (!isCreation)
 			{
 				// 更新
 				entity = this.serviceAppMenu.get(formModelAppMenu.getId());
@@ -352,15 +354,25 @@ extends BaseAction
 			
 			this.serviceAppMenu.save(entity);
 			
-			ajaxPrint(response, getSuccessCallbackAndReloadCurrent("菜单项保存成功."));
+			if (isCreation)
+			{
+				// 新建保存成功后, Dialog不进行关闭
+				return ajaxPrint(response, 
+						getSuccessCallbackAndReloadCurrent("菜单项保存成功."));
+			}
+			else
+			{
+				// 编辑保存成功后, Dialog进行关闭
+				return ajaxPrint(response, 
+						getSuccessCallback("菜单项保存成功.", CALLBACK_TYPE_CLOSE, null, null, false));
+			}
 		} 
 		catch (ServiceException e)
 		{
-			e.printStackTrace();
-			ajaxPrint(response, getErrorCallback("菜单项保存失败."));
+			LOGGER.error("It failed to save the menu item entity!", e);
+			
+			return ajaxPrint(response, getErrorCallback("菜单项保存失败."));
 		}
-		
-		return null;
 	}
 	
 	/**
