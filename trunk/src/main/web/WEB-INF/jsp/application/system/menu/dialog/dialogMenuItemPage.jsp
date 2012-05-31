@@ -9,6 +9,7 @@
 
 <script type="text/javascript">
 	$(function(){
+		// 菜单项KEY值唯一性监测
 		$("#menu_icon").keyup(function(){
 			$(".diaMicon").removeAttr("class").addClass("diaMicon " + $(this).val());
 		});
@@ -16,7 +17,7 @@
 </script>
 
 <div class="pageContent">
-	<form method="post" action="app/system/menu.do?action=actionSaveMenuItem" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<form method="post" action="app/system/menu/item.do?action=actionSaveMenuItem" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent" layoutH="56">
 			<table cellspacing="10" cellpadding="10" class="dform">
 				<tr>
@@ -25,7 +26,7 @@
 				</tr>
 				<tr>
 					<td>菜单标识：</td>
-					<td><input name="menuKey" type="text" size="30" value="" class="required" style="width: 88%" remote="app/system/menu.do?action=actionUniqueCheckMenuKey"/></td>
+					<td><input name="menuKey" type="text" size="30" value="" class="required" style="width: 88%" remote="app/system/menu.do?action=actionUniqueCheckMenuItemKey"/></td>
 				</tr>
 				<tr>
 					<td>菜单链接：</td>
@@ -51,7 +52,7 @@
 					<td><input name="menuOrder" type="text" size="30" value="0"  class="required number" style="width: 88%"/></td>
 				</tr>
 				<tr>
-					<td>菜单描述：</td>
+					<td style="vertical-align: top;">菜单描述：</td>
 					<td><textarea rows="2" cols="40" name="menuDesc" class="textInput" style="width: 88%"></textarea></td>
 				</tr>
 			</table>

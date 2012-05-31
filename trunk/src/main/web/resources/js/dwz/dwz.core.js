@@ -166,7 +166,7 @@ var DWZ = {
 					} else {
 						$this.html(response).initUI();
 						
-						// modified by Jeccy.Zhao
+						// modified by Jeccy.Zhao on 30/05/2012
 						if ($.isArray(op.callback)) {
 							for (idx=0; idx < op.callback.length; idx++) {
 								if ($.isFunction(op.callback[idx])) {

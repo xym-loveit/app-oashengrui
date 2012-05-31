@@ -18,22 +18,27 @@ extends ModelBase
 	private static final long serialVersionUID = -4529440894418751772L;
 	
 	/**
-	 * 权限Key
+	 * 权限功能Key
 	 */
 	protected String funcKey;
 	
 	/**
-	 * 权限名称
+	 * 权限功能名称
 	 */
 	protected String funcName;
 	
 	/**
-	 * 权限显示样式
+	 * 权限功能显示样式
 	 */
 	protected String funcIcon;
 	
 	/**
-	 * 权限所属菜单
+	 * 权限功能描述
+	 */
+	protected String funcDesc;
+	
+	/**
+	 * 权限功能所属菜单
 	 */
 	protected transient ModelAppMenu menu;
 	
@@ -97,6 +102,16 @@ extends ModelBase
 	public void setMenu(ModelAppMenu menu)
 	{
 		this.menu = menu;
+	}
+	
+	public String getFuncDesc()
+	{
+		return funcDesc;
+	}
+
+	public void setFuncDesc(String funcDesc)
+	{
+		this.funcDesc = funcDesc;
 	}
 	
 	@Override

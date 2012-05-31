@@ -6,7 +6,7 @@
 <tiles-definitions>
 	
 	<!-- 系统设置 - 菜单设置页面 -->
-	<definition name="page.sys.setting.menu.list" 
+	<definition name="page.sys.setting.menu.index" 
 		path="/WEB-INF/jsp/application/system/menu/menuIndex.jsp"/>
 	
 	<!-- 系统设置 - 添加菜单项(弹框) -->

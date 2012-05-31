@@ -472,4 +472,28 @@ extends DispatchAction
 		return callbackJson;
 	}
 	
+	/**
+	 * Returns true if the specified entity id valid.
+	 * 
+	 * @param entityId
+	 *          the entity object id.
+	 * @return true if id valid; false otherwise.
+	 */
+	protected boolean isObjectIdValid (String entityId)
+	{
+		if (UtilString.isNotEmpty(entityId))
+		{
+			try
+			{
+				return Integer.parseInt(entityId) > 0;
+			}
+			catch (Exception e)
+			{
+				// do nothing here.
+			}
+		}
+		
+		return false;
+	}
+	
 }
