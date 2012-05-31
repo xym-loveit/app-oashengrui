@@ -253,7 +253,23 @@ extends BaseAction
 	public ActionForward actionRemoveMenuFunc (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) 
 	{
-		return null;
+		String funcId = request.getParameter("funcId");
+		if (UtilString.isNotEmpty(funcId))
+		{
+			try
+			{
+				this.serviceAppFunc.remove(funcId);
+				
+				return ajaxPrint(response, 
+						getSuccessCallbackAndReloadCurrent("菜单功能项删除成功."));
+			} 
+			catch (ServiceException e)
+			{
+				LOGGER.error("Exception raised when remove the application function entity with id:" + funcId, e);
+			}
+		}
+		
+		return ajaxPrint(response, getErrorCallback("菜单功能项删除失败."));
 	}
 	
 	/**
@@ -363,7 +379,23 @@ extends BaseAction
 	public ActionForward actionRemoveMenuItem (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) 
 	{
-		return null;
+		String menuId = request.getParameter("menuId");
+		if (UtilString.isNotEmpty(menuId))
+		{
+			try
+			{
+				this.serviceAppMenu.remove(menuId);
+				
+				return ajaxPrint(response, 
+						getSuccessCallbackAndReloadCurrent("菜单项删除成功."));
+			} 
+			catch (ServiceException e)
+			{
+				LOGGER.error("Exception raised when remove the application menu entity with id:" + menuId, e);
+			}
+		}
+		
+		return ajaxPrint(response, getErrorCallback("菜单项删除失败."));
 	}
 	
 	/**

@@ -20,7 +20,7 @@
 	<tbody>
 		<logic:present name="menuFuncs">
 			<logic:iterate name="menuFuncs" id="entity">
-				<tr target="funcid" rel="${entity.id}">
+				<tr target="funcid" rel="${entity.id}" id="mfunc-${entity.id}">
 					<td>${entity.funcName}</td>
 					<td>${entity.funcKey}</td>
 					<td>${entity.funcDesc}</td>
@@ -28,7 +28,7 @@
 						<a href="app/system/menu/func.do?action=dialogMenuFuncPage&funcId=${entity.id}" class="oplink" target="dialog" title="菜单功能编辑" width="504" height="389" rel="sys_menufuncedit-${entity.id}">编辑</a>
 					</td>
 					<td>
-						<a href="app/system/menu/func.do?action=actionRemoveMenuFunc&funcId=${entity.id}" class="oplink" target="ajaxTodo" title="菜单功能删除" width="550" height="250" title="确定要删除该菜单功能项吗?" rel="sys_menufuncdel-${entity.id}">删除</a>
+						<a href="app/system/menu/func.do?action=actionRemoveMenuFunc&funcId=${entity.id}" class="oplink" target="ajaxTodo" title="菜单功能删除" width="550" height="250" title="确定要删除该菜单功能项吗?" rel="sys_menufuncdel-${entity.id}" callback="callback_funcRemove(${entity.id})">删除</a>
 					</td>
 				</tr>
 			</logic:iterate>
