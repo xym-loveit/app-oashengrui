@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.lang.reflect.ParameterizedType;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
@@ -255,11 +256,34 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 		});
 	}
 	
+	public Object findUnique (final String hsql, final Object[] params)
+	{
+		return getHibernateTemplate().execute(new HibernateCallback()
+		{
+			
+			@Override
+			public Object doInHibernate(Session paramSession) throws HibernateException,
+					SQLException
+			{
+				Query localQuery = paramSession.createQuery(hsql);
+				if (params != null)
+				{
+					for (int i = 0; i < params.length; i++)
+					{
+						localQuery.setParameter(i, params[i]);
+					}
+				}
+				
+				return localQuery.uniqueResult();
+			}
+		});
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see com.lzcp.dao.DAOBase#queryFieldsListForPaging(java.lang.Class, java.util.Map, int, int)
 	 */
-	public 	PaginationSupport<T> queryFieldsListForPaging(final Class<?> objectClass, 
+	public PaginationSupport<T> queryFieldsListForPaging(final Class<?> objectClass, 
 			Map<String, List<Object>> params, int pageSize, int startIndex) throws DAOException
 	{
 		

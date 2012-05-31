@@ -464,10 +464,13 @@ extends DispatchAction
 				UtilString.isNotEmpty(callbackType) ? callbackType : "");
 		
 		callbackJson = callbackJson.replace("#navTabId#", 
-				(CALLBACK_TYPE_RELOAD.equals(callbackType) && UtilString.isNotEmpty(navTabId)) ? navTabId : "");
+				UtilString.isNotEmpty(navTabId) ? navTabId : "");
 		
 		callbackJson = callbackJson.replace("#forwardUrl#", 
 				((CALLBACK_TYPE_FORWARD.equals(callbackType) || CALLBACK_TYPE_FORWARD_CONFIRM.equals(callbackType)) && UtilString.isNotEmpty(forwardURL)) ? forwardURL : "");
+		
+		callbackJson = callbackJson.replace("#formClear#", 
+				formClear ? "true" : "false");
 		
 		return callbackJson;
 	}
