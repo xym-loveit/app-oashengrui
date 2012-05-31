@@ -246,12 +246,21 @@ function initUI(_box){
 		$(this).click(function(event){
 			var $this = $(this);
 			var rel = $this.attr("rel");
+			var callback = $this.attr("callback");
 			if (rel) {
 				var $rel = $("#"+rel);
 				// modified by Jeccy.Zhao
-				$rel.loadUrl($this.attr("href"), {}, [function(){
+				var url = $this.attr("href");
+				if ($this.hasClass("uvar")) {
+					url = unescape(url).replaceTmById($(navTab.getCurrentPanel()));
+					if (!url.isFinishedTm()) {
+						alertMsg.error($this.attr("warn") || DWZ.msg("alertSelectMsg"));
+						return false;
+					}
+				}
+				$rel.loadUrl(url, {}, [function(){
 					$rel.find("[layoutH]").layoutH();
-				}, $(this).attr("callback")]);
+				}, callback]);
 			}
 
 			event.preventDefault();
@@ -289,10 +298,10 @@ function initUI(_box){
 		$(this).click(function(){
 			var paramKey = $(this).attr("param");
 			if (paramKey) {
-				if ($("#"+paramKey, $(navTab.getCurrentPanel)).size() == 0) {
-					$(navTab.getCurrentPanel).prepend('<input id="'+sTarget+'" type="hidden" />');
+				if ($("#"+paramKey, $(navTab.getCurrentPanel())).size() == 0) {
+					$(navTab.getCurrentPanel()).prepend('<input id="'+paramKey+'" type="hidden" />');
 				}
-				$("#"+paramKey, $(navTab.getCurrentPanel)).val($this.attr("paramRel"));
+				$("#"+paramKey, $(navTab.getCurrentPanel())).val($(this).attr("paramRel"));
 			}
 			
 		});

@@ -172,7 +172,7 @@ var DWZ = {
 								if ($.isFunction(op.callback[idx])) {
 									op.callback[idx](response);
 								} else if (typeof op.callback[idx] == "string") {
-									eval(op.callback[idx])(response);
+									eval(op.callback[idx]);
 								}
 							}
 						} else {
