@@ -248,9 +248,10 @@ function initUI(_box){
 			var rel = $this.attr("rel");
 			if (rel) {
 				var $rel = $("#"+rel);
-				$rel.loadUrl($this.attr("href"), {}, function(){
+				// modified by Jeccy.Zhao
+				$rel.loadUrl($this.attr("href"), {}, [function(){
 					$rel.find("[layoutH]").layoutH();
-				});
+				}, $(this).attr("callback")]);
 			}
 
 			event.preventDefault();
@@ -283,6 +284,20 @@ function initUI(_box){
 	if ($.fn.pagerForm) $("form[rel=pagerForm]", $p).pagerForm({parentBox:$p});
 
 	// 这里放其他第三方jQuery插件...
+	
+	$.each($(".tparam"), function(){
+		$(this).click(function(){
+			var paramKey = $(this).attr("param");
+			if (paramKey) {
+				if ($("#"+paramKey, $(navTab.getCurrentPanel)).size() == 0) {
+					$(navTab.getCurrentPanel).prepend('<input id="'+sTarget+'" type="hidden" />');
+				}
+				$("#"+paramKey, $(navTab.getCurrentPanel)).val($this.attr("paramRel"));
+			}
+			
+		});
+	});
+	
 }
 
 
