@@ -294,6 +294,15 @@ function initUI(_box){
 
 	// 这里放其他第三方jQuery插件...
 	
+	// added by Jeccy.Zhao on 31/05/2012
+	/**
+	 * 任意标签存储页面参数变量, 使用步骤如下:
+	 * 1. 添加"tparam"的样式
+	 * 2. 添加"param"与"paramRel"属性, 分别代表变量名和变量值
+	 * 3. 
+	 *   a. HTML中的扩展方式ajaxTodo, navTab, dialog可以直接使用{param}, 其中param为标签中param的属性值
+	 *   b. 对于扩展方式ajax的HTML标签, 需要添加"uvar"样式
+	 */
 	$.each($(".tparam"), function(){
 		$(this).click(function(){
 			var paramKey = $(this).attr("param");

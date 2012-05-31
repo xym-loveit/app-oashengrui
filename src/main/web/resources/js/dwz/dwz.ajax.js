@@ -140,7 +140,7 @@ function dialogAjaxDone(json){
 	DWZ.ajaxDone(json);
 	if (json.statusCode == DWZ.statusCode.ok){
 		if (json.navTabId){
-			// added by Jeccy.Zhao
+			// added by Jeccy.Zhao on 28/05/2012
 			var tabId = json.navTabId;
 			var tabUrl = json.forwardUrl;
 			if (json.navTabId == "navTabIdCurrent") {

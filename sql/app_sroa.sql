@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主機: localhost
--- 建立日期: May 30, 2012, 05:41 PM
+-- 建立日期: May 31, 2012, 05:13 PM
 -- 伺服器版本: 5.0.91
 -- PHP 版本: 5.2.13
 
@@ -101,11 +101,12 @@ CREATE TABLE IF NOT EXISTS `app_function` (
   `func_key` varchar(60) NOT NULL COMMENT '功能key',
   `func_name` varchar(120) NOT NULL COMMENT '功能名称',
   `func_icon` varchar(32) default NULL COMMENT '功能显示图片',
+  `func_desc` varchar(150) default NULL COMMENT '功能描述',
   `menu_id` bigint(20) NOT NULL COMMENT '所属菜单',
   PRIMARY KEY  (`func_id`),
   UNIQUE KEY `func_key` (`func_key`),
   KEY `menu_id` (`menu_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能表' AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='功能表' AUTO_INCREMENT=1 ;
 
 --
 -- 列出以下資料庫的數據： `app_function`
@@ -265,12 +266,15 @@ CREATE TABLE IF NOT EXISTS `app_menu` (
   PRIMARY KEY  (`menu_id`),
   UNIQUE KEY `menu_key` (`menu_key`),
   KEY `menu_parent` (`menu_parent`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统菜单' AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统菜单' AUTO_INCREMENT=5 ;
 
 --
 -- 列出以下資料庫的數據： `app_menu`
 --
 
+INSERT INTO `app_menu` (`menu_id`, `menu_title`, `menu_icon`, `menu_url`, `menu_key`, `menu_desc`, `menu_parent`, `menu_order`) VALUES
+(3, '我的工作区', 'icon-desktop', 'javascript:void(0);', '_menu_mod_personal', '', NULL, 0),
+(4, '我的任务', 'icon-myplan', 'javascript:void(0);', '_menu_mod_personal_mytask', '', 3, 0);
 
 -- --------------------------------------------------------
 

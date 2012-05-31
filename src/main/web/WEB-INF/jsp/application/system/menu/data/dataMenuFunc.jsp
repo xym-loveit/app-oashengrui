@@ -12,7 +12,7 @@
 		<tr>
 			<th align="center">功能名称</th>
 			<th align="center">功能键值</th>
-			<th align="center">功能图标</th>
+			<th align="center">功能描述 </th>
 			<th align="center">编辑</th>
 			<th align="center">删除</th>
 		</tr>
@@ -23,8 +23,7 @@
 				<tr target="funcid" rel="${entity.id}">
 					<td>${entity.funcName}</td>
 					<td>${entity.funcKey}</td>
-					<td>${entity.funcIcon}</td>
-					<td>${entity.funcName}</td>
+					<td>${entity.funcDesc}</td>
 					<td>
 						<a href="app/admin.do?action=adminPageStaffAttendanceOnPunch&id=1" class="oplink" target="dialog" title="菜单功能编辑" width="550" height="250" rel="admin_dutypunch-1">编辑</a>
 					</td>

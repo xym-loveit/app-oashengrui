@@ -19,6 +19,9 @@ public class ServiceAppFunctionImpl
 extends ServiceGenericImpl<ModelAppFunction> implements ServiceAppFunction
 {
 	
+	/**
+	 * The application function repository.
+	 */
 	private DAOAppFunction daoAppFunction;
 	
 	public ServiceAppFunctionImpl(DAOAppFunction dao)
