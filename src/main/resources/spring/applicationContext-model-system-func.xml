@@ -15,4 +15,16 @@
 		</property>
 	</bean>
 	
+	<bean id="daoAppFuncUrl" class="org.shengrui.oa.dao.system.impl.DAOAppFunctionUrlImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	
+	<bean id="serviceAppFuncUrl" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.system.impl.ServiceAppFunctionUrlImpl">
+				<constructor-arg index="0" ref="daoAppFuncUrl"/>
+			</bean>
+		</property>
+	</bean>
+	
 </beans>

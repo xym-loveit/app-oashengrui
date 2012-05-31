@@ -31,7 +31,7 @@
 			<li class="line">line</li>
 			<li><a class="add" href="app/system/menu/item.do?action=dialogMenuItemPage" mask="true" target="dialog" title="添加菜单项" width="504" height="389" rel="dia_sysmenu_additem"><span>新菜单项</span></a></li>
 			<li class="line">line</li>
-			<li><a class="edit" href="app/admin.do?action=adminPageEntryDetail&id={sid}" target="dialog" title="修改新闻" width="900" height="500" rel="dia_admin_entryedit{sid}"><span>修改</span></a></li>
+			<li><a class="edit" href="app/system/menu/item.do?action=dialogMenuItemPage&menuId={_var_menuid}" target="dialog" warn="请选择菜单项!" title="修改菜单项" width="504" height="389" rel="dia_sys_menuitemedit"><span>修改</span></a></li>
 		</ul>
 	</div>
 	
@@ -46,13 +46,13 @@
 	</div>
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a class="refresh uvar" href="app/system/menu/func.do?action=actionLoadMenuFuncList&menuId={_var_menuid}" warn="请选择菜单项!" target="ajax" rel="ajBoxMenuFunc" title="刷新" rel="dia_admin_entryadd"><span>刷新</span></a></li>
+			<li><a class="refresh uvar" href="app/system/menu/func.do?action=actionLoadMenuFuncList&menuId={_var_menuid}" warn="请从左侧选择菜单项!" target="ajax" rel="ajBoxMenuFunc" title="刷新" rel="dia_admin_entryadd"><span>刷新</span></a></li>
 			<li class="line">line</li>
-			<li><a class="add" href="app/system/menu/func.do?action=dialogMenuFuncPage&menuId={_var_menuid}" mask="true" warn="请选择菜单项!" target="dialog" title="添加菜单功能" width="504" height="389" rel="dia_admin_entryadd"><span>添加功能</span></a></li>
+			<li><a class="add" href="app/system/menu/func.do?action=dialogMenuFuncPage&menuId={_var_menuid}" mask="true" warn="请从左侧选择菜单项!" target="dialog" title="添加菜单功能" width="504" height="389" rel="dia_admin_entryadd"><span>添加功能</span></a></li>
 			<li class="line">line</li>
-			<li><a class="delete" href="app/admin.do?action=adminOprEntryRemove&id={sid}" target="ajaxTodo" title="确定要删除吗?" callback="hello"><span>删除</span></a></li>
+			<li><a class="delete" href="app/system/menu/func.do?action=actionRemoveMenuFunc&funcId={funcid}" target="ajaxTodo" warn="请选择需要修改的菜单功能项" title="确定要删除该菜单功能项吗?"><span>删除</span></a></li>
 			<li class="line">line</li>
-			<li><a class="edit" href="app/admin.do?action=adminPageEntryDetail&id={sid}" target="dialog" title="修改新闻" width="900" height="500" rel="dia_admin_entryedit{sid}"><span>修改</span></a></li>
+			<li><a class="edit" href="app/system/menu/func.do?action=dialogMenuFuncPage&funcId={funcid}" target="dialog" warn="请选择需要修改的菜单功能项" title="修改功能项" width="504" height="389" rel="dia_sys_menufuncedit"><span>修改</span></a></li>
 		</ul>
 	</div>
 	<div id="ajBoxMenuFunc">

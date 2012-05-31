@@ -1,5 +1,8 @@
 package cn.trymore.core.util;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * The helper class of string operation.
  * 
@@ -97,6 +100,29 @@ public class UtilString
 		str = str.replace("%20", " ");
 		str = str.replace("%2F", "/");
 		return str;
+	}
+	
+	/**
+	 * Converts the string list to set collection.
+	 * 
+	 * @param strs
+	 *                the string array list
+	 * @return set collection
+	 */
+	public static Set<String> convertToSet (final String[] strs)
+	{
+		if (strs != null && strs.length > 0)
+		{
+			Set<String> sets = new HashSet<String>();
+			for (String str : strs)
+			{
+				sets.add(str);
+			}
+			
+			return sets;
+		}
+		
+		return null;
 	}
 	
 }

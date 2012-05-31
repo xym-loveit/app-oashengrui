@@ -153,6 +153,7 @@ public interface DAOGeneric<T extends ModelBase>
 	
 	/**
 	 * Get object list by query criteria
+	 * 
 	 * @param criteria 
 	 *          the query criteria,including condition and the orders
 	 * @param firstResult
@@ -164,6 +165,19 @@ public interface DAOGeneric<T extends ModelBase>
 	List<T> getListByCriteria(final DetachedCriteria criteria,
 			int firstResult,int maxResult) throws DAOException;
 	
+	/**
+	 * Obtains an unique object from database
+	 * 
+	 * @param hsql
+	 *                the HSQL
+	 * @param params
+	 *                the parameter object list
+	 * @return unique object entity
+	 * @throws DAOException
+	 */
+	 Object findUnique (final String hsql,
+			 final Object[] params) throws DAOException;
+	 
 	/**
 	 * Find object by pagination support
 	 * 

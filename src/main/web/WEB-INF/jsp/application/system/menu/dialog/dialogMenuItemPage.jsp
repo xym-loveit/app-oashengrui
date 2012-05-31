@@ -22,38 +22,38 @@
 			<table cellspacing="10" cellpadding="10" class="dform">
 				<tr>
 					<td>菜单名称：</td>
-					<td><input name="menuTitle" type="text" size="30" value="" class="required" style="width: 88%"/></td>
+					<td><input name="menuTitle" type="text" size="30" value="${menu ne null ? menu.menuTitle : ''}" class="required" style="width: 88%"/></td>
 				</tr>
 				<tr>
 					<td>菜单标识：</td>
-					<td><input name="menuKey" type="text" size="30" value="" class="required" style="width: 88%" remote="app/system/menu.do?action=actionUniqueCheckMenuItemKey"/></td>
+					<td><input name="menuKey" type="text" size="30" value="${menu ne null ? menu.menuKey : ''}" class="required" style="width: 88%" <logic:notPresent name="menu">remote="app/system/menu.do?action=actionUniqueCheckMenuItemKey"</logic:notPresent> ${menu ne null ? 'readonly' : ''}/></td>
 				</tr>
 				<tr>
 					<td>菜单链接：</td>
-					<td><input name="menuUrl" type="text" size="30" value="javascript:void(0);" style="width: 88%"/></td>
+					<td><input name="menuUrl" type="text" size="30" value="${menu ne null ? menu.menuUrl : 'javascript:void(0);'}" style="width: 88%"/></td>
 				</tr>
 				<tr>
 					<td>菜单图标：</td>
 					<td>
-						<input id="menu_icon" name="menuIcon" type="text" size="30" value=""  style="width: 88%"/>
-						<span class="diaMicon"></span>
+						<input id="menu_icon" name="menuIcon" type="text" size="30" value="${menu ne null ? menu.menuIcon : ''}"  style="width: 88%"/>
+						<span class="diaMicon ${menu ne null ? menu.menuIcon : ''}"></span>
 					</td>
 				</tr>
 				<tr>
 					<td>父菜单：</td>
 					<td>
-						<input name="root.menuKey" type="hidden" size="30" value="0" style="width: 88%" readonly/>
-						<input name="root.menuTitle" type="text" size="30" value="" style="width: 88%" readonly/>
+						<input name="root.menuKey" type="hidden" size="30" value="${menu.menuParent ne null ? menu.menuParent.menuKey : ''}" style="width: 88%" readonly/>
+						<input name="root.menuTitle" type="text" size="30" value="${menu.menuParent ne null ? menu.menuParent.menuTitle : ''}" style="width: 88%" readonly/>
 						<a class="btnLook" href="app/system/menu.do?action=actionLoadMenuItemTree&lookup" lookupGroup="root" width="476" height="404" rel="menu_lookup">菜单目录</a>
 					</td>
 				</tr>
 				<tr>
 					<td>菜单序号：</td>
-					<td><input name="menuOrder" type="text" size="30" value="0"  class="required number" style="width: 88%"/></td>
+					<td><input name="menuOrder" type="text" size="30" value="${menu ne null ? menu.menuOrder : '0'}"  class="required number" style="width: 88%"/></td>
 				</tr>
 				<tr>
 					<td style="vertical-align: top;">菜单描述：</td>
-					<td><textarea rows="2" cols="40" name="menuDesc" class="textInput" style="width: 88%"></textarea></td>
+					<td><textarea rows="2" cols="40" name="menuDesc" class="textInput" style="width: 88%">${menu ne null ? menu.menuDesc : ''}</textarea></td>
 				</tr>
 			</table>
 		</div>
@@ -65,6 +65,7 @@
 				</li>
 			</ul>
 		</div>
+		<input type="hidden" name="id" value="${menu ne null ? menu.id : '-1'}" />
 	</form>
 <div>
 		

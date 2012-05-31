@@ -1,5 +1,8 @@
 package org.shengrui.oa.model.system;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
@@ -41,6 +44,11 @@ extends ModelBase
 	 * 权限功能所属菜单
 	 */
 	protected transient ModelAppMenu menu;
+	
+	/**
+	 * 权限功能链接集合
+	 */
+	protected Set<ModelAppFunctionUrl> funcURLs = new HashSet<ModelAppFunctionUrl>();
 	
 	/**
 	 * 默认构造函数
@@ -112,6 +120,16 @@ extends ModelBase
 	public void setFuncDesc(String funcDesc)
 	{
 		this.funcDesc = funcDesc;
+	}
+	
+	public Set<ModelAppFunctionUrl> getFuncURLs()
+	{
+		return funcURLs;
+	}
+
+	public void setFuncURLs(Set<ModelAppFunctionUrl> funcURLs)
+	{
+		this.funcURLs = funcURLs;
 	}
 	
 	@Override

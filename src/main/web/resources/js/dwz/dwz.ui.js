@@ -234,8 +234,12 @@ function initUI(_box){
 			var url = unescape($this.attr("href")).replaceTmById($(event.target).parents(".unitBox:first"));
 			DWZ.debug(url);
 			if (!url.isFinishedTm()) {
-				alertMsg.error($this.attr("warn") || DWZ.msg("alertSelectMsg"));
-				return false;
+				// added by Jeccy.Zhao on 05/31/2012, aims to double check the variable from current panel
+				url = url.replaceTmById($(navTab.getCurrentPanel()));
+				if (!url.isFinishedTm()) {
+					alertMsg.error($this.attr("warn") || DWZ.msg("alertSelectMsg"));
+					return false;
+				}
 			}
 			$.pdialog.open(url, rel, title, options);
 			

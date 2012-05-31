@@ -10,7 +10,7 @@
 	
 	<global-forwards> 
 		<forward name="data.sys.setting.menu.tree" path="data.sys.setting.menu.tree" />
-		<forward name="data.sys.setting.menu.tree" path="data.sys.setting.menu.tree" />
+		<forward name="data.sys.setting.menu.func" path="data.sys.setting.menu.func" />
 	</global-forwards>
 	
 	<action-mappings>

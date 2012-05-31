@@ -1,6 +1,9 @@
 package org.shengrui.oa.web.action.system;
 
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +13,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.system.ModelAppFunction;
+import org.shengrui.oa.model.system.ModelAppFunctionUrl;
 import org.shengrui.oa.model.system.ModelAppMenu;
 import org.shengrui.oa.service.system.ServiceAppFunction;
 import org.shengrui.oa.service.system.ServiceAppMenu;
@@ -79,7 +83,7 @@ extends BaseAction
 				}
 				else
 				{
-					ajaxPrint(response, getErrorCallback("菜单项不存在!"));
+					return ajaxPrint(response, getErrorCallback("菜单项不存在!"));
 				}
 			}
 			catch (ServiceException e)
@@ -99,43 +103,45 @@ extends BaseAction
 	public ActionForward dialogMenuFuncPage (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) 
 	{
-		String menuId = request.getParameter("menuId");
-		if (this.isObjectIdValid(menuId))
+		try
 		{
-			try
+			String funcId = request.getParameter("funcId");
+			if (this.isObjectIdValid(funcId))
 			{
-				// 获取功能对应的菜单项
-				ModelAppMenu menu = this.serviceAppMenu.get(menuId);
-				if (menu != null)
+				// 功能项更新操作
+				ModelAppFunction func = this.serviceAppFunc.get(funcId);
+				if (func != null)
 				{
-					request.setAttribute("menu", menu);
-					
-					String funcId = request.getParameter("funcId");
-					if (this.isObjectIdValid(funcId))
-					{
-						// 功能项更新操作
-						ModelAppFunction func = this.serviceAppFunc.get(funcId);
-						if (func != null)
-						{
-							request.setAttribute("func", func);
-						}
-						else
-						{
-							ajaxPrint(response, getErrorCallback("菜单项不存在!"));
-						}
-					}
-					
+					request.setAttribute("func", func);
 					return mapping.findForward("dialog.sys.setting.menu.func");
 				}
 				else
 				{
-					ajaxPrint(response, getErrorCallback("菜单项不存在!"));
+					return ajaxPrint(response, getErrorCallback("菜单项不存在!"));
 				}
-			} 
-			catch (ServiceException e)
-			{
-				LOGGER.error("Exception raised when fetch menu entity with id:" + menuId, e);
 			}
+			else
+			{
+				String menuId = request.getParameter("menuId");
+				if (this.isObjectIdValid(menuId))
+				{
+					// 获取功能对应的菜单项
+					ModelAppMenu menu = this.serviceAppMenu.get(menuId);
+					if (menu != null)
+					{
+						request.setAttribute("menu", menu);
+						return mapping.findForward("dialog.sys.setting.menu.func");
+					}
+					else
+					{
+						return ajaxPrint(response, getErrorCallback("菜单项不存在!"));
+					}
+				} 
+			}
+		}
+		catch (ServiceException e)
+		{
+			LOGGER.error("Exception raised when fetch menu function entity!", e);
 		}
 			
 		return ajaxPrint(response, getErrorCallback("加载数据异常, 请再一次尝试!"));
@@ -242,6 +248,17 @@ extends BaseAction
 	/**
 	 * <b>[WebAction]</b> 
 	 * <br/>
+	 * 菜单设置-删除菜单功能项
+	 */
+	public ActionForward actionRemoveMenuFunc (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		return null;
+	}
+	
+	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
 	 * 菜单设置-保存菜单功能项
 	 */
 	public ActionForward actionSaveMenuFunc (ActionMapping mapping, ActionForm form,
@@ -258,7 +275,7 @@ extends BaseAction
 				ModelAppMenu funcMenu = this.serviceAppMenu.get(menuId);
 				if (funcMenu != null)
 				{
-					if (formModelAppFunc.getId() != null)
+					if (this.isObjectIdValid(formModelAppFunc.getId()))
 					{
 						// 更新
 						entity = this.serviceAppFunc.get(formModelAppFunc.getId());
@@ -266,7 +283,7 @@ extends BaseAction
 						{
 							// 用表单输入的值覆盖实体中的属性值
 							BeanUtils.copyProperties(formModelAppFunc, entity, 
-									new String[] {"menu"});
+									new String[] {"menu", "funcURLs"});
 						}
 						else
 						{
@@ -276,11 +293,54 @@ extends BaseAction
 					else
 					{
 						// 新建
-						entity = new ModelAppFunction();
+						entity = formModelAppFunc;
 					}
 				}
 				
 				entity.setMenu(funcMenu);
+				
+				// 保存功能链接
+				String formUrls = request.getParameter("urls");
+				Set<ModelAppFunctionUrl> appFuncUrls = null;
+				if (UtilString.isNotEmpty(formUrls))
+				{
+					appFuncUrls = entity.getFuncURLs();
+					if (appFuncUrls == null)
+					{
+						appFuncUrls = new HashSet<ModelAppFunctionUrl>();
+					}
+					else
+					{
+						// 取消AppFunction与AppFunctionURL之间的关联
+						Iterator<ModelAppFunctionUrl> itor = appFuncUrls.iterator();
+						while (itor.hasNext())
+						{
+							ModelAppFunctionUrl funcUrl = itor.next();
+							funcUrl.setAppFunction(null);
+							itor.remove();
+						}
+					}
+					
+					String[] arrayUrl = formUrls.split("\r|\n|\r\n");
+					
+					// 转换成SET, 目的为了排除相同链接
+					Set<String> setUrls = UtilString.convertToSet(arrayUrl);
+					
+					for (String url : setUrls)
+					{
+						if (UtilString.isNotEmpty(url))
+						{
+							ModelAppFunctionUrl appFuncUrl = new ModelAppFunctionUrl();
+							appFuncUrl.setUrlPath(url);
+							appFuncUrl.setAppFunction(entity);
+							
+							appFuncUrls.add(appFuncUrl);
+						}
+					}
+				}
+				
+				entity.setFuncURLs(appFuncUrls);
+				
 				this.serviceAppFunc.save(entity);
 				
 				return ajaxPrint(response, getSuccessCallbackAndReloadCurrent("菜单功能项保存成功."));
@@ -298,6 +358,17 @@ extends BaseAction
 	/**
 	 * <b>[WebAction]</b> 
 	 * <br/>
+	 * 菜单设置-删除菜单项
+	 */
+	public ActionForward actionRemoveMenuItem (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		return null;
+	}
+	
+	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
 	 * 菜单设置-保存菜单项
 	 */
 	public ActionForward actionSaveMenuItem (ActionMapping mapping, ActionForm form,
@@ -309,7 +380,7 @@ extends BaseAction
 			ModelAppMenu formModelAppMenu = (ModelAppMenu) form;
 			ModelAppMenu entity = null;
 			
-			boolean isCreation = this.isObjectIdValid(formModelAppMenu.getId());
+			boolean isCreation = !this.isObjectIdValid(formModelAppMenu.getId());
 			
 			if (!isCreation)
 			{
@@ -364,7 +435,7 @@ extends BaseAction
 			{
 				// 编辑保存成功后, Dialog进行关闭
 				return ajaxPrint(response, 
-						getSuccessCallback("菜单项保存成功.", CALLBACK_TYPE_CLOSE, null, null, false));
+						getSuccessCallback("菜单项保存成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 			}
 		} 
 		catch (ServiceException e)
