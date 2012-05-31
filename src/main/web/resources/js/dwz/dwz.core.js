@@ -165,7 +165,19 @@ var DWZ = {
 						if (json.message) alertMsg.error(json.message);
 					} else {
 						$this.html(response).initUI();
-						if ($.isFunction(op.callback)) op.callback(response);
+						
+						// modified by Jeccy.Zhao
+						if ($.isArray(op.callback)) {
+							for (idx=0; idx < op.callback.length; idx++) {
+								if ($.isFunction(op.callback[idx])) {
+									op.callback[idx](response);
+								} else if (typeof op.callback[idx] == "string") {
+									eval(op.callback[idx])(response);
+								}
+							}
+						} else {
+							if ($.isFunction(op.callback)) op.callback(response);
+						}
 					}
 				},
 				error: DWZ.ajaxError
