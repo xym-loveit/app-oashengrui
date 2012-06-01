@@ -25,4 +25,14 @@ extends DAOGeneric<ModelAppRole>
 	 */
 	ModelAppRole getRoleByName (String roleName) throws DAOException;
 	
+	/**
+	 * 根据标识Key获取角色
+	 * 
+	 * @param roleKey
+	 *                 角色标识Key
+	 * @return 角色实体
+	 * @throws DAOException
+	 */
+	ModelAppRole getRoleByKey (String roleKey) throws DAOException;
+	
 }

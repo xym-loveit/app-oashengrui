@@ -92,7 +92,24 @@ extends ServiceGenericImpl<ModelAppRole> implements ServiceAppRole
 		
 		return securityRoleData;
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.system.ServiceAppRole#getRoleByKey(java.lang.String)
+	 */
+	@Override
+	public ModelAppRole getRoleByKey (String roleKey) throws ServiceException
+	{
+		try
+		{
+			return this.daoAppRole.getRoleByKey(roleKey);
+		} 
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
+	}
+	
 	public DAOAppRole getDaoAppRole()
 	{
 		return daoAppRole;

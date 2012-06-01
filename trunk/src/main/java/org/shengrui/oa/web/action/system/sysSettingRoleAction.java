@@ -14,6 +14,7 @@ import org.shengrui.oa.service.system.ServiceAppRole;
 import org.springframework.beans.BeanUtils;
 
 import cn.trymore.core.exception.ServiceException;
+import cn.trymore.core.util.UtilString;
 
 /**
  * 系统设置 - 权限组配置
@@ -126,6 +127,34 @@ extends sysSettingBaseAction
 		}
 		
 		return mapping.findForward("dialog.sys.setting.role.appfuncs");
+	}
+	
+	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
+	 * 菜单设置-唯一性检测权限Key
+	 */
+	public ActionForward actionUniqueCheckRoleKey (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		String roleKey = request.getParameter("roleKey");
+		if (UtilString.isNotEmpty(roleKey))
+		{
+			try
+			{
+				ModelAppRole entity = this.serviceAppRole.getRoleByKey(roleKey);
+				if (entity == null)
+				{
+					ajaxPrint(response, AJAX_RESPONSE_TRUE);
+				}
+			} 
+			catch (ServiceException e)
+			{
+				ajaxPrint(response, AJAX_RESPONSE_FALSE);
+			}
+		}
+		
+		return null;
 	}
 	
 	/**

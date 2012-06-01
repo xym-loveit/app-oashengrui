@@ -36,4 +36,13 @@ extends ServiceGeneric<ModelAppRole>
 	 */
 	Map<String, Set<String>> getSecurityDataSource() throws ServiceException;
 	
+	/**
+	 * 根据标识Key获取角色
+	 * 
+	 * @param roleKey
+	 *                 角色标识Key
+	 * @return
+	 * @throws ServiceException
+	 */
+	ModelAppRole getRoleByKey (String roleKey) throws ServiceException;
 }

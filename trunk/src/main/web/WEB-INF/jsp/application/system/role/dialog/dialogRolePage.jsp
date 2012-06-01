@@ -24,6 +24,10 @@
 					<td><input name="roleName" type="text" size="30" value="${role ne null ? role.roleName : ''}" class="required" style="width: 88%" ${view ne null ? 'readonly' : ''}/></td>
 				</tr>
 				<tr>
+					<td>角色键值：</td>
+					<td><input name="roleKey" type="text" size="30" value="${role ne null ? role.roleKey : ''}" class="required" style="width: 88%" ${role ne null ? 'readonly' : ''} <logic:notPresent name="role">remote="app/system/role.do?action=actionUniqueCheckRoleKey"</logic:notPresent>/></td>
+				</tr>
+				<tr>
 					<td>角色类型：</td>
 					<td>
 						<logic:notPresent name="view">
