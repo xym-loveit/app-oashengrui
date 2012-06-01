@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+       
+<tiles-definitions>
+	
+	<!-- 岗位发布与管理 -->
+	<definition name="hrm.page.job.index"  
+		path="/WEB-INF/jsp/application/hrm/job/jobIndex.jsp"/>
+	
+	<!-- 岗位审批与管理 -->
+	<definition name="hrm.page.job.approval.index"  
+		path="/WEB-INF/jsp/application/hrm/job/jobApprovalIndex.jsp"/>
+		
+	<!-- 岗位详细页面 (新增 & 编辑) -->
+	<definition name="hrm.page.job.detail" 
+		path="/WEB-INF/jsp/application/hrm/job/jobPage.jsp"/>
+	
+	<!-- 入职管理 -->
+	<definition name="hrm.page.job.entry.index"  
+		path="/WEB-INF/jsp/application/hrm/job/entry/entryIndex.jsp"/>
+		
+	<!-- 入职安排 -->
+	<definition name="hrm.page.job.entry.detail"  
+		path="/WEB-INF/jsp/application/hrm/job/entry/entryPage.jsp"/>
+	
+	<!-- 招聘管理 -->
+	<definition name="hrm.page.job.offer.index"  
+		path="/WEB-INF/jsp/application/hrm/job/offer/offerIndex.jsp"/>
+		
+	<!-- 招聘安排 -->
+	<definition name="hrm.page.job.offer.detail"  
+		path="/WEB-INF/jsp/application/hrm/job/offer/offerPage.jsp"/>
+		
+	<!-- 面试记录 -->
+	<definition name="hrm.page.job.offer.interview.index"  
+		path="/WEB-INF/jsp/application/hrm/job/offer/offerInterview.jsp"/>
+		
+	<!-- 人才库管理 -->
+	<definition name="hrm.page.job.resume.index"  
+		path="/WEB-INF/jsp/application/hrm/job/resume/resumeIndex.jsp"/>
+		
+	<!-- 简历查看 -->
+	<definition name="hrm.page.job.resume.detail"  
+		path="/WEB-INF/jsp/application/hrm/job/resume/resumePage.jsp"/>
+		
+</tiles-definitions>
