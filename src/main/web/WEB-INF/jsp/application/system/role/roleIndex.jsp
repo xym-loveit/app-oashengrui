@@ -53,7 +53,7 @@
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a class="add" href="app/system/role.do?action=dialogRolePage" target="dialog" title="添加新权限组" mask="true" width="504" height="328" rel="dia_sys_roleadd"><span>添加新权限组</span></a></li>
+			<li><a class="add" href="app/system/role.do?action=dialogRolePage" target="dialog" title="添加新权限组" mask="true" width="504" height="348" rel="dia_sys_roleadd"><span>添加新权限组</span></a></li>
 		</ul>
 	</div>
 	<table class="table" width="100%" layoutH="138">
@@ -62,6 +62,7 @@
 				<th align="center">序号</th>
 				<th align="center">角色名称</th>
 				<th align="center">角色类型</th>
+				<th align="center">角色标识符</th>
 				<th align="center">角色描述</th>
 				<th align="center">详细</th>
 				<th align="center">编辑</th>
@@ -75,12 +76,13 @@
 						<td>${idx+1}</td>
 						<td>${role.roleName}</td>
 						<td>${role.roleType == 0 ? '总部' : (role.roleType == 1 ? '校区' : (role.roleType == 2 ? '片区' : '/'))}</td>
+						<td>${role.roleKey}</td>
 						<td>${role.roleDesc}</td>
 						<td>
-							<a href="app/system/role.do?action=dialogRolePage&roleId=${role.id}&view" target="dialog" title="权限组详细" class="oplink" width="504" height="328" rel="sysmgr_roleview_${idx}">详细</a>
+							<a href="app/system/role.do?action=dialogRolePage&roleId=${role.id}&view" target="dialog" title="权限组详细" class="oplink" width="504" height="348" rel="sysmgr_roleview_${idx}">详细</a>
 						</td>
 						<td>
-							<a href="app/system/role.do?action=dialogRolePage&roleId=${role.id}" target="dialog" title="权限组编辑" class="oplink" width="504" height="328" rel="sysmgr_roleedit_${idx}">编辑</a>
+							<a href="app/system/role.do?action=dialogRolePage&roleId=${role.id}" target="dialog" title="权限组编辑" class="oplink" width="504" height="348" rel="sysmgr_roleedit_${idx}">编辑</a>
 						</td>
 						<td>
 							<a href="app/system/role.do?action=actionRemoveRole&roleId=${role.id}" target="ajaxTodo" title="确定删除该权限组吗？" class="oplink" callback="callback_roleRemove(${role.id})">删除</a>

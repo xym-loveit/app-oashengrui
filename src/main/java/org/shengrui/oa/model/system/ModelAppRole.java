@@ -48,6 +48,12 @@ extends ModelBase
 	private String roleName;
 	
 	/**
+	 * 	角色名称
+	 */
+	@Expose
+	private String roleKey;
+	
+	/**
 	 * 角色描述
 	 */
 	@Expose
@@ -252,5 +258,15 @@ extends ModelBase
 	public void setRoleType(Integer roleType)
 	{
 		this.roleType = roleType;
+	}
+
+	public String getRoleKey()
+	{
+		return roleKey;
+	}
+
+	public void setRoleKey(String roleKey)
+	{
+		this.roleKey = roleKey;
 	}
 }

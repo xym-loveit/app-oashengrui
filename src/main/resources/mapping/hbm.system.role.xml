@@ -11,6 +11,9 @@
         <property name="roleName" type="java.lang.String">
             <column name="role_name" not-null="true" />
         </property>
+         <property name="roleKey" type="java.lang.String" unique="true">
+            <column name="role_key" not-null="true" />
+        </property>
         <property name="roleDesc" type="java.lang.String">
             <column name="role_desc" />
         </property>

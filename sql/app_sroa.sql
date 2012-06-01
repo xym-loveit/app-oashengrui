@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2012 年 06 月 01 日 23:49
+-- 生成日期: 2012 年 06 月 02 日 00:10
 -- 服务器版本: 5.5.17
 -- PHP 版本: 5.3.8
 
@@ -361,19 +361,21 @@ CREATE TABLE IF NOT EXISTS `app_process_type` (
 CREATE TABLE IF NOT EXISTS `app_role` (
   `role_id` int(11) NOT NULL AUTO_INCREMENT,
   `role_name` varchar(120) NOT NULL COMMENT '角色名称',
+  `role_key` varchar(64) NOT NULL COMMENT '权限组Key',
   `role_desc` varchar(150) DEFAULT NULL COMMENT '角色描述',
   `role_status` tinyint(4) DEFAULT '1' COMMENT '角色状态, 1=开放, 0=被锁住',
   `role_rights` text COMMENT '权限功能列表',
   `role_type` tinyint(4) NOT NULL COMMENT '角色类型, 0=总部, 1=校区, 2=片区',
-  PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='角色表' AUTO_INCREMENT=5 ;
+  PRIMARY KEY (`role_id`),
+  UNIQUE KEY `role_key` (`role_key`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='角色表' AUTO_INCREMENT=6 ;
 
 --
 -- 转存表中的数据 `app_role`
 --
 
-INSERT INTO `app_role` (`role_id`, `role_name`, `role_desc`, `role_status`, `role_rights`, `role_type`) VALUES
-(4, '校长', 'teset', 1, '_FUNCKEY_myplan_edit,_FUNCKEY_myplan_del', 0);
+INSERT INTO `app_role` (`role_id`, `role_name`, `role_key`, `role_desc`, `role_status`, `role_rights`, `role_type`) VALUES
+(5, '校长', 'ROLE_MASTER', 'teset', 1, '', 0);
 
 -- --------------------------------------------------------
 
@@ -389,14 +391,6 @@ CREATE TABLE IF NOT EXISTS `app_role_func` (
   KEY `app_role_func_ibfk_2` (`func_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色权限表';
 
---
--- 转存表中的数据 `app_role_func`
---
-
-INSERT INTO `app_role_func` (`role_id`, `func_id`) VALUES
-(4, 1),
-(4, 2);
-
 -- --------------------------------------------------------
 
 --
@@ -408,14 +402,6 @@ CREATE TABLE IF NOT EXISTS `app_role_menu` (
   `menu_id` int(11) NOT NULL,
   PRIMARY KEY (`role_id`,`menu_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色菜单';
-
---
--- 转存表中的数据 `app_role_menu`
---
-
-INSERT INTO `app_role_menu` (`role_id`, `menu_id`) VALUES
-(4, 3),
-(4, 4);
 
 -- --------------------------------------------------------
 
