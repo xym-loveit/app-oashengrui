@@ -12,11 +12,23 @@
      subString by max bytes
    </description>
    <name>subString</name>
-   <function-class>com.lzcp.jstl.tags.JstlTagString</function-class>
+   <function-class>cn.trymore.core.jstl.JstlTagString</function-class>
    <!--方法的声明，依次为返回类型、方法名、参数1类型、参数2类型，应在同一行，否则可能出错 -->
    <function-signature>java.lang.String subString(java.lang.String, int, java.lang.String)</function-signature>
      <example>
         name: ${ltag:subString(name,20,'...')}
+     </example>
+</function>
+
+<function>
+   <description>
+     inRange with specified search string
+   </description>
+   <name>inRange</name>
+   <function-class>cn.trymore.core.jstl.JstlTagString</function-class>
+   <function-signature>java.lang.String inRange(java.lang.String, java.lang.String, java.lang.String)</function-signature>
+     <example>
+        name: ${ltag:inRange('2,12,20','20',',')}
      </example>
 </function>
 

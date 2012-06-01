@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	
+	<form-beans>
+		<form-bean name="form.system.role" type="org.shengrui.oa.model.system.ModelAppRole"></form-bean>
+	</form-beans>
+	
+	<action-mappings>
+		
+		<!-- 权限设置 -->
+		<action path="/app/system/role"
+				name="form.system.role"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="page.sys.setting.role.index" path="page.sys.setting.role.index" />
+			<forward name="dialog.sys.setting.role.page" path="dialog.sys.setting.role.page" />
+			<forward name="dialog.sys.setting.role.appfuncs" path="dialog.sys.setting.role.appfuncs" />
+		</action>
+		
+	</action-mappings>
+
+</struts-config>

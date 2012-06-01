@@ -132,6 +132,32 @@ extends ModelBase
 		this.funcURLs = funcURLs;
 	}
 	
+	/**
+	 * 返回功能URL列表
+	 * @return
+	 */
+	public String getUrls ()
+	{
+		if (funcURLs != null && funcURLs.size() > 0)
+		{
+			StringBuilder builder = new StringBuilder();
+			int count = 1;
+			for (ModelAppFunctionUrl url : funcURLs)
+			{
+				builder.append(url.getUrlPath());
+				if (count < funcURLs.size())
+				{
+					builder.append("\n");
+				}
+				count++;
+			}
+			
+			return builder.toString();
+		}
+		
+		return null;
+	}
+	
 	@Override
 	public boolean equals (Object paramObject)
 	{

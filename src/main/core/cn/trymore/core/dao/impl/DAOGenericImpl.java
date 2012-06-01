@@ -128,7 +128,7 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 			public Object doInHibernate(Session paramSession) throws HibernateException,
 					SQLException
 			{
-				String str = "from " + DAOGenericImpl.this.entityClass;
+				String str = "from " + DAOGenericImpl.this.entityClass.getName();
 				return paramSession.createQuery(str).list();
 			}
 		});

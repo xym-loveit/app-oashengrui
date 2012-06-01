@@ -135,7 +135,8 @@
 				/WEB-INF/classes/struts/struts-web-admin.xml,
 				/WEB-INF/classes/struts/struts-web-index.xml,
 				/WEB-INF/classes/struts/struts-web-personal.xml,
-				/WEB-INF/classes/struts/struts-web-system.xml,
+				/WEB-INF/classes/struts/struts-web-system-menu.xml,
+				/WEB-INF/classes/struts/struts-web-system-role.xml
 			</param-value>
 		</init-param>
 		<init-param>
@@ -157,7 +158,7 @@
 	<!-- Tag lib -->
 	<jsp-config>
 		<taglib>
-			<taglib-uri>/tags/jstl-ltag</taglib-uri>
+			<taglib-uri>/tags/trymore</taglib-uri>
 			<taglib-location>/WEB-INF/tld/taglib.tld</taglib-location>
 		</taglib>
 		<taglib>

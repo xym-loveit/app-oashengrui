@@ -9,7 +9,6 @@
 
 <script type="text/javascript">
 	$(function(){
-		// 菜单项KEY值唯一性监测
 		$("#menu_icon").keyup(function(){
 			$(".diaMicon").removeAttr("class").addClass("diaMicon " + $(this).val());
 		});

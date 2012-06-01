@@ -25,6 +25,12 @@ span.diaMicon {
 	background-position: center center;
 }
 
+span.diaFuncMicon {
+	display: inline-block;
+	width: 22px;
+	height: 20px;
+}
+
 .panelBar .toolBar a.refresh span {
 	background: url("../images/icons/refresh.png") no-repeat left center;
 }
@@ -80,6 +86,24 @@ span.diaMicon {
 .tree div.icon-infoshared,
 .tabsPage .tabsPageHeader li span.icon-infoshared{
 	background: url("../images/menus/info/folder_shared.png") no-repeat left center;
+}
+
+.icon-btnnew,
+.tree div.icon-btnnew,
+.tabsPage .tabsPageHeader li span.icon-btnnew{
+	background: url("../images/layout/grid.png") no-repeat scroll 0px -696px transparent
+}
+
+.icon-btndel,
+.tree div.icon-btndel,
+.tabsPage .tabsPageHeader li span.icon-btndel{
+	background: url("../images/layout/grid.png") no-repeat scroll 0px -746px transparent
+}
+
+.icon-btnedit,
+.tree div.icon-btnedit,
+.tabsPage .tabsPageHeader li span.icon-btnedit{
+	background: url("../images/layout/grid.png") no-repeat scroll 0px -796px transparent
 }
 
 /*----MY DESKTOP---*/

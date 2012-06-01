@@ -57,7 +57,13 @@ extends ModelBase
 	 * 角色状态
 	 */
 	@Expose
-	private Short roleStatus;
+	private Integer roleStatus = ERoleStatus.UNLOCKED.getValue();
+	
+	/**
+	 * 角色类型
+	 */
+	@Expose
+	private Integer roleType;
 	
 	/**
 	 * 角色拥有的功能字符串列表
@@ -81,6 +87,93 @@ extends ModelBase
 	@XmlTransient
 	private Set<ModelAppUser> users = new HashSet<ModelAppUser>();
 	
+	/**
+	 * The enumeration of role status
+	 * 
+	 * @author Jeccy.Zhao
+	 *
+	 */
+	public static enum ERoleStatus
+	{
+		LOCKED(0, "locked"),
+		UNLOCKED(1, "unlocked");
+		
+		private Integer value;
+		private String text;
+		
+		ERoleStatus (Integer value, String text)
+		{
+			this.value = value;
+			this.text = text;
+		}
+		
+		public Integer getValue(){
+			return value;
+		}
+		
+		public String getText()
+		{
+			return this.text;
+		}
+	}
+	
+	/**
+	 * The enumeration of role status
+	 * 
+	 * @author Jeccy.Zhao
+	 *
+	 */
+	public static enum ERoleType
+	{
+		HEADQUARTERS (0, "headquarters"),		// 总部
+		AREA_CAMPUS(1, "area_camput"),		// 校区
+		AREA_SLOT(2, "area_slot");				// 片区
+		
+		private Integer value;
+		private String text;
+		
+		ERoleType (Integer value, String text)
+		{
+			this.value = value;
+			this.text = text;
+		}
+		
+		public Integer getValue(){
+			return value;
+		}
+		
+		public String getText()
+		{
+			return this.text;
+		}
+	}
+	
+	/**
+	 * 返回菜单ID列表
+	 * @return
+	 */
+	public String getMenuIds ()
+	{
+		if (menus != null && menus.size() > 0)
+		{
+			StringBuilder builder = new StringBuilder();
+			int count = 1;
+			for (ModelAppMenu menu : menus)
+			{
+				builder.append(menu.getId());
+				if (count < menus.size())
+				{
+					builder.append(",");
+				}
+				count++;
+			}
+			
+			return builder.toString();
+		}
+		
+		return null;
+	}
+	
 	public String getRoleName()
 	{
 		return roleName;
@@ -101,12 +194,12 @@ extends ModelBase
 		this.roleDesc = roleDesc;
 	}
 
-	public Short getRoleStatus()
+	public Integer getRoleStatus()
 	{
 		return roleStatus;
 	}
 
-	public void setRoleStatus(Short roleStatus)
+	public void setRoleStatus(Integer roleStatus)
 	{
 		this.roleStatus = roleStatus;
 	}
@@ -151,4 +244,13 @@ extends ModelBase
 		return users;
 	}
 	
+	public Integer getRoleType()
+	{
+		return roleType;
+	}
+
+	public void setRoleType(Integer roleType)
+	{
+		this.roleType = roleType;
+	}
 }
