@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	
+	<action-mappings>
+		<!-- Home Action -->
+		<action path="/app/hrm"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="hrm.page.job.index" path="hrm.page.job.index" />
+			<forward name="hrm.page.job.approval.index" path="hrm.page.job.approval.index" />
+			<forward name="hrm.page.job.detail" path="hrm.page.job.detail" />
+			<forward name="hrm.page.job.entry.index" path="hrm.page.job.entry.index" />
+			<forward name="hrm.page.job.entry.detail" path="hrm.page.job.entry.detail" />
+			<forward name="hrm.page.job.offer.index" path="hrm.page.job.offer.index" />
+			<forward name="hrm.page.job.offer.detail" path="hrm.page.job.offer.detail" />
+			<forward name="hrm.page.job.offer.interview.index" path="hrm.page.job.offer.interview.index" />
+			<forward name="hrm.page.job.resume.index" path="hrm.page.job.resume.index" />
+			<forward name="hrm.page.job.resume.detail" path="hrm.page.job.resume.detail" />
+		</action>
+		
+	</action-mappings>
+
+</struts-config>
