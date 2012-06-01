@@ -2,7 +2,6 @@ package org.shengrui.oa.web.action.system;
 
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,13 +14,10 @@ import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.system.ModelAppFunction;
 import org.shengrui.oa.model.system.ModelAppFunctionUrl;
 import org.shengrui.oa.model.system.ModelAppMenu;
-import org.shengrui.oa.service.system.ServiceAppFunction;
-import org.shengrui.oa.service.system.ServiceAppMenu;
 import org.springframework.beans.BeanUtils;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.util.UtilString;
-import cn.trymore.core.web.action.BaseAction;
 
 /**
  * 系统设置 - 资源设置
@@ -30,23 +26,13 @@ import cn.trymore.core.web.action.BaseAction;
  *
  */
 public class sysSettingMenuAction
-extends BaseAction
+extends sysSettingBaseAction
 {
 	
 	/**
 	 * The LOGGER
 	 */
 	private static final Logger LOGGER = Logger.getLogger(sysSettingMenuAction.class);
-			
-	/**
-	 * The application menu service.
-	 */
-	private ServiceAppMenu serviceAppMenu;
-	
-	/**
-	 * The application function service
-	 */
-	private ServiceAppFunction serviceAppFunc;
 	
 	/**
 	 * <b>[WebAction]</b> 
@@ -155,10 +141,6 @@ extends BaseAction
 	public ActionForward actionLoadMenuItemTree (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) 
 	{
-		if (request.getParameter("lookup") != null)
-		{
-			request.setAttribute("lookup", true);
-		}
 		
 		this.getRootMenus(request);
 		
@@ -315,47 +297,50 @@ extends BaseAction
 				
 				entity.setMenu(funcMenu);
 				
-				// 保存功能链接
+				// 判断链接是否有改变
 				String formUrls = request.getParameter("urls");
-				Set<ModelAppFunctionUrl> appFuncUrls = null;
-				if (UtilString.isNotEmpty(formUrls))
+				if (!formUrls.equals(entity.getUrls()))
 				{
-					appFuncUrls = entity.getFuncURLs();
-					if (appFuncUrls == null)
+					// 保存功能链接
+					Set<ModelAppFunctionUrl> appFuncUrls = null;
+					if (UtilString.isNotEmpty(formUrls))
 					{
-						appFuncUrls = new HashSet<ModelAppFunctionUrl>();
-					}
-					else
-					{
-						// 取消AppFunction与AppFunctionURL之间的关联
-						Iterator<ModelAppFunctionUrl> itor = appFuncUrls.iterator();
-						while (itor.hasNext())
+						appFuncUrls = entity.getFuncURLs();
+						if (appFuncUrls == null)
 						{
-							ModelAppFunctionUrl funcUrl = itor.next();
-							funcUrl.setAppFunction(null);
-							itor.remove();
+							appFuncUrls = new HashSet<ModelAppFunctionUrl>();
+						}
+						else
+						{
+							// 取消AppFunction与AppFunctionURL之间的关联
+							Iterator<ModelAppFunctionUrl> itor = appFuncUrls.iterator();
+							while (itor.hasNext())
+							{
+								ModelAppFunctionUrl funcUrl = itor.next();
+								funcUrl.setAppFunction(null);
+								itor.remove();
+							}
+						}
+						
+						String[] arrayUrl = formUrls.split("\r|\n|\r\n");
+						
+						// 转换成SET, 目的为了排除相同链接
+						Set<String> setUrls = UtilString.convertToSet(arrayUrl);
+						
+						for (String url : setUrls)
+						{
+							if (UtilString.isNotEmpty(url))
+							{
+								ModelAppFunctionUrl appFuncUrl = new ModelAppFunctionUrl();
+								appFuncUrl.setUrlPath(url);
+								appFuncUrl.setAppFunction(entity);
+								
+								appFuncUrls.add(appFuncUrl);
+							}
 						}
 					}
-					
-					String[] arrayUrl = formUrls.split("\r|\n|\r\n");
-					
-					// 转换成SET, 目的为了排除相同链接
-					Set<String> setUrls = UtilString.convertToSet(arrayUrl);
-					
-					for (String url : setUrls)
-					{
-						if (UtilString.isNotEmpty(url))
-						{
-							ModelAppFunctionUrl appFuncUrl = new ModelAppFunctionUrl();
-							appFuncUrl.setUrlPath(url);
-							appFuncUrl.setAppFunction(entity);
-							
-							appFuncUrls.add(appFuncUrl);
-						}
-					}
+					entity.setFuncURLs(appFuncUrls);
 				}
-				
-				entity.setFuncURLs(appFuncUrls);
 				
 				this.serviceAppFunc.save(entity);
 				
@@ -478,52 +463,10 @@ extends BaseAction
 		}
 	}
 	
-	/**
-	 * 获取父菜单列表
-	 * 
-	 * @param request
-	 * @return
-	 */
-	private List<ModelAppMenu> getRootMenus(HttpServletRequest request)
-	{
-		List<ModelAppMenu> result = null;
-		
-		try
-		{
-			result = this.serviceAppMenu.getAllRootMenus();
-			request.setAttribute("rootMenus", result);
-		} 
-		catch (ServiceException e)
-		{
-			LOGGER.error("Exception raised when fetch the root menus.", e);
-		}
-		
-		return result;
-	}
-	
-	public ServiceAppMenu getServiceAppMenu()
-	{
-		return serviceAppMenu;
-	}
-
-	public void setServiceAppMenu(ServiceAppMenu serviceAppMenu)
-	{
-		this.serviceAppMenu = serviceAppMenu;
-	}
-
 	public static Logger getLogger()
 	{
 		return LOGGER;
 	}
 
-	public ServiceAppFunction getServiceAppFunc()
-	{
-		return serviceAppFunc;
-	}
-
-	public void setServiceAppFunc(ServiceAppFunction serviceAppFunc)
-	{
-		this.serviceAppFunc = serviceAppFunc;
-	}
 	
 }

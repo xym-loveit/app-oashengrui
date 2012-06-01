@@ -8,19 +8,21 @@
             <column name="role_id" />
             <generator class="native" />
         </id>
-        <property name="roleName" type="java.lang.String" unique="true">
+        <property name="roleName" type="java.lang.String">
             <column name="role_name" not-null="true" />
         </property>
         <property name="roleDesc" type="java.lang.String">
             <column name="role_desc" />
         </property>
         <property name="roleStatus" type="java.lang.Integer">
-            <column name="role_status" not-null="true"/>
+            <column name="role_status" />
         </property>
         <property name="roleRights" type="java.lang.String">
             <column name="role_rights" />
         </property>
-        
+        <property name="roleType" type="java.lang.Integer">
+            <column name="role_type" not-null="true"/>
+        </property>
         <set name="functions" table="app_role_func" 
         	cascade="save-update" inverse="false" lazy="true"> 
 	      <key column="role_id"/>  
@@ -30,16 +32,8 @@
 	    <set name="menus" table="app_role_menu" 
         	cascade="save-update" inverse="false" lazy="true"> 
 	      <key column="role_id"/>  
-	      <many-to-many fetch="join" class="ModelAppFunction" column="menu_id"/> 
+	      <many-to-many fetch="join" class="ModelAppMenu" column="menu_id"/> 
 	    </set>
-	    
-	    <!--
-	    <set name="users" table="app_user_role" 
-	    	cascade="save-update" inverse="false" lazy="true"> 
-	      <key column="role_id"/>  
-	      <many-to-many fetch="join" class="ModelAppUser" column="user_id"/> 
-	    </set> 
-    	-->
     	
 	</class>
 </hibernate-mapping>

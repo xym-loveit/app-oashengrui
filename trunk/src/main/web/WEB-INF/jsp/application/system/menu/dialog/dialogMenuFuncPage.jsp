@@ -21,7 +21,11 @@
 	$(function(){
 		$.each($("textarea", $("#formMFunc")), function(){
 			$(this).html($(this).text().replace(/<br\/>/g,"\n"));
-		})
+		});
+		
+		$("#func_icon").keyup(function(){
+			$(".diaFuncMicon").removeAttr("class").addClass("diaFuncMicon " + $(this).val());
+		});
 	});
 </script>
 
@@ -47,8 +51,8 @@
 				<tr>
 					<td>功能图标：</td>
 					<td>
-						<input name="funcIcon" type="text" size="30" value="${func ne null ? func.funcIcon : 'javascript:void(0);'}" style="width: 88%"/>
-						<span class="diaMicon ${func ne null ? func.funcIcon : ''}"></span>
+						<input id="func_icon" name="funcIcon" type="text" size="30" value="${func ne null ? func.funcIcon : ''}" style="width: 88%"/>
+						<span class="diaFuncMicon ${func ne null ? func.funcIcon : ''}"></span>
 					</td>
 				</tr>
 				<tr>

@@ -32,7 +32,7 @@
 								<logic:notEmpty name="child" property="menuChildren">
 									<ul>
 										<logic:iterate name="child" property="menuChildren" id="node">
-											<li><a id="mtlink_${node.id}" <logic:notPresent name='lookup'>class='tparam' param="_var_menuid" paramRel="${node.id}" href="app/system/menu/func.do?action=actionLoadMenuFuncList&menuId=${node.id}" callback="menu_activated(${node.id});" target="ajax" rel="ajBoxMenuFunc"</logic:notPresent> <logic:present name='lookup'>href="javascript:void(0);" onclick="$.bringBack({menuKey:'${node.menuKey}', menuTitle:'${node.menuTitle}'})"</logic:present>><span>${node.menuTitle}</span></a>
+											<li treeicon="${node.menuIcon}"><a id="mtlink_${node.id}" <logic:notPresent name='lookup'>class='tparam' param="_var_menuid" paramRel="${node.id}" href="app/system/menu/func.do?action=actionLoadMenuFuncList&menuId=${node.id}" callback="menu_activated(${node.id});" target="ajax" rel="ajBoxMenuFunc"</logic:notPresent> <logic:present name='lookup'>href="javascript:void(0);" onclick="$.bringBack({menuKey:'${node.menuKey}', menuTitle:'${node.menuTitle}'})"</logic:present>><span>${node.menuTitle}</span></a>
 										</logic:iterate>
 									</ul>
 								</logic:notEmpty>

@@ -163,19 +163,22 @@
 			if (tname) attrs += "name='"+tname+"' ";
 			if (tvalue) attrs += "value='"+tvalue+"' ";
 			
-			ckbox.append("<input type='checkbox' style='display:none;' " + attrs + "/>").click(function(){
-				var cked = ckbox.hasClass("checked");
-				var aClass = cked?"unchecked":"checked";
-				var rClass = cked?"checked":"unchecked";
-				ckbox.removeClass(rClass).removeClass(!cked?"indeterminate":"").addClass(aClass);
-				$("input", ckbox).attr("checked", !cked);
-				$(">ul", node).find("li").each(function(){
-					var box = $("div.ckbox", this);
-					box.removeClass(rClass).removeClass(!cked?"indeterminate":"").addClass(aClass)
-					   .find("input").attr("checked", !cked);
-				});
-				$(node)._checkParent();
-				return false;
+			ckbox.append("<input type='checkbox'" + ($input.attr("readonly") != undefined ? " readonly" : "" ) + " style='display:none;' " + attrs + "/>").click(function(){
+				// added by Jeccy.Zhao on 01/06/2012
+				if ($("input", ckbox).attr("readonly") == undefined) {
+					var cked = ckbox.hasClass("checked");
+					var aClass = cked?"unchecked":"checked";
+					var rClass = cked?"checked":"unchecked";
+					ckbox.removeClass(rClass).removeClass(!cked?"indeterminate":"").addClass(aClass);
+					$("input", ckbox).attr("checked", !cked);
+					$(">ul", node).find("li").each(function(){
+						var box = $("div.ckbox", this);
+						box.removeClass(rClass).removeClass(!cked?"indeterminate":"").addClass(aClass)
+						   .find("input").attr("checked", !cked);
+					});
+					$(node)._checkParent();
+					return false;
+				}
 			});
 			var cAttr = $input.attr("checked") || false;
 			if (cAttr) {

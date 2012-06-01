@@ -5,4 +5,16 @@
        
 <tiles-definitions>
 	
+	<!-- 系统设置 - 权限设置页面 -->
+	<definition name="page.sys.setting.role.index" 
+		path="/WEB-INF/jsp/application/system/role/roleIndex.jsp"/>
+	
+	<!-- 系统设置 - 权限弹框页面 -->
+	<definition name="dialog.sys.setting.role.page" 
+		path="/WEB-INF/jsp/application/system/role/dialog/dialogRolePage.jsp"/>
+	
+	<!-- 系统设置 - 系统功能弹框页面 -->
+	<definition name="dialog.sys.setting.role.appfuncs" 
+		path="/WEB-INF/jsp/application/system/role/dialog/dialogRoleFuncs.jsp"/>
+		
 </tiles-definitions>

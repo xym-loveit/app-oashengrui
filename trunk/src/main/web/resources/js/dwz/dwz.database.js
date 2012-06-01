@@ -31,6 +31,21 @@
 					}
 				}
 			});
+			
+			// added by Jeccy.Zhao on 01/06/2012
+			$box.find("textarea").each(function(){
+				var $textarea = $(this), textareaName = $textarea.attr("name");
+				
+				for (var key in args) {
+					var name = (_lookup.pk == key) ? _util.lookupPk(key) : _util.lookupField(key);
+
+					if (name == textareaName) {
+						$textarea.val(args[key]);
+						$textarea.html(args[key]);
+						break;
+					}
+				}
+			});
 		},
 		bringBack: function(args){
 			$.bringBackSuggest(args);
