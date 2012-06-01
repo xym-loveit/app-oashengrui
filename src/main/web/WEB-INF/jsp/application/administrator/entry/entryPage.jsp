@@ -24,7 +24,7 @@
 							<option value="1">校区新闻</option>
 						</select>
 					</td>
-					<td>可见校区</td>
+					<td>可见校区：</td>
 					<td colspan="3">
 						<select class="combox" name="type" id="entry_svisible" style="width:150px">
 							<option value="">所有校区</option>
