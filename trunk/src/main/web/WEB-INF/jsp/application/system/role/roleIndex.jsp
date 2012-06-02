@@ -15,28 +15,33 @@
 	}
 </script>
 
+<form id="pagerForm" method="post" action="app/system/role.do?action=pageRoleIndex">
+	<input type="hidden" name="pageNum" value="${paging ne null ? paging.currentPage : 1}" />
+	<input type="hidden" name="numPerPage" value="${paging ne null ? paging.pageSize : 20}" />
+</form>
+
 <!-- SearchBar -->
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="app/admin.do?action=adminPageEntryIndex" method="post">
+	<form onsubmit="return navTabSearch(this);" action="app/system/role.do?action=pageRoleIndex" method="post" id="searchForm" rel="pagerForm">
 		<div class="searchBar">
 			<table class="searchContent">
 				<tr>
 					<td>
 						<label>角色名称：</label>
-						<input type="text" />
+						<input type="text" name="roleName" rel="pagerForm" value="${roleForm ne null ? roleForm.roleName : ''}" />
 					</td>
 					<td>
 						<label>角色类型：</label>
-						<select class="combox" name="type" id="entry_type">
-							<option value="">所有</option>
-							<option value="1">总部</option>
-							<option value="2">校区</option>
-							<option value="3">片区</option>
+						<select class="combox" name="roleType" id="entry_type">
+							<option value="-1">所有</option>
+							<option value="0" ${roleForm ne null && roleForm.roleType eq 0 ? 'selected="selected"' : ''}>总部</option>
+							<option value="1" ${roleForm ne null && roleForm.roleType eq 1 ? 'selected="selected"' : ''}>校区</option>
+							<option value="2" ${roleForm ne null && roleForm.roleType eq 2 ? 'selected="selected"' : ''}>片区</option>
 						</select>
 					</td>
 					<td>
 						<label>角色描述：</label>
-						<input type="text" />
+						<input type="text" name="roleDesc" value="${roleForm ne null ? roleForm.roleDesc : ''}" />
 					</td>
 				</tr>
 			</table>
@@ -71,7 +76,7 @@
 		</thead>
 		<tbody>
 			<logic:present name="roles">
-				<logic:iterate name="roles" id="role" indexId="idx">
+				<logic:iterate name="roles" property="items" id="role" indexId="idx">
 					<tr id="drole-${role.id}">
 						<td>${idx+1}</td>
 						<td>${role.roleName}</td>
@@ -92,19 +97,21 @@
 			</logic:present>
 		</tbody>
 	</table>
+	
+	<!-- Pagination -->
 	<div class="panelBar">
 		<div class="pages">
 			<span>显示</span>
 			<select class="combox" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
-				<option value="20">20</option>
-				<option value="50">50</option>
-				<option value="100">100</option>
-				<option value="200">200</option>
+				<option value="20" ${paging ne null && paging.pageSize eq 20 ? 'selected="selected"' : ''}>20</option>
+				<option value="50" ${paging ne null && paging.pageSize eq 50 ? 'selected="selected"' : ''}>50</option>
+				<option value="100" ${paging ne null && paging.pageSize eq 100 ? 'selected="selected"' : ''}>100</option>
+				<option value="200" ${paging ne null && paging.pageSize eq 200 ? 'selected="selected"' : ''}>200</option>
 			</select>
-			<span>条，共${totalCount}条</span>
+			<span>条，共${paging ne null ? paging.totalItems : 0}条</span>
 		</div>
 		
-		<div class="pagination" targetType="navTab" totalCount="200" numPerPage="20" pageNumShown="10" currentPage="1"></div>
+		<div class="pagination" targetType="navTab" totalCount="${paging ne null ? paging.totalItems : 0}" numPerPage="${paging ne null ? paging.pageSize : 20}" pageNumShown="${paging ne null ? paging.pageNumShown : 10}" currentPage="${paging ne null ? paging.currentPage : 1}"></div>
 
 	</div>
 		

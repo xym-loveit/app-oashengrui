@@ -3,11 +3,14 @@ package cn.trymore.core.service.impl;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.hibernate.criterion.DetachedCriteria;
 
 import cn.trymore.core.dao.DAOGeneric;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.model.ModelBase;
 import cn.trymore.core.service.ServiceGeneric;
+import cn.trymore.core.web.paging.PaginationSupport;
+import cn.trymore.core.web.paging.PagingBean;
 
 /**
  * The abstract base service
@@ -121,6 +124,24 @@ implements ServiceGeneric<T>
 		try
 		{
 			return dao.getAll();
+		}
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see cn.trymore.core.service.ServiceGeneric#getAll()
+	 */
+	@Override
+	public PaginationSupport<T> getAll(final DetachedCriteria criteria, 
+			final PagingBean pagingBean) throws ServiceException
+	{
+		try
+		{
+			return dao.findPageByCriteria(criteria, pagingBean);
 		}
 		catch (Exception e)
 		{

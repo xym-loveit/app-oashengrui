@@ -9,6 +9,7 @@ import org.hibernate.criterion.DetachedCriteria;
 import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.model.ModelBase;
 import cn.trymore.core.web.paging.PaginationSupport;
+import cn.trymore.core.web.paging.PagingBean;
 
 /**
  * The base repository
@@ -177,6 +178,19 @@ public interface DAOGeneric<T extends ModelBase>
 	 */
 	 Object findUnique (final String hsql,
 			 final Object[] params) throws DAOException;
+	
+	/**
+	 * Find object by pagination support
+	 * 
+	 * @param criteria
+	 *                  the query criteria,including condition and the orders
+	 * @param pagingBean
+	 *                  the paging bean
+	 * @return list of objects wrapped by pager
+	 * @throws DAOException
+	 */
+	PaginationSupport<T> findPageByCriteria(final DetachedCriteria criteria, 
+				final PagingBean pagingBean) throws DAOException;
 	 
 	/**
 	 * Find object by pagination support
