@@ -23,6 +23,10 @@ public class PagingBean
 	
 	private Integer totalPages = 0;
 	
+	public PagingBean ()
+	{
+	}
+	
 	public PagingBean (int currentPage, int pageSize)
 	{
 		this.currentPage = currentPage;
