@@ -14,6 +14,7 @@ import org.shengrui.oa.service.system.ServiceAppRole;
 import org.springframework.beans.BeanUtils;
 
 import cn.trymore.core.exception.ServiceException;
+import cn.trymore.core.log.LogAnnotation;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
@@ -42,10 +43,10 @@ extends sysSettingBaseAction
 	 * <br/>
 	 * 权限组配置-列表展现
 	 */
+	@LogAnnotation(description="进入权限组配置页面")
 	public ActionForward pageRoleIndex (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) 
 	{
-		
 		try
 		{
 			ModelAppRole formRole = (ModelAppRole) form;
@@ -174,6 +175,7 @@ extends sysSettingBaseAction
 	 * <br/>
 	 * 菜单设置-删除角色
 	 */
+	@LogAnnotation(description="删除权限组")
 	public ActionForward actionRemoveRole (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) 
 	{
