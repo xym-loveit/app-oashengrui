@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2012 年 06 月 02 日 00:10
+-- 生成日期: 2012 年 06 月 02 日 17:49
 -- 服务器版本: 5.5.17
 -- PHP 版本: 5.3.8
 
@@ -368,14 +368,15 @@ CREATE TABLE IF NOT EXISTS `app_role` (
   `role_type` tinyint(4) NOT NULL COMMENT '角色类型, 0=总部, 1=校区, 2=片区',
   PRIMARY KEY (`role_id`),
   UNIQUE KEY `role_key` (`role_key`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='角色表' AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='角色表' AUTO_INCREMENT=7 ;
 
 --
 -- 转存表中的数据 `app_role`
 --
 
 INSERT INTO `app_role` (`role_id`, `role_name`, `role_key`, `role_desc`, `role_status`, `role_rights`, `role_type`) VALUES
-(5, '校长', 'ROLE_MASTER', 'teset', 1, '', 0);
+(5, '校长', 'ROLE_MASTER', 'teset', 1, '_FUNCKEY_myplan_edit', 1),
+(6, '校长', 'ROLE_MASTER1', 'teset', 1, '', 0);
 
 -- --------------------------------------------------------
 
@@ -391,6 +392,13 @@ CREATE TABLE IF NOT EXISTS `app_role_func` (
   KEY `app_role_func_ibfk_2` (`func_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色权限表';
 
+--
+-- 转存表中的数据 `app_role_func`
+--
+
+INSERT INTO `app_role_func` (`role_id`, `func_id`) VALUES
+(5, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -402,6 +410,14 @@ CREATE TABLE IF NOT EXISTS `app_role_menu` (
   `menu_id` int(11) NOT NULL,
   PRIMARY KEY (`role_id`,`menu_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色菜单';
+
+--
+-- 转存表中的数据 `app_role_menu`
+--
+
+INSERT INTO `app_role_menu` (`role_id`, `menu_id`) VALUES
+(5, 3),
+(5, 4);
 
 -- --------------------------------------------------------
 
@@ -428,12 +444,19 @@ CREATE TABLE IF NOT EXISTS `app_system_config` (
 
 CREATE TABLE IF NOT EXISTS `app_system_log` (
   `log_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_name` int(11) NOT NULL COMMENT '用户名',
+  `user_name` varchar(120) NOT NULL COMMENT '用户名',
   `user_id` int(11) NOT NULL COMMENT '用户id',
   `createtime` datetime NOT NULL COMMENT '创建时间',
   `operation` varchar(512) NOT NULL COMMENT '执行操作',
   PRIMARY KEY (`log_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统日志' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统日志' AUTO_INCREMENT=2 ;
+
+--
+-- 转存表中的数据 `app_system_log`
+--
+
+INSERT INTO `app_system_log` (`log_id`, `user_name`, `user_id`, `createtime`, `operation`) VALUES
+(1, 'test', 1, '2012-06-02 17:48:55', '进入权限组配置页面');
 
 -- --------------------------------------------------------
 

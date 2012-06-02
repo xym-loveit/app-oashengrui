@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<bean id="daoSystemLog" class="cn.trymore.oa.dao.system.impl.DAOSystemLogImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	
+	<bean id="serviceSystemLog" parent="baseTxProxy">
+		<property name="target">
+			<bean class="cn.trymore.oa.service.system.impl.ServiceSystemLogImpl">
+				<constructor-arg index="0" ref="daoSystemLog"/>
+			</bean>
+		</property>
+	</bean>
+	
+</beans>
