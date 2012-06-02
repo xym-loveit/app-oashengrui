@@ -16,8 +16,8 @@
 </script>
 
 <form id="pagerForm" method="post" action="app/system/role.do?action=pageRoleIndex">
-	<input type="hidden" name="pageNum" value="${paging ne null ? paging.currentPage : 1}" />
-	<input type="hidden" name="numPerPage" value="${paging ne null ? paging.pageSize : 20}" />
+	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
+	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
 </form>
 
 <!-- SearchBar -->
@@ -103,15 +103,15 @@
 		<div class="pages">
 			<span>显示</span>
 			<select class="combox" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
-				<option value="20" ${paging ne null && paging.pageSize eq 20 ? 'selected="selected"' : ''}>20</option>
-				<option value="50" ${paging ne null && paging.pageSize eq 50 ? 'selected="selected"' : ''}>50</option>
-				<option value="100" ${paging ne null && paging.pageSize eq 100 ? 'selected="selected"' : ''}>100</option>
-				<option value="200" ${paging ne null && paging.pageSize eq 200 ? 'selected="selected"' : ''}>200</option>
+				<option value="20" ${pagingBean ne null && pagingBean.pageSize eq 20 ? 'selected="selected"' : ''}>20</option>
+				<option value="50" ${pagingBean ne null && pagingBean.pageSize eq 50 ? 'selected="selected"' : ''}>50</option>
+				<option value="100" ${pagingBean ne null && pagingBean.pageSize eq 100 ? 'selected="selected"' : ''}>100</option>
+				<option value="200" ${pagingBean ne null && pagingBean.pageSize eq 200 ? 'selected="selected"' : ''}>200</option>
 			</select>
-			<span>条，共${paging ne null ? paging.totalItems : 0}条</span>
+			<span>条，共${pagingBean ne null ? pagingBean.totalItems : 0}条</span>
 		</div>
 		
-		<div class="pagination" targetType="navTab" totalCount="${paging ne null ? paging.totalItems : 0}" numPerPage="${paging ne null ? paging.pageSize : 20}" pageNumShown="${paging ne null ? paging.pageNumShown : 10}" currentPage="${paging ne null ? paging.currentPage : 1}"></div>
+		<div class="pagination" targetType="navTab" totalCount="${pagingBean ne null ? pagingBean.totalItems : 0}" numPerPage="${pagingBean ne null ? pagingBean.pageSize : 20}" pageNumShown="${pagingBean ne null ? pagingBean.pageNumShown : 10}" currentPage="${pagingBean ne null ? pagingBean.currentPage : 1}"></div>
 
 	</div>
 		

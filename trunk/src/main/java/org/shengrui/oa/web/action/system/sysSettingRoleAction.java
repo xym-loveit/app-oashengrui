@@ -56,14 +56,8 @@ extends sysSettingBaseAction
 			request.setAttribute("roles", roles);
 			request.setAttribute("roleForm", formRole);
 			
-			if (roles != null && roles.getItemCount() > 0)
-			{
-				pagingBean.setTotalItems(roles.getTotalCount());
-				pagingBean.setCurrentPage(roles.getCurrentPage());
-				pagingBean.setTotalPages(roles.getTotalPage());
-			}
-			
-			request.setAttribute("paging", pagingBean);
+			// 输出分页信息至客户端
+			outWritePagination(request, pagingBean, roles);
 			
 		} 
 		catch (ServiceException e)

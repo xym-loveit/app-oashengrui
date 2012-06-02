@@ -16,6 +16,7 @@ import org.apache.struts.util.MessageResources;
 
 import cn.trymore.core.common.Constants;
 import cn.trymore.core.util.UtilString;
+import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
 /**
@@ -528,6 +529,33 @@ extends DispatchAction
 		{
 			return new PagingBean(0, PagingBean.DEFAULT_PAGE_SIZE);
 		}
+	}
+	
+	/**
+	 * Writes pagination to response entity.
+	 * 
+	 * @param request
+	 * @param pagingBean
+	 * @param pagingData
+	 */
+	@SuppressWarnings("rawtypes")
+	protected void outWritePagination (HttpServletRequest request, 
+			PagingBean pagingBean, PaginationSupport pagingData)
+	{
+		if (pagingBean == null)
+		{
+			pagingBean = new PagingBean();
+		}
+		
+		if (pagingData != null && pagingData.getItemCount() > 0)
+		{
+			pagingBean.setTotalItems(pagingData.getTotalCount());
+			pagingBean.setCurrentPage(pagingData.getCurrentPage());
+			pagingBean.setTotalPages(pagingData.getTotalPage());
+		}
+		
+		request.setAttribute("pagingBean", pagingBean);
+		
 	}
 	
 }
