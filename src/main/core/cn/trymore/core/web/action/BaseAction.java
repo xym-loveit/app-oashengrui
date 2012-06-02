@@ -16,6 +16,7 @@ import org.apache.struts.util.MessageResources;
 
 import cn.trymore.core.common.Constants;
 import cn.trymore.core.util.UtilString;
+import cn.trymore.core.web.paging.PagingBean;
 
 /**
  * Base web action, covers the basic web handles. 
@@ -33,67 +34,77 @@ extends DispatchAction
 	/**
 	 * The default action page on success
 	 */
-	protected final String ACTION_PAGE_SUCCESS = "success";
+	protected static final String ACTION_PAGE_SUCCESS = "success";
 	
 	/**
 	 * The default action page on failure
 	 */
-	protected final String ACTION_PAGE_FAILURE = "fail";
+	protected static final String ACTION_PAGE_FAILURE = "fail";
 	
 	/**
 	 * The default action page on error
 	 */
-	protected final String ACTION_PAGE_ERROR = "error";
+	protected static final String ACTION_PAGE_ERROR = "error";
 	
 	/**
 	 * The default response for remote succeed operations
 	 */
-	protected final String AJAX_RESPONSE_TRUE = "true";
+	protected static final String AJAX_RESPONSE_TRUE = "true";
 	
 	/**
 	 * The default response for remote failed operations
 	 */
-	protected final String AJAX_RESPONSE_FALSE = "false";
+	protected static final String AJAX_RESPONSE_FALSE = "false";
 	
 	/**
 	 * The success status code
 	 */
-	protected final int STATUS_CODE_SUCCESS = 200;
+	protected static final int STATUS_CODE_SUCCESS = 200;
 	
 	/**
 	 * The error status code
 	 */
-	protected final int STATUS_CODE_ERROR = 300;
+	protected static final int STATUS_CODE_ERROR = 300;
 	
 	/**
 	 * The none callback type
 	 */
-	protected final String CALLBACK_TYPE_NONE = "";
+	protected static final String CALLBACK_TYPE_NONE = "";
 	
 	/**
 	 * The forward callback type
 	 */
-	protected final String CALLBACK_TYPE_FORWARD = "forward";
+	protected static final String CALLBACK_TYPE_FORWARD = "forward";
 	
 	/**
 	 * The forward confirmation callback type
 	 */
-	protected final String CALLBACK_TYPE_FORWARD_CONFIRM = "forwardConfirm";
+	protected static final String CALLBACK_TYPE_FORWARD_CONFIRM = "forwardConfirm";
 
 	/**
 	 * The close current navTab or dialog callback type
 	 */
-	protected final String CALLBACK_TYPE_CLOSE = "closeCurrent";
+	protected static final String CALLBACK_TYPE_CLOSE = "closeCurrent";
 	
 	/**
 	 * The reload callback type
 	 */
-	protected final String CALLBACK_TYPE_RELOAD = "reload";
+	protected static final String CALLBACK_TYPE_RELOAD = "reload";
 	
 	/**
 	 * The current navtabId
 	 */
-	protected final String CURRENT_NAVTABID = "navTabIdCurrent";
+	protected static final String CURRENT_NAVTABID = "navTabIdCurrent";
+	
+	/**
+	 * The paging size parameter
+	 */
+	protected static final String PAGING_PARAM_PAGESIZE = "numPerPage";
+	
+	/**
+	 * The paging number parameter
+	 */
+	protected static final String PAGING_PARAM_PAGENUM = "pageNum";
 	
 	/**
 	 * The AJAXDONE callback JSON string
@@ -497,6 +508,26 @@ extends DispatchAction
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * Obtains the paging bean from request
+	 * 
+	 * @param request
+	 * @return
+	 */
+	protected PagingBean getPagingBean (HttpServletRequest request)
+	{
+		try
+		{
+			return new PagingBean(
+					Integer.parseInt(request.getParameter(PAGING_PARAM_PAGENUM)), 
+					Integer.parseInt(request.getParameter(PAGING_PARAM_PAGESIZE)));
+		}
+		catch (Exception e)
+		{
+			return new PagingBean(0, PagingBean.DEFAULT_PAGE_SIZE);
+		}
 	}
 	
 }

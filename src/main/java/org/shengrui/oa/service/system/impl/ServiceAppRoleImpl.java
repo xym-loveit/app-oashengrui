@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.system.DAOAppRole;
 import org.shengrui.oa.model.system.ModelAppFunction;
 import org.shengrui.oa.model.system.ModelAppFunctionUrl;
@@ -14,6 +17,9 @@ import org.shengrui.oa.service.system.ServiceAppRole;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
+import cn.trymore.core.util.UtilString;
+import cn.trymore.core.web.paging.PaginationSupport;
+import cn.trymore.core.web.paging.PagingBean;
 
 /**
  * The implementation of service of application role
@@ -108,6 +114,56 @@ extends ServiceGenericImpl<ModelAppRole> implements ServiceAppRole
 		{
 			throw new ServiceException(e);
 		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.system.ServiceAppRole#getRolePagination(org.shengrui.oa.model.system.ModelAppRole, cn.trymore.core.web.paging.PagingBean)
+	 */
+	public PaginationSupport<ModelAppRole> getRolePagination (ModelAppRole entity, 
+			PagingBean pagingBean) throws ServiceException
+	{
+		return this.getAll(this.getCriterias(entity), pagingBean);
+	}
+	
+	/**
+	 * 
+	 * @param entity
+	 * @return
+	 */
+	private DetachedCriteria getCriterias(ModelAppRole entity)
+	{
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelAppRole.class);
+		
+		if (entity != null)
+		{
+			if (UtilString.isNotEmpty(entity.getRoleName()))
+			{
+				criteria.add(Restrictions.eq("roleName", entity.getRoleName()));
+			}
+			
+			if (UtilString.isNotEmpty(entity.getRoleKey()))
+			{
+				criteria.add(Restrictions.eq("roleKey", entity.getRoleKey()));
+			}
+			
+			if (UtilString.isNotEmpty(entity.getRoleDesc()))
+			{
+				criteria.add(Restrictions.like("roleDesc", entity.getRoleDesc(), MatchMode.ANYWHERE));
+			}
+			
+			if (entity.getRoleType() != null && entity.getRoleType() > -1)
+			{
+				criteria.add(Restrictions.eq("roleType", entity.getRoleType()));
+			}
+			
+			if (UtilString.isNotEmpty(entity.getRoleRights()))
+			{
+				criteria.add(Restrictions.like("roleRights", entity.getRoleRights(), MatchMode.ANYWHERE));
+			}
+		}
+		
+		return criteria;
 	}
 	
 	public DAOAppRole getDaoAppRole()

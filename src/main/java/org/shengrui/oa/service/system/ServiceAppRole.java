@@ -7,6 +7,8 @@ import org.shengrui.oa.model.system.ModelAppRole;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.ServiceGeneric;
+import cn.trymore.core.web.paging.PaginationSupport;
+import cn.trymore.core.web.paging.PagingBean;
 
 /**
  * The service of application role
@@ -45,4 +47,16 @@ extends ServiceGeneric<ModelAppRole>
 	 * @throws ServiceException
 	 */
 	ModelAppRole getRoleByKey (String roleKey) throws ServiceException;
+	
+	/**
+	 * 获取分页数据
+	 * 
+	 * @param entity
+	 * @param pagingBean
+	 * @return
+	 * @throws ServiceException
+	 */
+	PaginationSupport<ModelAppRole> getRolePagination (ModelAppRole entity, 
+			PagingBean pagingBean) throws ServiceException;
+	
 }

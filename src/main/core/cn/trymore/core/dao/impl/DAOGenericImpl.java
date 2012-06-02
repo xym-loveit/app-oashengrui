@@ -23,6 +23,7 @@ import cn.trymore.core.dao.DAOGeneric;
 import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.model.ModelBase;
 import cn.trymore.core.web.paging.PaginationSupport;
+import cn.trymore.core.web.paging.PagingBean;
 
 /**
  * The implementation of base generic repository.
@@ -220,6 +221,16 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 			int firstResult,int maxResults) throws DAOException
 	{
 		return (List<T>)getHibernateTemplate().findByCriteria(criteria, firstResult, maxResults);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.mali.dao.common.BaseDAO#findPageByCriteria(org.hibernate.criterion.DetachedCriteria, int, int)
+	 */
+	public PaginationSupport<T> findPageByCriteria(final DetachedCriteria criteria, 
+			final PagingBean pagingBean) throws DAOException
+	{
+		return this.findPageByCriteria(criteria, pagingBean.getPageSize(), pagingBean.getStartIndex());
 	}
 	
 	/*

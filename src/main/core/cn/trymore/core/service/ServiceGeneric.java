@@ -2,8 +2,12 @@ package cn.trymore.core.service;
 
 import java.util.List;
 
+import org.hibernate.criterion.DetachedCriteria;
+
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.model.ModelBase;
+import cn.trymore.core.web.paging.PaginationSupport;
+import cn.trymore.core.web.paging.PagingBean;
 
 /**
  * The generic service
@@ -59,6 +63,16 @@ public interface ServiceGeneric<T extends ModelBase>
 	 * @throws ServiceException
 	 */
 	List<T> getAll() throws ServiceException;
+	
+	/**
+	 * 
+	 * @param criteria
+	 * @param pagingBean
+	 * @return
+	 * @throws ServiceException
+	 */
+	PaginationSupport<T> getAll(final DetachedCriteria criteria,
+			final PagingBean pagingBean) throws ServiceException;
 	
 	/**
 	 * Remove the object from database

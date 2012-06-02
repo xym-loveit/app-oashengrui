@@ -15,6 +15,8 @@ import org.springframework.beans.BeanUtils;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.util.UtilString;
+import cn.trymore.core.web.paging.PaginationSupport;
+import cn.trymore.core.web.paging.PagingBean;
 
 /**
  * 系统设置 - 权限组配置
@@ -46,7 +48,23 @@ extends sysSettingBaseAction
 		
 		try
 		{
-			request.setAttribute("roles", this.serviceAppRole.getAll());
+			ModelAppRole formRole = (ModelAppRole) form;
+			
+			PagingBean pagingBean = this.getPagingBean(request);
+			PaginationSupport<ModelAppRole> roles = this.serviceAppRole.getRolePagination(formRole, pagingBean);
+			
+			request.setAttribute("roles", roles);
+			request.setAttribute("roleForm", formRole);
+			
+			if (roles != null && roles.getItemCount() > 0)
+			{
+				pagingBean.setTotalItems(roles.getTotalCount());
+				pagingBean.setCurrentPage(roles.getCurrentPage());
+				pagingBean.setTotalPages(roles.getTotalPage());
+			}
+			
+			request.setAttribute("paging", pagingBean);
+			
 		} 
 		catch (ServiceException e)
 		{

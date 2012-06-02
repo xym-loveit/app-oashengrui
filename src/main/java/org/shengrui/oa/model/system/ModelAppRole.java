@@ -69,7 +69,7 @@ extends ModelBase
 	 * 角色类型
 	 */
 	@Expose
-	private Integer roleType;
+	private Integer roleType = null;
 	
 	/**
 	 * 角色拥有的功能字符串列表
