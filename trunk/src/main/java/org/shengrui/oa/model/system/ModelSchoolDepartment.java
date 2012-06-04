@@ -1,5 +1,7 @@
 package org.shengrui.oa.model.system;
 
+import java.util.Set;
+
 import com.google.gson.annotations.Expose;
 
 import cn.trymore.core.model.ModelBase;
@@ -17,6 +19,12 @@ extends ModelBase
 	private static final long serialVersionUID = 6580519840409552397L;
 	
 	/**
+	 * 部门编号
+	 */
+	@Expose
+	protected String depNo;
+	
+	/**
 	 * 部门名称
 	 */
 	@Expose
@@ -29,17 +37,29 @@ extends ModelBase
 	protected String depDesc;
 	
 	/**
-	 * 部门层次
+	 * 部门结构类型
 	 */
 	@Expose
-	protected Integer depLevel;
+	protected Integer depOrgType;
 	
 	/**
-	 * 父节点部门ID
+	 * 对口级别
 	 */
 	@Expose
-	protected Long depParentId;
-
+	protected Integer depEquivalentLevel;
+	
+	/**
+	 * 对口部门
+	 */
+	@Expose
+	protected ModelSchoolDepartment depEquivalentBranch;
+	
+	/**
+	 * 岗位职位
+	 */
+	@Expose
+	protected Set<ModelSchoolDepartmentPosition> positions;
+	
 	public String getDepName()
 	{
 		return depName;
@@ -59,25 +79,54 @@ extends ModelBase
 	{
 		this.depDesc = depDesc;
 	}
-
-	public Integer getDepLevel()
+	
+	public String getDepNo()
 	{
-		return depLevel;
+		return depNo;
 	}
 
-	public void setDepLevel(Integer depLevel)
+	public void setDepNo(String depNo)
 	{
-		this.depLevel = depLevel;
-	}
-
-	public Long getDepParentId()
-	{
-		return depParentId;
-	}
-
-	public void setDepParentId(Long depParentId)
-	{
-		this.depParentId = depParentId;
+		this.depNo = depNo;
 	}
 	
+	public ModelSchoolDepartment getDepEquivalentBranch()
+	{
+		return depEquivalentBranch;
+	}
+
+	public void setDepEquivalentBranch(ModelSchoolDepartment depEquivalentBranch)
+	{
+		this.depEquivalentBranch = depEquivalentBranch;
+	}
+	
+	public Integer getDepEquivalentLevel()
+	{
+		return depEquivalentLevel;
+	}
+
+	public void setDepEquivalentLevel(Integer depEquivalentLevel)
+	{
+		this.depEquivalentLevel = depEquivalentLevel;
+	}
+	
+	public Set<ModelSchoolDepartmentPosition> getPositions()
+	{
+		return positions;
+	}
+
+	public void setPositions(Set<ModelSchoolDepartmentPosition> positions)
+	{
+		this.positions = positions;
+	}
+	
+	public Integer getDepOrgType()
+	{
+		return depOrgType;
+	}
+
+	public void setDepOrgType(Integer depOrgType)
+	{
+		this.depOrgType = depOrgType;
+	}
 }

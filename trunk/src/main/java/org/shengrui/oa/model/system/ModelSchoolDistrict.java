@@ -20,6 +20,11 @@ extends ModelBase
 	private String districtNo;
 	
 	/**
+	 * 校区名称
+	 */
+	private String districtName;
+	
+	/**
 	 * 校区地址
 	 */
 	private String districtAddress;
@@ -88,6 +93,16 @@ extends ModelBase
 	public void setDistrictParent(ModelSchoolDistrict districtParent)
 	{
 		this.districtParent = districtParent;
+	}
+
+	public String getDistrictName()
+	{
+		return districtName;
+	}
+
+	public void setDistrictName(String districtName)
+	{
+		this.districtName = districtName;
 	}
 	
 }

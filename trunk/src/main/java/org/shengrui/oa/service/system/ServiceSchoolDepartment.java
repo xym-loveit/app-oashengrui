@@ -1,7 +1,10 @@
 package org.shengrui.oa.service.system;
 
+import java.util.List;
+
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 
+import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.ServiceGeneric;
 
 /**
@@ -13,5 +16,11 @@ import cn.trymore.core.service.ServiceGeneric;
 public interface ServiceSchoolDepartment
 extends ServiceGeneric<ModelSchoolDepartment>
 {
-
+	/**
+	 * 
+	 * @param orgType
+	 * @return
+	 * @throws ServiceException
+	 */
+	 List<ModelSchoolDepartment> getDepartmentByOrganization(Integer orgType) throws ServiceException;
 }

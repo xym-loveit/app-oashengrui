@@ -1,9 +1,12 @@
 package org.shengrui.oa.service.system.impl;
 
+import java.util.List;
+
 import org.shengrui.oa.dao.system.DAOSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.service.system.ServiceSchoolDepartment;
 
+import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
 
 /**
@@ -23,7 +26,25 @@ extends ServiceGenericImpl<ModelSchoolDepartment> implements ServiceSchoolDepart
 		super(dao);
 		this.daoSchoolDepartment = dao;
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.system.ServiceSchoolDepartment#getDepartmentByOrganization(java.lang.Integer)
+	 */
+	@Override
+	public List<ModelSchoolDepartment> getDepartmentByOrganization(
+			Integer orgType) throws ServiceException
+	{
+		try
+		{
+			return this.daoSchoolDepartment.getDepartmentByOrganization(orgType);
+		} 
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
+	}
+	
 	public DAOSchoolDepartment getDaoSchoolDepartment()
 	{
 		return daoSchoolDepartment;
@@ -33,5 +54,5 @@ extends ServiceGenericImpl<ModelSchoolDepartment> implements ServiceSchoolDepart
 	{
 		this.daoSchoolDepartment = daoSchoolDepartment;
 	}
-	
+
 }

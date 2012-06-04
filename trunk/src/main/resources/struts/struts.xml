@@ -13,10 +13,11 @@
 				/WEB-INF/tiles/tiles-defs-admin.xml,
 				/WEB-INF/tiles/tiles-defs-index.xml,
 				/WEB-INF/tiles/tiles-defs-personal.xml,
-				/WEB-INF/tiles/tiles-defs-hrm.xml
+				/WEB-INF/tiles/tiles-defs-hrm.xml,
 				/WEB-INF/tiles/tiles-defs-personal.xml,
 				/WEB-INF/tiles/tiles-defs-sysmgr-menu.xml,
-				/WEB-INF/tiles/tiles-defs-sysmgr-roles.xml
+				/WEB-INF/tiles/tiles-defs-sysmgr-roles.xml,
+				/WEB-INF/tiles/tiles-defs-sysmgr-school.xml
 			"
 		/>
 		<set-property property="definitions-debug" value="2" />

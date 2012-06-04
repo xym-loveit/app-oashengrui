@@ -59,8 +59,8 @@
 			<ul class="tree treeFolder">
 				<li treeicon="icon-hrjobm"><a>招聘管理</a>
 					<ul>
-						<li treeicon="icon-hrjobmIssue"><a href="demo_page1.html" target="navTab" rel="demo_page2">当前招聘管理</a></li>
-						<li treeicon="icon-hrjobmProfile"><a href="demo_page1.html" target="navTab" rel="demo_page2">公司人才库</a></li>
+						<li treeicon="icon-hrjobmIssue"><a href="app/hrm.do?action=hrmJobIndex" target="navTab" rel="hrm_jobIndex">当前招聘管理</a></li>
+						<li treeicon="icon-hrjobmProfile"><a href="app/hrm.do?action=hrmArchiveIndex" target="navTab" rel="hrm_archiveIndex">公司人才库</a></li>
 					</ul>
 				</li>
 				<li treeicon="icon-hrstaffm"><a>员工档案管理</a>
@@ -127,8 +127,8 @@
 				</li>
 				<li treeicon="icon-setorg"><a>学校设置</a>
 					<ul>
-						<li treeicon="icon-setorgDep"><a href="demo_page1.html" target="navTab" rel="demo_page2">校区设置</a></li>
-						<li treeicon="icon-setorgRepo"><a href="demo_page1.html" target="navTab" rel="demo_page2">部门岗位设置</a></li>
+						<li treeicon="icon-setorgDep"><a href="app/system/school/district.do?action=pageSchoolDistrictIndex" target="navTab" rel="sysmgr_school_district">校区设置</a></li>
+						<li treeicon="icon-setorgRepo"><a href="app/system/school/department.do?action=pageSchoolDepartmentIndex" target="navTab" rel="sysmgr_school_depindex">部门岗位设置</a></li>
 						<li treeicon="icon-setorgBricks"><a href="demo_page1.html" target="navTab" rel="demo_page2">岗位权限设置</a></li>
 					</ul>
 				</li>
