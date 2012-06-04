@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2012 年 06 月 02 日 17:49
+-- 生成日期: 2012 年 06 月 04 日 08:50
 -- 服务器版本: 5.5.17
 -- PHP 版本: 5.3.8
 
@@ -57,7 +57,9 @@ CREATE TABLE IF NOT EXISTS `app_dictionary` (
   `item_value` varchar(128) NOT NULL COMMENT '字典值',
   `item_desc` varchar(256) DEFAULT NULL COMMENT '字典描述',
   `sn` int(11) DEFAULT NULL COMMENT '序号',
-  PRIMARY KEY (`dic_id`)
+  `global_type` bigint(20) NOT NULL COMMENT '字典所属类型',
+  PRIMARY KEY (`dic_id`),
+  KEY `global_type` (`global_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据字典' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -140,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `app_global_type` (
   `type_name` varchar(128) NOT NULL COMMENT '名称',
   `type_path` varchar(64) DEFAULT NULL COMMENT '路径',
   `type_depth` int(11) NOT NULL COMMENT '层次',
-  `type_parentid` bigint(20) DEFAULT NULL COMMENT '父节点',
+  `type_parent` bigint(20) DEFAULT NULL COMMENT '父节点',
   `type_nodekey` varchar(64) NOT NULL COMMENT '节点的分类Key',
   `type_catkey` varchar(64) NOT NULL COMMENT '节点分类的Key，如产品分类Key为PT',
   `type_sn` int(11) NOT NULL COMMENT '序号',
@@ -418,6 +420,24 @@ CREATE TABLE IF NOT EXISTS `app_role_menu` (
 INSERT INTO `app_role_menu` (`role_id`, `menu_id`) VALUES
 (5, 3),
 (5, 4);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `app_school_district`
+--
+
+CREATE TABLE IF NOT EXISTS `app_school_district` (
+  `district_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `district_no` varchar(64) NOT NULL COMMENT '校区编号',
+  `district_type` tinyint(4) NOT NULL COMMENT '校区类型',
+  `district_address` varchar(150) DEFAULT NULL COMMENT '校区地址',
+  `district_phone` varchar(150) DEFAULT NULL COMMENT '校区电话',
+  `district_parent` bigint(20) DEFAULT NULL COMMENT '校区上级结构',
+  PRIMARY KEY (`district_id`),
+  UNIQUE KEY `district_no` (`district_no`),
+  KEY `district_parent` (`district_parent`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='校区设置' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 

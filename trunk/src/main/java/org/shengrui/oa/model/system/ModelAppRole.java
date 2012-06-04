@@ -124,37 +124,6 @@ extends ModelBase
 	}
 	
 	/**
-	 * The enumeration of role status
-	 * 
-	 * @author Jeccy.Zhao
-	 *
-	 */
-	public static enum ERoleType
-	{
-		HEADQUARTERS (0, "headquarters"),		// 总部
-		AREA_CAMPUS(1, "area_camput"),		// 校区
-		AREA_SLOT(2, "area_slot");				// 片区
-		
-		private Integer value;
-		private String text;
-		
-		ERoleType (Integer value, String text)
-		{
-			this.value = value;
-			this.text = text;
-		}
-		
-		public Integer getValue(){
-			return value;
-		}
-		
-		public String getText()
-		{
-			return this.text;
-		}
-	}
-	
-	/**
 	 * 返回菜单ID列表
 	 * @return
 	 */

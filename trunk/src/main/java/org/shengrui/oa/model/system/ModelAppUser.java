@@ -104,7 +104,7 @@ extends ModelBase
 	 * 所属部门
 	 */
 	@Expose
-	protected ModelDepartment department;
+	protected ModelSchoolDepartment department;
 	
 	/**
 	 * 用户拥有的角色
@@ -242,12 +242,12 @@ extends ModelBase
 		this.rights = rights;
 	}
 
-	public ModelDepartment getDepartment()
+	public ModelSchoolDepartment getDepartment()
 	{
 		return department;
 	}
 
-	public void setDepartment(ModelDepartment department)
+	public void setDepartment(ModelSchoolDepartment department)
 	{
 		this.department = department;
 	}
