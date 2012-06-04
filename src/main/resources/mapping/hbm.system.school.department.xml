@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.shengrui.oa.model.system">
+    <class name="ModelSchoolDepartment" table="app_school_department">
+        <id name="id" type="java.lang.String">
+            <column name="dep_id" />
+            <generator class="native" />
+        </id>
+        <property name="depNo" type="java.lang.String" unique="true">
+            <column name="dep_no" not-null="true" />
+        </property>
+        <property name="depName" type="java.lang.String">
+            <column name="dep_name" not-null="true" />
+        </property>
+        <property name="depDesc" type="java.lang.String">
+            <column name="dep_desc" />
+        </property>
+        <property name="depOrgType" type="java.lang.Integer">
+            <column name="dep_orgtype" not-null="true" />
+        </property>
+         <property name="depEquivalentLevel" type="java.lang.Integer">
+            <column name="dep_eqlevel" />
+        </property>
+        <set name="positions" table="app_school_department_position" 
+        	cascade="save-update" inverse="true" lazy="true"> 
+	      <key column="dep_id"/>  
+	      <one-to-many class="ModelSchoolDepartmentPosition"/>
+	    </set>
+        
+        <many-to-one not-found="ignore" name="depEquivalentBranch" class="ModelSchoolDepartment">
+        	<column name="dep_eqid" />
+        </many-to-one>
+	    
+	</class>
+</hibernate-mapping>

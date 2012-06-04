@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2012 年 06 月 04 日 08:50
+-- 生成日期: 2012 年 06 月 05 日 01:51
 -- 服务器版本: 5.5.17
 -- PHP 版本: 5.3.8
 
@@ -19,31 +19,6 @@ SET time_zone = "+00:00";
 --
 -- 数据库: `app_sroa`
 --
-
--- --------------------------------------------------------
-
---
--- 表的结构 `app_department`
---
-
-CREATE TABLE IF NOT EXISTS `app_department` (
-  `dep_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `dep_name` varchar(128) NOT NULL COMMENT '部门名称',
-  `dep_desc` varchar(256) DEFAULT NULL COMMENT '部门描述',
-  `dep_level` int(11) NOT NULL COMMENT '层次',
-  `parent_id` bigint(20) DEFAULT NULL,
-  `path` varchar(128) DEFAULT NULL COMMENT '路径',
-  `phone` varchar(64) DEFAULT NULL,
-  `fax` varchar(64) DEFAULT NULL,
-  PRIMARY KEY (`dep_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
---
--- 转存表中的数据 `app_department`
---
-
-INSERT INTO `app_department` (`dep_id`, `dep_name`, `dep_desc`, `dep_level`, `parent_id`, `path`, `phone`, `fax`) VALUES
-(1, '信息部门', '维护系统', 2, 0, '0.1.', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -424,12 +399,65 @@ INSERT INTO `app_role_menu` (`role_id`, `menu_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `app_school_department`
+--
+
+CREATE TABLE IF NOT EXISTS `app_school_department` (
+  `dep_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `dep_no` varchar(32) NOT NULL COMMENT '部门编号',
+  `dep_name` varchar(128) NOT NULL COMMENT '部门名称',
+  `dep_desc` varchar(256) DEFAULT NULL COMMENT '部门描述',
+  `dep_eqlevel` tinyint(4) DEFAULT '-1' COMMENT '对口级别, -1=无, 0=总部, 1=校区, 2=片区',
+  `dep_eqid` bigint(20) DEFAULT NULL COMMENT '对口部门',
+  `dep_orgtype` tinyint(4) NOT NULL COMMENT '部门结构类型 0=总部, 1=校区, 2=片区',
+  PRIMARY KEY (`dep_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='学校部门设置' AUTO_INCREMENT=6 ;
+
+--
+-- 转存表中的数据 `app_school_department`
+--
+
+INSERT INTO `app_school_department` (`dep_id`, `dep_no`, `dep_name`, `dep_desc`, `dep_eqlevel`, `dep_eqid`, `dep_orgtype`) VALUES
+(1, '', '信息部门', '维护系统', NULL, 0, 0),
+(2, '0', '总经办', 'test', 0, NULL, 0),
+(3, '0', '人资部', '', 0, NULL, 1),
+(4, '0', '人资部', '', 0, NULL, 2),
+(5, '2', '人资部', '', 0, NULL, 0);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `app_school_department_position`
+--
+
+CREATE TABLE IF NOT EXISTS `app_school_department_position` (
+  `pos_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `pos_name` varchar(150) NOT NULL COMMENT '岗位名称',
+  `pos_desc` varchar(250) DEFAULT NULL COMMENT '岗位描述',
+  `pos_leadership` tinyint(4) DEFAULT '1' COMMENT '是否领导, 0=是, 1=不是',
+  `dep_id` bigint(20) NOT NULL COMMENT '部门ID',
+  PRIMARY KEY (`pos_id`),
+  KEY `dep_id` (`dep_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='部门岗位' AUTO_INCREMENT=4 ;
+
+--
+-- 转存表中的数据 `app_school_department_position`
+--
+
+INSERT INTO `app_school_department_position` (`pos_id`, `pos_name`, `pos_desc`, `pos_leadership`, `dep_id`) VALUES
+(1, '总经理', '', 1, 1),
+(3, '副总经理', '', 0, 2);
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `app_school_district`
 --
 
 CREATE TABLE IF NOT EXISTS `app_school_district` (
   `district_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `district_no` varchar(64) NOT NULL COMMENT '校区编号',
+  `district_name` varchar(120) NOT NULL COMMENT '学校校区名称',
   `district_type` tinyint(4) NOT NULL COMMENT '校区类型',
   `district_address` varchar(150) DEFAULT NULL COMMENT '校区地址',
   `district_phone` varchar(150) DEFAULT NULL COMMENT '校区电话',
@@ -437,7 +465,15 @@ CREATE TABLE IF NOT EXISTS `app_school_district` (
   PRIMARY KEY (`district_id`),
   UNIQUE KEY `district_no` (`district_no`),
   KEY `district_parent` (`district_parent`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='校区设置' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='校区设置' AUTO_INCREMENT=5 ;
+
+--
+-- 转存表中的数据 `app_school_district`
+--
+
+INSERT INTO `app_school_district` (`district_id`, `district_no`, `district_name`, `district_type`, `district_address`, `district_phone`, `district_parent`) VALUES
+(1, '0000', '杭州总部', 0, '', '', NULL),
+(3, '0001', '萧山校区', 1, '', '', 1);
 
 -- --------------------------------------------------------
 
@@ -469,14 +505,23 @@ CREATE TABLE IF NOT EXISTS `app_system_log` (
   `createtime` datetime NOT NULL COMMENT '创建时间',
   `operation` varchar(512) NOT NULL COMMENT '执行操作',
   PRIMARY KEY (`log_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统日志' AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统日志' AUTO_INCREMENT=11 ;
 
 --
 -- 转存表中的数据 `app_system_log`
 --
 
 INSERT INTO `app_system_log` (`log_id`, `user_name`, `user_id`, `createtime`, `operation`) VALUES
-(1, 'test', 1, '2012-06-02 17:48:55', '进入权限组配置页面');
+(1, 'test', 1, '2012-06-02 17:48:55', '进入权限组配置页面'),
+(2, 'test', 1, '2012-06-04 18:41:12', '进入权限组配置页面'),
+(3, 'test', 1, '2012-06-04 18:41:14', '进入权限组配置页面'),
+(4, 'test', 1, '2012-06-04 18:41:27', '进入权限组配置页面'),
+(5, 'test', 1, '2012-06-05 00:07:06', '进入权限组配置页面'),
+(6, 'test', 1, '2012-06-05 01:49:47', '进入权限组配置页面'),
+(7, 'test', 1, '2012-06-05 01:51:06', '进入权限组配置页面'),
+(8, 'test', 1, '2012-06-05 01:51:08', '进入权限组配置页面'),
+(9, 'test', 1, '2012-06-05 01:51:09', '进入权限组配置页面'),
+(10, 'test', 1, '2012-06-05 01:51:20', '进入权限组配置页面');
 
 -- --------------------------------------------------------
 
@@ -564,10 +609,16 @@ ALTER TABLE `app_role_func`
   ADD CONSTRAINT `app_role_func_ibfk_2` FOREIGN KEY (`func_id`) REFERENCES `app_function` (`func_id`);
 
 --
+-- 限制表 `app_school_department_position`
+--
+ALTER TABLE `app_school_department_position`
+  ADD CONSTRAINT `app_school_department_position_ibfk_1` FOREIGN KEY (`dep_id`) REFERENCES `app_school_department` (`dep_id`);
+
+--
 -- 限制表 `app_user`
 --
 ALTER TABLE `app_user`
-  ADD CONSTRAINT `app_user_ibfk_1` FOREIGN KEY (`dep_id`) REFERENCES `app_department` (`dep_id`);
+  ADD CONSTRAINT `app_user_ibfk_1` FOREIGN KEY (`dep_id`) REFERENCES `app_school_department` (`dep_id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

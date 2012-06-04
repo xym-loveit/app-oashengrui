@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.shengrui.oa.model.system">
+    <class name="ModelSchoolDistrict" table="app_school_district">
+        <id name="id" type="java.lang.String">
+            <column name="district_id" />
+            <generator class="native" />
+        </id>
+        <property name="districtNo" type="java.lang.String" unique="true">
+            <column name="district_no" not-null="true" />
+        </property>
+        <property name="districtName" type="java.lang.String">
+            <column name="district_name" not-null="true" />
+        </property>
+        <property name="districtType" type="java.lang.Integer">
+            <column name="district_type" />
+        </property>
+        <property name="districtAddress" type="java.lang.String">
+            <column name="district_address" />
+        </property>
+        <property name="districtPhone" type="java.lang.String">
+            <column name="district_phone" />
+        </property>
+        
+        <many-to-one not-found="ignore" name="districtParent" class="ModelSchoolDistrict">
+        	<column name="district_parent" />
+        </many-to-one>
+	    
+	</class>
+</hibernate-mapping>

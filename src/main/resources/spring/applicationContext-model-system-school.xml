@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<bean id="daoSchoolDistrict" class="org.shengrui.oa.dao.system.impl.DAOSchoolDistrictImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceSchoolDistrict" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.system.impl.ServiceSchoolDistrictImpl">
+				<constructor-arg index="0" ref="daoSchoolDistrict"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="daoSchoolDepartment" class="org.shengrui.oa.dao.system.impl.DAOSchoolDepartmentImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceSchoolDepartment" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.system.impl.ServiceSchoolDepartmentImpl">
+				<constructor-arg index="0" ref="daoSchoolDepartment"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="daoSchoolDepartmentPosition" class="org.shengrui.oa.dao.system.impl.DAOSchoolDepartmentPositionImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceSchoolDepartmentPosition" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.system.impl.ServiceSchoolDepartmentPositionImpl">
+				<constructor-arg index="0" ref="daoSchoolDepartmentPosition"/>
+			</bean>
+		</property>
+	</bean>
+	
+</beans>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+       
+<tiles-definitions>
+	
+	<!-- 系统设置 - 学校设置 - 校区设置 -->
+	<definition name="page.sys.setting.school.district.index" 
+		path="/WEB-INF/jsp/application/system/school/district/districtIndex.jsp"/>
+	
+	<!-- 系统设置 - 学校设置 - 校区添加弹框 -->
+	<definition name="dialog.sys.setting.school.district.page" 
+		path="/WEB-INF/jsp/application/system/school/district/dialog/dialogDistrictPage.jsp"/>
+	
+	<!-- 系统设置 - 学校设置 - 部门岗位设置 -->
+	<definition name="page.sys.setting.dep.index" 
+		path="/WEB-INF/jsp/application/system/school/department/departmentIndex.jsp"/>
+	
+	<!-- 系统设置 - 学校设置 - 部门岗位设置 - 部门设置(弹框) -->
+	<definition name="dialog.sys.setting.dep.page" 
+		path="/WEB-INF/jsp/application/system/school/department/dialog/dialogDepartmentPage.jsp"/>
+	
+	<!-- 系统设置 - 学校设置 - 部门岗位设置 - 岗位设置(弹框)-->
+	<definition name="dialog.sys.setting.dep.position.page" 
+		path="/WEB-INF/jsp/application/system/school/department/dialog/dialogDepartmentPositionPage.jsp"/>
+	
+	<!-- 系统设置 - 学校设置 - 部门岗位设置 - 部门数据 -->
+	<definition name="data.sys.setting.dep.tree" 
+		path="/WEB-INF/jsp/application/system/school/department/data/dataDepartmentTree.jsp"/>
+	
+	<!-- 系统设置 - 学校设置 - 部门岗位设置 - 岗位数据 -->
+	<definition name="data.sys.setting.dep.position" 
+		path="/WEB-INF/jsp/application/system/school/department/data/dataDepartmentPosition.jsp"/>
+	
+</tiles-definitions>
