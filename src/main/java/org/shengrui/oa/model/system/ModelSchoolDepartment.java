@@ -10,7 +10,7 @@ import cn.trymore.core.model.ModelBase;
  * @author Jeccy.Zhao
  *
  */
-public class ModelDepartment
+public class ModelSchoolDepartment
 extends ModelBase
 {
 
