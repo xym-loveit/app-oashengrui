@@ -1,5 +1,7 @@
 package org.shengrui.oa.dao.system;
 
+import java.util.List;
+
 import org.shengrui.oa.model.system.ModelAppRole;
 
 import cn.trymore.core.dao.DAOGeneric;
@@ -35,4 +37,13 @@ extends DAOGeneric<ModelAppRole>
 	 */
 	ModelAppRole getRoleByKey (String roleKey) throws DAOException;
 	
+	/**
+	 * 根据角色类型获取角色列表
+	 * 
+	 * @param roleType
+	 *                 角色类型
+	 * @return
+	 * @throws DAOException
+	 */
+	List<ModelAppRole> getRolesByType (Integer roleType) throws DAOException;
 }

@@ -7,14 +7,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.util.MessageResources;
+import org.shengrui.oa.model.system.ModelAppMenu;
+import org.shengrui.oa.model.system.ModelAppRole;
+import org.shengrui.oa.service.system.ServiceAppMenu;
+import org.shengrui.oa.service.system.ServiceAppRole;
 
 import cn.trymore.core.common.Constants;
+import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
@@ -31,6 +38,10 @@ import cn.trymore.core.web.paging.PagingBean;
 public class BaseAction 
 extends DispatchAction
 {
+	/**
+	 * The LOGGER
+	 */
+	private static final Logger LOGGER = Logger.getLogger(BaseAction.class);
 	
 	/**
 	 * The default action page on success
@@ -108,6 +119,16 @@ extends DispatchAction
 	protected static final String PAGING_PARAM_PAGENUM = "pageNum";
 	
 	/**
+	 * The field name for option key
+	 */
+	protected static final String FIELD_OPTION_KEY = "__optionKey";
+	
+	/**
+	 * The field name for option value
+	 */
+	protected static final String FIELD_OPTION_VALUE = "__optionValue";
+	
+	/**
 	 * The AJAXDONE callback JSON string
 	 */
 	protected final String DWZ_CALLBACK_AJAXDONE_JSON = "{" +
@@ -117,6 +138,18 @@ extends DispatchAction
 			" \"forwardUrl\"    : \"#forwardUrl#\", " +
 			"\"callbackType\" : \"#callbackType#\"," +
 			"\"formClear\"      : \"#formClear#\"}";
+	
+	/**
+	 * The application menu service.
+	 */
+	@Resource
+	protected ServiceAppMenu serviceAppMenu;
+	
+	/**
+	 * The application role service
+	 */
+	@Resource
+	protected ServiceAppRole serviceAppRole;
 	
 	/**
 	 * The AJAX response entity
@@ -556,6 +589,77 @@ extends DispatchAction
 		
 		request.setAttribute("pagingBean", pagingBean);
 		
+	}
+	
+	/**
+	 * 获取父菜单列表
+	 * 
+	 * @param request
+	 * @return
+	 */
+	protected List<ModelAppMenu> getRootMenus(HttpServletRequest request)
+	{
+		List<ModelAppMenu> result = null;
+		
+		if (request.getParameter("lookup") != null)
+		{
+			request.setAttribute("lookup", true);
+		}
+		
+		try
+		{
+			result = this.serviceAppMenu.getAllRootMenus();
+			request.setAttribute("rootMenus", result);
+		} 
+		catch (ServiceException e)
+		{
+			LOGGER.error("Exception raised when fetch the root menus.", e);
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 根据角色类型获取角色列表
+	 * 
+	 * @param roleType
+	 * @return
+	 */
+	protected List<ModelAppRole> getRolesByType (Integer roleType)
+	{
+		if (roleType != null)
+		{
+			try
+			{
+				return this.serviceAppRole.getRolesByType(roleType);
+			} 
+			catch (Exception e)
+			{
+				LOGGER.error("Exception raised when obtain roles with roleType:" + roleType, e);
+			}
+		}
+		
+		return null;
+	}
+	
+	public ServiceAppMenu getServiceAppMenu()
+	{
+		return serviceAppMenu;
+	}
+
+	public void setServiceAppMenu(ServiceAppMenu serviceAppMenu)
+	{
+		this.serviceAppMenu = serviceAppMenu;
+	}
+
+	public ServiceAppRole getServiceAppRole()
+	{
+		return serviceAppRole;
+	}
+
+	public void setServiceAppRole(ServiceAppRole serviceAppRole)
+	{
+		this.serviceAppRole = serviceAppRole;
 	}
 	
 }

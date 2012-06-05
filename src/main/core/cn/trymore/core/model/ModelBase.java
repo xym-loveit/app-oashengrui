@@ -2,6 +2,8 @@ package cn.trymore.core.model;
 
 import org.apache.struts.action.ActionForm;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * The base model
  * 
@@ -19,6 +21,7 @@ extends ActionForm
 	/**
 	 * The model identity
 	 */
+	@Expose
 	protected String id = null;
 	
 	public String getId()

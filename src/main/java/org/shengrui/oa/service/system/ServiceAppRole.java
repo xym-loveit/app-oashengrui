@@ -1,5 +1,6 @@
 package org.shengrui.oa.service.system;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -42,11 +43,21 @@ extends ServiceGeneric<ModelAppRole>
 	 * 根据标识Key获取角色
 	 * 
 	 * @param roleKey
-	 *                 角色标识Key
+	 *            角色标识Key
 	 * @return
 	 * @throws ServiceException
 	 */
 	ModelAppRole getRoleByKey (String roleKey) throws ServiceException;
+	
+	/**
+	 * 根据角色类型获取角色列表
+	 * 
+	 * @param roleType
+	 *            角色类型
+	 * @return
+	 * @throws ServiceException
+	 */
+	List<ModelAppRole> getRolesByType (Integer roleType) throws ServiceException;
 	
 	/**
 	 * 获取分页数据

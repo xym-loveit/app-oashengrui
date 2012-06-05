@@ -33,7 +33,7 @@
 				<tr>
 					<td>对口级别：</td>
 					<td>
-						<select class="combox" name="depEquivalentLevel" id="dialog_depEquivalentLevel">
+						<select class="combox" name="depEquivalentLevel" id="dialog_depEquivalentLevel" ref="dialog_depBranch" refUrl="app/system/school/department.do?action=actionLoadDepartmentByOrg&depEquivalentLevel={value}">
 							<option value="">请选择</option>
 							<option value="0" ${department ne null && department.depEquivalentLevel eq 0 ? "selected='selected'" : ""}>总部</option>
 							<option value="1" ${department ne null && department.depEquivalentLevel eq 1 ? "selected='selected'" : ""}>校区</option>
@@ -42,10 +42,15 @@
 					</td>
 				</tr>
 				<tr>
-					<td>总部对口部门：</td>
+					<td>对口部门：</td>
 					<td>
-						<select class="combox" name="depBranchId" id="dialog_depBranch">
+						<select class="combox" name="depBranchId" id="dialog_depBranch" defOPKey="请选择" defOPVal="">
 							<option value="">请选择</option>
+							<logic:present name="branches">
+								<logic:iterate name="branches" id="entity">
+									<option value="${entity.id}" ${department ne null && department.depEquivalentBranch ne null && department.depEquivalentBranch.id eq entity.id ? "selected='selected'" : ""}>${entity.depName}</option>
+								</logic:iterate>
+							</logic:present>
 						</select>
 					</td>
 				</tr>
@@ -63,7 +68,7 @@
 				</li>
 			</ul>
 		</div>
-		<input type="hidden" name="id" value="${district ne null ? district.id : '-1'}" />
+		<input type="hidden" name="id" value="${department ne null ? department.id : '-1'}" />
 	</form>
 <div>
 		

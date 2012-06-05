@@ -14,4 +14,6 @@ extends ModelBase
 
 	private static final long serialVersionUID = -9019919217683949208L;
 	
+	
+	
 }

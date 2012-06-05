@@ -67,6 +67,23 @@ extends ServiceGenericImpl<ModelAppRole> implements ServiceAppRole
 	
 	/*
 	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.system.ServiceAppRole#getRolesByType(java.lang.Integer)
+	 */
+	@Override
+	public List<ModelAppRole> getRolesByType (Integer roleType) throws ServiceException
+	{
+		try
+		{
+			return this.daoAppRole.getRolesByType(roleType);
+		} 
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
 	 * @see org.shengrui.oa.service.system.ServiceAppRole#getSecurityDataSource()
 	 */
 	@Override

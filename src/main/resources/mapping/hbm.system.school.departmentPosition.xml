@@ -16,7 +16,16 @@
         </property>
         <property name="positionLeadership" type="java.lang.Integer">
             <column name="pos_leadership" />
-        </property> 
+        </property>
+        <property name="positionRoleRights" type="java.lang.String">
+            <column name="pos_roleRights" />
+        </property>
+        <set name="roles" table="app_school_department_position_role" 
+        	cascade="save-update" inverse="true" lazy="true"> 
+	      <key column="pos_id"/>  
+	      <one-to-many class="ModelAppRole"/>
+	    </set>
+	    
         <many-to-one name="department" class="ModelSchoolDepartment">
         	<column name="dep_id" />
         </many-to-one>

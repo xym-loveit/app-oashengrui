@@ -53,16 +53,9 @@
 				parameter="action"
 				type="org.springframework.web.struts.DelegatingActionProxy">
 			<forward name="dialog.sys.setting.dep.position.page" path="dialog.sys.setting.dep.position.page" />
+			<forward name="dialog.sys.setting.dep.position.role" path="dialog.sys.setting.dep.position.role" />
 		</action>
 		
-		<!-- 学校设置 - 部门岗位权限设置 -->
-		<action path="/app/system/school/department/privilege"
-				scope="request"
-				name="form.system.school.department.privilege"
-				parameter="action"
-				type="org.springframework.web.struts.DelegatingActionProxy">
-			<forward name="page.sys.setting.dep.privilege.index" path="page.sys.setting.dep.privilege.index" />
-		</action>
 		
 	</action-mappings>
 

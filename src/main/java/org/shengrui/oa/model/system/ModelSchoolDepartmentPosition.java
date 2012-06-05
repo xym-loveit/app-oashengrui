@@ -1,5 +1,8 @@
 package org.shengrui.oa.model.system;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.google.gson.annotations.Expose;
 
 import cn.trymore.core.model.ModelBase;
@@ -35,9 +38,20 @@ extends ModelBase
 	private Integer positionLeadership;
 	
 	/**
+	 * 岗位权限Key集合
+	 */
+	@Expose
+	private String positionRoleRights;
+	
+	/**
 	 * 岗位所属部门
 	 */
 	private ModelSchoolDepartment department;
+	
+	/**
+	 * 岗位权限
+	 */
+	private Set<ModelAppRole> roles = new HashSet<ModelAppRole>();
 	
 	/**
 	 * The enumeration of department position leadership
@@ -107,6 +121,26 @@ extends ModelBase
 	public void setPositionLeadership(Integer positionLeadership)
 	{
 		this.positionLeadership = positionLeadership;
+	}
+
+	public void setRoles(Set<ModelAppRole> roles)
+	{
+		this.roles = roles;
+	}
+
+	public Set<ModelAppRole> getRoles()
+	{
+		return roles;
+	}
+
+	public void setPositionRoleRights(String positionRoleRights)
+	{
+		this.positionRoleRights = positionRoleRights;
+	}
+
+	public String getPositionRoleRights()
+	{
+		return positionRoleRights;
 	}
 	
 }
