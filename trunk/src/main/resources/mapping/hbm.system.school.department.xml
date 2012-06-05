@@ -24,7 +24,7 @@
             <column name="dep_eqlevel" />
         </property>
         <set name="positions" table="app_school_department_position" 
-        	cascade="save-update" inverse="true" lazy="true"> 
+        	cascade="all-delete-orphan" inverse="true" lazy="true"> 
 	      <key column="dep_id"/>  
 	      <one-to-many class="ModelSchoolDepartmentPosition"/>
 	    </set>

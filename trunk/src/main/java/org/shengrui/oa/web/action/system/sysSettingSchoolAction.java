@@ -1,5 +1,8 @@
 package org.shengrui.oa.web.action.system;
 
+import java.lang.reflect.Field;
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,11 +11,16 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.shengrui.oa.model.system.ModelAppRole;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 import org.shengrui.oa.service.system.ServiceSchoolDistrict;
 import org.springframework.beans.BeanUtils;
+
+import com.google.gson.FieldNamingStrategy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.log.LogAnnotation;
@@ -251,7 +259,7 @@ extends sysSettingBaseAction
 	{
 		
 		// 获取所有部门列表
-		this.getAllDepartments(request);
+		this.getAllDepartments(request, false);
 		
 		return mapping.findForward("page.sys.setting.dep.index");
 	}
@@ -275,6 +283,12 @@ extends sysSettingBaseAction
 				if (department != null)
 				{
 					request.setAttribute("department", department);
+					
+					if (department.getDepEquivalentLevel() != null)
+					{
+						request.setAttribute("branches", 
+								this.getDepartmentByOrganization(department.getDepEquivalentLevel().toString()));
+					}
 				}
 				else
 				{
@@ -299,9 +313,62 @@ extends sysSettingBaseAction
 			HttpServletRequest request, HttpServletResponse response) 
 	{
 		// 获取所有部门列表
-		this.getAllDepartments(request);
+		this.getAllDepartments(request, false);
 		
 		return mapping.findForward("data.sys.setting.dep.tree");
+	}
+	
+	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
+	 * 学校设置-部门岗位设置 - 加载岗位角色列表页面
+	 */
+	public ActionForward actionLoadDepartmentPrivilegeTree (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		try
+		{
+			// 获取部门信息
+			String depId = request.getParameter("depId");
+			if (this.isObjectIdValid(depId))
+			{
+				ModelSchoolDepartment department = this.serviceSchoolDepartment.get(depId);
+				if (department != null)
+				{
+					request.setAttribute("roles", 
+							this.getRolesByType(department.getDepEquivalentLevel()));
+					
+					request.setAttribute("department", department);
+					
+					// 获取岗位信息
+					String posId = request.getParameter("posId");
+					if (this.isObjectIdValid(posId))
+					{
+						ModelSchoolDepartmentPosition position =this.serviceSchoolDepartmentPosition.get(posId);
+						if (position != null)
+						{
+							request.setAttribute("position", position);
+						}
+						else
+						{
+							return ajaxPrint(response, getErrorCallback("岗位不存在."));
+						}
+					}
+					
+					return mapping.findForward("dialog.sys.setting.dep.position.role");
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("部门不存在."));
+				}
+			}
+		}
+		catch (ServiceException e)
+		{
+			LOGGER.error("Exception raised when loading department privilege!", e);
+		}
+		
+		return ajaxPrint(response, getErrorCallback("数据加载失败, 请再次尝试!"));
 	}
 	
 	/**
@@ -327,6 +394,47 @@ extends sysSettingBaseAction
 		}
 		
 		return mapping.findForward("data.sys.setting.dep.position");
+	}
+	
+	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
+	 * 学校设置-部门岗位设置 - 根据结构类型刷新部门对应的列表
+	 */
+	public ActionForward actionLoadDepartmentByOrg (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		if (UtilString.isNotEmpty(request.getParameter("depEquivalentLevel")))
+		{
+			List<ModelSchoolDepartment> departments = 
+				this.getDepartmentByOrganization(request.getParameter("depEquivalentLevel"));
+			
+			if (departments != null)
+			{
+				// 只显示@Expose字段, 并且进行重命名显示
+				Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setFieldNamingStrategy(new FieldNamingStrategy()
+				{
+					@Override
+					public String translateName(Field field)
+					{
+						if ("id".equals(field.getName()))
+						{
+							return FIELD_OPTION_VALUE;
+						}
+						
+						if ("depName".equals(field.getName()))
+						{
+							return FIELD_OPTION_KEY;
+						}
+						
+						return field.getName();
+					}
+				}).create();
+				return ajaxPrint(response, gson.toJson(departments));
+			}
+		}
+		
+		return ajaxPrint(response, "[]");
 	}
 	
 	/**
@@ -495,18 +603,23 @@ extends sysSettingBaseAction
 			
 			ModelSchoolDepartmentPosition formMPosition = (ModelSchoolDepartmentPosition) form;
 			ModelSchoolDepartmentPosition entity = null;
+			String originalPositionRights = null;
 			
 			if (this.isObjectIdValid(depId))
 			{
 				ModelSchoolDepartment department = this.serviceSchoolDepartment.get(depId);
 				if (department != null)
 				{
-					if (this.isObjectIdValid(formMPosition.getId()))
+					boolean isPositionEdit = this.isObjectIdValid(formMPosition.getId());
+					
+					if (isPositionEdit)
 					{
 						// 更新
 						entity = this.serviceSchoolDepartmentPosition.get(formMPosition.getId());
 						if (entity != null)
 						{
+							originalPositionRights = entity.getPositionRoleRights();
+							
 							// 用表单输入的值覆盖实体中的属性值
 							BeanUtils.copyProperties(formMPosition, entity, 
 									new String[] {"department"});
@@ -523,6 +636,23 @@ extends sysSettingBaseAction
 					}
 					
 					entity.setDepartment(department);
+					
+					// 设置权限清单
+					String positionRights = request.getParameter("dePrivileges.keys");
+					if (!isPositionEdit || !positionRights.equals(originalPositionRights))
+					{
+						entity.getRoles().clear();
+						String[] arrayOfRoleRights = positionRights.split("[,]");
+						for (int i = 0; i < arrayOfRoleRights.length; i++)
+						{
+							ModelAppRole modelAppRole = this.serviceAppRole.getRoleByKey(arrayOfRoleRights[i]);
+							if (modelAppRole == null)
+							{
+								continue;
+							}
+							entity.getRoles().add(modelAppRole);
+						}
+					}
 					
 					this.serviceSchoolDepartmentPosition.save(entity);
 					
@@ -571,17 +701,6 @@ extends sysSettingBaseAction
 		}
 		
 		return ajaxPrint(response, getErrorCallback("岗位删除失败."));
-	}
-
-	/**
-	 * <b>[WebAction]</b> 
-	 * <br/>
-	 * 学校设置-部门岗位权限设置
-	 */
-	public ActionForward pageSchoolDepartmentPositionPrivilege (ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) 
-	{
-		return mapping.findForward("page.sys.setting.dep.position.privilege");
 	}
 	
 	public ServiceSchoolDistrict getServiceSchoolDistrict()

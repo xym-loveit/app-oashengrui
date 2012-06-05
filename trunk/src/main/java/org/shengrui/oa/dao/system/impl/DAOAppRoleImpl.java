@@ -1,5 +1,9 @@
 package org.shengrui.oa.dao.system.impl;
 
+import java.util.List;
+
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.system.DAOAppRole;
 import org.shengrui.oa.model.system.ModelAppRole;
 
@@ -36,6 +40,21 @@ extends DAOGenericImpl<ModelAppRole> implements DAOAppRole
 	{
 		String str = "from ModelAppRole ar where ar.roleKey=?";
 		return (ModelAppRole) findUnique(str, new Object[] { roleKey });
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.dao.system.DAOAppRole#getRolesByType(java.lang.Integer)
+	 */
+	@Override
+	public List<ModelAppRole> getRolesByType (Integer roleType) throws DAOException
+	{
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelAppRole.class);
+		if (roleType != null)
+		{
+			criteria.add(Restrictions.eq("roleType", roleType));
+		}
+		return this.getListByCriteria(criteria);
 	}
 
 }
