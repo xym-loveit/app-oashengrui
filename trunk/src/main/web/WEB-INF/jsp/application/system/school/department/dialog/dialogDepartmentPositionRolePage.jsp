@@ -36,7 +36,7 @@
 	<div class="pageFormContent" layoutH="58">
 		<ul class="tree treeFolder treeCheck expand" layoutH="8">
 			<li>
-				<a id="org_type">${department.depEquivalentLevel == 0 ? '总部' : (department.depEquivalentLevel == 1 ? '校区' : (department.depEquivalentLevel == 2 ? '片区' : '/'))}</a>
+				<a id="org_type">${department.depOrgType == 0 ? '总部' : (department.depOrgType == 1 ? '校区' : (department.depOrgType == 2 ? '片区' : '/'))}</a>
 				<ul>
 					<logic:present name="roles">
 						<logic:iterate name="roles" id="role">
