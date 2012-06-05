@@ -11,6 +11,7 @@
 	<thead>
 		<tr>
 			<th align="center">岗位名称</th>
+			<th align="center">岗位权限</th>
 			<th align="center">岗位说明</th>
 			<th align="center">编辑</th>
 			<th align="center">删除</th>
@@ -21,12 +22,13 @@
 			<logic:iterate name="positions" id="entity">
 				<tr target="posId" rel="${entity.id}" id="mfunc-${entity.id}">
 					<td>${entity.positionName}</td>
+					<td>${entity.positionRoleRights}</td>
 					<td>${entity.positionDesc}</td>
 					<td>
-						<a href="app/system/school/department/position.do?action=dialogSchoolDepartmentPositionPage&posId=${entity.id}" class="oplink" target="dialog" title="岗位编辑" width="504" height="275" rel="sys_dePosSet-${entity.id}">编辑</a>
+						<a href="app/system/school/department/position.do?action=dialogSchoolDepartmentPositionPage&posId=${entity.id}" class="oplink" target="dialog" title="岗位编辑" width="504" height="335" rel="sys_dePosSet-${entity.id}">编辑</a>
 					</td>
 					<td>
-						<a href="app/system/school/department/position.do?action=actionRemoveDepartmentPosition&posId=${entity.id}" class="oplink" target="ajaxTodo" title="岗位删除" width="550" height="250" title="确定要删除该岗位吗?" rel="sys_dePosDel-${entity.id}" callback="callback_funcRemove(${entity.id})">删除</a>
+						<a href="app/system/school/department/position.do?action=actionRemoveDepartmentPosition&posId=${entity.id}" class="oplink" target="ajaxTodo" title="岗位删除" width="550" height="335" title="确定要删除该岗位吗?" rel="sys_dePosDel-${entity.id}" callback="callback_funcRemove(${entity.id})">删除</a>
 					</td>
 				</tr>
 			</logic:iterate>

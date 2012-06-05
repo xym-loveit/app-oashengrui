@@ -21,9 +21,9 @@
             <column name="pos_roleRights" />
         </property>
         <set name="roles" table="app_school_department_position_role" 
-        	cascade="save-update" inverse="true" lazy="true"> 
+        	cascade="all" inverse="false" lazy="true"> 
 	      <key column="pos_id"/>  
-	      <one-to-many class="ModelAppRole"/>
+	      <many-to-many class="ModelAppRole" column="role_id" />
 	    </set>
 	    
         <many-to-one name="department" class="ModelSchoolDepartment">

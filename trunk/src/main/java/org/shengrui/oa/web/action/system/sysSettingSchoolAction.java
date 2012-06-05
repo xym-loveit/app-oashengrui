@@ -555,6 +555,8 @@ extends sysSettingBaseAction
 				if (position != null)
 				{
 					request.setAttribute("position", position);
+					request.setAttribute("department", position.getDepartment());
+					
 					return mapping.findForward("dialog.sys.setting.dep.position.page");
 				}
 				else
@@ -653,6 +655,8 @@ extends sysSettingBaseAction
 							entity.getRoles().add(modelAppRole);
 						}
 					}
+					
+					entity.setPositionRoleRights(positionRights);
 					
 					this.serviceSchoolDepartmentPosition.save(entity);
 					

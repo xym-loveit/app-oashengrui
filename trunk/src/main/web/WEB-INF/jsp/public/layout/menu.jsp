@@ -129,7 +129,7 @@
 					<ul>
 						<li treeicon="icon-setorgDep"><a href="app/system/school/district.do?action=pageSchoolDistrictIndex" target="navTab" rel="sysmgr_school_district">校区设置</a></li>
 						<li treeicon="icon-setorgRepo"><a href="app/system/school/department.do?action=pageSchoolDepartmentIndex" target="navTab" rel="sysmgr_school_depindex">部门岗位设置</a></li>
-						<li treeicon="icon-setorgBricks"><a href="demo_page1.html" target="navTab" rel="demo_page2">岗位权限设置</a></li>
+						<!--<li treeicon="icon-setorgBricks"><a href="demo_page1.html" target="navTab" rel="demo_page2">岗位权限设置</a></li>-->
 					</ul>
 				</li>
 				<li treeicon="icon-setrole"><a href="app/system/role.do?action=pageRoleIndex" target="navTab" rel="sysmgr_role">权限组配置</a></li>
