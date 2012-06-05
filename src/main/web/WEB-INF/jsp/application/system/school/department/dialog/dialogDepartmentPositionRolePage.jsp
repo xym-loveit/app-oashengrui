@@ -40,7 +40,7 @@
 				<ul>
 					<logic:present name="roles">
 						<logic:iterate name="roles" id="role">
-							<li ${position ne null && tm:inRange(position.positionRoleRights, role.roleKey, ",") ? 'checked="true"': ''}><a id="deprtity_${role.id}" type="role" alt="${role.id}" key="${role.roleKey}"><c:out value="${role.roleName}" /></a></li>
+							<li><a id="deprtity_${role.id}" type="role" alt="${role.id}" key="${role.roleKey}" ${position ne null && tm:inRange(position.positionRoleRights, role.roleKey, ",") ? 'checked="true"': ''}><c:out value="${role.roleName}" /></a></li>
 						</logic:iterate>
 					</logic:present>
 				</ul>

@@ -83,6 +83,32 @@ extends ModelBase
 		}
 	}
 	
+	/**
+	 * 返回岗位权限ID列表
+	 * @return
+	 */
+	public String getPositionRoleIds ()
+	{
+		if (roles != null && roles.size() > 0)
+		{
+			StringBuilder builder = new StringBuilder();
+			int count = 1;
+			for (ModelAppRole role : roles)
+			{
+				builder.append(role.getId());
+				if (count < roles.size())
+				{
+					builder.append(",");
+				}
+				count++;
+			}
+			
+			return builder.toString();
+		}
+		
+		return null;
+	}
+	
 	public String getPositionName()
 	{
 		return positionName;

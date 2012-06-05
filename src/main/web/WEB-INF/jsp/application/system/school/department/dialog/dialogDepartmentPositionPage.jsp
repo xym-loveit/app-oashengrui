@@ -52,8 +52,8 @@
 				<tr>
 					<td style="vertical-align: top;">权限配置：</td>
 					<td>
-						<input name="dePrivileges.ids" type="hidden" size="30" value="${role ne null ? role.menuIds : ''}" style="width: 88%" readonly/>
-						<textarea rows="2" cols="40" name="dePrivileges.keys" style="width: 88%" readonly>${role ne null ? role.roleRights : ''}</textarea>
+						<input name="dePrivileges.ids" type="hidden" size="30" value="${position ne null ? position.positionRoleIds : ''}" style="width: 88%" readonly/>
+						<textarea rows="2" cols="40" name="dePrivileges.keys" style="width: 88%" readonly>${position ne null ? position.positionRoleRights : ''}</textarea>
 						<a class="btnLook" href="app/system/school/department/position.do?action=actionLoadDepartmentPrivilegeTree&depId=${department.id}&posId=${position ne null ? position.id : '-1'}" lookupGroup="dePrivileges" width="476" height="404" rel="mdeprivilege_lookup">岗位权限配置</a>
 					</td>
 				</tr>
