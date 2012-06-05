@@ -336,7 +336,7 @@ extends sysSettingBaseAction
 				if (department != null)
 				{
 					request.setAttribute("roles", 
-							this.getRolesByType(department.getDepEquivalentLevel()));
+							this.getRolesByType(department.getDepOrgType()));
 					
 					request.setAttribute("department", department);
 					
