@@ -111,13 +111,22 @@
 								if (!json) return;
 								var html = '';
 	
-								$.each(json, function(i){
-									if (json[i] && json[i].length > 1){
-										html += '<option value="'+json[i][0]+'">' + json[i][1] + '</option>';
+								$.each(json, function(i) {
+									// modified by Jeccy.Zhao on 05/06/2012
+									// It looks like: [{__optionKey: .., __optionValue: ..,}]
+									if (json[i] && json[i].__optionKey && json[i].__optionValue) {
+										html += '<option value="'+json[i].__optionValue +'">' + json[i].__optionKey + '</option>';
+									} else {
+										if (json[i] && json[i].length > 1){
+											html += '<option value="'+json[i][0]+'">' + json[i][1] + '</option>';
+										}
 									}
 								});
 								
 								var $refCombox = $ref.parents("div.combox:first");
+								if (html == '' && $ref.attr("defOPKey") != undefined && $ref.attr("defOPVal") != undefined) {
+									html = '<option value="'+ $ref.attr("defOPVal") +'">' + $ref.attr("defOPKey") + '</option>';
+								}
 								$ref.html(html).insertAfter($refCombox);
 								$refCombox.remove();
 								$ref.trigger("refChange").trigger("change").combox();
