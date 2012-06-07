@@ -1,5 +1,7 @@
 package org.shengrui.oa.web.action.system;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +23,7 @@ import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 import org.springframework.util.StringUtils;
 
+import cn.trymore.core.util.UtilApp;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.action.BaseAction;
 
@@ -82,11 +85,10 @@ extends BaseAction
 	public ActionForward actionLogon (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) 
 	{
+		StringBuffer msgBuffer = new StringBuffer();
 		
 		try
 		{
-			StringBuffer msgBuffer = new StringBuffer();
-			
 			String userName = request.getParameter(PARAM_USER_NAME);
 			String userPwd = request.getParameter(PARAM_USER_PWD);
 			
@@ -95,13 +97,13 @@ extends BaseAction
 			
 			if (localCaptcha == null)
 			{
-				msgBuffer.append("请刷新验证码再登录.'");
+				msgBuffer.append("请刷新验证码再登录!");
 			}
 			else
 			{
 				if (!localCaptcha.isCorrect(checkCode))
 				{
-					msgBuffer.append("验证码不正确.'");
+					msgBuffer.append("验证码不正确, 请尝试刷新更换验证码再做尝试!");
 				}
 				else
 				{
@@ -110,32 +112,45 @@ extends BaseAction
 						ModelAppUser user = this.serviceAppUser.findByUserName(userName);
 						if (user != null)
 						{
-							String encodedPwd = UtilString.encryptSha256(userPwd);
-							if (user.getPassword().equalsIgnoreCase(encodedPwd))
+							if (user.getStatus().equals(ModelAppUser.EUserStatus.FROZEN.getValue()))
 							{
-								// stores the authentication to spring security
-								UsernamePasswordAuthenticationToken authToken = 
-									new UsernamePasswordAuthenticationToken(userName, userPwd);
-								
-								SecurityContext securityContext = SecurityContextHolder.getContext();
-								securityContext.setAuthentication(this.authenticationManager.authenticate(authToken));
-								
-								SecurityContextHolder.setContext(securityContext);
-								request.getSession().setAttribute("SPRING_SECURITY_LAST_USERNAME", userName);
-								
-								String rememberMe = request.getParameter("_spring_security_remember_me");
-								if (rememberMe != null && "on".equalsIgnoreCase(rememberMe))
-								{
-									String digest = DigestUtils.md5Hex(userName + ":" + userPwd + ":" + KEY_RememberMe);
-									String cookieValue = new String(Base64.encodeBase64(digest.getBytes()));
-									response.addCookie(this.makeValidCookie(request, cookieValue));
-								}
-								
-								return ajaxPrint(response, this.getSuccessCallback("登录成功."));
+								msgBuffer.append("账号已被冻结, 请联系管理员进行解冻操作!");
 							}
 							else
 							{
-								msgBuffer.append("密码不正确.'");
+								String encodedPwd = UtilString.encryptSha256(userPwd);
+								if (user.getPassword().equalsIgnoreCase(encodedPwd))
+								{
+									// 更新用戶最後登录时间和IP地址
+									String reqIp = UtilApp.getRequetIpAddr(request);
+									user.setLastLogonIP(reqIp);
+									user.setLastLogonTime(new Date());
+									this.serviceAppUser.save(user);
+									
+									// stores the authentication to spring security
+									UsernamePasswordAuthenticationToken authToken = 
+										new UsernamePasswordAuthenticationToken(userName, userPwd);
+									
+									SecurityContext securityContext = SecurityContextHolder.getContext();
+									securityContext.setAuthentication(this.authenticationManager.authenticate(authToken));
+									
+									SecurityContextHolder.setContext(securityContext);
+									request.getSession().setAttribute("SPRING_SECURITY_LAST_USERNAME", userName);
+									
+									String rememberMe = request.getParameter("_spring_security_remember_me");
+									if (rememberMe != null && "on".equalsIgnoreCase(rememberMe))
+									{
+										String digest = DigestUtils.md5Hex(userName + ":" + userPwd + ":" + KEY_RememberMe);
+										String cookieValue = new String(Base64.encodeBase64(digest.getBytes()));
+										response.addCookie(this.makeValidCookie(request, cookieValue));
+									}
+									
+									return ajaxPrint(response, this.getSuccessCallback("登录成功."));
+								}
+								else
+								{
+									msgBuffer.append("输入的密码不正确!");
+								}
 							}
 						}
 						else
@@ -145,15 +160,14 @@ extends BaseAction
 					}
 				}
 			}
-			
-			return ajaxPrint(response, this.getErrorCallback(msgBuffer.toString()));
 		}
 		catch (Exception e)
 		{
 			LOGGER.error("Exception raised when logon.", e);
+			msgBuffer.append(e.getMessage());
 		}
 		
-		return null;
+		return ajaxPrint(response, this.getErrorCallback(msgBuffer.toString()));
 	}
 	
 	/**

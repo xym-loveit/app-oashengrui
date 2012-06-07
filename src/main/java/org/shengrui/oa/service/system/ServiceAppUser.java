@@ -4,6 +4,8 @@ import org.shengrui.oa.model.system.ModelAppUser;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.ServiceGeneric;
+import cn.trymore.core.web.paging.PaginationSupport;
+import cn.trymore.core.web.paging.PagingBean;
 
 /**
  * The application user service.
@@ -23,4 +25,17 @@ extends ServiceGeneric<ModelAppUser>
 	 * @throws ServiceException
 	 */
 	ModelAppUser findByUserName (String userName) throws ServiceException;
+	
+	
+	/**
+	 * 获取分页用户数据
+	 * 
+	 * @param entity
+	 * @param pagingBean
+	 * @return
+	 * @throws ServiceException
+	 */
+	PaginationSupport<ModelAppUser> getUserPagination (ModelAppUser entity, 
+			PagingBean pagingBean) throws ServiceException;
+	
 }

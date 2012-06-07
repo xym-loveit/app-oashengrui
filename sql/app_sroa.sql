@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2012 年 06 月 07 日 10:37
+-- 生成日期: 2012 年 06 月 08 日 01:09
 -- 服务器版本: 5.5.17
 -- PHP 版本: 5.3.8
 
@@ -358,6 +358,7 @@ CREATE TABLE IF NOT EXISTS `app_role` (
   `role_status` tinyint(4) DEFAULT '1' COMMENT '角色状态, 1=开放, 0=被锁住',
   `role_rights` text COMMENT '权限功能列表',
   `role_type` tinyint(4) NOT NULL COMMENT '角色类型, 0=总部, 1=校区, 2=片区',
+  `role_edit` tinyint(4) NOT NULL DEFAULT '1' COMMENT '角色是否可以进行修改, 1=可以, 0=不可以',
   PRIMARY KEY (`role_id`),
   UNIQUE KEY `role_key` (`role_key`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='角色表' AUTO_INCREMENT=6 ;
@@ -366,8 +367,9 @@ CREATE TABLE IF NOT EXISTS `app_role` (
 -- 转存表中的数据 `app_role`
 --
 
-INSERT INTO `app_role` (`role_id`, `role_name`, `role_key`, `role_desc`, `role_status`, `role_rights`, `role_type`) VALUES
-(5, '校长', 'ROLE_MASTER', 'teset', 1, '_FUNCKEY_myplan_edit', 1);
+INSERT INTO `app_role` (`role_id`, `role_name`, `role_key`, `role_desc`, `role_status`, `role_rights`, `role_type`, `role_edit`) VALUES
+(1, '超级管理员', 'ROLE_SUPER', NULL, 1, '__ALL', 0, 0),
+(5, '校长', 'ROLE_MASTER', 'teset', 1, '_FUNCKEY_myplan_edit', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -432,8 +434,8 @@ CREATE TABLE IF NOT EXISTS `app_school_department` (
 --
 
 INSERT INTO `app_school_department` (`dep_id`, `dep_no`, `dep_name`, `dep_desc`, `dep_eqlevel`, `dep_eqid`, `dep_orgtype`) VALUES
+(1, '0', '人资部', '', 0, NULL, 1),
 (7, '0', '人资部32', '', 0, NULL, 0),
-(8, '0', '人资部', '', 0, NULL, 1),
 (9, '0', '人资部', '', 0, NULL, 1);
 
 -- --------------------------------------------------------
@@ -522,7 +524,7 @@ CREATE TABLE IF NOT EXISTS `app_system_log` (
   `createtime` datetime NOT NULL COMMENT '创建时间',
   `operation` varchar(512) NOT NULL COMMENT '执行操作',
   PRIMARY KEY (`log_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统日志' AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统日志' AUTO_INCREMENT=43 ;
 
 --
 -- 转存表中的数据 `app_system_log`
@@ -548,7 +550,29 @@ INSERT INTO `app_system_log` (`log_id`, `user_name`, `user_id`, `createtime`, `o
 (17, 'test', 1, '2012-06-06 22:04:42', '进入权限组配置页面'),
 (18, 'test', 1, '2012-06-06 22:08:14', '进入权限组配置页面'),
 (19, 'test', 1, '2012-06-06 22:09:23', '进入权限组配置页面'),
-(20, 'test', 1, '2012-06-07 00:01:04', '进入权限组配置页面');
+(20, 'test', 1, '2012-06-07 00:01:04', '进入权限组配置页面'),
+(21, 'test', 1, '2012-06-07 19:40:29', '进入权限组配置页面'),
+(22, 'test', 1, '2012-06-07 21:09:28', '进入权限组配置页面'),
+(23, 'test', 1, '2012-06-07 21:09:41', '进入权限组配置页面'),
+(24, 'test', 1, '2012-06-07 23:05:20', '进入权限组配置页面'),
+(25, 'test', 1, '2012-06-07 23:10:57', '进入权限组配置页面'),
+(26, 'test', 1, '2012-06-07 23:11:14', '进入权限组配置页面'),
+(27, 'test', 1, '2012-06-07 23:11:53', '进入权限组配置页面'),
+(28, 'test', 1, '2012-06-07 23:12:09', '进入权限组配置页面'),
+(29, 'test', 1, '2012-06-07 23:12:32', '进入权限组配置页面'),
+(30, 'test', 1, '2012-06-07 23:13:31', '进入权限组配置页面'),
+(31, 'test', 1, '2012-06-07 23:14:23', '进入权限组配置页面'),
+(32, 'test', 1, '2012-06-07 23:14:56', '进入权限组配置页面'),
+(33, 'test', 1, '2012-06-07 23:16:18', '进入权限组配置页面'),
+(34, 'test', 1, '2012-06-07 23:16:52', '进入权限组配置页面'),
+(35, 'test', 1, '2012-06-07 23:16:54', '进入权限组配置页面'),
+(36, 'test', 1, '2012-06-08 00:06:08', '进入权限组配置页面'),
+(37, 'test', 1, '2012-06-08 00:06:10', '进入权限组配置页面'),
+(38, 'test', 1, '2012-06-08 00:21:08', '进入权限组配置页面'),
+(39, 'test', 1, '2012-06-08 00:21:36', '进入权限组配置页面'),
+(40, 'test', 1, '2012-06-08 00:21:41', '进入权限组配置页面'),
+(41, 'test', 1, '2012-06-08 00:22:04', '进入权限组配置页面'),
+(42, 'test', 1, '2012-06-08 01:07:23', '进入权限组配置页面');
 
 -- --------------------------------------------------------
 
@@ -559,20 +583,21 @@ INSERT INTO `app_system_log` (`log_id`, `user_name`, `user_id`, `createtime`, `o
 CREATE TABLE IF NOT EXISTS `app_user` (
   `user_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `username` varchar(128) NOT NULL COMMENT '用户名',
-  `title` smallint(6) NOT NULL COMMENT '1=先生\r\n            0=女士\r\n            小姐',
   `password` varchar(128) NOT NULL COMMENT '密码',
+  `fullname` varchar(64) NOT NULL COMMENT '用户姓名',
   `email` varchar(128) NOT NULL COMMENT '邮件',
   `dep_id` bigint(20) DEFAULT NULL COMMENT '所属部门',
-  `position` varchar(32) DEFAULT NULL COMMENT '职位',
+  `pos_id` bigint(20) DEFAULT NULL COMMENT '职位',
+  `district_id` bigint(20) DEFAULT NULL COMMENT '用户所在校区',
   `phone` varchar(32) DEFAULT NULL COMMENT '电话',
   `mobile` varchar(32) DEFAULT NULL COMMENT '手机',
   `fax` varchar(32) DEFAULT NULL COMMENT '传真',
   `address` varchar(64) DEFAULT NULL COMMENT '地址',
   `zip` varchar(32) DEFAULT NULL COMMENT '邮编',
   `photo` varchar(128) DEFAULT NULL COMMENT '相片',
-  `status` smallint(6) NOT NULL COMMENT '状态\r\n            1=激活\r\n            0=禁用\r\n            2=离职\r\n            ',
-  `logon_lastip` varchar(64) NOT NULL COMMENT '最后登录IP',
-  `logon_lastime` datetime NOT NULL COMMENT '最后登录时间',
+  `status` smallint(6) NOT NULL COMMENT '状态            1=激活            0=冻结',
+  `logon_lastip` varchar(64) DEFAULT NULL COMMENT '最后登录IP',
+  `logon_lastime` datetime DEFAULT NULL COMMENT '最后登录时间',
   PRIMARY KEY (`user_id`),
   KEY `FK_AU_R_DPT` (`dep_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='app_user\r\n用户表' AUTO_INCREMENT=3 ;
@@ -581,10 +606,9 @@ CREATE TABLE IF NOT EXISTS `app_user` (
 -- 转存表中的数据 `app_user`
 --
 
-INSERT INTO `app_user` (`user_id`, `username`, `title`, `password`, `email`, `dep_id`, `position`, `phone`, `mobile`, `fax`, `address`, `zip`, `photo`, `status`, `logon_lastip`, `logon_lastime`) VALUES
-(-1, 'system', 1, '0', '152@163.com', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '', '0000-00-00 00:00:00'),
-(1, 'admin', 1, 'a4ayc/80/OGda4BO/1o/V0etpOqiLx1JwB5S3beHW0s=', 'csx@jee-soft.cn', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '', '0000-00-00 00:00:00'),
-(2, 'csx', 1, '9uCh4qxBlFqap/+KiqoM68EqO8yYGpKa1c+BCgkOEa4=', '111@hotmail.com', 1, '', '', '', '', '', '', '', 1, '', '0000-00-00 00:00:00');
+INSERT INTO `app_user` (`user_id`, `username`, `password`, `fullname`, `email`, `dep_id`, `pos_id`, `district_id`, `phone`, `mobile`, `fax`, `address`, `zip`, `photo`, `status`, `logon_lastip`, `logon_lastime`) VALUES
+(1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', '卡卡西', 'csx@jee-soft.cn', 1, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, 1, '127.0.0.1', '2012-06-08 01:03:23'),
+(2, 'csx', '9uCh4qxBlFqap/+KiqoM68EqO8yYGpKa1c+BCgkOEa4=', '斩不刀', '111@hotmail.com', 1, NULL, 3, '', '', '', '', '', '', 0, '', NULL);
 
 -- --------------------------------------------------------
 

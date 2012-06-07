@@ -1,6 +1,7 @@
 package cn.trymore.core.util;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * The application utilities
@@ -28,6 +29,30 @@ public class UtilApp
 	public static void reloadSecurityDataSource()
 	{
 		
+	}
+	
+	/**
+	 * Obtains the request IP address.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static String getRequetIpAddr (HttpServletRequest request)
+	{
+		String ip = request.getHeader("x-forwarded-for");
+		if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip))
+		{
+			ip = request.getHeader("Proxy-Client-IP");
+		}
+		if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip))
+		{
+			ip = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip))
+		{
+			ip = request.getRemoteAddr();
+		}
+		return ip;
 	}
 	
 	public static ServletContext getServletContext()
