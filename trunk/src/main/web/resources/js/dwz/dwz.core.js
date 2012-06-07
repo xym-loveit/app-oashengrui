@@ -90,13 +90,15 @@ var DWZ = {
 	},
 
 	init:function(pageFrag, options){
+		// added by Jeccy.Zhao on 08.0.2012 for additional property, 'loginRedirectPattern'
 		var op = $.extend({
-				loginUrl:"login.html", loginTitle:null, callback:null, debug:false, 
+				loginUrl:"login.html", loginTitle:null, callback:null, debug:false, loginRedirectPattern: null,
 				statusCode:{}
 			}, options);
 		this._set.loginUrl = op.loginUrl;
 		this._set.loginTitle = op.loginTitle;
 		this._set.debug = op.debug;
+		this._set.loginRedirectPattern = op.loginRedirectPattern;
 		$.extend(DWZ.statusCode, op.statusCode);
 		$.extend(DWZ.pageInfo, op.pageInfo);
 		
@@ -143,7 +145,7 @@ var DWZ = {
 			if ($.fn.xheditor) {
 				$("textarea.editor", $this).xheditor(false);
 			}
-			
+						
 			$.ajax({
 				type: op.type || 'GET',
 				url: op.url,
@@ -151,14 +153,17 @@ var DWZ = {
 				cache: false,
 				success: function(response){
 					var json = DWZ.jsonEval(response);
-					
-					if (json.statusCode==DWZ.statusCode.timeout){
+					// added by Jeccy.Zhao on 08.06.2012
+					var isTimeout =  json.statusCode == DWZ.statusCode.timeout || response.indexOf(DWZ._set.loginRedirectPattern) > -1;
+					if (isTimeout){
 						alertMsg.error(json.message || DWZ.msg("sessionTimout"), {okCall:function(){
 							if ($.pdialog) $.pdialog.checkTimeout();
 							if (navTab) navTab.checkTimeout();
 	
 							DWZ.loadLogin();
 						}});
+						
+						return;
 					} 
 					
 					if (json.statusCode==DWZ.statusCode.error){
