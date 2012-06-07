@@ -7,6 +7,10 @@ import java.util.Set;
 
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.springframework.security.GrantedAuthority;
+import org.springframework.security.GrantedAuthorityImpl;
+import org.springframework.security.userdetails.UserDetails;
+
 import com.google.gson.annotations.Expose;
 
 import cn.trymore.core.model.ModelBase;
@@ -19,7 +23,7 @@ import cn.trymore.core.util.UtilString;
  *
  */
 public class ModelAppUser
-extends ModelBase
+extends ModelBase implements UserDetails
 {
 
 	private static final long serialVersionUID = 6633139098998882031L;
@@ -203,6 +207,61 @@ extends ModelBase
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.springframework.security.userdetails.UserDetails#getAuthorities()
+	 */
+	@Override
+	public GrantedAuthority[] getAuthorities()
+	{
+		GrantedAuthority[] arrayOfGrantedAuthority = 
+			(GrantedAuthority[])this.roles.toArray(new GrantedAuthority[this.roles.size() + 1]);
+		
+		arrayOfGrantedAuthority[(arrayOfGrantedAuthority.length - 1)] = new GrantedAuthorityImpl(ModelAppRole.ROLE_PUBLIC);
+		
+		return arrayOfGrantedAuthority;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.springframework.security.userdetails.UserDetails#isAccountNonExpired()
+	 */
+	@Override
+	public boolean isAccountNonExpired()
+	{
+		return true;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.springframework.security.userdetails.UserDetails#isAccountNonLocked()
+	 */
+	@Override
+	public boolean isAccountNonLocked()
+	{
+		return true;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.springframework.security.userdetails.UserDetails#isCredentialsNonExpired()
+	 */
+	@Override
+	public boolean isCredentialsNonExpired()
+	{
+		return true;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.springframework.security.userdetails.UserDetails#isEnabled()
+	 */
+	@Override
+	public boolean isEnabled()
+	{
+		return this.status.shortValue() == 1;
+	}
+	
 	public String getUsername()
 	{
 		return username;
@@ -352,5 +411,5 @@ extends ModelBase
 	{
 		this.position = position;
 	}
-	
+
 }

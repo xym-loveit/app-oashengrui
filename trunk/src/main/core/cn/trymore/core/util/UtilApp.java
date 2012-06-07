@@ -8,7 +8,7 @@ import javax.servlet.ServletContext;
  * @author Jeccy.Zhao
  *
  */
-public class AppUtil
+public class UtilApp
 {
 	private static ServletContext servletContext = null;
 	
@@ -37,6 +37,6 @@ public class AppUtil
 
 	public static void setServletContext(ServletContext servletContext)
 	{
-		AppUtil.servletContext = servletContext;
+		UtilApp.servletContext = servletContext;
 	}
 }

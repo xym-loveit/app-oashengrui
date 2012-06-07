@@ -5,6 +5,8 @@ import java.util.Set;
 
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.springframework.security.GrantedAuthority;
+
 import com.google.gson.annotations.Expose;
 
 import cn.trymore.core.model.ModelBase;
@@ -16,10 +18,15 @@ import cn.trymore.core.model.ModelBase;
  *
  */
 public class ModelAppRole
-extends ModelBase
+extends ModelBase implements GrantedAuthority
 {
 	
 	private static final long serialVersionUID = -5327640691910365819L;
+	
+	/**
+	 * 超级管理员
+	 */
+	public static final String ROLE_SUPER = "ROLE_SUPER";
 	
 	/**
 	 * 公共角色
@@ -149,6 +156,26 @@ extends ModelBase
 		return null;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public int compareTo(Object arg0)
+	{
+		return 0;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.springframework.security.GrantedAuthority#getAuthority()
+	 */
+	@Override
+	public String getAuthority()
+	{
+		return this.roleKey;
+	}
+	
 	public String getRoleName()
 	{
 		return roleName;
@@ -238,4 +265,5 @@ extends ModelBase
 	{
 		this.roleKey = roleKey;
 	}
+	
 }

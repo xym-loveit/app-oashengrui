@@ -17,6 +17,12 @@ import org.shengrui.oa.util.AppUtil;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.web.action.BaseAction;
 
+/**
+ * The base action for system setting.
+ * 
+ * @author Jeccy.Zhao
+ *
+ */
 public class sysSettingBaseAction
 extends BaseAction
 {
