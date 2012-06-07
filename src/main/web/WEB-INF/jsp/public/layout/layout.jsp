@@ -88,7 +88,8 @@
 		var APP_BASE_PATH = "<%=basePath%>";
 		$(function(){
 			DWZ.init("resources/js/dwz/dwz.frag.xml", {
-				loginUrl:"login_dialog.html", loginTitle:"登录",	// 弹出登录对话框
+				loginUrl:"loginDialog.jsp", loginTitle:"登录",	// 弹出登录对话框
+				loginRedirectPattern: "DWZ.init",
 				statusCode:{ok:200, error:300, timeout:301}, 
 				pageInfo:{pageNum:"pageNum", numPerPage:"numPerPage", orderField:"orderField", orderDirection:"orderDirection"}, 
 				debug:false,	

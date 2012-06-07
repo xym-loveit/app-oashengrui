@@ -50,7 +50,18 @@
 	<listener>
 		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
 	</listener>
-
+	
+	<!-- Spring Security -->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>\
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>  
+	
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	
 	<!-- encoding filter -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
@@ -83,17 +94,6 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
-	<!-- Spring Security -->
-	<filter>
-		<filter-name>springSecurityFilterChain</filter-name>\
-		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-	</filter>  
-	
-	<filter-mapping>
-		<filter-name>springSecurityFilterChain</filter-name>\
-		<url-pattern>*.do</url-pattern>
-	</filter-mapping>
-	
 	<servlet>
 		<servlet-name>Captcha</servlet-name>
 		<servlet-class>cn.trymore.core.web.servlet.CaptchaServlet</servlet-class>
@@ -103,30 +103,6 @@
 		<servlet-name>Captcha</servlet-name>
 		<url-pattern>/CaptchaImg</url-pattern>
 	</servlet-mapping>
-	
-	<!-- Security Control 
-	<filter>
-		<filter-name>securityFilterChain</filter-name>
-		<filter-class>com.lzcp.components.security.UserAuthenticationFilter</filter-class>
-		<init-param>
-			<param-name>pageError</param-name>
-			<param-value>/error</param-value>
-		</init-param>
-		<init-param>
-			<param-name>pageLogin</param-name>
-			<param-value>/account/login</param-value>
-		</init-param>
-		<init-param>
-			<param-name>pageAccessDenied</param-name>
-			<param-value>/accessDenied.jsp</param-value>
-		</init-param>
-	</filter>
-	
-	<filter-mapping>
-		<filter-name>securityFilterChain</filter-name>
-		<url-pattern>/admin/*</url-pattern>
-	</filter-mapping>
-	-->
 	
 	<!-- UrlRewrite configuration
 	<filter>
@@ -219,6 +195,11 @@
 		
 	</jsp-config>
 	
+	<session-config>  
+		<!-- 配置session的超时管理,以分钟为单位 -->  
+		<session-timeout>30</session-timeout>  
+	</session-config> 
+
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
