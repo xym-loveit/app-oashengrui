@@ -1,7 +1,10 @@
 package cn.trymore.core.util;
 
+import java.security.MessageDigest;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.apache.commons.codec.binary.Base64;
 
 /**
  * The helper class of string operation.
@@ -123,6 +126,62 @@ public class UtilString
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * Converts the quot
+	 * 
+	 * @param paramString
+	 * @return
+	 */
+	public static String convertQuot(String paramString)
+	{
+		return paramString.replace("'", "\\'").replace("\"", "\\\"");
+	}
+	
+	/**
+	 * Encrypt the specified string to SHA256 encodes.
+	 * 
+	 * @param paramString
+	 * @return
+	 */
+	public static synchronized String encryptSha256(String paramString)
+	{
+		try
+		{
+			MessageDigest localMessageDigest = MessageDigest.getInstance("SHA-256");
+			byte[] arrayOfByte = localMessageDigest.digest(paramString.getBytes("UTF-8"));
+			return new String(Base64.encodeBase64(arrayOfByte));
+		}
+		catch (Exception e)
+		{
+			// do nothing here.
+		}
+		return null;
+	}
+	
+	/**
+	 * Returns true if the specified string is numberic
+	 * 
+	 * @param paramString
+	 * @return
+	 */
+	public static boolean isNumeric(String paramString)
+	{
+		int i = paramString.length();
+		while (true)
+		{
+			i--;
+			if (i < 0)
+			{
+				break;
+			}
+			if (!Character.isDigit(paramString.charAt(i)))
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 	
 }

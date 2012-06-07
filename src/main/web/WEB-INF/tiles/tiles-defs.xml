@@ -16,7 +16,7 @@
 	</definition>
 	
 	<!-- 登陆页面 -->
-	<definition name="login.index" path="/WEB-INF/jsp/public/login/login.jsp" />
+	<definition name="login.index" path="/login.jsp" />
 	
 	<!-- 空白页面 -->
 	<definition name="error.view" path="/WEB-INF/jsp/public/layout/blank.jsp" />
