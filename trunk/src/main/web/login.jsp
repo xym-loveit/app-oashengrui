@@ -115,10 +115,10 @@
 <body>
 	<div id="login">
 		<div id="login_header">
-			<h1 class="login_logo"></h1>
+			<h1 class="login_logo"><a href="http://www.xuezhicn.com/"><img src="resources/themes/default/images/logo.jpg" style="position: relative;top: -7px;"/></a></h1>
 			<div class="login_headerContent">
 				<div class="navList"></div>
-				<h2 class="login_title"></h2>
+				<h2 class="login_title"><img src="resources/themes/default/images/login_title.png" /></h2>
 			</div>
 		</div>
 		<div id="login_content">
@@ -139,13 +139,17 @@
 						<span><img id="captcha_code" src="CaptchaImg" alt="" width="98" height="22" title="点击更换验证码" /></span>
 					</p>
 					<div class="login_bar">
-						<div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div>
+						<button class="sub" type="submit"></button>
 					</div>
 				</form>
 			</div>
-			<div class="login_banner"><img src="resources/themes/default/images/login_banner.jpg" /></div>
+			<div class="login_banner"><img src="resources/themes/default/images/login_banner.png" /></div>
 			<div class="login_main">
-				<div class="login_inner"></div>
+				<div class="login_inner">
+					<p>让更多的孩子得到更好的教育是我们不变的追求。</p>
+					<p>不同的起点也可以达到同样的高度，态度决定一切。</p>
+					<p>专注于个性化辅导，我们的流程更加专业，服务更加到位，每一个细节都力求完美。</p>
+				</div>
 			</div>
 		</div>
 		<div id="login_footer">
