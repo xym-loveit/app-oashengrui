@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	
+	<form-beans>
+		<form-bean name="form.process.type" type="org.shengrui.oa.model.flow.ModelProcessType"></form-bean>
+	</form-beans>
+	
+	<global-forwards> 
+		<forward name="data.sys.setting.flow.type.tree" path="data.sys.setting.flow.type.tree" />
+		<forward name="data.sys.setting.flow.type.list" path="data.sys.setting.flow.type.list" />
+		<forward name="dialog.sys.setting.flow.type" path="dialog.sys.setting.flow.type" />
+	</global-forwards>
+	
+	<action-mappings>
+		
+		<!-- 财务审批流程设置 -->
+		<action path="/app/flow"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+		</action>
+		
+		<!-- 财务审批流程设置 -->
+		<action path="/app/flow/financial"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="page.sys.setting.flow.financial.index" path="page.sys.setting.flow.financial.index" />
+		</action>
+		
+		<!-- 人资审批流程设置 -->
+		<action path="/app/flow/hrm"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+		</action>
+		
+	</action-mappings>
+
+</struts-config>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<bean id="daoProcessType" class="org.shengrui.oa.dao.flow.impl.DAOProcessTypeImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	
+	<bean id="serviceProcessType" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.flow.impl.ServiceProcessTypeImpl">
+				<constructor-arg index="0" ref="daoProcessType"/>
+			</bean>
+		</property>
+	</bean>
+	
+	
+</beans>

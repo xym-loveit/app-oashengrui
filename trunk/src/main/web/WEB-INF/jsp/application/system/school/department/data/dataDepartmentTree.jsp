@@ -22,7 +22,7 @@
 </logic:present>
 
 <ul class="tree treeFolder" layoutH="8">
-	<li>
+	<li class="expand">
 		<a id="org_master">总部</a>
 		<ul>
 			<c:if test="${departments ne null}">
@@ -36,7 +36,7 @@
 			</c:if>
 		</ul>
 	</li>
-	<li>
+	<li class="expand">
 		<a id="org_campus">校区</a>
 		<ul>
 			<c:if test="${departments ne null}">

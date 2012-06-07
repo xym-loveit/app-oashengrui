@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+       
+<tiles-definitions>
+	
+	<!--流程分类弹框页面 -->
+	<definition name="dialog.sys.setting.flow.type" 
+		path="/WEB-INF/jsp/application/system/flow/public/dialog/dialogFlowType.jsp"/>
+	
+	<!--流程分类之父类别树结构页面 -->
+	<definition name="data.sys.setting.flow.type.tree" 
+		path="/WEB-INF/jsp/application/system/flow/public/data/dataFlowTypeTree.jsp"/>
+	
+	<!--流程分类之子分类列表页面 -->
+	<definition name="data.sys.setting.flow.type.list" 
+		path="/WEB-INF/jsp/application/system/flow/public/data/dataFlowTypeList.jsp"/>
+	
+	<!-- 财务审批流程页面 -->
+	<definition name="page.sys.setting.flow.financial.index" 
+		path="/WEB-INF/jsp/application/system/flow/financial/flowFinancialIndex.jsp"/>
+	
+</tiles-definitions>

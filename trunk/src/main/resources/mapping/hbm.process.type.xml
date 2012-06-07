@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.shengrui.oa.model.flow">
+    <class name="ModelProcessType" table="app_process_type">
+        <id name="id" type="java.lang.String">
+            <column name="type_id" />
+            <generator class="native" />
+        </id>
+        <property name="processTypeName" type="java.lang.String">
+            <column name="type_name" not-null="true" />
+        </property>
+        <property name="processTypeKey" type="java.lang.String" unique="true">
+            <column name="type_key"/>
+        </property>
+        <property name="processTypeSlug" type="java.lang.String">
+            <column name="type_slug" />
+        </property>
+        <property name="processTypeDesc" type="java.lang.String">
+            <column name="type_desc" />
+        </property>
+        
+        <many-to-one not-found="ignore" name="processTypeParent" class="ModelProcessType">
+        	<column name="type_parent" />
+        </many-to-one>
+        
+         <set name="processTypeChildren" inverse="true" cascade="delete" lazy="true" order-by="type_id asc">
+        	<!-- <cache usage="read-write" /> -->
+        	<key column="type_parent"/>
+        	<one-to-many class="ModelProcessType"/>
+        </set>
+	    
+	</class>
+</hibernate-mapping>

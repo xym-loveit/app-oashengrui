@@ -121,8 +121,8 @@
 				</li>
 				<li treeicon="icon-setflowm"><a>审批流程设置</a>
 					<ul>
-						<li treeicon="icon-setflowmhr"><a href="demo_page1.html" target="navTab" rel="demo_page2">人资审批流程设置</a></li>
-						<li treeicon="icon-setflowmfin"><a href="demo_page1.html" target="navTab" rel="demo_page2">财务审批流程设置</a></li>
+						<li treeicon="icon-setflowmhr"><a href="demo_page1.html" target="navTab" rel="sysmgr_flow_hrm">人资审批流程设置</a></li>
+						<li treeicon="icon-setflowmfin"><a href="app/flow/financial.do?action=pageFlowIndex" target="navTab" rel="sysmgr_flow_financial">财务审批流程设置</a></li>
 					</ul>
 				</li>
 				<li treeicon="icon-setorg"><a>学校设置</a>

@@ -1,4 +1,4 @@
-package org.shengrui.oa.model.process;
+package org.shengrui.oa.model.flow;
 
 import cn.trymore.core.model.ModelBase;
 
