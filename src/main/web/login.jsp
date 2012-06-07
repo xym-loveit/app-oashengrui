@@ -6,8 +6,13 @@
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@page import="org.shengrui.oa.util.ContextUtil"%>
 
 <%  
+	if (ContextUtil.getCurrentUser() != null) {
+		response.sendRedirect(request.getContextPath() + "/app/index.do?action=index");
+	}
+	
 	String path = request.getContextPath();  
 	String basePath = request.getScheme()+"://"+request.getServerName()+
 		(request.getServerPort() == 80 ? "" : (":"+request.getServerPort())) +path+"/";  
