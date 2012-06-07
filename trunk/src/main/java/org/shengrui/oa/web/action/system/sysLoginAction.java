@@ -85,7 +85,7 @@ extends BaseAction
 		
 		try
 		{
-			StringBuffer msgBuffer = new StringBuffer("{msg:'");
+			StringBuffer msgBuffer = new StringBuffer();
 			
 			String userName = request.getParameter(PARAM_USER_NAME);
 			String userPwd = request.getParameter(PARAM_USER_PWD);
@@ -131,7 +131,7 @@ extends BaseAction
 									response.addCookie(this.makeValidCookie(request, cookieValue));
 								}
 								
-								return ajaxPrint(response, "{success:true}");
+								return ajaxPrint(response, this.getSuccessCallback("登录成功."));
 							}
 							else
 							{
@@ -146,9 +146,7 @@ extends BaseAction
 				}
 			}
 			
-			msgBuffer.append(",failure:true}");
-			
-			return ajaxPrint(response, msgBuffer.toString());
+			return ajaxPrint(response, this.getErrorCallback(msgBuffer.toString()));
 		}
 		catch (Exception e)
 		{

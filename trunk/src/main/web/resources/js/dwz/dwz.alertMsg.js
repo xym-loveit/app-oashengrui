@@ -13,7 +13,11 @@ var alertMsg = {
 	_types: {error:"error", info:"info", warn:"warn", correct:"correct", confirm:"confirm"},
 
 	_getTitle: function(key){
-		return $.regional.alertMsg.title[key];
+		if ($.regional) {
+			return $.regional.alertMsg.title[key];
+		} else {
+			return "error" == type ? "错误" : ("info" == type ? "提示" : ("warn" == type ? "警告" : ""));
+		}
 	},
 
 	/**
@@ -67,7 +71,7 @@ var alertMsg = {
 		this._alert(this._types.correct, msg, options);
 	},
 	_alert: function(type, msg, options) {
-		var op = {okName:$.regional.alertMsg.butMsg.ok, okCall:null};
+		var op = {okName:$.regional ? $.regional.alertMsg.butMsg.ok : "确定", okCall:null};
 		$.extend(op, options);
 		var buttons = [
 			{name:op.okName, call: op.okCall}

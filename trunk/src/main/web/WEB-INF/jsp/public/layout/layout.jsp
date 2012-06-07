@@ -87,16 +87,16 @@
 	<script type="text/javascript">
 		var APP_BASE_PATH = "<%=basePath%>";
 		$(function(){
-				DWZ.init("resources/js/dwz/dwz.frag.xml", {
-					loginUrl:"login_dialog.html", loginTitle:"登录",	// 弹出登录对话框
-					statusCode:{ok:200, error:300, timeout:301}, 
-					pageInfo:{pageNum:"pageNum", numPerPage:"numPerPage", orderField:"orderField", orderDirection:"orderDirection"}, 
-					debug:false,	
-					callback:function(){
-						initEnv();
-						$("#themeList").theme({themeBase:"resources/themes"}); // themeBase 相对于index页面的主题base路径
-					}
-				});
+			DWZ.init("resources/js/dwz/dwz.frag.xml", {
+				loginUrl:"login_dialog.html", loginTitle:"登录",	// 弹出登录对话框
+				statusCode:{ok:200, error:300, timeout:301}, 
+				pageInfo:{pageNum:"pageNum", numPerPage:"numPerPage", orderField:"orderField", orderDirection:"orderDirection"}, 
+				debug:false,	
+				callback:function(){
+					initEnv();
+					$("#themeList").theme({themeBase:"resources/themes"}); // themeBase 相对于index页面的主题base路径
+				}
+			});
 		});
 	</script>
 	

@@ -14,6 +14,7 @@ import org.springframework.security.AccessDeniedException;
 import org.springframework.security.Authentication;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import cn.trymore.core.security.SecurityDataSource;
@@ -49,6 +50,15 @@ extends OncePerRequestFilter
 	{
 		// obtains the request URI
 		String requestURI = request.getRequestURI();
+		String contextPath = request.getContextPath();
+		if (StringUtils.hasLength(contextPath))
+		{
+			int pos = requestURI.indexOf(contextPath);
+			if (pos != -1)
+			{
+				requestURI = requestURI.substring(pos + contextPath.length());
+			}
+		}
 		
 		boolean isCommonRole = false;
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -60,7 +70,8 @@ extends OncePerRequestFilter
 				break;
 			}
 			
-			if (ModelAppRole.ROLE_PUBLIC.equals(auth.getAuthorities()[i].getAuthority()))
+			if (ModelAppRole.ROLE_PUBLIC.equals(auth.getAuthorities()[i].getAuthority()) || 
+					ModelAppRole.ROLE_ANONYMOUS.equals(auth.getAuthorities()[i].getAuthority()))
 			{
 				continue;
 			}
