@@ -87,10 +87,24 @@
 							<a href="app/system/role.do?action=dialogRolePage&roleId=${role.id}&view" target="dialog" title="权限组详细" class="oplink" width="504" height="348" rel="sysmgr_roleview_${idx}">详细</a>
 						</td>
 						<td>
-							<a href="app/system/role.do?action=dialogRolePage&roleId=${role.id}" target="dialog" title="权限组编辑" class="oplink" width="504" height="348" rel="sysmgr_roleedit_${idx}">编辑</a>
+							<c:choose>
+								<c:when test="${role.roleEditable == 1}">
+									<a href="app/system/role.do?action=dialogRolePage&roleId=${role.id}" target="dialog" title="权限组编辑" class="oplink" width="504" height="348" rel="sysmgr_roleedit_${idx}">编辑</a>
+								</c:when>
+								<c:otherwise>
+									<label style="color:#ddd;text-decoration: line-through;" title="不能进行编辑操作">编辑</label>
+								</c:otherwise>
+							</c:choose>
 						</td>
 						<td>
-							<a href="app/system/role.do?action=actionRemoveRole&roleId=${role.id}" target="ajaxTodo" title="确定删除该权限组吗？" class="oplink" callback="callback_roleRemove(${role.id})">删除</a>
+							<c:choose>
+								<c:when test="${role.roleEditable == 1}">
+									<a href="app/system/role.do?action=actionRemoveRole&roleId=${role.id}" target="ajaxTodo" title="确定删除该权限组吗？" class="oplink" callback="callback_roleRemove(${role.id})">删除</a>
+								</c:when>
+								<c:otherwise>
+									<label style="color:#ddd;text-decoration: line-through;" title="不能进行删除操作">删除</label>
+								</c:otherwise>
+							</c:choose>
 						</td>
 					</tr>
 				</logic:iterate>

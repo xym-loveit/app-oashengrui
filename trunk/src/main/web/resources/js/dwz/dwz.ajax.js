@@ -106,7 +106,13 @@ function navTabAjaxDone(json){
 	DWZ.ajaxDone(json);
 	if (json.statusCode == DWZ.statusCode.ok){
 		if (json.navTabId){ //把指定navTab页面标记为需要“重新载入”。注意navTabId不能是当前navTab页面的
-			navTab.reloadFlag(json.navTabId);
+			if (json.navTabId == "navTabIdCurrent") {
+				var tabId = navTab.getCurrentTabId();
+				var tabUrl = navTab.getCurrentTabUrl();
+				navTab.reload(tabUrl, {navTabId: tabId});
+			} else {
+				navTab.reloadFlag(json.navTabId);
+			}
 		} else { //重新载入当前navTab页面
 			navTabPageBreak({}, json.rel);
 		}

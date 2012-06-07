@@ -41,7 +41,7 @@ extends ModelBase implements GrantedAuthority
 	/**
 	 * 超级管理员的角色ID
 	 */
-	public static final String SUPER_ROLEID = String.valueOf(-1L);
+	public static final String SUPER_ROLEID = String.valueOf(1L);
 	
 	/**
 	 * 超级权限
@@ -83,6 +83,12 @@ extends ModelBase implements GrantedAuthority
 	 */
 	@Expose
 	private String roleRights;
+	
+	/**
+	 * 角色是否可修改
+	 */
+	@Expose
+	private Integer roleEditable = 1;
 	
 	/**
 	 * 角色拥有的功能Model集合
@@ -264,6 +270,16 @@ extends ModelBase implements GrantedAuthority
 	public void setRoleKey(String roleKey)
 	{
 		this.roleKey = roleKey;
+	}
+
+	public Integer getRoleEditable()
+	{
+		return roleEditable;
+	}
+
+	public void setRoleEditable(Integer roleEditable)
+	{
+		this.roleEditable = roleEditable;
 	}
 	
 }

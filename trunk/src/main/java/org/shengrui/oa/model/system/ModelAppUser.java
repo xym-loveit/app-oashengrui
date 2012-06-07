@@ -34,10 +34,16 @@ extends ModelBase implements UserDetails
 	public static final Long SUPER_USER = new Long(1L);
 	
 	/**
-	 * 用户名
+	 * 用户账号
 	 */
 	@Expose
 	protected String username;
+	
+	/**
+	 * 用户姓名
+	 */
+	@Expose
+	protected String fullName;
 	
 	/**
 	 * 用户密码
@@ -87,7 +93,7 @@ extends ModelBase implements UserDetails
 	protected String photo;
 	
 	/**
-	 * 状态 ( 1=激活,0=禁用,2=离职)
+	 * 状态 ( 1=激活,0=冻结)
 	 */
 	@Expose
 	protected Integer status;
@@ -116,10 +122,47 @@ extends ModelBase implements UserDetails
 	protected ModelSchoolDepartmentPosition position;
 	
 	/**
+	 * 用户所在校区
+	 */
+	@Expose
+	protected ModelSchoolDistrict district;
+	
+	/**
 	 * 用户拥有的角色
 	 */
 	@XmlTransient
 	protected Set<ModelAppRole> roles;
+	
+	
+	/**
+	 * The enumeration of user status
+	 * 
+	 * @author Jeccy.Zhao
+	 *
+	 */
+	public static enum EUserStatus
+	{
+		FROZEN (0, "frozen"),				// 已冻结
+		ACTIVATED(1, "activated");		// 已激活
+		
+		private Integer value;
+		private String text;
+		
+		EUserStatus (Integer value, String text)
+		{
+			this.value = value;
+			this.text = text;
+		}
+		
+		public Integer getValue(){
+			return value;
+		}
+		
+		public String getText()
+		{
+			return this.text;
+		}
+	}
 	
 	/**
 	 * 判断是否为超级管理员.
@@ -430,5 +473,24 @@ extends ModelBase implements UserDetails
 	{
 		this.position = position;
 	}
+	
+	public String getFullName()
+	{
+		return fullName;
+	}
 
+	public void setFullName(String fullName)
+	{
+		this.fullName = fullName;
+	}
+	
+	public ModelSchoolDistrict getDistrict()
+	{
+		return district;
+	}
+
+	public void setDistrict(ModelSchoolDistrict district)
+	{
+		this.district = district;
+	}
 }

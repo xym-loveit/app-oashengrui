@@ -1,11 +1,17 @@
 package org.shengrui.oa.service.system.impl;
 
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.system.DAOAppUser;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.service.system.ServiceAppUser;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
+import cn.trymore.core.util.UtilString;
+import cn.trymore.core.web.paging.PaginationSupport;
+import cn.trymore.core.web.paging.PagingBean;
 
 /**
  * The application user service implementation.
@@ -22,6 +28,10 @@ extends ServiceGenericImpl<ModelAppUser> implements ServiceAppUser
 	 */
 	private DAOAppUser daoAppUser;
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.system.ServiceAppUser#findByUserName(java.lang.String)
+	 */
 	@Override
 	public ModelAppUser findByUserName(String userName) throws ServiceException
 	{
@@ -33,6 +43,42 @@ extends ServiceGenericImpl<ModelAppUser> implements ServiceAppUser
 		{
 			throw new ServiceException(e);
 		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.system.ServiceAppUser#getUserPagination(org.shengrui.oa.model.system.ModelAppUser, cn.trymore.core.web.paging.PagingBean)
+	 */
+	@Override
+	public PaginationSupport<ModelAppUser> getUserPagination(
+			ModelAppUser entity, PagingBean pagingBean) throws ServiceException
+	{
+		return this.getAll(this.getCriterias(entity), pagingBean);
+	}
+	
+	/**
+	 * 
+	 * @param entity
+	 * @return
+	 */
+	private DetachedCriteria getCriterias(ModelAppUser entity)
+	{
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelAppUser.class);
+		
+		if (entity != null)
+		{
+			if (UtilString.isNotEmpty(entity.getUsername()))
+			{
+				criteria.add(Restrictions.like("username", entity.getUsername(), MatchMode.ANYWHERE));
+			}
+			
+			if (UtilString.isNotEmpty(entity.getFullName()))
+			{
+				criteria.add(Restrictions.like("fullName", entity.getFullName(), MatchMode.ANYWHERE));
+			}
+		}
+		
+		return criteria;
 	}
 	
 	public ServiceAppUserImpl(DAOAppUser dao)
@@ -51,6 +97,5 @@ extends ServiceGenericImpl<ModelAppUser> implements ServiceAppUser
 	{
 		return daoAppUser;
 	}
-
 
 }

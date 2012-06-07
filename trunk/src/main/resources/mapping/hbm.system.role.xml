@@ -26,6 +26,10 @@
         <property name="roleType" type="java.lang.Integer">
             <column name="role_type" not-null="true"/>
         </property>
+        <property name="roleEditable" type="java.lang.Integer">
+            <column name="role_edit" />
+        </property>
+        
         <set name="functions" table="app_role_func" 
         	cascade="save-update" inverse="false" lazy="true"> 
 	      <key column="role_id"/>  

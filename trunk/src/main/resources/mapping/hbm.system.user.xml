@@ -13,6 +13,9 @@
         <property name="password" type="java.lang.String">
             <column name="password" not-null="true" />
         </property>
+        <property name="fullName" type="java.lang.String">
+            <column name="fullname" not-null="true" />
+        </property>
         <property name="email" type="java.lang.String">
             <column name="email" />
         </property>
@@ -47,7 +50,11 @@
         <many-to-one  name="position" class="ModelSchoolDepartmentPosition">
         	<column name="pos_id" />
         </many-to-one>
-	    
+	
+		<many-to-one  name="district" class="ModelSchoolDistrict">
+        	<column name="district_id" />
+        </many-to-one>
+			    
 	    <set name="roles" table="app_user_role" cascade="save-update" inverse="false" lazy="true"> 
       		<key column="user_id"/>  
       		<many-to-many fetch="join" class="ModelAppRole" column="role_id"/> 
