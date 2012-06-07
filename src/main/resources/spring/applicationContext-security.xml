@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<b:beans xmlns="http://www.springframework.org/schema/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xmlns:b="http://www.springframework.org/schema/beans"
-             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-              http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">	
-    
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+		xmlns:beans="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans 
+							http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+							http://www.springframework.org/schema/security
+							http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
+		
     <http auto-config="true" access-denied-page="/403.jsp" lowercase-comparisons="true" 
      	access-decision-manager-ref="accessDecisionManager">
         <intercept-url pattern="/images/**" filters="none"/>
@@ -18,40 +21,40 @@
    		<remember-me key="RememberAppUser"/>
     </http>
 	
-	 <b:bean id="accessDecisionManager" class="org.springframework.security.vote.AffirmativeBased">
-	 	<b:property name="allowIfAllAbstainDecisions" value="false"/>
-        <b:property name="decisionVoters">
-            <b:list>
-                <b:bean class="org.springframework.security.vote.RoleVoter">
-                    <b:property name="rolePrefix" value="" />
-                </b:bean>
-                <b:bean class="org.springframework.security.vote.AuthenticatedVoter" />
-            </b:list>
-        </b:property>
-    </b:bean>
+	 <beans:bean id="accessDecisionManager" class="org.springframework.security.vote.AffirmativeBased">
+	 	<beans:property name="allowIfAllAbstainDecisions" value="false"/>
+        <beans:property name="decisionVoters">
+            <beans:list>
+                <beans:bean class="org.springframework.security.vote.RoleVoter">
+                    <beans:property name="rolePrefix" value="" />
+                </beans:bean>
+                <beans:bean class="org.springframework.security.vote.AuthenticatedVoter" />
+            </beans:list>
+        </beans:property>
+    </beans:bean>
 
 	<authentication-manager alias="authenticationManager"/>
 		
-    <authentication-provider user-service-ref="appUserDao">
+    <authentication-provider user-service-ref="daoAppUser">
     	<password-encoder hash="sha-256" base64="true"/>
     </authentication-provider>
 
-    <b:bean id="securityInterceptorFilter" class="cn.trymore.core.web.filter.SecurityInterceptorFilter" >
+    <beans:bean id="securityInterceptorFilter" class="cn.trymore.core.web.filter.SecurityInterceptorFilter" >
 		<custom-filter after="FILTER_SECURITY_INTERCEPTOR" />
-		<b:property name="securityDataSource" ref="securityDataSource"/>
-	</b:bean>
+		<beans:property name="securityDataSource" ref="securityDataSource"/>
+	</beans:bean>
 	
-	<b:bean id="securityDataSource" class="cn.trymore.core.security.SecurityDataSource">
-		<b:property name="serviceAppRole" ref="serviceAppRole"/>
-		<b:property name="anonymousUrls">
-			<b:set>
-				<b:value>/login.do</b:value>
-				<b:value>/check.do</b:value>
-			</b:set>
-		</b:property>
-		<b:property name="publicUrls">
-			<b:set>
-			</b:set>
-		</b:property>
-	</b:bean>
-</b:beans>
+	<beans:bean id="securityDataSource" class="cn.trymore.core.security.SecurityDataSource">
+		<beans:property name="serviceAppRole" ref="serviceAppRole"/>
+		<beans:property name="anonymousUrls">
+			<beans:set>
+				<beans:value>/login.do</beans:value>
+				<beans:value>/check.do</beans:value>
+			</beans:set>
+		</beans:property>
+		<beans:property name="publicUrls">
+			<beans:set>
+			</beans:set>
+		</beans:property>
+	</beans:bean>
+</beans:beans>
