@@ -12,12 +12,18 @@
 </style>
 
 <script type="text/javascript">
-	function dep_refresh () {
-		$("#ajBoxMenuTree").loadUrl("app/system/school/department.do?action=actionLoadDepartmentTree", {}, function(){
+	function dep_refresh (refresh) {
+		if (refresh) {
+			$("#ajBoxMenuTree").loadUrl("app/system/school/department.do?action=actionLoadDepartmentTree", {}, function(){
+				if ($("#_var_depid", $(navTab.getCurrentPanel())).size() > 0) {
+					$("#_var_depid", $(navTab.getCurrentPanel())).remove();
+				}
+			});
+		} else {
 			if ($("#_var_depid", $(navTab.getCurrentPanel())).size() > 0) {
 				$("#_var_depid", $(navTab.getCurrentPanel())).remove();
 			}
-		});
+		}
 		
 		$("#ajBoxMenuFunc").loadUrl("app/system/school/department/position.do?action=actionLoadDepartmentPosition", {}, function(){
 		});
@@ -45,7 +51,7 @@
 			<li class="line">line</li>
 			<li><a class="edit" href="app/system/school/department.do?action=dialogSchoolDepartmentPage&depId={_var_depid}" target="dialog" warn="请选择需要修改的部门!" title="修改部门" width="504" height="389" rel="dia_sys_menuitemedit"><span>修改</span></a></li>
 			<li class="line">line</li>
-			<li><a class="delete" href="app/system/school/department.do?action=actionRemoveDepartment&depId={_var_depid}" target="ajaxTodo" warn="请选择需要删除的部门" title="确定要删除该部门吗?" callback="dep_refresh()"><span>删除</span></a></li>
+			<li><a class="delete" href="app/system/school/department.do?action=actionRemoveDepartment&depId={_var_depid}" target="ajaxTodo" warn="请选择需要删除的部门" title="确定要删除该部门吗?" callback="dep_refresh(1)"><span>删除</span></a></li>
 		</ul>
 	</div>
 	

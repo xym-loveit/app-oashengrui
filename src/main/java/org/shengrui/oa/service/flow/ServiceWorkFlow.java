@@ -2,8 +2,8 @@ package org.shengrui.oa.service.flow;
 
 import java.util.List;
 
-import org.shengrui.oa.model.process.ModelProcessDefinition;
-import org.shengrui.oa.model.process.ModelProcessTask;
+import org.shengrui.oa.model.flow.ModelProcessDefinition;
+import org.shengrui.oa.model.flow.ModelProcessTask;
 
 import cn.trymore.core.exception.ServiceException;
 
