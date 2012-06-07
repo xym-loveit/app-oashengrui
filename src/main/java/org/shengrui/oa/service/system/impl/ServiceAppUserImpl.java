@@ -25,8 +25,14 @@ extends ServiceGenericImpl<ModelAppUser> implements ServiceAppUser
 	@Override
 	public ModelAppUser findByUserName(String userName) throws ServiceException
 	{
-		// TODO Auto-generated method stub
-		return null;
+		try
+		{
+			return this.daoAppUser.findByUserName(userName);
+		} 
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
 	}
 	
 	public ServiceAppUserImpl(DAOAppUser dao)

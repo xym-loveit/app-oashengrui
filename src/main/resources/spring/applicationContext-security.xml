@@ -54,6 +54,8 @@
 		</beans:property>
 		<beans:property name="publicUrls">
 			<beans:set>
+				<beans:value>/index.jsp</beans:value>
+				<beans:value>/app/index.do</beans:value>
 			</beans:set>
 		</beans:property>
 	</beans:bean>

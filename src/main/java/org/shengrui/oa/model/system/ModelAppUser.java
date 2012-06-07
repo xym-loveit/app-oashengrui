@@ -29,6 +29,11 @@ extends ModelBase implements UserDetails
 	private static final long serialVersionUID = 6633139098998882031L;
 	
 	/**
+	 * 超级用户ID
+	 */
+	public static final Long SUPER_USER = new Long(1L);
+	
+	/**
 	 * 用户名
 	 */
 	@Expose
@@ -85,7 +90,7 @@ extends ModelBase implements UserDetails
 	 * 状态 ( 1=激活,0=禁用,2=离职)
 	 */
 	@Expose
-	protected Short status;
+	protected Integer status;
 	
 	/**
 	 * 最后登陆IP
@@ -214,12 +219,26 @@ extends ModelBase implements UserDetails
 	@Override
 	public GrantedAuthority[] getAuthorities()
 	{
-		GrantedAuthority[] arrayOfGrantedAuthority = 
-			(GrantedAuthority[])this.roles.toArray(new GrantedAuthority[this.roles.size() + 1]);
-		
-		arrayOfGrantedAuthority[(arrayOfGrantedAuthority.length - 1)] = new GrantedAuthorityImpl(ModelAppRole.ROLE_PUBLIC);
-		
-		return arrayOfGrantedAuthority;
+		if (this.id.equals(SUPER_USER.toString()))
+		{
+			return new GrantedAuthority[] {new GrantedAuthorityImpl(ModelAppRole.ROLE_SUPER)};
+		}
+		else
+		{
+			if (this.position != null && this.position.getRoles() != null)
+			{
+				GrantedAuthority[] arrayOfGrantedAuthority = 
+						(GrantedAuthority[])this.roles.toArray(new GrantedAuthority[this.position.getRoles().size() + 1]);
+				
+				arrayOfGrantedAuthority[(arrayOfGrantedAuthority.length - 1)] = new GrantedAuthorityImpl(ModelAppRole.ROLE_PUBLIC);
+				
+				return arrayOfGrantedAuthority;
+			}
+			else
+			{
+				return new GrantedAuthority[] {new GrantedAuthorityImpl(ModelAppRole.ROLE_PUBLIC)};
+			}
+		}
 	}
 	
 	/*
@@ -352,12 +371,12 @@ extends ModelBase implements UserDetails
 		this.photo = photo;
 	}
 
-	public Short getStatus()
+	public Integer getStatus()
 	{
 		return status;
 	}
 
-	public void setStatus(Short status)
+	public void setStatus(Integer status)
 	{
 		this.status = status;
 	}

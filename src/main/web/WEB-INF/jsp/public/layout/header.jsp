@@ -15,7 +15,7 @@
 		<a href="#" class="ltxt">晟睿教育内部管理系统</a>
 		<ul class="nav">
 			<li style="background: none;"><a href="app/index.do?action=index">首页</a></li>
-			<li><a href="javascript:void(0);">退出</a></li>
+			<li><a href="j_logout.do">退出</a></li>
 		</ul>
 		<ul class="themeList" id="themeList">
 			<li theme="default"><div class="selected">蓝色</div></li>

@@ -24,7 +24,9 @@ function initEnv() {
 		ajaxbg.hide();
 	});
 	
-	$("#leftside").jBar({minW:150, maxW:700});
+	if ($("#leftside").size() > 0) {
+		$("#leftside").jBar({minW:150, maxW:700});
+	}
 	
 	if ($.taskBar) $.taskBar.init();
 	navTab.init();
