@@ -48,12 +48,14 @@
 		<beans:property name="serviceAppRole" ref="serviceAppRole"/>
 		<beans:property name="anonymousUrls">
 			<beans:set>
+				<beans:value>/loginDialog.jsp</beans:value>
 				<beans:value>/login.do</beans:value>
 				<beans:value>/check.do</beans:value>
 			</beans:set>
 		</beans:property>
 		<beans:property name="publicUrls">
 			<beans:set>
+				<beans:value>/loginDialog.jsp</beans:value>
 				<beans:value>/index.jsp</beans:value>
 				<beans:value>/app/index.do</beans:value>
 			</beans:set>
