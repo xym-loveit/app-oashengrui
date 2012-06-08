@@ -11,6 +11,7 @@
     <webClassPathEntries>
         <webClassPathEntry>/app-oaShengRui/lib/libaop/aopalliance-1.0.jar</webClassPathEntry>
         <webClassPathEntry>/app-oaShengRui/lib/libcache/ehcache-1.3.0.jar</webClassPathEntry>
+        <webClassPathEntry>/app-oaShengRui/lib/libcert/SimpleCaptcha-1.1.1.jar</webClassPathEntry>
         <webClassPathEntry>/app-oaShengRui/lib/libcommons/antlr.jar</webClassPathEntry>
         <webClassPathEntry>/app-oaShengRui/lib/libcommons/asm.jar</webClassPathEntry>
         <webClassPathEntry>/app-oaShengRui/lib/libcommons/cglib-2.1.3.jar</webClassPathEntry>
@@ -44,6 +45,8 @@
         <webClassPathEntry>/app-oaShengRui/lib/libservlet/jstl-1.2.jar</webClassPathEntry>
         <webClassPathEntry>/app-oaShengRui/lib/libservlet/standard.jar</webClassPathEntry>
         <webClassPathEntry>/app-oaShengRui/lib/libspring/spring-2.0.8.jar</webClassPathEntry>
+        <webClassPathEntry>/app-oaShengRui/lib/libspring/spring-security-core-2.0.4.jar</webClassPathEntry>
+        <webClassPathEntry>/app-oaShengRui/lib/libspring/spring-security-taglibs-2.0.4.jar</webClassPathEntry>
         <webClassPathEntry>/app-oaShengRui/lib/libstruts/struts-1.2.7.jar</webClassPathEntry>
         <webClassPathEntry>/app-oaShengRui/lib/libstruts/struts-core-1.3.8.jar</webClassPathEntry>
         <webClassPathEntry>/app-oaShengRui/lib/libstruts/struts-el-1.3.8.jar</webClassPathEntry>

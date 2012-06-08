@@ -54,5 +54,8 @@
 	<classpathentry kind="lib" path="lib/libxml/dom4j-2.0.0-ALPHA1.jar"/>
 	<classpathentry kind="lib" path="lib/libxml/jaxen-1.1.3.jar"/>
 	<classpathentry kind="lib" path="lib/lıbexpr/fel-all-0.7.1.jar"/>
+	<classpathentry kind="lib" path="lib/libspring/spring-security-core-2.0.4.jar"/>
+	<classpathentry kind="lib" path="lib/libspring/spring-security-taglibs-2.0.4.jar"/>
+	<classpathentry kind="lib" path="lib/libcert/SimpleCaptcha-1.1.1.jar"/>
 	<classpathentry kind="output" path="src/main/web/WEB-INF/classes"/>
 </classpath>
