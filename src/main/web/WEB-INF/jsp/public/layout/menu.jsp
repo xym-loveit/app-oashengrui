@@ -60,7 +60,7 @@
 				<li treeicon="icon-hrjobm"><a>招聘管理</a>
 					<ul>
 						<li treeicon="icon-hrjobmIssue"><a href="app/hrm/hire.do?action=hrmJobIndex" target="navTab" rel="hrm_jobIndex">当前招聘管理</a></li>
-						<li treeicon="icon-hrjobmProfile"><a href="app/hrm/hire.do?action=hrmArchiveIndex" target="navTab" rel="hrm_archiveIndex">公司人才库</a></li>
+						<li treeicon="icon-hrjobmProfile"><a href="app/hrm.do?action=hrmJobResumeIndex" target="navTab" rel="hrm_archiveIndex">公司人才库</a></li>
 					</ul>
 				</li>
 				<li treeicon="icon-hrstaffm"><a>员工档案管理</a>
