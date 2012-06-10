@@ -16,7 +16,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.util.MessageResources;
 import org.shengrui.oa.model.system.ModelAppMenu;
-import org.shengrui.oa.model.system.ModelAppRole;
 import org.shengrui.oa.service.system.ServiceAppMenu;
 import org.shengrui.oa.service.system.ServiceAppRole;
 
@@ -617,29 +616,6 @@ extends DispatchAction
 		}
 		
 		return result;
-	}
-	
-	/**
-	 * 根据角色类型获取角色列表
-	 * 
-	 * @param roleType
-	 * @return
-	 */
-	protected List<ModelAppRole> getRolesByType (Integer roleType)
-	{
-		if (roleType != null)
-		{
-			try
-			{
-				return this.serviceAppRole.getRolesByType(roleType);
-			} 
-			catch (Exception e)
-			{
-				LOGGER.error("Exception raised when obtain roles with roleType:" + roleType, e);
-			}
-		}
-		
-		return null;
 	}
 	
 	public ServiceAppMenu getServiceAppMenu()

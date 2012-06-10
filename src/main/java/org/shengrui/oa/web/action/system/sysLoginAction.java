@@ -17,6 +17,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.service.system.ServiceAppUser;
+import org.shengrui.oa.web.action.BaseAppAction;
 import org.springframework.security.AuthenticationManager;
 import org.springframework.security.context.SecurityContext;
 import org.springframework.security.context.SecurityContextHolder;
@@ -25,7 +26,6 @@ import org.springframework.util.StringUtils;
 
 import cn.trymore.core.util.UtilApp;
 import cn.trymore.core.util.UtilString;
-import cn.trymore.core.web.action.BaseAction;
 
 /**
  * The action for system login.
@@ -34,7 +34,7 @@ import cn.trymore.core.web.action.BaseAction;
  *
  */
 public class sysLoginAction
-extends BaseAction
+extends BaseAppAction
 {
 	/**
 	 * The LOGGER

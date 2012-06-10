@@ -30,8 +30,8 @@
 		path="/WEB-INF/jsp/application/hrm/job/offer/offerIndex.jsp"/>
 		
 	<!-- 招聘安排 -->
-	<definition name="hrm.page.job.offer.detail"  
-		path="/WEB-INF/jsp/application/hrm/job/offer/offerPage.jsp"/>
+	<definition name="hrm.page.job.offer.interview.plan"  
+		path="/WEB-INF/jsp/application/hrm/job/offer/offerInterviewPlan.jsp"/>
 		
 	<!-- 面试记录 -->
 	<definition name="hrm.page.job.offer.interview.index"  

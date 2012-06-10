@@ -1,5 +1,7 @@
 package org.shengrui.oa.service.system.impl;
 
+import java.util.List;
+
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
@@ -28,16 +30,39 @@ extends ServiceGenericImpl<ModelAppUser> implements ServiceAppUser
 	 */
 	private DAOAppUser daoAppUser;
 	
+	@Override
+	public ModelAppUser findByUserName (String userName) throws ServiceException
+	{
+		try
+		{
+			return this.daoAppUser.findByUserName(userName);
+		} 
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.shengrui.oa.service.system.ServiceAppUser#findByUserName(java.lang.String)
 	 */
 	@Override
-	public ModelAppUser findByUserName(String userName) throws ServiceException
+	public List<ModelAppUser> findByFullName(String fullName) throws ServiceException
+	{
+		return this.findByFullName(fullName, false);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.system.ServiceAppUser#findByUserName(java.lang.String, boolean)
+	 */
+	@Override
+	public List<ModelAppUser> findByFullName(String fullName, boolean fetchAll) throws ServiceException
 	{
 		try
 		{
-			return this.daoAppUser.findByUserName(userName);
+			return this.daoAppUser.findByFullName(fullName, fetchAll);
 		} 
 		catch (Exception e)
 		{

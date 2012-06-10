@@ -110,6 +110,7 @@ function navTabAjaxDone(json){
 				var tabId = navTab.getCurrentTabId();
 				var tabUrl = navTab.getCurrentTabUrl();
 				navTab.reload(tabUrl, {navTabId: tabId});
+				return;
 			} else {
 				navTab.reloadFlag(json.navTabId);
 			}

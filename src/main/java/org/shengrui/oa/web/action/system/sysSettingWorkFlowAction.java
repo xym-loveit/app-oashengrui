@@ -6,8 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-
-import cn.trymore.core.web.action.BaseAction;
+import org.shengrui.oa.web.action.BaseAppAction;
 
 /**
  * 系统设置 - 审批流程配置
@@ -16,7 +15,7 @@ import cn.trymore.core.web.action.BaseAction;
  *
  */
 public class sysSettingWorkFlowAction
-extends BaseAction
+extends BaseAppAction
 {
 	
 	/**
