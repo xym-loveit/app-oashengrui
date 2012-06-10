@@ -8,13 +8,14 @@
 							http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
 		
     <http auto-config="true" access-denied-page="/403.jsp" lowercase-comparisons="true" 
-     	access-decision-manager-ref="accessDecisionManager">
+     	access-decision-manager-ref="accessDecisionManager" session-fixation-protection="migrateSession">
         <intercept-url pattern="/images/**" filters="none"/>
         <intercept-url pattern="/css/**" filters="none"/>
         <intercept-url pattern="/js/**" filters="none"/>
         <intercept-url pattern="/403*" filters="none"/>
         <intercept-url pattern="/404*" filters="none"/>
-        <intercept-url pattern="/500*" filters="none"/> 
+        <intercept-url pattern="/500*" filters="none"/>
+        <intercept-url pattern="/login.jsp" filters="none"/> 
         <intercept-url pattern="/fckeditor/**" filters="none"/>  
         <form-login default-target-url="/index.jsp" login-page="/login.jsp" authentication-failure-url="/login.jsp?error=true" login-processing-url="/j_security_check" />
         <logout logout-url="/j_logout.do" logout-success-url="/login.jsp"/> 

@@ -71,6 +71,7 @@ span.diaFuncMicon {
 	padding-left: 25px;
 }
 
+.icon,
 .tabsPage .tabsPageHeader li span.icon {
 	padding: 0 0 0 20px;
 	line-height: 23px;
@@ -104,6 +105,18 @@ span.diaFuncMicon {
 .tree div.icon-btnedit,
 .tabsPage .tabsPageHeader li span.icon-btnedit{
 	background: url("../images/layout/grid.png") no-repeat scroll 0px -796px transparent
+}
+
+.icon-default,
+.tabsPage .tabsPageHeader li span.icon-default,
+.tree div.icon-default {
+	background: url("../images/menus/default/nav_default.png") no-repeat left center;
+}
+
+.icon-jobinfo,
+.tabsPage .tabsPageHeader li span.icon-jobinfo,
+.tree div.icon-jobinfo {
+	background: url("../images/menus/default/user.png") no-repeat left center;
 }
 
 /*----MY DESKTOP---*/

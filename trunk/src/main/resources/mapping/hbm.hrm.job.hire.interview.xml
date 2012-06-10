@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.shengrui.oa.model.hrm">
+    <class name="ModelHrmJobHireInterview" table="app_hrm_hire_interviews ">
+        <id name="id" type="java.lang.String">
+            <column name="hw_id" />
+            <generator class="native" />
+        </id>
+        <property name="interviewAddress" type="java.lang.String">
+            <column name="interview_address" not-null="true" />
+        </property>
+        <property name="interviewDate" type="timestamp">
+            <column name="interview_date" not-null="true" />
+        </property>
+         <property name="sessionSN" type="java.lang.Integer">
+            <column name="session_sn" not-null="true" />
+        </property>
+        <property name="interviewComments" type="java.lang.String">
+            <column name="comments" />
+        </property>
+        <property name="interviewStatus" type="java.lang.Integer">
+            <column name="state" />
+        </property>
+        <property name="meto" type="java.lang.String">
+            <column name="meto" />
+        </property>
+        
+        <many-to-one name="jobHireIssue" class="ModelHrmJobHireIssue">
+        	<column name="hissue_id" />
+        </many-to-one>
+        
+        <many-to-one name="interviewer" class="org.shengrui.oa.model.system.ModelAppUser">
+        	<column name="interviewer_id" />
+        </many-to-one>
+	    
+	</class>
+</hibernate-mapping>

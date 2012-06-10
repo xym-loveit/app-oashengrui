@@ -33,7 +33,7 @@
 				<tr>
 					<td>对口级别：</td>
 					<td>
-						<select class="combox" name="depEquivalentLevel" id="dialog_depEquivalentLevel" ref="dialog_depBranch" refUrl="app/system/school/department.do?action=actionLoadDepartmentByOrg&depEquivalentLevel={value}">
+						<select class="combox" name="depEquivalentLevel" id="dialog_depEquivalentLevel" ref="dialog_depBranch" refUrl="app/system/school/department.do?action=actionLoadDepartmentByOrg&orgId={value}">
 							<option value="">请选择</option>
 							<option value="0" ${department ne null && department.depEquivalentLevel eq 0 ? "selected='selected'" : ""}>总部</option>
 							<option value="1" ${department ne null && department.depEquivalentLevel eq 1 ? "selected='selected'" : ""}>校区</option>

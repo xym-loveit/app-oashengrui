@@ -13,10 +13,10 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.flow.ModelProcessType;
 import org.shengrui.oa.service.flow.ServiceProcessType;
+import org.shengrui.oa.web.action.BaseAppAction;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.util.UtilString;
-import cn.trymore.core.web.action.BaseAction;
 
 /**
  * 工作流基本设置
@@ -25,7 +25,7 @@ import cn.trymore.core.web.action.BaseAction;
  *
  */
 public class FlowBaseAction
-extends BaseAction
+extends BaseAppAction
 {
 	/**
 	 * The LOGGER

@@ -1,6 +1,11 @@
 package cn.trymore.core.model;
 
+import java.util.Date;
+
+import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.struts.action.ActionForm;
+
+import cn.trymore.core.struts.BeanDateConnverter;
 
 import com.google.gson.annotations.Expose;
 
@@ -23,6 +28,11 @@ extends ActionForm
 	 */
 	@Expose
 	protected String id = null;
+	
+	static
+	{
+		ConvertUtils.register(new BeanDateConnverter(), Date.class);
+	}
 	
 	public String getId()
 	{

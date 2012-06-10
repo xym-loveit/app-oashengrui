@@ -9,10 +9,10 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.service.system.ServiceAppUser;
+import org.shengrui.oa.web.action.BaseAppAction;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.util.UtilString;
-import cn.trymore.core.web.action.BaseAction;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
@@ -23,7 +23,7 @@ import cn.trymore.core.web.paging.PagingBean;
  *
  */
 public class sysMgrAccountAction
-extends BaseAction
+extends BaseAppAction
 {
 	/**
 	 * The LOGGER

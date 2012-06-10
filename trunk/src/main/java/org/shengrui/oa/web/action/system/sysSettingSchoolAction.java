@@ -1,9 +1,5 @@
 package org.shengrui.oa.web.action.system;
 
-import java.lang.reflect.Field;
-import java.util.List;
-
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,12 +11,7 @@ import org.shengrui.oa.model.system.ModelAppRole;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
-import org.shengrui.oa.service.system.ServiceSchoolDistrict;
 import org.springframework.beans.BeanUtils;
-
-import com.google.gson.FieldNamingStrategy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.log.LogAnnotation;
@@ -42,11 +33,6 @@ extends sysSettingBaseAction
 	 */
 	private static final Logger LOGGER = Logger.getLogger(sysSettingSchoolAction.class);
 	
-	/**
-	 * The school district service
-	 */
-	@Resource
-	private ServiceSchoolDistrict serviceSchoolDistrict;
 	
 	/**
 	 * <b>[WebAction]</b> 
@@ -396,46 +382,6 @@ extends sysSettingBaseAction
 		return mapping.findForward("data.sys.setting.dep.position");
 	}
 	
-	/**
-	 * <b>[WebAction]</b> 
-	 * <br/>
-	 * 学校设置-部门岗位设置 - 根据结构类型刷新部门对应的列表
-	 */
-	public ActionForward actionLoadDepartmentByOrg (ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) 
-	{
-		if (UtilString.isNotEmpty(request.getParameter("depEquivalentLevel")))
-		{
-			List<ModelSchoolDepartment> departments = 
-				this.getDepartmentByOrganization(request.getParameter("depEquivalentLevel"));
-			
-			if (departments != null)
-			{
-				// 只显示@Expose字段, 并且进行重命名显示
-				Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setFieldNamingStrategy(new FieldNamingStrategy()
-				{
-					@Override
-					public String translateName(Field field)
-					{
-						if ("id".equals(field.getName()))
-						{
-							return FIELD_OPTION_VALUE;
-						}
-						
-						if ("depName".equals(field.getName()))
-						{
-							return FIELD_OPTION_KEY;
-						}
-						
-						return field.getName();
-					}
-				}).create();
-				return ajaxPrint(response, gson.toJson(departments));
-			}
-		}
-		
-		return ajaxPrint(response, "[]");
-	}
 	
 	/**
 	 * <b>[WebAction]</b> 
@@ -705,16 +651,6 @@ extends sysSettingBaseAction
 		}
 		
 		return ajaxPrint(response, getErrorCallback("岗位删除失败."));
-	}
-	
-	public ServiceSchoolDistrict getServiceSchoolDistrict()
-	{
-		return serviceSchoolDistrict;
-	}
-
-	public void setServiceSchoolDistrict(ServiceSchoolDistrict serviceSchoolDistrict)
-	{
-		this.serviceSchoolDistrict = serviceSchoolDistrict;
 	}
 
 	public static Logger getLogger()

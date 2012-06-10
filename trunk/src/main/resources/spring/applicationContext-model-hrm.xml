@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<bean id="daoHrmJobHireInfo" class="org.shengrui.oa.dao.hrm.impl.DAOHrmJobHireInfoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceHrmJobHireInfo" parent="baseTxProxy">
+		<property name="target">
+			<bean class=" org.shengrui.oa.service.hrm.impl.ServiceHrmJobHireInfoImpl">
+				<constructor-arg index="0" ref="daoHrmJobHireInfo"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="daoHrmResume" class="org.shengrui.oa.dao.hrm.impl.DAOHrmResumeImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceHrmResume" parent="baseTxProxy">
+		<property name="target">
+			<bean class=" org.shengrui.oa.service.hrm.impl.ServiceHrmResumeImpl">
+				<constructor-arg index="0" ref="daoHrmResume"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="daoHrmJobHireIssue" class="org.shengrui.oa.dao.hrm.impl.DAOHrmJobHireIssueImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceHrmJobHireIssue" parent="baseTxProxy">
+		<property name="target">
+			<bean class=" org.shengrui.oa.service.hrm.impl.ServiceHrmJobHireIssueImpl">
+				<constructor-arg index="0" ref="daoHrmJobHireIssue"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="daoHrmJobHireInterview" class="org.shengrui.oa.dao.hrm.impl.DAOHrmJobHireInterviewImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceJobHireInterview" parent="baseTxProxy">
+		<property name="target">
+			<bean class=" org.shengrui.oa.service.hrm.impl.ServiceHrmJobHireInterviewImpl">
+				<constructor-arg index="0" ref="daoHrmJobHireInterview"/>
+			</bean>
+		</property>
+	</bean>
+	
+</beans>

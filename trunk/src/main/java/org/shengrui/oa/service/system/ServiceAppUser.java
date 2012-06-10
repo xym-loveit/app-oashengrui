@@ -1,5 +1,7 @@
 package org.shengrui.oa.service.system;
 
+import java.util.List;
+
 import org.shengrui.oa.model.system.ModelAppUser;
 
 import cn.trymore.core.exception.ServiceException;
@@ -26,6 +28,27 @@ extends ServiceGeneric<ModelAppUser>
 	 */
 	ModelAppUser findByUserName (String userName) throws ServiceException;
 	
+	/**
+	 * Obtains user with the specified user full name.
+	 * 
+	 * @param fullName
+	 *            the user full name
+	 * @return user entity if existed with the specified user name; null returned otherwise.
+	 * @throws ServiceException
+	 */
+	List<ModelAppUser> findByFullName (String fullName) throws ServiceException;
+	
+	/**
+	 * Obtains user with the specified user full name.
+	 * 
+	 * @param fullName
+	 *                the user full name
+	 * @param fetchAll
+	 *                fetch all if the user name not given
+	 * @return user entity if existed with the specified user name; null returned otherwise.
+	 * @throws ServiceException
+	 */
+	List<ModelAppUser> findByFullName (String fullName, boolean fetchAll) throws ServiceException;
 	
 	/**
 	 * 获取分页用户数据

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.shengrui.oa.model.hrm">
+    <class name="ModelHrmJobHireIssue" table="app_hrm_hire_issue ">
+        <id name="id" type="java.lang.String">
+            <column name="hissue_id" />
+            <generator class="native" />
+        </id>
+         <property name="currentStatus" type="java.lang.Integer">
+            <column name="current_status" not-null="true" />
+        </property>
+          <property name="finalResult" type="java.lang.Integer">
+            <column name="final_result" />
+        </property>
+        <property name="applyDateTime" type="timestamp">
+            <column name="apply_time" />
+        </property>
+        
+        <many-to-one name="jobHire" class="ModelHrmJobHireInfo">
+        	<column name="hjob_id" />
+        </many-to-one>
+        
+        <many-to-one name="resume" class="ModelHrmResume" unique="true">
+        	<column name="resume_id" />
+        </many-to-one>
+        
+        <set name="interviews" table="app_hrm_hire_interviews" 
+        	cascade="save-update" inverse="true" lazy="true" order-by="session_sn asc"> 
+	      <key column="hissue_id"/>  
+	      <one-to-many class="ModelHrmJobHireInterview" /> 
+	    </set>
+	    
+	</class>
+</hibernate-mapping>

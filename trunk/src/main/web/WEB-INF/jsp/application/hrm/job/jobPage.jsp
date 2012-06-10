@@ -6,75 +6,114 @@
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
 
 <div class="pageContent">
-	<form method="post" action="demo/common/ajaxDone.html" class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone);">
+	<form method="post" action="app/hrm/hire.do?action=actionJobSave" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent" layoutH="56">
 			<table cellspacing="10" cellpadding="10" style="border-spacing:12">
 				<tr>
 					<td nowrap>岗位名称：</td>
-					<td><input name="entry_jobName" type="text" value="" style="width:140px"/></td>
+					<td><input name="jobHireTitle" type="text" style="width:140px" class="required" value="${jobHire ne null ? jobHire.jobHireTitle : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 					<td nowrap>招聘校区：</td>
 					<td>
-						<select class="combox" name="entry_school" id="entry_school" style="width:120px">
-							<option value="1">临安校区</option>
-							<option value="2">柯桥校区</option>
-							<option value="3">萧山校区</option>
-						</select>
+						<c:choose>
+							<c:when test="${op eq null && op ne 'view'}">
+								<select class="combox" name="jobHireDistrictId" id="combox_district" style="width:120px" ref="combox_dept" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
+									<option value="">请选择校区</option>
+									<logic:present name="districts">
+										<logic:iterate name="districts" id="district">
+											<option value="${district.id}" ${jobHire ne null && jobHire.jobHireDistrict ne null && jobHire.jobHireDistrict.id eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
+										</logic:iterate>
+									</logic:present>
+								</select>
+							</c:when>
+							<c:otherwise>
+								<input name="jobHireDistrictId" type="text" style="width:140px" value="${jobHire ne null && jobHire.jobHireDistrict ne null ? jobHire.jobHireDistrict.districtName : ''}" readonly />
+							</c:otherwise>
+						</c:choose>
 					</td>
 					<td nowrap>招聘部门：</td>
 					<td>
-						<select class="combox" name="entry_dept" id="entry_dept" style="width:120px">
-							<option value="1">教研部</option>
-						</select>
+						<c:choose>
+							<c:when test="${op eq null && op ne 'view'}">
+								<select class="combox" name="jobHireDepartmentId" id="combox_dept" defOPKey="请选择部门" defOPVal="" style="width:120px">
+									<option value="">请选择部门</option>
+									<logic:present name="departments">
+										<logic:iterate name="departments" id="entity">
+											<option value="${entity.id}" ${jobHire ne null && jobHire.jobHireDepartment ne null && jobHire.jobHireDepartment.id eq entity.id ? 'selected="selected"' : ''}>${entity.depName}</option>
+										</logic:iterate>
+									</logic:present>
+								</select>
+							</c:when>
+							<c:otherwise>
+								<input name="jobHireDepartmentId" type="text" style="width:140px" value="${jobHire ne null && jobHire.jobHireDepartment ne null ? jobHire.jobHireDepartment.depName : ''}" readonly />
+							</c:otherwise>
+						</c:choose>
 					</td>
 					<td nowrap>截止时间：</td>
-					<td><input name="entry_endDate" class="date" style="width:100px"/></td>
+					<td><input name="jobHireEndDate" class="date textInput required" style="width:100px;float:left;" value='<logic:present name="jobHire"><fmt:formatDate value="${jobHire.jobHireEndDate}" pattern="yyyy-MM-dd" /></logic:present>' ${op ne null && op eq 'view' ? 'readonly' : ''}/><c:if test="${op eq null || op ne 'view'}"><a class="inputDateButton" href="javascript:;">选择</a></c:if></td>
 				</tr>
 				<tr>
 					<td>招聘范围：</td>
 					<td>
-						<select class="combox" name="entry_scope" id="entry_scope" style="width:120px">
-							<option value="1">内外兼招</option>
-							<option value="2">外部招聘</option>
-							<option value="3">内部招聘</option>
-						</select>
+						<c:choose>
+							<c:when test="${op eq null && op ne 'view'}">
+								<select class="combox" name="jobHireRange" id="combox_range" style="width:120px">
+									<option value="1" ${jobHire ne null && jobHire.jobHireRange eq 1 ? 'selected="selected"' : ''}>内外兼招</option>
+									<option value="2" ${jobHire ne null && jobHire.jobHireRange eq 2 ? 'selected="selected"' : ''}>外部招聘</option>
+									<option value="3" ${jobHire ne null && jobHire.jobHireRange eq 3 ? 'selected="selected"' : ''}>内部招聘</option>
+								</select>
+							</c:when>
+							<c:otherwise>
+								<input name="jobHireRange" type="text" style="width:140px" value="${jobHire ne null && jobHire.jobHireRange ne null ? (jobHire.jobHireRange eq 1 ? '内外兼招' : (jobHire.jobHireRange eq 2 ? '外部招聘' : '内部招聘')) : ''}" readonly />
+							</c:otherwise>
+						</c:choose>
 					</td>
 					<td>招聘人数：</td>
-					<td><input name="entry_jobCount" type="text" value="" style="width:140px"/></td>
+					<td><input name="jobHireCount" type="text" style="width:140px" class="required" value="${jobHire ne null ? jobHire.jobHireCount : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 					<td>可见范围：</td>
 					<td>
-						<select class="combox" name="type" id="entry_svisible" style="width:120px">
-							<option value="">所有校区</option>
-							<option value="1">临安校区</option>
-							<option value="2">柯桥校区</option>
-							<option value="3">萧山校区</option>
-						</select>
+						<c:choose>
+							<c:when test="${op eq null && op ne 'view'}">
+								<select class="combox" name="jobHireVisibleDistrictId" id="combox_districtvisible" style="width:120px">
+									<option value="">所有校区</option>
+									<logic:present name="districts">
+										<logic:iterate name="districts" id="district">
+											<option value="${district.id}" ${jobHire ne null && jobHire.jobHireVisibleDistrict ne null && jobHire.jobHireVisibleDistrict.id eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
+										</logic:iterate>
+									</logic:present>
+								</select>
+							</c:when>
+							<c:otherwise>
+								<input name="jobHireVisibleDistrictId" type="text" style="width:140px" value="${jobHire ne null && jobHire.jobHireVisibleDistrict ne null ? jobHire.jobHireVisibleDistrict.districtName : '所有校区'}" readonly />
+							</c:otherwise>
+						</c:choose>
 					</td>
 					<td></td>
 					<td></td>
 				</tr>
 				<tr>
 					<td>工作地点：</td>
-					<td colspan="5"><input name="entry_address" type="text" value="" style="width:100%"/></td>
+					<td colspan="5"><input name="jobHireAddress" type="text" value="${jobHire ne null ? jobHire.jobHireAddress : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''} style="width:100%"/></td>
 					<td></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td>工作职责：</td>
-					<td colspan="5"><textarea name="entry_responsibility" rows="3" style="width:100%"></textarea></td>
+					<td style="vertical-align: top;">工作职责：</td>
+					<td colspan="5"><textarea name="jobHireResponsibility" rows="3" style="width:100%" ${op ne null && op eq 'view' ? 'readonly' : ''}>${jobHire ne null ? jobHire.jobHireResponsibility : ''}</textarea></td>
 					<td></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td>任职要求：</td>
-					<td colspan="5"><textarea name="entry_requirement" rows="3" style="width:100%"></textarea></td>
+					<td style="vertical-align: top;">任职要求：</td>
+					<td colspan="5"><textarea name="jobHireCondition" rows="3" style="width:100%" ${op ne null && op eq 'view' ? 'readonly' : ''}>${jobHire ne null ? jobHire.jobHireCondition : ''}</textarea></td>
 					<td></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td>薪酬福利：</td>
-					<td colspan="5"><textarea name="entry_salary" rows="3" style="width:100%"></textarea></td>
+					<td style="vertical-align: top;">薪酬福利：</td>
+					<td colspan="5"><textarea name="jobHireSalary" rows="3" style="width:100%" ${op ne null && op eq 'view' ? 'readonly' : ''}>${jobHire ne null ? jobHire.jobHireSalary : ''}</textarea></td>
 					<td></td>
 					<td></td>
 				</tr>
@@ -93,24 +132,14 @@
 		</div>
 		<div class="formBar">
 			<ul>
-				<!--<li><a class="buttonActive" href="javascript:;"><span>保存</span></a></li>
-				-->
-				<logic:present name="op">
-					<logic:equal name="op" value="approval">
-						<li><div class="buttonActive"><div class="buttonContent"><button type="submit">通过并发布</button></div></div></li>
-						<li><div class="buttonActive"><div class="buttonContent"><button type="submit">退回</button></div></div></li>
-					</logic:equal>
-					<logic:equal name="op" value="update">
-						<li>
-							<div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div>
-						</li>
-						
-					</logic:equal>
-				</logic:present>
+				<c:if test="${op eq null || op ne 'view'}">
+					<li><div class="buttonActive"><div class="buttonContent"><button type="submit">提交并审核</button></div></div></li>
+				</c:if>
 				<li>
 					<div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div>
 				</li>
 			</ul>
 		</div>
+		<input type="hidden" name="id" value="${jobHire ne null ? jobHire.id : '-1'}" />
 	</form>
 </div>

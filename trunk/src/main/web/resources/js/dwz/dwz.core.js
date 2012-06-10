@@ -49,7 +49,7 @@ var DWZ = {
 	},
 	loadLogin:function(){
 		if ($.pdialog && DWZ._set.loginTitle) {
-			$.pdialog.open(DWZ._set.loginUrl, "login", DWZ._set.loginTitle, {mask:true,width:520,height:260});
+			$.pdialog.open(DWZ._set.loginUrl, "login", DWZ._set.loginTitle, {mask:true,width:390,height:232});
 		} else {
 			window.location = DWZ._set.loginUrl;
 		}

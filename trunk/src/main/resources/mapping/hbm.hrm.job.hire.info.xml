@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.shengrui.oa.model.hrm">
+    <class name="ModelHrmJobHireInfo" table="app_hrm_hire_job ">
+        <id name="id" type="java.lang.String">
+            <column name="hjob_id" />
+            <generator class="native" />
+        </id>
+        <property name="jobHireTitle" type="java.lang.String">
+            <column name="job_title" not-null="true" />
+        </property>
+         <property name="jobHireCount" type="java.lang.Integer">
+            <column name="hjob_count" not-null="true" />
+        </property>
+        <property name="jobHireCondition" type="java.lang.String">
+            <column name="hjob_condition" />
+        </property>
+        <property name="jobHireAddress" type="java.lang.String">
+            <column name="hjob_address" />
+        </property>
+        <property name="jobHireResponsibility" type="java.lang.String">
+            <column name="hjob_responsibility" />
+        </property>
+        <property name="jobHireSalary" type="java.lang.String">
+            <column name="hjob_salary" />
+        </property>
+        <property name="jobHireRange" type="java.lang.Integer">
+            <column name="hjob_range" />
+        </property>
+        <property name="jobHireEndDate" type="timestamp">
+            <column name="end_date" />
+        </property>
+        <property name="postAuthorName" type="java.lang.String">
+            <column name="reg_fullname" />
+        </property>
+        <property name="postDate" type="timestamp">
+            <column name="reg_date" />
+        </property>
+        <property name="lastModifiedAuthorName" type="java.lang.String">
+            <column name="modify_fullname" />
+        </property>
+        <property name="lastModifiedDate" type="timestamp">
+            <column name="modify_date" />
+        </property>
+        <property name="auditor" type="java.lang.String">
+            <column name="check_fullname" />
+        </property>
+        <property name="auditComments" type="java.lang.String">
+            <column name="check_opinion" />
+        </property>
+        <property name="auditDate" type="timestamp">
+            <column name="check_date" />
+        </property>
+         <property name="status" type="java.lang.Integer">
+            <column name="status" not-null="true" />
+        </property>
+         <property name="memo" type="java.lang.String">
+            <column name="memo" />
+        </property>
+         <property name="isOpen" type="java.lang.Integer">
+            <column name="isopen" />
+        </property>
+        
+        <many-to-one name="jobHireDepartment" class="org.shengrui.oa.model.system.ModelSchoolDepartment">
+        	<column name="hjob_depid" />
+        </many-to-one>
+		
+        <many-to-one not-found="ignore" name="jobHireDistrict" class="org.shengrui.oa.model.system.ModelSchoolDistrict">
+        	<column name="hjob_districtid" />
+        </many-to-one>
+        
+        <many-to-one not-found="ignore" name="jobHireVisibleDistrict" class="org.shengrui.oa.model.system.ModelSchoolDistrict">
+        	<column name="hjob_visible_districtid" />
+        </many-to-one>
+        
+        <set name="jobHireIssues" table="app_hrm_hire_issue" 
+        	cascade="save-update" inverse="false" lazy="true"> 
+	      <key column="hjob_id"/>  
+	      <one-to-many class="ModelHrmJobHireIssue" />
+	    </set>
+	    
+	</class>
+</hibernate-mapping>
