@@ -9,18 +9,15 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.shengrui.oa.model.hrm.ModelHrmArchive;
+import org.shengrui.oa.model.hrm.ModelHrmJobHireEntry;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireInfo;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireInterview;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireIssue;
 import org.shengrui.oa.model.hrm.ModelHrmResume;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
-import org.shengrui.oa.service.hrm.ServiceHrmJobHireInfo;
-import org.shengrui.oa.service.hrm.ServiceHrmJobHireInterview;
-import org.shengrui.oa.service.hrm.ServiceHrmJobHireIssue;
-import org.shengrui.oa.service.hrm.ServiceHrmResume;
 import org.shengrui.oa.util.ContextUtil;
-import org.shengrui.oa.web.action.BaseAppAction;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.util.UtilBean;
@@ -35,32 +32,12 @@ import cn.trymore.core.web.paging.PagingBean;
  *
  */
 public class HrmHireAction
-extends BaseAppAction
+extends BaseHrmAction
 {
 	/**
 	 * The LOGGER
 	 */
 	private static final Logger LOGGER = Logger.getLogger(HrmHireAction.class);
-			
-	/**
-	 * The job hire service.
-	 */
-	private ServiceHrmJobHireInfo serviceHrmJobHireInfo;
-	
-	/**
-	 * The resume service.
-	 */
-	private ServiceHrmResume serviceHrmResume;
-	
-	/**
-	 * The job hire issue service.
-	 */
-	private ServiceHrmJobHireIssue serviceHrmJobHireIssue;
-	
-	/**
-	 * The job interview service.
-	 */
-	private ServiceHrmJobHireInterview serviceJobHireInterview;
 	
 	/**
 	 * <b>[WebAction]</b> <br/>
@@ -80,6 +57,9 @@ extends BaseAppAction
 			
 			request.setAttribute("hireJobs", hireJobs);
 			request.setAttribute("hireJobForm", formJobHireInfo);
+			
+			// 获取所有校区, 用于搜索查询使用
+			request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
 			
 			// 输出分页信息至客户端
 			outWritePagination(request, pagingBean, hireJobs);
@@ -319,6 +299,79 @@ extends BaseAppAction
 	
 	/**
 	 * <b>[WebAction]</b> <br/>
+	 * 岗位入职安排保存
+	 */
+	public ActionForward actionJobEntrySave(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) 
+	{
+		try
+		{
+			String entryId = request.getParameter("entryId");
+			if (this.isObjectIdValid(entryId))
+			{
+				ModelHrmJobHireEntry jobHireEntry = this.serviceHrmJobHireEntry.get(entryId);
+				if (jobHireEntry != null)
+				{
+					String entryDistrictId = request.getParameter("entryDistrictId");
+					String entryDepId = request.getParameter("entryDepartmentId");
+					String entryPositionId = request.getParameter("entryPositionId");
+					String entryChargerId = request.getParameter("charger.id");
+					
+					if (UtilString.isNotEmpty(entryDistrictId, entryDepId, entryPositionId, entryChargerId))
+					{
+						// 设置入职安排状态为'已安排'
+						jobHireEntry.setCurrentStatus(ModelHrmJobHireEntry.EHireEntryCStatus.ARRANGED.getValue());
+						
+						// 设置入职校区
+						jobHireEntry.setEntryDistrict(
+								this.serviceSchoolDistrict.get(entryDistrictId));
+						
+						// 设置入职部门
+						jobHireEntry.setEntryDepartment(
+								this.serviceSchoolDepartment.get(entryDepId));
+						
+						// 设置入职岗位
+						jobHireEntry.setEntryPosition(
+								this.serviceSchoolDepartmentPosition.get(entryPositionId));
+						
+						// 设置负责人
+						jobHireEntry.setEntryCharger(
+								this.serviceAppUser.get(entryChargerId));
+						
+						// 设置入职状态为'待入职'
+						jobHireEntry.setFinalStatus(ModelHrmJobHireEntry.EHireEntryFStatus.TODO.getValue());
+						
+						this.serviceHrmJobHireEntry.save(jobHireEntry);
+						
+						// 保存成功后, Dialog进行关闭
+						return ajaxPrint(response, 
+								getSuccessCallback("入职安排成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+					}
+					else
+					{
+						return ajaxPrint(response, getErrorCallback("入职安排所传入的信息不全!"));
+					}
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("入职安排信息不存在:" + entryId));
+				}
+			}
+			else
+			{
+				return ajaxPrint(response, getErrorCallback("入职安排信息ID非法或者未被传入!"));
+			}
+		}
+		catch (Exception e)
+		{
+			LOGGER.error("Exception raised when save the job entry information.", e);
+			return ajaxPrint(response, getErrorCallback("入职安排信息保存失败:" + e.getMessage()));
+		}
+	}
+	
+	/**
+	 * <b>[WebAction]</b> <br/>
 	 * 招聘安排与管理
 	 */
 	public ActionForward hrmPageJobOfferIndex(ActionMapping mapping,
@@ -354,6 +407,78 @@ extends BaseAppAction
 		}
 		
 		return ajaxPrint(response, getErrorCallback("发现异常数据!"));
+	}
+	
+	/**
+	 * <b>[WebAction]</b> <br/>
+	 * 应聘最终结果处理
+	 */
+	public ActionForward actionJobIssueFinalize(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) 
+	{
+		try
+		{
+			String issueId = request.getParameter("issueId");
+			String finalizeState = request.getParameter("state");
+			
+			if (UtilString.isNotEmpty(finalizeState, issueId) && 
+					UtilString.isNumeric(finalizeState) && this.isObjectIdValid(issueId))
+			{
+				ModelHrmJobHireIssue jobHireIssue = this.serviceHrmJobHireIssue.get(issueId);
+				if (jobHireIssue != null)
+				{
+					jobHireIssue.setCurrentStatus(ModelHrmJobHireIssue.EJobHireIssueStatus.FINISHED.getValue());
+					jobHireIssue.setFinalResult(Integer.parseInt(finalizeState));
+					
+					this.serviceHrmJobHireIssue.save(jobHireIssue);
+					
+					if (ModelHrmJobHireIssue.EJobHireIssueFinalState.HIRED.getValue().equals(Integer.parseInt(finalizeState)))
+					{
+						// 录用，并生成入职安排
+						ModelHrmJobHireEntry jobHireEntry = new ModelHrmJobHireEntry();
+						jobHireEntry.setJobHireIssue(jobHireIssue);
+						jobHireEntry.setCurrentStatus(ModelHrmJobHireEntry.EHireEntryCStatus.TODO.getValue());
+						jobHireEntry.setFinalStatus(ModelHrmJobHireEntry.EHireEntryFStatus.TODO.getValue());
+						this.serviceHrmJobHireEntry.save(jobHireEntry);
+					}
+					else
+					{
+						// 淘汰或未面试
+						String archived = request.getParameter("archived");
+						if (UtilString.isNotEmpty(archived))
+						{
+							// 移入人才库
+							String archiveStar = request.getParameter("archiveStar");
+							
+							ModelHrmArchive hrmArchive = new ModelHrmArchive();
+							hrmArchive.setJobHireInfo(jobHireIssue.getJobHire());
+							hrmArchive.setResume(jobHireIssue.getResume());
+							hrmArchive.setSource(Integer.parseInt(finalizeState));
+							hrmArchive.setStarLevel(Integer.parseInt(archiveStar));
+							this.serviceHrmArchive.save(hrmArchive);
+						}
+					}
+					
+					// 保存成功后, Dialog进行关闭
+					return ajaxPrint(response, 
+							getSuccessCallback("处理成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("应聘信息不存在!"));
+				}
+			}
+			else
+			{
+				return ajaxPrint(response, getErrorCallback("未知处理操作!"));
+			}
+		}
+		catch (Exception e)
+		{
+			LOGGER.error("Exception raised when finalize the hire issue.", e);
+		}
+		return null;
 	}
 	
 	/**
@@ -418,9 +543,18 @@ extends BaseAppAction
 			String issueId = request.getParameter("issueId");
 			if (this.isObjectIdValid(issueId))
 			{
+				// 查询该应聘记录是否存在
 				ModelHrmJobHireIssue jobHireIssue = this.serviceHrmJobHireIssue.get(issueId);
 				if (jobHireIssue != null)
 				{
+					// 查询是否该环节已经被安排
+					ModelHrmJobHireInterview sessionView = 
+							this.serviceHrmJobHireInterview.getByIssueAndSessionNo(issueId, jobHireInterview.getSessionSN());
+					if (sessionView != null)
+					{
+						return ajaxPrint(response, getErrorCallback("该环节已经被安排!"));
+					}
+					
 					jobHireInterview.setJobHireIssue(jobHireIssue);
 					
 					if (jobHireInterview.getInterviewer() != null && 
@@ -438,7 +572,7 @@ extends BaseAppAction
 							
 							jobHireInterview.setInterviewer(interviewer);
 							
-							this.serviceJobHireInterview.save(jobHireInterview);
+							this.serviceHrmJobHireInterview.save(jobHireInterview);
 							
 							return ajaxPrint(response, 
 									getSuccessCallback("招聘面试安排成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
@@ -518,47 +652,166 @@ extends BaseAppAction
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) 
 	{
-		return mapping.findForward("hrm.page.job.offer.interview.index");
+		
+		try
+		{
+			String issueId = request.getParameter("issueId");
+			if (this.isObjectIdValid(issueId))
+			{
+				ModelHrmJobHireIssue hrmJobHireIssue = this.serviceHrmJobHireIssue.get(issueId);
+				if (hrmJobHireIssue != null)
+				{
+					PagingBean pagingBean = this.getPagingBean(request);
+					PaginationSupport<ModelHrmJobHireInterview> hireJobInterviews =
+							this.serviceHrmJobHireInterview.getPaginationByIssueId(issueId, pagingBean);
+					
+					request.setAttribute("hireJobInterviews", hireJobInterviews);
+					
+					// 输出分页信息至客户端
+					outWritePagination(request, pagingBean, hireJobInterviews);
+					
+					return mapping.findForward("hrm.page.job.offer.interview.index");
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("应聘信息不存在!"));
+				}
+			}
+			else
+			{
+				return ajaxPrint(response, getErrorCallback("需指定应聘信息才能查看面试记录!"));
+			}
+		} 
+		catch (ServiceException e)
+		{
+			LOGGER.error("Exception raised when fetch all hire jobs.", e);
+			
+			return ajaxPrint(response, getErrorCallback("面试分页数据失败:" + e.getMessage()));
+		}
 	}
 	
-	public ServiceHrmJobHireInfo getServiceHrmJobHireInfo()
+	/**
+	 * <b>[WebAction]</b> <br/>
+	 * 面试记录
+	 */
+	public ActionForward dialogJobOfferFinalizePage(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) 
 	{
-		return serviceHrmJobHireInfo;
+		try
+		{
+			String state = request.getParameter("state");
+			if (UtilString.isNotEmpty(state))
+			{
+				String issueId = request.getParameter("issueId");
+				if (this.isObjectIdValid(issueId))
+				{
+					ModelHrmJobHireIssue hrmJobHireIssue = this.serviceHrmJobHireIssue.get(issueId);
+					if (hrmJobHireIssue != null)
+					{
+						request.setAttribute("jobHireIssue", hrmJobHireIssue);
+						request.setAttribute("state", state);
+						return mapping.findForward("dialog.page.job.offer.finalize");
+					}
+					else
+					{
+						return ajaxPrint(response, getErrorCallback("应聘信息不存在!"));
+					}
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("需指定应聘信息才能进行操作!"));
+				}
+			}
+			else
+			{
+				return ajaxPrint(response, getErrorCallback("未知应聘操作!"));
+			}
+		} 
+		catch (ServiceException e)
+		{
+			LOGGER.error("Exception raised when open the dialog page for job hire operations.", e);
+			return ajaxPrint(response, getErrorCallback("应聘操作失败:" + e.getMessage()));
+		}
+	}
+	
+	/**
+	 * <b>[WebAction]</b> <br/>
+	 * 入职安排与管理
+	 */
+	public ActionForward hrmPageJobEntryIndex(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) 
+	{
+		try
+		{
+			String jobId = request.getParameter("jobId");
+			if (this.isObjectIdValid(jobId))
+			{
+				ModelHrmJobHireInfo jobHireInfo = this.serviceHrmJobHireInfo.get(jobId);
+				if (jobHireInfo != null)
+				{
+					request.setAttribute("jobHireInfo", jobHireInfo);
+					
+					PagingBean pagingBean = this.getPagingBean(request);
+					PaginationSupport<ModelHrmJobHireEntry> jobHireEntries = 
+							this.serviceHrmJobHireEntry.getPaginationByJobId(jobId, pagingBean);
+					
+					request.setAttribute("jobHireEntries", jobHireEntries);
+					
+					// 输出分页信息至客户端
+					outWritePagination(request, pagingBean, jobHireEntries);
+					
+					return mapping.findForward("hrm.page.job.entry.index");
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			LOGGER.error("Exception raised when open the job offer page.", e);
+		}
+		
+		return ajaxPrint(response, getErrorCallback("发现异常数据!"));
 	}
 
-	public void setServiceHrmJobHireInfo(ServiceHrmJobHireInfo serviceHrmJobHireInfo)
+	/**
+	 * <b>[WebAction]</b> <br/>
+	 * 入职安排新增/修改
+	 */
+	public ActionForward hrmPageJobEntryDetail(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) 
 	{
-		this.serviceHrmJobHireInfo = serviceHrmJobHireInfo;
-	}
-
-	public ServiceHrmResume getServiceHrmResume()
-	{
-		return serviceHrmResume;
-	}
-
-	public void setServiceHrmResume(ServiceHrmResume serviceHrmResume)
-	{
-		this.serviceHrmResume = serviceHrmResume;
-	}
-
-	public ServiceHrmJobHireIssue getServiceHrmJobHireIssue()
-	{
-		return serviceHrmJobHireIssue;
-	}
-
-	public void setServiceHrmJobHireIssue(ServiceHrmJobHireIssue serviceHrmJobHireIssue)
-	{
-		this.serviceHrmJobHireIssue = serviceHrmJobHireIssue;
-	}
-
-	public ServiceHrmJobHireInterview getServiceJobHireInterview()
-	{
-		return serviceJobHireInterview;
-	}
-
-	public void setServiceJobHireInterview(ServiceHrmJobHireInterview serviceJobHireInterview)
-	{
-		this.serviceJobHireInterview = serviceJobHireInterview;
+		
+		try
+		{
+			String entryId = request.getParameter("entryId");
+			if (this.isObjectIdValid(entryId))
+			{
+				ModelHrmJobHireEntry jobHireEntry = this.serviceHrmJobHireEntry.get(entryId);
+				if (jobHireEntry != null)
+				{
+					request.setAttribute("jobHireEntry", jobHireEntry);
+					request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
+					request.setAttribute("op", request.getParameter("op"));
+					return mapping.findForward("hrm.page.job.entry.detail");
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("入职安排信息不存在!"));
+				}
+			}
+			else
+			{
+				return ajaxPrint(response, getErrorCallback("需要指定具体的入职信息!"));
+			}
+		}
+		catch (Exception e)
+		{
+			LOGGER.error("Exception raised when open the entry detail page.", e);
+			return ajaxPrint(response, getErrorCallback("页面加载失败:" + e.getMessage()));
+		}
+		
 	}
 	
 }

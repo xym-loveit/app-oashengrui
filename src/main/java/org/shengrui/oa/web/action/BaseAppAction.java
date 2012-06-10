@@ -16,6 +16,7 @@ import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.system.ModelAppRole;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
+import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 import org.shengrui.oa.service.system.ServiceAppUser;
 import org.shengrui.oa.service.system.ServiceSchoolDepartment;
@@ -171,6 +172,25 @@ extends BaseAction
 	}
 	
 	/**
+	 * 根据部门ID获取岗位列表
+	 * 
+	 * @param orgId
+	 * @return
+	 */
+	protected List<ModelSchoolDepartmentPosition> getPositionByDepartment (String depId)
+	{
+		try
+		{
+			return this.serviceSchoolDepartmentPosition.getPositionByDepartmentId(depId);
+		} 
+		catch (ServiceException e)
+		{
+			LOGGER.error("Exception raised when obtain positions by department with id:" + depId, e);
+		}
+		return null;
+	}
+	
+	/**
 	 * <b>[WebAction]</b> 
 	 * <br/>
 	 * 学校设置-部门岗位设置 - 根据结构类型刷新部门对应的列表
@@ -222,6 +242,47 @@ extends BaseAction
 					}
 				}).create();
 				return ajaxPrint(response, gson.toJson(departments));
+			}
+		}
+		
+		return ajaxPrint(response, "[]");
+	}
+	
+	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
+	 * 根据部门ID刷新岗位列表
+	 */
+	public ActionForward actionLoadPositionByDepartment (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		String depId = request.getParameter("depId");
+		
+		if (UtilString.isNotEmpty(depId))
+		{
+			List<ModelSchoolDepartmentPosition> positions = this.getPositionByDepartment(depId);
+			if (positions != null)
+			{
+				// 只显示@Expose字段, 并且进行重命名显示
+				Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setFieldNamingStrategy(new FieldNamingStrategy()
+				{
+					@Override
+					public String translateName(Field field)
+					{
+						if ("id".equals(field.getName()))
+						{
+							return FIELD_OPTION_VALUE;
+						}
+						
+						if ("positionName".equals(field.getName()))
+						{
+							return FIELD_OPTION_KEY;
+						}
+						
+						return field.getName();
+					}
+				}).create();
+				return ajaxPrint(response, gson.toJson(positions));
 			}
 		}
 		

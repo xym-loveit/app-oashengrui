@@ -26,35 +26,41 @@
 
 <!-- SearchBar -->
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="app/hrm.do?action=hrmJobIndex" method="post" id="searchForm" rel="pagerForm">
+	<form onsubmit="return navTabSearch(this);" action="app/hrm/hire.do?action=hrmJobIndex" method="post" id="searchForm" rel="pagerForm">
 		<div class="searchBar">
 			<table class="searchContent">
 				<tr>
 					<td>
 						<label>招聘校区：</label>
-						<select class="combox" name="school" id="entry_school">
-							<option value="">所有校区</option>
-							<option value="1">临安校区</option>
-							<option value="2">柯桥校区</option>
-							<option value="3">萧山校区</option>
+						<select class="combox" name="jobHireDistrict.id" id="combox_district_jindex" style="width:120px" ref="combox_dept_jindex" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
+							<option value="-1">所有校区</option>
+							<logic:present name="districts">
+								<logic:iterate name="districts" id="district">
+									<option value="${district.id}" ${hireJobForm ne null && hireJobForm.jobHireDistrict ne null && hireJobForm.jobHireDistrict.id eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
+								</logic:iterate>
+							</logic:present>
 						</select>
 					</td>
 					<td>
 						<label>招聘部门：</label>
-						<select class="combox" name="dept" id="entry_dept">
-							<option value="">所有</option>
-							<option value="1">教研部</option>
+						<select class="combox" id="combox_dept_jindex" name="jobHireDepartment.id" defOPKey="所有部门" defOPVal="-1" style="width:108px;">
+							<option value="-1">所有部门</option>
+							<logic:present name="departments">
+								<logic:iterate name="departments" id="entity">
+									<option value="${entity.id}" ${hireJobForm ne null && hireJobForm.jobHireDepartment ne null && hireJobForm.jobHireDepartment.id eq entity.id ? 'selected="selected"' : ''}>${entity.depName}</option>
+								</logic:iterate>
+							</logic:present>
 						</select>
 					</td>
 					<td>
-						岗位名称：<input type="text"  name="entry_name"/>
+						岗位名称：<input type="text"  name="jobHireTitle" value="${hireJobForm ne null ? hireJobForm.jobHireTitle : ''}"/>
 					</td>
 					<td>
 						<label>招聘状态：</label>
-						<select class="combox" name="status" id="entry_status">
-							<option value="">所有</option>
-							<option value="1">招聘中</option>
-							<option value="1">已结束</option>
+						<select class="combox" name="isOpen" id="entry_status">
+							<option value="-1">所有</option>
+							<option value="1" ${hireJobForm ne null && hireJobForm.isOpen eq 1 ? 'selected="selected"' : ''}>招聘中</option>
+							<option value="0" ${hireJobForm ne null && hireJobForm.isOpen eq 0 ? 'selected="selected"' : ''}>已关闭</option>
 						</select>
 					</td>
 				</tr>

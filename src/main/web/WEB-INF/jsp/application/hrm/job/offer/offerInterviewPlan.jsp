@@ -8,7 +8,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div class="pageContent">
-	<form method="post" action="app/hrm/hire/interview.do?action=actionJobInterviewPlanSave" class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone);">
+	<form method="post" action="app/hrm/hire/interview.do?action=actionJobInterviewPlanSave" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent" layoutH="56">
 			<table cellspacing="10" cellpadding="10" style="border-spacing:12">
 				<tr>

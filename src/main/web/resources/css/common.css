@@ -71,6 +71,27 @@ span.diaFuncMicon {
 	padding-left: 25px;
 }
 
+.flag-itv0 {
+	background: url("../images/icons/edit.gif") no-repeat 4px center;
+}
+.flag-itv1 {
+	background: url("../images/icons/onging.png") no-repeat 4px center;
+}
+.flag-itv2 {
+	background: url("../images/icons/pass.png") no-repeat 4px center;
+}
+.flag-itv3 {
+	background: url("../images/icons/eliminated.png") no-repeat 4px center;
+}
+.flag-itv4 {
+	background: url("../images/icons/absence.png") no-repeat 4px center;
+}
+
+.flag-itv0 div, .flag-itv1 div, .flag-itv2 div, .flag-itv3 div, .flag-itv4 div {
+	padding-left: 20px;
+	text-align: left;
+}
+
 .icon,
 .tabsPage .tabsPageHeader li span.icon {
 	padding: 0 0 0 20px;

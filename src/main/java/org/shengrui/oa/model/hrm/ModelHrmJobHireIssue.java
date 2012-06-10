@@ -87,6 +87,37 @@ extends ModelBase
 		}
 	}
 	
+	/**
+	 * The enumeration of job hire issue final state
+	 * 
+	 * @author Jeccy.Zhao
+	 *
+	 */
+	public static enum EJobHireIssueFinalState
+	{
+		HIRED(1, "hired"),								// 录用 
+		ELIMINATED(2, "eliminated"),				// 淘汰
+		ABSENCE(3, "absence");						// 未面试
+		
+		private Integer value;
+		private String text;
+		
+		EJobHireIssueFinalState (Integer value, String text)
+		{
+			this.value = value;
+			this.text = text;
+		}
+		
+		public Integer getValue(){
+			return value;
+		}
+		
+		public String getText()
+		{
+			return this.text;
+		}
+	}
+	
 	public void setJobHire(ModelHrmJobHireInfo jobHire)
 	{
 		this.jobHire = jobHire;

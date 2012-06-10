@@ -6,82 +6,43 @@
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
 
 <style>
 	label {width: auto;}
 	.opr {margin: 3px 2px;}
 	.dispose {text-decoration: line-through; color: red;}
+	ul.infoshow {padding:5px 0 0 5px; overflow:auto; width: 80%;}
+	ul.infoshow li {line-height: 30px; float:left; margin-right: 15px;}
+	.opdisabled {text-decoration: line-through; color: #DDD; line-height: 21px;}
+	td.ongoing {background-color: #99FF99; color: #333;}
+	td.finished {background-color: #ddd;}
 </style>
-
-<script type="text/javascript">
-	function hello(rsp_msg) {
-		alert(rsp_msg.message);
-	}
-</script>
 
 <!-- SearchBar -->
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="app/hrm.do?action=hrmPageJobEntryIndex" method="post">
-		<div class="searchBar">
-			<table class="searchContent">
-				<tr>
-					<td>
-						应聘者姓名：<input type="text"  name="entry_name"/>
-					</td>
-					<td>
-						<label>简历来源：</label>
-						<select class="combox" name="entry_source" id="entry_source">
-							<option value="">所有来源</option>
-							<option value="1">内部推荐</option>
-							<option value="2">手工录入</option>
-							<option value="3">内部应聘</option>
-						</select>
-					</td>
-					<td>
-						<label>状态：</label>
-						<select class="combox" name="status" id="entry_status">
-							<option value="">所有</option>
-							<option value="1">待安排</option>
-							<option value="1">已安排</option>
-						</select>
-					</td>
-				</tr>
-			</table>
-			<div class="subBar">
-				<ul>
-					<li><div class="buttonActive"><div class="buttonContent"><button type="submit">检索</button></div></div></li>
-					<li>
-						<a class="button" target="navTab" href="app/hrm.do?action=hrmJobIndex"><span>返回</span></a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</form>
+	<h1><span class="icon-jobinfo icon" style="display:block">岗位信息</span></h1>
+	<ul class="infoshow">
+		<li>岗位名称：<input type="text" value="${jobHireInfo.jobHireTitle}" readonly /></li>
+		<li>招聘校区：<input type="text" value="${jobHireInfo.jobHireDistrict ne null ? jobHireInfo.jobHireDistrict.districtName : ''}" readonly /></li>
+		<li>招聘部门：<input type="text" value="${jobHireInfo.jobHireDepartment ne null ? jobHireInfo.jobHireDepartment.depName : ''}" readonly /></li>
+		<li>招聘范围：<input type="text" value="${jobHireInfo.jobHireRange eq 1 ? '内外兼招' : (jobHireInfo.jobHireRange eq 2 ? '外部招聘' : (jobHireInfo.jobHireRange eq 3 ? '内部招聘' : ''))}" readonly /></li>
+		<li>招聘人数：<input type="text" value="${jobHireInfo.jobHireCount}" readonly /></li>
+		<li>应聘人数：<input type="text" value="${fn:length(jobHireInfo.jobHireIssues)}" readonly /></li>
+		<li>已录人数：<input type="text" value="0" readonly /></li>
+	</ul>
 </div>
 
-<!-- Body -->	
-<div style="float: left; display: block; overflow: auto; width: 240px;  border: 1px solid rgb(204, 204, 204); line-height: 21px; background: none repeat scroll 0% 0% rgb(255, 255, 255);">
-    <div class="panel" style="display: block;">
-			<div class="panelHeader"><div class="panelHeaderContent"><h1><span class="icon-mymsg icon">岗位信息</span></h1></div></div>
-			<div class="panelContent" style="height: auto; ">
-				<ul style="padding:5px 0 0 5px;line-height:23px;">
-					<li>岗位名称：产品经理</li>
-					<li>招聘校区：杭州总部</li>
-					<li>招聘部门：教研部</li>
-					<li>招聘范围：内外皆招</li>
-					<li>招聘人数：2</li>
-					<li>应聘人数：20</li>
-					<li>已录人数：1</li>
-				</ul>
-			</div>
-	</div>
-</div>
-<div style="margin-left:246px;" class="unitBox" id="jbsxBox">
+<!-- Body -->
+<div class="unitBox" id="jbsxBox">
 	<div class="pageContent">
 		<div class="panelBar">
+			<!--
 			<ul class="toolBar">
 				<li><a treeicon="icon-edit" class="icon" href="app/hrm.do?action=hrmPageJobEntryDetail" target="dialog"><span class="icon-edit">入职安排</span></a></li>
 			</ul>
+			-->
 		</div>
 		<table class="table" width="100%" layoutH="138">
 			<thead>
@@ -99,54 +60,31 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr target="sid" rel="1">
-					<td><input type="checkbox" name="c1" value="1" /></td>
-					<td>张三</td>
-					<td>××××-×××-×××</td>
-					<td>手工录入</td>
-					<td>2012/05/31</td>
-					<td>待安排</td>
-					<td>---</td>
-					<td><a class="oplink" href="app/hrm.do?action=hrmJobResumeDetail&id=1" target="dialog" title="查看简历" width="900" height="500">简历信息</a></td>
-					<td><a class="oplink" href="app/hrm.do?action=hrmPageJobOfferInterviewIndex&id=1" target="dialog" title="面试记录(张三)" >面试记录</a></td>
-					<td><a class="oplink" href="app/hrm.do?action=hrmPageJobEntryDetail&id=1&op=update" target="dialog" title="入职安排" >入职安排</a></td>
-				</tr>
-				<tr target="sid" rel="1">
-					<td><input type="checkbox" name="c1" value="1" /></td>
-					<td>张三</td>
-					<td>××××-×××-×××</td>
-					<td>手工录入</td>
-					<td>2012/05/31</td>
-					<td>待安排</td>
-					<td>---</td>
-					<td><a class="oplink" href="app/hrm.do?action=hrmJobResumeDetail&id=1" target="dialog" title="查看简历" width="900" height="500">简历信息</a></td>
-					<td><a class="oplink" href="app/hrm.do?action=hrmPageJobOfferInterviewIndex&id=1" target="dialog" title="面试记录(张三)" >面试记录</a></td>
-					<td><a class="oplink" href="app/hrm.do?action=hrmPageJobEntryDetail&id=1&op=update" target="dialog" title="入职安排" >入职安排</a></td>
-				</tr>
-				<tr target="sid" rel="1">
-					<td><input type="checkbox" name="c1" value="1" /></td>
-					<td>张三</td>
-					<td>××××-×××-×××</td>
-					<td>手工录入</td>
-					<td>2012/05/31</td>
-					<td>已安排</td>
-					<td>已入职</td>
-					<td><a class="oplink" href="app/hrm.do?action=hrmJobResumeDetail&id=1" target="dialog" title="查看简历" width="900" height="500">简历信息</a></td>
-					<td><a class="oplink" href="app/hrm.do?action=hrmPageJobOfferInterviewIndex&id=1" target="dialog" title="面试记录(张三)" >面试记录</a></td>
-					<td><a class="oplink" href="app/hrm.do?action=hrmPageJobDetail&id=1&op=update" target="dialog" title="入职安排" ></a></td>
-				</tr>
-				<tr target="sid" rel="1">
-					<td><input type="checkbox" name="c1" value="1" /></td>
-					<td>张三</td>
-					<td>××××-×××-×××</td>
-					<td>手工录入</td>
-					<td>2012/05/31</td>
-					<td>已安排</td>
-					<td>未到岗</td>
-					<td><a class="oplink" href="app/hrm.do?action=hrmPageJobDetail&id=1" target="dialog" title="查看简历" width="900" height="500">简历信息</a></td>
-					<td><a class="oplink" href="app/hrm.do?action=hrmPageJobDetail&id=1&op=update" target="dialog" title="查看面试记录" width="900" height="500">面试记录</a></td>
-					<td><a class="oplink" href="app/hrm.do?action=hrmPageJobDetail&id=1&op=update" target="dialog" title="入职安排" width="900" height="500"></a></td>
-				</tr>
+				<logic:present name="jobHireEntries">
+					<logic:iterate name="jobHireEntries" property="items" id="entity">
+						<tr target="entry_id" rel="${entity.id}">
+							<td><input type="checkbox" name="c1" value="${entity.id}" /></td>
+							<td>${entity.jobHireIssue.resume.fullName}</td>
+							<td>${entity.jobHireIssue.resume.mobilePhone}</td>
+							<td>${entity.jobHireIssue.resume.source eq 0 ? '手工输入' : (entity.resume.source eq 1 ? '内部申请' : (entity.resume.source eq 2 ? '内部推荐' : entity.resume.source eq 3 ? '外部申请' : ''))}</td>
+							<td><fmt:formatDate  value="${entity.jobHireIssue.applyDateTime}" pattern="yyyy-MM-dd" /></td>
+							<td class="${entity.currentStatus eq 2 ? 'finished' : ''}">${entity.currentStatus eq 1 ? '待安排' : (entity.currentStatus eq 2 ? '已安排' : '未知')}</td>
+							<td>${entity.finalStatus ne null ? (entity.finalStatus eq 0 ? '待入职' : (entity.finalStatus eq 1 ? '已入职' : '未到岗')) : '---'}</td>
+							<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobResume&resumeId=${entity.jobHireIssue.resume.id}&op=view" target="dialog" title="简历信息‘${entity.jobHireIssue.resume.fullName}’" width="900" height="500" rel="hrm_resumeview_${entity.id}" mask="true" rel="hrm_resumedetail_${entity.id}">简历信息</a></td>
+							<td><a class="oplink" href="app/hrm/hire/interview.do?action=hrmPageJobOfferInterviewIndex&issueId=${entity.jobHireIssue.id}" target="dialog" title="面试记录‘${entity.jobHireIssue.resume.fullName}’" mask="true" rel="hrm_interviewdetail_${entity.id}">面试记录</a></td>
+							<td>
+								<c:choose>
+									<c:when test="${entity.currentStatus eq 2}">
+										<label class="opdisabled">入职安排</label>
+									</c:when>
+									<c:otherwise>
+										<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobEntryDetail&entryId=${entity.id}" mask="true" target="dialog" title="入职安排‘${entity.jobHireIssue.resume.fullName}’" rel="hrm_interviewplan_${entity.id}" height="240">入职安排</a>
+									</c:otherwise>
+								</c:choose>
+							</td>
+						</tr>
+					</logic:iterate>
+				</logic:present>
 			</tbody>
 		</table>
 		<div class="panelBar">

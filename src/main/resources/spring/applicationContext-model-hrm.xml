@@ -39,10 +39,32 @@
 	<bean id="daoHrmJobHireInterview" class="org.shengrui.oa.dao.hrm.impl.DAOHrmJobHireInterviewImpl">
 		<property name="hibernateTemplate" ref="hibernateTemplate" />
 	</bean>
-	<bean id="serviceJobHireInterview" parent="baseTxProxy">
+	<bean id="serviceHrmJobHireInterview" parent="baseTxProxy">
 		<property name="target">
 			<bean class=" org.shengrui.oa.service.hrm.impl.ServiceHrmJobHireInterviewImpl">
 				<constructor-arg index="0" ref="daoHrmJobHireInterview"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="daoHrmArchive" class="org.shengrui.oa.dao.hrm.impl.DAOHrmArchiveImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceHrmArchive" parent="baseTxProxy">
+		<property name="target">
+			<bean class=" org.shengrui.oa.service.hrm.impl.ServiceHrmArchiveImpl">
+				<constructor-arg index="0" ref="daoHrmArchive"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="daoHrmJobHireEntry" class="org.shengrui.oa.dao.hrm.impl.DAOHrmJobHireEntryImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceHrmJobHireEntry" parent="baseTxProxy">
+		<property name="target">
+			<bean class=" org.shengrui.oa.service.hrm.impl.ServiceHrmJobHireEntryImpl">
+				<constructor-arg index="0" ref="daoHrmJobHireEntry"/>
 			</bean>
 		</property>
 	</bean>
