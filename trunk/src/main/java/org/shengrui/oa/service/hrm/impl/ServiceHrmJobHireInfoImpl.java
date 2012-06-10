@@ -51,12 +51,12 @@ extends ServiceGenericImpl<ModelHrmJobHireInfo> implements ServiceHrmJobHireInfo
 		
 		if (entity != null)
 		{
-			if (entity.getJobHireDistrict() != null)
+			if (entity.getJobHireDistrict() != null && UtilString.isNotEmpty(entity.getJobHireDistrict().getId()))
 			{
 				criteria.createCriteria("jobHireDistrict").add(Restrictions.eq("id", entity.getJobHireDistrict().getId()));
 			}
 			
-			if (entity.getJobHireDepartment() != null)
+			if (entity.getJobHireDepartment() != null && UtilString.isNotEmpty(entity.getJobHireDepartment().getId()))
 			{
 				criteria.createCriteria("jobHireDepartment").add(Restrictions.eq("id", entity.getJobHireDepartment().getId()));
 			}
@@ -66,9 +66,9 @@ extends ServiceGenericImpl<ModelHrmJobHireInfo> implements ServiceHrmJobHireInfo
 				criteria.add(Restrictions.like("jobHireTitle", entity.getJobHireTitle(), MatchMode.ANYWHERE));
 			}
 			
-			if (entity.getStatus() != null)
+			if (entity.getIsOpen() != null && entity.getIsOpen() > -1)
 			{
-				criteria.add(Restrictions.eq("status", entity.getStatus()));
+				criteria.add(Restrictions.eq("isOpen", entity.getIsOpen()));
 			}
 		}
 		return criteria;

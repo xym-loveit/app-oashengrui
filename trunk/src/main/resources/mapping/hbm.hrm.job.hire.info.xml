@@ -63,7 +63,7 @@
             <column name="isopen" />
         </property>
         
-        <many-to-one name="jobHireDepartment" class="org.shengrui.oa.model.system.ModelSchoolDepartment">
+        <many-to-one not-found="ignore" name="jobHireDepartment" class="org.shengrui.oa.model.system.ModelSchoolDepartment" >
         	<column name="hjob_depid" />
         </many-to-one>
 		

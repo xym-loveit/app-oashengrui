@@ -28,7 +28,11 @@
 	<!-- 招聘管理 -->
 	<definition name="hrm.page.job.offer.index"  
 		path="/WEB-INF/jsp/application/hrm/job/offer/offerIndex.jsp"/>
-		
+	
+	<!-- 招聘弹框操作 (淘汰 & 未到) -->
+	<definition name="dialog.page.job.offer.finalize"  
+		path="/WEB-INF/jsp/application/hrm/job/offer/dialog/dialogOfferFinalize.jsp"/>
+	
 	<!-- 招聘安排 -->
 	<definition name="hrm.page.job.offer.interview.plan"  
 		path="/WEB-INF/jsp/application/hrm/job/offer/offerInterviewPlan.jsp"/>
@@ -44,5 +48,17 @@
 	<!-- 简历查看 -->
 	<definition name="hrm.page.job.resume.detail"  
 		path="/WEB-INF/jsp/application/hrm/job/resume/resumePage.jsp"/>
+	
+	<!-- 招聘入职 -->
+	<definition name="hrm.page.entry.index"  
+		path="/WEB-INF/jsp/application/hrm/entry/entryIndex.jsp"/>
+	
+	<!-- 入职弹框处理 -->
+	<definition name="dialog.page.entry.onboard"  
+		path="/WEB-INF/jsp/application/hrm/entry/dialog/dialogEntryOnBoard.jsp"/>
+	
+	<!-- 未到弹框处理 -->
+	<definition name="dialog.page.entry.finalize"  
+		path="/WEB-INF/jsp/application/hrm/entry/dialog/dialogEntryFinalize.jsp"/>
 		
 </tiles-definitions>

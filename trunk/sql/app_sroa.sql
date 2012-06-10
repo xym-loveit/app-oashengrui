@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2012 年 06 月 10 日 14:35
+-- 生成日期: 2012 年 06 月 11 日 05:51
 -- 服务器版本: 5.5.17
 -- PHP 版本: 5.3.8
 
@@ -133,13 +133,21 @@ CREATE TABLE IF NOT EXISTS `app_global_type` (
 CREATE TABLE IF NOT EXISTS `app_hrm_archive` (
   `archive_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `resume_id` bigint(20) NOT NULL COMMENT '简历ID',
-  `apply_depname` bigint(20) NOT NULL COMMENT '应聘部门',
-  `apply_districtname` bigint(20) NOT NULL COMMENT '应聘校区',
-  `apply_posname` bigint(20) NOT NULL COMMENT '应聘岗位',
+  `job_id` bigint(20) NOT NULL COMMENT '应聘岗位ID',
   `archive_source` tinyint(4) NOT NULL COMMENT '来源',
   `archive_star` tinyint(4) NOT NULL COMMENT '评定星级',
-  PRIMARY KEY (`archive_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='公司人才库' AUTO_INCREMENT=1 ;
+  PRIMARY KEY (`archive_id`),
+  KEY `job_id` (`job_id`),
+  KEY `resume_id` (`resume_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='公司人才库' AUTO_INCREMENT=3 ;
+
+--
+-- 转存表中的数据 `app_hrm_archive`
+--
+
+INSERT INTO `app_hrm_archive` (`archive_id`, `resume_id`, `job_id`, `archive_source`, `archive_star`) VALUES
+(1, 7, 2, 2, 3),
+(2, 8, 2, 5, 2);
 
 -- --------------------------------------------------------
 
@@ -194,16 +202,30 @@ CREATE TABLE IF NOT EXISTS `app_hrm_employee_roadmap` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_hrm_entries`
+-- 表的结构 `app_hrm_hire_entries`
 --
 
-CREATE TABLE IF NOT EXISTS `app_hrm_entries` (
+CREATE TABLE IF NOT EXISTS `app_hrm_hire_entries` (
   `entry_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `resume_id` bigint(20) NOT NULL COMMENT '简历ID',
-  `dep_id` bigint(20) NOT NULL COMMENT '入职部门ID',
-  `district_id` bigint(20) NOT NULL COMMENT '入职校区ID',
+  `issue_id` bigint(20) NOT NULL COMMENT '应聘ID',
+  `district_id` bigint(20) DEFAULT NULL COMMENT '入职校区',
+  `dep_id` bigint(20) DEFAULT NULL COMMENT '入职部门',
+  `position_id` bigint(20) DEFAULT NULL COMMENT '入职岗位',
+  `charger_id` bigint(20) DEFAULT NULL COMMENT '负责人',
+  `plan_date` datetime NOT NULL COMMENT '安排入职时间',
+  `act_date` datetime DEFAULT NULL COMMENT '实际入职时间',
+  `inspect_status` tinyint(4) DEFAULT NULL COMMENT '考察结果状态',
+  `cstatus` tinyint(4) NOT NULL COMMENT '当前状态',
+  `fstatus` tinyint(4) DEFAULT NULL COMMENT '最终处理状态',
   PRIMARY KEY (`entry_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='员工入职安排表' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='员工入职安排表' AUTO_INCREMENT=2 ;
+
+--
+-- 转存表中的数据 `app_hrm_hire_entries`
+--
+
+INSERT INTO `app_hrm_hire_entries` (`entry_id`, `issue_id`, `district_id`, `dep_id`, `position_id`, `charger_id`, `plan_date`, `act_date`, `inspect_status`, `cstatus`, `fstatus`) VALUES
+(1, 8, 3, 9, 1, 2, '2012-06-10 10:00:00', '2012-06-13 05:35:29', 2, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -222,14 +244,16 @@ CREATE TABLE IF NOT EXISTS `app_hrm_hire_interviews` (
   `state` tinyint(4) DEFAULT NULL COMMENT '面试状态',
   `comments` varchar(150) DEFAULT NULL COMMENT '面试意见',
   PRIMARY KEY (`hw_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='招聘面试' AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='招聘面试' AUTO_INCREMENT=8 ;
 
 --
 -- 转存表中的数据 `app_hrm_hire_interviews`
 --
 
 INSERT INTO `app_hrm_hire_interviews` (`hw_id`, `hissue_id`, `interview_address`, `interview_date`, `interviewer_id`, `meto`, `session_sn`, `state`, `comments`) VALUES
-(5, 6, '杭州总部', '2012-06-13 14:34:56', 1, '', 1, 0, NULL);
+(5, 6, '杭州总部', '2012-06-13 14:34:56', 1, '', 1, 0, NULL),
+(6, 7, '杭州总部', '2012-06-20 15:34:57', 2, '', 1, 3, NULL),
+(7, 8, '杭州总部', '2012-06-13 14:34:56', 2, '', 1, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -257,14 +281,16 @@ CREATE TABLE IF NOT EXISTS `app_hrm_hire_issue` (
   `final_result` tinyint(4) DEFAULT NULL COMMENT '最终处理结果',
   `apply_time` datetime NOT NULL COMMENT '申请时间',
   PRIMARY KEY (`hissue_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='当前招聘' AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='当前招聘' AUTO_INCREMENT=9 ;
 
 --
 -- 转存表中的数据 `app_hrm_hire_issue`
 --
 
 INSERT INTO `app_hrm_hire_issue` (`hissue_id`, `resume_id`, `hjob_id`, `current_status`, `final_result`, `apply_time`) VALUES
-(6, 6, 2, 3, NULL, '2012-06-10 14:34:39');
+(6, 6, 2, 3, NULL, '2012-06-10 14:34:39'),
+(7, 7, 2, 4, 2, '2012-06-10 15:34:45'),
+(8, 8, 2, 4, 1, '2012-06-10 22:51:23');
 
 -- --------------------------------------------------------
 
@@ -349,14 +375,16 @@ CREATE TABLE IF NOT EXISTS `app_hrm_resume` (
   `cn_level` tinyint(4) DEFAULT NULL COMMENT '普通话等级 1=一级甲等, 2=一级乙等, 3=二级甲等, 4=二级乙等, 5=三级甲等, 6=三级乙等, 7=无',
   `source` tinyint(4) DEFAULT NULL COMMENT '简历来源',
   PRIMARY KEY (`resume_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='简历管理' AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='简历管理' AUTO_INCREMENT=9 ;
 
 --
 -- 转存表中的数据 `app_hrm_resume`
 --
 
 INSERT INTO `app_hrm_resume` (`resume_id`, `fullname`, `age`, `birthday`, `address`, `marriage`, `zip`, `sex`, `phone`, `mobile`, `email`, `hobby`, `religion`, `party`, `nationality`, `race`, `birthPlace`, `eduCollege`, `eduDegree`, `eduMajor`, `teacher_major`, `teacher_cert`, `startWorkDate`, `idNo`, `photo`, `status`, `memo`, `registor`, `regTime`, `workCase`, `trainCase`, `projectCase`, `en_level`, `cn_level`, `source`) VALUES
-(6, '佐助', NULL, NULL, '火影村', 1, NULL, 1, NULL, '13588064354', '火影@163.com', NULL, NULL, 1, NULL, NULL, '非人类', '', 1, '', 1, 1, NULL, '362412312412', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0);
+(6, '佐助', NULL, NULL, '火影村', 1, NULL, 1, NULL, '13588064354', '火影@163.com', NULL, NULL, 1, NULL, NULL, '非人类', '', 1, '', 1, 1, NULL, '362412312412', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0),
+(7, '大和', NULL, NULL, '', 1, NULL, 1, NULL, '13512456013', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0),
+(8, '鸣人', NULL, NULL, '', 1, NULL, 1, NULL, '13512456013', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -595,16 +623,18 @@ CREATE TABLE IF NOT EXISTS `app_school_department` (
   `dep_eqid` bigint(20) DEFAULT NULL COMMENT '对口部门',
   `dep_orgtype` tinyint(4) NOT NULL COMMENT '部门结构类型 0=总部, 1=校区, 2=片区',
   PRIMARY KEY (`dep_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='学校部门设置' AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='学校部门设置' AUTO_INCREMENT=13 ;
 
 --
 -- 转存表中的数据 `app_school_department`
 --
 
 INSERT INTO `app_school_department` (`dep_id`, `dep_no`, `dep_name`, `dep_desc`, `dep_eqlevel`, `dep_eqid`, `dep_orgtype`) VALUES
-(1, '0', '人资部', '', 0, NULL, 1),
-(7, '0', '人资部32', '', 0, NULL, 0),
-(9, '0', '人资部', '', 0, NULL, 1);
+(7, '0', '人资部', '', 0, NULL, 0),
+(9, '0', '人资部', '', 0, NULL, 1),
+(10, '1', '总经办', '', 0, NULL, 0),
+(11, '1', '行政部', '', 0, NULL, 0),
+(12, '1', '行政部', '', 0, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -621,7 +651,15 @@ CREATE TABLE IF NOT EXISTS `app_school_department_position` (
   `pos_roleRights` varchar(500) DEFAULT NULL COMMENT '岗位角色权限',
   PRIMARY KEY (`pos_id`),
   KEY `dep_id` (`dep_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='部门岗位' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='部门岗位' AUTO_INCREMENT=3 ;
+
+--
+-- 转存表中的数据 `app_school_department_position`
+--
+
+INSERT INTO `app_school_department_position` (`pos_id`, `pos_name`, `pos_desc`, `pos_leadership`, `dep_id`, `pos_roleRights`) VALUES
+(1, '人事主管', '', 0, 9, ''),
+(2, '行政主管', '', 0, 12, '');
 
 -- --------------------------------------------------------
 
@@ -692,7 +730,7 @@ CREATE TABLE IF NOT EXISTS `app_system_log` (
   `createtime` datetime NOT NULL COMMENT '创建时间',
   `operation` varchar(512) NOT NULL COMMENT '执行操作',
   PRIMARY KEY (`log_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统日志' AUTO_INCREMENT=44 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统日志' AUTO_INCREMENT=47 ;
 
 --
 -- 转存表中的数据 `app_system_log`
@@ -741,7 +779,10 @@ INSERT INTO `app_system_log` (`log_id`, `user_name`, `user_id`, `createtime`, `o
 (40, 'test', 1, '2012-06-08 00:21:41', '进入权限组配置页面'),
 (41, 'test', 1, '2012-06-08 00:22:04', '进入权限组配置页面'),
 (42, 'test', 1, '2012-06-08 01:07:23', '进入权限组配置页面'),
-(43, 'test', 1, '2012-06-09 12:02:01', '进入权限组配置页面');
+(43, 'test', 1, '2012-06-09 12:02:01', '进入权限组配置页面'),
+(44, 'test', 1, '2012-06-10 23:37:22', '进入权限组配置页面'),
+(45, 'test', 1, '2012-06-10 23:37:25', '进入权限组配置页面'),
+(46, 'test', 1, '2012-06-10 23:37:28', '进入权限组配置页面');
 
 -- --------------------------------------------------------
 
@@ -776,7 +817,7 @@ CREATE TABLE IF NOT EXISTS `app_user` (
 --
 
 INSERT INTO `app_user` (`user_id`, `username`, `password`, `fullname`, `email`, `dep_id`, `pos_id`, `district_id`, `phone`, `mobile`, `fax`, `address`, `zip`, `photo`, `status`, `logon_lastip`, `logon_lastime`) VALUES
-(1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', '卡卡西', 'csx@jee-soft.cn', 1, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, 1, '127.0.0.1', '2012-06-10 14:34:03'),
+(1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', '卡卡西', 'csx@jee-soft.cn', 1, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, 1, '0:0:0:0:0:0:0:1', '2012-06-11 05:34:31'),
 (2, 'csx', '9uCh4qxBlFqap/+KiqoM68EqO8yYGpKa1c+BCgkOEa4=', '斩不刀', '111@hotmail.com', 1, NULL, 3, '', '', '', '', '', '', 0, '', NULL);
 
 -- --------------------------------------------------------

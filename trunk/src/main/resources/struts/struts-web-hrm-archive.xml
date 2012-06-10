@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	
+	<form-beans>
+		<form-bean name="form.hrm.archive" type="org.shengrui.oa.model.hrm.ModelHrmArchive"></form-bean>
+	</form-beans>
+	
+	<action-mappings>
+		
+		<!-- 公司人才库-->
+		<action path="/app/hrm/archive"
+				name="form.hrm.archive"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="hrm.page.job.resume.index" path="hrm.page.job.resume.index" />
+		</action>
+		
+	</action-mappings>
+
+</struts-config>

@@ -15,6 +15,8 @@
 	ul.infoshow {padding:5px 0 0 5px; overflow:auto; width: 80%;}
 	ul.infoshow li {line-height: 30px; float:left; margin-right: 15px;}
 	.opdisabled {text-decoration: line-through; color: #DDD; line-height: 21px;}
+	td.ongoing {background-color: #99FF99; color: #333;}
+	td.finished {background-color: #ddd;}
 </style>
 
 <form id="pagerForm" method="post" action="app/hrm/hire.do?action=hrmJobIndex">
@@ -80,7 +82,7 @@
 							<td>${entity.resume.fullName}</td>
 							<td>${entity.resume.mobilePhone}</td>
 							<td>${entity.resume.source eq 0 ? '手工输入' : (entity.resume.source eq 1 ? '内部申请' : (entity.resume.source eq 2 ? '内部推荐' : entity.resume.source eq 3 ? '外部申请' : ''))}</td>
-							<td>
+							<td class="flag-itv${entity['interviewStates']['1']}">
 								<c:choose>
 									<c:when test="${entity['interviewStates'] ne null &&  entity['interviewStates']['1'] ne null}">
 										${entity['interviewStates']['1'] eq 0 ? '待面试' : (entity['interviewStates']['1'] eq 1 ? '面试' : (entity['interviewStates']['1'] eq 2 ? '通过' : (entity['interviewStates']['1'] eq 3 ? '淘汰' : (entity['interviewStates']['1'] eq 4 ? '未到' : ''))))}
@@ -101,24 +103,24 @@
 									</c:when>
 								</c:choose>
 							</td>
-							<td>${entity.currentStatus eq 0 ? '待处理' : (entity.currentStatus eq 1 ? '待安排' : (entity.currentStatus eq 2 ? '已安排' : ( entity.currentStatus eq 3 ? '面试中' : (entity.currentStatus eq 4 ? '已结束' : ''))))}</td>
-							<td>---</td>
-							<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobResume&resumeId=${entity.id}&op=view" target="dialog" title="查看简历" width="900" height="500" rel="hrm_resumeview_${entity.id}">简历信息</a></td>
-							<td><a class="oplink" href="app/hrm.do?action=hrmPageJobOfferInterviewIndex&issueId=${entity.id}" target="dialog" title="面试记录($(entity.resume.fullName))" >面试记录</a></td>
+							<td class="${entity.currentStatus eq 3 ? 'ongoing' : (entity.currentStatus eq 4 ? 'finished' : '')}">${entity.currentStatus eq 0 ? '待处理' : (entity.currentStatus eq 1 ? '待安排' : (entity.currentStatus eq 2 ? '已安排' : ( entity.currentStatus eq 3 ? '面试中' : (entity.currentStatus eq 4 ? '已结束' : ''))))}</td>
+							<td>${entity.finalResult ne null ? (entity.finalResult eq 1 ? '录用' : (entity.finalResult eq 2 ? '淘汰' : (entity.finalResult eq 3 ? '未面试' : '未知'))) : '---'}</td>
+							<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobResume&resumeId=${entity.id}&op=view" target="dialog" title="简历信息‘${entity.resume.fullName}’" width="900" height="500" rel="hrm_resumeview_${entity.id}" mask="true" rel="hrm_resumedetail_${entity.id}">简历信息</a></td>
+							<td><a class="oplink" href="app/hrm/hire/interview.do?action=hrmPageJobOfferInterviewIndex&issueId=${entity.id}" target="dialog" title="面试记录‘${entity.resume.fullName}’" mask="true" rel="hrm_interviewdetail_${entity.id}">面试记录</a></td>
 							<td>
 								<c:choose>
 									<c:when test="${entity.currentStatus eq 0}">
-										<a class="oplink" href="app/hrm.do?action=hrmPageJobOfferDetail&issueId=${entity.id}&op=update" target="ajaxToDo" title="确定要录用‘${entity.resume.fullName}’吗?" >录用</a>
+										<a class="oplink" href="app/hrm/hire.do?action=actionJobIssueFinalize&issueId=${entity.id}&state=1" target="ajaxToDo" title="确定要录用‘${entity.resume.fullName}’吗?" >录用</a>
 									</c:when>
 									<c:otherwise>
 										<label class="opdisabled">录用</label>
 									</c:otherwise>
 								</c:choose>
 							</td>
-							<td>
+							<td> 
 								<c:choose>
 									<c:when test="${entity.currentStatus eq 0}">
-										<a class="oplink" href="app/hrm.do?action=hrmPageJobOfferDetail&issueId=${entity.id}&op=update" target="ajaxToDo" title="确定要淘汰‘${entity.resume.fullName}’吗?" >淘汰</a>
+										<a class="oplink" href="app/hrm/hire.do?action=dialogJobOfferFinalizePage&issueId=${entity.id}&state=2" target="dialog" title="确定要淘汰‘${entity.resume.fullName}’吗?" rel="hrm_eliminate_${entity.id}" width="300" height="160">淘汰</a>
 									</c:when>
 									<c:otherwise>
 										<label class="opdisabled">淘汰</label>
@@ -128,7 +130,7 @@
 							<td>
 								<c:choose>
 									<c:when test="${entity.currentStatus eq 0}">
-										<a class="oplink" href="app/hrm.do?action=hrmPageJobOfferDetail&issueId=${entity.id}&op=update" target="ajaxToDo" title="确定‘${entity.resume.fullName}’未到吗?" >未到</a>
+										<a class="oplink" href="app/hrm/hire.do?action=dialogJobOfferFinalizePage&issueId=${entity.id}&state=3" target="dialog" title="确定‘${entity.resume.fullName}’未到吗?" rel="hrm_absence_${entity.id}" width="300" height="200">未到</a>
 									</c:when>
 									<c:otherwise>
 										<label class="opdisabled">未到</label>

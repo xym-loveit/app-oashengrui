@@ -115,12 +115,12 @@ extends ModelBase
 	/**
 	 * 招聘部门
 	 */
-	private ModelSchoolDepartment jobHireDepartment;
+	private ModelSchoolDepartment jobHireDepartment = new ModelSchoolDepartment();
 	
 	/**
 	 * 招聘校区
 	 */
-	private ModelSchoolDistrict jobHireDistrict;
+	private ModelSchoolDistrict jobHireDistrict = new ModelSchoolDistrict();
 	
 	/**
 	 * 可见校区范围

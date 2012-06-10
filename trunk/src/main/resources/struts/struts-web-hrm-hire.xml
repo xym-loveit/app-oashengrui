@@ -11,19 +11,11 @@
 	
 	<global-forwards> 
 		<forward name="hrm.page.job.resume.detail" path="hrm.page.job.resume.detail" />
+		<forward name="dialog.page.job.offer.finalize" path="dialog.page.job.offer.finalize" />
 	</global-forwards>
 	
 	<action-mappings>
-		<action path="/app/hrm"
-				scope="request"
-				parameter="action"
-				type="org.springframework.web.struts.DelegatingActionProxy">
-			<forward name="hrm.page.job.index" path="hrm.page.job.index" />
-			<forward name="hrm.page.job.approval.index" path="hrm.page.job.approval.index" />
-			<forward name="hrm.page.job.detail" path="hrm.page.job.detail" />
-			<forward name="hrm.page.job.resume.index" path="hrm.page.job.resume.index" />
-		</action>
-		
+				
 		<!-- 当前招聘管理 -->
 		<action path="/app/hrm/hire"
 				name="form.hrm.hire.job"
@@ -54,42 +46,7 @@
 				scope="request"
 				parameter="action"
 				type="org.springframework.web.struts.DelegatingActionProxy">
-		</action>
-		
-		<!-- 当前招聘管理 - 简历-->
-		<action path="/app/hrm/resume"
-				name="form.hrm.resume"
-				scope="request"
-				parameter="action"
-				type="org.springframework.web.struts.DelegatingActionProxy">
-		</action>
-		
-		<!-- 公司人才库-->
-		<action path="/app/hrm/archive"
-				scope="request"
-				parameter="action"
-				type="org.springframework.web.struts.DelegatingActionProxy">
-		</action>
-		
-		<!-- 员工入职-->
-		<action path="/app/hrm/entry"
-				scope="request"
-				parameter="action"
-				type="org.springframework.web.struts.DelegatingActionProxy">
-		</action>
-		
-		<!-- 员工档案-->
-		<action path="/app/hrm/employee"
-				scope="request"
-				parameter="action"
-				type="org.springframework.web.struts.DelegatingActionProxy">
-		</action>
-		
-		<!-- 人力发展管理-->
-		<action path="/app/hrm/develop"
-				scope="request"
-				parameter="action"
-				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="hrm.page.job.offer.interview.index" path="hrm.page.job.offer.interview.index" />
 		</action>
 		
 	</action-mappings>

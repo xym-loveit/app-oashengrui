@@ -6,6 +6,7 @@
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
 
 <style>
 	label {width: auto;}
@@ -13,13 +14,9 @@
 	.dispose {text-decoration: line-through; color: red;}
 </style>
 
-<script type="text/javascript">
-	function hello(rsp_msg) {
-		alert(rsp_msg.message);
-	}
-</script>
+
 <div class="pageContent">
-	<table class="table" width="100%" layoutH="138">
+	<table class="table" width="100%" layoutH="50">
 		<thead>
 			<tr>
 				<th align="center">面试官姓名</th>
@@ -31,46 +28,34 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr target="sid" rel="1">
-				<td>张老师</td>
-				<td>一面</td>
-				<td>2012/05/31</td>
-				<td>建议通过</td>
-				<td>---</td>
-				<td><a class="oplink" href="app/hrm.do?action=hrmPageJobDetail&id=1" target="ajaxdo" title="下载附件">下载</a></td>
-			</tr>
-			<tr target="sid" rel="1">
-				<td>张老师</td>
-				<td>二面</td>
-				<td>2012/05/31</td>
-				<td>建议通过</td>
-				<td>---</td>
-				<td><a class="oplink" href="app/hrm.do?action=hrmPageJobDetail&id=1" target="ajaxdo" title="下载附件">下载</a></td>
-			</tr>
-			<tr target="sid" rel="1">
-				<td>张老师</td>
-				<td>三面</td>
-				<td>2012/05/31</td>
-				<td>建议淘汰</td>
-				<td>---</td>
-				<td><a class="oplink" href="app/hrm.do?action=hrmPageJobDetail&id=1" target="ajaxdo" title="下载附件">下载</a></td>
-			</tr>
+			<logic:present name="hireJobInterviews">
+				<logic:iterate name="hireJobInterviews" property="items" id="entity">
+					<tr target="interview_id" rel="${entity.id}">
+						<td>${entity.interviewer.fullName}</td>
+						<td>${entity.sessionSN eq 1 ? '一面' : (entity.sessionSN eq 2 ? '二面' : (entity.sessionSN eq 3 ? '三面' : '未知'))}</td>
+						<td><fmt:formatDate  value="${entity.interviewDate}" pattern="yyyy.MM.dd hh:mm:ss" /></td>
+						<td>${entity.interviewStatus eq 0 ? '待面试' : (entity.interviewStatus eq 1 ? '面试' : (entity.interviewStatus eq 2 ? '通过' : (entity.interviewStatus eq 3 ? '淘汰' : (entity.interviewStatus eq 4 ? '未到' : ''))))}</td>
+						<td>${entity.interviewComments}</td>
+						<td><!--<a class="oplink" href="app/hrm.do?action=hrmPageJobDetail&id=1" target="ajaxdo" title="下载附件">下载</a>--></td>
+					</tr>
+				</logic:iterate>
+			</logic:present>
 		</tbody>
 	</table>
+	
+	<!-- Pagination -->
 	<div class="panelBar">
 		<div class="pages">
 			<span>显示</span>
 			<select class="combox" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
-				<option value="20">20</option>
-				<option value="50">50</option>
-				<option value="100">100</option>
-				<option value="200">200</option>
+				<option value="20" ${pagingBean ne null && pagingBean.pageSize eq 20 ? 'selected="selected"' : ''}>20</option>
+				<option value="50" ${pagingBean ne null && pagingBean.pageSize eq 50 ? 'selected="selected"' : ''}>50</option>
+				<option value="100" ${pagingBean ne null && pagingBean.pageSize eq 100 ? 'selected="selected"' : ''}>100</option>
+				<option value="200" ${pagingBean ne null && pagingBean.pageSize eq 200 ? 'selected="selected"' : ''}>200</option>
 			</select>
-			<span>条，共${totalCount}条</span>
-		</div>
-		
-		<div class="pagination" targetType="navTab" totalCount="200" numPerPage="20" pageNumShown="10" currentPage="1"></div>
-
+			<span>条，共${pagingBean ne null ? pagingBean.totalItems : 0}条</span>
+		</div>	
+		<div class="pagination" targetType="navTab" totalCount="${pagingBean ne null ? pagingBean.totalItems : 0}" numPerPage="${pagingBean ne null ? pagingBean.pageSize : 20}" pageNumShown="${pagingBean ne null ? pagingBean.pageNumShown : 10}" currentPage="${pagingBean ne null ? pagingBean.currentPage : 1}"></div>
 	</div>
 </div>
 
