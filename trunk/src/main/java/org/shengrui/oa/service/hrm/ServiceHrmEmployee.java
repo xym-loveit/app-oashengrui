@@ -10,7 +10,6 @@ import cn.trymore.core.web.paging.PagingBean;
 public interface ServiceHrmEmployee
 extends ServiceGeneric<ModelHrmEmployee>
 {
-<<<<<<< .mine
 	
 	/**
 	 * 根据员工信息查分页数据
@@ -23,15 +22,4 @@ extends ServiceGeneric<ModelHrmEmployee>
 	PaginationSupport<ModelHrmEmployee> getEmployeeInfoPagination (ModelHrmEmployee entity, 
 			PagingBean pagingBen) throws ServiceException;
 
-=======
-	/**
-	 * 
-	 * @param entity
-	 * @param pagingBean
-	 * @return
-	 * @throws ServiceException
-	 */
-	PaginationSupport<ModelHrmEmployee> getPagination(ModelHrmEmployee entity,
-			PagingBean pagingBean) throws ServiceException;
->>>>>>> .r69
 }

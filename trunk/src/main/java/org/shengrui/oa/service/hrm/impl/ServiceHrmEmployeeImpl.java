@@ -1,26 +1,14 @@
 package org.shengrui.oa.service.hrm.impl;
 
-<<<<<<< .mine
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Restrictions;
-=======
-import org.hibernate.criterion.DetachedCriteria;
->>>>>>> .r69
 import org.shengrui.oa.dao.hrm.DAOHrmEmployee;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.service.hrm.ServiceHrmEmployee;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
-<<<<<<< .mine
-import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
-=======
-import cn.trymore.core.web.paging.PaginationSupport;
-import cn.trymore.core.web.paging.PagingBean;
->>>>>>> .r69
 
 public class ServiceHrmEmployeeImpl
 extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
@@ -35,24 +23,12 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 		this.daoHrmEmployee = dao;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.shengrui.oa.service.hrm.ServiceHrmEmployee#getPagination(org.shengrui.oa.model.hrm.ModelHrmEmployee, cn.trymore.core.web.paging.PagingBean)
-	 */
-	@Override
-	public PaginationSupport<ModelHrmEmployee> getPagination(
-			ModelHrmEmployee entity, PagingBean pagingBean)
-			throws ServiceException
-	{
-		return this.getAll(this.getCriteria(entity), pagingBean);
-	}
-	
 	/**
 	 * 
 	 * @param entity
 	 * @return
 	 */
-	private DetachedCriteria getCriteria (ModelHrmEmployee entity)
+	protected DetachedCriteria getCriteria (ModelHrmEmployee entity)
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployee.class);
 		
