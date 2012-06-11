@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.shengrui.oa.model.hrm">
+    <class name="ModelHrmEmployee" table="app_hrm_employee ">
+        <id name="id" type="java.lang.String">
+            <column name="emp_id" />
+            <generator class="native" />
+        </id>
+        <property name="empNo" type="java.lang.String">
+            <column name="emp_no" />
+        </property>
+        <property name="depId" type="java.lang.Integer">
+            <column name="dep_id" />
+        </property>
+         <property name="districtId" type="java.lang.Integer">
+            <column name="district_id" />
+        </property>
+         <property name="empName" type="java.lang.String">
+            <column name="emp_name" />
+        </property>
+        
+		<!--
+        <many-to-one name="resume" class="ModelHrmResume" not-found="ignore">
+        	<column name="resume_id" />
+        </many-to-one>
+	    -->
+	</class>
+</hibernate-mapping>
