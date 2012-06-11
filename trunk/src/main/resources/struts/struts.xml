@@ -16,6 +16,7 @@
 				/WEB-INF/tiles/tiles-defs-personal.xml,
 				/WEB-INF/tiles/tiles-defs-hrm.xml,
 				/WEB-INF/tiles/tiles-defs-personal.xml,
+				/WEB-INF/tiles/tiles-defs-personal-interview.xml,
 				/WEB-INF/tiles/tiles-defs-sysmgr-account.xml,
 				/WEB-INF/tiles/tiles-defs-sysmgr-menu.xml,
 				/WEB-INF/tiles/tiles-defs-sysmgr-roles.xml,

@@ -44,39 +44,54 @@ extends DAOGenericImpl<ModelHrmArchive> implements DAOHrmArchive
 		{
 			if (entity.getJobHireInfo() != null)
 			{
-				Criterion criterion = null;
-				DetachedCriteria subCriteria = criteria.createCriteria("jobHireInfo");
+				Criterion criterionForInfo = null;
+				Criterion criterionForDistrict = null;
+				Criterion criterionForDepartment = null;
 				
 				ModelHrmJobHireInfo jobHireInfo = entity.getJobHireInfo();
 				
 				if (UtilString.isNotEmpty(jobHireInfo.getJobHireTitle()))
 				{
-					criterion = HibernateUtils.QBC_AND(criterion, Restrictions.eq("jobHireTitle", jobHireInfo.getJobHireTitle()));
+					criterionForInfo = HibernateUtils.QBC_AND(criterionForInfo, Restrictions.eq("jobHireTitle", jobHireInfo.getJobHireTitle()));
 				}
 				
 				if (jobHireInfo.getJobHireDistrict() != null && 
 						UtilString.isNotEmpty(jobHireInfo.getJobHireDistrict().getId()))
 				{
-					subCriteria.createCriteria("jobHireDistrict").add(Restrictions.eq("id", jobHireInfo.getJobHireDistrict().getId()));
+					criterionForDistrict = HibernateUtils.QBC_AND(criterionForDistrict, Restrictions.eq("id", jobHireInfo.getJobHireDistrict().getId()));
 				}
 				
 				if (jobHireInfo.getJobHireDepartment() != null && 
 						UtilString.isNotEmpty(jobHireInfo.getJobHireDepartment().getId()))
 				{
-					subCriteria.createCriteria("jobHireDepartment").add(Restrictions.eq("id", jobHireInfo.getJobHireDepartment().getId()));
+					criterionForDepartment = HibernateUtils.QBC_AND(criterionForDepartment, Restrictions.eq("id", jobHireInfo.getJobHireDepartment().getId()));
 				}
 				
-				if (criterion != null)
+				if (criterionForInfo != null || criterionForDistrict != null || criterionForDepartment != null)
 				{
-					subCriteria.add(criterion);
+					DetachedCriteria subCriteria = criteria.createCriteria("jobHireInfo");
+					if (criterionForInfo != null)
+					{
+						subCriteria.add(criterionForInfo);
+					}
+					
+					if (criterionForDistrict != null)
+					{
+						subCriteria.createCriteria("jobHireDistrict").add(criterionForDistrict);
+					}
+					
+					if (criterionForDepartment != null)
+					{
+						subCriteria.createCriteria("jobHireDepartment").add(criterionForDepartment);
+					}
+					
 				}
 			}
 			
 			if (entity.getResume() != null)
 			{
 				Criterion criterion = null;
-				DetachedCriteria subCriteria = criteria.createCriteria("resume");
-				
+
 				ModelHrmResume resume = entity.getResume();
 				
 				if (UtilString.isNotEmpty(resume.getEducationCollege()))
@@ -111,7 +126,7 @@ extends DAOGenericImpl<ModelHrmArchive> implements DAOHrmArchive
 				
 				if (criterion != null)
 				{
-					subCriteria.add(criterion);
+					criteria.createCriteria("resume").add(criterion);
 				}
 			}
 			
