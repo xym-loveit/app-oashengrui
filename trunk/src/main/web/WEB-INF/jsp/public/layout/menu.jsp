@@ -66,7 +66,7 @@
 				<li treeicon="icon-hrstaffm"><a>员工档案管理</a>
 					<ul>
 						<li treeicon="icon-hrjobreg"><a href="app/hrm/entry.do?action=hrmPageEntryIndex" target="navTab" rel="hrm_entryIndex">招聘入职</a></li>
-						<li treeicon="icon-hrstaffmProfile"><a href="demo_page1.html" target="navTab" rel="demo_page2">员工档案</a></li>
+						<li treeicon="icon-hrstaffmProfile"><a href="app/hrm/employee.do?action=hrmEmployeeDocIndex" target="navTab" rel="hrm_employeeIndex">员工档案</a></li>
 					</ul>
 				</li>
 				<li treeicon="icon-hrmcheck"><a href="demo_page1.html" target="navTab" rel="demo_page1">人力发展管理</a></li>
