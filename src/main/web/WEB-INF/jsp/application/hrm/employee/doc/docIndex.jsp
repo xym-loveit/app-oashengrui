@@ -33,37 +33,37 @@
 				<tr>
 					<td>
 						<label>所在校区：</label>
-						<select class="combox" name="entryDistrict.id" id="combox_district_eindex" style="width:100px">
+						<select class="combox" name="employeeDistrict.id" id="combox_district_eindex" style="width:100px">
 							<option value="-1">所有校区</option>
 							<logic:present name="districts">
 								<logic:iterate name="districts" id="district">
-									<option value="${district.id}" ${formEntry ne null && formEntry.entryDistrict ne null && formEntry.entryDistrict.id eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
+									<option value="${district.id}" ${employeeForm ne null && employeeForm.employeeDistrict ne null && employeeForm.employeeDistrict.id eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
 								</logic:iterate>
 							</logic:present>
 						</select>
 					</td>
 					<td>
 						<label>姓名：</label>
-						<input type="text"  name="fullName" value=""/>
+						<input type="text"  name="empName" value="${employeeForm ne null ? employeeForm.empName : ''}"/>
 					</td>
 					<td>
 						<label>在职状态：</label>
 						<select class="combox" name="onboardStatus" style="width:108px;">
 							<option value="-1">所有</option>
-							<option value="0">试用</option>
-							<option value="1">正式</option>
-							<option value="2">离职</option>
+							<option value="0" ${employeeForm ne null && employeeForm.onboardStatus eq 0 ? 'selected="selected"' : ''}>试用</option>
+							<option value="1" ${employeeForm ne null && employeeForm.onboardStatus eq 1 ? 'selected="selected"' : ''}>正式</option>
+							<option value="2" ${employeeForm ne null && employeeForm.onboardStatus eq 2 ? 'selected="selected"' : ''}>离职</option>
 						</select>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<label>合同到期时间：</label>
-						<input type="text"  name="contractEndDate" class="date textInput" value=""/>
+						<input type="text"  name="contractEndDate" class="date textInput" value="<fmt:formatDate  value="${employeeForm.contractEndDate}" pattern="yyyy-MM-dd" />"/>
 					</td>
 					<td>
 						<label>待转正时间：</label>
-						<input type="text"  name="positiveDate" class="date textInput" value=""/>
+						<input type="text"  name="positiveDueDate" class="date textInput" value="<fmt:formatDate  value="${employeeForm.positiveDueDate}" pattern="yyyy-MM-dd" />"/>
 					</td>
 					<td></td>
 				</tr>
@@ -104,20 +104,33 @@
 				</tr>
 			</thead>
 			<tbody>
-				<logic:present name="entries">
-					<logic:iterate name="entries" property="items" id="entity">
+				<logic:present name="employeeInfo">
+					<logic:iterate name="employeeInfo" property="items" id="entity">
 						<tr target="entry_id" rel="${entity.id}">
-							<td>${entity.jobHireIssue.resume.fullName}</td>
-							<td>${entity.entryDistrict ne null ? entity.entryDistrict.districtName : ''}</td>
-							<td>${entity.entryDepartment ne null ? entity.entryDepartment.depName : ''}</td>
-							<td>${entity.entryPosition ne null ? entity.entryPosition.positionName : ''}</td>
-							<td>${entity.jobHireIssue.resume.mobilePhone}</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td><a class="oplink" href="app/hrm/employee.do?action=hrmEmployeeDocIndex&id=1&op=view" target="dialog" title="详细" width="930" height="500">详细</a></td>
+							<td>${entity.empName}</td>
+							<td>${entity.employeeDistrict ne null ? entity.employeeDistrict.districtName : ''}</td>
+							<td>${entity.employeeDepartment ne null ? entity.employeeDepartment.depName : ''}</td>
+							<td>${entity.employeePosition ne null ? entity.employeePosition.positionName : ''}</td>
+							<td><fmt:formatDate  value="${entity.birthdate}" pattern="yyyy-MM-dd" /></td>
+							<td>${entity.phoneNo}</td>
+							<td>${entity.shortNo}</td>
+							<td><fmt:formatDate  value="${entity.positiveDueDate}" pattern="yyyy-MM-dd" /></td>
+							<td><fmt:formatDate  value="${entity.contractEndDate}" pattern="yyyy-MM-dd" /></td>
+							<td>
+								<c:choose>
+									<c:when test="${entity.onboardStatus eq 0}">
+										试用
+									</c:when>
+									<c:when test="${entity.onboardStatus eq 1}">
+										正式
+									</c:when>
+									<c:when test="${entity.onboardStatus eq 2}">
+										离职
+									</c:when>
+								</c:choose>
+							</td>
+							<td><a class="oplink" href="app/hrm/employee.do?action=actionEmployeeDelete&id=${entity.id}" target="ajaxTodo" title="确定要删除吗?">删除</a></td>
+							<td><a class="oplink" href="app/hrm/employee.do?action=hrmEmployeeDocDetail&id=${entity.id}&op=view" target="dialog" title="详细" width="930" height="500">详细</a></td>
 						</tr>
 					</logic:iterate>
 				</logic:present>

@@ -2,11 +2,15 @@
 <!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
 
 <struts-config>
-	
+	<form-beans>
+		<form-bean name="form.hrm.employee" type="org.shengrui.oa.model.hrm.ModelHrmEmployee"></form-bean>
+		<form-bean name="form.hrm.resume" type="org.shengrui.oa.model.hrm.ModelHrmResume"></form-bean>
+	</form-beans>
 	<action-mappings>
 	
 		<!-- 员工档案-->
 		<action path="/app/hrm/employee"
+				name="form.hrm.employee"
 				scope="request"
 				parameter="action"
 				type="org.springframework.web.struts.DelegatingActionProxy">
