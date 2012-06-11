@@ -45,6 +45,14 @@
 	<definition name="hrm.page.job.resume.index"  
 		path="/WEB-INF/jsp/application/hrm/job/resume/resumeIndex.jsp"/>
 		
+	<!-- 员工档案管理 -->
+	<definition name="hrm.page.employee.doc.index"  
+		path="/WEB-INF/jsp/application/hrm/employee/doc/docIndex.jsp"/>
+		
+	<!-- 员工档案查看 -->
+	<definition name="hrm.page.employee.doc.detail"  
+		path="/WEB-INF/jsp/application/hrm/employee/doc/docPage.jsp"/>
+		
 	<!-- 简历查看 -->
 	<definition name="hrm.page.job.resume.detail"  
 		path="/WEB-INF/jsp/application/hrm/job/resume/resumePage.jsp"/>
