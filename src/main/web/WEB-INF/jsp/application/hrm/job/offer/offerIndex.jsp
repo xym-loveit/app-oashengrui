@@ -89,14 +89,14 @@
 									</c:when>
 								</c:choose>
 							</td>
-							<td>
+							<td class="flag-itv${entity['interviewStates']['2']}">
 								<c:choose>
 									<c:when test="${entity['interviewStates'] ne null &&  entity['interviewStates']['2'] ne null}">
 										${entity['interviewStates']['2'] eq 0 ? '待面试' : (entity['interviewStates']['2'] eq 1 ? '面试' : (entity['interviewStates']['2'] eq 2 ? '通过' : (entity['interviewStates']['2'] eq 3 ? '淘汰' : (entity['interviewStates']['2'] eq 4 ? '未到' : ''))))}
 									</c:when>
 								</c:choose>
 							</td>
-							<td>
+							<td class="flag-itv${entity['interviewStates']['3']}">
 								<c:choose>
 									<c:when test="${entity['interviewStates'] ne null &&  entity['interviewStates']['3'] ne null}">
 										${entity['interviewStates']['3'] eq 0 ? '待面试' : (entity['interviewStates']['3'] eq 1 ? '面试' : (entity['interviewStates']['3'] eq 2 ? '通过' : (entity['interviewStates']['3'] eq 3 ? '淘汰' : (entity['interviewStates']['3'] eq 4 ? '未到' : ''))))}
@@ -139,7 +139,7 @@
 							</td>
 							<td>
 								<c:choose>
-									<c:when test="${entity.currentStatus eq 0 || entity.currentStatus eq 4}">
+									<c:when test="${entity.currentStatus eq 4}">
 										<label class="opdisabled">招聘安排</label>
 									</c:when>
 									<c:otherwise>

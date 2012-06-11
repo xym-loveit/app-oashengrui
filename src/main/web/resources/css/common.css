@@ -31,6 +31,10 @@ span.diaFuncMicon {
 	height: 20px;
 }
 
+.grid .gridHeader th.thover {
+	background-position: 0 -50px;
+}
+
 .panelBar .toolBar a.refresh span {
 	background: url("../images/icons/refresh.png") no-repeat left center;
 }
@@ -91,6 +95,9 @@ span.diaFuncMicon {
 	padding-left: 20px;
 	text-align: left;
 }
+
+.iflag-2 {color: green;}
+.iflag-3, .iflag-4 {color: red;}
 
 .icon,
 .tabsPage .tabsPageHeader li span.icon {
@@ -457,4 +464,10 @@ span.diaFuncMicon {
 .panelBar .toolBar a.icon span.icon-edit, 
 .tabsPage .tabsPageHeader li span.icon-edit {
 	background: url("../images/icons/template_edit.png") no-repeat left center;
+}
+
+.icon-records, 
+.panelBar .toolBar a.icon span.icon-records, 
+.tabsPage .tabsPageHeader li span.icon-records {
+	background: url("../images/icons/myrecords.png") no-repeat left center;
 }

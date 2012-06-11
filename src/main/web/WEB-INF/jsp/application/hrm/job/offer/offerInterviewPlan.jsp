@@ -29,9 +29,9 @@
 					<td>面试环节：</td>
 					<td>
 						<select class="combox" name="sessionSN" class="required" style="width:150px">
-							<option value="1">一面</option>
-							<option value="2">二面</option>
-							<option value="3">三面</option>
+							<c:if test="${jobHireIssue['interviewStates']['1'] eq null}"><option value="1">一面</option></c:if>
+							<c:if test="${jobHireIssue['interviewStates']['2'] eq null}"><option value="2">二面</option></c:if>
+							<c:if test="${jobHireIssue['interviewStates']['3'] eq null}"><option value="3">三面</option></c:if>
 						</select>
 					</td>
 					<td>面试时间：</td>

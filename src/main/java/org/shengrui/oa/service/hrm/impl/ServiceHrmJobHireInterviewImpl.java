@@ -61,7 +61,31 @@ extends ServiceGenericImpl<ModelHrmJobHireInterview> implements ServiceHrmJobHir
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmJobHireInterview#getPaginationByInterviewerAndStatus(java.lang.String, java.lang.String, cn.trymore.core.web.paging.PagingBean)
+	 */
+	@Override
+	public PaginationSupport<ModelHrmJobHireInterview> getPaginationByInterviewerAndStatus (
+			String interviewId, Integer[] status, PagingBean pagingBean) throws ServiceException
+	{
+		try
+		{
+			DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmJobHireInterview.class);
+			
+			criteria.add(Restrictions.in("interviewStatus", status));
+			criteria.createCriteria("interviewer").add(Restrictions.eq("id", interviewId));
+			
+			return this.getAll(criteria, pagingBean);
+		}
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
+	}
+	
 	/**
+	 * Obtains the criteria with the specified entity.
 	 * 
 	 * @param entity
 	 * @return

@@ -8,10 +8,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
-import org.shengrui.oa.model.hrm.ModelHrmJobHireInfo;
 
 import cn.trymore.core.exception.ServiceException;
-import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
