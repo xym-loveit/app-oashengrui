@@ -19,7 +19,27 @@ extends ModelBase
 	 * 员工履历
 	 */
 	private Set<ModelHrmEmployeeRoadMap> roadMaps;
-
+	
+	/**
+	 * 员工编号
+	 */
+	private String empNo;
+	
+	/**
+	 * 部门ID
+	 */
+	private int depId;
+	
+	/**
+	 * 校区ID
+	 */
+	private int districtId;
+	
+	/**
+	 * 员工全名
+	 */
+	private String empName;
+	
 	public void setProfile(ModelHrmEmployeeProfile profile)
 	{
 		this.profile = profile;
@@ -40,4 +60,36 @@ extends ModelBase
 		return roadMaps;
 	}
 
+	public String getEmpNo() {
+		return empNo;
+	}
+
+	public void setEmpNo(String empNo) {
+		this.empNo = empNo;
+	}
+
+	public int getDepId() {
+		return depId;
+	}
+
+	public void setDepId(int depId) {
+		this.depId = depId;
+	}
+
+	public int getDistrictId() {
+		return districtId;
+	}
+
+	public void setDistrictId(int districtId) {
+		this.districtId = districtId;
+	}
+
+	public String getEmpName() {
+		return empName;
+	}
+
+	public void setEmpName(String empName) {
+		this.empName = empName;
+	}
+	
 }
