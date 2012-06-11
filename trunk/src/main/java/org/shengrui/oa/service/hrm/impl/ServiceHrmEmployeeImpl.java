@@ -1,5 +1,6 @@
 package org.shengrui.oa.service.hrm.impl;
 
+import org.hibernate.criterion.DetachedCriteria;
 import org.shengrui.oa.dao.hrm.DAOHrmEmployee;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.service.hrm.ServiceHrmEmployee;
@@ -31,7 +32,21 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 			ModelHrmEmployee entity, PagingBean pagingBean)
 			throws ServiceException
 	{
-		return null;
+		return this.getAll(this.getCriteria(entity), pagingBean);
+	}
+	
+	/**
+	 * 
+	 * @param entity
+	 * @return
+	 */
+	private DetachedCriteria getCriteria (ModelHrmEmployee entity)
+	{
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployee.class);
+		
+		// TODO Criteria conditions needed here.
+		
+		return criteria;
 	}
 	
 	public void setDaoHrmEmployee(DAOHrmEmployee daoHrmEmployee)
