@@ -1,6 +1,8 @@
 package org.shengrui.oa.service.hrm.impl;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Restrictions;
 
 import org.shengrui.oa.dao.hrm.DAOHrmEmployee;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
@@ -8,6 +10,8 @@ import org.shengrui.oa.service.hrm.ServiceHrmEmployee;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
+import cn.trymore.core.util.UtilDate;
+import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
@@ -70,26 +74,32 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 		
 		if (entity != null)
 		{
-//			if (entity.getJobHireDistrict() != null && UtilString.isNotEmpty(entity.getJobHireDistrict().getId()))
-//			{
-//				criteria.createCriteria("jobHireDistrict").add(Restrictions.eq("id", entity.getJobHireDistrict().getId()));
-//			}
-//			
-//			if (entity.getJobHireDepartment() != null && UtilString.isNotEmpty(entity.getJobHireDepartment().getId()))
-//			{
-//				criteria.createCriteria("jobHireDepartment").add(Restrictions.eq("id", entity.getJobHireDepartment().getId()));
-//			}
-//			
-//			if (UtilString.isNotEmpty(entity.getJobHireTitle()))
-//			{
-//				criteria.add(Restrictions.like("jobHireTitle", entity.getJobHireTitle(), MatchMode.ANYWHERE));
-//			}
-//			
-//			if (entity.getIsOpen() != null && entity.getIsOpen() > -1)
-//			{
-//				criteria.add(Restrictions.eq("isOpen", entity.getIsOpen()));
-//			}
+			if (entity.getEmployeeDistrict() != null && UtilString.isNotEmpty(entity.getEmployeeDistrict().getId()))
+			{
+				criteria.createCriteria("employeeDistrict").add(Restrictions.eq("id", entity.getEmployeeDistrict().getId()));
+			}
+			
+			if (UtilString.isNotEmpty(entity.getEmpName()))
+			{
+				criteria.add(Restrictions.like("empName", entity.getEmpName(), MatchMode.ANYWHERE));
+			}
+			
+			if (entity.getOnboardStatus() > -1)
+			{
+				criteria.add(Restrictions.eq("onboardStatus", entity.getOnboardStatus()));
+			}
+			
+			if (entity.getContractEndDate() != null)
+			{
+				criteria.add(Restrictions.le("contractEndDate", entity.getContractEndDate()));
+			}
+			
+			if (entity.getPositiveDueDate() != null)
+			{
+				criteria.add(Restrictions.le("positiveDueDate", entity.getPositiveDueDate()));
+			}
 		}
+		criteria.add(Restrictions.eq("status", "Y"));
 		return criteria;
 	}
 

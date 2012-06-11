@@ -11,20 +11,47 @@
         <property name="empNo" type="java.lang.String">
             <column name="emp_no" />
         </property>
-        <property name="depId" type="java.lang.Integer">
-            <column name="dep_id" />
-        </property>
-         <property name="districtId" type="java.lang.Integer">
-            <column name="district_id" />
-        </property>
          <property name="empName" type="java.lang.String">
             <column name="emp_name" />
         </property>
-        
-		<!--
-        <many-to-one name="resume" class="ModelHrmResume" not-found="ignore">
+         <property name="birthdate" type="java.util.Date">
+            <column name="birthdate" />
+        </property>
+         <property name="phoneNo" type="java.lang.String">
+            <column name="phone_no" />
+        </property>
+         <property name="shortNo" type="java.lang.String">
+            <column name="short_no" />
+        </property>
+         <property name="positiveDueDate" type="java.util.Date">
+            <column name="positive_due_date" />
+        </property>
+         <property name="contractEndDate" type="java.util.Date">
+            <column name="contract_end_date" />
+        </property>
+         <property name="onboardStatus" type="java.lang.Integer">
+            <column name="onboard_status" />
+        </property>
+         <property name="status" type="java.lang.String">
+            <column name="status" />
+        </property>
+         <property name="entryId" type="java.lang.Integer">
+            <column name="entry_id" />
+        </property>
+         <property name="entryDateTime" type="java.util.Date">
+            <column name="entry_datetime" />
+        </property>
+        <many-to-one name="resume" unique="true" class="ModelHrmResume" not-found="ignore">
         	<column name="resume_id" />
         </many-to-one>
-	    -->
+        <many-to-one name="employeeDistrict" class="org.shengrui.oa.model.system.ModelSchoolDistrict" not-found="ignore">
+        	<column name="district_id" />
+        </many-to-one>
+        <many-to-one name="employeeDepartment" class="org.shengrui.oa.model.system.ModelSchoolDepartment" not-found="ignore">
+        	<column name="dep_id" />
+        </many-to-one>
+        <many-to-one name="employeePosition" class="org.shengrui.oa.model.system.ModelSchoolDepartmentPosition" not-found="ignore">
+        	<column name="position_id" />
+        </many-to-one>
 	</class>
 </hibernate-mapping>
