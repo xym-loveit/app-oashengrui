@@ -22,17 +22,4 @@ extends ServiceGeneric<ModelHrmEmployee>
 	PaginationSupport<ModelHrmEmployee> getEmployeeInfoPagination (ModelHrmEmployee entity, 
 			PagingBean pagingBen) throws ServiceException;
 
-<<<<<<< .mine
-	/**
-	 * 
-	 * @param entity
-	 * @param pagingBean
-	 * @return
-	 * @throws ServiceException
-	 */
-	PaginationSupport<ModelHrmEmployee> getPagination(ModelHrmEmployee entity,
-			PagingBean pagingBean) throws ServiceException;
-
-=======
->>>>>>> .r78
 }
