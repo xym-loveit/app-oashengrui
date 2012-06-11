@@ -10,6 +10,8 @@
 				scope="request"
 				parameter="action"
 				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="hrm.page.employee.doc.index" path="hrm.page.employee.doc.index" />
+			<forward name="hrm.page.employee.doc.detail" path="hrm.page.employee.doc.detail" />
 		</action>
 		
 	</action-mappings>
