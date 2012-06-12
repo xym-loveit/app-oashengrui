@@ -77,14 +77,14 @@ extends BaseHrmAction
 				ModelHrmEmployee employeeInfo = this.serviceHrmEmployee.get(employeeId);
 				if (employeeInfo != null)
 				{
+					request.setAttribute("employee", employeeInfo);
 				}
 			}
 			else
 			{
-				return ajaxPrint(response, getErrorCallback("需要传入员工ID参数."));
+				LOGGER.error("需要传入员工ID参数.");
 			}
-			
-		} 
+		}
 		catch (ServiceException e)
 		{
 			LOGGER.error("Exception raised when fetch employee document detail.", e);
@@ -130,5 +130,39 @@ extends BaseHrmAction
 			LOGGER.error("Exception raised when delete employee document.", e);
 			return ajaxPrint(response, getErrorCallback("员工档案删除失败:" + e.getMessage()));
 		}
+	}
+	
+	/**
+	 * <b>[WebAction]</b> <br/>
+	 * 晟睿旅程
+	 */
+	public ActionForward hrmEmployeeDocRoadMap(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		
+		try
+		{
+			String employeeId = request.getParameter("id");
+			if (this.isObjectIdValid(employeeId))
+			{
+				ModelHrmEmployee employeeInfo = this.serviceHrmEmployee.get(employeeId);
+				if (employeeInfo != null)
+				{
+					request.setAttribute("employee", employeeInfo);
+				}
+			}
+			else
+			{
+				return ajaxPrint(response, getErrorCallback("需要传入员工ID参数."));
+			}
+			request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
+			
+		} 
+		catch (ServiceException e)
+		{
+			LOGGER.error("Exception raised when fetch employee document detail.", e);
+		}
+		
+		return mapping.findForward("hrm.page.employee.doc.roadmap");
 	}
 }
