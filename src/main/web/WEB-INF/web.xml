@@ -144,6 +144,7 @@
 				/WEB-INF/classes/struts/struts-web-hrm-hire.xml,
 				/WEB-INF/classes/struts/struts-web-personal.xml,
 				/WEB-INF/classes/struts/struts-web-personal-interview.xml,
+				/WEB-INF/classes/struts/struts-web-personal-jobapplication.xml,
 				/WEB-INF/classes/struts/struts-web-system-account.xml,
 				/WEB-INF/classes/struts/struts-web-system-login.xml,
 				/WEB-INF/classes/struts/struts-web-system-menu.xml,

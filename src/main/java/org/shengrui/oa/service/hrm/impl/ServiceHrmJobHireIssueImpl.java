@@ -1,6 +1,7 @@
 package org.shengrui.oa.service.hrm.impl;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.hrm.DAOHrmJobHireIssue;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireIssue;
@@ -8,6 +9,7 @@ import org.shengrui.oa.service.hrm.ServiceHrmJobHireIssue;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
+import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
@@ -35,6 +37,24 @@ extends ServiceGenericImpl<ModelHrmJobHireIssue> implements ServiceHrmJobHireIss
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmJobHireIssue.class);
 		criteria.createCriteria("jobHire").add(Restrictions.eq("id", jobId));
 		return this.getAll(criteria, pagingBean);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmJobHireIssue#getPaginationByUser(java.lang.String, cn.trymore.core.web.paging.PagingBean)
+	 */
+	@Override
+	public PaginationSupport<ModelHrmJobHireIssue> getPaginationByUser (String userId, 
+			PagingBean pagingBean) throws ServiceException
+	{
+		if (UtilString.isNotEmpty(userId))
+		{
+			DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmJobHireIssue.class);
+			criteria.createCriteria("candidate").add(Restrictions.eq("id", userId));
+			criteria.addOrder(Order.desc("applyDateTime"));
+			return this.getAll(criteria, pagingBean);
+		}
+		return null;
 	}
 
 	public void setDaoHrmJobHireIssue(DAOHrmJobHireIssue daoHrmJobHireIssue)

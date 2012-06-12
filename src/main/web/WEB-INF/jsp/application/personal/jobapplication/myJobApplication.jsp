@@ -13,12 +13,12 @@
 	<div class="panelBar">
 		<c:if test="${op eq null || op ne 'history'}">
 			<ul class="toolBar" style="float:right">
-				<li><a treeicon="icon-records" class="icon" href="app/personal/interview.do?action=pageMyInterviewHistory" target="navTab" rel="dmy_interview"><span class="icon-records">我的历史面试</span></a></li>
+				<li><a treeicon="icon-records" class="icon" href="app/personal/jobapplication.do?action=pageMyHistoryJobApplication" target="navTab" rel="dmy_jobapplication"><span class="icon-records">我的历史应聘</span></a></li>
 			</ul>
 		</c:if>
 	</div>
 	
-	<%@ include file="data/dataInterviewList.jsp" %>
+	<%@ include file="data/dataJobList.jsp" %>
 	
 	<!-- Pagination -->
 	<div class="panelBar">

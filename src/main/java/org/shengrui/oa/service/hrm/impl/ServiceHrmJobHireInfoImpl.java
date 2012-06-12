@@ -2,6 +2,7 @@ package org.shengrui.oa.service.hrm.impl;
 
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.hrm.DAOHrmJobHireInfo;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireInfo;
@@ -32,7 +33,7 @@ extends ServiceGenericImpl<ModelHrmJobHireInfo> implements ServiceHrmJobHireInfo
 	 * @see org.shengrui.oa.service.hrm.ServiceHrmJobHireInfo#getHireJobPagination(org.shengrui.oa.model.hrm.ModelHrmJobHireInfo, cn.trymore.core.web.paging.PagingBean)
 	 */
 	@Override
-	public PaginationSupport<ModelHrmJobHireInfo> getHireJobPagination(
+	public PaginationSupport<ModelHrmJobHireInfo> getPaginationByEntity(
 			ModelHrmJobHireInfo entity, PagingBean pagingBean)
 			throws ServiceException
 	{
@@ -71,6 +72,9 @@ extends ServiceGenericImpl<ModelHrmJobHireInfo> implements ServiceHrmJobHireInfo
 				criteria.add(Restrictions.eq("isOpen", entity.getIsOpen()));
 			}
 		}
+		
+		criteria.addOrder(Order.desc("jobHireEndDate"));
+		
 		return criteria;
 	}
 	
