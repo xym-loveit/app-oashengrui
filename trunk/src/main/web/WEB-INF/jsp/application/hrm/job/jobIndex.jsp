@@ -7,6 +7,8 @@
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn"%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 
 <style>
 	label {width: auto;}
@@ -14,10 +16,6 @@
 	.dispose {text-decoration: line-through; color: red;}
 	.opdisabled {text-decoration: line-through; color: #DDD; line-height: 21px;}
 </style>
-
-<script type="text/javascript">
-
-</script>
 
 <form id="pagerForm" method="post" action="app/hrm/hire.do?action=hrmJobIndex">
 	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
@@ -77,9 +75,11 @@
 <!-- Body -->	
 <div class="pageContent">
 	<div class="panelBar">
-		<ul class="toolBar" style="float:right">
-			<li><a treeicon="icon-edit" class="icon" href="app/hrm.do?action=hrmPageJobApprovalIndex" target="navTab" rel="hr_approval"><span class="icon-edit">待我审批</span></a></li>
-		</ul>
+		<c:if test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.functionRights eq '__ALL' || tm:inRange(sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.functionRights, '_FUNCKEY_JOBAPPROVAL_SUBNODE', ',') || tm:inRange(sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.functionRights, '_FUNCKEY_JOBAPPROVAL_ROOT', ',')}">
+			<ul class="toolBar" style="float:right">
+				<li><a treeicon="icon-edit" class="icon" href="app/hrm/hire.do?action=hrmPageJobApprovalIndex" target="navTab" rel="hr_approval"><span class="icon-edit">待我审批</span></a></li>
+			</ul>
+		</c:if>
 		<ul class="toolBar">
 			<li><a class="add" href="app/hrm/hire.do?action=hrmPageJobDetail" target="dialog" title="岗位发布" width="930" height="500" rel="dia_hr_entryadd"><span>添加</span></a></li>
 			<li class="line">line</li>
@@ -106,7 +106,7 @@
 		<tbody>
 			<logic:present name="hireJobs">
 				<logic:iterate name="hireJobs" property="items" id="entity">
-					<tr target="sid" rel="1">
+					<tr target="sid" rel="${entity.id}">
 						<td>${entity.jobHireTitle}</td>
 						<td>${entity.jobHireCount}</td>
 						<td>${fn:length(entity.jobHireIssues)}</td>

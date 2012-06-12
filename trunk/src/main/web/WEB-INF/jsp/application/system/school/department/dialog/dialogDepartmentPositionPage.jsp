@@ -13,7 +13,7 @@
 		var currentPanel = $(navTab.getCurrentPanel());
 		if ($("#_var_depid", currentPanel).size() > 0) {
 			var dep_id = $("#_var_depid", currentPanel).val();
-			$("#ajBoxMenuFunc").loadUrl("app/system/school/department/position.do?action=actionLoadDepartmentPosition&depId=" + dep_id, {}, function(){
+			$("#ajBoxDepPos").loadUrl("app/system/school/department/position.do?action=actionLoadDepartmentPosition&depId=" + dep_id, {}, function(){
 				$.pdialog.closeCurrent();
 			});
 		}

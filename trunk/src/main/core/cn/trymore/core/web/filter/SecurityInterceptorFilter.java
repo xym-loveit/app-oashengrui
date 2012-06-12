@@ -18,6 +18,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import cn.trymore.core.security.SecurityDataSource;
+import cn.trymore.core.util.UtilString;
 
 /**
  * The security intercepter filter
@@ -50,7 +51,17 @@ extends OncePerRequestFilter
 	{
 		// obtains the request URI
 		String requestURI = request.getRequestURI();
-		String contextPath = request.getContextPath();
+		String contextPath = request.getContextPath() + "/";
+		
+		// 追加参数, 适应精准匹配.
+		if (requestURI.endsWith(".do") && UtilString.isNotEmpty(request.getQueryString()))
+		{
+			if (request.getQueryString().indexOf("&_") > -1)
+			{
+				requestURI = requestURI + "?" + request.getQueryString().substring(0, request.getQueryString().indexOf("&_"));
+			}
+		}
+		
 		if (StringUtils.hasLength(contextPath))
 		{
 			int pos = requestURI.indexOf(contextPath);
@@ -70,8 +81,8 @@ extends OncePerRequestFilter
 				break;
 			}
 			
-			if (ModelAppRole.ROLE_PUBLIC.equals(auth.getAuthorities()[i].getAuthority()) || 
-					ModelAppRole.ROLE_ANONYMOUS.equals(auth.getAuthorities()[i].getAuthority()))
+			if (!ModelAppRole.ROLE_PUBLIC.equals(auth.getAuthorities()[i].getAuthority()) || 
+					!ModelAppRole.ROLE_ANONYMOUS.equals(auth.getAuthorities()[i].getAuthority()))
 			{
 				continue;
 			}
@@ -134,7 +145,7 @@ extends OncePerRequestFilter
 		for (GrantedAuthority localGrantedAuthority : auth.getAuthorities())
 		{
 			Set<String> localSet = this.roleUrlsMap.get(localGrantedAuthority.getAuthority());
-			if (localSet != null && localSet.contains(url))
+			if (localSet != null && (localSet.contains(url) || localSet.contains("/" + url)))
 			{
 				return true;
 			}

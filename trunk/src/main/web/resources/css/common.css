@@ -205,15 +205,18 @@ span.diaFuncMicon {
 #menu-hr,
 .icon-hr,
 .tree div.icon-hr,
+.tabsPage .tabsPageHeader li span.icon-hr,
 .accordion .accordionHeader h2 span.icon-hr {
 	background: url("../images/menus/hr.png") no-repeat left center;
 }
 
+/*
 .icon-hr,
 .tabsPage .tabsPageHeader li span.icon-hr,
 .tree div.icon-hr {
 	background: url("../images/menus/hr/hr.gif") no-repeat left center;
 }
+*/
 
 .icon-hrjobreg,
 .tabsPage .tabsPageHeader li span.icon-hrjobreg,
@@ -228,6 +231,7 @@ span.diaFuncMicon {
 }
 
 .icon-hrjobmIssue,
+.panelBar .toolBar a.icon span.icon-hrjobmIssue,
 .tabsPage .tabsPageHeader li span.icon-hrjobmIssue,
 .tree div.icon-hrjobmIssue {
 	background: url("../images/menus/hr/hireIssue.jpg") no-repeat left center;

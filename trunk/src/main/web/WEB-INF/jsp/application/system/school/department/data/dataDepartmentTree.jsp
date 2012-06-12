@@ -29,7 +29,7 @@
 				<c:forEach items="${departments}" var="entry">
 					<c:if test="${entry.key eq 0}">
 						<c:forEach items="${entry.value}" var="entity">
-							<li><a id="dentity_${entity.id}" class='tparam' param="_var_depid" paramRel="${entity.id}" href="app/system/school/department/position.do?action=actionLoadDepartmentPosition&depId=${entity.id}" callback="dep_activated(${entity.id});" target="ajax" rel="ajBoxMenuFunc"><c:out value="${entity.depName}" /></a></li>
+							<li><a id="dentity_${entity.id}" class='tparam' param="_var_depid" paramRel="${entity.id}" href="app/system/school/department/position.do?action=actionLoadDepartmentPosition&depId=${entity.id}" callback="dep_activated(${entity.id});" target="ajax" rel="ajBoxDepPos"><c:out value="${entity.depName}" /></a></li>
 						</c:forEach>
 					</c:if>
 				</c:forEach>
@@ -43,7 +43,7 @@
 				<c:forEach items="${departments}" var="entry">
 					<c:if test="${entry.key eq 1}">
 						<c:forEach items="${entry.value}" var="entity">
-							<li><a id="dentity_${entity.id}" class='tparam' param="_var_depid" paramRel="${entity.id}" href="app/system/school/department/position.do?action=actionLoadDepartmentPosition&depId=${entity.id}" callback="dep_activated(${entity.id});" target="ajax" rel="ajBoxMenuFunc"><c:out value="${entity.depName}" /></a></li>
+							<li><a id="dentity_${entity.id}" class='tparam' param="_var_depid" paramRel="${entity.id}" href="app/system/school/department/position.do?action=actionLoadDepartmentPosition&depId=${entity.id}" callback="dep_activated(${entity.id});" target="ajax" rel="ajBoxDepPos"><c:out value="${entity.depName}" /></a></li>
 						</c:forEach>
 					</c:if>
 				</c:forEach>
@@ -57,7 +57,7 @@
 				<c:forEach items="${departments}" var="entry">
 					<c:if test="${entry.key eq 2}">
 						<c:forEach items="${entry.value}" var="entity">
-							<li><a id="dentity_${entity.id}" class='tparam' param="_var_depid" paramRel="${entity.id}" href="app/system/school/department/position.do?action=actionLoadDepartmentPosition&depId=${entity.id}" callback="dep_activated(${entity.id});" target="ajax" rel="ajBoxMenuFunc"><c:out value="${entity.depName}" /></a></li>
+							<li><a id="dentity_${entity.id}" class='tparam' param="_var_depid" paramRel="${entity.id}" href="app/system/school/department/position.do?action=actionLoadDepartmentPosition&depId=${entity.id}" callback="dep_activated(${entity.id});" target="ajax" rel="ajBoxDepPos"><c:out value="${entity.depName}" /></a></li>
 						</c:forEach>
 					</c:if>
 				</c:forEach>

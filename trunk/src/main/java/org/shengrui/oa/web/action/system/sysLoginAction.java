@@ -127,6 +127,9 @@ extends BaseAppAction
 									user.setLastLogonTime(new Date());
 									this.serviceAppUser.save(user);
 									
+									// 初始化功能权限
+									user.initMenuRights();
+									
 									// stores the authentication to spring security
 									UsernamePasswordAuthenticationToken authToken = 
 										new UsernamePasswordAuthenticationToken(userName, userPwd);

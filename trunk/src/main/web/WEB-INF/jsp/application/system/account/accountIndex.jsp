@@ -62,6 +62,7 @@
 				<th align="center">姓名</th>
 				<th align="center">所属校区</th>
 				<th align="center">所属部门</th>
+				<th align="center">在职岗位</th>
 				<th align="center">账号状态</th>
 				<th align="center">联系电话</th>
 				<th align="center">最后登录时间</th>
@@ -78,6 +79,7 @@
 						<td>${user.fullName}</td>
 						<td>${user.district ne null ? user.district.districtName : '/'}</td>
 						<td>${user.position ne null ? user.position.department.depName : '/'}</td>
+						<td>${user.position ne null ? user.position.positionName : '/'}</td>
 						<td>${user.status eq 1 ? '有效' : '已冻结'}</td>
 						<td>${user.mobile}</td>
 						<td><fmt:formatDate  value="${user.lastLogonTime}" pattern="yyyy.MM.dd HH:mm:ss" /></td>
