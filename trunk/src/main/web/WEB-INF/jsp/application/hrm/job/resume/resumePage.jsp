@@ -36,7 +36,7 @@
 					<td align="right">出生日期：</td>
 					<td><input name="birthday" class="date textInput" yearstart="-80" yearend="0" style="width: 100%" value="${resume ne null ? resume.birthday : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 					<td align="right">联系电话：</td>
-					<td colspan="3"><input name="mobilePhone" type="text" style="width: 100%" value="${resume ne null ? resume.mobilePhone : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
+					<td colspan="3"><input class="required" name="mobilePhone" type="text" style="width: 100%" value="${resume ne null ? resume.mobilePhone : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 					<td align="right">婚姻状况：</td>
 					<td>
 						<select class="combox" name="marriage" style="">

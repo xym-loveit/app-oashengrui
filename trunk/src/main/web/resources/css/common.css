@@ -35,6 +35,10 @@ span.diaFuncMicon {
 	background-position: 0 -50px;
 }
 
+.grid .gridTbody td.thover {
+	background-color: #EBF3FD;
+}
+
 .panelBar .toolBar a.refresh span {
 	background: url("../images/icons/refresh.png") no-repeat left center;
 }

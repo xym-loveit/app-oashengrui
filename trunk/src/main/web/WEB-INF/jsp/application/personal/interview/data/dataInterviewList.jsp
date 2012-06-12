@@ -31,7 +31,7 @@
 	<tbody>
 		<logic:present name="interviews">
 			<logic:iterate name="interviews" property="items" id="entity">
-				<tr target="sid" rel="1">
+				<tr target="mid" rel="${entity.id}">
 					<td>${entity.jobHireIssue.jobHire.jobHireTitle}</td>
 					<td>${entity.jobHireIssue.jobHire.jobHireCount}</td>
 					<td>${entity.jobHireIssue.jobHire.jobHireDistrict ne null ? entity.jobHireIssue.jobHire.jobHireDistrict.districtName : ''}</td>
@@ -40,9 +40,9 @@
 					<td>${entity.jobHireIssue.resume.fullName}</td>
 					<td>${entity.jobHireIssue.resume.mobilePhone}</td>
 					<td>${entity.jobHireIssue.resume.source eq 0 ? '手工输入' : (entity.jobHireIssue.resume.source eq 1 ? '内部申请' : (entity.jobHireIssue.resume.source eq 2 ? '内部推荐' : entity.jobHireIssue.resume.source eq 3 ? '外部申请' : ''))}</td>
-					<td>${entity.sessionSN eq 1 ? '一面' : (entity.sessionSN eq 2 ? '二面' : '三面')}</td>
-					<td><fmt:formatDate  value="${entity.interviewDate}" pattern="yyyy-MM-dd hh:mm:ss" /></td>
-					<td>${entity.interviewAddress}</td>
+					<td class="thover">${entity.sessionSN eq 1 ? '一面' : (entity.sessionSN eq 2 ? '二面' : '三面')}</td>
+					<td class="thover"><fmt:formatDate  value="${entity.interviewDate}" pattern="yyyy-MM-dd hh:mm:ss" /></td>
+					<td class="thover">${entity.interviewAddress}</td>
 					<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.jobHireIssue.jobHire.id}&op=view" target="dialog" title="岗位详细" width="930" height="500">岗位详细</a></td>
 					<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobResume&resumeId=${entity.jobHireIssue.resume.id}&op=view" target="dialog" title="简历信息‘${entity.jobHireIssue.resume.fullName}’" width="900" height="500" rel="myinterview_resumeview_${entity.jobHireIssue.resume.id}" mask="true" rel="hrm_resumedetail_${entity.jobHireIssue.resume.id}">简历信息</a></td>
 					<td>

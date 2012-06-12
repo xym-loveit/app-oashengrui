@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.shengrui.oa.model.system.ModelAppUser;
+
 import cn.trymore.core.model.ModelBase;
 
 /**
@@ -43,6 +45,11 @@ extends ModelBase
 	 * 应聘简历
 	 */
 	private ModelHrmResume resume;
+	
+	/**
+	 * 应聘者 (包含内部申请, 内部推荐, 手工输入)
+	 */
+	private ModelAppUser candidate;
 	
 	/**
 	 * 应聘面试记录
@@ -201,5 +208,15 @@ extends ModelBase
 	public void setInterviewStates(Map<String, Integer> interviewStates)
 	{
 		this.interviewStates = interviewStates;
+	}
+
+	public ModelAppUser getCandidate()
+	{
+		return candidate;
+	}
+
+	public void setCandidate(ModelAppUser candidate)
+	{
+		this.candidate = candidate;
 	}
 }

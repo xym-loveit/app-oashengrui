@@ -53,7 +53,7 @@ extends BaseHrmAction
 			
 			PagingBean pagingBean = this.getPagingBean(request);
 			PaginationSupport<ModelHrmJobHireInfo> hireJobs =
-					this.serviceHrmJobHireInfo.getHireJobPagination(formJobHireInfo, pagingBean);
+					this.serviceHrmJobHireInfo.getPaginationByEntity(formJobHireInfo, pagingBean);
 			
 			request.setAttribute("hireJobs", hireJobs);
 			request.setAttribute("hireJobForm", formJobHireInfo);
@@ -498,12 +498,14 @@ extends BaseHrmAction
 				if (jobHireInfo != null)
 				{
 					ModelHrmResume formResume = (ModelHrmResume) form;
-					if (request.getParameter("source") != null && 
-							UtilString.isNumeric(request.getParameter("source")))
+					String source = request.getParameter("source");
+					
+					if (source == null || !UtilString.isNumeric(source))
 					{
-						formResume.setSource(Integer.parseInt(request.getParameter("source")));
+						return ajaxPrint(response, getErrorCallback("未知的简历来源!"));
 					}
-
+					
+					formResume.setSource(Integer.parseInt(source));
 					this.serviceHrmResume.save(formResume);
 					
 					ModelHrmJobHireIssue jobHireIssue = new ModelHrmJobHireIssue();
@@ -511,6 +513,12 @@ extends BaseHrmAction
 					jobHireIssue.setJobHire(jobHireInfo);
 					jobHireIssue.setCurrentStatus(ModelHrmJobHireIssue.EJobHireIssueStatus.TOPLAN.getValue());
 					jobHireIssue.setApplyDateTime(new Date());
+					
+					if (Integer.parseInt(source) != ModelHrmResume.EResumeSource.APPLY_OUTSIDE.getValue())
+					{
+						// 对于外部应聘的来源, 应该不存在员工的推荐或者手工输入这种情况....
+						jobHireIssue.setCandidate(ContextUtil.getCurrentUser());
+					}
 					
 					this.serviceHrmJobHireIssue.save(jobHireIssue);
 					

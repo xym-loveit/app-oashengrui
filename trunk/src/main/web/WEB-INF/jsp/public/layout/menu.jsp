@@ -26,7 +26,7 @@
 				<li treeicon="icon-myconference"><a href="app/personal.do?action=pageMyConference" target="navTab" rel="myconference">我的会议</a></li>
 				<li treeicon="icon-mynews"><a href="app/personal.do?action=pageMyNews" target="navTab" rel="mynews">我的新闻</a></li>
 				<li treeicon="icon-infodoc"><a href="app/personal.do?action=pageMyDoc" target="navTab" rel="mydoc">文档下载区</a></li>
-				<li treeicon="icon-hrjobreg"><a href="demo_page5.html" target="navTab" rel="myjobform">我要应聘</a></li>
+				<li treeicon="icon-hrjobreg"><a href="app/personal/jobapplication.do?action=pageJobOnHiring" target="navTab" rel="personal_myjobform">我要应聘</a></li>
 				<li treeicon="icon-myinvite"><a href="app/personal/interview.do?action=pageMyInterviewToDo" target="navTab" rel="personal_myinterviews">我做伯乐</a></li>
 				<li treeicon="icon-myapply"><a href="demo_page5.html" target="navTab" rel="myapply">我的申请</a></li>
 				<li treeicon="icon-myapproval"><a href="demo_page5.html" target="navTab" rel="mytodo">待我审批</a></li>

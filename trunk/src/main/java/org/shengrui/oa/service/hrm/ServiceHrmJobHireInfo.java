@@ -21,11 +21,11 @@ extends ServiceGeneric<ModelHrmJobHireInfo>
 	 * 根据岗位信息查分页数据
 	 * 
 	 * @param entity
-	 * @param pagingBen
+	 * @param pagingBean
 	 * @return
 	 * @throws ServiceException
 	 */
-	PaginationSupport<ModelHrmJobHireInfo> getHireJobPagination (ModelHrmJobHireInfo entity, 
-			PagingBean pagingBen) throws ServiceException;
+	PaginationSupport<ModelHrmJobHireInfo> getPaginationByEntity (ModelHrmJobHireInfo entity, 
+			PagingBean pagingBean) throws ServiceException;
 	
 }

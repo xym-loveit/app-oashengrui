@@ -26,6 +26,10 @@
         	<column name="resume_id" />
         </many-to-one>
         
+        <many-to-one name="candidate" class="org.shengrui.oa.model.system.ModelAppUser" not-found="ignore">
+        	<column name="user_id" />
+        </many-to-one>
+        
         <set name="interviews" table="app_hrm_hire_interviews" 
         	cascade="save-update" inverse="true" lazy="true" order-by="session_sn asc"> 
 	      <key column="hissue_id"/>  
