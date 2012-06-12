@@ -80,8 +80,34 @@ extends BaseHrmAction
 	 */
 	public ActionForward hrmPageJobApprovalIndex(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) {
-		return mapping.findForward("hrm.page.job.approval.index");
+			HttpServletResponse response) 
+	{
+		try
+		{
+			ModelHrmJobHireInfo formJobHireInfo = (ModelHrmJobHireInfo) form;
+			formJobHireInfo.setStatus(ModelHrmJobHireInfo.EJobHireStatus.TODO.getValue());
+			
+			PagingBean pagingBean = this.getPagingBean(request);
+			PaginationSupport<ModelHrmJobHireInfo> hireJobs =
+					this.serviceHrmJobHireInfo.getPaginationByEntity(formJobHireInfo, pagingBean);
+			
+			request.setAttribute("hireJobs", hireJobs);
+			request.setAttribute("hireJobForm", formJobHireInfo);
+			
+			// 获取所有校区, 用于搜索查询使用
+			request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
+			
+			// 输出分页信息至客户端
+			outWritePagination(request, pagingBean, hireJobs);
+			
+			return mapping.findForward("hrm.page.job.approval.index");
+			
+		} 
+		catch (Exception e)
+		{
+			LOGGER.error("Exception raised when fetch all hire jobs.", e);
+			return ajaxPrint(response, getErrorCallback("待我审批岗位分页数据加载失败:" + e.getMessage()));
+		}
 	}
 	
 	/**

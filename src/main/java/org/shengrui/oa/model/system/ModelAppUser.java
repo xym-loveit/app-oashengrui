@@ -146,6 +146,10 @@ extends ModelBase implements UserDetails
 	@XmlTransient
 	protected Set<ModelAppRole> roles;
 	
+	/**
+	 * 初始化标志
+	 */
+	private boolean isInitialized = false;
 	
 	/**
 	 * The enumeration of user status
@@ -217,19 +221,20 @@ extends ModelBase implements UserDetails
 	public String getFunctionRights() 
 	{
 		StringBuffer sb = new StringBuffer();
-
-		Iterator<String> it = rights.iterator();
-
-		while (it.hasNext()) 
+		if (rights != null && rights.size() > 0)
 		{
-			sb.append(it.next()).append(",");
+			int count = 0;
+			Iterator<String> it = rights.iterator();
+			while (it.hasNext()) 
+			{
+				count++;
+				sb.append(it.next());
+				if (count < rights.size())
+				{
+					sb.append(",");
+				}
+			}
 		}
-
-		if (rights.size() > 0) 
-		{
-			sb.deleteCharAt(sb.length() - 1);
-		}
-
 		return sb.toString();
 	}
 	
@@ -239,32 +244,36 @@ extends ModelBase implements UserDetails
 	public void initMenuRights()
 	{
 		// 进行合并权限的处理
-		final Set<ModelAppRole> roleSet = this.roles;
-		Iterator<ModelAppRole> it = roleSet.iterator();
-		
-		while (it.hasNext()) 
+		if (!isInitialized && this.position != null && this.position.getRoles() != null)
 		{
-			ModelAppRole role = it.next();
-			if (isSuperRoot(role))
+			final Set<ModelAppRole> roleSet = this.position.getRoles();
+			Iterator<ModelAppRole> it = roleSet.iterator();
+			
+			while (it.hasNext()) 
 			{
-				this.rights.add(ModelAppRole.SUPER_RIGHTS);
-				break;
-			}
-			else
-			{
-				if (UtilString.isNotEmpty(role.getRoleRights()))
+				ModelAppRole role = it.next();
+				if (isSuperRoot(role))
 				{
-					String[] items = role.getRoleRights().split("[,]");
-					for (int i = 0; i < items.length; i++) 
+					this.rights.add(ModelAppRole.SUPER_RIGHTS);
+					break;
+				}
+				else
+				{
+					if (UtilString.isNotEmpty(role.getRoleRights()))
 					{
-						String item = items[i];
-						if (!this.rights.contains(item)) 
+						String[] items = role.getRoleRights().split("[,]");
+						for (int i = 0; i < items.length; i++) 
 						{
-							getRights().add(item);
+							String item = items[i];
+							if (!this.rights.contains(item)) 
+							{
+								getRights().add(item);
+							}
 						}
 					}
 				}
 			}
+			isInitialized = true;
 		}
 	}
 	
@@ -284,7 +293,7 @@ extends ModelBase implements UserDetails
 			if (this.position != null && this.position.getRoles() != null)
 			{
 				GrantedAuthority[] arrayOfGrantedAuthority = 
-						(GrantedAuthority[])this.roles.toArray(new GrantedAuthority[this.position.getRoles().size() + 1]);
+						(GrantedAuthority[])this.position.getRoles().toArray(new GrantedAuthority[this.position.getRoles().size() + 1]);
 				
 				arrayOfGrantedAuthority[(arrayOfGrantedAuthority.length - 1)] = new GrantedAuthorityImpl(ModelAppRole.ROLE_PUBLIC);
 				
@@ -526,4 +535,15 @@ extends ModelBase implements UserDetails
 	{
 		this.department = department;
 	}
+
+	public boolean isInitialized()
+	{
+		return isInitialized;
+	}
+
+	public void setInitialized(boolean isInitialized)
+	{
+		this.isInitialized = isInitialized;
+	}
+
 }

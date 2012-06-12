@@ -92,7 +92,7 @@
 									<a href="app/system/role.do?action=dialogRolePage&roleId=${role.id}" target="dialog" title="权限组编辑" class="oplink" width="504" height="348" rel="sysmgr_roleedit_${idx}">编辑</a>
 								</c:when>
 								<c:otherwise>
-									<label style="color:#ddd;text-decoration: line-through;" title="不能进行编辑操作">编辑</label>
+									<label style="color:#ddd;text-decoration: line-through; line-height: 21px;" title="不能进行编辑操作">编辑</label>
 								</c:otherwise>
 							</c:choose>
 						</td>
@@ -102,7 +102,7 @@
 									<a href="app/system/role.do?action=actionRemoveRole&roleId=${role.id}" target="ajaxTodo" title="确定删除该权限组吗？" class="oplink" callback="callback_roleRemove(${role.id})">删除</a>
 								</c:when>
 								<c:otherwise>
-									<label style="color:#ddd;text-decoration: line-through;" title="不能进行删除操作">删除</label>
+									<label style="color:#ddd;text-decoration: line-through; line-height: 21px;" title="不能进行删除操作">删除</label>
 								</c:otherwise>
 							</c:choose>
 						</td>

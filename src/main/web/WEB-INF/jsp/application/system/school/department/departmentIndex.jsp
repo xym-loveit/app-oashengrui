@@ -45,7 +45,7 @@
 	</div>
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a class="refresh" href="app/system/school/department.do?action=actionLoadDepartmentTree" target="ajax" rel="ajBoxMenuTree" title="刷新" rel="dia_admin_entryadd" callback="dep_refresh()"><span>刷新</span></a></li>
+			<li><a class="refresh" href="app/system/school/department.do?action=actionLoadDepartmentTree" target="ajax" rel="ajBoxDepTree" title="刷新" rel="dia_admin_entryadd" callback="dep_refresh()"><span>刷新</span></a></li>
 			<li class="line">line</li>
 			<li><a class="add" href="app/system/school/department.do?action=dialogSchoolDepartmentPage" mask="true" target="dialog" title="新增部门" width="504" height="339" rel="dia_sysmenu_additem"><span>新增部门</span></a></li>
 			<li class="line">line</li>
@@ -55,7 +55,7 @@
 		</ul>
 	</div>
 	
-	<div id="ajBoxMenuTree">
+	<div id="ajBoxDepTree">
 		<%@ include file="data/dataDepartmentTree.jsp" %>
 	</div>
 </div>
@@ -66,7 +66,7 @@
 	</div>
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a class="refresh uvar" href="app/system/school/department/position.do?action=actionLoadDepartmentPosition&depId={_var_depid}" warn="请从左侧选择部门!" target="ajax" rel="ajBoxMenuFunc" title="刷新" rel="dia_admin_entryadd"><span>刷新</span></a></li>
+			<li><a class="refresh uvar" href="app/system/school/department/position.do?action=actionLoadDepartmentPosition&depId={_var_depid}" warn="请从左侧选择部门!" target="ajax" rel="ajBoxDepPos" title="刷新" rel="dia_admin_entryadd"><span>刷新</span></a></li>
 			<li class="line">line</li>
 			<li><a class="add" href="app/system/school/department/position.do?action=dialogSchoolDepartmentPositionPage&depId={_var_depid}" mask="true" warn="请从左侧选择部门!" target="dialog" title="添加岗位" width="504" height="335" rel="dia_admin_entryadd"><span>添加岗位</span></a></li>
 			<li class="line">line</li>
@@ -75,7 +75,7 @@
 			<li><a class="edit" href="app/system/school/department/position.do?action=dialogSchoolDepartmentPositionPage&posId={posId}" target="dialog" warn="请选择需要修改的岗位" title="修改岗位" width="504" height="335" rel="dia_sys_menufuncedit"><span>修改</span></a></li>
 		</ul>
 	</div>
-	<div id="ajBoxMenuFunc">
+	<div id="ajBoxDepPos">
 		<%@ include file="data/dataDepartmentPosition.jsp" %>
 	</div>
 </div>

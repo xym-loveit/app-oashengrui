@@ -9,7 +9,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <script type="text/javascript">
-	function getCheckedItems(eles) {
+	function getCheckedItems(eles, excludes) {
 		var items = "";
 		if (eles && eles.size() > 0) {
 			for (i=0;i<eles.size();i++){
@@ -52,7 +52,7 @@
 											<ul>
 												<logic:iterate name="child" property="menuChildren" id="node">
 													<li treeicon="${node.menuIcon}"><a id="mtlink_${node.id}" href="javascript:void(0);" ${view ne null ? 'readonly' : ''} ${role ne null && tm:inRange(role.menuIds, root.id, ',') ? 'checked="true"': ''}>
-														<span>${node.menuTitle}</span></a>
+														<span type="menu" alt="${node.id}">${node.menuTitle}</span></a>
 														<logic:notEmpty name="node" property="functions">
 															<ul>
 																<logic:iterate name="node" property="functions" id="func">

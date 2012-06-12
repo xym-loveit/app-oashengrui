@@ -90,15 +90,19 @@ var DWZ = {
 	},
 
 	init:function(pageFrag, options){
-		// added by Jeccy.Zhao on 08.0.2012 for additional property, 'loginRedirectPattern'
+		// added by Jeccy.Zhao on 08.06.2012 for additional property, 'loginRedirectPattern'
+		// added by Jeccy.Zhao on 12.06.2012 for additional property, accessDeniedPattern, accessDeniedMessage
 		var op = $.extend({
-				loginUrl:"login.html", loginTitle:null, callback:null, debug:false, loginRedirectPattern: null,
+				loginUrl:"login.html", loginTitle:null, callback:null, debug:false, loginRedirectPattern: null, accessDeniedPattern: null, accessDeniedMessage: null,
 				statusCode:{}
 			}, options);
 		this._set.loginUrl = op.loginUrl;
 		this._set.loginTitle = op.loginTitle;
 		this._set.debug = op.debug;
 		this._set.loginRedirectPattern = op.loginRedirectPattern;
+		this._set.accessDeniedPattern = op.accessDeniedPattern;
+		this._set.accessDeniedMessage = op.accessDeniedMessage;
+		
 		$.extend(DWZ.statusCode, op.statusCode);
 		$.extend(DWZ.pageInfo, op.pageInfo);
 		
@@ -165,6 +169,17 @@ var DWZ = {
 						
 						return;
 					} 
+					
+					// added by Jeccy.Zhao on 12.06.2012
+					if (DWZ._set.accessDeniedPattern && DWZ._set.accessDeniedPattern != "") {
+						var isAccessDenied = response.indexOf(DWZ._set.accessDeniedPattern) > -1;
+						if (isAccessDenied) {
+							alertMsg.error(json.message || DWZ._set.accessDeniedMessage, {okCall:function(){
+								navTab.closeCurrentTab();
+							}});							
+							return;
+						}
+					}
 					
 					if (json.statusCode==DWZ.statusCode.error){
 						if (json.message) alertMsg.error(json.message);

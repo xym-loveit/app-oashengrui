@@ -54,7 +54,7 @@
 			</ul>
 			-->
 		</div>
-		<table class="table" width="100%" layoutH="138">
+		<table class="table" width="100%" layoutH="175">
 			<thead>
 				<tr>
 					<th align="center">选择</th>

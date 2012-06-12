@@ -90,6 +90,8 @@
 			DWZ.init("resources/js/dwz/dwz.frag.xml", {
 				loginUrl:"loginDialog.jsp", loginTitle:"登录",	// 弹出登录对话框
 				loginRedirectPattern: "DWZ.init",
+				accessDeniedPattern: '您没有权限访问该页面',
+				accessDeniedMessage: '您没有权限访问该页面!',
 				statusCode:{ok:200, error:300, timeout:301}, 
 				pageInfo:{pageNum:"pageNum", numPerPage:"numPerPage", orderField:"orderField", orderDirection:"orderDirection"}, 
 				debug:false,	

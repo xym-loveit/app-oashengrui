@@ -12,6 +12,7 @@ import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.system.DAOAppRole;
 import org.shengrui.oa.model.system.ModelAppFunction;
 import org.shengrui.oa.model.system.ModelAppFunctionUrl;
+import org.shengrui.oa.model.system.ModelAppMenu;
 import org.shengrui.oa.model.system.ModelAppRole;
 import org.shengrui.oa.service.system.ServiceAppRole;
 
@@ -98,6 +99,7 @@ extends ServiceGenericImpl<ModelAppRole> implements ServiceAppRole
 			{
 				Set<String> setRoleFuncs = new TreeSet<String>();
 				
+				// 合并菜单功能项
 				if (role.getFunctions() != null && role.getFunctions().size() > 0)
 				{
 					for (ModelAppFunction func : role.getFunctions())
@@ -109,7 +111,20 @@ extends ServiceGenericImpl<ModelAppRole> implements ServiceAppRole
 					}
 				}
 				
-				securityRoleData.put(role.getRoleName(), setRoleFuncs);
+				// 合并菜单项
+				if (role.getMenus() != null && role.getMenus().size() > 0)
+				{
+					for (ModelAppMenu menu : role.getMenus())
+					{
+						if (menu.getMenuUrl().toLowerCase().indexOf("javascript") == -1)
+						{
+							// 过滤javascript:void(0);这类URL.
+							setRoleFuncs.add(menu.getMenuUrl());
+						}
+					}
+				}
+				
+				securityRoleData.put(role.getRoleKey(), setRoleFuncs);
 			}
 		}
 		

@@ -67,6 +67,11 @@ extends ServiceGenericImpl<ModelHrmJobHireInfo> implements ServiceHrmJobHireInfo
 				criteria.add(Restrictions.like("jobHireTitle", entity.getJobHireTitle(), MatchMode.ANYWHERE));
 			}
 			
+			if (entity.getStatus() != null && entity.getStatus() > -1)
+			{
+				criteria.add(Restrictions.eq("status", entity.getStatus()));
+			}
+			
 			if (entity.getIsOpen() != null && entity.getIsOpen() > -1)
 			{
 				criteria.add(Restrictions.eq("isOpen", entity.getIsOpen()));
