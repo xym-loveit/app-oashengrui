@@ -73,7 +73,7 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 		
 		if (entity != null)
 		{
-			if (entity.getEmployeeDistrict() != null && UtilString.isNotEmpty(entity.getEmployeeDistrict().getId()))
+			if (entity.getEmployeeDistrict() != null && entity.getEmployeeDistrict().getId() != null)
 			{
 				criteria.createCriteria("employeeDistrict").add(Restrictions.eq("id", entity.getEmployeeDistrict().getId()));
 			}
@@ -83,7 +83,7 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 				criteria.add(Restrictions.like("empName", entity.getEmpName(), MatchMode.ANYWHERE));
 			}
 			
-			if (entity.getOnboardStatus() > -1)
+			if (entity.getOnboardStatus() != null && entity.getOnboardStatus() > -1)
 			{
 				criteria.add(Restrictions.eq("onboardStatus", entity.getOnboardStatus()));
 			}
@@ -98,7 +98,9 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 				criteria.add(Restrictions.le("positiveDueDate", entity.getPositiveDueDate()));
 			}
 		}
-		criteria.add(Restrictions.eq("status", "Y"));
+		
+		// criteria.add(Restrictions.eq("status", "Y"));
+		
 		return criteria;
 	}
 

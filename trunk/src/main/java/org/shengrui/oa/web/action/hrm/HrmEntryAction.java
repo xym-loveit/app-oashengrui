@@ -1,6 +1,7 @@
 package org.shengrui.oa.web.action.hrm;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,8 +11,14 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.hrm.ModelHrmArchive;
+import org.shengrui.oa.model.hrm.ModelHrmEmployee;
+import org.shengrui.oa.model.hrm.ModelHrmEmployeeRoadMap;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireEntry;
+import org.shengrui.oa.model.hrm.ModelHrmResume;
+import org.shengrui.oa.model.system.ModelAppUser;
+import org.shengrui.oa.util.ContextUtil;
 
+import cn.trymore.core.util.UtilDate;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
@@ -51,6 +58,10 @@ extends BaseHrmAction
 		try
 		{
 			ModelHrmJobHireEntry formEntry = (ModelHrmJobHireEntry) form;
+			
+			// 只显示已安排的入职信息.
+			formEntry.setCurrentStatus(ModelHrmJobHireEntry.EHireEntryCStatus.ARRANGED.getValue());
+			
 			PagingBean pagingBean = this.getPagingBean(request);
 			PaginationSupport<ModelHrmJobHireEntry> entries =
 					this.serviceHrmJobHireEntry.getPaginationByEntity(formEntry, pagingBean);
@@ -235,7 +246,56 @@ extends BaseHrmAction
 							else
 							{
 								// 考察处理
+								String empId = request.getParameter("empId");
+								if (!this.isObjectIdValid(empId))
+								{
+									return ajaxPrint(response, getErrorCallback("考察处理需要传入合法的员工ID!"));
+								}
 								entry.setInspectStatus(Integer.parseInt(state));
+							}
+							
+							if (ACTION_BOARD.equalsIgnoreCase(operation))
+							{
+								// 生成员工数据
+								if (!this.actionEmployeeCreation(entry)) 
+								{
+									return ajaxPrint(response, getErrorCallback("员工数据生成失败!"));
+								}
+							}
+							else
+							{
+								// 改变员工在职状态
+								ModelHrmEmployee employee = this.serviceHrmEmployee.get(request.getParameter("empId"));
+								if (employee != null)
+								{
+									ModelHrmEmployeeRoadMap roadMap = new ModelHrmEmployeeRoadMap();
+									
+									if (state.equals(ModelHrmJobHireEntry.EHireEntryInspectStatus.PASSED.getValue().toString()))
+									{
+										// 考察通过 -> 正式员工
+										employee.setOnboardStatus(ModelHrmEmployee.EOnBoardStatus.ONREGULAR.getValue());
+										roadMap.setType(ModelHrmEmployeeRoadMap.ERoadMapType.BEREGULAR.getValue());
+									}
+									else if (state.equals(ModelHrmJobHireEntry.EHireEntryInspectStatus.UNQUALIFIED.getValue().toString()))
+									{
+										// 考察未通过 -> 辞退
+										employee.setOnboardStatus(ModelHrmEmployee.EOnBoardStatus.FIRED.getValue());
+										roadMap.setType(ModelHrmEmployeeRoadMap.ERoadMapType.FIRED.getValue());
+									}
+									
+									roadMap.setEmployee(employee);
+									roadMap.setOrginalDepartment(employee.getEmployeeDepartment());
+									roadMap.setOrginalDepartmentPosition(employee.getEmployeePosition());
+									roadMap.setOrginalDistrict(employee.getEmployeeDistrict());
+									roadMap.setDate(new Date());
+									
+									employee.getRoadMaps().add(roadMap);
+									this.serviceHrmEmployee.save(employee);
+								}
+								else
+								{
+									return ajaxPrint(response, getErrorCallback("员工数据不存在!"));
+								}
 							}
 							
 							this.serviceHrmJobHireEntry.save(entry);
@@ -282,6 +342,81 @@ extends BaseHrmAction
 			LOGGER.error("Exception raised when saving the entry", e);
 			return ajaxPrint(response, getErrorCallback("入职状态保存失败:" + e.getMessage()));
 		}
+	}
+	
+	/**
+	 * 根据入职信息创建员工.
+	 * 
+	 * @param entry
+	 * @return
+	 */
+	private boolean actionEmployeeCreation (ModelHrmJobHireEntry entry)
+	{
+		if (entry != null)
+		{
+			try
+			{
+				ModelHrmResume resume = entry.getJobHireIssue().getResume();
+				
+				ModelHrmEmployee employee = new ModelHrmEmployee();
+				employee.setResume(resume);
+				employee.setEmployeeDepartment(entry.getEntryDepartment());
+				employee.setEmployeeDistrict(entry.getEntryDistrict());
+				employee.setEmployeePosition(entry.getEntryPosition());
+				employee.setEmpName(resume.getFullName());
+				employee.setEntryDateTime(new Date());
+				employee.setOnboardStatus(ModelHrmEmployee.EOnBoardStatus.ONINSPECT.getValue());
+				
+				// 设置员工基本信息
+				employee.setPhoneNo(resume.getMobilePhone());
+				employee.setBirthdate(resume.getBirthday());
+				
+				// 设置录入时间及录入人员信息
+				employee.setEntryDateTime(new Date());
+				employee.setEntryId(Integer.parseInt(ContextUtil.getCurrentUser().getId()));
+				
+				// TODO, 更换员工号生成算法
+				employee.setEmpNo(entry.getEntryDistrict().getDistrictNo() + entry.getEntryDepartment().getDepNo() + 
+						UtilDate.parseTime(new Date(), "yyMMddhms"));
+				
+				// 生成员工的履历
+				ModelHrmEmployeeRoadMap employeeRoadMap = new ModelHrmEmployeeRoadMap();
+				employeeRoadMap.setEmployee(employee);
+				employeeRoadMap.setOrginalDepartment(employee.getEmployeeDepartment());
+				employeeRoadMap.setOrginalDepartmentPosition(employee.getEmployeePosition());
+				employeeRoadMap.setOrginalDistrict(employee.getEmployeeDistrict());
+				employeeRoadMap.setDate(new Date());
+				employeeRoadMap.setType(ModelHrmEmployeeRoadMap.ERoadMapType.ONBOARD.getValue());
+				
+				employee.getRoadMaps().add(employeeRoadMap);
+				this.serviceHrmEmployee.save(employee);
+				
+				// 将员工ID更新到简历的emp_id字段
+				resume.setEmployeeId(Integer.parseInt(employee.getId()));
+				this.serviceHrmResume.save(resume);
+				
+				// 生成员工对应的用户数据
+				ModelAppUser user = new ModelAppUser();
+				user.setEmployee(employee);
+				user.setUsername(employee.getEmpNo());
+				user.setPassword(UtilString.encryptSha256(employee.getEmpNo()));
+				user.setFullName(employee.getEmpName());
+				user.setStatus(ModelAppUser.EUserStatus.ACTIVATED.getValue());
+				user.setDistrict(employee.getEmployeeDistrict());
+				user.setPosition(employee.getEmployeePosition());
+				user.setDepartment(employee.getEmployeeDepartment());
+				this.serviceAppUser.save(user);
+				
+				return true;
+				
+			}
+			catch (Exception e)
+			{
+				LOGGER.error("Exception raised when creates employee data.", e);
+			}
+		}
+		
+		return false;
 	}
 	
 }

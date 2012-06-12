@@ -24,7 +24,7 @@
 					<td>
 						<input id="inputOrg1" name="charger.id" value="${jobHireEntry.entryCharger ne null ? jobHireEntry.entryCharger.id : -1}" type="hidden"/>
 						<input class="required" name="charger.fullName" style="width:170px" type="text" postField="fullName" suggestFields="fullName" 
-							suggestUrl="app/hrm/hire.do?action=lookupUserByName" lookupGroup="charger" value="${jobHireEntry.entryCharger ne null ? jobHireEntry.entryCharger.fullName : -1}"/>
+							suggestUrl="app/hrm/hire.do?action=lookupUserByName" lookupGroup="charger" value="${jobHireEntry.entryCharger ne null ? jobHireEntry.entryCharger.fullName : ''}"/>
 					</td>
 					<td>实际入职时间：</td>
 					<td><input name="entryActDate" class="date textInput required" format="yyyy-MM-dd HH:mm:ss" style="width:170px"/></td>

@@ -3,6 +3,7 @@ package org.shengrui.oa.web.action.hrm;
 import javax.annotation.Resource;
 
 import org.shengrui.oa.service.hrm.ServiceHrmArchive;
+import org.shengrui.oa.service.hrm.ServiceHrmEmployeeRoadMap;
 import org.shengrui.oa.service.hrm.ServiceHrmJobHireEntry;
 import org.shengrui.oa.service.hrm.ServiceHrmJobHireInfo;
 import org.shengrui.oa.service.hrm.ServiceHrmJobHireInterview;
@@ -56,6 +57,12 @@ extends BaseAppAction
 	@Resource
 	protected ServiceHrmEmployee serviceHrmEmployee;
 
+	/**
+	 * The employee road map service.
+	 */
+	@Resource
+	protected ServiceHrmEmployeeRoadMap serviceHrmEmployeeRoadMap;
+	
 	/**
 	 * The entry service.
 	 */
@@ -128,5 +135,15 @@ extends BaseAppAction
 
 	public void setServiceHrmEmployee(ServiceHrmEmployee serviceHrmEmployee) {
 		this.serviceHrmEmployee = serviceHrmEmployee;
+	}
+
+	public ServiceHrmEmployeeRoadMap getServiceHrmEmployeeRoadMap()
+	{
+		return serviceHrmEmployeeRoadMap;
+	}
+
+	public void setServiceHrmEmployeeRoadMap(ServiceHrmEmployeeRoadMap serviceHrmEmployeeRoadMap)
+	{
+		this.serviceHrmEmployeeRoadMap = serviceHrmEmployeeRoadMap;
 	}
 }

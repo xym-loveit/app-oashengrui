@@ -8,6 +8,9 @@
             <column name="resume_id" />
             <generator class="native" />
         </id>
+        <property name="employeeId" type="java.lang.Integer">
+            <column name="emp_id" />
+        </property>
         <property name="fullName" type="java.lang.String">
             <column name="fullname" not-null="true" />
         </property>

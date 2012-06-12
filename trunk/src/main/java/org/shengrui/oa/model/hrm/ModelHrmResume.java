@@ -105,6 +105,11 @@ extends ModelBase
 	private Integer chineseLevel;
 	
 	/**
+	 * 员工ID
+	 */
+	private Integer employeeId;
+	
+	/**
 	 * 附件
 	 */
 	private Set<ModelFileAttach> attachFiles;
@@ -334,6 +339,16 @@ extends ModelBase
 	public void setSource(Integer source)
 	{
 		this.source = source;
+	}
+
+	public Integer getEmployeeId()
+	{
+		return employeeId;
+	}
+
+	public void setEmployeeId(Integer employeeId)
+	{
+		this.employeeId = employeeId;
 	}
 	
 }

@@ -52,7 +52,7 @@
 						</select>
 					</td>
 					<td>
-						<label>入职状态：</label>
+						<label>考察结果：</label>
 						<select class="combox" name="inspectStatus" style="width:108px;">
 							<option value="-1">所有</option>
 							<option value="0">考察中</option>
@@ -129,9 +129,9 @@
 							<td>
 								<c:choose>
 									<c:when test="${entity.inspectStatus eq 0}">
-										<a class="oplink" href="app/hrm/entry.do?action=actionEntrySave&entryId=${entity.id}&op=qualified&state=1" target="ajaxToDo" title="您确定‘${entity.jobHireIssue.resume.fullName}’考察期已经结束并且通过考察吗?" mask="true" rel="hrm_entryqua_${entity.id}">通过</a>
+										<a class="oplink" href="app/hrm/entry.do?action=actionEntrySave&entryId=${entity.id}&op=qualified&state=1&empId=${entity.jobHireIssue.resume.employeeId}" target="ajaxToDo" title="您确定‘${entity.jobHireIssue.resume.fullName}’考察期已经结束并且通过考察吗?" mask="true" rel="hrm_entryqua_${entity.id}">通过</a>
 										&nbsp;&nbsp;
-										<a class="oplink" href="app/hrm/entry.do?action=dialogEntryFinalize&entryId=${entity.id}&op=qualified&state=2" target="dialog" title="面试记录‘${entity.jobHireIssue.resume.fullName}’" mask="true" rel="hrm_entryqua_${entity.id}" width="300" height="150">未通过</a></td>
+										<a class="oplink" href="app/hrm/entry.do?action=dialogEntryFinalize&entryId=${entity.id}&op=qualified&state=2&empId=${entity.jobHireIssue.resume.employeeId}" target="dialog" title="面试记录‘${entity.jobHireIssue.resume.fullName}’" mask="true" rel="hrm_entryqua_${entity.id}" width="300" height="150">未通过</a></td>
 									</c:when>
 									<c:otherwise>
 										<label class="opdisabled">通过</label>

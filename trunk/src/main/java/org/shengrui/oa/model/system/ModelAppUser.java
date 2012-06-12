@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.GrantedAuthorityImpl;
 import org.springframework.security.userdetails.UserDetails;
@@ -126,6 +127,18 @@ extends ModelBase implements UserDetails
 	 */
 	@Expose
 	protected ModelSchoolDistrict district;
+	
+	/**
+	 * 用户所在部门
+	 */
+	@Expose
+	private ModelSchoolDepartment department;
+	
+	/**
+	 * 用户员工ID
+	 */
+	@Expose
+	protected ModelHrmEmployee employee;
 	
 	/**
 	 * 用户拥有的角色
@@ -492,5 +505,25 @@ extends ModelBase implements UserDetails
 	public void setDistrict(ModelSchoolDistrict district)
 	{
 		this.district = district;
+	}
+	
+	public ModelHrmEmployee getEmployee()
+	{
+		return employee;
+	}
+
+	public void setEmployee(ModelHrmEmployee employee)
+	{
+		this.employee = employee;
+	}
+
+	public ModelSchoolDepartment getDepartment()
+	{
+		return department;
+	}
+
+	public void setDepartment(ModelSchoolDepartment department)
+	{
+		this.department = department;
 	}
 }

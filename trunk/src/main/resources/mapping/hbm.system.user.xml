@@ -47,14 +47,22 @@
             <column name="logon_lastime" />
         </property>
         
-        <many-to-one  name="position" class="ModelSchoolDepartmentPosition">
+        <many-to-one  name="position" class="ModelSchoolDepartmentPosition" not-found="ignore">
         	<column name="pos_id" />
         </many-to-one>
 	
-		<many-to-one  name="district" class="ModelSchoolDistrict">
+		<many-to-one  name="district" class="ModelSchoolDistrict" not-found="ignore">
         	<column name="district_id" />
         </many-to-one>
-			    
+		
+		<many-to-one  name="department" class="ModelSchoolDepartment" not-found="ignore">
+        	<column name="dep_id" />
+        </many-to-one>
+		
+		<many-to-one  name="employee" class="org.shengrui.oa.model.hrm.ModelHrmEmployee" not-found="ignore" unique="true">
+        	<column name="emp_id" />
+        </many-to-one>
+        	    
 	    <set name="roles" table="app_user_role" cascade="save-update" inverse="false" lazy="true"> 
       		<key column="user_id"/>  
       		<many-to-many fetch="join" class="ModelAppRole" column="role_id"/> 
