@@ -33,7 +33,7 @@
 				<tr>
 					<td>
 						<label>所在校区：</label>
-						<select class="combox" name="employeeDistrict.id" id="combox_district_eindex" style="width:100px">
+						<select class="combox" name="employeeDistrict.id" id="combox_district_eindex" style="width:108px">
 							<option value="-1">所有校区</option>
 							<logic:present name="districts">
 								<logic:iterate name="districts" id="district">
@@ -50,9 +50,10 @@
 						<label>在职状态：</label>
 						<select class="combox" name="onboardStatus" style="width:108px;">
 							<option value="-1">所有</option>
-							<option value="0" ${employeeForm ne null && employeeForm.onboardStatus eq 0 ? 'selected="selected"' : ''}>试用</option>
-							<option value="1" ${employeeForm ne null && employeeForm.onboardStatus eq 1 ? 'selected="selected"' : ''}>正式</option>
-							<option value="2" ${employeeForm ne null && employeeForm.onboardStatus eq 2 ? 'selected="selected"' : ''}>离职</option>
+							<option value="1" ${employeeForm ne null && employeeForm.onboardStatus eq 1 ? 'selected="selected"' : ''}>试用</option>
+							<option value="2" ${employeeForm ne null && employeeForm.onboardStatus eq 2 ? 'selected="selected"' : ''}>正式</option>
+							<option value="3" ${employeeForm ne null && employeeForm.onboardStatus eq 3 ? 'selected="selected"' : ''}>离职</option>
+							<option value="4" ${employeeForm ne null && employeeForm.onboardStatus eq 4 ? 'selected="selected"' : ''}>辞退</option>
 						</select>
 					</td>
 				</tr>
@@ -86,7 +87,7 @@
 				<li class="line">line</li>
 			</ul>
 		</div>
-		<table class="table" width="100%" layoutH="115">
+		<table class="table" width="100%" layoutH="168">
 			<thead>
 				<tr>
 					<th align="center">姓名</th>
@@ -114,18 +115,39 @@
 							<td><fmt:formatDate  value="${entity.birthdate}" pattern="yyyy-MM-dd" /></td>
 							<td>${entity.phoneNo}</td>
 							<td>${entity.shortNo}</td>
-							<td><fmt:formatDate  value="${entity.positiveDueDate}" pattern="yyyy-MM-dd" /></td>
-							<td><fmt:formatDate  value="${entity.contractEndDate}" pattern="yyyy-MM-dd" /></td>
 							<td>
 								<c:choose>
-									<c:when test="${entity.onboardStatus eq 0}">
+									<c:when test="${entity.positiveDueDate ne null}">
+										<fmt:formatDate  value="${entity.positiveDueDate}" pattern="yyyy-MM-dd" />
+									</c:when>
+									<c:otherwise>
+										---
+									</c:otherwise>
+								</c:choose>
+							</td>
+							<td>
+								<c:choose>
+									<c:when test="${entity.positiveDueDate ne null}">
+										<fmt:formatDate  value="${entity.contractEndDate}" pattern="yyyy-MM-dd" />
+									</c:when>
+									<c:otherwise>
+										---
+									</c:otherwise>
+								</c:choose>
+							</td>
+							<td>
+								<c:choose>
+									<c:when test="${entity.onboardStatus eq 1}">
 										试用
 									</c:when>
-									<c:when test="${entity.onboardStatus eq 1}">
+									<c:when test="${entity.onboardStatus eq 2}">
 										正式
 									</c:when>
-									<c:when test="${entity.onboardStatus eq 2}">
+									<c:when test="${entity.onboardStatus eq 3}">
 										离职
+									</c:when>
+									<c:when test="${entity.onboardStatus eq 4}">
+										辞退
 									</c:when>
 								</c:choose>
 							</td>

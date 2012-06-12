@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2012 年 06 月 12 日 14:01
+-- 生成日期: 2012 年 06 月 12 日 16:52
 -- 服务器版本: 5.5.17
 -- PHP 版本: 5.3.8
 
@@ -175,7 +175,16 @@ CREATE TABLE IF NOT EXISTS `app_hrm_employee` (
   `entry_datetime` datetime DEFAULT NULL COMMENT '录入日期',
   PRIMARY KEY (`emp_id`),
   UNIQUE KEY `emp_no` (`emp_no`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='员工档案表' AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='员工档案表' AUTO_INCREMENT=6 ;
+
+--
+-- 转存表中的数据 `app_hrm_employee`
+--
+
+INSERT INTO `app_hrm_employee` (`emp_id`, `emp_no`, `dep_id`, `district_id`, `emp_name`, `position_id`, `birthdate`, `phone_no`, `short_no`, `positive_due_date`, `contract_end_date`, `onboard_status`, `resume_id`, `status`, `entry_id`, `entry_datetime`) VALUES
+(3, '0001012061241011', 9, 3, 'Manie', 1, NULL, '13588064354', NULL, NULL, NULL, 1, 16, NULL, 1, '2012-06-12 16:10:11'),
+(4, '0001112061243222', 12, 3, 'Charotte', 2, NULL, '13588064354', NULL, NULL, NULL, 1, 18, NULL, 1, '2012-06-12 16:32:22'),
+(5, '0001012061244839', 9, 3, 'Chonticha', 1, NULL, '13588064354', NULL, NULL, NULL, 2, 19, NULL, 1, '2012-06-12 16:48:39');
 
 -- --------------------------------------------------------
 
@@ -209,7 +218,17 @@ CREATE TABLE IF NOT EXISTS `app_hrm_employee_roadmap` (
   `type` tinyint(4) NOT NULL COMMENT '类型',
   `date` datetime NOT NULL COMMENT '发生时间',
   PRIMARY KEY (`roadmap_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='员工历程' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='员工历程' AUTO_INCREMENT=5 ;
+
+--
+-- 转存表中的数据 `app_hrm_employee_roadmap`
+--
+
+INSERT INTO `app_hrm_employee_roadmap` (`roadmap_id`, `emp_id`, `orginal_depid`, `orginal_districtid`, `orginal_positionid`, `dst_depid`, `dst_districtid`, `dst_positionid`, `type`, `date`) VALUES
+(1, 3, 9, 3, 1, NULL, NULL, NULL, 1, '2012-06-12 16:10:11'),
+(2, 4, 12, 3, 2, NULL, NULL, NULL, 1, '2012-06-12 16:32:22'),
+(3, 5, 9, 3, 1, NULL, NULL, NULL, 1, '2012-06-12 16:48:39'),
+(4, 5, 9, 3, 1, NULL, NULL, NULL, 2, '2012-06-12 16:48:52');
 
 -- --------------------------------------------------------
 
@@ -224,20 +243,24 @@ CREATE TABLE IF NOT EXISTS `app_hrm_hire_entries` (
   `dep_id` bigint(20) DEFAULT NULL COMMENT '入职部门',
   `position_id` bigint(20) DEFAULT NULL COMMENT '入职岗位',
   `charger_id` bigint(20) DEFAULT NULL COMMENT '负责人',
-  `plan_date` datetime NOT NULL COMMENT '安排入职时间',
+  `plan_date` datetime DEFAULT NULL COMMENT '安排入职时间',
   `act_date` datetime DEFAULT NULL COMMENT '实际入职时间',
   `inspect_status` tinyint(4) DEFAULT NULL COMMENT '考察结果状态',
   `cstatus` tinyint(4) NOT NULL COMMENT '当前状态',
   `fstatus` tinyint(4) DEFAULT NULL COMMENT '最终处理状态',
   PRIMARY KEY (`entry_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='员工入职安排表' AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='员工入职安排表' AUTO_INCREMENT=9 ;
 
 --
 -- 转存表中的数据 `app_hrm_hire_entries`
 --
 
 INSERT INTO `app_hrm_hire_entries` (`entry_id`, `issue_id`, `district_id`, `dep_id`, `position_id`, `charger_id`, `plan_date`, `act_date`, `inspect_status`, `cstatus`, `fstatus`) VALUES
-(1, 8, 3, 9, 1, 2, '2012-06-10 10:00:00', '2012-06-13 05:35:29', 2, 2, 2);
+(1, 8, 3, 9, 1, 2, '2012-06-10 10:00:00', '2012-06-13 05:35:29', 2, 2, 2),
+(5, 16, 3, 9, 1, 1, '2012-06-15 00:00:00', '2012-06-12 16:10:02', 0, 2, 1),
+(6, 17, 3, 9, 1, 1, '2012-06-15 15:12:51', '2012-06-14 16:05:51', 0, 2, 1),
+(7, 18, 3, 12, 2, 1, '2012-06-15 16:31:47', '2012-06-12 16:32:07', 1, 2, 1),
+(8, 19, 3, 9, 1, 1, '2012-06-13 00:00:00', '2012-06-15 00:00:00', 1, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -256,7 +279,7 @@ CREATE TABLE IF NOT EXISTS `app_hrm_hire_interviews` (
   `state` tinyint(4) DEFAULT NULL COMMENT '面试状态',
   `comments` varchar(150) DEFAULT NULL COMMENT '面试意见',
   PRIMARY KEY (`hw_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='招聘面试' AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='招聘面试' AUTO_INCREMENT=14 ;
 
 --
 -- 转存表中的数据 `app_hrm_hire_interviews`
@@ -270,7 +293,8 @@ INSERT INTO `app_hrm_hire_interviews` (`hw_id`, `hissue_id`, `interview_address`
 (9, 9, '杭州总部', '2012-06-21 23:35:07', 1, '', 2, 4, '这人坚决不要, 信用度太低啊..'),
 (10, 9, '杭州总部', '2012-06-13 00:00:00', 1, '', 3, 3, '烦不烦啊... '),
 (11, 10, '杭州电子科技大学', '2012-06-28 23:42:19', 1, '', 1, 2, ''),
-(12, 10, '杭州电子科技大学', '2012-06-07 00:00:00', 1, '', 2, 3, '');
+(12, 10, '杭州电子科技大学', '2012-06-07 00:00:00', 1, '', 2, 3, ''),
+(13, 11, '萧山校区', '2012-06-15 15:00:00', 1, '', 1, 2, '表现很优异啊, 建议直接录取...');
 
 -- --------------------------------------------------------
 
@@ -299,7 +323,7 @@ CREATE TABLE IF NOT EXISTS `app_hrm_hire_issue` (
   `user_id` bigint(20) DEFAULT NULL COMMENT '应聘者ID, 主要用于存员工申请 (包含自我申请, 推荐他人)',
   `apply_time` datetime NOT NULL COMMENT '申请时间',
   PRIMARY KEY (`hissue_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='当前招聘' AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='当前招聘' AUTO_INCREMENT=20 ;
 
 --
 -- 转存表中的数据 `app_hrm_hire_issue`
@@ -311,8 +335,15 @@ INSERT INTO `app_hrm_hire_issue` (`hissue_id`, `resume_id`, `hjob_id`, `current_
 (8, 8, 2, 4, 1, NULL, '2012-06-10 22:51:23'),
 (9, 9, 2, 4, 2, NULL, '2012-06-11 23:31:55'),
 (10, 10, 2, 0, NULL, NULL, '2012-06-11 23:42:01'),
-(11, 11, 2, 1, NULL, NULL, '2012-06-12 13:45:20'),
-(12, 12, 2, 1, NULL, 1, '2012-06-12 13:50:57');
+(11, 11, 2, 4, 1, NULL, '2012-06-12 13:45:20'),
+(12, 12, 2, 4, 1, 1, '2012-06-12 13:50:57'),
+(13, 13, 2, 4, 1, 1, '2012-06-12 14:13:17'),
+(14, 14, 2, 4, 1, 1, '2012-06-12 14:15:06'),
+(15, 15, 2, 4, 1, 1, '2012-06-12 14:16:21'),
+(16, 16, 2, 4, 1, 1, '2012-06-12 14:19:51'),
+(17, 17, 2, 4, 1, 1, '2012-06-12 14:36:15'),
+(18, 18, 2, 4, 1, 1, '2012-06-12 16:31:21'),
+(19, 19, 2, 4, 1, 1, '2012-06-12 16:48:04');
 
 -- --------------------------------------------------------
 
@@ -362,6 +393,7 @@ INSERT INTO `app_hrm_hire_job` (`hjob_id`, `job_title`, `hjob_districtid`, `hjob
 
 CREATE TABLE IF NOT EXISTS `app_hrm_resume` (
   `resume_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `emp_id` bigint(20) DEFAULT NULL COMMENT '员工ID号, 有可能该ID号为空',
   `fullname` varchar(64) NOT NULL COMMENT '姓名',
   `age` int(11) DEFAULT NULL COMMENT '年龄',
   `birthday` datetime DEFAULT NULL COMMENT '出生日期',
@@ -397,20 +429,27 @@ CREATE TABLE IF NOT EXISTS `app_hrm_resume` (
   `cn_level` tinyint(4) DEFAULT NULL COMMENT '普通话等级 1=一级甲等, 2=一级乙等, 3=二级甲等, 4=二级乙等, 5=三级甲等, 6=三级乙等, 7=无',
   `source` tinyint(4) DEFAULT NULL COMMENT '简历来源',
   PRIMARY KEY (`resume_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='简历管理' AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='简历管理' AUTO_INCREMENT=20 ;
 
 --
 -- 转存表中的数据 `app_hrm_resume`
 --
 
-INSERT INTO `app_hrm_resume` (`resume_id`, `fullname`, `age`, `birthday`, `address`, `marriage`, `zip`, `sex`, `phone`, `mobile`, `email`, `hobby`, `religion`, `party`, `nationality`, `race`, `birthPlace`, `eduCollege`, `eduDegree`, `eduMajor`, `teacher_major`, `teacher_cert`, `startWorkDate`, `idNo`, `photo`, `status`, `memo`, `registor`, `regTime`, `workCase`, `trainCase`, `projectCase`, `en_level`, `cn_level`, `source`) VALUES
-(6, '佐助', NULL, NULL, '火影村', 1, NULL, 1, NULL, '13588064354', '火影@163.com', NULL, NULL, 1, NULL, NULL, '非人类', '', 1, '', 1, 1, NULL, '362412312412', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0),
-(7, '大和', NULL, NULL, '', 1, NULL, 1, NULL, '13512456013', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0),
-(8, '鸣人', NULL, NULL, '', 1, NULL, 1, NULL, '13512456013', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0),
-(9, '大和2', NULL, NULL, '', 1, NULL, 1, NULL, '13512456013', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0),
-(10, '品冠', NULL, NULL, '', 1, NULL, 1, NULL, '13845671203', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0),
-(11, 'Vincent', NULL, NULL, '', 2, NULL, 1, NULL, '13512456013', '', NULL, NULL, 2, NULL, NULL, '', '', 2, '', 1, 1, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 4, 6, 2),
-(12, 'Jeth', NULL, NULL, '', 1, NULL, 1, NULL, '0608943125232', '', NULL, NULL, 1, NULL, NULL, '菲律宾', '', 1, '', 1, 1, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 2);
+INSERT INTO `app_hrm_resume` (`resume_id`, `emp_id`, `fullname`, `age`, `birthday`, `address`, `marriage`, `zip`, `sex`, `phone`, `mobile`, `email`, `hobby`, `religion`, `party`, `nationality`, `race`, `birthPlace`, `eduCollege`, `eduDegree`, `eduMajor`, `teacher_major`, `teacher_cert`, `startWorkDate`, `idNo`, `photo`, `status`, `memo`, `registor`, `regTime`, `workCase`, `trainCase`, `projectCase`, `en_level`, `cn_level`, `source`) VALUES
+(6, NULL, '佐助', NULL, NULL, '火影村', 1, NULL, 1, NULL, '13588064354', '火影@163.com', NULL, NULL, 1, NULL, NULL, '非人类', '', 1, '', 1, 1, NULL, '362412312412', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0),
+(7, NULL, '大和', NULL, NULL, '', 1, NULL, 1, NULL, '13512456013', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0),
+(8, NULL, '鸣人', NULL, NULL, '', 1, NULL, 1, NULL, '13512456013', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0),
+(9, NULL, '大和2', NULL, NULL, '', 1, NULL, 1, NULL, '13512456013', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0),
+(10, NULL, '品冠', NULL, NULL, '', 1, NULL, 1, NULL, '13845671203', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0),
+(11, NULL, 'Vincent', NULL, NULL, '', 2, NULL, 1, NULL, '13512456013', '', NULL, NULL, 2, NULL, NULL, '', '', 2, '', 1, 1, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 4, 6, 2),
+(12, NULL, 'Jeth', NULL, NULL, '', 1, NULL, 1, NULL, '0608943125232', '', NULL, NULL, 1, NULL, NULL, '菲律宾', '', 1, '', 1, 1, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 2),
+(13, NULL, 'Gino.P', NULL, NULL, '', 1, NULL, 1, NULL, '0608943125232', '', NULL, NULL, 1, NULL, NULL, '菲律宾', '', 1, '', 1, 1, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0),
+(14, NULL, 'Gino.M', NULL, NULL, '', 1, NULL, 1, NULL, '0608943125232', '', NULL, NULL, 1, NULL, NULL, '菲律宾', '', 1, '', 1, 1, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 2),
+(15, NULL, 'Xavier', NULL, NULL, '', 1, NULL, 1, NULL, '0608943125232', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0),
+(16, NULL, 'Manie', NULL, NULL, '', 1, NULL, 1, NULL, '13588064354', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0),
+(17, NULL, 'Gian', NULL, NULL, '', 1, NULL, 1, NULL, '13588064354', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0),
+(18, 4, 'Charotte', NULL, NULL, '', 1, NULL, 1, NULL, '13588064354', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0),
+(19, 5, 'Chonticha', NULL, NULL, '', 1, NULL, 1, NULL, '13588064354', '', NULL, NULL, 1, NULL, NULL, '泰国', '', 1, '', 1, 1, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -820,11 +859,12 @@ CREATE TABLE IF NOT EXISTS `app_user` (
   `user_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `username` varchar(128) NOT NULL COMMENT '用户名',
   `password` varchar(128) NOT NULL COMMENT '密码',
-  `fullname` varchar(64) NOT NULL COMMENT '用户姓名',
-  `email` varchar(128) NOT NULL COMMENT '邮件',
+  `fullname` varchar(64) DEFAULT NULL COMMENT '用户姓名',
+  `email` varchar(128) DEFAULT NULL COMMENT '邮件',
   `dep_id` bigint(20) DEFAULT NULL COMMENT '所属部门',
   `pos_id` bigint(20) DEFAULT NULL COMMENT '职位',
   `district_id` bigint(20) DEFAULT NULL COMMENT '用户所在校区',
+  `emp_id` bigint(20) DEFAULT NULL COMMENT '员工ID',
   `phone` varchar(32) DEFAULT NULL COMMENT '电话',
   `mobile` varchar(32) DEFAULT NULL COMMENT '手机',
   `fax` varchar(32) DEFAULT NULL COMMENT '传真',
@@ -836,15 +876,18 @@ CREATE TABLE IF NOT EXISTS `app_user` (
   `logon_lastime` datetime DEFAULT NULL COMMENT '最后登录时间',
   PRIMARY KEY (`user_id`),
   KEY `FK_AU_R_DPT` (`dep_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='app_user\r\n用户表' AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='app_user\r\n用户表' AUTO_INCREMENT=6 ;
 
 --
 -- 转存表中的数据 `app_user`
 --
 
-INSERT INTO `app_user` (`user_id`, `username`, `password`, `fullname`, `email`, `dep_id`, `pos_id`, `district_id`, `phone`, `mobile`, `fax`, `address`, `zip`, `photo`, `status`, `logon_lastip`, `logon_lastime`) VALUES
-(1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', '卡卡西', 'csx@jee-soft.cn', 1, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, 1, '127.0.0.1', '2012-06-12 13:43:55'),
-(2, 'csx', '9uCh4qxBlFqap/+KiqoM68EqO8yYGpKa1c+BCgkOEa4=', '斩不刀', '111@hotmail.com', 1, NULL, 3, '', '', '', '', '', '', 0, '', NULL);
+INSERT INTO `app_user` (`user_id`, `username`, `password`, `fullname`, `email`, `dep_id`, `pos_id`, `district_id`, `emp_id`, `phone`, `mobile`, `fax`, `address`, `zip`, `photo`, `status`, `logon_lastip`, `logon_lastime`) VALUES
+(1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', '卡卡西', 'csx@jee-soft.cn', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '127.0.0.1', '2012-06-12 16:19:00'),
+(2, 'csx', '9uCh4qxBlFqap/+KiqoM68EqO8yYGpKa1c+BCgkOEa4=', '斩不刀', '111@hotmail.com', 1, NULL, 3, NULL, '', '', '', '', '', '', 0, '', NULL),
+(3, '0001012061241011', 'QGpDSgQ2on/ITC1MlNeed0CREM5MDxeCejn3iFEhLGk=', 'Manie', NULL, 9, 1, 3, 3, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+(4, '0001112061243222', 'DnOH9eQngdjBAPlv4OAAtxF1BJdvw3DiTFece8c7PD8=', 'Charotte', NULL, 12, 2, 3, 4, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+(5, '0001012061244839', '1pB+T6eAui2DtQe83R0qWFGgwWGmY5HB2cuU4vgLHl4=', 'Chonticha', NULL, 9, 1, 3, 5, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 

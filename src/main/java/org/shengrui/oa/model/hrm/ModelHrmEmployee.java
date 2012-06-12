@@ -1,6 +1,7 @@
 package org.shengrui.oa.model.hrm;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
@@ -9,6 +10,12 @@ import org.shengrui.oa.model.system.ModelSchoolDistrict;
 
 import cn.trymore.core.model.ModelBase;
 
+/**
+ * Model: 员工
+ * 
+ * @author Jeccy.Zhao
+ *
+ */
 public class ModelHrmEmployee
 extends ModelBase
 {
@@ -23,7 +30,7 @@ extends ModelBase
 	/**
 	 * 员工履历
 	 */
-	private Set<ModelHrmEmployeeRoadMap> roadMaps;
+	private Set<ModelHrmEmployeeRoadMap> roadMaps = new HashSet<ModelHrmEmployeeRoadMap>();
 	
 	/**
 	 * 员工编号
@@ -78,7 +85,7 @@ extends ModelBase
 	/**
 	 * 在职状态
 	 */
-	private int onboardStatus = -1;
+	private Integer onboardStatus;
 	
 	/**
 	 * 简历ID
@@ -99,6 +106,39 @@ extends ModelBase
 	 * 录入日期
 	 */
 	private Date entryDateTime;
+	
+	
+	/**
+	 * The enumeration of interview state
+	 * 
+	 * @author Jeccy.Zhao
+	 *
+	 */
+	public static enum EOnBoardStatus
+	{
+		ONINSPECT(1, "oninspect"),						// 试用
+		ONREGULAR (2, "onregular"),						// 正式
+		FAIRWELL(3, "fairwell"),								// 离职
+		FIRED(4, "fired");										// 辞退
+		
+		private Integer value;
+		private String text;
+		
+		EOnBoardStatus (Integer value, String text)
+		{
+			this.value = value;
+			this.text = text;
+		}
+		
+		public Integer getValue(){
+			return value;
+		}
+		
+		public String getText()
+		{
+			return this.text;
+		}
+	}
 	
 	public void setProfile(ModelHrmEmployeeProfile profile)
 	{
@@ -178,20 +218,16 @@ extends ModelBase
 		this.contractEndDate = contractEndDate;
 	}
 
-	public int getOnboardStatus() {
+	public Integer getOnboardStatus() {
 		return onboardStatus;
 	}
 
-	public void setOnboardStatus(int onboardStatus) {
+	public void setOnboardStatus(Integer onboardStatus) {
 		this.onboardStatus = onboardStatus;
 	}
 
 	public ModelHrmResume getResume() {
 		return resume;
-	}
-
-	public void setResumeId(ModelHrmResume resume) {
-		this.resume = resume;
 	}
 
 	public String getStatus() {

@@ -73,6 +73,11 @@ extends ServiceGenericImpl<ModelHrmJobHireEntry> implements ServiceHrmJobHireEnt
 				criteria.createCriteria("entryDistrict").add(Restrictions.eq("id", entity.getEntryDistrict().getId()));
 			}
 			
+			if (entity.getCurrentStatus() != null && entity.getCurrentStatus() > -1)
+			{
+				criteria.add(Restrictions.eq("currentStatus", entity.getCurrentStatus()));
+			}
+			
 		}
 		
 		return criteria;

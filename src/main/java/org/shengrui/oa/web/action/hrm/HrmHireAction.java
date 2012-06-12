@@ -1,5 +1,6 @@
 package org.shengrui.oa.web.action.hrm;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -342,6 +343,9 @@ extends BaseHrmAction
 						// 设置入职状态为'待入职'
 						jobHireEntry.setFinalStatus(ModelHrmJobHireEntry.EHireEntryFStatus.TODO.getValue());
 						
+						// 设置入职安排时间
+						jobHireEntry.setEntryPlanDate(Timestamp.valueOf(request.getParameter("entryPlanDate")));
+						
 						this.serviceHrmJobHireEntry.save(jobHireEntry);
 						
 						// 保存成功后, Dialog进行关闭
@@ -440,6 +444,11 @@ extends BaseHrmAction
 						jobHireEntry.setJobHireIssue(jobHireIssue);
 						jobHireEntry.setCurrentStatus(ModelHrmJobHireEntry.EHireEntryCStatus.TODO.getValue());
 						jobHireEntry.setFinalStatus(ModelHrmJobHireEntry.EHireEntryFStatus.TODO.getValue());
+						jobHireEntry.setEntryDepartment(null);
+						jobHireEntry.setEntryDistrict(null);
+						jobHireEntry.setEntryCharger(null);
+						jobHireEntry.setEntryPosition(null);
+						
 						this.serviceHrmJobHireEntry.save(jobHireEntry);
 					}
 					else
@@ -477,8 +486,8 @@ extends BaseHrmAction
 		catch (Exception e)
 		{
 			LOGGER.error("Exception raised when finalize the hire issue.", e);
+			return ajaxPrint(response, getErrorCallback("操作失败:" + e.getMessage()));
 		}
-		return null;
 	}
 	
 	/**

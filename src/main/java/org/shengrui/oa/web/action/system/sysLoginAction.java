@@ -145,7 +145,8 @@ extends BaseAppAction
 										response.addCookie(this.makeValidCookie(request, cookieValue));
 									}
 									
-									return ajaxPrint(response, this.getSuccessCallback("登录成功."));
+									return ajaxPrint(response, 
+											getSuccessCallback("登录成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 								}
 								else
 								{

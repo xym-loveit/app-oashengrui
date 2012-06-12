@@ -25,6 +25,17 @@
 		</property>
 	</bean>
 	
+	<bean id="daoHrmEmployeeRoadMap" class="org.shengrui.oa.dao.hrm.impl.DAOHrmEmployeeRoadMapImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceHrmEmployeeRoadMap" parent="baseTxProxy">
+		<property name="target">
+			<bean class=" org.shengrui.oa.service.hrm.impl.ServiceHrmEmployeeRoadMapImpl">
+				<constructor-arg index="0" ref="daoHrmEmployeeRoadMap"/>
+			</bean>
+		</property>
+	</bean>
+	
 	<bean id="daoHrmResume" class="org.shengrui.oa.dao.hrm.impl.DAOHrmResumeImpl">
 		<property name="hibernateTemplate" ref="hibernateTemplate" />
 	</bean>

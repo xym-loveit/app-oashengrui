@@ -81,7 +81,7 @@
 							<td><input type="checkbox" name="c1" value="${entity.id}" /></td>
 							<td>${entity.resume.fullName}</td>
 							<td>${entity.resume.mobilePhone}</td>
-							<td>${entity.resume.source eq 0 ? '手工输入' : (entity.resume.source eq 1 ? '内部申请' : (entity.resume.source eq 2 ? '内部推荐' : entity.resume.source eq 3 ? '外部申请' : ''))}</td>
+							<td>${entity.resume.source eq 0 ? '手工输入' : (entity.resume.source eq 1 ? '内部申请' : (entity.resume.source eq 2 ? '内部推荐' : entity.resume.source eq 3 ? '外部申请' : ''))}<c:if test="${entity.resume.source eq 2}">(${entity.candidate.fullName})</c:if></td>
 							<td class="flag-itv${entity['interviewStates']['1']}">
 								<c:choose>
 									<c:when test="${entity['interviewStates'] ne null &&  entity['interviewStates']['1'] ne null}">
@@ -109,7 +109,7 @@
 							<td><a class="oplink" href="app/hrm/hire/interview.do?action=hrmPageJobOfferInterviewIndex&issueId=${entity.id}" target="dialog" title="面试记录‘${entity.resume.fullName}’" mask="true" rel="hrm_interviewdetail_${entity.id}">面试记录</a></td>
 							<td>
 								<c:choose>
-									<c:when test="${entity.currentStatus eq 0}">
+									<c:when test="${entity.currentStatus eq 0 || entity.currentStatus eq 1}">
 										<a class="oplink" href="app/hrm/hire.do?action=actionJobIssueFinalize&issueId=${entity.id}&state=1" target="ajaxToDo" title="确定要录用‘${entity.resume.fullName}’吗?" >录用</a>
 									</c:when>
 									<c:otherwise>
@@ -119,7 +119,7 @@
 							</td>
 							<td> 
 								<c:choose>
-									<c:when test="${entity.currentStatus eq 0}">
+									<c:when test="${entity.currentStatus eq 0 || entity.currentStatus eq 1}">
 										<a class="oplink" href="app/hrm/hire.do?action=dialogJobOfferFinalizePage&issueId=${entity.id}&state=2" target="dialog" title="确定要淘汰‘${entity.resume.fullName}’吗?" rel="hrm_eliminate_${entity.id}" width="300" height="160">淘汰</a>
 									</c:when>
 									<c:otherwise>
@@ -129,7 +129,7 @@
 							</td>
 							<td>
 								<c:choose>
-									<c:when test="${entity.currentStatus eq 0}">
+									<c:when test="${entity.currentStatus eq 0 || entity.currentStatus eq 1}">
 										<a class="oplink" href="app/hrm/hire.do?action=dialogJobOfferFinalizePage&issueId=${entity.id}&state=3" target="dialog" title="确定‘${entity.resume.fullName}’未到吗?" rel="hrm_absence_${entity.id}" width="300" height="200">未到</a>
 									</c:when>
 									<c:otherwise>

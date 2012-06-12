@@ -3,10 +3,15 @@
 
 <struts-config>
 	
+	<form-beans>
+		<form-bean name="form.hrm.hire.job.entry" type="org.shengrui.oa.model.hrm.ModelHrmJobHireEntry"></form-bean>
+	</form-beans>
+	
 	<action-mappings>
 		
 		<!-- 员工入职-->
 		<action path="/app/hrm/entry"
+				name="form.hrm.hire.job.entry"
 				scope="request"
 				parameter="action"
 				type="org.springframework.web.struts.DelegatingActionProxy">
