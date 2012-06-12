@@ -152,7 +152,7 @@
 								</c:choose>
 							</td>
 							<td><a class="oplink" href="app/hrm/employee.do?action=actionEmployeeDelete&id=${entity.id}" target="ajaxTodo" title="确定要删除吗?">删除</a></td>
-							<td><a class="oplink" href="app/hrm/employee.do?action=hrmEmployeeDocDetail&id=${entity.id}&op=view" target="dialog" title="详细" width="930" height="500">详细</a></td>
+							<td><a class="oplink" href="app/hrm/employee.do?action=hrmEmployeeDocDetail&id=${entity.id}&op=view" target="dialog" title="查看${entity.empName}详细信息" width="930" height="500">详细</a></td>
 						</tr>
 					</logic:iterate>
 				</logic:present>
