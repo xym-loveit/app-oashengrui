@@ -8,7 +8,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div class="pageContent">
-	<form method="post" action="app/hrm/hire/resume.do?action=actionJobApply" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<!--<form method="post" action="app/hrm/hire/resume.do?action=actionJobApply" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">-->
 		
 	<div class="tabs" currentindex="0" eventtype="click">
 		<div class="tabsHeader">
@@ -30,5 +30,5 @@
 		</div>
 	</div>
 	
-	</form>
+	<!--</form>-->
 </div>
