@@ -88,6 +88,26 @@ extends ModelBase
 	private Integer onboardStatus;
 	
 	/**
+	 * 教师星级
+	 */
+	private Integer teacherStar;
+	
+	/**
+	 * 咨询师星级
+	 */
+	private Integer consultStar;
+	
+	/**
+	 * 教授年级
+	 */
+	private String teachClass;
+	
+	/**
+	 * 教授科目
+	 */
+	private String teachSubject;
+	
+	/**
 	 * 简历ID
 	 */
 	private ModelHrmResume resume;
@@ -281,5 +301,38 @@ extends ModelBase
 	public void setResume(ModelHrmResume resume) {
 		this.resume = resume;
 	}
+
+	public String getTeachClass() {
+		return teachClass;
+	}
+
+	public void setTeachClass(String teachClass) {
+		this.teachClass = teachClass;
+	}
+
+	public String getTeachSubject() {
+		return teachSubject;
+	}
+
+	public void setTeachSubject(String teachSubject) {
+		this.teachSubject = teachSubject;
+	}
+
+	public Integer getTeacherStar() {
+		return teacherStar;
+	}
+
+	public void setTeacherStar(Integer teacherStar) {
+		this.teacherStar = teacherStar;
+	}
+
+	public Integer getConsultStar() {
+		return consultStar;
+	}
+
+	public void setConsultStar(Integer consultStar) {
+		this.consultStar = consultStar;
+	}
+	
 	
 }
