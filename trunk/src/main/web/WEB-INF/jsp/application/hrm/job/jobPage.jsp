@@ -8,8 +8,24 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
 
+<script>
+	$(function(){
+		$("#btnapproval").unbind("click");
+		$("#btnapproval").bind("click", function() { 
+			$("#formAction").val("1");
+			$("#formjob").submit();
+		});
+		
+		$("#btnback").unbind("click");
+		$("#btnback").bind("click", function() { 
+			$("#formAction").val("0");
+			$("#formjob").submit();
+		});
+	});
+</script>
+
 <div class="pageContent">
-	<form method="post" action="app/hrm/hire.do?action=actionJobSave" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<form method="post" action="app/hrm/hire.do?action=actionJobSave" id="formjob" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent" layoutH="56">
 			<table cellspacing="10" cellpadding="10" style="border-spacing:12">
 				<tr>
@@ -133,13 +149,32 @@
 		<div class="formBar">
 			<ul>
 				<c:if test="${op eq null || op ne 'view'}">
-					<li><div class="buttonActive"><div class="buttonContent"><button type="submit">提交并审核</button></div></div></li>
+					<c:choose>
+						<c:when test="${jobHire ne null}">
+							<c:choose>
+								<c:when test="${jobHire.status eq 1}">
+									<li><div class="buttonActive"><div class="buttonContent"><button id="btnapproval" type="submit">提交总部审核</button></div></div></li>
+									<li><div class="buttonActive"><div class="buttonContent"><button id="btnback" type="submit">退回发布人员</button></div></div></li>
+								</c:when>
+								<c:when test="${jobHire.status eq 2}">
+									<li><div class="buttonActive"><div class="buttonContent"><button id="btnapproval" type="submit">通过并发布</button></div></div></li>
+									<li><div class="buttonActive"><div class="buttonContent"><button id="btnback" type="submit">退回</button></div></div></li>
+								</c:when>
+							</c:choose>
+						</c:when>
+						<c:otherwise>
+							<li><div class="buttonActive"><div class="buttonContent"><button type="submit">提交并审核</button></div></div></li>
+						</c:otherwise>
+					</c:choose>
 				</c:if>
 				<li>
 					<div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div>
 				</li>
 			</ul>
 		</div>
+		<c:if test="${jobHire ne null}">
+			<input type="hidden" id="formAction" name="formAction" value="" />
+		</c:if>
 		<input type="hidden" name="id" value="${jobHire ne null ? jobHire.id : '-1'}" />
 	</form>
 </div>
