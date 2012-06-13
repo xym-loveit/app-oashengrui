@@ -153,7 +153,7 @@
 						历史
 						</br>
 						
-						<input name="teachClass" type="checkbox" value="C" <c:if test="${tm:inRange(employee.teachSubject, 'C', ',')}">checked</c:if>>
+						<input name="teachSubject" type="checkbox" value="C" <c:if test="${tm:inRange(employee.teachSubject, 'C', ',')}">checked</c:if>>
 						高中
 						<input name="teachSubject" type="checkbox" value="C1" <c:if test="${tm:inRange(employee.teachSubject, 'C1', ',')}">checked</c:if>>
 						数学
