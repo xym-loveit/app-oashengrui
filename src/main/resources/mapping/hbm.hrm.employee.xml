@@ -32,6 +32,18 @@
          <property name="onboardStatus" type="java.lang.Integer">
             <column name="onboard_status" />
         </property>
+         <property name="teacherStar" type="java.lang.Integer">
+            <column name="teacher_star" />
+        </property>
+         <property name="consultStar" type="java.lang.Integer">
+            <column name="consult_star" />
+        </property>
+         <property name="teachClass" type="java.lang.String">
+            <column name="teach_class" />
+        </property>
+         <property name="teachSubject" type="java.lang.String">
+            <column name="teach_subject" />
+        </property>
          <property name="status" type="java.lang.String">
             <column name="status" />
         </property>
