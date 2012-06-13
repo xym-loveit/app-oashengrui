@@ -156,35 +156,37 @@ INSERT INTO `app_hrm_archive` (`archive_id`, `resume_id`, `job_id`, `archive_sou
 -- 表的结构 `app_hrm_employee`
 --
 
-CREATE TABLE IF NOT EXISTS `app_hrm_employee` (
-  `emp_id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `app_hrm_employee` (
+  `emp_id` bigint(20) NOT NULL auto_increment,
   `emp_no` varchar(64) NOT NULL COMMENT '员工编号',
   `dep_id` bigint(20) NOT NULL COMMENT '员工所在部门ID',
   `district_id` bigint(20) NOT NULL COMMENT '员工所在校区ID',
   `emp_name` varchar(64) NOT NULL COMMENT '员工姓名',
-  `position_id` bigint(20) DEFAULT NULL COMMENT '岗位',
-  `birthdate` date DEFAULT NULL COMMENT '出生日期',
-  `phone_no` varchar(64) DEFAULT NULL COMMENT '电话',
-  `short_no` varchar(64) DEFAULT NULL COMMENT '短号',
-  `positive_due_date` date DEFAULT NULL COMMENT '待转正日期',
-  `contract_end_date` date DEFAULT NULL COMMENT '合同到期日期',
-  `onboard_status` bigint(20) DEFAULT NULL COMMENT '在职状态',
-  `resume_id` bigint(20) DEFAULT NULL COMMENT '简历',
-  `status` char(1) DEFAULT NULL COMMENT '员工状态',
-  `entry_id` bigint(20) DEFAULT NULL COMMENT '录入人员',
-  `entry_datetime` datetime DEFAULT NULL COMMENT '录入日期',
-  PRIMARY KEY (`emp_id`),
+  `position_id` bigint(20) default NULL COMMENT '岗位',
+  `birthdate` date default NULL COMMENT '出生日期',
+  `phone_no` varchar(64) default NULL COMMENT '电话',
+  `short_no` varchar(64) default NULL COMMENT '短号',
+  `positive_due_date` date default NULL COMMENT '待转正日期',
+  `contract_end_date` date default NULL COMMENT '合同到期日期',
+  `onboard_status` bigint(20) default NULL COMMENT '在职状态',
+  `teacher_star` bigint(20) default NULL,
+  `consult_star` bigint(20) default NULL,
+  `teach_class` varchar(120) default NULL,
+  `teach_subject` varchar(120) default NULL,
+  `resume_id` bigint(20) default NULL COMMENT '简历',
+  `status` char(1) default NULL COMMENT '员工状态',
+  `entry_id` bigint(20) default NULL COMMENT '录入人员',
+  `entry_datetime` datetime default NULL COMMENT '录入日期',
+  PRIMARY KEY  (`emp_id`),
   UNIQUE KEY `emp_no` (`emp_no`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='员工档案表' AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='员工档案表';
 
---
--- 转存表中的数据 `app_hrm_employee`
---
-
-INSERT INTO `app_hrm_employee` (`emp_id`, `emp_no`, `dep_id`, `district_id`, `emp_name`, `position_id`, `birthdate`, `phone_no`, `short_no`, `positive_due_date`, `contract_end_date`, `onboard_status`, `resume_id`, `status`, `entry_id`, `entry_datetime`) VALUES
-(3, '0001012061241011', 9, 3, 'Manie', 1, NULL, '13588064354', NULL, NULL, NULL, 1, 16, NULL, 1, '2012-06-12 16:10:11'),
-(4, '0001112061243222', 12, 3, 'Charotte', 2, NULL, '13588064354', NULL, NULL, NULL, 1, 18, NULL, 1, '2012-06-12 16:32:22'),
-(5, '0001012061244839', 9, 3, 'Chonticha', 1, NULL, '13588064354', NULL, NULL, NULL, 2, 19, NULL, 1, '2012-06-12 16:48:39');
+-- ----------------------------
+-- Records 
+-- ----------------------------
+INSERT INTO `app_hrm_employee` VALUES ('3', '0001012061241011', '9', '3', 'Manie', '1', null, '13588064354', null, null, null, '1', '3', '4', 'A,A1,A3,A5,B1,B3', 'A,A1,A3,B,B2,B6,C7,C8', '16', null, '1', '2012-06-12 16:10:11');
+INSERT INTO `app_hrm_employee` VALUES ('4', '0001112061243222', '12', '3', 'Charotte', '2', null, '13588064354', null, null, null, '1', null, null, null, null, '18', null, '1', '2012-06-12 16:32:22');
+INSERT INTO `app_hrm_employee` VALUES ('5', '0001012061244839', '9', '3', 'Chonticha', '1', null, '13588064354', null, null, null, '2', null, null, null, null, '19', null, '1', '2012-06-12 16:48:39');
 
 -- --------------------------------------------------------
 
