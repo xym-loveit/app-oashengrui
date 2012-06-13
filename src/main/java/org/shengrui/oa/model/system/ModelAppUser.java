@@ -244,36 +244,43 @@ extends ModelBase implements UserDetails
 	public void initMenuRights()
 	{
 		// 进行合并权限的处理
-		if (!isInitialized && this.position != null && this.position.getRoles() != null)
+		if (this.id.equals(SUPER_USER.toString()))
 		{
-			final Set<ModelAppRole> roleSet = this.position.getRoles();
-			Iterator<ModelAppRole> it = roleSet.iterator();
-			
-			while (it.hasNext()) 
+			this.rights.add(ModelAppRole.SUPER_RIGHTS);
+		}
+		else
+		{
+			if (!isInitialized && this.position != null && this.position.getRoles() != null)
 			{
-				ModelAppRole role = it.next();
-				if (isSuperRoot(role))
+				final Set<ModelAppRole> roleSet = this.position.getRoles();
+				Iterator<ModelAppRole> it = roleSet.iterator();
+				
+				while (it.hasNext()) 
 				{
-					this.rights.add(ModelAppRole.SUPER_RIGHTS);
-					break;
-				}
-				else
-				{
-					if (UtilString.isNotEmpty(role.getRoleRights()))
+					ModelAppRole role = it.next();
+					if (isSuperRoot(role))
 					{
-						String[] items = role.getRoleRights().split("[,]");
-						for (int i = 0; i < items.length; i++) 
+						this.rights.add(ModelAppRole.SUPER_RIGHTS);
+						break;
+					}
+					else
+					{
+						if (UtilString.isNotEmpty(role.getRoleRights()))
 						{
-							String item = items[i];
-							if (!this.rights.contains(item)) 
+							String[] items = role.getRoleRights().split("[,]");
+							for (int i = 0; i < items.length; i++) 
 							{
-								getRights().add(item);
+								String item = items[i];
+								if (!this.rights.contains(item)) 
+								{
+									getRights().add(item);
+								}
 							}
 						}
 					}
 				}
+				isInitialized = true;
 			}
-			isInitialized = true;
 		}
 	}
 	

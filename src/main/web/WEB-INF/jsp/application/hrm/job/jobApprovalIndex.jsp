@@ -120,8 +120,8 @@
 						<td>${entity.status eq 0 ? '待审批' : (entity.status eq 1 ? '审核通过' : (entity.status eq 2 ? '审核退回' : '未知'))}</td>
 						<td>${entity.status eq 0 ? '待审批' : (entity.status eq 1 ? '审核通过' : (entity.status eq 2 ? '审核退回' : '未知'))}</td>
 						-->
-						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=1&op=view" target="dialog" title="岗位详细" width="930" height="500">详细</a></td>
-						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=1&op=view" target="dialog" title="岗位详细" width="930" height="500">审批</a></td>
+						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}" target="dialog" title="岗位详细" width="930" height="500">详细</a></td>
+						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}" target="dialog" title="岗位详细" width="930" height="500">审批</a></td>
 					</tr>
 				</logic:iterate>
 			</logic:present>

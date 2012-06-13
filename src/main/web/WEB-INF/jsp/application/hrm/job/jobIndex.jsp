@@ -113,7 +113,7 @@
 						<td>${entity.jobHireDistrict ne null ? entity.jobHireDistrict.districtName : ''}</td>
 						<td>${entity.jobHireDepartment ne null ? entity.jobHireDepartment.depName : ''}</td>
 						<td>${entity.jobHireRange eq 1 ? '内外兼招' : (entity.jobHireRange eq 2 ? '外部招聘' : (entity.jobHireRange eq 3 ? '内部招聘' : ''))}</td>
-						<td>${entity.status eq 0 ? '待审批' : (entity.status eq 1 ? '审核通过' : (entity.status eq 2 ? '审核退回' : '未知'))}</td>
+						<td>${entity.status eq 1 ? '待校区审批' : (entity.status eq 2 ? '待总部审批' : (entity.status eq 3 ? '审核退回' : (entity.status eq 4 ? '审核通过' : '未知')))}</td>
 						<td>
 							<c:choose>
 								<c:when test="${entity.status eq 0 || entity.status eq 2}">
@@ -124,11 +124,11 @@
 								</c:when>
 							</c:choose>
 						</td>
-						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=1&op=view" target="dialog" title="岗位详细" width="930" height="500">详细</a></td>
+						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}&op=view" target="dialog" title="岗位详细" width="930" height="500">详细</a></td>
 						<td>
 							<c:choose>
 								<c:when test="${entity.status eq 2}">
-									<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=1" target="dialog" title="编辑岗位" width="930" height="500">编辑</a>
+									<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}" target="dialog" title="编辑岗位" width="930" height="500">编辑</a>
 								</c:when>
 								<c:otherwise>
 									<label class="opdisabled">编辑</label>
@@ -156,7 +156,7 @@
 							<c:choose>
 								<c:when test="${entity.isOpen eq 0}">
 								</c:when>
-								<c:when test="${entity.status eq 0 || entity.status eq 2}">
+								<c:when test="${entity.status ne 4}">
 									<label class="opdisabled">入职安排</label>
 								</c:when>
 								<c:otherwise>
@@ -168,7 +168,7 @@
 							<c:choose>
 								<c:when test="${entity.isOpen eq 0}">
 								</c:when>
-								<c:when test="${entity.status eq 0 || entity.status eq 2}">
+								<c:when test="${entity.status ne 4}">
 									<label class="opdisabled">招聘安排</label>
 								</c:when>
 								<c:otherwise>

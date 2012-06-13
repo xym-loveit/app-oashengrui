@@ -18,6 +18,7 @@ import org.shengrui.oa.model.hrm.ModelHrmJobHireIssue;
 import org.shengrui.oa.model.hrm.ModelHrmResume;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
+import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
 
 import cn.trymore.core.exception.ServiceException;
@@ -39,6 +40,10 @@ extends BaseHrmAction
 	 * The LOGGER
 	 */
 	private static final Logger LOGGER = Logger.getLogger(HrmHireAction.class);
+	
+	private static final String ACTION_FORM_FLAG_APPROVAL = "1";
+	
+	private static final String ACTION_FORM_FLAG_RETURNED = "2";
 	
 	/**
 	 * <b>[WebAction]</b> <br/>
@@ -85,7 +90,25 @@ extends BaseHrmAction
 		try
 		{
 			ModelHrmJobHireInfo formJobHireInfo = (ModelHrmJobHireInfo) form;
-			formJobHireInfo.setStatus(ModelHrmJobHireInfo.EJobHireStatus.TODO.getValue());
+			
+			if (ContextUtil.getCurrentUser().getFunctionRights().indexOf("__ALL") > -1)
+			{
+				// 超级管理员, 拥有校区和总部审批双视图
+				formJobHireInfo.setSearchStatusCondition(new Integer[] { 
+					ModelHrmJobHireInfo.EJobHireStatus.TODO_ZONE.getValue(),
+					ModelHrmJobHireInfo.EJobHireStatus.TODO_HEAD.getValue(),
+				});
+			}
+			else if (ContextUtil.getCurrentUser().getFunctionRights().indexOf("_FUNCKEY_JOBAPPROVAL_ROOT") > -1)
+			{
+				// 总部审批视图
+				formJobHireInfo.setStatus(ModelHrmJobHireInfo.EJobHireStatus.TODO_HEAD.getValue());
+			}
+			else if (ContextUtil.getCurrentUser().getFunctionRights().indexOf("_FUNCKEY_JOBAPPROVAL_SUBNODE") > -1)
+			{
+				// 校区审批视图 (暂时也适用于片区)
+				formJobHireInfo.setStatus(ModelHrmJobHireInfo.EJobHireStatus.TODO_ZONE.getValue());
+			}
 			
 			PagingBean pagingBean = this.getPagingBean(request);
 			PaginationSupport<ModelHrmJobHireInfo> hireJobs =
@@ -279,35 +302,34 @@ extends BaseHrmAction
 				entity = formJobHireInfo;
 			}
 			
-			if (isCreation)
-			{
-				entity.setStatus(ModelHrmJobHireInfo.EJobHireStatus.TODO.getValue());
-				entity.setPostDate(new Date());
-				if (ContextUtil.getCurrentUser() != null)
-				{
-					entity.setPostAuthorName(ContextUtil.getCurrentUser().getFullName());
-				}
-			}
-			
 			String districtId = request.getParameter("jobHireDistrictId");
 			if (this.isObjectIdValid(districtId) && (entity.getJobHireDistrict() == null || 
-					!entity.getJobHireDistrict().getId().equals(districtId)))
+					!districtId.equals(entity.getJobHireDistrict().getId())))
 			{
 				entity.setJobHireDistrict(this.serviceSchoolDistrict.get(districtId));
 			}
 			
 			String depId = request.getParameter("jobHireDepartmentId");
 			if (this.isObjectIdValid(depId) && (entity.getJobHireDepartment() == null || 
-					!entity.getJobHireDepartment().getId().equals(depId)))
+					!depId.equals(entity.getJobHireDepartment().getId())))
 			{
 				entity.setJobHireDepartment(this.serviceSchoolDepartment.get(depId));
 			}
 			
 			String districtVisibleId = request.getParameter("jobHireVisibleDistrictId");
 			if (this.isObjectIdValid(districtVisibleId) && (entity.getJobHireVisibleDistrict() == null || 
-					!entity.getJobHireVisibleDistrict().getId().equals(districtVisibleId)))
+					!districtVisibleId.equals(entity.getJobHireVisibleDistrict().getId())))
 			{
 				entity.setJobHireVisibleDistrict(this.serviceSchoolDistrict.get(districtVisibleId));
+			}
+			
+			// 设置审批状态
+			this.applyApprovalStatus(entity, isCreation, request);
+			
+			entity.setPostDate(new Date());
+			if (ContextUtil.getCurrentUser() != null)
+			{
+				entity.setPostAuthorName(ContextUtil.getCurrentUser().getFullName());
 			}
 			
 			this.serviceHrmJobHireInfo.save(entity);
@@ -321,6 +343,82 @@ extends BaseHrmAction
 			LOGGER.error("It failed to save the school department item entity!", e);
 			
 			return ajaxPrint(response, getErrorCallback("岗位保存失败."));
+		}
+	}
+	
+	/**
+	 * 设置岗位发布审批状态.
+	 * 
+	 * @param entity
+	 * @param isCreation
+	 * @param request
+	 */
+	private void applyApprovalStatus (ModelHrmJobHireInfo entity, boolean isCreation, HttpServletRequest request)
+	{
+		String formAction = request.getParameter("formAction");
+		
+		if (entity.getJobHireDistrict().getDistrictType().equals(
+				AppUtil.EAppSchoolType.HEADQUARTERS.getValue()))
+		{
+			// 总部岗位
+			if (isCreation)
+			{
+				// 审批状态为总部审批
+				entity.setStatus(ModelHrmJobHireInfo.EJobHireStatus.TODO_HEAD.getValue());
+			}
+			else
+			{
+				if (ACTION_FORM_FLAG_APPROVAL.equals(formAction))
+				{
+					// 审批状态为审批通过
+					entity.setStatus(ModelHrmJobHireInfo.EJobHireStatus.APPROVED.getValue());
+				}
+				else if (ACTION_FORM_FLAG_RETURNED.equals(formAction))
+				{
+					// 审批状态为审批退回
+					entity.setStatus(ModelHrmJobHireInfo.EJobHireStatus.RETURNED.getValue());
+				}
+			}
+		} 
+		else
+		{
+			// 校区岗位
+			if (isCreation)
+			{
+				// 设置审批状态为校区审批 (适用于片区)
+				entity.setStatus(ModelHrmJobHireInfo.EJobHireStatus.TODO_ZONE.getValue());
+			}
+			else
+			{
+				if (entity.getStatus().equals(ModelHrmJobHireInfo.EJobHireStatus.TODO_HEAD.getValue()))
+				{
+					// 当前审批状态为总部审批
+					if (ACTION_FORM_FLAG_APPROVAL.equals(formAction))
+					{
+						// 审批状态为提交至总部审批
+						entity.setStatus(ModelHrmJobHireInfo.EJobHireStatus.APPROVED.getValue());
+					}
+					else if (ACTION_FORM_FLAG_RETURNED.equals(formAction))
+					{
+						// 审批状态为审批退回至校区审批
+						entity.setStatus(ModelHrmJobHireInfo.EJobHireStatus.TODO_ZONE.getValue());
+					}
+				}
+				else if (entity.getStatus().equals(ModelHrmJobHireInfo.EJobHireStatus.TODO_ZONE.getValue()))
+				{
+					// 当前审批状态为校区审批
+					if (ACTION_FORM_FLAG_APPROVAL.equals(formAction))
+					{
+						// 审批状态为提交至总部审批
+						entity.setStatus(ModelHrmJobHireInfo.EJobHireStatus.TODO_HEAD.getValue());
+					}
+					else if (ACTION_FORM_FLAG_RETURNED.equals(formAction))
+					{
+						// 审批状态为审批退回
+						entity.setStatus(ModelHrmJobHireInfo.EJobHireStatus.RETURNED.getValue());
+					}
+				}
+			}
 		}
 	}
 	

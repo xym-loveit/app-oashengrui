@@ -138,6 +138,11 @@ extends ModelBase
 	private Set<ModelFileAttach> attachFiles;
 	
 	/**
+	 * 主要用于多状态集合搜索,超级用户
+	 */
+	private Integer[] searchStatusCondition;
+	
+	/**
 	 * The enumeration of job hire approval status
 	 * 
 	 * @author Jeccy.Zhao
@@ -145,9 +150,10 @@ extends ModelBase
 	 */
 	public static enum EJobHireStatus
 	{
-		TODO(0, "todo"),				// 未审核
-		APPROVED(1, "approved"),	// 审核通过
-		DENIED(2, "denied");			// 审核未通过
+		TODO_ZONE(1, "todo_inzone"),	// 待校区审核
+		TODO_HEAD(2, "todo_inhead"),	// 待总部审核
+		RETURNED(3, "returned"),		// 审核退回
+		APPROVED(4, "approved");		// 审核通过
 		
 		private Integer value;
 		private String text;
@@ -426,6 +432,16 @@ extends ModelBase
 	public void setIsOpen(Integer isOpen)
 	{
 		this.isOpen = isOpen;
+	}
+
+	public void setSearchStatusCondition(Integer[] searchStatusCondition)
+	{
+		this.searchStatusCondition = searchStatusCondition;
+	}
+
+	public Integer[] getSearchStatusCondition()
+	{
+		return searchStatusCondition;
 	}
 	
 }
