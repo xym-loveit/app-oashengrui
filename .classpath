@@ -57,5 +57,7 @@
 	<classpathentry kind="lib" path="lib/libspring/spring-security-taglibs-2.0.4.jar"/>
 	<classpathentry kind="lib" path="lib/libcert/SimpleCaptcha-1.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/libcommons/commons-beanutils-1.7.0.jar"/>
+	<classpathentry kind="lib" path="lib/libexcel/jxl.jar"/>
+	<classpathentry kind="lib" path="lib/libexcel/poi-3.6-20091214.jar"/>
 	<classpathentry kind="output" path="src/main/web/WEB-INF/classes"/>
 </classpath>

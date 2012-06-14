@@ -1,6 +1,5 @@
 package org.shengrui.oa.web.action.hrm;
 
-import java.sql.Timestamp;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,10 +9,8 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.jsoup.helper.StringUtil;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.hrm.ModelHrmEmployeeRoadMap;
-import org.shengrui.oa.model.hrm.ModelHrmJobHireEntry;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.util.UtilString;
