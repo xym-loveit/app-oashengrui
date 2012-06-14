@@ -907,6 +907,37 @@ CREATE TABLE IF NOT EXISTS `app_user_role` (
 -- 限制导出的表
 --
 
+-- ----------------------------
+-- Table structure for app_hrm_employee_apply
+-- ----------------------------
+DROP TABLE IF EXISTS `app_hrm_employee_apply`;
+CREATE TABLE `app_hrm_employee_apply` (
+  `apply_id` bigint(20) default NULL,
+  `apply_form_id` bigint(20) default NULL COMMENT '人资审批流程',
+  `apply_date` date default NULL,
+  `apply_comments` longtext,
+  `emp_id` bigint(20) default NULL COMMENT '员工ID',
+  `apply_district_id` bigint(20) default NULL,
+  `apply_dep_id` bigint(20) default NULL,
+  `apply_position_id` bigint(20) default NULL,
+  `status` char(1) default NULL,
+  `entry_id` bigint(20) default NULL,
+  `entry_datetime` datetime default NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for app_hrm_employee_approval
+-- ----------------------------
+DROP TABLE IF EXISTS `app_hrm_employee_approval`;
+CREATE TABLE `app_hrm_employee_approval` (
+  `approval_id` bigint(20) default NULL,
+  `approval_comments` longtext,
+  `approval_task_id` varchar(60) default NULL COMMENT '人资审批流程节点',
+  `parent_id` bigint(20) default NULL COMMENT '人资申请ID',
+  `entry_id` bigint(20) default NULL,
+  `entry_datetime` datetime default NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- 限制表 `app_function_url`
 --
