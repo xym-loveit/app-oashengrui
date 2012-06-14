@@ -161,6 +161,22 @@ public class UtilString
 	}
 	
 	/**
+	 * 
+	 * @param input
+	 * @return
+	 * @author Zhao.Xiang
+	 */
+	public static String filter(String input) 
+	{
+		String tmp = input;
+		tmp = tmp.replace("´", "'");
+		tmp = tmp.replace("”", "\"");
+		tmp = tmp.replace("“", "\"");
+		tmp = tmp.replace("‘", "'");
+		return tmp;
+	}
+	
+	/**
 	 * Returns true if the specified string is numberic
 	 * 
 	 * @param paramString
