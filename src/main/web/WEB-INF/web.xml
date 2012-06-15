@@ -104,6 +104,16 @@
 		<url-pattern>/CaptchaImg</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>fileUpload</servlet-name>
+		<servlet-class>cn.trymore.core.web.servlet.FileUploadServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>fileUpload</servlet-name>
+		<url-pattern>/file-upload</url-pattern>
+	</servlet-mapping>
+	
 	<!-- UrlRewrite configuration
 	<filter>
 		<filter-name>rewriteFilter</filter-name>
