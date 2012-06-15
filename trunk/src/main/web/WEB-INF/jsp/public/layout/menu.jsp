@@ -28,8 +28,8 @@
 				<li treeicon="icon-infodoc"><a href="app/personal.do?action=pageMyDoc" target="navTab" rel="mydoc">文档下载区</a></li>
 				<li treeicon="icon-hrjobreg"><a href="app/personal/jobapplication.do?action=pageJobOnHiring" target="navTab" rel="personal_myjobform">我要应聘</a></li>
 				<li treeicon="icon-myinvite"><a href="app/personal/interview.do?action=pageMyInterviewToDo" target="navTab" rel="personal_myinterviews">我做伯乐</a></li>
-				<li treeicon="icon-myapply"><a href="demo_page5.html" target="navTab" rel="myapply">我的申请</a></li>
-				<li treeicon="icon-myapproval"><a href="demo_page5.html" target="navTab" rel="mytodo">待我审批</a></li>
+				<li treeicon="icon-myapply"><a href="blank.jsp" target="navTab" rel="myapply">我的申请</a></li>
+				<li treeicon="icon-myapproval"><a href="blank.jsp" target="navTab" rel="mytodo">待我审批</a></li>
 			</ul>
 		</div>
 		
@@ -69,7 +69,7 @@
 						<li treeicon="icon-hrstaffmProfile"><a href="app/hrm/employee.do?action=hrmEmployeeDocIndex" target="navTab" rel="hrm_employeeIndex">员工档案</a></li>
 					</ul>
 				</li>
-				<li treeicon="icon-hrmcheck"><a href="demo_page1.html" target="navTab" rel="demo_page1">人力发展管理</a></li>
+				<li treeicon="icon-hrmcheck"><a href="blank.jsp" target="navTab" rel="demo_page1">人力发展管理</a></li>
 			</ul>
 		</div>
 		
@@ -81,14 +81,14 @@
 			<ul class="tree treeFolder">
 				<li treeicon="icon-finmrmb"><a>费用支出管理</a>
 					<ul>
-						<li treeicon="icon-finmrmbApply"><a href="demo_page1.html" target="navTab" rel="demo_page2">费用支出申请</a></li>
-						<li treeicon="icon-finmrmbApproval"><a href="demo_page1.html" target="navTab" rel="demo_page2">费用支出审批</a></li>
+						<li treeicon="icon-finmrmbApply"><a href="blank.jsp" target="navTab" rel="demo_page2">费用支出申请</a></li>
+						<li treeicon="icon-finmrmbApproval"><a href="blank.jsp" target="navTab" rel="demo_page2">费用支出审批</a></li>
 					</ul>
 				</li>
 				<li treeicon="icon-finmcontracts"><a>合同管理</a>
 					<ul>
-						<li treeicon="icon-finmcontractsApply"><a href="demo_page1.html" target="navTab" rel="demo_page2">合同审批申请</a></li>
-						<li treeicon="icon-finmcontractsRecords"><a href="demo_page1.html" target="navTab" rel="demo_page2">合同审批记录</a></li>
+						<li treeicon="icon-finmcontractsApply"><a href="blank.jsp" target="navTab" rel="demo_page2">合同审批申请</a></li>
+						<li treeicon="icon-finmcontractsRecords"><a href="blank.jsp" target="navTab" rel="demo_page2">合同审批记录</a></li>
 					</ul>
 				</li>
 			</ul>
@@ -100,9 +100,9 @@
 		</div>
 		<div class="accordionContent">
 			<ul class="tree treeFolder">
-				<li treeicon="icon-sysmpwd"><a href="demo_page1.html" target="navTab" rel="demo_page1">密码修改</a></li>
+				<li treeicon="icon-sysmpwd"><a href="blank.jsp" target="navTab" rel="demo_page1">密码修改</a></li>
 				<li treeicon="icon-sysmusr"><a href="app/system/account.do?action=pageAccountIndex" target="navTab" rel="sysmgr_account">用户管理</a></li>
-				<li treeicon="icon-sysmlogs"><a href="demo_page1.html" target="navTab" rel="demo_page1">系统日志</a></li>
+				<li treeicon="icon-sysmlogs"><a href="blank.jsp" target="navTab" rel="demo_page1">系统日志</a></li>
 			</ul>
 		</div>
 		
@@ -112,16 +112,16 @@
 		</div>
 		<div class="accordionContent">
 			<ul class="tree treeFolder">
-				<li treeicon="icon-setdic"><a href="demo_page1.html" target="navTab" rel="demo_page1">数据字典设置</a></li>
+				<li treeicon="icon-setdic"><a href="blank.jsp" target="navTab" rel="demo_page1">数据字典设置</a></li>
 				<li treeicon="icon-setaskm"><a>工作安排设置</a>
 					<ul>
-						<li treeicon="icon-setaskmTpl"><a href="demo_page1.html" target="navTab" rel="demo_page2">工作安排模板设置</a></li>
-						<li treeicon="icon-setaskmBase"><a href="demo_page1.html" target="navTab" rel="demo_page2">工作安排基础设置</a></li>
+						<li treeicon="icon-setaskmTpl"><a href="blank.jsp" target="navTab" rel="demo_page2">工作安排模板设置</a></li>
+						<li treeicon="icon-setaskmBase"><a href="blank.jsp" target="navTab" rel="demo_page2">工作安排基础设置</a></li>
 					</ul>
 				</li>
 				<li treeicon="icon-setflowm"><a>审批流程设置</a>
 					<ul>
-						<li treeicon="icon-setflowmhr"><a href="demo_page1.html" target="navTab" rel="sysmgr_flow_hrm">人资审批流程设置</a></li>
+						<li treeicon="icon-setflowmhr"><a href="blank.jsp" target="navTab" rel="sysmgr_flow_hrm">人资审批流程设置</a></li>
 						<li treeicon="icon-setflowmfin"><a href="app/flow/financial.do?action=pageFlowIndex" target="navTab" rel="sysmgr_flow_financial">财务审批流程设置</a></li>
 					</ul>
 				</li>
@@ -129,7 +129,7 @@
 					<ul>
 						<li treeicon="icon-setorgDep"><a href="app/system/school/district.do?action=pageSchoolDistrictIndex" target="navTab" rel="sysmgr_school_district">校区设置</a></li>
 						<li treeicon="icon-setorgRepo"><a href="app/system/school/department.do?action=pageSchoolDepartmentIndex" target="navTab" rel="sysmgr_school_depindex">部门岗位设置</a></li>
-						<!--<li treeicon="icon-setorgBricks"><a href="demo_page1.html" target="navTab" rel="demo_page2">岗位权限设置</a></li>-->
+						<!--<li treeicon="icon-setorgBricks"><a href="blank.jsp" target="navTab" rel="demo_page2">岗位权限设置</a></li>-->
 					</ul>
 				</li>
 				<li treeicon="icon-setrole"><a href="app/system/role.do?action=pageRoleIndex" target="navTab" rel="sysmgr_role">权限组配置</a></li>
