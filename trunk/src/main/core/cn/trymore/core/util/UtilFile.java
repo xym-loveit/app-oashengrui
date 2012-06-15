@@ -5,6 +5,8 @@ import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import cn.trymore.core.bean.PairObject;
 import cn.trymore.core.common.Constants;
@@ -17,6 +19,24 @@ import cn.trymore.core.common.Constants;
  */
 public class UtilFile 
 {
+	/**
+	 * Generates file name with the specified name.
+	 * 
+	 * @param fileName
+	 * @return
+	 */
+	public static String generateFilename (String fileName)
+	{
+		SimpleDateFormat localSimpleDateFormat = new SimpleDateFormat("yyyyMM");
+		String timestamp = localSimpleDateFormat.format(new Date());
+		String extension = "";
+		int i = fileName.lastIndexOf('.');
+		if (i != -1)
+		{
+			extension = fileName.substring(i);
+		}
+		return timestamp + "/" + UtilUUIDGenerator.getUUID() + extension;
+	}
 	
 	/**
 	 * Returns true if the specified file existed; false otherwise

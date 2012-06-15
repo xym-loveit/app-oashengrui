@@ -71,6 +71,8 @@
 	<script src="resources/js/dwz/dwz.print.js" type="text/javascript"></script>
 	<script src="resources/js/dwz/dwz.regional.zh.js" type="text/javascript"></script>
 	
+	<script src="resources/js/kissyForm/kissy-min.js" type="text/javascript"></script>
+	
 	<!--[if lt IE 7]>  
 	<script type="text/javascript" src="resources/js/pngfix/DD_belatedPNG_0.0.8a.js"></script>  
 	<script type="text/javascript">  
@@ -100,6 +102,16 @@
 					$("#themeList").theme({themeBase:"resources/themes"}); // themeBase 相对于index页面的主题base路径
 				}
 			});
+			
+			//加载上传组件入口文件
+			KISSY.config({
+				packages:[{
+					name:"gallery",
+					path:APP_BASE_PATH + "resources/js/kissyForm/",
+					charset:"utf-8"
+				}]
+			});
+			
 		});
 	</script>
 	
