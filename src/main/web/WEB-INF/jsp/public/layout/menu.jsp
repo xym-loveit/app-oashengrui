@@ -69,7 +69,7 @@
 						<li treeicon="icon-hrstaffmProfile"><a href="app/hrm/employee.do?action=hrmEmployeeDocIndex" target="navTab" rel="hrm_employeeIndex">员工档案</a></li>
 					</ul>
 				</li>
-				<li treeicon="icon-hrmcheck"><a href="blank.jsp" target="navTab" rel="demo_page1">人力发展管理</a></li>
+				<li treeicon="icon-hrmcheck"><a href="app/hrm/develop.do?action=hrmEmployeeDevelopIndex" target="navTab" rel="demo_page1">人力发展管理</a></li>
 			</ul>
 		</div>
 		

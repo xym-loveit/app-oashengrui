@@ -20,14 +20,14 @@
 	td.finished {background-color: #ddd;}
 </style>
 
-<form id="pagerForm" method="post" action="app/hrm/employee.do?action=hrmEmployeeDocIndex">
+<form id="pagerForm" method="post" action="app/hrm/develop.do?action=hrmEmployeeDevelopIndex">
 	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
 	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
 </form>
 
 <!-- SearchBar -->
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="app/hrm/employee.do?action=hrmEmployeeApprovalIndex" method="post" id="searchForm" rel="pagerForm">
+	<form onsubmit="return navTabSearch(this);" action="app/hrm/develop.do?action=hrmEmployeeDevelopIndex" method="post" id="searchForm" rel="pagerForm">
 		<div class="searchBar">
 			<table class="searchContent">
 				<tr>
@@ -35,10 +35,10 @@
 						<label>申请类型：</label>
 						<select class="combox" name="applyForm.id" style="width:108px;">
 							<option value="-1">所有</option>
-							<option value="1" ${employeeForm ne null && employeeForm.onboardStatus eq 1 ? 'selected="selected"' : ''}>转正申请</option>
-							<option value="2" ${employeeForm ne null && employeeForm.onboardStatus eq 2 ? 'selected="selected"' : ''}>晋升申请</option>
-							<option value="3" ${employeeForm ne null && employeeForm.onboardStatus eq 3 ? 'selected="selected"' : ''}>调动申请</option>
-							<option value="4" ${employeeForm ne null && employeeForm.onboardStatus eq 4 ? 'selected="selected"' : ''}>离职申请</option>
+							<option value="1" ${employeeDevelopForm ne null && employeeDevelopForm.applyForm eq 1 ? 'selected="selected"' : ''}>转正申请</option>
+							<option value="2" ${employeeDevelopForm ne null && employeeDevelopForm.applyForm eq 2 ? 'selected="selected"' : ''}>晋升申请</option>
+							<option value="3" ${employeeDevelopForm ne null && employeeDevelopForm.applyForm eq 3 ? 'selected="selected"' : ''}>调动申请</option>
+							<option value="4" ${employeeDevelopForm ne null && employeeDevelopForm.applyForm eq 4 ? 'selected="selected"' : ''}>离职申请</option>
 						</select>
 					</td>
 					<td>
@@ -47,21 +47,21 @@
 							<option value="-1">所有校区</option>
 							<logic:present name="districts">
 								<logic:iterate name="districts" id="district">
-									<option value="${district.id}" ${employeeForm ne null && employeeForm.employeeDistrict ne null && employeeForm.employeeDistrict.id eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
+									<option value="${district.id}" ${employeeDevelopForm ne null && employeeDevelopForm.employee.employeeDistrict ne null && employeeDevelopForm.employee.employeeDistrict.id eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
 								</logic:iterate>
 							</logic:present>
 						</select>
 					</td>
 					<td>
 						<label>申请人：</label>
-						<input type="text"  name="employee.empName" value="${employeeForm ne null ? employeeForm.empName : ''}"/>
+						<input type="text"  name="employee.employee.empName" value="${employeeDevelopForm ne null ? employeeDevelopForm.employee.empName : ''}"/>
 					</td>
 					<td>
 						<label>审批结果：</label>
 						<select class="combox" name="applyForm.id" style="width:108px;">
 							<option value="-1">所有</option>
-							<option value="1" ${employeeForm ne null && employeeForm.onboardStatus eq 1 ? 'selected="selected"' : ''}>审批通过</option>
-							<option value="2" ${employeeForm ne null && employeeForm.onboardStatus eq 2 ? 'selected="selected"' : ''}>审批中</option>
+							<option value="1" ${employeeDevelopForm ne null && employeeDevelopForm.applyForm eq 1 ? 'selected="selected"' : ''}>审批通过</option>
+							<option value="2" ${employeeDevelopForm ne null && employeeDevelopForm.applyForm eq 2 ? 'selected="selected"' : ''}>审批中</option>
 						</select>
 					</td>
 				</tr>
@@ -80,7 +80,7 @@
 	<div class="pageContent">
 		<div class="panelBar">
 			<ul class="toolBar">
-				<li><a class="add" href="app/hrm/hire.do?action=hrmPageJobDetail" target="dialog" title="审批中" width="930" height="500" rel="dia_hr_entryadd"><span>审批中</span></a></li>
+				<li><a class="add" href="app/hrm/develop.do?action=hrmEmployeeDevelopIndex&op=viewprogress" target="navtab" title="审批中" width="930" height="500" rel="dia_hr_entryadd"><span>审批中</span></a></li>
 				<li class="line">line</li>
 			</ul>
 		</div>
@@ -98,21 +98,21 @@
 				</tr>
 			</thead>
 			<tbody>
-				<logic:present name="applyInfo">
-					<logic:iterate name="applyInfo" property="items" id="entity">
+				<logic:present name="employeeDevelopInfo">
+					<logic:iterate name="employeeDevelopInfo" property="items" id="entity">
 						<tr target="entry_id" rel="${entity.id}">
-							<td>${entity.empName}</td>
-							<td>${entity.employeeDistrict ne null ? entity.employeeDistrict.districtName : ''}</td>
-							<td>${entity.employeeDepartment ne null ? entity.employeeDepartment.depName : ''}</td>
-							<td>${entity.employeePosition ne null ? entity.employeePosition.positionName : ''}</td>
+							<td>${entity.employee.empName}</td>
+							<td>${entity.applyDistrict ne null ? entity.applyDistrict.districtName : ''}</td>
+							<td>${entity.applyDepartment ne null ? entity.applyDepartment.depName : ''}</td>
+							<td>${entity.applyPosition ne null ? entity.applyPosition.positionName : ''}</td>
 							<td><fmt:formatDate  value="${entity.birthdate}" pattern="yyyy-MM-dd" /></td>
-							<td>${entity.phoneNo}</td>
+							<td>${entity.applyComments}</td>
 							<td>
 								<c:choose>
-									<c:when test="${entity.onboardStatus eq 1}">
+									<c:when test="${entity.applyComments eq 1}">
 										审批通过
 									</c:when>
-									<c:when test="${entity.onboardStatus eq 2}">
+									<c:when test="${entity.applyComments eq 2}">
 										审批未通过
 									</c:when>
 								</c:choose>
