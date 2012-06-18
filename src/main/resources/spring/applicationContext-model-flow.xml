@@ -6,7 +6,6 @@
 	<bean id="daoProcessType" class="org.shengrui.oa.dao.flow.impl.DAOProcessTypeImpl">
 		<property name="hibernateTemplate" ref="hibernateTemplate" />
 	</bean>
-	
 	<bean id="serviceProcessType" parent="baseTxProxy">
 		<property name="target">
 			<bean class="org.shengrui.oa.service.flow.impl.ServiceProcessTypeImpl">
@@ -15,5 +14,56 @@
 		</property>
 	</bean>
 	
+	<bean id="daoProcessDefinition" class="org.shengrui.oa.dao.flow.impl.DAOProcessDefinitionImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceProcessDefinition" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.flow.impl.ServiceProcessDefinitionImpl">
+				<constructor-arg index="0" ref="daoProcessDefinition"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="daoProcessHistory" class="org.shengrui.oa.dao.flow.impl.DAOProcessHistoryImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceProcessHistory" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.flow.impl.ServiceProcessHistoryImpl">
+				<constructor-arg index="0" ref="daoProcessHistory"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="daoProcessRunning" class="org.shengrui.oa.dao.flow.impl.DAOProcessRunningImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceProcessRunning" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.flow.impl.ServiceProcessRunningImpl">
+				<constructor-arg index="0" ref="daoProcessRunning"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="daoProcessTask" class="org.shengrui.oa.dao.flow.impl.DAOProcessTaskImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceProcessTask" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.flow.impl.ServiceProcessTaskImpl">
+				<constructor-arg index="0" ref="daoProcessTask"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="serviceWorkFlow" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.flow.impl.ServiceWorkFlowImpl">
+				
+			</bean>
+		</property>
+	</bean>
 	
 </beans>

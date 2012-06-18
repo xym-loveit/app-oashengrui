@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -16,21 +17,49 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.shengrui.oa.model.system.ModelAppUser;
+import org.shengrui.oa.util.ContextUtil;
 
+import cn.trymore.core.util.UtilApp;
 import cn.trymore.core.util.UtilFile;
+import cn.trymore.oa.model.system.ModelFileAttach;
+import cn.trymore.oa.service.system.ServiceFileAttach;
 
+/**
+ * The servlet for file uploading.
+ * 
+ * @author Jeccy.Zhao
+ *
+ */
 public class FileUploadServlet
 extends HttpServlet
 {
 
 	private static final long serialVersionUID = 4757212133352817333L;
 	
+	/**
+	 * The file attach service.
+	 */
+	private ServiceFileAttach serviceFileAttach = (ServiceFileAttach) UtilApp.getBean("serviceFileAttach");
+	
+	/**
+	 * The servlet configuration
+	 */
 	private ServletConfig servletConfig = null;
 	
+	/**
+	 * The file upload destination path.
+	 */
 	private String uploadPath = "";
 	
+	/**
+	 * The file upload temporary path.
+	 */
 	private String tempPath = "";
 	
+	/**
+	 * The file category
+	 */
 	private String fileCat = "others";
 	
 	public void init(ServletConfig servletConfig) throws ServletException
@@ -39,6 +68,14 @@ extends HttpServlet
 		super.init(servletConfig);
 	}
 	
+	/**
+	 * Initializations, like:
+	 * 
+	 * 1. Define the temporary path for file upload.   <br/>
+	 * 2. Define the destination path for file upload. <br/>
+	 * 3. Create the above directories if not existed. 
+	 * 
+	 */
 	public void init() throws ServletException
 	{
 		this.uploadPath = servletConfig.getServletContext().getRealPath("/uploads/");
@@ -86,18 +123,46 @@ extends HttpServlet
 				{
 					continue;
 				}
+				
+				// obtains the file path and name
 				String filePath = fileItem.getName();
 				String fileName = filePath.substring(filePath.lastIndexOf("\\") + 1);
 				
-				// ensure the directory existed before creating the file.
+				// generates new file name with the current time stamp.
 				String newFileName = this.fileCat + "/" + UtilFile.generateFilename(fileName);
+				
+				// ensure the directory existed before creating the file.
 				File dir = new File(this.uploadPath + "/" + newFileName.substring(0, newFileName.lastIndexOf("/") + 1));
 				if (!dir.exists())
 				{
 					dir.mkdirs();
 				}
 				
+				// stream writes to the destination file
 				fileItem.write(new File(this.uploadPath + "/" + newFileName));
+				
+				// storages the file into database.
+				ModelFileAttach fileAttach = new ModelFileAttach();
+				fileAttach.setFileName(fileName);
+				fileAttach.setFilePath(newFileName);
+				fileAttach.setTotalBytes(Long.valueOf(fileItem.getSize()));
+				fileAttach.setNote(this.getStrFileSize(fileItem.getSize()));
+				fileAttach.setFileExt(fileName.substring(fileName.lastIndexOf(".") + 1));
+				fileAttach.setCreatetime(new Date());
+				fileAttach.setDelFlag(ModelFileAttach.FLAG_NOT_DEL);
+				
+				ModelAppUser user = ContextUtil.getCurrentUser();
+				if (user != null)
+				{
+					fileAttach.setCreatorId(Long.valueOf(user.getId()));
+					fileAttach.setCreator(user.getFullName());
+				}
+				else
+				{
+					fileAttach.setCreator("Unknow");
+				}
+				
+				this.serviceFileAttach.save(fileAttach);
 				
 				response.setContentType("text/html;charset=UTF-8");
 				PrintWriter writer = response.getWriter();
@@ -118,7 +183,7 @@ extends HttpServlet
 	 * @param size
 	 * @return
 	 */
-	protected String getFileSize (double size)
+	protected String getStrFileSize (double size)
 	{
 		DecimalFormat decimalFormat = new DecimalFormat("0.00");
 		
@@ -166,6 +231,16 @@ extends HttpServlet
 	public String getTempPath()
 	{
 		return tempPath;
+	}
+
+	public void setServiceFileAttach(ServiceFileAttach serviceFileAttach)
+	{
+		this.serviceFileAttach = serviceFileAttach;
+	}
+
+	public ServiceFileAttach getServiceFileAttach()
+	{
+		return serviceFileAttach;
 	}
 
 }
