@@ -1,8 +1,6 @@
 package org.shengrui.oa.model.hrm;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
