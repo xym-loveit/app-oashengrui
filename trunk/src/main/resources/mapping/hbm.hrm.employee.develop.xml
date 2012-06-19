@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.shengrui.oa.model.hrm">
+    <class name="ModelHrmEmployeeDevelop" table="app_hrm_employee_develop">
+        <id name="id" type="java.lang.String">
+            <column name="develop_id" />
+            <generator class="native" />
+        </id>
+         <property name="applyFormNo" type="java.lang.String">
+            <column name="apply_form_no" />
+        </property>
+         <property name="applyFormType" type="java.lang.Integer">
+            <column name="apply_form_type" />
+        </property>
+         <property name="applyDate" type="timestamp">
+            <column name="apply_date" />
+        </property>
+         <property name="comments" type="java.lang.String">
+            <column name="comments" />
+        </property>
+         <property name="status" type="java.lang.String">
+            <column name="status" />
+        </property>
+         <property name="auditState" type="java.lang.Integer">
+            <column name="audit_state" />
+        </property>
+         <property name="entryId" type="java.lang.Integer">
+            <column name="entry_id" />
+        </property>
+         <property name="entryDateTime" type="timestamp">
+            <column name="entry_datetime" />
+        </property>
+        
+        <many-to-one name="employee" class="ModelHrmEmployee">
+        	<column name="emp_id" />
+        </many-to-one>
+        
+        <many-to-one name="fromDistrict" class="org.shengrui.oa.model.system.ModelSchoolDistrict" not-found="ignore">
+        	<column name="from_district" />
+        </many-to-one>
+        
+        <many-to-one name="fromDepartment" class="org.shengrui.oa.model.system.ModelSchoolDepartment" not-found="ignore">
+        	<column name="from_dep" />
+        </many-to-one>
+        
+        <many-to-one name="fromPosition" class="org.shengrui.oa.model.system.ModelSchoolDepartmentPosition" not-found="ignore">
+        	<column name="from_position" />
+        </many-to-one>
+        
+	</class>
+</hibernate-mapping>
