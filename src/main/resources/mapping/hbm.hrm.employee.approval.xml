@@ -11,7 +11,7 @@
          <property name="approvalTaskId" type="java.lang.Integer">
             <column name="approval_task_id" />
         </property>
-         <property name="applyComments" type="java.lang.String">
+         <property name="approvalComments" type="java.lang.String">
             <column name="apply_comments" />
         </property>
          <property name="entryId" type="java.lang.Integer">

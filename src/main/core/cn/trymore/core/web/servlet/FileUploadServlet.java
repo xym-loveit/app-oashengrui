@@ -150,6 +150,7 @@ extends HttpServlet
 				fileAttach.setFileExt(fileName.substring(fileName.lastIndexOf(".") + 1));
 				fileAttach.setCreatetime(new Date());
 				fileAttach.setDelFlag(ModelFileAttach.FLAG_NOT_DEL);
+				fileAttach.setFileType(this.fileCat);
 				
 				ModelAppUser user = ContextUtil.getCurrentUser();
 				if (user != null)
@@ -166,15 +167,14 @@ extends HttpServlet
 				
 				response.setContentType("text/html;charset=UTF-8");
 				PrintWriter writer = response.getWriter();
-				writer.println(newFileName);
+				writer.println("{\"status\": 1, \"data\":{\"id\":" + fileAttach.getId() + "}}");
 			}
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			response.getWriter().write("error:" + e.getMessage());
+			response.getWriter().write("{\"status\":0, \"message\":\"上传失败:" + e.getMessage() + "\"");
 		}
-		
 	}
 	
 	/**
