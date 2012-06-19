@@ -23,7 +23,7 @@
          <property name="entryId" type="java.lang.Integer">
             <column name="entry_id" />
         </property>
-         <property name="entryDateTime" type="java.util.Date">
+         <property name="entryDateTime" type="timestamp">
             <column name="entry_datetime" />
         </property>
         
