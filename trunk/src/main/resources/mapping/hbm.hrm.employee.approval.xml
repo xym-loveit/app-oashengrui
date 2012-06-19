@@ -12,12 +12,12 @@
             <column name="approval_task_id" />
         </property>
          <property name="approvalComments" type="java.lang.String">
-            <column name="apply_comments" />
+            <column name="approval_comments" />
         </property>
          <property name="entryId" type="java.lang.Integer">
             <column name="entry_id" />
         </property>
-         <property name="entryDateTime" type="java.util.Date">
+         <property name="entryDateTime" type="timestamp">
             <column name="entry_datetime" />
         </property>
         
