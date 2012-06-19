@@ -10,7 +10,7 @@ import cn.trymore.core.model.ModelBase;
  * @author x36zhao
  *
  */
-public class ModelProcessRunning
+public class ModelProcessForm
 extends ModelBase
 {
 
@@ -22,9 +22,19 @@ extends ModelBase
 	private String applyFormNo;
 	
 	/**
-	 * 工作流定义
+	 * 工作流类型
 	 */
-	private ModelProcessDefinition processDefinition;
+	private ModelProcessType processType;
+	
+	/**
+	 * 
+	 */
+	private ModelProcessForm previousProcess;
+	
+	/**
+	 * 
+	 */
+	private ModelProcessForm nextProcess;
 	
 	/**
 	 * 待审核部门名称
@@ -105,17 +115,39 @@ extends ModelBase
 	 * 排序码
 	 */
 	private Integer sortCode;
-
-	public ModelProcessDefinition getProcessDefinition()
+	
+	/**
+	 * The enumeration of interview state
+	 * 
+	 * @author Jeccy.Zhao
+	 *
+	 */
+	public static enum EProcessFormStatus
 	{
-		return processDefinition;
+		ONAPPROVING(1, "onapproving"),					// 审核中
+		APPROVED (2, "approved"),						// 审核通过
+		NOTPASSED(3, "notpass"),						// 审核未通过
+		RETURNED(4, "returned");						// 审核退回
+		
+		private Integer value;
+		private String text;
+		
+		EProcessFormStatus (Integer value, String text)
+		{
+			this.value = value;
+			this.text = text;
+		}
+		
+		public Integer getValue(){
+			return value;
+		}
+		
+		public String getText()
+		{
+			return this.text;
+		}
 	}
-
-	public void setProcessDefinition(ModelProcessDefinition processDefinition)
-	{
-		this.processDefinition = processDefinition;
-	}
-
+	
 	public String getToDepartmentNames()
 	{
 		return toDepartmentNames;
@@ -289,6 +321,36 @@ extends ModelBase
 	public String getApplyFormNo()
 	{
 		return applyFormNo;
+	}
+
+	public void setProcessType(ModelProcessType processType)
+	{
+		this.processType = processType;
+	}
+
+	public ModelProcessType getProcessType()
+	{
+		return processType;
+	}
+
+	public void setPreviousProcess(ModelProcessForm previousProcess)
+	{
+		this.previousProcess = previousProcess;
+	}
+
+	public ModelProcessForm getPreviousProcess()
+	{
+		return previousProcess;
+	}
+
+	public void setNextProcess(ModelProcessForm nextProcess)
+	{
+		this.nextProcess = nextProcess;
+	}
+
+	public ModelProcessForm getNextProcess()
+	{
+		return nextProcess;
 	}
 	
 }
