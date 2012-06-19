@@ -7,7 +7,8 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.shengrui.oa.model.hrm.ModelHrmEmployeeApply;
+import org.shengrui.oa.model.hrm.ModelHrmEmployee;
+import org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.web.paging.PaginationSupport;
@@ -37,10 +38,10 @@ extends BaseHrmAction
 		
 		try
 		{
-			ModelHrmEmployeeApply employeeDevelopForm = (ModelHrmEmployeeApply) form;
+			ModelHrmEmployeeDevelop employeeDevelopForm = (ModelHrmEmployeeDevelop) form;
 			String op = request.getParameter("op");
 			PagingBean pagingBean = this.getPagingBean(request);
-			PaginationSupport<ModelHrmEmployeeApply> employeeDevelopInfo =
+			PaginationSupport<ModelHrmEmployeeDevelop> employeeDevelopInfo =
 					this.serviceHrmEmployeeDevelop.getEmployeeDevelopInfoPagination(employeeDevelopForm, pagingBean);
 			
 			request.setAttribute("employeeDevelopInfo", employeeDevelopInfo);
@@ -61,6 +62,36 @@ extends BaseHrmAction
 		}
 		
 		return mapping.findForward("hrm.page.employee.develop.index");
+	}
+	
+	/**
+	 * <b>[WebAction]</b> <br/>
+	 * 人力资源发展详细信息查看
+	 */
+	public ActionForward hrmEmployeeDevelopDetail(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		try
+		{
+			String developId = request.getParameter("id");
+			if (this.isObjectIdValid(developId))
+			{
+				ModelHrmEmployeeDevelop developInfo = this.serviceHrmEmployeeDevelop.get(developId);
+				if (developInfo != null)
+				{
+					request.setAttribute("employeeDevelopEntry", developInfo);
+				}
+			}
+			else
+			{
+				LOGGER.error("需要传入人资发展ID参数.");
+			}
+		}
+		catch (ServiceException e)
+		{
+			LOGGER.error("Exception raised when fetch employee development detail.", e);
+		}
+		return mapping.findForward("hrm.page.employee.develop.detail");
 	}
 
 }

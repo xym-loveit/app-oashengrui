@@ -1,9 +1,10 @@
 package org.shengrui.oa.service.hrm.impl;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 
 import org.shengrui.oa.dao.hrm.DAOHrmEmployeeDevelop;
-import org.shengrui.oa.model.hrm.ModelHrmEmployeeApply;
+import org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop;
 import org.shengrui.oa.service.hrm.ServiceHrmEmployeeDevelop;
 
 import cn.trymore.core.exception.ServiceException;
@@ -13,7 +14,7 @@ import cn.trymore.core.web.paging.PagingBean;
 
 
 public class ServiceHrmEmployeeDevelopImpl
-extends ServiceGenericImpl<ModelHrmEmployeeApply> implements ServiceHrmEmployeeDevelop
+extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmployeeDevelop
 {
 	
 	private DAOHrmEmployeeDevelop daoHrmEmployeeDevelop;
@@ -30,9 +31,9 @@ extends ServiceGenericImpl<ModelHrmEmployeeApply> implements ServiceHrmEmployeeD
 	 * @param entity
 	 * @return
 	 */
-	protected DetachedCriteria getCriteria (ModelHrmEmployeeApply entity)
+	protected DetachedCriteria getCriteria (ModelHrmEmployeeDevelop entity)
 	{
-		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployeeApply.class);
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployeeDevelop.class);
 		
 		// TODO Criteria conditions needed here.
 		
@@ -51,8 +52,8 @@ extends ServiceGenericImpl<ModelHrmEmployeeApply> implements ServiceHrmEmployeeD
 	
 
 	@Override
-	public PaginationSupport<ModelHrmEmployeeApply> getEmployeeDevelopInfoPagination(
-			ModelHrmEmployeeApply entity, PagingBean pagingBean)
+	public PaginationSupport<ModelHrmEmployeeDevelop> getEmployeeDevelopInfoPagination(
+			ModelHrmEmployeeDevelop entity, PagingBean pagingBean)
 			throws ServiceException
 	{
 		return this.getAll(this.getCriterias(entity), pagingBean);
@@ -64,15 +65,15 @@ extends ServiceGenericImpl<ModelHrmEmployeeApply> implements ServiceHrmEmployeeD
 	 * @param entity
 	 * @return
 	 */
-	private DetachedCriteria getCriterias(ModelHrmEmployeeApply entity)
+	private DetachedCriteria getCriterias(ModelHrmEmployeeDevelop entity)
 	{
-		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployeeApply.class);
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployeeDevelop.class);
 		
 		if (entity != null)
 		{
 		}
 		
-		// criteria.add(Restrictions.eq("status", "Y"));
+		 criteria.add(Restrictions.eq("status", "Y"));
 		
 		return criteria;
 	}

@@ -61,6 +61,11 @@
 	<definition name="hrm.page.employee.develop.index"  
 		path="/WEB-INF/jsp/application/hrm/develop/developApprovalIndex.jsp"/>
 		
+		
+	<!-- 人力发展管理查看详细 -->
+	<definition name="hrm.page.employee.develop.detail"  
+		path="/WEB-INF/jsp/application/hrm/develop/developPage.jsp"/>
+		
 	<!-- 简历查看 -->
 	<definition name="hrm.page.job.resume.detail"  
 		path="/WEB-INF/jsp/application/hrm/job/resume/resumePage.jsp"/>
