@@ -36,12 +36,12 @@
 		</property>
 	</bean>
 	
-	<bean id="daoProcessForm" class="org.shengrui.oa.dao.flow.impl.DAOProcessRunningImpl">
+	<bean id="daoProcessForm" class="org.shengrui.oa.dao.flow.impl.DAOProcessFormImpl">
 		<property name="hibernateTemplate" ref="hibernateTemplate" />
 	</bean>
 	<bean id="serviceProcessForm" parent="baseTxProxy">
 		<property name="target">
-			<bean class="org.shengrui.oa.service.flow.impl.ServiceProcessRunningImpl">
+			<bean class="org.shengrui.oa.service.flow.impl.ServiceProcessFormImpl">
 				<constructor-arg index="0" ref="daoProcessForm"/>
 			</bean>
 		</property>
