@@ -33,35 +33,36 @@
 				<tr>
 					<td>
 						<label>申请类型：</label>
-						<select class="combox" name="applyForm.id" style="width:108px;">
+						<select class="combox" name="applyFormType" style="width:108px;">
 							<option value="-1">所有</option>
-							<option value="1" ${employeeDevelopForm ne null && employeeDevelopForm.applyForm eq 1 ? 'selected="selected"' : ''}>转正申请</option>
-							<option value="2" ${employeeDevelopForm ne null && employeeDevelopForm.applyForm eq 2 ? 'selected="selected"' : ''}>晋升申请</option>
-							<option value="3" ${employeeDevelopForm ne null && employeeDevelopForm.applyForm eq 3 ? 'selected="selected"' : ''}>调动申请</option>
-							<option value="4" ${employeeDevelopForm ne null && employeeDevelopForm.applyForm eq 4 ? 'selected="selected"' : ''}>离职申请</option>
+							<option value="1" ${employeeDevelopForm ne null && employeeDevelopForm.applyFormType eq 1 ? 'selected="selected"' : ''}>转正申请</option>
+							<option value="2" ${employeeDevelopForm ne null && employeeDevelopForm.applyFormType eq 2 ? 'selected="selected"' : ''}>晋升申请</option>
+							<option value="3" ${employeeDevelopForm ne null && employeeDevelopForm.applyFormType eq 3 ? 'selected="selected"' : ''}>调动申请</option>
+							<option value="4" ${employeeDevelopForm ne null && employeeDevelopForm.applyFormType eq 4 ? 'selected="selected"' : ''}>离职申请</option>
 						</select>
 					</td>
 					<td>
 						<label>所属校区：</label>
-						<select class="combox" name="employeeDistrict.id" id="combox_district_eindex" style="width:108px">
+						<select class="combox" name="fromDistrict.id" id="combox_district_eindex" style="width:108px">
 							<option value="-1">所有校区</option>
 							<logic:present name="districts">
 								<logic:iterate name="districts" id="district">
-									<option value="${district.id}" ${employeeDevelopForm ne null && employeeDevelopForm.employee.employeeDistrict ne null && employeeDevelopForm.employee.employeeDistrict.id eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
+									<option value="${district.id}" ${employeeDevelopForm ne null && employeeDevelopForm.fromDistrict ne null && employeeDevelopForm.fromDistrict.id eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
 								</logic:iterate>
 							</logic:present>
 						</select>
 					</td>
 					<td>
 						<label>申请人：</label>
-						<input type="text"  name="employee.employee.empName" value="${employeeDevelopForm ne null ? employeeDevelopForm.employee.empName : ''}"/>
+						<input type="text"  name="employeeName" value="${employeeDevelopForm ne null ? employeeDevelopForm.employee.empName : ''}"/>
 					</td>
 					<td>
 						<label>审批结果：</label>
-						<select class="combox" name="applyForm.id" style="width:108px;">
+						<select class="combox" name="auditState" style="width:108px;">
 							<option value="-1">所有</option>
-							<option value="1" ${employeeDevelopForm ne null && employeeDevelopForm.applyForm eq 1 ? 'selected="selected"' : ''}>审批通过</option>
-							<option value="2" ${employeeDevelopForm ne null && employeeDevelopForm.applyForm eq 2 ? 'selected="selected"' : ''}>审批中</option>
+							<option value="0" ${employeeDevelopForm ne null && employeeDevelopForm.auditState eq 0 ? 'selected="selected"' : ''}>审批中</option>
+							<option value="1" ${employeeDevelopForm ne null && employeeDevelopForm.auditState eq 1 ? 'selected="selected"' : ''}>审批通过</option>
+							<option value="2" ${employeeDevelopForm ne null && employeeDevelopForm.auditState eq 2 ? 'selected="selected"' : ''}>审批不通过</option>
 						</select>
 					</td>
 				</tr>
@@ -101,24 +102,26 @@
 				<logic:present name="employeeDevelopInfo">
 					<logic:iterate name="employeeDevelopInfo" property="items" id="entity">
 						<tr target="entry_id" rel="${entity.id}">
-							<td>${entity.employee.empName}</td>
-							<td>${entity.applyDistrict ne null ? entity.applyDistrict.districtName : ''}</td>
-							<td>${entity.applyDepartment ne null ? entity.applyDepartment.depName : ''}</td>
-							<td>${entity.applyPosition ne null ? entity.applyPosition.positionName : ''}</td>
-							<td><fmt:formatDate  value="${entity.birthdate}" pattern="yyyy-MM-dd" /></td>
-							<td>${entity.applyComments}</td>
+							<td>${entity.applyFormType}</td>
+							<td>${entity.fromDistrict ne null ? entity.fromDistrict.districtName : ''}</td>
+							<td>${entity.comments}</td>
+							<td><fmt:formatDate  value="${entity.applyDate}" pattern="yyyy-MM-dd" /></td>
+							<td>${entity.employee ne null ? entity.employee.empName : ''}</td>
 							<td>
 								<c:choose>
-									<c:when test="${entity.applyComments eq 1}">
+									<c:when test="${entity.auditState eq 0}">
+										审批中
+									</c:when>
+									<c:when test="${entity.auditState eq 1}">
 										审批通过
 									</c:when>
-									<c:when test="${entity.applyComments eq 2}">
+									<c:when test="${entity.auditState eq 2}">
 										审批未通过
 									</c:when>
 								</c:choose>
 							</td>
-							<td><a class="oplink" href="app/hrm/employee.do?action=hrmEmployeeDocDetail&id=${entity.id}&op=view" target="dialog" title="查看${entity.empName}详细信息" width="930" height="500" rel="hrm_emp_profile_${entity.id}">详细</a></td>
-							<td><a class="oplink" href="app/hrm/employee.do?action=actionEmployeeDelete&id=${entity.id}" target="ajaxTodo" title="确定要晋升吗?">晋升</a></td>
+							<td><a class="oplink" href="app/hrm/develop.do?action=hrmEmployeeDevelopDetail&id=${entity.id}&op=view" target="dialog" title="查看${entity.employee.empName}晋升申请单" width="930" height="500" rel="hrm_emp_profile_${entity.id}">详细</a></td>
+							<td><a class="oplink" href="app/hrm/develop.do?action=actionEmployeeDelete&id=${entity.id}" target="ajaxTodo" title="确定要晋升吗?">晋升</a></td>
 						</tr>
 					</logic:iterate>
 				</logic:present>
