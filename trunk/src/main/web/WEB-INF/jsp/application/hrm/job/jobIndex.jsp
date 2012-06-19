@@ -81,7 +81,7 @@
 			</ul>
 		</c:if>
 		<ul class="toolBar">
-			<li><a class="add" href="app/hrm/hire.do?action=hrmPageJobDetail" target="dialog" title="岗位发布" width="930" height="500" rel="dia_hr_entryadd"><span>添加</span></a></li>
+			<li><a class="add" href="app/hrm/hire.do?action=hrmPageJobDetail" target="dialog" title="岗位发布" width="960" height="500" rel="dia_hr_entryadd"><span>添加</span></a></li>
 			<li class="line">line</li>
 		</ul>
 	</div>

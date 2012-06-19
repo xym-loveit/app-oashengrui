@@ -32,6 +32,10 @@
 			$("#formjob").submit();
 		});
 		
+		KISSY.use('gallery/form/1.2/uploader/queue/base', function (S, Queue) {
+			var queue = new Queue();
+		})
+
 		//加载上传组件入口文件
 		KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
 			var ru = new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue',{
@@ -55,25 +59,18 @@
 				//上传按钮实例
 				var button = uploader.get('button');
 				
-				uploader.on('progress', function (ev) {
-					var file = ev.file, loaded = ev.loaded, total = ev.total;
-					addMsg(ev, '正在上传,文件名：' + file.name + '，大小：' + total + '，已经上传：' + loaded);
-				});
-				
 				uploader.on('success', function (ev) {
-					var index = ev.index, file = ev.file;
-					addMsg(ev, '上传成功,文件名：' + file.name + '，队列索引为：' + index);
-				});
-				
-				uploader.on('complete', function (ev) {
-					var index = ev.index, file = ev.file;
-					addMsg(ev, '上传结束,文件名：' + file.name + '，队列索引为：' + index);
+					var feedback = ev.result;
+					var file_id = feedback.data.id;
+					if (file_id) {
+						$("#fileIds").val($("#fileIds").val() == "" ? file_id : ($("#fileIds").val() + "," + file_id));
+					}
 				});
 				
 				uploader.on('error', function (ev) {
-					var index = ev.index, file = ev.file;
-					addMsg(ev, '上传成功,文件名：' + file.name + '，队列索引为：' + index);
+					alert("文件上传失败:" + ev.result.message);
 				});
+				
 			});
 		});
 	});
@@ -190,7 +187,7 @@
 					<td></td>
 				</tr>
 				<tr>
-					<td>附件区：</td>
+					<td style="vertical-align: top;">附件区：</td>
 					<td colspan="7">
 						<!-- Uploader Demo-->
 						<div>
@@ -199,7 +196,8 @@
 							<!-- 文件上传队列 -->
 							<ul id="J_UploaderQueue"></ul>
 							<div id="J_Panel" class="event-panel"></div>
-							<input type="hidden" value="" name="fileUrls">
+							<input type="hidden" name="fileUrls" id="fileUrls" />
+							<input type="hidden" name="fileIds" id="fileIds" />
 						</div>
 						<!--<a class="oplink" href="app/hrm.do?action=hrmPageJobDetail&id=1" target="dialog" title="上传附件">上传附件</a>-->
 					</td>
