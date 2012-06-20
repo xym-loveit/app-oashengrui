@@ -102,7 +102,22 @@
 				<logic:present name="employeeDevelopInfo">
 					<logic:iterate name="employeeDevelopInfo" property="items" id="entity">
 						<tr target="entry_id" rel="${entity.id}">
-							<td>${entity.applyFormType}</td>
+							<td>
+								<c:choose>
+									<c:when test="${entity.applyFormType eq 1}">
+										转正申请
+									</c:when>
+									<c:when test="${entity.applyFormType eq 2}">
+										晋升申请
+									</c:when>
+									<c:when test="${entity.applyFormType eq 3}">
+										调动申请
+									</c:when>
+									<c:when test="${entity.applyFormType eq 4}">
+										离职申请
+									</c:when>
+								</c:choose>
+							</td>
 							<td>${entity.fromDistrict ne null ? entity.fromDistrict.districtName : ''}</td>
 							<td>${entity.comments}</td>
 							<td><fmt:formatDate  value="${entity.applyDate}" pattern="yyyy-MM-dd" /></td>
