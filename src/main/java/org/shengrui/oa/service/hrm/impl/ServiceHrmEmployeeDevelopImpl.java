@@ -1,6 +1,7 @@
 package org.shengrui.oa.service.hrm.impl;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 
 import org.shengrui.oa.dao.hrm.DAOHrmEmployeeDevelop;
@@ -9,6 +10,7 @@ import org.shengrui.oa.service.hrm.ServiceHrmEmployeeDevelop;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
+import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
@@ -26,19 +28,6 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 		this.daoHrmEmployeeDevelop = dao;
 	}
 	
-	/**
-	 * 
-	 * @param entity
-	 * @return
-	 */
-	protected DetachedCriteria getCriteria (ModelHrmEmployeeDevelop entity)
-	{
-		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployeeDevelop.class);
-		
-		// TODO Criteria conditions needed here.
-		
-		return criteria;
-	}
 	
 	public void setdaoHrmEmployeeDevelop(DAOHrmEmployeeDevelop daoHrmEmployeeDevelop)
 	{
@@ -68,9 +57,21 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 	private DetachedCriteria getCriterias(ModelHrmEmployeeDevelop entity)
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployeeDevelop.class);
-		
+
 		if (entity != null)
 		{
+			if (entity.getApplyFormType() > -1)
+			{
+				criteria.add(Restrictions.eq("applyFormType", entity.getApplyFormType()));
+			}
+			if (entity.getFromDistrict() != null && entity.getFromDistrict().getId() != null)
+			{
+				criteria.createCriteria("fromDistrict").add(Restrictions.eq("id", entity.getFromDistrict().getId()));
+			}
+			if (entity.getAuditState() > -1)
+			{
+				criteria.add(Restrictions.eq("auditState", entity.getAuditState()));
+			}
 		}
 		
 		 criteria.add(Restrictions.eq("status", "Y"));

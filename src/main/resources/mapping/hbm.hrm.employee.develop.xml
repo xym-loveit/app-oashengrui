@@ -8,9 +8,6 @@
             <column name="develop_id" />
             <generator class="native" />
         </id>
-         <property name="applyFormNo" type="java.lang.String">
-            <column name="apply_form_no" />
-        </property>
          <property name="applyFormType" type="java.lang.Integer">
             <column name="apply_form_type" />
         </property>
@@ -47,6 +44,10 @@
         
         <many-to-one name="fromPosition" class="org.shengrui.oa.model.system.ModelSchoolDepartmentPosition" not-found="ignore">
         	<column name="from_position" />
+        </many-to-one>
+        
+        <many-to-one name="applyForm" class="org.shengrui.oa.model.flow.ModelProcessForm" not-found="ignore">
+        	<column name="apply_form_no" />
         </many-to-one>
         
 	</class>

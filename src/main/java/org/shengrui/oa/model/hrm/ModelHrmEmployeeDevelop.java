@@ -2,6 +2,7 @@ package org.shengrui.oa.model.hrm;
 
 import java.util.Date;
 
+import org.shengrui.oa.model.flow.ModelProcessForm;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
@@ -28,7 +29,7 @@ extends ModelBase
 	/**
 	 * 人资申请单号
 	 */
-	private String applyFormNo;
+	private ModelProcessForm applyForm = new ModelProcessForm();
 	
 	/**
 	 * 人资申请类型
@@ -88,12 +89,12 @@ extends ModelBase
 		this.employee = employee;
 	}
 
-	public String getApplyFormNo() {
-		return applyFormNo;
+	public ModelProcessForm getApplyForm() {
+		return applyForm;
 	}
 
-	public void setApplyFormNo(String applyFormNo) {
-		this.applyFormNo = applyFormNo;
+	public void setApplyForm(ModelProcessForm applyForm) {
+		this.applyForm = applyForm;
 	}
 
 	public int getApplyFormType() {

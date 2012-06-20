@@ -81,6 +81,9 @@ extends BaseHrmAction
 				{
 					request.setAttribute("employeeDevelopEntry", developInfo);
 				}
+				request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
+				request.setAttribute("departments", this.serviceSchoolDepartment.getAll());
+				request.setAttribute("positions", this.serviceSchoolDepartmentPosition.getAll());
 			}
 			else
 			{

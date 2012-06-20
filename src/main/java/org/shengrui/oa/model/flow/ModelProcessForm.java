@@ -37,6 +37,11 @@ extends ModelBase
 	private ModelProcessForm nextProcess;
 	
 	/**
+	 * 审核流程名称
+	 */
+	private String processName;
+	
+	/**
 	 * 待审核部门名称
 	 */
 	private String toDepartmentNames;
@@ -45,6 +50,26 @@ extends ModelBase
 	 * 待审核部门ID
 	 */
 	private String toDepartmentIds;
+	
+	/**
+	 * 待审核岗位名称
+	 */
+	private String toPositionNames;
+	
+	/**
+	 * 待审核岗位ID
+	 */
+	private String toPositionIds;
+	
+	/**
+	 * 待审核区域名称
+	 */
+	private String toDistrictNames;
+	
+	/**
+	 * 待审核区域ID
+	 */
+	private String toDistrictIds;
 	
 	/**
 	 * 待审核用户名称
@@ -67,6 +92,16 @@ extends ModelBase
 	private String toRoleIds;
 	
 	/**
+	 * 审核地区名称
+	 */
+	private String auditDistrictNames;
+	
+	/**
+	 * 审核地区ID
+	 */
+	private String auditDistrictIds;
+	
+	/**
 	 * 审核部门名称
 	 */
 	private String auditDepartmentNames;
@@ -75,6 +110,16 @@ extends ModelBase
 	 * 审核部门ID
 	 */
 	private String auditDepartmentIds;
+	
+	/**
+	 * 审核岗位名称
+	 */
+	private String auditPositionNames;
+	
+	/**
+	 * 审核岗位ID
+	 */
+	private String auditPositionIds;
 	
 	/**
 	 * 审核用户名称
@@ -109,7 +154,7 @@ extends ModelBase
 	/**
 	 * 审核状态码
 	 */
-	private String auditState;
+	private int auditState;
 	
 	/**
 	 * 排序码
@@ -288,12 +333,12 @@ extends ModelBase
 		this.auditIdea = auditIdea;
 	}
 
-	public String getAuditState()
+	public int getAuditState()
 	{
 		return auditState;
 	}
 
-	public void setAuditState(String auditState)
+	public void setAuditState(int auditState)
 	{
 		this.auditState = auditState;
 	}
@@ -352,5 +397,78 @@ extends ModelBase
 	{
 		return nextProcess;
 	}
+
+	public String getProcessName() {
+		return processName;
+	}
+
+	public void setProcessName(String processName) {
+		this.processName = processName;
+	}
+
+	public String getToPositionNames() {
+		return toPositionNames;
+	}
+
+	public void setToPositionNames(String toPositionNames) {
+		this.toPositionNames = toPositionNames;
+	}
+
+	public String getToPositionIds() {
+		return toPositionIds;
+	}
+
+	public void setToPositionIds(String toPositionIds) {
+		this.toPositionIds = toPositionIds;
+	}
+
+	public String gettoDistrictNames() {
+		return toDistrictNames;
+	}
+
+	public void settoDistrictNames(String toDistrictNames) {
+		this.toDistrictNames = toDistrictNames;
+	}
+
+	public String getToDistrictIds() {
+		return toDistrictIds;
+	}
+
+	public void setToDistrictIds(String toDistrictIds) {
+		this.toDistrictIds = toDistrictIds;
+	}
+
+	public String getAuditDistrictNames() {
+		return auditDistrictNames;
+	}
+
+	public void setAuditDistrictNames(String auditDistrictNames) {
+		this.auditDistrictNames = auditDistrictNames;
+	}
+
+	public String getAuditDistrictIds() {
+		return auditDistrictIds;
+	}
+
+	public void setAuditDistrictIds(String auditDistrictIds) {
+		this.auditDistrictIds = auditDistrictIds;
+	}
+
+	public String getAuditPositionNames() {
+		return auditPositionNames;
+	}
+
+	public void setAuditPositionNames(String auditPositionNames) {
+		this.auditPositionNames = auditPositionNames;
+	}
+
+	public String getAuditPositionIds() {
+		return auditPositionIds;
+	}
+
+	public void setAuditPositionIds(String auditPositionIds) {
+		this.auditPositionIds = auditPositionIds;
+	}
+	
 	
 }
