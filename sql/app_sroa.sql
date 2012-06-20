@@ -4,7 +4,7 @@ Source Host: localhost
 Source Database: app_sroa
 Target Host: localhost
 Target Database: app_sroa
-Date: 6/19/2012 10:27:40 PM
+Date: 6/20/2012 9:28:47 PM
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -402,19 +402,23 @@ CREATE TABLE `app_process_form` (
   `task_next` varchar(64) default NULL COMMENT '跳转节点, 跳转至下一任务',
   `seq_sn` int(11) NOT NULL COMMENT '序列编号',
   `to_rolenames` varchar(250) default NULL,
+  `to_distnames` varchar(250) default NULL,
   `to_depnames` varchar(250) default NULL,
   `to_posnames` varchar(250) default NULL,
   `to_usernames` varchar(250) default NULL,
   `audit_rolenames` varchar(250) default NULL,
+  `audit_distnames` varchar(250) default NULL,
   `audit_depnames` varchar(250) default NULL,
   `audit_usernames` varchar(250) default NULL,
   `audit_posnames` varchar(250) default NULL,
   `to_userids` varchar(250) default NULL,
   `to_roleids` varchar(250) default NULL,
+  `to_distids` varchar(250) default NULL,
   `to_depids` varchar(250) default NULL,
   `to_posids` varchar(250) default NULL,
   `audit_userids` varchar(250) default NULL,
   `audit_roleids` varchar(250) default NULL,
+  `audit_distids` varchar(250) default NULL,
   `audit_depids` varchar(250) default NULL,
   `audit_posids` varchar(250) default NULL,
   `audit_date` datetime default NULL,
@@ -422,7 +426,7 @@ CREATE TABLE `app_process_form` (
   `audit_comments` text COMMENT '审核意见',
   PRIMARY KEY  (`form_id`),
   KEY `form_no` (`form_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='流程表单, 存储保存在运行中的流程表单数据';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='流程表单, 存储保存在运行中的流程表单数据';
 
 -- ----------------------------
 -- Table structure for app_process_history
@@ -670,7 +674,7 @@ INSERT INTO `app_hrm_archive` VALUES ('1', '7', '2', '2', '3');
 INSERT INTO `app_hrm_archive` VALUES ('2', '8', '2', '5', '2');
 INSERT INTO `app_hrm_archive` VALUES ('3', '9', '2', '2', '1');
 INSERT INTO `app_hrm_employee` VALUES ('3', '0001012061241011', '9', '3', 'Manie', '1', null, '13588064354', null, null, null, '1', '3', '4', 'A,A1,A3,A5,B1,B3', 'A,A1,A3,B,B2,B6,C7,C8', '16', null, '1', '2012-06-12 16:10:11');
-INSERT INTO `app_hrm_employee` VALUES ('4', '0001112061243222', '12', '3', 'Charotte', '2', null, '13588064354', null, null, null, '1', null, null, null, null, '18', null, '1', '2012-06-12 16:32:22');
+INSERT INTO `app_hrm_employee` VALUES ('4', '0001112061243222', '12', '3', 'Charotte', '2', null, '13588064354', null, null, null, '1', '1', '1', '', 'A2,B2', '18', null, '1', '2012-06-12 16:32:22');
 INSERT INTO `app_hrm_employee` VALUES ('5', '0001012061244839', '9', '3', 'Chonticha', '1', null, '13588064354', null, null, null, '2', null, null, null, null, '19', null, '1', '2012-06-12 16:48:39');
 INSERT INTO `app_hrm_employee_develop` VALUES ('1', '1', '1', '2012-06-19', '1weqeqw', '3', '1', '11', '1', 'Y', '1', '1', null);
 INSERT INTO `app_hrm_employee_roadmap` VALUES ('1', '3', '9', '3', '1', null, null, null, '1', '2012-06-12 16:10:11');
@@ -724,6 +728,7 @@ INSERT INTO `app_hrm_resume` VALUES ('18', '4', 'Charotte', null, null, '', '1',
 INSERT INTO `app_hrm_resume` VALUES ('19', '5', 'Chonticha', null, null, '', '1', null, '1', null, '13588064354', '', null, null, '1', null, null, '泰国', '', '1', '', '1', '1', null, '', null, null, null, null, null, null, null, null, '1', '1', '0');
 INSERT INTO `app_menu` VALUES ('3', '我的工作区', 'icon-desktop', 'javascript:void(0);', '_menu_mod_personal', '', null, '0');
 INSERT INTO `app_menu` VALUES ('4', '我的任务', 'icon-myplan', 'javascript:void(0);', '_menu_mod_personal_mytask', 'test0', '3', '0');
+INSERT INTO `app_process_form` VALUES ('1', '1', '1', '1', '1', '1', '1', '1', null, '行政部', '人事主管', '1', '1', null, '11', '11', '1', '1', '1', null, '1', '1', '1', '11', null, '1', '1', '2012-06-22 21:03:28', '1', '11');
 INSERT INTO `app_process_type` VALUES ('1', '费用支出申请审批', 'PROCESS_PAYMENT', null, 'finance', null);
 INSERT INTO `app_process_type` VALUES ('2', '合同申请审批', 'PROCESS_CONTRACT', null, 'finance', null);
 INSERT INTO `app_process_type` VALUES ('3', '转正申请审批', 'PROCESS_MEMBER_BERGULAR', null, 'hrm', null);
@@ -790,7 +795,7 @@ INSERT INTO `app_system_log` VALUES ('43', 'test', '1', '2012-06-09 12:02:01', '
 INSERT INTO `app_system_log` VALUES ('44', 'test', '1', '2012-06-10 23:37:22', '进入权限组配置页面');
 INSERT INTO `app_system_log` VALUES ('45', 'test', '1', '2012-06-10 23:37:25', '进入权限组配置页面');
 INSERT INTO `app_system_log` VALUES ('46', 'test', '1', '2012-06-10 23:37:28', '进入权限组配置页面');
-INSERT INTO `app_user` VALUES ('1', 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', '卡卡西', 'csx@jee-soft.cn', null, null, '1', null, null, null, null, null, null, null, '1', '127.0.0.1', '2012-06-19 22:04:52');
+INSERT INTO `app_user` VALUES ('1', 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', '卡卡西', 'csx@jee-soft.cn', null, null, '1', null, null, null, null, null, null, null, '1', '127.0.0.1', '2012-06-20 21:14:05');
 INSERT INTO `app_user` VALUES ('2', 'csx', '9uCh4qxBlFqap/+KiqoM68EqO8yYGpKa1c+BCgkOEa4=', '斩不刀', '111@hotmail.com', '1', null, '3', null, '', '', '', '', '', '', '0', '', null);
 INSERT INTO `app_user` VALUES ('3', '0001012061241011', 'QGpDSgQ2on/ITC1MlNeed0CREM5MDxeCejn3iFEhLGk=', 'Manie', null, '9', '1', '3', '3', null, null, null, null, null, null, '1', null, null);
 INSERT INTO `app_user` VALUES ('4', '0001112061243222', 'DnOH9eQngdjBAPlv4OAAtxF1BJdvw3DiTFece8c7PD8=', 'Charotte', null, '12', '2', '3', '4', null, null, null, null, null, null, '1', null, null);
