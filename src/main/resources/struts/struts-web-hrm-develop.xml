@@ -16,6 +16,7 @@
 				type="org.springframework.web.struts.DelegatingActionProxy">
 			<forward name="hrm.page.employee.develop.index" path="hrm.page.employee.develop.index" />
 			<forward name="hrm.page.employee.develop.detail" path="hrm.page.employee.develop.detail" />
+			<forward name="hrm.page.employee.develop.finalize" path="hrm.page.employee.develop.finalize" />
 		</action>
 		
 	</action-mappings>
