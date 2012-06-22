@@ -2,6 +2,8 @@ package org.shengrui.oa.model.flow;
 
 import java.util.Date;
 
+import org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop;
+
 import cn.trymore.core.model.ModelBase;
 
 /**
@@ -19,13 +21,34 @@ extends ModelBase
 	/**
 	 * 申请表单编号
 	 */
-	private String applyFormNo;
+	private ModelHrmEmployeeDevelop applyForm = new ModelHrmEmployeeDevelop();
 	
 	/**
 	 * 工作流定义
 	 */
 	private ModelProcessDefinition processDefinition;
 	
+	/**
+	 * 工作流类型
+	 */
+	private ModelProcessType processType;
+	
+	/**
+	 * 
+	 */
+	private ModelProcessForm previousProcess;
+	
+	/**
+	 * 
+	 */
+	private ModelProcessForm nextProcess;
+	
+	/**
+	 * 审核流程名称
+	 */
+	private String processName;
+	
+
 	/**
 	 * 待审核部门名称
 	 */
@@ -35,6 +58,26 @@ extends ModelBase
 	 * 待审核部门ID
 	 */
 	private String toDepartmentIds;
+	
+	/**
+	 * 待审核岗位名称
+	 */
+	private String toPositionNames;
+	
+	/**
+	 * 待审核岗位ID
+	 */
+	private String toPositionIds;
+	
+	/**
+	 * 待审核区域名称
+	 */
+	private String toDistrictNames;
+	
+	/**
+	 * 待审核区域ID
+	 */
+	private String toDistrictIds;
 	
 	/**
 	 * 待审核用户名称
@@ -57,6 +100,16 @@ extends ModelBase
 	private String toRoleIds;
 	
 	/**
+	 * 审核地区名称
+	 */
+	private String auditDistrictNames;
+	
+	/**
+	 * 审核地区ID
+	 */
+	private String auditDistrictIds;
+	
+	/**
 	 * 审核部门名称
 	 */
 	private String auditDepartmentNames;
@@ -65,6 +118,16 @@ extends ModelBase
 	 * 审核部门ID
 	 */
 	private String auditDepartmentIds;
+	
+	/**
+	 * 审核岗位名称
+	 */
+	private String auditPositionNames;
+	
+	/**
+	 * 审核岗位ID
+	 */
+	private String auditPositionIds;
 	
 	/**
 	 * 审核用户名称
@@ -99,195 +162,252 @@ extends ModelBase
 	/**
 	 * 审核状态码
 	 */
-	private String auditState;
+	private int auditState;
 	
 	/**
 	 * 排序码
 	 */
 	private Integer sortCode;
 
-	public ModelProcessDefinition getProcessDefinition()
-	{
+	public ModelHrmEmployeeDevelop getApplyForm() {
+		return applyForm;
+	}
+
+	public void setApplyForm(ModelHrmEmployeeDevelop applyForm) {
+		this.applyForm = applyForm;
+	}
+
+	public ModelProcessDefinition getProcessDefinition() {
 		return processDefinition;
 	}
 
-	public void setProcessDefinition(ModelProcessDefinition processDefinition)
-	{
+	public void setProcessDefinition(ModelProcessDefinition processDefinition) {
 		this.processDefinition = processDefinition;
 	}
 
-	public String getToDepartmentNames()
-	{
+	public ModelProcessType getProcessType() {
+		return processType;
+	}
+
+	public void setProcessType(ModelProcessType processType) {
+		this.processType = processType;
+	}
+
+	public ModelProcessForm getPreviousProcess() {
+		return previousProcess;
+	}
+
+	public void setPreviousProcess(ModelProcessForm previousProcess) {
+		this.previousProcess = previousProcess;
+	}
+
+	public ModelProcessForm getNextProcess() {
+		return nextProcess;
+	}
+
+	public void setNextProcess(ModelProcessForm nextProcess) {
+		this.nextProcess = nextProcess;
+	}
+
+	public String getProcessName() {
+		return processName;
+	}
+
+	public void setProcessName(String processName) {
+		this.processName = processName;
+	}
+
+	public String getToDepartmentNames() {
 		return toDepartmentNames;
 	}
 
-	public void setToDepartmentNames(String toDepartmentNames)
-	{
+	public void setToDepartmentNames(String toDepartmentNames) {
 		this.toDepartmentNames = toDepartmentNames;
 	}
 
-	public String getToDepartmentIds()
-	{
+	public String getToDepartmentIds() {
 		return toDepartmentIds;
 	}
 
-	public void setToDepartmentIds(String toDepartmentIds)
-	{
+	public void setToDepartmentIds(String toDepartmentIds) {
 		this.toDepartmentIds = toDepartmentIds;
 	}
 
-	public String getToUserNames()
-	{
+	public String getToPositionNames() {
+		return toPositionNames;
+	}
+
+	public void setToPositionNames(String toPositionNames) {
+		this.toPositionNames = toPositionNames;
+	}
+
+	public String getToPositionIds() {
+		return toPositionIds;
+	}
+
+	public void setToPositionIds(String toPositionIds) {
+		this.toPositionIds = toPositionIds;
+	}
+
+	public String getToDistrictNames() {
+		return toDistrictNames;
+	}
+
+	public void setToDistrictNames(String toDistrictNames) {
+		this.toDistrictNames = toDistrictNames;
+	}
+
+	public String getToDistrictIds() {
+		return toDistrictIds;
+	}
+
+	public void setToDistrictIds(String toDistrictIds) {
+		this.toDistrictIds = toDistrictIds;
+	}
+
+	public String getToUserNames() {
 		return toUserNames;
 	}
 
-	public void setToUserNames(String toUserNames)
-	{
+	public void setToUserNames(String toUserNames) {
 		this.toUserNames = toUserNames;
 	}
 
-	public String getToUserIds()
-	{
+	public String getToUserIds() {
 		return toUserIds;
 	}
 
-	public void setToUserIds(String toUserIds)
-	{
+	public void setToUserIds(String toUserIds) {
 		this.toUserIds = toUserIds;
 	}
 
-	public String getToRoleNames()
-	{
+	public String getToRoleNames() {
 		return toRoleNames;
 	}
 
-	public void setToRoleNames(String toRoleNames)
-	{
+	public void setToRoleNames(String toRoleNames) {
 		this.toRoleNames = toRoleNames;
 	}
 
-	public String getToRoleIds()
-	{
+	public String getToRoleIds() {
 		return toRoleIds;
 	}
 
-	public void setToRoleIds(String toRoleIds)
-	{
+	public void setToRoleIds(String toRoleIds) {
 		this.toRoleIds = toRoleIds;
 	}
 
-	public String getAuditDepartmentNames()
-	{
+	public String getAuditDistrictNames() {
+		return auditDistrictNames;
+	}
+
+	public void setAuditDistrictNames(String auditDistrictNames) {
+		this.auditDistrictNames = auditDistrictNames;
+	}
+
+	public String getAuditDistrictIds() {
+		return auditDistrictIds;
+	}
+
+	public void setAuditDistrictIds(String auditDistrictIds) {
+		this.auditDistrictIds = auditDistrictIds;
+	}
+
+	public String getAuditDepartmentNames() {
 		return auditDepartmentNames;
 	}
 
-	public void setAuditDepartmentNames(String auditDepartmentNames)
-	{
+	public void setAuditDepartmentNames(String auditDepartmentNames) {
 		this.auditDepartmentNames = auditDepartmentNames;
 	}
 
-	public String getAuditDepartmentIds()
-	{
+	public String getAuditDepartmentIds() {
 		return auditDepartmentIds;
 	}
 
-	public void setAuditDepartmentIds(String auditDepartmentIds)
-	{
+	public void setAuditDepartmentIds(String auditDepartmentIds) {
 		this.auditDepartmentIds = auditDepartmentIds;
 	}
 
-	public String getAuditUserNames()
-	{
+	public String getAuditPositionNames() {
+		return auditPositionNames;
+	}
+
+	public void setAuditPositionNames(String auditPositionNames) {
+		this.auditPositionNames = auditPositionNames;
+	}
+
+	public String getAuditPositionIds() {
+		return auditPositionIds;
+	}
+
+	public void setAuditPositionIds(String auditPositionIds) {
+		this.auditPositionIds = auditPositionIds;
+	}
+
+	public String getAuditUserNames() {
 		return auditUserNames;
 	}
 
-	public void setAuditUserNames(String auditUserNames)
-	{
+	public void setAuditUserNames(String auditUserNames) {
 		this.auditUserNames = auditUserNames;
 	}
 
-	public String getAuditUserIds()
-	{
+	public String getAuditUserIds() {
 		return auditUserIds;
 	}
 
-	public void setAuditUserIds(String auditUserIds)
-	{
+	public void setAuditUserIds(String auditUserIds) {
 		this.auditUserIds = auditUserIds;
 	}
 
-	public String getAuditRoleNames()
-	{
+	public String getAuditRoleNames() {
 		return auditRoleNames;
 	}
 
-	public void setAuditRoleNames(String auditRoleNames)
-	{
+	public void setAuditRoleNames(String auditRoleNames) {
 		this.auditRoleNames = auditRoleNames;
 	}
 
-	public String getAuditRoleIds()
-	{
+	public String getAuditRoleIds() {
 		return auditRoleIds;
 	}
 
-	public void setAuditRoleIds(String auditRoleIds)
-	{
+	public void setAuditRoleIds(String auditRoleIds) {
 		this.auditRoleIds = auditRoleIds;
 	}
 
-	public Date getAuditDate()
-	{
+	public Date getAuditDate() {
 		return auditDate;
 	}
 
-	public void setAuditDate(Date auditDate)
-	{
+	public void setAuditDate(Date auditDate) {
 		this.auditDate = auditDate;
 	}
 
-	public String getAuditIdea()
-	{
+	public String getAuditIdea() {
 		return auditIdea;
 	}
 
-	public void setAuditIdea(String auditIdea)
-	{
+	public void setAuditIdea(String auditIdea) {
 		this.auditIdea = auditIdea;
 	}
 
-	public String getAuditState()
-	{
+	public int getAuditState() {
 		return auditState;
 	}
 
-	public void setAuditState(String auditState)
-	{
+	public void setAuditState(int auditState) {
 		this.auditState = auditState;
 	}
 
-	public Integer getSortCode()
-	{
+	public Integer getSortCode() {
 		return sortCode;
 	}
 
-	public void setSortCode(Integer sortCode)
-	{
+	public void setSortCode(Integer sortCode) {
 		this.sortCode = sortCode;
 	}
 
-	public static long getSerialversionuid()
-	{
-		return serialVersionUID;
-	}
-
-	public void setApplyFormNo(String applyFormNo)
-	{
-		this.applyFormNo = applyFormNo;
-	}
-
-	public String getApplyFormNo()
-	{
-		return applyFormNo;
-	}
+	
 }

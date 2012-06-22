@@ -1,8 +1,11 @@
 package org.shengrui.oa.model.hrm;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.shengrui.oa.model.flow.ModelProcessForm;
+import org.shengrui.oa.model.flow.ModelProcessHistory;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
@@ -69,7 +72,7 @@ extends ModelBase
 	/**
 	 * 审批状态
 	 */
-	private int auditState;
+	private int auditState = -1;
 	
 	/**
 	 * 录入人员
@@ -81,6 +84,11 @@ extends ModelBase
 	 */
 	private Date entryDateTime;
 
+	/**
+	 * 审批历史
+	 */
+	private Set<ModelProcessHistory> processHistory = new HashSet<ModelProcessHistory>();
+	
 	public ModelHrmEmployee getEmployee() {
 		return employee;
 	}
@@ -175,6 +183,14 @@ extends ModelBase
 
 	public void setEntryDateTime(Date entryDateTime) {
 		this.entryDateTime = entryDateTime;
+	}
+
+	public Set<ModelProcessHistory> getProcessHistory() {
+		return processHistory;
+	}
+
+	public void setProcessHistory(Set<ModelProcessHistory> processHistory) {
+		this.processHistory = processHistory;
 	}
 
 	

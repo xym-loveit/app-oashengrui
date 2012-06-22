@@ -66,6 +66,10 @@
 	<definition name="hrm.page.employee.develop.detail"  
 		path="/WEB-INF/jsp/application/hrm/develop/developPage.jsp"/>
 		
+	<!-- 人力发展转正，晋升，离职，调动 -->
+	<definition name="hrm.page.employee.develop.finalize"  
+		path="/WEB-INF/jsp/application/hrm/develop/dialogDevelopFinalize.jsp"/>
+		
 	<!-- 简历查看 -->
 	<definition name="hrm.page.job.resume.detail"  
 		path="/WEB-INF/jsp/application/hrm/job/resume/resumePage.jsp"/>

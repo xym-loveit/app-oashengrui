@@ -136,7 +136,12 @@
 								</c:choose>
 							</td>
 							<td><a class="oplink" href="app/hrm/develop.do?action=hrmEmployeeDevelopDetail&id=${entity.id}&op=view" target="dialog" title="查看${entity.employee.empName}晋升申请单" width="930" height="500" rel="hrm_emp_profile_${entity.id}">详细</a></td>
-							<td><a class="oplink" href="app/hrm/develop.do?action=actionEmployeeDelete&id=${entity.id}" target="ajaxTodo" title="确定要晋升吗?">晋升</a></td>
+							<td>
+								<a class="oplink" height="350" width="600" rel="hrm_entryqua_5" mask="true" title="员工晋升" target="dialog" href="app/hrm/develop.do?action=hrmEmployeeDevelopFinalize&id=${entity.id}&op=promote">晋升</a>
+								<a class="oplink" height="150" width="300" rel="hrm_entryqua_5" mask="true" title="员工转正" target="dialog" href="app/hrm/develop.do?action=hrmEmployeeDevelopFinalize&id=${entity.id}&op=positive">转正</a>
+								<a class="oplink" height="150" width="300" rel="hrm_entryqua_5" mask="true" title="员工离职" target="dialog" href="app/hrm/develop.do?action=hrmEmployeeDevelopFinalize&id=${entity.id}&op=departure">离职</a>
+								<a class="oplink" height="350" width="600" rel="hrm_entryqua_5" mask="true" title="员工调动" target="dialog" href="app/hrm/develop.do?action=hrmEmployeeDevelopFinalize&id=${entity.id}&op=transfer">调动</a>
+							</td>
 						</tr>
 					</logic:iterate>
 				</logic:present>

@@ -50,5 +50,10 @@
         	<column name="apply_form_no" />
         </many-to-one>
         
+        <set name="processHistory" table="app_process_history" 
+        	cascade="none" inverse="true" lazy="false"> 
+	      <key column="form_no"/>  
+	      <one-to-many class="org.shengrui.oa.model.flow.ModelProcessHistory" />
+	    </set>
 	</class>
 </hibernate-mapping>

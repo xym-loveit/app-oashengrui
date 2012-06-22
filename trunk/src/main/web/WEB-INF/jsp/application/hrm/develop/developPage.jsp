@@ -34,7 +34,7 @@
 				<tr>
 					<td>申请校区：</td>
 					<td>
-						<select class="combox required" name="fromDistrictId" id="combox_district" style="width:100px" ref="combox_dept" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
+						<select class="combox required" name="toDistrictId" id="combox_district" style="width:100px" ref="combox_dept" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
 							<logic:present name="districts">
 								<logic:iterate name="districts" id="district">
 									<option value="${district.id}" ${employeeDevelopEntry ne null && employeeDevelopEntry.applyForm.toDistrictNames ne null && employeeDevelopEntry.applyForm.toDistrictNames eq district.districtName ? 'selected="selected"' : ''}>${district.districtName}</option>
@@ -44,7 +44,7 @@
 					</td>
 					<td>申请部门：</td>
 					<td>
-						<select class="combox required" name="fromDepartmentId" id="combox_dept" defOPKey="请选择部门" defOPVal="" style="width:100px" ref="combox_position" refUrl="app/hrm/hire.do?action=actionLoadPositionByDepartment&depId={value}">
+						<select class="combox required" name="tomDepartmentId" id="combox_dept" defOPKey="请选择部门" defOPVal="" style="width:100px" ref="combox_position" refUrl="app/hrm/hire.do?action=actionLoadPositionByDepartment&depId={value}">
 							<logic:present name="departments">
 								<logic:iterate name="departments" id="entity">
 									<option value="${entity.id}" ${employeeDevelopEntry ne null && employeeDevelopEntry.applyForm.toDepartmentNames ne null && employeeDevelopEntry.applyForm.toDepartmentNames eq entity.depName ? 'selected="selected"' : ''}>${entity.depName}</option>
@@ -54,7 +54,7 @@
 					</td>
 					<td>申请岗位：</td>
 					<td colspan="4">
-						<select class="combox required" name="entryPositionId" id="combox_position" defOPKey="请选择岗位" defOPVal="" style="width:100px">
+						<select class="combox required" name="toPositionId" id="combox_position" defOPKey="请选择岗位" defOPVal="" style="width:100px">
 							<logic:present name="positions">
 								<logic:iterate name="positions" id="entity">
 									<option value="${entity.id}" ${employeeDevelopEntry ne null && employeeDevelopEntry.applyForm.toPositionNames ne null && employeeDevelopEntry.applyForm.toPositionNames eq entity.positionName ? 'selected="selected"' : ''}>${entity.positionName}</option>

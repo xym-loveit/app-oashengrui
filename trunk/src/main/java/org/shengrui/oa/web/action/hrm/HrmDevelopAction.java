@@ -97,4 +97,35 @@ extends BaseHrmAction
 		return mapping.findForward("hrm.page.employee.develop.detail");
 	}
 
+	
+	/**
+	 * <b>[WebAction]</b> <br/>
+	 * 人力资源发展调动，离职，晋升，转正
+	 */
+	public ActionForward hrmEmployeeDevelopFinalize(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		try
+		{
+			String developId = request.getParameter("id");
+			if (this.isObjectIdValid(developId))
+			{
+				ModelHrmEmployeeDevelop developInfo = this.serviceHrmEmployeeDevelop.get(developId);
+				if (developInfo != null)
+				{
+					request.setAttribute("employeeDevelopEntry", developInfo);
+				}
+				request.setAttribute("op", request.getParameter("op"));
+			}
+			else
+			{
+				LOGGER.error("需要传入人资发展ID参数.");
+			}
+		}
+		catch (ServiceException e)
+		{
+			LOGGER.error("Exception raised when fetch employee development detail.", e);
+		}
+		return mapping.findForward("hrm.page.employee.develop.finalize");
+	}
 }
