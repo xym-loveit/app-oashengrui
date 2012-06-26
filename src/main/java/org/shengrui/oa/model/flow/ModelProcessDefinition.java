@@ -27,7 +27,13 @@ extends ModelBase
 	 */
 	@Expose
 	private ModelProcessType processType;
-
+	
+	/**
+	 * 过滤的职位名称, 多个名称以逗号分隔
+	 */
+	@Expose
+	private String filterPositionNames;
+	
 	public String getCondition()
 	{
 		return condition;
@@ -46,6 +52,16 @@ extends ModelBase
 	public void setProcessType(ModelProcessType processType)
 	{
 		this.processType = processType;
+	}
+
+	public void setFilterPositionNames(String filterPositionNames)
+	{
+		this.filterPositionNames = filterPositionNames;
+	}
+
+	public String getFilterPositionNames()
+	{
+		return filterPositionNames;
 	}
 	
 }
