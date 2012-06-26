@@ -35,6 +35,11 @@ extends ModelBase
 	private ModelProcessTask processTaskNext;
 	
 	/**
+	 * 工作流类型
+	 */
+	private Integer processTaskType;
+	
+	/**
 	 * 待审核部门名称
 	 */
 	private String toDepartmentNames;
@@ -197,6 +202,16 @@ extends ModelBase
 	public void setToRoleIds(String toRoleIds)
 	{
 		this.toRoleIds = toRoleIds;
+	}
+
+	public void setProcessTaskType(Integer processTaskType)
+	{
+		this.processTaskType = processTaskType;
+	}
+
+	public Integer getProcessTaskType()
+	{
+		return processTaskType;
 	}
 	
 }
