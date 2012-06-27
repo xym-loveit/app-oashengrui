@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+       
+<tiles-definitions>
+	
+	<!-- 财务支出管理 -->
+	<definition name="finan.page.expense.index"  
+		path="/WEB-INF/jsp/application/financial/expense/expenseApprovalIndex.jsp"/>
+	
+	<!-- 财务申请详细 -->
+	<definition name="finan.page.expense.detail" 
+		path="/WEB-INF/jsp/application/financial/expense/expensePage.jsp"/>
+	
+</tiles-definitions>
