@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans>
+		<form-bean name="form.hrm.develop" type="org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop"></form-bean>
+	</form-beans>
+	
+	<action-mappings>
+		
+		<!-- 人力发展管理-->
+		<action path="/app/finan/financial"
+				name="form.hrm.develop"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="finan.page.expense.index" path="finan.page.expense.index" />
+			<forward name="finan.page.expense.detail" path="finan.page.expense.detail" />
+		</action>
+		
+	</action-mappings>
+
+</struts-config>

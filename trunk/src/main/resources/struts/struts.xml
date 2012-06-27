@@ -15,6 +15,7 @@
 				/WEB-INF/tiles/tiles-defs-index.xml,
 				/WEB-INF/tiles/tiles-defs-personal.xml,
 				/WEB-INF/tiles/tiles-defs-hrm.xml,
+				/WEB-INF/tiles/tiles-defs-finan.xml,
 				/WEB-INF/tiles/tiles-defs-personal.xml,
 				/WEB-INF/tiles/tiles-defs-personal-interview.xml,
 				/WEB-INF/tiles/tiles-defs-personal-jobapplication.xml,
