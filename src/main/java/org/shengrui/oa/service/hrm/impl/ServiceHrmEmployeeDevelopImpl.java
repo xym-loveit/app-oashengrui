@@ -1,7 +1,6 @@
 package org.shengrui.oa.service.hrm.impl;
 
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 
 import org.shengrui.oa.dao.hrm.DAOHrmEmployeeDevelop;
@@ -10,10 +9,8 @@ import org.shengrui.oa.service.hrm.ServiceHrmEmployeeDevelop;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
-import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
-
 
 public class ServiceHrmEmployeeDevelopImpl
 extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmployeeDevelop
