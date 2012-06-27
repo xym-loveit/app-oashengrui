@@ -1,5 +1,7 @@
 package org.shengrui.oa.model.flow;
 
+import java.util.Date;
+
 import com.google.gson.annotations.Expose;
 
 import cn.trymore.core.model.ModelBase;
@@ -15,6 +17,18 @@ extends ModelBase
 {
 	
 	private static final long serialVersionUID = -5615808491635468543L;
+	
+	/**
+	 * 工作流名称
+	 */
+	@Expose
+	private String processDefName;
+	
+	/**
+	 * 工作流描述
+	 */
+	@Expose
+	private String processDefDesc;
 	
 	/**
 	 * 触发条件
@@ -33,6 +47,12 @@ extends ModelBase
 	 */
 	@Expose
 	private String filterPositionNames;
+	
+	/**
+	 * 工作流创建时间
+	 */
+	@Expose
+	private Date createTime;
 	
 	public String getCondition()
 	{
@@ -62,6 +82,36 @@ extends ModelBase
 	public String getFilterPositionNames()
 	{
 		return filterPositionNames;
+	}
+
+	public String getProcessDefName()
+	{
+		return processDefName;
+	}
+
+	public void setProcessDefName(String processDefName)
+	{
+		this.processDefName = processDefName;
+	}
+
+	public String getProcessDefDesc()
+	{
+		return processDefDesc;
+	}
+
+	public void setProcessDefDesc(String processDefDesc)
+	{
+		this.processDefDesc = processDefDesc;
+	}
+
+	public Date getCreateTime()
+	{
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime)
+	{
+		this.createTime = createTime;
 	}
 	
 }

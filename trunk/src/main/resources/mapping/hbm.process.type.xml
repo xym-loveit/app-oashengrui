@@ -30,6 +30,12 @@
         	<key column="type_parent"/>
         	<one-to-many class="ModelProcessType"/>
         </set>
+        
+        <set name="processDefinitions" cascade="delete" lazy="true">
+        	<!-- <cache usage="read-write" /> -->
+        	<key column="type_id"/>
+        	<one-to-many class="ModelProcessDefinition"/>
+        </set>
 	    
 	</class>
 </hibernate-mapping>

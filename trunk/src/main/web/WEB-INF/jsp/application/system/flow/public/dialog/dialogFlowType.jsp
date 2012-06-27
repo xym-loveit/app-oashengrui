@@ -13,12 +13,16 @@
 		<div class="pageFormContent" layoutH="56">
 			<table cellspacing="10" cellpadding="10" class="dform">
 				<tr>
-					<td>申请类别：</td>
-					<td><input name="depName" type="text" size="30" value="${department ne null ? department.depName : ''}" class="required" style="width: 88%"/></td>
+					<td>类别名称：</td>
+					<td><input name="processTypeName" type="text" size="30" value="${processType ne null ? processType.processTypeName : ''}" class="required" style="width: 88%"/></td>
+				</tr>
+				<tr>
+					<td>类别标识：</td>
+					<td><input name="processTypeKey" type="text" size="30" value="${processType ne null ? processType.processTypeKey : ''}" class="required" style="width: 88%"/></td>
 				</tr>
 				<tr>
 					<td>类别说明：</td>
-					<td><textarea rows="2" cols="40" name="depDesc" class="textInput" style="width: 88%">${district ne null ? district.depDesc : ''}</textarea></td>
+					<td><textarea rows="2" cols="40" name="processTypeDesc" class="textInput" style="width: 88%">${processType ne null ? processType.processTypeDesc : ''}</textarea></td>
 				</tr>
 			</table>
 		</div>
@@ -30,7 +34,9 @@
 				</li>
 			</ul>
 		</div>
-		<input type="hidden" name="id" value="${department ne null ? department.id : '-1'}" />
+		<input type="hidden" name="id" value="${processType ne null ? processType.id : '-1'}" />
+		<input type="hidden" name="processTypeSlug" value="${rootProcessType.processTypeSlug}" />
+		<input type="hidden" name="rootTypeId" value="${rootProcessType.id}" />
 	</form>
 <div>
 		

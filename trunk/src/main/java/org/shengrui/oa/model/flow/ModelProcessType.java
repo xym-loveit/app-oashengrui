@@ -51,7 +51,12 @@ extends ModelBase
 	 * 流程类别子分类
 	 */
 	private Set<ModelProcessType> processTypeChildren;
-
+	
+	/**
+	 * 流程分类拥有的工作流集合
+	 */
+	private Set<ModelProcessDefinition> processDefinitions;
+	
 	public String getProcessTypeName()
 	{
 		return processTypeName;
@@ -110,5 +115,15 @@ extends ModelBase
 	public void setProcessTypeChildren(Set<ModelProcessType> processTypeChildren)
 	{
 		this.processTypeChildren = processTypeChildren;
+	}
+
+	public Set<ModelProcessDefinition> getProcessDefinitions()
+	{
+		return processDefinitions;
+	}
+
+	public void setProcessDefinitions(Set<ModelProcessDefinition> processDefinitions)
+	{
+		this.processDefinitions = processDefinitions;
 	}
 }
