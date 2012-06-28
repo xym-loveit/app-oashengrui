@@ -2,6 +2,7 @@ package org.shengrui.oa.web.action.financial;
 
 import javax.annotation.Resource;
 
+import org.shengrui.oa.service.finan.ServiceFinanExpense;
 import org.shengrui.oa.web.action.BaseAppAction;
 
 /**
@@ -13,4 +14,17 @@ import org.shengrui.oa.web.action.BaseAppAction;
 public class BaseFinanAction
 extends BaseAppAction
 {
+	/**
+	 * The Expense service.
+	 */
+	@Resource
+	protected ServiceFinanExpense serviceFinanExpense;
+
+	public ServiceFinanExpense getServiceFinanExpense() {
+		return serviceFinanExpense;
+	}
+
+	public void setServiceFinanExpense(ServiceFinanExpense serviceFinanExpense) {
+		this.serviceFinanExpense = serviceFinanExpense;
+	}
 }
