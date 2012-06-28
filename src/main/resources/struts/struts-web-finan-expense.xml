@@ -3,14 +3,14 @@
 
 <struts-config>
 	<form-beans>
-		<form-bean name="form.hrm.develop" type="org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop"></form-bean>
+		<form-bean name="form.finan.expense" type="org.shengrui.oa.model.finan.ModelFinanExpense"></form-bean>
 	</form-beans>
 	
 	<action-mappings>
 		
 		<!-- 人力发展管理-->
 		<action path="/app/finan/financial"
-				name="form.hrm.develop"
+				name="form.finan.expense"
 				scope="request"
 				parameter="action"
 				type="org.springframework.web.struts.DelegatingActionProxy">

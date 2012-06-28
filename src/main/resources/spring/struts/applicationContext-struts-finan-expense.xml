@@ -5,6 +5,9 @@
 
 	<!-- 财务支出管理 -->	
 	<bean name="/app/finan/financial" class="org.shengrui.oa.web.action.financial.FinanExpenseAction">
+		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
+		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
+		<property name="serviceFinanExpense" ref="serviceFinanExpense" />
 	</bean>
 	
 </beans>
