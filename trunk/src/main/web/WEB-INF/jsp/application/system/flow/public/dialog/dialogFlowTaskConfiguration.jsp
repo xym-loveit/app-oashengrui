@@ -7,6 +7,20 @@
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
+<script>
+	$(function(){
+		$("#proc_task_type").unbind("change");
+		$("#proc_task_type").bind("change", function(){
+			var task_type = $(this).find("option").filter(":selected").attr("value");
+			$("#form_box").loadUrl("app/flow.do?action=actionLoadProcessTaskFormPage&processTaskType=" + task_type, {}, function(){
+				if ($("#_var_menuid", $(navTab.getCurrentPanel())).size() > 0) {
+					$("#_var_menuid", $(navTab.getCurrentPanel())).remove();
+				}
+			});
+		});
+	});
+</script>
+
 <div class="pageContent">
 	<form method="post" action="app/flow.do?action=actionSaveProcessType" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent" layoutH="56">
@@ -19,7 +33,7 @@
 					<option value="4" ${department ne null && department.depOrgType eq 2 ? "selected='selected'" : ""}>总部某部门</option>
 				</select>
 			</div>
-			<div id="form_box">
+			<div id="form_box" style="padding: 5px 0;">
 				
 			</div>
 		</div>
