@@ -1,5 +1,6 @@
 package org.shengrui.oa.web.action.flow;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -11,7 +12,10 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.shengrui.oa.model.flow.ModelProcessDefinition;
+import org.shengrui.oa.model.flow.ModelProcessTask;
 import org.shengrui.oa.model.flow.ModelProcessType;
+import org.shengrui.oa.service.flow.ServiceProcessDefinition;
 import org.shengrui.oa.service.flow.ServiceProcessType;
 import org.shengrui.oa.web.action.BaseAppAction;
 
@@ -37,6 +41,12 @@ extends BaseAppAction
 	 */
 	@Resource
 	private ServiceProcessType serviceProcessType;
+	
+	/**
+	 * The process definition service
+	 */
+	@Resource
+	private ServiceProcessDefinition serviceProcessDefinition;
 	
 	/**
 	 * <b>[WebAction]</b> 
@@ -92,6 +102,44 @@ extends BaseAppAction
 		request.setAttribute("rootTypeId", rootTypeId);
 		
 		return mapping.findForward("data.sys.setting.flow.type.list");
+	}
+	
+	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
+	 * 根据类型加载工作流节点表单
+	 */
+	public  ActionForward actionLoadProcessTaskFormPage (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		String paramProcTaskType = request.getParameter("processTaskType");
+		
+		if (UtilString.isNotEmpty(paramProcTaskType) && UtilString.isNumeric(paramProcTaskType))
+		{
+			Integer procTaskType = Integer.parseInt(paramProcTaskType);
+			
+			// 判断传入的节点类型是否合法
+			if (this.isProcessTaskTypeAccepted(procTaskType))
+			{
+				String procTaskTypeText = this.getProcessTaskTypeDescByValue(procTaskType);
+				if (procTaskTypeText != null)
+				{
+					return mapping.findForward("form.flow.task.type." + this.getProcessTaskTypeDescByValue(procTaskType));
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("系统错误, 流程节点类型描述未进行配置..."));
+				}
+			}
+			else
+			{
+				return ajaxPrint(response, getErrorCallback("未知的工作流节点类型被传入..."));
+			}
+		}
+		else
+		{
+			return ajaxPrint(response, getErrorCallback("工作流节点类型未指定或者非法类型被传入..."));
+		}
 	}
 	
 	/**
@@ -227,6 +275,233 @@ extends BaseAppAction
 	}
 	
 	/**
+	 * 流程配置页面
+	 * 
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ActionForward pageFlowConfigure (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		String procTypeId = request.getParameter("procTypeId");
+		if (this.isObjectIdValid(procTypeId))
+		{
+			try
+			{
+				ModelProcessType procTypeEntity = this.serviceProcessType.get(procTypeId);
+				if (procTypeEntity != null)
+				{
+					request.setAttribute("processType", procTypeEntity);
+					return mapping.findForward("page.sys.flow.configuration");
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("指定的流程类型不存在..."));
+				}
+			}
+			catch (Exception e)
+			{
+				return ajaxPrint(response, getErrorCallback("数据加载失败..." + e.getMessage()));
+			}
+		}
+		else
+		{
+			return ajaxPrint(response, getErrorCallback("需要传递合法的配置流程类型ID..."));
+		}
+	}
+	
+	/**
+	 * 工作流节点配置弹框页面
+	 * 
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ActionForward dialogFlowTaskConfigurationPage (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		String procDefId = request.getParameter("procDefId");
+		if (this.isObjectIdValid(procDefId))
+		{
+			try
+			{
+				ModelProcessDefinition procDefEntity = this.serviceProcessDefinition.get(procDefId);
+				if (procDefEntity != null)
+				{
+					request.setAttribute("processDef", procDefEntity);
+					
+					return mapping.findForward("dialog.sys.flow.task.configuration");
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("流程定义(" + procDefId + ")不能存在..."));
+				}
+			}
+			catch (Exception e)
+			{
+				return ajaxPrint(response, getErrorCallback("加载流程定义数据失败:" + e.getMessage()));
+			}
+		}
+		else
+		{
+			return ajaxPrint(response, getErrorCallback("需要传入合法的流程定义ID..."));
+		}
+		
+	}
+	
+	/**
+	 * 流程触发条件弹框页面
+	 * 
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ActionForward dialogFlowDefConditionPage (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		String procTypeId = request.getParameter("procTypeId");
+		if (this.isObjectIdValid(procTypeId))
+		{
+			try
+			{
+				ModelProcessType procTypeEntity = this.serviceProcessType.get(procTypeId);
+				if (procTypeEntity != null)
+				{
+					request.setAttribute("processType", procTypeEntity);
+					
+					String procDefId = request.getParameter("procDefId");
+					if (this.isObjectIdValid(procDefId))
+					{
+						ModelProcessDefinition procDefEntity = this.serviceProcessDefinition.get(procDefId);
+						if (procDefEntity != null)
+						{
+							request.setAttribute("processDef", procDefEntity);
+						}
+						else
+						{
+							return ajaxPrint(response, getErrorCallback("指定的流程定义不存在..."));
+						}
+					}
+					
+					return mapping.findForward("dialog.sys.flow.definition.condition");
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("指定的流程类型不存在..."));
+				}
+			}
+			catch (Exception e)
+			{
+				return ajaxPrint(response, getErrorCallback("数据加载失败..." + e.getMessage()));
+			}
+		}
+		else
+		{
+			return ajaxPrint(response, getErrorCallback("需要传递合法的配置流程类型ID..."));
+		}
+	}
+	
+	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
+	 * 保存工作流定义
+	 */
+	public ActionForward actionSaveProcessDefinition (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		String procTypeId = request.getParameter("procTypeId");
+		String procDefId = request.getParameter("id");
+		String procDefName = request.getParameter("processDefName");
+		String procDefDesc = request.getParameter("processDefDesc");
+		String procDefCond = request.getParameter("condition");
+		
+		boolean result = 
+			this.doSaveProcessDefinition(procTypeId, procDefId, procDefName, procDefCond, procDefDesc);
+		
+		if (result)
+		{
+			// 保存成功后, Dialog进行关闭
+			return ajaxPrint(response, 
+					getSuccessCallback("流程定义保存成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+		}
+		else
+		{
+			return ajaxPrint(response, getErrorCallback("流程定义保存失败..."));
+		}
+		
+	}
+	
+	/**
+	 * 保存流程定义
+	 * 
+	 * @param processTypeId
+	 * @param id
+	 * @param processDefName
+	 * @param condition
+	 * @param processDefDesc
+	 * @return
+	 */
+	protected boolean doSaveProcessDefinition (String processTypeId, 
+			String id, String processDefName, String condition, String processDefDesc)
+	{
+		if (UtilString.isNotEmpty(id) && this.isObjectIdValid(processTypeId))
+		{
+			try
+			{
+				ModelProcessType procTypeEntity = this.serviceProcessType.get(processTypeId);
+				if (procTypeEntity != null)
+				{
+					ModelProcessDefinition procDefEntity = null;
+					boolean isCreation = Integer.parseInt(id) <= 0;
+
+					if (isCreation)
+					{
+						// 新建
+						procDefEntity = new ModelProcessDefinition();
+					}
+					else
+					{
+						// 修改
+						procDefEntity = this.serviceProcessDefinition.get(id);
+						if (procDefEntity == null)
+						{
+							LOGGER.error("The process definition entity does not exist with id:" + id);
+						}
+					}
+					
+					procDefEntity.setCondition(condition);
+					procDefEntity.setProcessDefDesc(processDefDesc);
+					procDefEntity.setProcessDefName(processDefName);
+					procDefEntity.setProcessType(procTypeEntity);
+					procDefEntity.setCreateTime(new Date());
+					procDefEntity.setFilterPositionNames("test");
+					
+					this.serviceProcessDefinition.save(procDefEntity);
+					
+					return true;
+				}
+				else
+				{
+					LOGGER.error("The process entity does not exist with id:" + processTypeId);
+				}
+			}
+			catch (Exception e)
+			{
+				LOGGER.error("Exception raised when obtaining the process type entity", e);
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * 根据归类获取工作流分类列表
 	 * 
 	 * @param slugName
@@ -237,6 +512,56 @@ extends BaseAppAction
 			String slugName) throws ServiceException
 	{
 		return this.serviceProcessType.getTypesBySlug(slugName);
+	}
+	
+	/**
+	 * 判断流程节点类型是否合法.
+	 * 
+	 * @param processTaskType
+	 * @return
+	 */
+	protected boolean isProcessTaskTypeAccepted (Integer processTaskType)
+	{
+		if (processTaskType != null)
+		{
+			return processTaskType.equals(ModelProcessTask.EProcessTaskType.OWNER_DEPS_AGAINST.getValue()) || 
+					processTaskType.equals(ModelProcessTask.EProcessTaskType.OWNER_DEPS_SINGLE.getValue()) ||
+					processTaskType.equals(ModelProcessTask.EProcessTaskType.MASTER_DEPS_AGAINST.getValue()) ||
+					processTaskType.equals(ModelProcessTask.EProcessTaskType.MASTER_DEPS_SINGLE.getValue());
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * 根据流程节点类型值获取流程节点描述
+	 * 
+	 * @param processTaskType
+	 * @return
+	 */
+	protected String getProcessTaskTypeDescByValue (Integer processTaskType)
+	{
+		if (processTaskType != null)
+		{
+			if (processTaskType.equals(ModelProcessTask.EProcessTaskType.OWNER_DEPS_AGAINST.getValue()))
+			{
+				return ModelProcessTask.EProcessTaskType.OWNER_DEPS_AGAINST.getText();
+			}
+			else if (processTaskType.equals(ModelProcessTask.EProcessTaskType.OWNER_DEPS_SINGLE.getValue()))
+			{
+				return ModelProcessTask.EProcessTaskType.OWNER_DEPS_SINGLE.getText();
+			}
+			else if (processTaskType.equals(ModelProcessTask.EProcessTaskType.MASTER_DEPS_AGAINST.getValue()))
+			{
+				return ModelProcessTask.EProcessTaskType.MASTER_DEPS_AGAINST.getText();
+			}
+			else if (processTaskType.equals(ModelProcessTask.EProcessTaskType.MASTER_DEPS_SINGLE.getValue()))
+			{
+				return ModelProcessTask.EProcessTaskType.MASTER_DEPS_SINGLE.getText();
+			}
+		}
+		
+		return null;
 	}
 	
 	/**
@@ -268,6 +593,16 @@ extends BaseAppAction
 	public void setServiceProcessType(ServiceProcessType serviceProcessType)
 	{
 		this.serviceProcessType = serviceProcessType;
+	}
+
+	public void setServiceProcessDefinition(ServiceProcessDefinition serviceProcessDefinition)
+	{
+		this.serviceProcessDefinition = serviceProcessDefinition;
+	}
+
+	public ServiceProcessDefinition getServiceProcessDefinition()
+	{
+		return serviceProcessDefinition;
 	}
 	
 }

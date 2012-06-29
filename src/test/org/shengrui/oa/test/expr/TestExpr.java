@@ -11,7 +11,7 @@ public class TestExpr
 	
 	public static void main(String[] args)
 	{
-		Expression expr = AviatorEvaluator.compile("x > 0 && x < 1000");
+		Expression expr = AviatorEvaluator.compile("x > 0 and x < 1000");
 		Map<String, Object> env = new HashMap<String, Object>();
 		env.put("x", 340);
 		

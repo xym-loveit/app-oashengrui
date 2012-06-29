@@ -5,14 +5,17 @@
 	
 	<bean name="/app/flow" class="org.shengrui.oa.web.action.flow.FlowFinancialAction">
 		<property name="serviceProcessType" ref="serviceProcessType" />
+		<property name="serviceProcessDefinition" ref="serviceProcessDefinition" />
 	</bean>
 	
 	<bean name="/app/flow/financial" class="org.shengrui.oa.web.action.flow.FlowFinancialAction">
 		<property name="serviceProcessType" ref="serviceProcessType" />
+		<property name="serviceProcessDefinition" ref="serviceProcessDefinition" />
 	</bean>
 	
 	<bean name="/app/flow/hrm" class="org.shengrui.oa.web.action.flow.FlowHrmAction">
 		<property name="serviceProcessType" ref="serviceProcessType" />
+		<property name="serviceProcessDefinition" ref="serviceProcessDefinition" />
 	</bean>
 	
 </beans>

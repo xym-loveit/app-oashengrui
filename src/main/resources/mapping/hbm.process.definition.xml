@@ -18,7 +18,7 @@
             <column name="filter_posnames" />
         </property>
         <property name="condition" type="java.lang.String">
-            <column name="condition" />
+            <column name="def_trigger" />
         </property>
         <property name="createTime" type="timestamp">
             <column name="createtime" />

@@ -11,6 +11,15 @@
 		<forward name="data.sys.setting.flow.type.tree" path="data.sys.setting.flow.type.tree" />
 		<forward name="data.sys.setting.flow.type.list" path="data.sys.setting.flow.type.list" />
 		<forward name="dialog.sys.setting.flow.type" path="dialog.sys.setting.flow.type" />
+		<forward name="dialog.sys.flow.definition.condition" path="dialog.sys.flow.definition.condition" />
+		<forward name="dialog.sys.flow.task.configuration" path="dialog.sys.flow.task.configuration" />
+		<forward name="page.sys.flow.configuration" path="page.sys.flow.configuration" />
+		
+		<!-- 流程节点类型表单数据 -->
+		<forward name="form.flow.task.type.ownerDepsAgainst" path="form.flow.task.type.ownerDepsAgainst" />
+		<forward name="form.flow.task.type.ownerDepsSingle" path="form.flow.task.type.ownerDepsSingle" />
+		<forward name="form.flow.task.type.masterDepsAgainst" path="form.flow.task.type.masterDepsAgainst" />
+		<forward name="form.flow.task.type.masterDepsSingle" path="form.flow.task.type.masterDepsSingle" />
 	</global-forwards>
 	
 	<action-mappings>
