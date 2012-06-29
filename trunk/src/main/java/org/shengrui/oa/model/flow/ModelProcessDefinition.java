@@ -1,6 +1,7 @@
 package org.shengrui.oa.model.flow;
 
 import java.util.Date;
+import java.util.List;
 
 import com.google.gson.annotations.Expose;
 
@@ -53,6 +54,11 @@ extends ModelBase
 	 */
 	@Expose
 	private Date createTime;
+	
+	/**
+	 * 工作流任务节点
+	 */
+	private List<ModelProcessTask> processTasks;
 	
 	public String getCondition()
 	{
@@ -112,6 +118,16 @@ extends ModelBase
 	public void setCreateTime(Date createTime)
 	{
 		this.createTime = createTime;
+	}
+
+	public void setProcessTasks(List<ModelProcessTask> processTasks)
+	{
+		this.processTasks = processTasks;
+	}
+
+	public List<ModelProcessTask> getProcessTasks()
+	{
+		return processTasks;
 	}
 	
 }

@@ -9,6 +9,14 @@
 	<definition name="dialog.sys.setting.flow.type" 
 		path="/WEB-INF/jsp/application/system/flow/public/dialog/dialogFlowType.jsp"/>
 	
+	<!-- 流程触发条件弹框页面 -->	
+	<definition name="dialog.sys.flow.definition.condition"
+		path="/WEB-INF/jsp/application/system/flow/public/dialog/dialogFlowDefCondition.jsp" />
+	
+	<!-- 流程节点配置页面 -->
+	<definition name="dialog.sys.flow.task.configuration"
+		path="/WEB-INF/jsp/application/system/flow/public/dialog/dialogFlowTaskConfiguration.jsp" />
+	
 	<!--流程分类之父类别树结构页面 -->
 	<definition name="data.sys.setting.flow.type.tree" 
 		path="/WEB-INF/jsp/application/system/flow/public/data/dataFlowTypeTree.jsp"/>
@@ -17,8 +25,28 @@
 	<definition name="data.sys.setting.flow.type.list" 
 		path="/WEB-INF/jsp/application/system/flow/public/data/dataFlowTypeList.jsp"/>
 	
+	<!-- 流程配置页面 -->
+	<definition name="page.sys.flow.configuration" 
+		path="/WEB-INF/jsp/application/system/flow/public/pageFlowConfiguration.jsp"/>
+	
 	<!-- 财务审批流程页面 -->
 	<definition name="page.sys.setting.flow.financial.index" 
 		path="/WEB-INF/jsp/application/system/flow/financial/flowFinancialIndex.jsp"/>
+	
+	<!-- 流程节点类型表单 - 本部门 -->
+	<definition name="form.flow.task.type.ownerDepsAgainst" 
+		path="/WEB-INF/jsp/application/system/flow/public/form/formFlowTaskDepCurrentAgainst.jsp"/>
+	
+	<!-- 流程节点类型表单 - 某部门 -->
+	<definition name="form.flow.task.type.ownerDepsSingle" 
+		path="/WEB-INF/jsp/application/system/flow/public/form/formFlowTaskDepCurrentSingle.jsp"/>
+	
+	<!-- 流程节点类型表单 - 总部对口 -->
+	<definition name="form.flow.task.type.masterDepsAgainst" 
+		path="/WEB-INF/jsp/application/system/flow/public/form/formFlowTaskDepMasterAgainst.jsp"/>
+	
+	<!-- 流程节点类型表单 - 总部某部门 -->
+	<definition name="form.flow.task.type.masterDepsSingle" 
+		path="/WEB-INF/jsp/application/system/flow/public/form/formFlowTaskDepMasterSingle.jsp"/>
 	
 </tiles-definitions>

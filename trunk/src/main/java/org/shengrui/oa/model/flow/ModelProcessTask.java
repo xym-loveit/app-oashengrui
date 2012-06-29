@@ -78,7 +78,39 @@ extends ModelBase
 	 * 工作流步骤描述
 	 */
 	private String processTaskComments;
-
+	
+	/**
+	 * The enumeration of process task type
+	 * 
+	 * @author Jeccy.Zhao
+	 *
+	 */
+	public static enum EProcessTaskType
+	{
+		OWNER_DEPS_AGAINST (1, "ownerDepsAgainst"),		// 本总部 - 账号所在校区
+		OWNER_DEPS_SINGLE(2, "ownerDepsSingle"),		// 某部门 - 账号所在校区
+		MASTER_DEPS_AGAINST(3, "masterDepsAgainst"),	// 总部对口部门
+		MASTER_DEPS_SINGLE(4, "masterDepsSingle");		// 总部某部门
+		
+		private Integer value;
+		private String text;
+		
+		EProcessTaskType (Integer value, String text)
+		{
+			this.value = value;
+			this.text = text;
+		}
+		
+		public Integer getValue(){
+			return value;
+		}
+		
+		public String getText()
+		{
+			return this.text;
+		}
+	}
+	
 	public ModelProcessDefinition getProcessDefinition()
 	{
 		return processDefinition;

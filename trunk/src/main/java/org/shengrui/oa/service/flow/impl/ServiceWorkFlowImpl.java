@@ -5,6 +5,7 @@ import java.util.List;
 import org.shengrui.oa.model.flow.ModelProcessDefinition;
 import org.shengrui.oa.model.flow.ModelProcessHistory;
 import org.shengrui.oa.model.flow.ModelProcessTask;
+import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.service.flow.ServiceProcessDefinition;
 import org.shengrui.oa.service.flow.ServiceProcessForm;
 import org.shengrui.oa.service.flow.ServiceProcessHistory;
@@ -36,6 +37,37 @@ implements ServiceWorkFlow
 	 */
 	private ServiceProcessHistory serviceProcessHistory;
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.flow.ServiceWorkFlow#doStartProcess(java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.shengrui.oa.model.system.ModelAppUser)
+	 */
+	@Override
+	public void doStartProcess (String processTypeId, 
+			String filterPositions, Object condParamVal, String formNo, ModelAppUser user) throws ServiceException
+	{
+		List<ModelProcessDefinition> processDefs = this.serviceProcessDefinition.getProcessDefinition(
+				processTypeId, filterPositions, condParamVal);
+		
+		if (processDefs != null && processDefs.size() == 1)
+		{
+			ModelProcessDefinition def = processDefs.get(0);
+			List<ModelProcessTask> tasks = def.getProcessTasks();
+			if (tasks != null && tasks.size() > 0)
+			{
+				
+			}
+			else
+			{
+				throw new ServiceException("No tasks definition found for the process definition.");
+			}
+		}
+		else
+		{
+			throw new ServiceException("The process cannot be found or more than one process found.");
+		}
+		
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.shengrui.oa.service.flow.ServiceWorkFlow#getProcessDefinitionByDefId(java.lang.String)
@@ -90,14 +122,6 @@ implements ServiceWorkFlow
 
 	@Override
 	public void completeTask(String taskId) throws ServiceException
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void doStartProcess(String taskId, String defId)
-			throws ServiceException
 	{
 		// TODO Auto-generated method stub
 		
