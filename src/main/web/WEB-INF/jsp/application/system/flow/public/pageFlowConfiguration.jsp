@@ -37,7 +37,7 @@
 		<ul class="toolBar">
 			<li><a class="refresh uvar" href="app/flow.do?action=actionLoadProcessTypes&procDefId={_var_fdefid}" warn="请从左侧选择流程定义!" target="ajax" rel="ajBoxMenuFunc" title="刷新" rel="dia_admin_entryadd"><span>刷新</span></a></li>
 			<li class="line">line</li>
-			<li><a class="add" href="app/flow.do?action=dialogFlowTaskConfigurationPage&procDefId={_var_fdefid}" mask="true" warn="请从左侧选择流程定义" target="dialog" title="添加流程节点" width="400" height="245" rel="dia_flowtask_add_${processType.id}"><span>添加流程节点</span></a></li>
+			<li><a class="add" href="app/flow.do?action=dialogFlowTaskConfigurationPage&procDefId={_var_fdefid}" mask="true" warn="请从左侧选择流程定义" target="dialog" title="添加流程节点" width="215" height="400" rel="dia_flowtask_add_${processType.id}"><span>添加流程节点</span></a></li>
 			<li class="line">line</li>
 		</ul>
 	</div>

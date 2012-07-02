@@ -21,6 +21,10 @@
 	<definition name="data.sys.setting.flow.type.tree" 
 		path="/WEB-INF/jsp/application/system/flow/public/data/dataFlowTypeTree.jsp"/>
 	
+	<!--流程任务列表页面 -->
+	<definition name="data.sys.setting.flow.task.list"
+		path="/WEB-INF/jsp/application/system/flow/public/data/dataFlowTaskList.jsp" />
+	
 	<!--流程分类之子分类列表页面 -->
 	<definition name="data.sys.setting.flow.type.list" 
 		path="/WEB-INF/jsp/application/system/flow/public/data/dataFlowTypeList.jsp"/>
