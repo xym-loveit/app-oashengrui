@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.shengrui.oa.model.flow">
+    <class name="ModelProcessTask" table="app_process_task">
+        <id name="id" type="java.lang.String">
+            <column name="task_id" />
+            <generator class="native" />
+        </id>
+        <property name="processTaskName" type="java.lang.String">
+            <column name="task_name" />
+        </property>
+        <property name="sortCode" type="java.lang.Integer">
+            <column name="seq_sn"/>
+        </property>
+        <property name="toRoleNames" type="java.lang.String">
+            <column name="to_rolenames" />
+        </property>
+        <property name="toDepartmentNames" type="java.lang.String">
+            <column name="to_depnames" />
+        </property>
+        <property name="toPositionNames" type="java.lang.String">
+            <column name="to_posnames" />
+        </property>
+        <property name="toUserNames" type="java.lang.String">
+            <column name="to_usernames" />
+        </property>
+        <property name="toUserIds" type="java.lang.String">
+            <column name="to_userids" />
+        </property>
+        <property name="toRoleIds" type="java.lang.String">
+            <column name="to_roleids" />
+        </property>
+        <property name="toDepartmentIds" type="java.lang.String">
+            <column name="to_depids" />
+        </property>
+        <property name="toPositionIds" type="java.lang.String">
+            <column name="to_posids" />
+        </property>
+        <property name="processTaskComments" type="java.lang.String">
+            <column name="comments" />
+        </property>
+        <property name="processTaskType" type="java.lang.Integer">
+            <column name="task_type"/>
+        </property>
+        
+        <many-to-one name="processDefinition" class="ModelProcessDefinition">
+        	<column name="def_id" />
+        </many-to-one>
+        
+        <many-to-one name="processTaskFrom" class="ModelProcessTask" unique="true">
+        	<column name="task_from" />
+        </many-to-one>
+        
+        <many-to-one name="processTaskNext" class="ModelProcessTask" unique="true">
+        	<column name="task_next" />
+        </many-to-one>
+        
+	</class>
+</hibernate-mapping>

@@ -2,6 +2,7 @@ package org.shengrui.oa.web.action.flow;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -16,6 +17,7 @@ import org.shengrui.oa.model.flow.ModelProcessDefinition;
 import org.shengrui.oa.model.flow.ModelProcessTask;
 import org.shengrui.oa.model.flow.ModelProcessType;
 import org.shengrui.oa.service.flow.ServiceProcessDefinition;
+import org.shengrui.oa.service.flow.ServiceProcessTask;
 import org.shengrui.oa.service.flow.ServiceProcessType;
 import org.shengrui.oa.web.action.BaseAppAction;
 
@@ -47,6 +49,12 @@ extends BaseAppAction
 	 */
 	@Resource
 	private ServiceProcessDefinition serviceProcessDefinition;
+	
+	/**
+	 * The process task service
+	 */
+	@Resource
+	private ServiceProcessTask serviceProcessTask;
 	
 	/**
 	 * <b>[WebAction]</b> 
@@ -107,6 +115,42 @@ extends BaseAppAction
 	/**
 	 * <b>[WebAction]</b> 
 	 * <br/>
+	 * 加载工作流任务列表
+	 */
+	public  ActionForward actionLoadProcessTasks (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		
+		String procDefId = request.getParameter("procDefId");
+		if (this.isObjectIdValid(procDefId))
+		{
+			try
+			{
+				ModelProcessDefinition procDefEntity = this.serviceProcessDefinition.get(procDefId);
+				if (procDefEntity != null)
+				{
+					request.setAttribute("processDef", procDefEntity);
+					return mapping.findForward("data.sys.setting.flow.task.list");
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("流程定义(" + procDefId + ")不能存在..."));
+				}
+			}
+			catch (Exception e)
+			{
+				return ajaxPrint(response, getErrorCallback("加载流程定义数据失败:" + e.getMessage()));
+			}
+		}
+		else
+		{
+			return ajaxPrint(response, getErrorCallback("需要传入合法的流程定义ID..."));
+		}
+	}
+	
+	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
 	 * 根据类型加载工作流节点表单
 	 */
 	public  ActionForward actionLoadProcessTaskFormPage (ActionMapping mapping, ActionForm form,
@@ -124,7 +168,47 @@ extends BaseAppAction
 				String procTaskTypeText = this.getProcessTaskTypeDescByValue(procTaskType);
 				if (procTaskTypeText != null)
 				{
-					return mapping.findForward("form.flow.task.type." + this.getProcessTaskTypeDescByValue(procTaskType));
+					// 返回所有部门列表
+					request.setAttribute("deps", this.getAllDepartments(request, true));
+					
+					String procTaskId = request.getParameter("procTaskId");
+					if (UtilString.isNotEmpty(procTaskId))
+					{
+						if (this.isObjectIdValid(procTaskId))
+						{
+							try
+							{
+								ModelProcessTask procTaskEntity = this.serviceProcessTask.get(procTaskId);
+								if (procTaskEntity != null)
+								{
+									request.setAttribute("procTask", procTaskEntity);
+									
+									// 获取某部门对应的岗位列表
+									if (procTaskEntity.getProcessTaskType().equals(ModelProcessTask.EProcessTaskType.OWNER_DEPS_SINGLE.getValue()) || 
+											procTaskEntity.getProcessTaskType().equals(ModelProcessTask.EProcessTaskType.MASTER_DEPS_SINGLE.getValue()))
+									{
+										request.setAttribute("pos", this.getPositionByDepartment(procTaskEntity.getToDepartmentIds()));
+									}
+								}
+								else
+								{
+									return ajaxPrint(response, getErrorCallback("流程节点未找到..."));
+								}
+							}
+							catch (Exception e)
+							{
+								return ajaxPrint(response, getErrorCallback("加载流程节点数据失败:" + e.getMessage()));
+							}
+						}
+						else
+						{
+							return ajaxPrint(response, getErrorCallback("需要传入合法的流程节点ID..."));
+						}
+					}
+					
+					// 根据所选择的节点类型返回对应的表单数据
+					return mapping.findForward("form.flow.task.type." + 
+							this.getProcessTaskTypeDescByValue(procTaskType));
 				}
 				else
 				{
@@ -335,6 +419,36 @@ extends BaseAppAction
 				{
 					request.setAttribute("processDef", procDefEntity);
 					
+					String procTaskId = request.getParameter("procTaskId");
+					if (!UtilString.isNotEmpty(procTaskId))
+					{
+						// 返回所有部门列表
+						request.setAttribute("deps", this.getAllDepartments(request, true));
+						
+						// 默认返回本账号对应的校区部门表单数据
+						request.setAttribute("taskType", ModelProcessTask.EProcessTaskType.OWNER_DEPS_AGAINST.getValue());
+					}
+					else
+					{
+						if (this.isObjectIdValid(procTaskId))
+						{
+							ModelProcessTask procTaskEntity = this.serviceProcessTask.get(procTaskId);
+							if (procTaskEntity != null)
+							{
+								request.setAttribute("procTask", procTaskEntity);
+								request.setAttribute("taskType", procTaskEntity.getProcessTaskType());
+							}
+							else
+							{
+								return ajaxPrint(response, getErrorCallback("流程节点未找到..."));
+							}
+						}
+						else
+						{
+							return ajaxPrint(response, getErrorCallback("需要传入合法的流程节点ID..."));
+						}
+					}
+					
 					return mapping.findForward("dialog.sys.flow.task.configuration");
 				}
 				else
@@ -436,6 +550,89 @@ extends BaseAppAction
 			return ajaxPrint(response, getErrorCallback("流程定义保存失败..."));
 		}
 		
+	}
+	
+	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
+	 * 保存工作流节点
+	 */
+	public ActionForward actionSaveProcessTask (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		String procDefId = request.getParameter("procDefId");
+		if (this.isObjectIdValid(procDefId))
+		{
+			try
+			{
+				ModelProcessDefinition procDefEntity = this.serviceProcessDefinition.get(procDefId);
+				if (procDefEntity != null)
+				{
+					String procTaskType = request.getParameter("processTaskType");
+					
+					if (UtilString.isNotEmpty(procTaskType) && 
+							this.isProcessTaskTypeAccepted(Integer.parseInt(procTaskType)))
+					{
+						ModelProcessTask procTaskEntity = null;
+						
+						String procTaskId = request.getParameter("procTaskId");
+						boolean isCreation = procTaskId == null || Integer.parseInt(procTaskId) <= 0;
+						
+						if (isCreation)
+						{
+							procTaskEntity = new ModelProcessTask();
+							procTaskEntity.setSortCode(
+									procDefEntity.getProcessTasks() != null ? procDefEntity.getProcessTasks().size() + 1 : 1);
+						}
+						
+						// 根据参数前缀获取对应的数组参数数据
+						Map<String, List<String>> paramValues = 
+								this.getAllRequestParameters(request, new String[] { "depId", "depName", "posId", "posName"} );
+						
+						if (paramValues != null && paramValues.size() > 0)
+						{
+							procTaskEntity.setToDepartmentIds(
+									UtilString.join(paramValues.get("depId"), ","));
+							procTaskEntity.setToDepartmentNames(
+									UtilString.join(paramValues.get("depName"), ","));
+							procTaskEntity.setToPositionIds(
+									UtilString.join(paramValues.get("posId"), ","));
+							procTaskEntity.setToPositionNames(
+									UtilString.join(paramValues.get("posName"), ","));
+						}
+						
+						procTaskEntity.setProcessTaskType(Integer.parseInt(procTaskType));
+						
+						procTaskEntity.setProcessDefinition(procDefEntity);
+						
+						this.serviceProcessTask.save(procTaskEntity);
+						
+						// 保存成功后, Dialog进行关闭
+						return ajaxPrint(response, 
+								getSuccessCallback("流程定义保存成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+						
+					}
+					else
+					{
+						return ajaxPrint(response, getErrorCallback("流程任务类型不合法..."));
+					}
+					
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("流程定义(" + procDefId + ")不能存在..."));
+				}
+			}
+			catch (Exception e)
+			{
+				LOGGER.error("Exception raised when saving the process task entity...", e);
+				return ajaxPrint(response, getErrorCallback("加载流程定义数据失败:" + e.getMessage()));
+			}
+		}
+		else
+		{
+			return ajaxPrint(response, getErrorCallback("需要传入合法的流程定义ID..."));
+		}
 	}
 	
 	/**
@@ -603,6 +800,16 @@ extends BaseAppAction
 	public ServiceProcessDefinition getServiceProcessDefinition()
 	{
 		return serviceProcessDefinition;
+	}
+
+	public ServiceProcessTask getServiceProcessTask()
+	{
+		return serviceProcessTask;
+	}
+
+	public void setServiceProcessTask(ServiceProcessTask serviceProcessTask)
+	{
+		this.serviceProcessTask = serviceProcessTask;
 	}
 	
 }

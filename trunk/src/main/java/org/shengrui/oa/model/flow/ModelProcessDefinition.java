@@ -1,7 +1,7 @@
 package org.shengrui.oa.model.flow;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import com.google.gson.annotations.Expose;
 
@@ -58,7 +58,7 @@ extends ModelBase
 	/**
 	 * 工作流任务节点
 	 */
-	private List<ModelProcessTask> processTasks;
+	private Set<ModelProcessTask> processTasks;
 	
 	public String getCondition()
 	{
@@ -120,12 +120,12 @@ extends ModelBase
 		this.createTime = createTime;
 	}
 
-	public void setProcessTasks(List<ModelProcessTask> processTasks)
+	public void setProcessTasks(Set<ModelProcessTask> processTasks)
 	{
 		this.processTasks = processTasks;
 	}
 
-	public List<ModelProcessTask> getProcessTasks()
+	public Set<ModelProcessTask> getProcessTasks()
 	{
 		return processTasks;
 	}
