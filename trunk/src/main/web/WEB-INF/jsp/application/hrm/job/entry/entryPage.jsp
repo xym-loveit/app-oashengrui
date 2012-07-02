@@ -20,7 +20,7 @@
 					<td>
 						<input id="inputOrg1" name="charger.id" value="" type="hidden"/>
 						<input class="required" name="charger.fullName" style="width:170px" type="text" postField="fullName" suggestFields="fullName" 
-							suggestUrl="app/hrm/hire.do?action=lookupUserByName" lookupGroup="charger"/>
+							suggestUrl="app/base.do?action=lookupUserByName" lookupGroup="charger"/>
 					</td>
 					<td>入职时间：</td>
 					<td><input name="entryPlanDate" class="date textInput required" format="yyyy-MM-dd HH:mm:ss" style="width:170px"/></td>
@@ -28,7 +28,7 @@
 				<tr>
 					<td>入职校区</td>
 					<td>
-						<select class="combox required" name="entryDistrictId" id="combox_district" style="width:150px" ref="combox_dept" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
+						<select class="combox required" name="entryDistrictId" id="combox_district" style="width:150px" ref="combox_dept" refUrl="app/base.do?action=actionLoadDepartmentByOrg&districtId={value}">
 							<option value="">请选择校区</option>
 							<logic:present name="districts">
 								<logic:iterate name="districts" id="district">
@@ -39,7 +39,7 @@
 					</td>
 					<td>入职部门：</td>
 					<td>
-						<select class="combox required" name="entryDepartmentId" id="combox_dept" defOPKey="请选择部门" defOPVal="" style="width:150px" ref="combox_position" refUrl="app/hrm/hire.do?action=actionLoadPositionByDepartment&depId={value}">
+						<select class="combox required" name="entryDepartmentId" id="combox_dept" defOPKey="请选择部门" defOPVal="" style="width:150px" ref="combox_position" refUrl="app/base.do?action=actionLoadPositionByDepartment&depId={value}">
 							<option value="">请选择部门</option>
 							<logic:present name="departments">
 								<logic:iterate name="departments" id="entity">

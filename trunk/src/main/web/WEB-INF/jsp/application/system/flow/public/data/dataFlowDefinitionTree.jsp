@@ -13,7 +13,7 @@
 		<ul>
 			<logic:present name="processType" property="processDefinitions">
 				<logic:iterate name="processType" property="processDefinitions" id="entity">
-					<li><a id="fdefEntity_${entity.id}" class='tparam' param="_var_fdefid" paramRel="${entity.id}" href="app/flow.do?action=actionLoadProcessTypes&rootTypeId=${entity.id}" target="ajax" rel="ajBoxFlowConf_${processType.id}"><c:out value="${entity.processDefName}" /></a></li>
+					<li><a id="fdefEntity_${entity.id}" class='tparam' param="_var_fdefid" paramRel="${entity.id}" href="app/flow.do?action=actionLoadProcessTasks&procDefId=${entity.id}" target="ajax" rel="ajBoxFlowConf_${processType.id}"><c:out value="${entity.processDefName}" /></a></li>
 				</logic:iterate>
 			</logic:present>
 		</ul>
