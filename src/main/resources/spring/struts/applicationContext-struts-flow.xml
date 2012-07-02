@@ -6,16 +6,25 @@
 	<bean name="/app/flow" class="org.shengrui.oa.web.action.flow.FlowFinancialAction">
 		<property name="serviceProcessType" ref="serviceProcessType" />
 		<property name="serviceProcessDefinition" ref="serviceProcessDefinition" />
+		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
+		<property name="serviceSchoolDepartmentPosition" ref="serviceSchoolDepartmentPosition" />
+		<property name="serviceProcessTask" ref="serviceProcessTask" />
 	</bean>
 	
 	<bean name="/app/flow/financial" class="org.shengrui.oa.web.action.flow.FlowFinancialAction">
 		<property name="serviceProcessType" ref="serviceProcessType" />
 		<property name="serviceProcessDefinition" ref="serviceProcessDefinition" />
+		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
+		<property name="serviceProcessTask" ref="serviceProcessTask" />
+		<property name="serviceSchoolDepartmentPosition" ref="serviceSchoolDepartmentPosition" />
 	</bean>
 	
 	<bean name="/app/flow/hrm" class="org.shengrui.oa.web.action.flow.FlowHrmAction">
 		<property name="serviceProcessType" ref="serviceProcessType" />
 		<property name="serviceProcessDefinition" ref="serviceProcessDefinition" />
+		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
+		<property name="serviceProcessTask" ref="serviceProcessTask" />
+		<property name="serviceSchoolDepartmentPosition" ref="serviceSchoolDepartmentPosition" />
 	</bean>
 	
 </beans>

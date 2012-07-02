@@ -28,5 +28,11 @@
         	<column name="type_id" />
         </many-to-one>
         
+         <set name="processTasks" cascade="delete" lazy="true" order-by="seq_sn asc">
+        	<!-- <cache usage="read-write" /> -->
+        	<key column="def_id"/>
+        	<one-to-many class="ModelProcessTask"/>
+        </set>
+        
 	</class>
 </hibernate-mapping>

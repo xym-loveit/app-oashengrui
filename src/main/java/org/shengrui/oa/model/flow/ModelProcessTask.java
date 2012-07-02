@@ -50,6 +50,16 @@ extends ModelBase
 	private String toDepartmentIds;
 	
 	/**
+	 * 待审核岗位名称
+	 */
+	private String toPositionNames;
+	
+	/**
+	 * 待审核岗位ID
+	 */
+	private String toPositionIds;
+	
+	/**
 	 * 待审核用户名称
 	 */
 	private String toUserNames;
@@ -88,9 +98,9 @@ extends ModelBase
 	public static enum EProcessTaskType
 	{
 		OWNER_DEPS_AGAINST (1, "ownerDepsAgainst"),		// 本总部 - 账号所在校区
-		OWNER_DEPS_SINGLE(2, "ownerDepsSingle"),		// 某部门 - 账号所在校区
-		MASTER_DEPS_AGAINST(3, "masterDepsAgainst"),	// 总部对口部门
-		MASTER_DEPS_SINGLE(4, "masterDepsSingle");		// 总部某部门
+		OWNER_DEPS_SINGLE(2, "ownerDepsSingle"),				// 某部门 - 账号所在校区
+		MASTER_DEPS_AGAINST(3, "masterDepsAgainst"),		// 总部对口部门
+		MASTER_DEPS_SINGLE(4, "masterDepsSingle");			// 总部某部门
 		
 		private Integer value;
 		private String text;
@@ -244,6 +254,26 @@ extends ModelBase
 	public Integer getProcessTaskType()
 	{
 		return processTaskType;
+	}
+
+	public String getToPositionNames()
+	{
+		return toPositionNames;
+	}
+
+	public void setToPositionNames(String toPositionNames)
+	{
+		this.toPositionNames = toPositionNames;
+	}
+
+	public String getToPositionIds()
+	{
+		return toPositionIds;
+	}
+
+	public void setToPositionIds(String toPositionIds)
+	{
+		this.toPositionIds = toPositionIds;
 	}
 	
 }

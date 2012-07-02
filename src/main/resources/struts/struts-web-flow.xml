@@ -10,6 +10,7 @@
 	<global-forwards> 
 		<forward name="data.sys.setting.flow.type.tree" path="data.sys.setting.flow.type.tree" />
 		<forward name="data.sys.setting.flow.type.list" path="data.sys.setting.flow.type.list" />
+		<forward name="data.sys.setting.flow.task.list" path="data.sys.setting.flow.task.list" />
 		<forward name="dialog.sys.setting.flow.type" path="dialog.sys.setting.flow.type" />
 		<forward name="dialog.sys.flow.definition.condition" path="dialog.sys.flow.definition.condition" />
 		<forward name="dialog.sys.flow.task.configuration" path="dialog.sys.flow.task.configuration" />

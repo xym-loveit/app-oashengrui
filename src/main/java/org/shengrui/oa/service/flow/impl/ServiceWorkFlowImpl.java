@@ -1,6 +1,7 @@
 package org.shengrui.oa.service.flow.impl;
 
 import java.util.List;
+import java.util.Set;
 
 import org.shengrui.oa.model.flow.ModelProcessDefinition;
 import org.shengrui.oa.model.flow.ModelProcessHistory;
@@ -51,7 +52,7 @@ implements ServiceWorkFlow
 		if (processDefs != null && processDefs.size() == 1)
 		{
 			ModelProcessDefinition def = processDefs.get(0);
-			List<ModelProcessTask> tasks = def.getProcessTasks();
+			Set<ModelProcessTask> tasks = def.getProcessTasks();
 			if (tasks != null && tasks.size() > 0)
 			{
 				

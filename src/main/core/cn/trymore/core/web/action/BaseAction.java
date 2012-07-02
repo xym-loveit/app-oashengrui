@@ -1,6 +1,7 @@
 package cn.trymore.core.web.action;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -329,9 +330,23 @@ extends DispatchAction
 	 *         the http servlet request
 	 * @return all of requested parameters
 	 */
-	protected Map<String, String> getAllRequestParameters (HttpServletRequest request)
+	protected Map<String, List<String>> getAllRequestParameters (HttpServletRequest request)
 	{
-		Map<String, String> parameters = new HashMap<String, String>();
+		return this.getAllRequestParameters(request, null);
+	}
+	
+	/**
+	 * Obtains all of the requested parameters
+	 * 
+	 * @param request
+	 *         the http servlet request
+	 * @param paramPrefixs
+	 *         list of the parameter prefixs
+	 * @return all of requested parameters
+	 */
+	protected Map<String, List<String>> getAllRequestParameters (HttpServletRequest request, String[] paramPrefixs)
+	{
+		Map<String, List<String>> parameters = new HashMap<String, List<String>>();
 		
 		if (request != null)
 		{
@@ -344,7 +359,28 @@ extends DispatchAction
 				
 				if (!parameters.containsKey(paramName))
 				{
-					parameters.put(paramName, paramValue);
+					if (paramPrefixs != null && paramPrefixs.length > 0)
+					{
+						for (String paramPrefix : paramPrefixs)
+						{
+							if (paramName.startsWith(paramPrefix) && UtilString.isNotEmpty(paramValue))
+							{
+								if (!parameters.containsKey(paramPrefix))
+								{
+									List<String> paramVals = new ArrayList<String>();
+									parameters.put(paramPrefix, paramVals);
+								}
+								parameters.get(paramPrefix).add(paramValue);
+							}
+						}
+					}
+					else
+					{
+						List<String> paramVals = new ArrayList<String>();
+						paramVals.add(paramValue);
+						
+						parameters.put(paramName, paramVals);
+					}
 				}
 			}
 		}
@@ -379,7 +415,7 @@ extends DispatchAction
 	 */
 	protected String getRequestQueryString (HttpServletRequest request, String[] excludes, boolean paramOutprint)
 	{
-		Map<String, String> parameters = this.getAllRequestParameters(request);
+		Map<String, List<String>> parameters = this.getAllRequestParameters(request);
 		if (parameters != null && parameters.size() > 0)
 		{
 			StringBuilder builder = new StringBuilder();
@@ -387,10 +423,10 @@ extends DispatchAction
 			
 			List<String> excludeParams = excludes != null ? Arrays.asList(excludes) : null;
 			
-			for (Map.Entry<String, String> parameter : parameters.entrySet())
+			for (Map.Entry<String, List<String>> parameter : parameters.entrySet())
 			{
 				String paramName = parameter.getKey();
-				String paramValue = parameter.getValue();
+				List<String> paramValue = parameter.getValue();
 				
 				if (paramOutprint)
 				{
@@ -408,7 +444,8 @@ extends DispatchAction
 					{
 						builder.append(paramName);
 						builder.append("=");
-						builder.append(paramValue);
+						// here it only fetches the first item value...
+						builder.append(paramValue.get(0));
 						
 						paramAppended = true;
 					}
