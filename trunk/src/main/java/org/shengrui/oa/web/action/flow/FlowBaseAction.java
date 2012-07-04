@@ -581,8 +581,19 @@ extends BaseAppAction
 						if (isCreation)
 						{
 							procTaskEntity = new ModelProcessTask();
+							
+							// 设置节点步骤序列号
 							procTaskEntity.setSortCode(
 									procDefEntity.getProcessTasks() != null ? procDefEntity.getProcessTasks().size() + 1 : 1);
+						}
+						else
+						{
+							procTaskEntity = this.serviceProcessTask.get(procTaskId);
+							if (procTaskEntity == null)
+							{
+								return ajaxPrint(response, 
+										getErrorCallback("流程节点(" + procTaskId + ")不存在..."));
+							}
 						}
 						
 						// 根据参数前缀获取对应的数组参数数据
@@ -632,6 +643,60 @@ extends BaseAppAction
 		else
 		{
 			return ajaxPrint(response, getErrorCallback("需要传入合法的流程定义ID..."));
+		}
+	}
+	
+	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
+	 * 移除工作流节点
+	 */
+	public ActionForward actionRemoveProcessTask (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		String procTaskId = request.getParameter("procTaskId");
+		if (this.isObjectIdValid(procTaskId))
+		{
+			try
+			{
+				ModelProcessTask entity = this.serviceProcessTask.get(procTaskId);
+				if (entity != null)
+				{
+					// 更新其他节点的步骤序列号
+					Integer procSeq = entity.getSortCode();
+					List<ModelProcessTask> slibingProcTasks = this.serviceProcessTask.getProcessTaskNodesByOffset(procSeq);
+					if (slibingProcTasks != null && slibingProcTasks.size() > 0)
+					{
+						for (ModelProcessTask slibingProcTask : slibingProcTasks)
+						{
+							slibingProcTask.setSortCode(slibingProcTask.getSortCode() - 1);
+							
+							// TODO: 这里是否可以考虑实现为batch update?
+							this.serviceProcessTask.save(slibingProcTask);
+						}
+					}
+					
+					// 移除节点
+					this.serviceProcessTask.remove(entity);
+					
+					// 保存成功后, Dialog进行关闭
+					return ajaxPrint(response, 
+							getSuccessCallback("流程节点移除成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("流程节点(" + procTaskId + ")不能存在..."));
+				}
+			}
+			catch (Exception e)
+			{
+				LOGGER.error("Exception raised when removing the process task entity.", e);
+				return ajaxPrint(response, getErrorCallback("移除流程节点数据失败:" + e.getMessage()));
+			}
+		}
+		else
+		{
+			return ajaxPrint(response, getErrorCallback("需要传入合法的流程节点ID...")); 
 		}
 	}
 	

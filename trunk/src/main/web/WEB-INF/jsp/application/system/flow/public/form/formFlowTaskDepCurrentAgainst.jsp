@@ -6,6 +6,7 @@
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <script>
 	$(function(){
@@ -17,6 +18,16 @@
 				ele_posName.val($(this).find("option").filter(":selected").text());
 			}
 		});
+		
+		<logic:present name="procTask">
+			$.each($("select[id^=posId_]"), function(){
+				var id = $(this).attr("id");
+				var ele_posName = $("#" + id + "_name");
+				if (ele_posName.size() > 0) {
+					ele_posName.val($(this).find("option").filter(":selected").text());
+				}
+			});
+		</logic:present>
 	});
 </script>
 
@@ -31,11 +42,12 @@
 					<input type="hidden" name="depName_${entity.id}" value="${entity.depName}" />
 					<input type="hidden" name="depId_${entity.id}" value="${entity.id}" />
 					<input type="hidden" name="posName_${entity.id}" value="" id="posId_${entity.id}_name" />
+					
 					<select name="posId_${entity.id}" class="combox" id="posId_${entity.id}">
 						<option value="-1">请选择岗位</option>
 						<logic:present name="entity" property="positions">
 							<logic:iterate name="entity" property="positions" id="position">
-								<option value="${position.id}">${position.positionName}</option>
+								<option value="${position.id}" ${procTask ne null && tm:inRange(procTask.toPositionIds, position.id, ',') ? 'selected="selected"' : ''}>${position.positionName}</option>
 							</logic:iterate>
 						</logic:present>
 					</select>
@@ -43,4 +55,5 @@
 			</logic:iterate>
 		</c:if>
 	</logic:iterate>
+	<input type="hidden" name="procTaskId" value="${procTask ne null ? procTask.id : -1}" />
 </logic:present>

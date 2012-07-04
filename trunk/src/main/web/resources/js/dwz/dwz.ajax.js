@@ -286,13 +286,15 @@ function dialogPageBreak(args, rel){
 
 function ajaxTodo(url, callback){
 	var $callback = callback || navTabAjaxDone;
-	if (! $.isFunction($callback)) $callback = eval('(' + callback + ')');
+	// if (! $.isFunction($callback)) $callback = eval('(' + callback + ')');
 	$.ajax({
 		type:'POST',
 		url:url,
 		dataType:"json",
 		cache: false,
-		success: $callback,
+		success: function(){
+			eval('(' + $callback + ')');
+		},
 		error: DWZ.ajaxError
 	});
 }
