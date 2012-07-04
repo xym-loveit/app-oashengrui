@@ -9,38 +9,38 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
 
 <div class="pageContent">
-	<form method="post" action="app/finan/financial.do?action=FinanExpenseDetail" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<form method="post" action="app/finan/financial.do?action=actionFinanExpenseSave&id=${employeeExpenseEntry.id}" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent" layoutH="56">
 			<table cellspacing="10" cellpadding="10" style="border-spacing:12">
 				<tr>
 					<td>经办人：</td>
 					<td><input name="employeeName" type="text" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.employee.empName : ''}" style="width:120px" /></td>
 					<td>日期：</td>
-					<td><input name="applyDate" type="text" style="width:120px" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.employee.applyDate : ''}" /></td>
+					<td><input name="applyDate" class="date textInput" yearstart="-80" yearend="0" style="width:120px" value="<fmt:formatDate value="${employeeExpenseEntry ne null ? employeeExpenseEntry.applyDate : ''}" pattern="yyyy-MM-dd" />" /></td>
 					<td nowrap>所属校区：</td>
-					<td><input name="fromDistrict"  type="text" style="width:120px" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.fromDistrict.districtName : ''}" /></td>
+					<td><input name="fromDistrict"  type="text" style="width:120px" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.empDistrict.districtName : ''}" /></td>
 					<td nowrap>所属部门：</td>
-					<td><input name="fromDepartment"  type="text" style="width:120px" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.fromDepartment.depName : ''}" /></td>
+					<td><input name="fromDepartment"  type="text" style="width:120px" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.empDepartment.depName : ''}" /></td>
 					<td nowrap>联系电话：</td>
 					<td><input name="phoneNo"  type="text" style="width:120px" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.employee.phoneNo : ''}" /></td>
 				</tr>
 				<tr>
 					<td>费用说明：</td>
-					<td colspan="9"><textarea name="comments" rows="1" style="width: 100%">${employeeExpenseEntry.applyForm ne null ? employeeExpenseEntry.applyForm.comments : ''}</textarea></td>
+					<td colspan="9"><textarea name="comments" rows="1" style="width: 100%">${employeeExpenseEntry ne null ? employeeExpenseEntry.comments : ''}</textarea></td>
 				</tr>
 				<tr>
 					<td>支出金额：</td>
-					<td><input name="cost"  type="text" style="width:120px" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.cost : ''}" /></td>
+					<td><input name="applyAmt"  type="text" style="width:120px" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.applyAmt : ''}" /></td>
 					<td> ￥小写</td>
-					<td><input type="text" style="width:120px" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.cost : ''}" /></td>
+					<td><input type="text" style="width:120px" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.applyAmt : ''}" /></td>
 					<td> ￥大写</td>
 					<td></td>
 					<td>付款方：</td>
 					<td colspan="3">
-						<select class="combox" name="payer.id" id="combox_district_eindex" style="width:108px">
+						<select class="combox" name="payer" id="combox_district_eindex" style="width:108px">
 							<logic:present name="districts">
 								<logic:iterate name="districts" id="district">
-									<option value="${district.id}" ${employeeExpenseForm ne null && employeeExpenseForm.payer ne null && employeeExpenseForm.payer.id eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
+									<option value="${district.id}" ${employeeExpenseForm ne null && employeeExpenseForm.payer ne null && employeeExpenseForm.payer eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
 								</logic:iterate>
 							</logic:present>
 						</select>
@@ -53,7 +53,7 @@
 					<td><input name="attachCount" type="text" style="width:120px" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.attachCount : ''}" /></td>
 					<td nowrap>是否已事前审批：</td>
 					<td colspan="5">
-						<select class="combox" name="auditAdvance" style="width:108px;">
+						<select class="combox" name="auditAdvance" style="width:60px;">
 							<option value="0" ${employeeExpenseForm ne null && employeeExpenseForm.auditAdvance eq 0 ? 'selected="selected"' : ''}>否</option>
 							<option value="1" ${employeeExpenseForm ne null && employeeExpenseForm.auditAdvance eq 1 ? 'selected="selected"' : ''}>是</option>
 						</select>
@@ -81,11 +81,6 @@
 					<td><input name="accountName"  type="text" style="width:120px" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.accountName : ''}" /></td>
 					<td>账号：</td>
 					<td colspan="3"><input name="accountNo"  type="text" style="width:120px" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.accountNo : ''}" /></td>
-				</tr>
-				<tr>
-					<td>申请报告：</td>
-					<td colspan="8"><textarea name="comments" rows="1" style="width: 100%">${employeeExpenseEntry ne null ? employeeExpenseEntry.comments : ''}</textarea></td>
-					<td></td>
 				</tr>
 				<tr>
 					<td>本部门意见：</td>
