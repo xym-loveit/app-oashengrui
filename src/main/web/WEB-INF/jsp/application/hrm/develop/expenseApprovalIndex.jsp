@@ -110,8 +110,8 @@
 									</c:when>
 								</c:choose>
 							</td>
-							<td><a class="oplink" href="app/finan/financial.do?action=FinanExpenseDetail&id=${entity.id}&op=view" target="dialog" title="查看${entity.employee.empName}晋升申请单" width="930" height="500" rel="hrm_emp_profile_${entity.id}">详细</a></td>
-							<td><a class="oplink" href="app/finan/financial.do?action=FinanExpenseDetail&id=${entity.id}&op=view" target="dialog" title="查看${entity.employee.empName}晋升申请单" width="930" height="500" rel="hrm_emp_profile_${entity.id}">详细</a></td>
+							<td>${entity.employee ne null ? entity.applyForm.nextProcess.processName : ''}</td>
+							<td><a class="oplink" href="app/finan/financial.do?action=FinanExpenseDetail&id=${entity.id}&op=view" target="dialog" title="查看${entity.employee.empName}申请单" width="1024" height="500" rel="hrm_emp_profile_${entity.id}">详细</a></td>
 						</tr>
 					</logic:iterate>
 				</logic:present>
