@@ -674,7 +674,7 @@ CREATE TABLE IF NOT EXISTS `app_process_form` (
   `form_id` bigint(20) NOT NULL auto_increment,
   `form_no` varchar(120) NOT NULL COMMENT '流程申请单号',
   `type_id` bigint(20) NOT NULL COMMENT '流程类型',
-  `task_name` varchar(128) NOT NULL COMMENT '活动或任务名称',
+  `task_name` varchar(128) default NULL COMMENT '活动或任务名称',
   `task_from` varchar(64) default NULL COMMENT '该任务来自由哪一任务跳转过来，目的是为了查到该任务的上一任务，方便任务驳回',
   `task_next` varchar(64) default NULL COMMENT '跳转节点, 跳转至下一任务',
   `seq_sn` int(11) NOT NULL COMMENT '序列编号',

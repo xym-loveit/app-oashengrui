@@ -18,6 +18,16 @@
 				ele_posName.val($(this).find("option").filter(":selected").text());
 			}
 		});
+		
+		<logic:present name="procTask">
+			$.each($("select[id^=cmb_]"), function(){
+				var id = $(this).attr("id");
+				var ele_posName = $("#" + id + "_name");
+				if (ele_posName.size() > 0) {
+					ele_posName.val($(this).find("option").filter(":selected").text());
+				}
+			});
+		</logic:present>
 	});
 </script>
 
@@ -53,4 +63,5 @@
 			</div>
 		</c:if>
 	</logic:iterate>
+	<input type="hidden" name="procTaskId" value="${procTask ne null ? procTask.id : -1}" />
 </logic:present>

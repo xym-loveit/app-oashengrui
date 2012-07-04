@@ -44,6 +44,43 @@ extends ServiceGenericImpl<ModelProcessTask> implements ServiceProcessTask
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.flow.ServiceProcessTask#getProcessTaskNodesByOffset(int)
+	 */
+	@Override
+	public List<ModelProcessTask> getProcessTaskNodesByOffset(int seqOffset)
+			throws ServiceException
+	{
+		try
+		{
+			DetachedCriteria criteria = DetachedCriteria.forClass(ModelProcessTask.class);
+			criteria.add(Restrictions.gt("sortCode", seqOffset));
+			return this.daoProcessTask.getListByCriteria(criteria);
+		}
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.flow.ServiceProcessTask#isProcessTaskLastOne(int)
+	 */
+	@Override
+	public boolean isProcessTaskLastOne(int seq) throws ServiceException
+	{
+		try
+		{
+			return this.getProcessTaskNodesByOffset(seq) == null;
+		}
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
+	}
+
 	public void setDaoProcessTask(DAOProcessTask daoProcessTask)
 	{
 		this.daoProcessTask = daoProcessTask;
