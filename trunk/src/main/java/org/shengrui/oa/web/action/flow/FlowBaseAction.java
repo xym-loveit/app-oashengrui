@@ -42,19 +42,19 @@ extends BaseAppAction
 	 * The process type service
 	 */
 	@Resource
-	private ServiceProcessType serviceProcessType;
+	protected ServiceProcessType serviceProcessType;
 	
 	/**
 	 * The process definition service
 	 */
 	@Resource
-	private ServiceProcessDefinition serviceProcessDefinition;
+	protected ServiceProcessDefinition serviceProcessDefinition;
 	
 	/**
 	 * The process task service
 	 */
 	@Resource
-	private ServiceProcessTask serviceProcessTask;
+	protected ServiceProcessTask serviceProcessTask;
 	
 	/**
 	 * <b>[WebAction]</b> 

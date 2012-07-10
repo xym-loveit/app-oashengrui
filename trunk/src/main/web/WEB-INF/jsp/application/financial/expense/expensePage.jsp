@@ -17,9 +17,16 @@
 <div class="pageContent">
 	<form method="post" action="app/finan/financial.do?action=actionFinanExpenseSave&id=${employeeExpenseEntry.id}" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent" layoutH="56">
-			<div style="padding: 10px 0px; border-bottom: 1px dotted #999; margin: 0 10px 10px 10px; overflow: auto;">
-				<span style="float:left; color:#FF7300">请选择费用支出类型：</span>
-				
+			<div style="padding: 10px 0px; border-bottom: 1px dotted #999; margin: 0 10px 15px 10px; overflow: auto; clear: both;">
+				<span style="float:left; color:#FF7300; line-height: 18px;">请选择费用支出类型：</span>
+				<select class="combox" name="expenseType" id="expense_type">
+					<option value="">请选择申请类型</option>
+					<logic:present name="types">
+						<logic:iterate name="types" id="entity">
+							<option value="${entity.id}" ${department ne null && department.depEquivalentBranch ne null && department.depEquivalentBranch.id eq entity.id ? "selected='selected'" : ""}>${entity.processTypeName}</option>
+						</logic:iterate>
+					</logic:present>
+				</select>
 			</div>
 			<table id="tblexp" cellpadding="0" cellspacing="0" width="98%" border="1" style="border-collapse: collapse; border-color: #797979; margin: 0 auto;">
 				<tr>
@@ -184,10 +191,7 @@
 		</div>
 		<div class="formBar">
 			<ul>
-				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">提交</button></div></div></li>
-				<li>
-					<div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
-				</li>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">提交申请</button></div></div></li>
 			</ul>
 		</div>
 		<input type="hidden" name="id" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.id : -1}" />

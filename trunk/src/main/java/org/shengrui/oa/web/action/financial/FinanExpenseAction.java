@@ -8,6 +8,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.finan.ModelFinanExpense;
+import org.shengrui.oa.model.flow.ModelProcessType;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.web.paging.PaginationSupport;
@@ -71,6 +72,14 @@ extends BaseFinanAction
 	{
 		try
 		{
+			ModelProcessType procType = this.serviceProcessType.getTypesByKey("PROCESS_PAYMENT");
+			if (procType == null)
+			{
+				return ajaxPrint(response, getErrorCallback("费用支出申请流程类型不存在..."));
+			}
+			
+			request.setAttribute("types", this.getProcessSubTypes(procType.getId()));
+			
 			String expenseId = request.getParameter("id");
 			if (this.isObjectIdValid(expenseId))
 			{
@@ -87,7 +96,7 @@ extends BaseFinanAction
 				LOGGER.error("需要传入费用申请ID参数.");
 			}
 		}
-		catch (ServiceException e)
+		catch (Exception e)
 		{
 			LOGGER.error("Exception raised when fetch expense detail.", e);
 		}
