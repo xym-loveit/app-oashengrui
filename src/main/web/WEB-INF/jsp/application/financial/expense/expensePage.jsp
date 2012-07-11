@@ -14,6 +14,19 @@
 	#tblexp input.textInput {float:none;margin: 5px; width: 70px;}
 </style>
 
+<script>
+	$(function(){
+		$("#enRMB").keyup(function(){
+			$("#cnRMB").val(Arabia_to_Chinese(this.value));
+		});
+		
+		<logic:present name="employeeExpenseEntry">
+			$("#cnRMB").val(Arabia_to_Chinese("${employeeExpenseEntry.applyAmt}"));
+		</logic:present>
+
+	});
+</script>
+
 <div class="pageContent">
 	<form method="post" action="app/finan/financial.do?action=actionFinanExpenseSave" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent" layoutH="56">
@@ -52,8 +65,8 @@
 				</tr>
 				<tr>
 					<td class='field'>支出金额</td>
-					<td colspan="3"><input name="applyAmt"  type="text" style="width: 200px" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.applyAmt : ''}" />￥小写</td>
-					<td colspan="3"><input type="text" style="color: #ddd;width: 200px" value="${employeeExpenseEntry ne null ? '' : '根据小写自动生成'}" />￥大写</td>
+					<td colspan="3"><input name="applyAmt" id="enRMB" type="text" style="width: 200px" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.applyAmt : ''}" />￥小写</td>
+					<td colspan="3"><input id="cnRMB" readonly type="text" style="color: #999999;width: 200px" value="根据小写自动生成" />￥大写</td>
 					<td class='field'>付款方</td>
 					<td colspan="2">
 						<input type="radio" value="0" name="payer" ${employeeExpenseEntry ne null && employeeExpenseEntry.payer eq 0 ? 'checked="checked"': ''}/> 本校区

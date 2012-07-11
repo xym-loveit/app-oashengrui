@@ -75,9 +75,11 @@
 			<thead>
 				<tr>
 					<th align="center">申请类型</th>
-					<th align="center">申请内容描述</th>
-					<th align="center">申请时间</th>
 					<th align="center">申请人</th>
+					<th align="center">申请金额</th>
+					<th align="center">所属校区</th>
+					<th align="center">所属部门</th>
+					<th align="center">申请时间</th>
 					<th align="center">审批状态</th>
 					<th align="center">审批环节</th>
 					<th align="center">申请单查看</th>
@@ -88,9 +90,11 @@
 					<logic:iterate name="employeeExpenseInfo" property="items" id="entity">
 						<tr target="entry_id" rel="${entity.id}">
 							<td>${entity.applyFormType.processTypeName}</td>
-							<td>${entity.comments}</td>
-							<td><fmt:formatDate  value="${entity.applyDate}" pattern="yyyy-MM-dd" /></td>
 							<td>${entity.employee ne null ? entity.employee.empName : ''}</td>
+							<td>${entity.applyAmt}</td>
+							<td>${entity.empDistrict ne null ? entity.empDistrict.districtName : ''}</td>
+							<td>${entity.empDepartment ne null ? entity.empDepartment.depName : ''}</td>
+							<td><fmt:formatDate  value="${entity.applyDate}" pattern="yyyy-MM-dd" /></td>
 							<td>
 								<c:choose>
 									<c:when test="${entity.auditState eq 0}">
