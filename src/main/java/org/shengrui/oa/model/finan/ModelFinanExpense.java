@@ -25,19 +25,19 @@ extends ModelBase
 	private static final long serialVersionUID = -8811440104989696141L;
 	
 	/**
-	 * 员工档案
-	 */
-	private ModelHrmEmployee employee = new ModelHrmEmployee();
-	
-	/**
 	 * 财务费用申请单号
 	 */
-	private ModelProcessForm applyForm = new ModelProcessForm();
+	private String formNo;
 	
 	/**
 	 * 财务费用申请类型
 	 */
-	private int applyFormType;
+	private Integer applyFormType;
+	
+	/**
+	 * 经办人(申请人)
+	 */
+	private ModelHrmEmployee employee;
 	
 	/**
 	 * 财务费用申请日期
@@ -45,33 +45,89 @@ extends ModelBase
 	private Date applyDate;
 	
 	/**
-	 * 申请备注
+	 * 所属部门
+	 */
+	private ModelSchoolDepartment empDepartment;
+	
+	/**
+	 * 所属校区
+	 */
+	private ModelSchoolDistrict empDistrict;
+	
+	/**
+	 * 财务费用流程单
+	 */
+	private Set<ModelProcessForm> applyForm;
+	
+	/**
+	 * 联系电话
+	 */
+	private String empPhoneNo;
+	
+	/**
+	 * 费用申请备注
 	 */
 	private String comments;
 	
-	private String empPhoneNo;
+	/**
+	 * 支出金额
+	 */
 	private Double applyAmt;
+	
+	/**
+	 * 付款方, 0=本校区, 1=总部
+	 */
 	private int payer = -1;
+	
+	/**
+	 * 合同编号
+	 */
 	private String contractNo;
+	
+	/**
+	 * 附件张数
+	 */
 	private String attachCount;
+	
+	/**
+	 * 是否已事前审批, 0=否, 1=是
+	 */
 	private int auditAdvance = -1;
+	
+	/**
+	 * 固定资产编号
+	 */
 	private String assetNo;
+	
+	/**
+	 * 收款方姓名
+	 */
 	private String amtReceiver;
+	
+	/**
+	 * 收款方联系方式
+	 */
 	private String amtReceiverContact;
+	
+	/**
+	 * 付款方式, 0=现金, 1=转账
+	 */
 	private int payMethod = -1;
+	
+	/**
+	 * 开户银行
+	 */
 	private String bank;
+	
+	/**
+	 * 账户名
+	 */
 	private String accountName;
+	
+	/**
+	 * 账号
+	 */
 	private String accountNo;
-	
-	/**
-	 * 申请部门ID
-	 */
-	private ModelSchoolDepartment empDepartment = new ModelSchoolDepartment();
-	
-	/**
-	 * 申请校区ID
-	 */
-	private ModelSchoolDistrict empDistrict = new ModelSchoolDistrict();
 	
 	/**
 	 * 申请状态
@@ -98,27 +154,11 @@ extends ModelBase
 	 */
 	private Set<ModelProcessHistory> processHistory = new HashSet<ModelProcessHistory>();
 	
-	public ModelHrmEmployee getEmployee() {
-		return employee;
-	}
-
-	public void setEmployee(ModelHrmEmployee employee) {
-		this.employee = employee;
-	}
-
-	public ModelProcessForm getApplyForm() {
-		return applyForm;
-	}
-
-	public void setApplyForm(ModelProcessForm applyForm) {
-		this.applyForm = applyForm;
-	}
-
-	public int getApplyFormType() {
+	public Integer getApplyFormType() {
 		return applyFormType;
 	}
 
-	public void setApplyFormType(int applyFormType) {
+	public void setApplyFormType(Integer applyFormType) {
 		this.applyFormType = applyFormType;
 	}
 
@@ -296,6 +336,36 @@ extends ModelBase
 
 	public void setEmpDistrict(ModelSchoolDistrict empDistrict) {
 		this.empDistrict = empDistrict;
+	}
+
+	public void setApplyForm(Set<ModelProcessForm> applyForm)
+	{
+		this.applyForm = applyForm;
+	}
+
+	public Set<ModelProcessForm> getApplyForm()
+	{
+		return applyForm;
+	}
+
+	public void setFormNo(String formNo)
+	{
+		this.formNo = formNo;
+	}
+
+	public String getFormNo()
+	{
+		return formNo;
+	}
+
+	public void setEmployee(ModelHrmEmployee employee)
+	{
+		this.employee = employee;
+	}
+
+	public ModelHrmEmployee getEmployee()
+	{
+		return employee;
 	}
 
 	

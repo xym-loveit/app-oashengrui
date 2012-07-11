@@ -5,7 +5,7 @@ import java.util.List;
 import org.shengrui.oa.model.flow.ModelProcessDefinition;
 import org.shengrui.oa.model.flow.ModelProcessHistory;
 import org.shengrui.oa.model.flow.ModelProcessTask;
-import org.shengrui.oa.model.system.ModelAppUser;
+import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 
 import cn.trymore.core.exception.ServiceException;
 
@@ -99,11 +99,11 @@ public interface ServiceWorkFlow
 	 * @param filterPositions
 	 * @param condParamVal
 	 * @param formNo
-	 * @param user
+	 * @param employee
 	 * @throws ServiceException
 	 */
 	void doStartProcess (String processTypeId, 
-			String filterPositions, Object condParamVal, String formNo, ModelAppUser user) throws ServiceException;
+			String filterPositions, Object condParamVal, String formNo, ModelHrmEmployee employee) throws ServiceException;
 	
 	/**
 	 * 

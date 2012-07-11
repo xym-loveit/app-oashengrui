@@ -160,9 +160,11 @@ function dialogAjaxDone(json){
 			// clears the form input if true returned
 			if (json.formClear) {
 				var cdialog = $.pdialog._current;
-				cdialog.find("input[type='text']").val("");
-				cdialog.find("input[type='hidden']").val("");
-				cdialog.find("textarea").val("");
+				if (cdialog != null) {
+					cdialog.find("input[type='text']").val("");
+					cdialog.find("input[type='hidden']").val("");
+					cdialog.find("textarea").val("");
+				}
 			}
 			
 		} else if (json.rel) {

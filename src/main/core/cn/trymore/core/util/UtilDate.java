@@ -10,7 +10,7 @@ public class UtilDate {
 	
 	public UtilDate(){}
 	
-	private static String defaultDatePattern = "yyyy-MM-dd HH:mm";
+	private static String defaultDatePattern = "yyyy-MM-dd HH:mm:ss";
 	private static SimpleDateFormat defaultFormatter = new SimpleDateFormat(defaultDatePattern);
 	
 	public static String getDatePattern(){

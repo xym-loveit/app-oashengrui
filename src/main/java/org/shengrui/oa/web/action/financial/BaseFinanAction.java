@@ -15,6 +15,16 @@ public class BaseFinanAction
 extends FlowBaseAction
 {
 	/**
+	 * The form key for financial expense
+	 */
+	protected final String FINAN_FORM_KEY_EXPENSE = "FE";
+	
+	/**
+	 * The form key for financial contract
+	 */
+	protected final String FINAN_FORM_KEY_CONTRACT = "FC";
+	
+	/**
 	 * The Expense service.
 	 */
 	@Resource
