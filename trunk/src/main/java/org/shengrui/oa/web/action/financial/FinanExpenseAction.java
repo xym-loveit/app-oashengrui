@@ -173,7 +173,7 @@ extends BaseFinanAction
 			{
 				// 进入流程...
 				this.serviceWorkFlow.doStartProcess(
-						expenseInfo.getApplyFormType().toString(), 
+						expenseInfo.getApplyFormType().getId(), 
 						null, 
 						expenseInfo.getApplyAmt(), 
 						expenseInfo.getFormNo(), 
