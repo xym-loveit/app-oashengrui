@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.shengrui.oa.model.flow.ModelProcessForm;
 import org.shengrui.oa.model.flow.ModelProcessHistory;
+import org.shengrui.oa.model.flow.ModelProcessType;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
@@ -32,7 +33,7 @@ extends ModelBase
 	/**
 	 * 财务费用申请类型
 	 */
-	private Integer applyFormType;
+	private ModelProcessType applyFormType;
 	
 	/**
 	 * 经办人(申请人)
@@ -154,11 +155,13 @@ extends ModelBase
 	 */
 	private Set<ModelProcessHistory> processHistory = new HashSet<ModelProcessHistory>();
 	
-	public Integer getApplyFormType() {
+	public ModelProcessType getApplyFormType() 
+	{
 		return applyFormType;
 	}
 
-	public void setApplyFormType(Integer applyFormType) {
+	public void setApplyFormType(ModelProcessType applyFormType)
+	{
 		this.applyFormType = applyFormType;
 	}
 

@@ -10,7 +10,7 @@
 
 <style>
 	#tblexp td.banner {line-height: 45px;font-size: 18px; font-weight: bold; text-align: center; margin: 0;}
-	#tblexp td.field {background-color: #00CCFF; line-height: 45px; text-align: center; margin: 0; width: 120px; font-size: 9pt;}
+	#tblexp td.field {background-color: #CFDBEC; line-height: 45px; text-align: center; margin: 0; width: 120px; font-size: 9pt;}
 	#tblexp input.textInput {float:none;margin: 5px; width: 70px;}
 </style>
 
@@ -19,7 +19,7 @@
 		<div class="pageFormContent" layoutH="56">
 			<div style="padding: 10px 0px; border-bottom: 1px dotted #999; margin: 0 10px 15px 10px; overflow: auto; clear: both;">
 				<span style="float:left; color:#FF7300; line-height: 18px;">请选择费用支出类型：</span>
-				<select class="combox" name="applyFormType" id="expense_type">
+				<select class="combox" name="applyFormTypeId" id="expense_type">
 					<option value="">请选择申请类型</option>
 					<logic:present name="types">
 						<logic:iterate name="types" id="entity">
@@ -37,13 +37,13 @@
 					<td class='field'>经办人</td>
 					<td><input name="empName" type="text" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.employee.empName : ''}"/></td>
 					<td class='field'>日期</td>
-					<td><input name="applyDate" type="text" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.employee.empName : ''}"/></td>
+					<td><input name="applyDate" type="text" value="<c:if test='${employeeExpenseEntry ne null}'><fmt:formatDate value='${employeeExpenseEntry.applyDate}' pattern='yyyy-MM-dd' /></c:if>"></td>
 					<td class='field'>所属校区</td>
-					<td><input name="fromDistrict" type="text" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.employee.empName : ''}"/></td>
+					<td><input name="fromDistrict" type="text" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.empDistrict.districtName : ''}"/></td>
 					<td class='field'>所属部门</td>
-					<td><input name="fromDepartment" type="text" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.employee.empName : ''}"/></td>
+					<td><input name="fromDepartment" type="text" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.empDepartment.depName : ''}"/></td>
 					<td class='field'>联系电话</td>
-					<td><input name="empPhoneNo" type="text" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.employee.empName : ''}"/></td>
+					<td><input name="empPhoneNo" type="text" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.empPhoneNo : ''}"/></td>
 					<td rowspan="6" style="line-height: 20px; padding: 0 4px;">业务招待费指用于业务及相关活动的应酬费用，如餐费、礼品费等。</td>
 				</tr>
 				<tr>
@@ -53,11 +53,11 @@
 				<tr>
 					<td class='field'>支出金额</td>
 					<td colspan="3"><input name="applyAmt"  type="text" style="width: 200px" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.applyAmt : ''}" />￥小写</td>
-					<td colspan="3"><input type="text" style="color: #ddd;width: 200px" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.applyAmt : '根据小写自动生成'}" />￥大写</td>
+					<td colspan="3"><input type="text" style="color: #ddd;width: 200px" value="${employeeExpenseEntry ne null ? '' : '根据小写自动生成'}" />￥大写</td>
 					<td class='field'>付款方</td>
 					<td colspan="2">
-						<input type="radio" value="0" name="payer"/> 本校区
-						<input type="radio" value="1" name="payer"/> 总部
+						<input type="radio" value="0" name="payer" ${employeeExpenseEntry ne null && employeeExpenseEntry.payer eq 0 ? 'checked="checked"': ''}/> 本校区
+						<input type="radio" value="1" name="payer" ${employeeExpenseEntry ne null && employeeExpenseEntry.payer eq 1 ? 'checked="checked' : ''}/> 总部
 					</td>
 				</tr>
 				<tr>
@@ -67,8 +67,8 @@
 					<td><input name="attachCount" type="text" style="" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.attachCount : ''}" /></td>
 					<td class='field'>是否已事前审批</td>
 					<td colspan="2">
-						<input type="radio" value="1" name="auditAdvance"/> 是
-						<input type="radio" value="0" name="auditAdvance"/> 否
+						<input type="radio" value="1" name="auditAdvance" ${employeeExpenseEntry ne null && employeeExpenseEntry.auditAdvance eq 1 ? 'checked="checked"' : ''}/> 是
+						<input type="radio" value="0" name="auditAdvance" ${employeeExpenseEntry ne null && employeeExpenseEntry.auditAdvance eq 0 ? 'checked="checked"' : ''}/> 否
 					</td>
 				</tr>
 				<tr>
@@ -84,8 +84,8 @@
 				<tr>
 					<td class='field'>付款方式</td>
 					<td colspan="2">
-						<input type="radio" value="0" name="paymethod"/> 现金
-						<input type="radio" value="1" name="paymethod"/> 转账
+						<input type="radio" value="0" name="payMethod" ${employeeExpenseEntry ne null && employeeExpenseEntry.payMethod eq 0 ? 'checked="checked"' : ''}/> 现金
+						<input type="radio" value="1" name="payMethod" ${employeeExpenseEntry ne null && employeeExpenseEntry.payMethod eq 1 ? 'checked="checked"' : ''}/> 转账
 					</td>
 					<td class='field'>开户银行</td>
 					<td><input name="bank" type="text" style="" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.bank : ''}" /></td>
@@ -97,35 +97,42 @@
 					</td>
 				</tr>
 			</table>
-			<!--
-				<tr>
-					<td>本部门意见：</td>
-					<td colspan="8"><textarea name="comments" rows="1" style="width: 100%">${employeeExpenseEntry.applyForm ne null ? employeeExpenseEntry.applyForm.auditIdea : ''}</textarea></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>人资部意见：</td>
-					<td colspan="8"><textarea name="comments" rows="1" style="width: 100%">${employeeExpenseEntry.applyForm ne null ? employeeExpenseEntry.applyForm.auditIdea : ''}</textarea></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>校区意见：</td>
-					<td colspan="8"><textarea name="comments" rows="1" style="width: 100%">${employeeExpenseEntry.applyForm ne null ? employeeExpenseEntry.applyForm.auditIdea : ''}</textarea></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>总部意见：</td>
-					<td colspan="8"><textarea name="comments" rows="1" style="width: 100%">${employeeExpenseEntry ne null ? employeeExpenseEntry.applyForm.auditIdea : ''}</textarea></td>
-					<td></td>
-				</tr>
-			</table>
-			-->
+			
 		</div>
 		<div class="formBar">
 			<ul>
+				<c:if test="${op eq null || op ne 'view'}">
 				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">提交申请</button></div></div></li>
+				</c:if>
+				<li>
+					<div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div>
+				</li>
 			</ul>
 		</div>
 		<input type="hidden" name="id" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.id : -1}" />
 	</form>
 </div>
+
+<%--
+	<tr>
+		<td>本部门意见：</td>
+		<td colspan="8"><textarea name="comments" rows="1" style="width: 100%">${employeeExpenseEntry.applyForm ne null ? employeeExpenseEntry.applyForm.auditIdea : ''}</textarea></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>人资部意见：</td>
+		<td colspan="8"><textarea name="comments" rows="1" style="width: 100%">${employeeExpenseEntry.applyForm ne null ? employeeExpenseEntry.applyForm.auditIdea : ''}</textarea></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>校区意见：</td>
+		<td colspan="8"><textarea name="comments" rows="1" style="width: 100%">${employeeExpenseEntry.applyForm ne null ? employeeExpenseEntry.applyForm.auditIdea : ''}</textarea></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>总部意见：</td>
+		<td colspan="8"><textarea name="comments" rows="1" style="width: 100%">${employeeExpenseEntry ne null ? employeeExpenseEntry.applyForm.auditIdea : ''}</textarea></td>
+		<td></td>
+	</tr>
+</table>
+--%>

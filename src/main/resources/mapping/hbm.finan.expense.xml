@@ -8,9 +8,6 @@
             <column name="expense_id" />
             <generator class="native" />
         </id>
-         <property name="applyFormType" type="java.lang.Integer">
-            <column name="apply_form_type" />
-        </property>
          <property name="formNo" type="java.lang.String">
             <column name="apply_form_no" />
         </property>
@@ -71,6 +68,10 @@
          <property name="entryDateTime" type="timestamp">
             <column name="entry_datetime" />
         </property>
+        
+        <many-to-one name="applyFormType" class="org.shengrui.oa.model.flow.ModelProcessType">
+        	<column name="apply_form_type" />
+        </many-to-one>
         
         <many-to-one name="employee" class="org.shengrui.oa.model.hrm.ModelHrmEmployee">
         	<column name="emp_id" />

@@ -33,10 +33,13 @@
 				<tr>
 					<td>
 						<label>申请类型：</label>
-						<select class="combox" name="applyFormType" style="width:108px;">
+						<select class="combox" name="applyFormTypeId" style="width:108px;">
 							<option value="-1">所有</option>
-							<option value="1" ${employeeExpenseForm ne null && employeeExpenseForm.applyFormType eq 1 ? 'selected="selected"' : ''}>工资薪金支出</option>
-							<option value="2" ${employeeExpenseForm ne null && employeeExpenseForm.applyFormType eq 2 ? 'selected="selected"' : ''}>日用品支出</option>
+							<logic:present name="types">
+								<logic:iterate name="types" id="entity">
+									<option value="${entity.id}" ${department ne null && department.depEquivalentBranch ne null && department.depEquivalentBranch.id eq entity.id ? "selected='selected'" : ""}>${entity.processTypeName}</option>
+								</logic:iterate>
+							</logic:present>
 						</select>
 					</td>
 					<td>
@@ -64,7 +67,7 @@
 	<div class="pageContent">
 		<div class="panelBar">
 			<ul class="toolBar">
-				<li><a class="add" href="app/finan/financial.do?action=FinanExpenseDetail&op=viewprogress" target="navtab" title="财务申请" width="930" height="500" rel="dia_hr_entryadd"><span>财务申请</span></a></li>
+				<li><a class="add" href="app/finan/financial.do?action=FinanExpenseDetail" target="dialog" title="财务申请" width="1100" height="540" rel="dia_finexp_add"><span>财务申请</span></a></li>
 				<li class="line">line</li>
 			</ul>
 		</div>
@@ -84,16 +87,7 @@
 				<logic:present name="employeeExpenseInfo">
 					<logic:iterate name="employeeExpenseInfo" property="items" id="entity">
 						<tr target="entry_id" rel="${entity.id}">
-							<td>
-								<c:choose>
-									<c:when test="${entity.applyFormType eq 1}">
-										工资薪金支出
-									</c:when>
-									<c:when test="${entity.applyFormType eq 2}">
-										日用品支出
-									</c:when>
-								</c:choose>
-							</td>
+							<td>${entity.applyFormType.processTypeName}</td>
 							<td>${entity.comments}</td>
 							<td><fmt:formatDate  value="${entity.applyDate}" pattern="yyyy-MM-dd" /></td>
 							<td>${entity.employee ne null ? entity.employee.empName : ''}</td>
@@ -110,8 +104,8 @@
 									</c:when>
 								</c:choose>
 							</td>
-							<td>${entity.employee ne null ? entity.applyForm.nextProcess.processName : ''}</td>
-							<td><a class="oplink" href="app/finan/financial.do?action=FinanExpenseDetail&id=${entity.id}&op=view" target="dialog" title="查看${entity.employee.empName}申请单" width="1024" height="500" rel="hrm_emp_profile_${entity.id}">详细</a></td>
+							<td></td>
+							<td><a class="oplink" href="app/finan/financial.do?action=FinanExpenseDetail&id=${entity.id}&op=view" target="dialog" title="查看${entity.employee.empName}申请单" width="1100" height="540" rel="dia_finexp_view_${entity.id}">详细</a></td>
 						</tr>
 					</logic:iterate>
 				</logic:present>

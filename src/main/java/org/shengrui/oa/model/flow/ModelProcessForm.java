@@ -162,6 +162,11 @@ extends ModelBase
 	private Integer sortCode;
 	
 	/**
+	 * 任务类型
+	 */
+	private Integer taskType;
+	
+	/**
 	 * The enumeration of interview state
 	 * 
 	 * @author Jeccy.Zhao
@@ -468,6 +473,16 @@ extends ModelBase
 
 	public void setAuditPositionIds(String auditPositionIds) {
 		this.auditPositionIds = auditPositionIds;
+	}
+
+	public Integer getTaskType()
+	{
+		return taskType;
+	}
+
+	public void setTaskType(Integer taskType)
+	{
+		this.taskType = taskType;
 	}
 	
 	

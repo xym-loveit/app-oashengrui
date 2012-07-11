@@ -280,6 +280,7 @@ implements ServiceWorkFlow
 				form.setToPositionNames(task.getToPositionNames());
 			}
 			
+			form.setTaskType(task.getProcessTaskType());
 			form.setProcessType(this.serviceProcessType.get(processTypeId));
 			
 			// The following properties can be ignored during the current cases.

@@ -83,6 +83,9 @@
          <property name="sortCode" type="java.lang.Integer">
             <column name="seq_sn" />
         </property>
+         <property name="taskType" type="java.lang.Integer">
+            <column name="task_type" />
+        </property>
          <property name="auditDate" type="timestamp">
             <column name="audit_date" />
         </property>
