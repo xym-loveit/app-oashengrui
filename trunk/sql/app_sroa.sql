@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 3.3.3
+-- version 3.4.7
 -- http://www.phpmyadmin.net
 --
--- 主機: localhost
--- 建立日期: Jul 11, 2012, 04:45 PM
--- 伺服器版本: 5.0.91
--- PHP 版本: 5.2.13
+-- 主机: localhost
+-- 生成日期: 2012 年 07 月 11 日 23:11
+-- 服务器版本: 5.5.17
+-- PHP 版本: 5.3.8
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -16,91 +17,76 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 /*!40101 SET NAMES utf8 */;
 
 --
--- 資料庫: `app_sroa`
+-- 数据库: `app_sroa`
 --
 
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_admin_attendance`
+-- 表的结构 `app_admin_attendance`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_attendance` (
-  `attend_id` bigint(20) NOT NULL auto_increment COMMENT '考勤ID',
+  `attend_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '考勤ID',
   `work_date` date NOT NULL COMMENT '工作日期',
   `work_time` varchar(64) NOT NULL COMMENT '工作时间',
-  `offtime_shour` int(11) default NULL COMMENT '实际下班时间 - 打卡小时 (上)',
-  `offtime_ehour` int(11) default NULL COMMENT '实际下班时间 - 打卡分钟 (上)',
-  `offtime_smin` int(11) default NULL COMMENT '实际下班时间 - 打卡小时 (下)',
-  `offtime_emin` int(11) default NULL COMMENT '实际下班时间 - 打卡分钟 (下)',
+  `offtime_shour` int(11) DEFAULT NULL COMMENT '实际下班时间 - 打卡小时 (上)',
+  `offtime_ehour` int(11) DEFAULT NULL COMMENT '实际下班时间 - 打卡分钟 (上)',
+  `offtime_smin` int(11) DEFAULT NULL COMMENT '实际下班时间 - 打卡小时 (下)',
+  `offtime_emin` int(11) DEFAULT NULL COMMENT '实际下班时间 - 打卡分钟 (下)',
   `staff_id` bigint(20) NOT NULL COMMENT '员工ID',
   `staff_name` varchar(64) NOT NULL COMMENT '员工姓名',
   `work_type` tinyint(4) NOT NULL COMMENT '上班类型, 0=正常上班, 1=带薪上班',
   `work_status` tinyint(4) NOT NULL COMMENT '上班状态， 0=在岗, 1=出差, 2=请假',
-  `leave_type` tinyint(4) default NULL COMMENT '请假类型',
-  `staff_behalf_name` varchar(64) default NULL COMMENT '代班员工姓名',
-  `staff_behalf_id` bigint(20) default NULL COMMENT '代班员工ID',
-  `meto` varchar(250) default NULL COMMENT '说明 (请假说明, 旷工说明)',
-  `attendance_result` tinyint(4) default NULL COMMENT '考勤结果, 0=按时, 1=迟到, 2=早退, 3=旷工',
-  PRIMARY KEY  (`attend_id`)
+  `leave_type` tinyint(4) DEFAULT NULL COMMENT '请假类型',
+  `staff_behalf_name` varchar(64) DEFAULT NULL COMMENT '代班员工姓名',
+  `staff_behalf_id` bigint(20) DEFAULT NULL COMMENT '代班员工ID',
+  `meto` varchar(250) DEFAULT NULL COMMENT '说明 (请假说明, 旷工说明)',
+  `attendance_result` tinyint(4) DEFAULT NULL COMMENT '考勤结果, 0=按时, 1=迟到, 2=早退, 3=旷工',
+  PRIMARY KEY (`attend_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-员工考勤' AUTO_INCREMENT=1 ;
-
---
--- 列出以下資料庫的數據： `app_admin_attendance`
---
-
 
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_admin_doc`
+-- 表的结构 `app_admin_doc`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_doc` (
-  `doc_id` bigint(20) NOT NULL auto_increment COMMENT '文档ID',
+  `doc_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '文档ID',
   `type_dicid` bigint(20) NOT NULL COMMENT '文档类型ID (来自系统字典)',
   `doc_name` varchar(150) NOT NULL COMMENT '文档名称',
   `doc_level` tinyint(4) NOT NULL COMMENT '文档级别',
   `doc_visibleRange` tinyint(4) NOT NULL COMMENT '文档范围',
-  `doc_userNames` varchar(250) default NULL COMMENT '文档可见人姓名集合, 多用户姓名之间用,连接, 主要方便于数据库查询',
-  `doc_userIds` varchar(150) default NULL COMMENT '文档可见用户ID集合, 主要方便数据库查询',
+  `doc_userNames` varchar(250) DEFAULT NULL COMMENT '文档可见人姓名集合, 多用户姓名之间用,连接, 主要方便于数据库查询',
+  `doc_userIds` varchar(150) DEFAULT NULL COMMENT '文档可见用户ID集合, 主要方便数据库查询',
   `doc_postDistrictId` bigint(20) NOT NULL COMMENT '文档上传校区',
   `doc_postDepId` bigint(20) NOT NULL COMMENT '文档上传部门',
   `author_id` bigint(20) NOT NULL COMMENT '上传用户',
   `create_time` datetime NOT NULL COMMENT '上传时间',
-  PRIMARY KEY  (`doc_id`)
+  PRIMARY KEY (`doc_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-文档' AUTO_INCREMENT=1 ;
-
---
--- 列出以下資料庫的數據： `app_admin_doc`
---
-
 
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_admin_doc_file`
+-- 表的结构 `app_admin_doc_file`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_doc_file` (
   `doc_id` bigint(20) NOT NULL COMMENT '文档ID',
   `file_id` bigint(20) NOT NULL COMMENT '文件ID',
-  PRIMARY KEY  (`doc_id`,`file_id`)
+  PRIMARY KEY (`doc_id`,`file_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-文档文件关联表';
-
---
--- 列出以下資料庫的數據： `app_admin_doc_file`
---
-
 
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_admin_news`
+-- 表的结构 `app_admin_news`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_news` (
-  `news_id` bigint(20) NOT NULL auto_increment,
+  `news_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `type_dicid` bigint(20) NOT NULL COMMENT '新闻类型id (来自系统字典)',
   `news_subject` varchar(128) NOT NULL COMMENT '新闻标题',
   `news_content` text NOT NULL COMMENT '新闻内容',
@@ -111,216 +97,182 @@ CREATE TABLE IF NOT EXISTS `app_admin_news` (
   `district_post` bigint(20) NOT NULL COMMENT '发布校区',
   `dep_post` bigint(20) NOT NULL COMMENT '发布部门',
   `createtime` datetime NOT NULL COMMENT '创建时间',
-  `updateTime` datetime default NULL COMMENT '最后更新时间',
-  `top_index` int(11) default NULL COMMENT '置顶序号',
+  `updateTime` datetime DEFAULT NULL COMMENT '最后更新时间',
+  `top_index` int(11) DEFAULT NULL COMMENT '置顶序号',
   `status` smallint(6) NOT NULL COMMENT '0=草稿, 1=已发布并待审核, 2=审核通过, 3=审批退回',
-  PRIMARY KEY  (`news_id`),
+  PRIMARY KEY (`news_id`),
   KEY `type_id` (`type_dicid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-新闻' AUTO_INCREMENT=1 ;
-
---
--- 列出以下資料庫的數據： `app_admin_news`
---
-
 
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_admin_news_file`
+-- 表的结构 `app_admin_news_file`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_news_file` (
   `news_id` bigint(20) NOT NULL COMMENT '新闻ID',
   `file_id` bigint(20) NOT NULL COMMENT '文件ID',
-  PRIMARY KEY  (`news_id`,`file_id`)
+  PRIMARY KEY (`news_id`,`file_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-新闻文件关联表';
-
---
--- 列出以下資料庫的數據： `app_admin_news_file`
---
-
 
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_admin_task`
+-- 表的结构 `app_admin_task`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_task` (
-  `task_id` bigint(20) NOT NULL auto_increment,
+  `task_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `type_dicid` bigint(20) NOT NULL COMMENT '任务类型Id (来自系统字典)',
   `task_name` varchar(120) NOT NULL COMMENT '任务名称',
   `task_originator` bigint(20) NOT NULL COMMENT '任务发起人',
   `task_charger` bigint(20) NOT NULL COMMENT '任务负责人',
   `task_planStartDate` date NOT NULL COMMENT '任务计划开始时间',
   `task_planEndDate` date NOT NULL COMMENT '任务计划终止时间',
-  `task_actualFinishDate` date default NULL COMMENT '任务实际完成时间',
+  `task_actualFinishDate` date DEFAULT NULL COMMENT '任务实际完成时间',
   `task_desc` text NOT NULL COMMENT '任务描述',
-  `task_participant_ids` varchar(120) default NULL COMMENT '任务参与人ID列表',
-  `task_participant_names` varchar(250) default NULL COMMENT '任务参与人名称列表',
+  `task_participant_ids` varchar(120) DEFAULT NULL COMMENT '任务参与人ID列表',
+  `task_participant_names` varchar(250) DEFAULT NULL COMMENT '任务参与人名称列表',
   `task_status` tinyint(4) NOT NULL COMMENT '任务状态',
-  `approval_status` tinyint(4) default NULL COMMENT '审批状态',
-  PRIMARY KEY  (`task_id`)
+  `approval_status` tinyint(4) DEFAULT NULL COMMENT '审批状态',
+  PRIMARY KEY (`task_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-任务委托' AUTO_INCREMENT=1 ;
-
---
--- 列出以下資料庫的數據： `app_admin_task`
---
-
 
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_admin_task_file`
+-- 表的结构 `app_admin_task_file`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_task_file` (
   `task_id` bigint(20) NOT NULL COMMENT '任务ID',
   `file_id` bigint(20) NOT NULL COMMENT '文件ID',
-  PRIMARY KEY  (`task_id`,`file_id`)
+  PRIMARY KEY (`task_id`,`file_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-任务委托文件关联表';
-
---
--- 列出以下資料庫的數據： `app_admin_task_file`
---
-
 
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_admin_workarrange`
+-- 表的结构 `app_admin_workarrange`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_workarrange` (
-  `work_id` bigint(20) NOT NULL auto_increment COMMENT '工作ID',
+  `work_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '工作ID',
   `work_date` date NOT NULL COMMENT '工作日期',
   `work_time` varchar(64) NOT NULL COMMENT '工作时间',
   `staff_name` varchar(64) NOT NULL COMMENT '员工姓名',
   `staff_id` bigint(20) NOT NULL COMMENT '员工ID',
   `work_type` tinyint(4) NOT NULL COMMENT '上班类型',
   `work_content` text COMMENT '工作内容',
-  PRIMARY KEY  (`work_id`)
+  PRIMARY KEY (`work_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-工作安排' AUTO_INCREMENT=1 ;
-
---
--- 列出以下資料庫的數據： `app_admin_workarrange`
---
-
 
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_dictionary`
+-- 表的结构 `app_dictionary`
 --
 
 CREATE TABLE IF NOT EXISTS `app_dictionary` (
-  `dic_id` bigint(20) NOT NULL auto_increment,
+  `dic_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `item_name` varchar(64) NOT NULL COMMENT '字典名称',
   `item_value` varchar(128) NOT NULL COMMENT '字典值',
-  `item_desc` varchar(256) default NULL COMMENT '字典描述',
+  `item_desc` varchar(256) DEFAULT NULL COMMENT '字典描述',
   `global_type` bigint(20) NOT NULL COMMENT '字典所属类型',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_time` datetime default NULL COMMENT '更改时间',
-  PRIMARY KEY  (`dic_id`),
+  `update_time` datetime DEFAULT NULL COMMENT '更改时间',
+  PRIMARY KEY (`dic_id`),
   KEY `global_type` (`global_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据字典' AUTO_INCREMENT=1 ;
 
---
--- 列出以下資料庫的數據： `app_dictionary`
---
-
-
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_file_attach`
+-- 表的结构 `app_file_attach`
 --
 
 CREATE TABLE IF NOT EXISTS `app_file_attach` (
-  `file_id` bigint(20) NOT NULL auto_increment,
+  `file_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `file_name` varchar(128) NOT NULL COMMENT '文件名',
   `file_path` varchar(128) NOT NULL COMMENT '文件路径',
   `createtime` datetime NOT NULL COMMENT '创建时间',
-  `file_ext` varchar(32) default NULL COMMENT '扩展名',
+  `file_ext` varchar(32) DEFAULT NULL COMMENT '扩展名',
   `file_type` varchar(32) NOT NULL COMMENT '附件类型            如：邮件附件',
-  `note` varchar(1024) default NULL COMMENT '说明',
+  `note` varchar(1024) DEFAULT NULL COMMENT '说明',
   `creator` varchar(32) NOT NULL COMMENT '上传者',
-  `creator_id` bigint(20) default NULL COMMENT '上传者ID',
+  `creator_id` bigint(20) DEFAULT NULL COMMENT '上传者ID',
   `file_bytes` int(11) NOT NULL COMMENT '文件总大小',
-  `del_flag` smallint(6) default '0' COMMENT '1=已删除, 0=未删除',
-  PRIMARY KEY  (`file_id`)
+  `del_flag` smallint(6) DEFAULT '0' COMMENT '1=已删除, 0=未删除',
+  PRIMARY KEY (`file_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='附件' AUTO_INCREMENT=1 ;
-
---
--- 列出以下資料庫的數據： `app_file_attach`
---
-
 
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_finan_expense`
+-- 表的结构 `app_finan_expense`
 --
 
 CREATE TABLE IF NOT EXISTS `app_finan_expense` (
-  `expense_id` bigint(20) NOT NULL auto_increment,
-  `apply_form_no` varchar(120) default NULL COMMENT '人资审批流程',
-  `apply_form_type` bigint(20) default NULL,
-  `apply_date` date default NULL,
+  `expense_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `apply_form_no` varchar(120) DEFAULT NULL COMMENT '人资审批流程',
+  `apply_form_type` bigint(20) DEFAULT NULL,
+  `apply_date` date DEFAULT NULL,
   `comments` longtext,
-  `emp_id` bigint(20) default NULL COMMENT '员工ID',
-  `emp_district` bigint(20) default NULL,
-  `emp_dep` bigint(20) default NULL,
-  `emp_phone_no` varchar(120) default NULL,
-  `apply_amt` double default NULL,
-  `payer` bigint(20) default NULL,
-  `contract_no` varchar(120) default NULL,
-  `attach_count` varchar(120) default NULL,
-  `audit_advance` bigint(20) default NULL,
-  `asset_no` varchar(120) default NULL,
-  `amt_receiver` varchar(120) default NULL,
-  `amt_receiver_contact` varchar(120) default NULL,
-  `pay_method` bigint(20) default NULL,
-  `bank` varchar(120) default NULL,
-  `account_name` varchar(120) default NULL,
-  `account_no` varchar(120) default NULL,
-  `status` char(1) default NULL,
-  `audit_state` bigint(20) default NULL,
-  `entry_id` bigint(20) default NULL,
-  `entry_datetime` datetime default NULL,
-  PRIMARY KEY  (`expense_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+  `emp_id` bigint(20) DEFAULT NULL COMMENT '员工ID',
+  `emp_district` bigint(20) DEFAULT NULL,
+  `emp_dep` bigint(20) DEFAULT NULL,
+  `emp_phone_no` varchar(120) DEFAULT NULL,
+  `apply_amt` double DEFAULT NULL,
+  `payer` bigint(20) DEFAULT NULL,
+  `contract_no` varchar(120) DEFAULT NULL,
+  `attach_count` varchar(120) DEFAULT NULL,
+  `audit_advance` bigint(20) DEFAULT NULL,
+  `asset_no` varchar(120) DEFAULT NULL,
+  `amt_receiver` varchar(120) DEFAULT NULL,
+  `amt_receiver_contact` varchar(120) DEFAULT NULL,
+  `pay_method` bigint(20) DEFAULT NULL,
+  `bank` varchar(120) DEFAULT NULL,
+  `account_name` varchar(120) DEFAULT NULL,
+  `account_no` varchar(120) DEFAULT NULL,
+  `status` char(1) DEFAULT NULL,
+  `audit_state` bigint(20) DEFAULT NULL,
+  `entry_id` bigint(20) DEFAULT NULL,
+  `entry_datetime` datetime DEFAULT NULL,
+  PRIMARY KEY (`expense_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
--- 列出以下資料庫的數據： `app_finan_expense`
+-- 转存表中的数据 `app_finan_expense`
 --
 
 INSERT INTO `app_finan_expense` (`expense_id`, `apply_form_no`, `apply_form_type`, `apply_date`, `comments`, `emp_id`, `emp_district`, `emp_dep`, `emp_phone_no`, `apply_amt`, `payer`, `contract_no`, `attach_count`, `audit_advance`, `asset_no`, `amt_receiver`, `amt_receiver_contact`, `pay_method`, `bank`, `account_name`, `account_no`, `status`, `audit_state`, `entry_id`, `entry_datetime`) VALUES
-(1, '1', 1, '2012-06-19', '1weqeqw', 3, 1, 1, 'qwe', NULL, 1, NULL, NULL, 1, NULL, NULL, NULL, 1, NULL, NULL, NULL, 'Y', 1, 1, NULL),
 (2, 'FE2012-07-11152546', 7, '2012-07-11', 'feawfeaw', 3, 3, 9, '12421521', 12521, 0, '12421321', '2', 1, '21421321321', '312321', '32132131', -1, '213321421', '321321', '321321312321', NULL, -1, 1, '2012-07-11 15:25:46'),
 (3, 'FE20120711153033', 9, '2012-07-11', 'wqe', 3, 3, 9, '12421521', 12521, 1, '12421321', '421', 1, '21421321321', '123', 'sr', -1, '213321421', '1', 'z12', NULL, -1, 1, '2012-07-11 15:30:33'),
-(4, 'FE20120711163703', 7, '2012-07-11', '', 3, 3, 9, '12421521', 450.5, 0, '12421321', '2', 1, '21421321321', '312321', '32132131', -1, '213321421', '321321', '321321312321', NULL, -1, 1, '2012-07-11 16:37:03');
+(4, 'FE20120711163703', 7, '2012-07-11', '', 3, 3, 9, '12421521', 450.5, 0, '12421321', '2', 1, '21421321321', '312321', '32132131', -1, '213321421', '321321', '321321312321', NULL, -1, 1, '2012-07-11 16:37:03'),
+(5, 'FE20120711214325', 7, '2012-07-11', 'tabcd', 3, 3, 9, '13679475012', 426.5, 0, '2351d11311', '2', 0, 'va34551', 'nce', '13513462345', -1, 'hz', 'se', 'sn', NULL, -1, 1, '2012-07-11 21:43:25'),
+(6, 'FE20120711214534', 7, '2012-07-11', '', 3, 3, 9, '13679475012', 426.5, 0, '2351d11311', '2', 0, 'va34551', 'nce', '13513462345', -1, 'hz', 'se', 'sn', NULL, -1, 1, '2012-07-11 21:45:34');
 
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_function`
+-- 表的结构 `app_function`
 --
 
 CREATE TABLE IF NOT EXISTS `app_function` (
-  `func_id` int(11) NOT NULL auto_increment,
+  `func_id` int(11) NOT NULL AUTO_INCREMENT,
   `func_key` varchar(60) NOT NULL COMMENT '功能key',
   `func_name` varchar(120) NOT NULL COMMENT '功能名称',
-  `func_icon` varchar(32) default NULL COMMENT '功能显示图片',
-  `func_desc` varchar(150) default NULL COMMENT '功能描述',
+  `func_icon` varchar(32) DEFAULT NULL COMMENT '功能显示图片',
+  `func_desc` varchar(150) DEFAULT NULL COMMENT '功能描述',
   `menu_id` bigint(20) NOT NULL COMMENT '所属菜单',
-  PRIMARY KEY  (`func_id`),
+  PRIMARY KEY (`func_id`),
   UNIQUE KEY `func_key` (`func_key`),
   KEY `menu_id` (`menu_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能表' AUTO_INCREMENT=3 ;
 
 --
--- 列出以下資料庫的數據： `app_function`
+-- 转存表中的数据 `app_function`
 --
 
 INSERT INTO `app_function` (`func_id`, `func_key`, `func_name`, `func_icon`, `func_desc`, `menu_id`) VALUES
@@ -330,19 +282,19 @@ INSERT INTO `app_function` (`func_id`, `func_key`, `func_name`, `func_icon`, `fu
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_function_url`
+-- 表的结构 `app_function_url`
 --
 
 CREATE TABLE IF NOT EXISTS `app_function_url` (
-  `url_id` int(11) NOT NULL auto_increment,
+  `url_id` int(11) NOT NULL AUTO_INCREMENT,
   `func_id` int(11) NOT NULL,
   `url_path` varchar(120) NOT NULL COMMENT '功能链接',
-  PRIMARY KEY  (`url_id`),
+  PRIMARY KEY (`url_id`),
   KEY `func_id` (`func_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能URL' AUTO_INCREMENT=5 ;
 
 --
--- 列出以下資料庫的數據： `app_function_url`
+-- 转存表中的数据 `app_function_url`
 --
 
 INSERT INTO `app_function_url` (`url_id`, `func_id`, `url_path`) VALUES
@@ -352,42 +304,37 @@ INSERT INTO `app_function_url` (`url_id`, `func_id`, `url_path`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_global_type`
+-- 表的结构 `app_global_type`
 --
 
 CREATE TABLE IF NOT EXISTS `app_global_type` (
-  `type_id` bigint(20) NOT NULL auto_increment,
+  `type_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `type_name` varchar(128) NOT NULL COMMENT '名称',
-  `type_parent` bigint(20) default NULL COMMENT '父节点',
+  `type_parent` bigint(20) DEFAULT NULL COMMENT '父节点',
   `type_key` varchar(64) NOT NULL COMMENT '节点的分类Key',
-  `type_desc` varchar(150) default NULL COMMENT '分类描述',
-  PRIMARY KEY  (`type_id`)
+  `type_desc` varchar(150) DEFAULT NULL COMMENT '分类描述',
+  PRIMARY KEY (`type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='总分类表  用于显示树层次结构的分类 可以允许任何层次结构' AUTO_INCREMENT=1 ;
-
---
--- 列出以下資料庫的數據： `app_global_type`
---
-
 
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_hrm_archive`
+-- 表的结构 `app_hrm_archive`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_archive` (
-  `archive_id` bigint(20) NOT NULL auto_increment,
+  `archive_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `resume_id` bigint(20) NOT NULL COMMENT '简历ID',
   `job_id` bigint(20) NOT NULL COMMENT '应聘岗位ID',
   `archive_source` tinyint(4) NOT NULL COMMENT '来源',
   `archive_star` tinyint(4) NOT NULL COMMENT '评定星级',
-  PRIMARY KEY  (`archive_id`),
+  PRIMARY KEY (`archive_id`),
   KEY `job_id` (`job_id`),
   KEY `resume_id` (`resume_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='公司人才库' AUTO_INCREMENT=4 ;
 
 --
--- 列出以下資料庫的數據： `app_hrm_archive`
+-- 转存表中的数据 `app_hrm_archive`
 --
 
 INSERT INTO `app_hrm_archive` (`archive_id`, `resume_id`, `job_id`, `archive_source`, `archive_star`) VALUES
@@ -398,36 +345,36 @@ INSERT INTO `app_hrm_archive` (`archive_id`, `resume_id`, `job_id`, `archive_sou
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_hrm_employee`
+-- 表的结构 `app_hrm_employee`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_employee` (
-  `emp_id` bigint(20) NOT NULL auto_increment,
+  `emp_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `emp_no` varchar(64) NOT NULL COMMENT '员工编号',
   `dep_id` bigint(20) NOT NULL COMMENT '员工所在部门ID',
   `district_id` bigint(20) NOT NULL COMMENT '员工所在校区ID',
   `emp_name` varchar(64) NOT NULL COMMENT '员工姓名',
-  `position_id` bigint(20) default NULL COMMENT '岗位',
-  `birthdate` date default NULL COMMENT '出生日期',
-  `phone_no` varchar(64) default NULL COMMENT '电话',
-  `short_no` varchar(64) default NULL COMMENT '短号',
-  `positive_due_date` date default NULL COMMENT '待转正日期',
-  `contract_end_date` date default NULL COMMENT '合同到期日期',
-  `onboard_status` bigint(20) default NULL COMMENT '在职状态',
-  `teacher_star` bigint(20) default NULL,
-  `consult_star` bigint(20) default NULL,
-  `teach_class` varchar(120) default NULL,
-  `teach_subject` varchar(120) default NULL,
-  `resume_id` bigint(20) default NULL COMMENT '简历',
-  `status` char(1) default NULL COMMENT '员工状态',
-  `entry_id` bigint(20) default NULL COMMENT '录入人员',
-  `entry_datetime` datetime default NULL COMMENT '录入日期',
-  PRIMARY KEY  (`emp_id`),
+  `position_id` bigint(20) DEFAULT NULL COMMENT '岗位',
+  `birthdate` date DEFAULT NULL COMMENT '出生日期',
+  `phone_no` varchar(64) DEFAULT NULL COMMENT '电话',
+  `short_no` varchar(64) DEFAULT NULL COMMENT '短号',
+  `positive_due_date` date DEFAULT NULL COMMENT '待转正日期',
+  `contract_end_date` date DEFAULT NULL COMMENT '合同到期日期',
+  `onboard_status` bigint(20) DEFAULT NULL COMMENT '在职状态',
+  `teacher_star` bigint(20) DEFAULT NULL,
+  `consult_star` bigint(20) DEFAULT NULL,
+  `teach_class` varchar(120) DEFAULT NULL,
+  `teach_subject` varchar(120) DEFAULT NULL,
+  `resume_id` bigint(20) DEFAULT NULL COMMENT '简历',
+  `status` char(1) DEFAULT NULL COMMENT '员工状态',
+  `entry_id` bigint(20) DEFAULT NULL COMMENT '录入人员',
+  `entry_datetime` datetime DEFAULT NULL COMMENT '录入日期',
+  PRIMARY KEY (`emp_id`),
   UNIQUE KEY `emp_no` (`emp_no`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='员工档案表' AUTO_INCREMENT=6 ;
 
 --
--- 列出以下資料庫的數據： `app_hrm_employee`
+-- 转存表中的数据 `app_hrm_employee`
 --
 
 INSERT INTO `app_hrm_employee` (`emp_id`, `emp_no`, `dep_id`, `district_id`, `emp_name`, `position_id`, `birthdate`, `phone_no`, `short_no`, `positive_due_date`, `contract_end_date`, `onboard_status`, `teacher_star`, `consult_star`, `teach_class`, `teach_subject`, `resume_id`, `status`, `entry_id`, `entry_datetime`) VALUES
@@ -438,27 +385,27 @@ INSERT INTO `app_hrm_employee` (`emp_id`, `emp_no`, `dep_id`, `district_id`, `em
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_hrm_employee_develop`
+-- 表的结构 `app_hrm_employee_develop`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_employee_develop` (
-  `develop_id` bigint(20) default NULL,
-  `apply_form_no` varchar(120) default NULL COMMENT '人资审批流程',
-  `apply_form_type` bigint(20) default NULL,
-  `apply_date` date default NULL,
+  `develop_id` bigint(20) DEFAULT NULL,
+  `apply_form_no` varchar(120) DEFAULT NULL COMMENT '人资审批流程',
+  `apply_form_type` bigint(20) DEFAULT NULL,
+  `apply_date` date DEFAULT NULL,
   `comments` longtext,
-  `emp_id` bigint(20) default NULL COMMENT '员工ID',
-  `from_district` bigint(20) default NULL,
-  `from_dep` bigint(20) default NULL,
-  `from_position` bigint(20) default NULL,
-  `status` char(1) default NULL,
-  `audit_state` bigint(20) default NULL,
-  `entry_id` bigint(20) default NULL,
-  `entry_datetime` datetime default NULL
+  `emp_id` bigint(20) DEFAULT NULL COMMENT '员工ID',
+  `from_district` bigint(20) DEFAULT NULL,
+  `from_dep` bigint(20) DEFAULT NULL,
+  `from_position` bigint(20) DEFAULT NULL,
+  `status` char(1) DEFAULT NULL,
+  `audit_state` bigint(20) DEFAULT NULL,
+  `entry_id` bigint(20) DEFAULT NULL,
+  `entry_datetime` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- 列出以下資料庫的數據： `app_hrm_employee_develop`
+-- 转存表中的数据 `app_hrm_employee_develop`
 --
 
 INSERT INTO `app_hrm_employee_develop` (`develop_id`, `apply_form_no`, `apply_form_type`, `apply_date`, `comments`, `emp_id`, `from_district`, `from_dep`, `from_position`, `status`, `audit_state`, `entry_id`, `entry_datetime`) VALUES
@@ -467,44 +414,39 @@ INSERT INTO `app_hrm_employee_develop` (`develop_id`, `apply_form_no`, `apply_fo
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_hrm_employee_profile`
+-- 表的结构 `app_hrm_employee_profile`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_employee_profile` (
-  `profile_id` bigint(20) NOT NULL auto_increment,
+  `profile_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `emp_id` bigint(20) NOT NULL COMMENT '员工ID',
   `emp_name` varchar(64) NOT NULL COMMENT '员工姓名',
   `status` tinyint(4) NOT NULL COMMENT '员工状态',
-  PRIMARY KEY  (`profile_id`)
+  PRIMARY KEY (`profile_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='员工基本信息表' AUTO_INCREMENT=1 ;
-
---
--- 列出以下資料庫的數據： `app_hrm_employee_profile`
---
-
 
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_hrm_employee_roadmap`
+-- 表的结构 `app_hrm_employee_roadmap`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_employee_roadmap` (
-  `roadmap_id` int(11) NOT NULL auto_increment,
+  `roadmap_id` int(11) NOT NULL AUTO_INCREMENT,
   `emp_id` bigint(20) NOT NULL COMMENT '员工ID',
   `orginal_depid` bigint(20) NOT NULL COMMENT '员工所在部门ID',
   `orginal_districtid` bigint(20) NOT NULL COMMENT '员工所在校区ID',
   `orginal_positionid` bigint(20) NOT NULL COMMENT '员工所在职位ID',
-  `dst_depid` bigint(20) default NULL COMMENT '员工去向部门ID',
-  `dst_districtid` bigint(20) default NULL COMMENT '员工去向校区ID',
-  `dst_positionid` bigint(20) default NULL COMMENT '员工去向职位ID',
+  `dst_depid` bigint(20) DEFAULT NULL COMMENT '员工去向部门ID',
+  `dst_districtid` bigint(20) DEFAULT NULL COMMENT '员工去向校区ID',
+  `dst_positionid` bigint(20) DEFAULT NULL COMMENT '员工去向职位ID',
   `type` tinyint(4) NOT NULL COMMENT '类型',
   `date` datetime NOT NULL COMMENT '发生时间',
-  PRIMARY KEY  (`roadmap_id`)
+  PRIMARY KEY (`roadmap_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='员工历程' AUTO_INCREMENT=5 ;
 
 --
--- 列出以下資料庫的數據： `app_hrm_employee_roadmap`
+-- 转存表中的数据 `app_hrm_employee_roadmap`
 --
 
 INSERT INTO `app_hrm_employee_roadmap` (`roadmap_id`, `emp_id`, `orginal_depid`, `orginal_districtid`, `orginal_positionid`, `dst_depid`, `dst_districtid`, `dst_positionid`, `type`, `date`) VALUES
@@ -516,26 +458,26 @@ INSERT INTO `app_hrm_employee_roadmap` (`roadmap_id`, `emp_id`, `orginal_depid`,
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_hrm_hire_entries`
+-- 表的结构 `app_hrm_hire_entries`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_hire_entries` (
-  `entry_id` bigint(20) NOT NULL auto_increment,
+  `entry_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `issue_id` bigint(20) NOT NULL COMMENT '应聘ID',
-  `district_id` bigint(20) default NULL COMMENT '入职校区',
-  `dep_id` bigint(20) default NULL COMMENT '入职部门',
-  `position_id` bigint(20) default NULL COMMENT '入职岗位',
-  `charger_id` bigint(20) default NULL COMMENT '负责人',
-  `plan_date` datetime default NULL COMMENT '安排入职时间',
-  `act_date` datetime default NULL COMMENT '实际入职时间',
-  `inspect_status` tinyint(4) default NULL COMMENT '考察结果状态',
+  `district_id` bigint(20) DEFAULT NULL COMMENT '入职校区',
+  `dep_id` bigint(20) DEFAULT NULL COMMENT '入职部门',
+  `position_id` bigint(20) DEFAULT NULL COMMENT '入职岗位',
+  `charger_id` bigint(20) DEFAULT NULL COMMENT '负责人',
+  `plan_date` datetime DEFAULT NULL COMMENT '安排入职时间',
+  `act_date` datetime DEFAULT NULL COMMENT '实际入职时间',
+  `inspect_status` tinyint(4) DEFAULT NULL COMMENT '考察结果状态',
   `cstatus` tinyint(4) NOT NULL COMMENT '当前状态',
-  `fstatus` tinyint(4) default NULL COMMENT '最终处理状态',
-  PRIMARY KEY  (`entry_id`)
+  `fstatus` tinyint(4) DEFAULT NULL COMMENT '最终处理状态',
+  PRIMARY KEY (`entry_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='员工入职安排表' AUTO_INCREMENT=9 ;
 
 --
--- 列出以下資料庫的數據： `app_hrm_hire_entries`
+-- 转存表中的数据 `app_hrm_hire_entries`
 --
 
 INSERT INTO `app_hrm_hire_entries` (`entry_id`, `issue_id`, `district_id`, `dep_id`, `position_id`, `charger_id`, `plan_date`, `act_date`, `inspect_status`, `cstatus`, `fstatus`) VALUES
@@ -548,24 +490,24 @@ INSERT INTO `app_hrm_hire_entries` (`entry_id`, `issue_id`, `district_id`, `dep_
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_hrm_hire_interviews`
+-- 表的结构 `app_hrm_hire_interviews`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_hire_interviews` (
-  `hw_id` bigint(20) NOT NULL auto_increment,
+  `hw_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `hissue_id` bigint(20) NOT NULL COMMENT '应聘ID',
   `interview_address` varchar(150) NOT NULL COMMENT '面试地址',
   `interview_date` datetime NOT NULL COMMENT '面试时间',
   `interviewer_id` bigint(20) NOT NULL COMMENT '面试官ID',
-  `meto` varchar(250) default NULL COMMENT '面试备注',
+  `meto` varchar(250) DEFAULT NULL COMMENT '面试备注',
   `session_sn` tinyint(4) NOT NULL COMMENT '当前面试环节',
-  `state` tinyint(4) default NULL COMMENT '面试状态',
-  `comments` varchar(150) default NULL COMMENT '面试意见',
-  PRIMARY KEY  (`hw_id`)
+  `state` tinyint(4) DEFAULT NULL COMMENT '面试状态',
+  `comments` varchar(150) DEFAULT NULL COMMENT '面试意见',
+  PRIMARY KEY (`hw_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='招聘面试' AUTO_INCREMENT=14 ;
 
 --
--- 列出以下資料庫的數據： `app_hrm_hire_interviews`
+-- 转存表中的数据 `app_hrm_hire_interviews`
 --
 
 INSERT INTO `app_hrm_hire_interviews` (`hw_id`, `hissue_id`, `interview_address`, `interview_date`, `interviewer_id`, `meto`, `session_sn`, `state`, `comments`) VALUES
@@ -582,39 +524,34 @@ INSERT INTO `app_hrm_hire_interviews` (`hw_id`, `hissue_id`, `interview_address`
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_hrm_hire_interviews_file`
+-- 表的结构 `app_hrm_hire_interviews_file`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_hire_interviews_file` (
   `interview_id` bigint(20) NOT NULL COMMENT '面试ID',
   `file_id` bigint(20) NOT NULL COMMENT '文件ID',
-  PRIMARY KEY  (`interview_id`,`file_id`)
+  PRIMARY KEY (`interview_id`,`file_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='面试附件';
-
---
--- 列出以下資料庫的數據： `app_hrm_hire_interviews_file`
---
-
 
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_hrm_hire_issue`
+-- 表的结构 `app_hrm_hire_issue`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_hire_issue` (
-  `hissue_id` bigint(20) NOT NULL auto_increment,
+  `hissue_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `resume_id` bigint(20) NOT NULL COMMENT '简历ID',
   `hjob_id` bigint(20) NOT NULL COMMENT '应聘职位ID',
   `current_status` tinyint(4) NOT NULL COMMENT '当前状态',
-  `final_result` tinyint(4) default NULL COMMENT '最终处理结果',
-  `user_id` bigint(20) default NULL COMMENT '应聘者ID, 主要用于存员工申请 (包含自我申请, 推荐他人)',
+  `final_result` tinyint(4) DEFAULT NULL COMMENT '最终处理结果',
+  `user_id` bigint(20) DEFAULT NULL COMMENT '应聘者ID, 主要用于存员工申请 (包含自我申请, 推荐他人)',
   `apply_time` datetime NOT NULL COMMENT '申请时间',
-  PRIMARY KEY  (`hissue_id`)
+  PRIMARY KEY (`hissue_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='当前招聘' AUTO_INCREMENT=20 ;
 
 --
--- 列出以下資料庫的數據： `app_hrm_hire_issue`
+-- 转存表中的数据 `app_hrm_hire_issue`
 --
 
 INSERT INTO `app_hrm_hire_issue` (`hissue_id`, `resume_id`, `hjob_id`, `current_status`, `final_result`, `user_id`, `apply_time`) VALUES
@@ -636,37 +573,37 @@ INSERT INTO `app_hrm_hire_issue` (`hissue_id`, `resume_id`, `hjob_id`, `current_
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_hrm_hire_job`
+-- 表的结构 `app_hrm_hire_job`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_hire_job` (
-  `hjob_id` bigint(20) NOT NULL auto_increment,
+  `hjob_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `job_title` varchar(128) NOT NULL COMMENT '招聘岗位名称',
   `hjob_districtid` bigint(20) NOT NULL COMMENT '招聘校区',
   `hjob_depid` bigint(20) NOT NULL COMMENT '招聘部门',
   `hjob_range` tinyint(4) NOT NULL COMMENT '招聘范围',
-  `hjob_visible_districtid` bigint(20) default NULL COMMENT '可见范围',
+  `hjob_visible_districtid` bigint(20) DEFAULT NULL COMMENT '可见范围',
   `end_date` datetime NOT NULL COMMENT '结束时间',
   `hjob_count` int(11) NOT NULL COMMENT '招聘人数',
-  `hjob_condition` varchar(1024) default NULL COMMENT '招聘要求(条件)',
-  `hjob_address` varchar(150) default NULL COMMENT '工作地点',
+  `hjob_condition` varchar(1024) DEFAULT NULL COMMENT '招聘要求(条件)',
+  `hjob_address` varchar(150) DEFAULT NULL COMMENT '工作地点',
   `hjob_responsibility` text COMMENT '工作职责',
   `hjob_salary` text COMMENT '薪资福利',
-  `reg_fullname` varchar(128) default NULL COMMENT '登记人姓名',
-  `reg_date` datetime default NULL COMMENT '登记时间',
-  `modify_fullname` varchar(32) default NULL COMMENT '变更人姓名',
-  `modify_date` datetime default NULL COMMENT '变更时间',
-  `check_fullname` varchar(32) default NULL COMMENT '审核人姓名',
-  `check_opinion` varchar(512) default NULL COMMENT '审核意见',
-  `check_date` datetime default NULL COMMENT '审批时间',
+  `reg_fullname` varchar(128) DEFAULT NULL COMMENT '登记人姓名',
+  `reg_date` datetime DEFAULT NULL COMMENT '登记时间',
+  `modify_fullname` varchar(32) DEFAULT NULL COMMENT '变更人姓名',
+  `modify_date` datetime DEFAULT NULL COMMENT '变更时间',
+  `check_fullname` varchar(32) DEFAULT NULL COMMENT '审核人姓名',
+  `check_opinion` varchar(512) DEFAULT NULL COMMENT '审核意见',
+  `check_date` datetime DEFAULT NULL COMMENT '审批时间',
   `status` smallint(6) NOT NULL COMMENT '状态            1=通过审核            0=未审核            2=审核不通过',
-  `memo` varchar(1024) default NULL COMMENT '备注',
-  `isopen` tinyint(4) default '1' COMMENT '应聘控制 0=关闭, 1=开放',
-  PRIMARY KEY  (`hjob_id`)
+  `memo` varchar(1024) DEFAULT NULL COMMENT '备注',
+  `isopen` tinyint(4) DEFAULT '1' COMMENT '应聘控制 0=关闭, 1=开放',
+  PRIMARY KEY (`hjob_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='招聘岗位发布' AUTO_INCREMENT=4 ;
 
 --
--- 列出以下資料庫的數據： `app_hrm_hire_job`
+-- 转存表中的数据 `app_hrm_hire_job`
 --
 
 INSERT INTO `app_hrm_hire_job` (`hjob_id`, `job_title`, `hjob_districtid`, `hjob_depid`, `hjob_range`, `hjob_visible_districtid`, `end_date`, `hjob_count`, `hjob_condition`, `hjob_address`, `hjob_responsibility`, `hjob_salary`, `reg_fullname`, `reg_date`, `modify_fullname`, `modify_date`, `check_fullname`, `check_opinion`, `check_date`, `status`, `memo`, `isopen`) VALUES
@@ -677,51 +614,51 @@ INSERT INTO `app_hrm_hire_job` (`hjob_id`, `job_title`, `hjob_districtid`, `hjob
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_hrm_resume`
+-- 表的结构 `app_hrm_resume`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_resume` (
-  `resume_id` bigint(20) NOT NULL auto_increment,
-  `emp_id` bigint(20) default NULL COMMENT '员工ID号, 有可能该ID号为空',
+  `resume_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `emp_id` bigint(20) DEFAULT NULL COMMENT '员工ID号, 有可能该ID号为空',
   `fullname` varchar(64) NOT NULL COMMENT '姓名',
-  `age` int(11) default NULL COMMENT '年龄',
-  `birthday` datetime default NULL COMMENT '出生日期',
-  `address` varchar(128) default NULL COMMENT '居住地址',
-  `marriage` tinyint(4) default NULL COMMENT '婚姻状况 1=未婚, 2=已婚',
-  `zip` varchar(32) default NULL COMMENT '邮编',
-  `sex` tinyint(4) default NULL COMMENT '性别 1=男生, 2=女生',
-  `phone` varchar(64) default NULL COMMENT '座机',
-  `mobile` varchar(64) default NULL COMMENT '移动电话 (联系电话)',
-  `email` varchar(128) default NULL COMMENT '邮箱地址',
-  `hobby` varchar(256) default NULL COMMENT '兴趣爱好',
-  `religion` varchar(128) default NULL,
-  `party` tinyint(4) default NULL COMMENT '政治面貌 1=群众, 2=党员, 3=团员',
-  `nationality` varchar(32) default NULL COMMENT '国籍',
-  `race` varchar(32) default NULL,
-  `birthPlace` varchar(128) default NULL COMMENT '籍贯',
-  `eduCollege` varchar(128) default NULL COMMENT '毕业院校',
-  `eduDegree` tinyint(4) default NULL COMMENT '学历 1=研究生, 2=本科, 3=大专, 4=其他',
-  `eduMajor` varchar(128) default NULL COMMENT '专业',
-  `teacher_major` tinyint(4) default NULL COMMENT '师范类专业 1=是, 2=否',
-  `teacher_cert` tinyint(4) default NULL COMMENT '有无教师资格 1=有, 2=无',
-  `startWorkDate` datetime default NULL,
-  `idNo` varchar(64) default NULL COMMENT '身份证',
-  `photo` varchar(128) default NULL,
-  `status` varchar(64) default NULL COMMENT '状态                        通过            未通过            准备安排面试            面试通过                        ',
-  `memo` varchar(1024) default NULL,
-  `registor` varchar(64) default NULL,
-  `regTime` datetime default NULL,
+  `age` int(11) DEFAULT NULL COMMENT '年龄',
+  `birthday` datetime DEFAULT NULL COMMENT '出生日期',
+  `address` varchar(128) DEFAULT NULL COMMENT '居住地址',
+  `marriage` tinyint(4) DEFAULT NULL COMMENT '婚姻状况 1=未婚, 2=已婚',
+  `zip` varchar(32) DEFAULT NULL COMMENT '邮编',
+  `sex` tinyint(4) DEFAULT NULL COMMENT '性别 1=男生, 2=女生',
+  `phone` varchar(64) DEFAULT NULL COMMENT '座机',
+  `mobile` varchar(64) DEFAULT NULL COMMENT '移动电话 (联系电话)',
+  `email` varchar(128) DEFAULT NULL COMMENT '邮箱地址',
+  `hobby` varchar(256) DEFAULT NULL COMMENT '兴趣爱好',
+  `religion` varchar(128) DEFAULT NULL,
+  `party` tinyint(4) DEFAULT NULL COMMENT '政治面貌 1=群众, 2=党员, 3=团员',
+  `nationality` varchar(32) DEFAULT NULL COMMENT '国籍',
+  `race` varchar(32) DEFAULT NULL,
+  `birthPlace` varchar(128) DEFAULT NULL COMMENT '籍贯',
+  `eduCollege` varchar(128) DEFAULT NULL COMMENT '毕业院校',
+  `eduDegree` tinyint(4) DEFAULT NULL COMMENT '学历 1=研究生, 2=本科, 3=大专, 4=其他',
+  `eduMajor` varchar(128) DEFAULT NULL COMMENT '专业',
+  `teacher_major` tinyint(4) DEFAULT NULL COMMENT '师范类专业 1=是, 2=否',
+  `teacher_cert` tinyint(4) DEFAULT NULL COMMENT '有无教师资格 1=有, 2=无',
+  `startWorkDate` datetime DEFAULT NULL,
+  `idNo` varchar(64) DEFAULT NULL COMMENT '身份证',
+  `photo` varchar(128) DEFAULT NULL,
+  `status` varchar(64) DEFAULT NULL COMMENT '状态                        通过            未通过            准备安排面试            面试通过                        ',
+  `memo` varchar(1024) DEFAULT NULL,
+  `registor` varchar(64) DEFAULT NULL,
+  `regTime` datetime DEFAULT NULL,
   `workCase` text,
   `trainCase` text,
   `projectCase` text,
-  `en_level` tinyint(4) default NULL COMMENT '外语等级 1=CET-4, 2=CET-6, 3=专业四级, 4=专业八级, 5=其他',
-  `cn_level` tinyint(4) default NULL COMMENT '普通话等级 1=一级甲等, 2=一级乙等, 3=二级甲等, 4=二级乙等, 5=三级甲等, 6=三级乙等, 7=无',
-  `source` tinyint(4) default NULL COMMENT '简历来源',
-  PRIMARY KEY  (`resume_id`)
+  `en_level` tinyint(4) DEFAULT NULL COMMENT '外语等级 1=CET-4, 2=CET-6, 3=专业四级, 4=专业八级, 5=其他',
+  `cn_level` tinyint(4) DEFAULT NULL COMMENT '普通话等级 1=一级甲等, 2=一级乙等, 3=二级甲等, 4=二级乙等, 5=三级甲等, 6=三级乙等, 7=无',
+  `source` tinyint(4) DEFAULT NULL COMMENT '简历来源',
+  PRIMARY KEY (`resume_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='简历管理' AUTO_INCREMENT=20 ;
 
 --
--- 列出以下資料庫的數據： `app_hrm_resume`
+-- 转存表中的数据 `app_hrm_resume`
 --
 
 INSERT INTO `app_hrm_resume` (`resume_id`, `emp_id`, `fullname`, `age`, `birthday`, `address`, `marriage`, `zip`, `sex`, `phone`, `mobile`, `email`, `hobby`, `religion`, `party`, `nationality`, `race`, `birthPlace`, `eduCollege`, `eduDegree`, `eduMajor`, `teacher_major`, `teacher_cert`, `startWorkDate`, `idNo`, `photo`, `status`, `memo`, `registor`, `regTime`, `workCase`, `trainCase`, `projectCase`, `en_level`, `cn_level`, `source`) VALUES
@@ -743,42 +680,37 @@ INSERT INTO `app_hrm_resume` (`resume_id`, `emp_id`, `fullname`, `age`, `birthda
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_hrm_resume_file`
+-- 表的结构 `app_hrm_resume_file`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_resume_file` (
   `file_id` bigint(20) NOT NULL,
   `resum_id` bigint(20) NOT NULL,
-  PRIMARY KEY  (`file_id`,`resum_id`)
+  PRIMARY KEY (`file_id`,`resum_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='简历附件';
-
---
--- 列出以下資料庫的數據： `app_hrm_resume_file`
---
-
 
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_menu`
+-- 表的结构 `app_menu`
 --
 
 CREATE TABLE IF NOT EXISTS `app_menu` (
-  `menu_id` bigint(20) NOT NULL auto_increment,
+  `menu_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `menu_title` varchar(50) NOT NULL COMMENT '菜单名称',
-  `menu_icon` varchar(20) default NULL COMMENT '菜单图标',
+  `menu_icon` varchar(20) DEFAULT NULL COMMENT '菜单图标',
   `menu_url` varchar(100) NOT NULL COMMENT '菜单链接',
   `menu_key` varchar(64) NOT NULL COMMENT '菜单key',
-  `menu_desc` varchar(100) default NULL COMMENT '菜单描述',
-  `menu_parent` int(11) default NULL COMMENT '父菜单',
-  `menu_order` int(11) default NULL COMMENT '菜单项顺序',
-  PRIMARY KEY  (`menu_id`),
+  `menu_desc` varchar(100) DEFAULT NULL COMMENT '菜单描述',
+  `menu_parent` int(11) DEFAULT NULL COMMENT '父菜单',
+  `menu_order` int(11) DEFAULT NULL COMMENT '菜单项顺序',
+  PRIMARY KEY (`menu_id`),
   UNIQUE KEY `menu_key` (`menu_key`),
   KEY `menu_parent` (`menu_parent`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统菜单' AUTO_INCREMENT=5 ;
 
 --
--- 列出以下資料庫的數據： `app_menu`
+-- 转存表中的数据 `app_menu`
 --
 
 INSERT INTO `app_menu` (`menu_id`, `menu_title`, `menu_icon`, `menu_url`, `menu_key`, `menu_desc`, `menu_parent`, `menu_order`) VALUES
@@ -788,23 +720,23 @@ INSERT INTO `app_menu` (`menu_id`, `menu_title`, `menu_icon`, `menu_url`, `menu_
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_process_definition`
+-- 表的结构 `app_process_definition`
 --
 
 CREATE TABLE IF NOT EXISTS `app_process_definition` (
-  `def_id` bigint(20) NOT NULL auto_increment,
-  `type_id` bigint(20) default NULL COMMENT '流程分类ID',
-  `def_name` varchar(256) default NULL COMMENT '流程名称',
-  `def_description` varchar(250) default NULL COMMENT '流程描述',
-  `filter_posnames` varchar(250) default NULL COMMENT '过滤职位',
-  `def_trigger` varchar(120) default NULL COMMENT '条件',
-  `createtime` datetime default NULL COMMENT '创建时间',
-  PRIMARY KEY  (`def_id`),
+  `def_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `type_id` bigint(20) DEFAULT NULL COMMENT '流程分类ID',
+  `def_name` varchar(256) DEFAULT NULL COMMENT '流程名称',
+  `def_description` varchar(250) DEFAULT NULL COMMENT '流程描述',
+  `filter_posnames` varchar(250) DEFAULT NULL COMMENT '过滤职位',
+  `def_trigger` varchar(120) DEFAULT NULL COMMENT '条件',
+  `createtime` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`def_id`),
   KEY `type_id` (`type_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程定义' AUTO_INCREMENT=4 ;
 
 --
--- 列出以下資料庫的數據： `app_process_definition`
+-- 转存表中的数据 `app_process_definition`
 --
 
 INSERT INTO `app_process_definition` (`def_id`, `type_id`, `def_name`, `def_description`, `filter_posnames`, `def_trigger`, `createtime`) VALUES
@@ -815,127 +747,132 @@ INSERT INTO `app_process_definition` (`def_id`, `type_id`, `def_name`, `def_desc
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_process_form`
+-- 表的结构 `app_process_form`
 --
 
 CREATE TABLE IF NOT EXISTS `app_process_form` (
-  `form_id` bigint(20) NOT NULL auto_increment,
+  `form_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `form_no` varchar(120) NOT NULL COMMENT '流程申请单号',
   `type_id` bigint(20) NOT NULL COMMENT '流程类型',
-  `task_name` varchar(128) default NULL COMMENT '活动或任务名称',
-  `task_from` varchar(64) default NULL COMMENT '该任务来自由哪一任务跳转过来，目的是为了查到该任务的上一任务，方便任务驳回',
-  `task_next` varchar(64) default NULL COMMENT '跳转节点, 跳转至下一任务',
+  `task_name` varchar(128) DEFAULT NULL COMMENT '活动或任务名称',
+  `task_from` varchar(64) DEFAULT NULL COMMENT '该任务来自由哪一任务跳转过来，目的是为了查到该任务的上一任务，方便任务驳回',
+  `task_next` varchar(64) DEFAULT NULL COMMENT '跳转节点, 跳转至下一任务',
   `seq_sn` int(11) NOT NULL COMMENT '序列编号',
-  `to_rolenames` varchar(250) default NULL,
-  `to_distnames` varchar(250) default NULL,
-  `to_depnames` varchar(250) default NULL,
-  `to_posnames` varchar(250) default NULL,
-  `to_usernames` varchar(250) default NULL,
-  `audit_rolenames` varchar(250) default NULL,
-  `audit_distnames` varchar(250) default NULL,
-  `audit_depnames` varchar(250) default NULL,
-  `audit_usernames` varchar(250) default NULL,
-  `audit_posnames` varchar(250) default NULL,
-  `to_userids` varchar(250) default NULL,
-  `to_roleids` varchar(250) default NULL,
-  `to_distids` varchar(250) default NULL,
-  `to_depids` varchar(250) default NULL,
-  `to_posids` varchar(250) default NULL,
-  `audit_userids` varchar(250) default NULL,
-  `audit_roleids` varchar(250) default NULL,
-  `audit_distids` varchar(250) default NULL,
-  `audit_depids` varchar(250) default NULL,
-  `audit_posids` varchar(250) default NULL,
-  `audit_date` datetime default NULL,
-  `audit_state` smallint(6) default NULL COMMENT '审核状态, 0=审核中, 1=审核通过 2=审核不通过',
+  `task_type` tinyint(4) NOT NULL COMMENT '任务类型',
+  `to_rolenames` varchar(250) DEFAULT NULL,
+  `to_distnames` varchar(250) DEFAULT NULL,
+  `to_depnames` varchar(250) DEFAULT NULL,
+  `to_posnames` varchar(250) DEFAULT NULL,
+  `to_usernames` varchar(250) DEFAULT NULL,
+  `audit_rolenames` varchar(250) DEFAULT NULL,
+  `audit_distnames` varchar(250) DEFAULT NULL,
+  `audit_depnames` varchar(250) DEFAULT NULL,
+  `audit_usernames` varchar(250) DEFAULT NULL,
+  `audit_posnames` varchar(250) DEFAULT NULL,
+  `to_userids` varchar(250) DEFAULT NULL,
+  `to_roleids` varchar(250) DEFAULT NULL,
+  `to_distids` varchar(250) DEFAULT NULL,
+  `to_depids` varchar(250) DEFAULT NULL,
+  `to_posids` varchar(250) DEFAULT NULL,
+  `audit_userids` varchar(250) DEFAULT NULL,
+  `audit_roleids` varchar(250) DEFAULT NULL,
+  `audit_distids` varchar(250) DEFAULT NULL,
+  `audit_depids` varchar(250) DEFAULT NULL,
+  `audit_posids` varchar(250) DEFAULT NULL,
+  `audit_date` datetime DEFAULT NULL,
+  `audit_state` smallint(6) DEFAULT NULL COMMENT '审核状态, 0=审核中, 1=审核通过 2=审核不通过',
   `audit_comments` text COMMENT '审核意见',
-  PRIMARY KEY  (`form_id`),
+  PRIMARY KEY (`form_id`),
   KEY `form_no` (`form_no`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程表单, 存储保存在运行中的流程表单数据' AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程表单, 存储保存在运行中的流程表单数据' AUTO_INCREMENT=14 ;
 
 --
--- 列出以下資料庫的數據： `app_process_form`
+-- 转存表中的数据 `app_process_form`
 --
 
-INSERT INTO `app_process_form` (`form_id`, `form_no`, `type_id`, `task_name`, `task_from`, `task_next`, `seq_sn`, `to_rolenames`, `to_distnames`, `to_depnames`, `to_posnames`, `to_usernames`, `audit_rolenames`, `audit_distnames`, `audit_depnames`, `audit_usernames`, `audit_posnames`, `to_userids`, `to_roleids`, `to_distids`, `to_depids`, `to_posids`, `audit_userids`, `audit_roleids`, `audit_distids`, `audit_depids`, `audit_posids`, `audit_date`, `audit_state`, `audit_comments`) VALUES
-(1, '1', 1, '234234', '1', '1', 1, '1', NULL, '行政部', '人事主管', '1', '1', NULL, '11', '11', '1', '1', '1', NULL, '1', '1', '1', '11', NULL, '1', '1', '2012-06-22 21:03:28', 1, '11');
+INSERT INTO `app_process_form` (`form_id`, `form_no`, `type_id`, `task_name`, `task_from`, `task_next`, `seq_sn`, `task_type`, `to_rolenames`, `to_distnames`, `to_depnames`, `to_posnames`, `to_usernames`, `audit_rolenames`, `audit_distnames`, `audit_depnames`, `audit_usernames`, `audit_posnames`, `to_userids`, `to_roleids`, `to_distids`, `to_depids`, `to_posids`, `audit_userids`, `audit_roleids`, `audit_distids`, `audit_depids`, `audit_posids`, `audit_date`, `audit_state`, `audit_comments`) VALUES
+(2, 'FE20120711214325', 7, NULL, NULL, NULL, 1, 1, NULL, NULL, '人资部', '人事主管', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '9', '1', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+(3, 'FE20120711214325', 7, NULL, NULL, NULL, 2, 2, NULL, NULL, '人资部', '人事主管', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '9', '1', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+(4, 'FE20120711214325', 7, NULL, NULL, NULL, 3, 4, NULL, NULL, '人资部', '部门主管', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '7', '5', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+(5, 'FE20120711214325', 7, NULL, NULL, NULL, 4, 2, NULL, NULL, '行政部', '行政主管', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '12', '2', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+(6, 'FE20120711214325', 7, NULL, NULL, NULL, 5, 2, NULL, NULL, '总经办', '部门主管', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '13', '3', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+(7, 'FE20120711214325', 7, NULL, NULL, NULL, 6, 4, NULL, NULL, '人资部', '部门主管', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '7', '5', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+(8, 'FE20120711214534', 7, NULL, NULL, NULL, 1, 1, NULL, NULL, '人资部', '人事主管', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '9', '1', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+(9, 'FE20120711214534', 7, NULL, NULL, NULL, 2, 2, NULL, NULL, '人资部', '人事主管', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '9', '1', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+(10, 'FE20120711214534', 7, NULL, NULL, NULL, 3, 4, NULL, NULL, '人资部', '部门主管', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '7', '5', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+(11, 'FE20120711214534', 7, NULL, NULL, NULL, 4, 2, NULL, NULL, '行政部', '行政主管', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '12', '2', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+(12, 'FE20120711214534', 7, NULL, NULL, NULL, 5, 2, NULL, NULL, '总经办', '部门主管', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '13', '3', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+(13, 'FE20120711214534', 7, NULL, NULL, NULL, 6, 4, NULL, NULL, '人资部', '部门主管', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '7', '5', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL);
 
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_process_history`
+-- 表的结构 `app_process_history`
 --
 
 CREATE TABLE IF NOT EXISTS `app_process_history` (
-  `history_id` bigint(20) NOT NULL auto_increment,
+  `history_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `form_no` varchar(120) NOT NULL COMMENT '流程申请单号',
   `type_id` bigint(20) NOT NULL COMMENT '流程类型',
   `task_name` varchar(128) NOT NULL COMMENT '活动或任务名称',
-  `task_from` varchar(64) default NULL COMMENT '该任务来自由哪一任务跳转过来，目的是为了查到该任务的上一任务，方便任务驳回',
-  `task_next` varchar(64) default NULL COMMENT '跳转节点, 跳转至下一任务',
+  `task_from` varchar(64) DEFAULT NULL COMMENT '该任务来自由哪一任务跳转过来，目的是为了查到该任务的上一任务，方便任务驳回',
+  `task_next` varchar(64) DEFAULT NULL COMMENT '跳转节点, 跳转至下一任务',
   `seq_sn` int(11) NOT NULL COMMENT '序列编号',
-  `to_rolenames` varchar(250) default NULL,
-  `to_distnames` varchar(250) default NULL,
-  `to_depnames` varchar(250) default NULL,
-  `to_posnames` varchar(250) default NULL,
-  `to_usernames` varchar(250) default NULL,
-  `audit_rolenames` varchar(250) default NULL,
-  `audit_distnames` varchar(250) default NULL,
-  `audit_depnames` varchar(250) default NULL,
-  `audit_usernames` varchar(250) default NULL,
-  `audit_posnames` varchar(250) default NULL,
-  `to_userids` varchar(250) default NULL,
-  `to_roleids` varchar(250) default NULL,
-  `to_distids` varchar(250) default NULL,
-  `to_depids` varchar(250) default NULL,
-  `to_posids` varchar(250) default NULL,
-  `audit_userids` varchar(250) default NULL,
-  `audit_roleids` varchar(250) default NULL,
-  `audit_distids` varchar(250) default NULL,
-  `audit_depids` varchar(250) default NULL,
-  `audit_posids` varchar(250) default NULL,
-  `audit_date` datetime default NULL,
-  `audit_state` smallint(6) default NULL COMMENT '审核状态, 0=审核中, 1=审核通过 2=审核不通过',
+  `to_rolenames` varchar(250) DEFAULT NULL,
+  `to_distnames` varchar(250) DEFAULT NULL,
+  `to_depnames` varchar(250) DEFAULT NULL,
+  `to_posnames` varchar(250) DEFAULT NULL,
+  `to_usernames` varchar(250) DEFAULT NULL,
+  `audit_rolenames` varchar(250) DEFAULT NULL,
+  `audit_distnames` varchar(250) DEFAULT NULL,
+  `audit_depnames` varchar(250) DEFAULT NULL,
+  `audit_usernames` varchar(250) DEFAULT NULL,
+  `audit_posnames` varchar(250) DEFAULT NULL,
+  `to_userids` varchar(250) DEFAULT NULL,
+  `to_roleids` varchar(250) DEFAULT NULL,
+  `to_distids` varchar(250) DEFAULT NULL,
+  `to_depids` varchar(250) DEFAULT NULL,
+  `to_posids` varchar(250) DEFAULT NULL,
+  `audit_userids` varchar(250) DEFAULT NULL,
+  `audit_roleids` varchar(250) DEFAULT NULL,
+  `audit_distids` varchar(250) DEFAULT NULL,
+  `audit_depids` varchar(250) DEFAULT NULL,
+  `audit_posids` varchar(250) DEFAULT NULL,
+  `audit_date` datetime DEFAULT NULL,
+  `audit_state` smallint(6) DEFAULT NULL COMMENT '审核状态, 0=审核中, 1=审核通过 2=审核不通过',
   `audit_comments` text COMMENT '审核意见',
-  PRIMARY KEY  (`history_id`),
+  PRIMARY KEY (`history_id`),
   KEY `form_no` (`form_no`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程表单, 存储保存在运行中的流程表单数据' AUTO_INCREMENT=2 ;
-
---
--- 列出以下資料庫的數據： `app_process_history`
---
-
-INSERT INTO `app_process_history` (`history_id`, `form_no`, `type_id`, `task_name`, `task_from`, `task_next`, `seq_sn`, `to_rolenames`, `to_distnames`, `to_depnames`, `to_posnames`, `to_usernames`, `audit_rolenames`, `audit_distnames`, `audit_depnames`, `audit_usernames`, `audit_posnames`, `to_userids`, `to_roleids`, `to_distids`, `to_depids`, `to_posids`, `audit_userids`, `audit_roleids`, `audit_distids`, `audit_depids`, `audit_posids`, `audit_date`, `audit_state`, `audit_comments`) VALUES
-(1, '1', 1, '11', '1', '1', 1, '1', '1', '1', '1', '1', '1', '1', '1', '11', '11', '11', '11', '1', '1', '1', '11', '11', '11', '1', '1', '0000-00-00 00:00:00', 1, NULL);
 
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_process_task`
+-- 表的结构 `app_process_task`
 --
 
 CREATE TABLE IF NOT EXISTS `app_process_task` (
-  `task_id` bigint(20) NOT NULL auto_increment,
+  `task_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `def_id` bigint(20) NOT NULL COMMENT '所属流程定义ID',
-  `task_name` varchar(128) default NULL COMMENT '活动或任务名称',
-  `task_from` varchar(64) default NULL COMMENT '该任务来自由哪一任务跳转过来，目的是为了查到该任务的上一任务，方便任务驳回',
-  `task_next` varchar(64) default NULL COMMENT '跳转节点, 跳转至下一任务',
+  `task_name` varchar(128) DEFAULT NULL COMMENT '活动或任务名称',
+  `task_from` varchar(64) DEFAULT NULL COMMENT '该任务来自由哪一任务跳转过来，目的是为了查到该任务的上一任务，方便任务驳回',
+  `task_next` varchar(64) DEFAULT NULL COMMENT '跳转节点, 跳转至下一任务',
   `seq_sn` int(11) NOT NULL COMMENT '序列编号',
-  `to_rolenames` varchar(250) default NULL COMMENT '待审批角色名称集合',
-  `to_depnames` varchar(250) default NULL COMMENT '待审批部门名称集合',
-  `to_posnames` varchar(250) default NULL COMMENT '待审批职位名称集合',
-  `to_usernames` varchar(250) default NULL COMMENT '待审批用户名称集合',
-  `to_userids` varchar(250) default NULL COMMENT '用户IDS 格式如下，以方便使用like操作 ,1,2,',
-  `to_roleids` varchar(250) default NULL COMMENT '角色IDS 格式如下，以方便使用like操作 ,1,2,',
-  `to_depids` varchar(250) default NULL COMMENT '部门IDS 格式如下，以方便使用like操作 ,1,2,',
-  `to_posids` varchar(250) default NULL COMMENT '岗位ID集合, 易于操作',
+  `to_rolenames` varchar(250) DEFAULT NULL COMMENT '待审批角色名称集合',
+  `to_depnames` varchar(250) DEFAULT NULL COMMENT '待审批部门名称集合',
+  `to_posnames` varchar(250) DEFAULT NULL COMMENT '待审批职位名称集合',
+  `to_usernames` varchar(250) DEFAULT NULL COMMENT '待审批用户名称集合',
+  `to_userids` varchar(250) DEFAULT NULL COMMENT '用户IDS 格式如下，以方便使用like操作 ,1,2,',
+  `to_roleids` varchar(250) DEFAULT NULL COMMENT '角色IDS 格式如下，以方便使用like操作 ,1,2,',
+  `to_depids` varchar(250) DEFAULT NULL COMMENT '部门IDS 格式如下，以方便使用like操作 ,1,2,',
+  `to_posids` varchar(250) DEFAULT NULL COMMENT '岗位ID集合, 易于操作',
   `comments` text COMMENT '意见',
-  `task_type` tinyint(4) default NULL COMMENT '活动类型',
-  PRIMARY KEY  (`task_id`)
+  `task_type` tinyint(4) DEFAULT NULL COMMENT '活动类型',
+  PRIMARY KEY (`task_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程任务设置' AUTO_INCREMENT=8 ;
 
 --
--- 列出以下資料庫的數據： `app_process_task`
+-- 转存表中的数据 `app_process_task`
 --
 
 INSERT INTO `app_process_task` (`task_id`, `def_id`, `task_name`, `task_from`, `task_next`, `seq_sn`, `to_rolenames`, `to_depnames`, `to_posnames`, `to_usernames`, `to_userids`, `to_roleids`, `to_depids`, `to_posids`, `comments`, `task_type`) VALUES
@@ -950,21 +887,21 @@ INSERT INTO `app_process_task` (`task_id`, `def_id`, `task_name`, `task_from`, `
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_process_type`
+-- 表的结构 `app_process_type`
 --
 
 CREATE TABLE IF NOT EXISTS `app_process_type` (
-  `type_id` bigint(20) NOT NULL auto_increment,
+  `type_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `type_name` varchar(128) NOT NULL COMMENT '流程分类名',
-  `type_key` varchar(64) default NULL COMMENT '流程分类KEY',
-  `type_desc` varchar(250) default NULL COMMENT '流程分类描述',
+  `type_key` varchar(64) DEFAULT NULL COMMENT '流程分类KEY',
+  `type_desc` varchar(250) DEFAULT NULL COMMENT '流程分类描述',
   `type_slug` varchar(64) NOT NULL COMMENT '分类类别',
-  `type_parent` bigint(20) default NULL COMMENT '流程父分类',
-  PRIMARY KEY  (`type_id`)
+  `type_parent` bigint(20) DEFAULT NULL COMMENT '流程父分类',
+  PRIMARY KEY (`type_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程分类' AUTO_INCREMENT=10 ;
 
 --
--- 列出以下資料庫的數據： `app_process_type`
+-- 转存表中的数据 `app_process_type`
 --
 
 INSERT INTO `app_process_type` (`type_id`, `type_name`, `type_key`, `type_desc`, `type_slug`, `type_parent`) VALUES
@@ -981,24 +918,24 @@ INSERT INTO `app_process_type` (`type_id`, `type_name`, `type_key`, `type_desc`,
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_role`
+-- 表的结构 `app_role`
 --
 
 CREATE TABLE IF NOT EXISTS `app_role` (
-  `role_id` int(11) NOT NULL auto_increment,
+  `role_id` int(11) NOT NULL AUTO_INCREMENT,
   `role_name` varchar(120) NOT NULL COMMENT '角色名称',
   `role_key` varchar(64) NOT NULL COMMENT '权限组Key',
-  `role_desc` varchar(150) default NULL COMMENT '角色描述',
-  `role_status` tinyint(4) default '1' COMMENT '角色状态, 1=开放, 0=被锁住',
+  `role_desc` varchar(150) DEFAULT NULL COMMENT '角色描述',
+  `role_status` tinyint(4) DEFAULT '1' COMMENT '角色状态, 1=开放, 0=被锁住',
   `role_rights` text COMMENT '权限功能列表',
   `role_type` tinyint(4) NOT NULL COMMENT '角色类型, 0=总部, 1=校区, 2=片区',
-  `role_edit` tinyint(4) NOT NULL default '1' COMMENT '角色是否可以进行修改, 1=可以, 0=不可以',
-  PRIMARY KEY  (`role_id`),
+  `role_edit` tinyint(4) NOT NULL DEFAULT '1' COMMENT '角色是否可以进行修改, 1=可以, 0=不可以',
+  PRIMARY KEY (`role_id`),
   UNIQUE KEY `role_key` (`role_key`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='角色表' AUTO_INCREMENT=6 ;
 
 --
--- 列出以下資料庫的數據： `app_role`
+-- 转存表中的数据 `app_role`
 --
 
 INSERT INTO `app_role` (`role_id`, `role_name`, `role_key`, `role_desc`, `role_status`, `role_rights`, `role_type`, `role_edit`) VALUES
@@ -1008,19 +945,19 @@ INSERT INTO `app_role` (`role_id`, `role_name`, `role_key`, `role_desc`, `role_s
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_role_func`
+-- 表的结构 `app_role_func`
 --
 
 CREATE TABLE IF NOT EXISTS `app_role_func` (
   `role_id` int(11) NOT NULL,
   `func_id` int(11) NOT NULL,
-  PRIMARY KEY  (`role_id`,`func_id`),
+  PRIMARY KEY (`role_id`,`func_id`),
   KEY `role_id` (`role_id`),
   KEY `app_role_func_ibfk_2` (`func_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色权限表';
 
 --
--- 列出以下資料庫的數據： `app_role_func`
+-- 转存表中的数据 `app_role_func`
 --
 
 INSERT INTO `app_role_func` (`role_id`, `func_id`) VALUES
@@ -1029,17 +966,17 @@ INSERT INTO `app_role_func` (`role_id`, `func_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_role_menu`
+-- 表的结构 `app_role_menu`
 --
 
 CREATE TABLE IF NOT EXISTS `app_role_menu` (
   `role_id` int(11) NOT NULL,
   `menu_id` int(11) NOT NULL,
-  PRIMARY KEY  (`role_id`,`menu_id`)
+  PRIMARY KEY (`role_id`,`menu_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色菜单';
 
 --
--- 列出以下資料庫的數據： `app_role_menu`
+-- 转存表中的数据 `app_role_menu`
 --
 
 INSERT INTO `app_role_menu` (`role_id`, `menu_id`) VALUES
@@ -1049,22 +986,22 @@ INSERT INTO `app_role_menu` (`role_id`, `menu_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_school_department`
+-- 表的结构 `app_school_department`
 --
 
 CREATE TABLE IF NOT EXISTS `app_school_department` (
-  `dep_id` bigint(20) NOT NULL auto_increment,
+  `dep_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `dep_no` varchar(32) NOT NULL COMMENT '部门编号',
   `dep_name` varchar(128) NOT NULL COMMENT '部门名称',
-  `dep_desc` varchar(256) default NULL COMMENT '部门描述',
-  `dep_eqlevel` tinyint(4) default '-1' COMMENT '对口级别, -1=无, 0=总部, 1=校区, 2=片区',
-  `dep_eqid` bigint(20) default NULL COMMENT '对口部门',
+  `dep_desc` varchar(256) DEFAULT NULL COMMENT '部门描述',
+  `dep_eqlevel` tinyint(4) DEFAULT '-1' COMMENT '对口级别, -1=无, 0=总部, 1=校区, 2=片区',
+  `dep_eqid` bigint(20) DEFAULT NULL COMMENT '对口部门',
   `dep_orgtype` tinyint(4) NOT NULL COMMENT '部门结构类型 0=总部, 1=校区, 2=片区',
-  PRIMARY KEY  (`dep_id`)
+  PRIMARY KEY (`dep_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='学校部门设置' AUTO_INCREMENT=15 ;
 
 --
--- 列出以下資料庫的數據： `app_school_department`
+-- 转存表中的数据 `app_school_department`
 --
 
 INSERT INTO `app_school_department` (`dep_id`, `dep_no`, `dep_name`, `dep_desc`, `dep_eqlevel`, `dep_eqid`, `dep_orgtype`) VALUES
@@ -1079,22 +1016,22 @@ INSERT INTO `app_school_department` (`dep_id`, `dep_no`, `dep_name`, `dep_desc`,
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_school_department_position`
+-- 表的结构 `app_school_department_position`
 --
 
 CREATE TABLE IF NOT EXISTS `app_school_department_position` (
-  `pos_id` bigint(20) NOT NULL auto_increment,
+  `pos_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `pos_name` varchar(150) NOT NULL COMMENT '岗位名称',
-  `pos_desc` varchar(250) default NULL COMMENT '岗位描述',
-  `pos_leadership` tinyint(4) default '1' COMMENT '是否领导, 0=是, 1=不是',
+  `pos_desc` varchar(250) DEFAULT NULL COMMENT '岗位描述',
+  `pos_leadership` tinyint(4) DEFAULT '1' COMMENT '是否领导, 0=是, 1=不是',
   `dep_id` bigint(20) NOT NULL COMMENT '部门ID',
-  `pos_roleRights` varchar(500) default NULL COMMENT '岗位角色权限',
-  PRIMARY KEY  (`pos_id`),
+  `pos_roleRights` varchar(500) DEFAULT NULL COMMENT '岗位角色权限',
+  PRIMARY KEY (`pos_id`),
   KEY `dep_id` (`dep_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='部门岗位' AUTO_INCREMENT=6 ;
 
 --
--- 列出以下資料庫的數據： `app_school_department_position`
+-- 转存表中的数据 `app_school_department_position`
 --
 
 INSERT INTO `app_school_department_position` (`pos_id`, `pos_name`, `pos_desc`, `pos_leadership`, `dep_id`, `pos_roleRights`) VALUES
@@ -1107,41 +1044,36 @@ INSERT INTO `app_school_department_position` (`pos_id`, `pos_name`, `pos_desc`, 
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_school_department_position_role`
+-- 表的结构 `app_school_department_position_role`
 --
 
 CREATE TABLE IF NOT EXISTS `app_school_department_position_role` (
   `pos_id` bigint(20) NOT NULL COMMENT '岗位ID',
   `role_id` bigint(20) NOT NULL COMMENT '角色ID',
-  PRIMARY KEY  (`pos_id`,`role_id`)
+  PRIMARY KEY (`pos_id`,`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='部门岗位权限';
-
---
--- 列出以下資料庫的數據： `app_school_department_position_role`
---
-
 
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_school_district`
+-- 表的结构 `app_school_district`
 --
 
 CREATE TABLE IF NOT EXISTS `app_school_district` (
-  `district_id` bigint(20) NOT NULL auto_increment,
+  `district_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `district_no` varchar(64) NOT NULL COMMENT '校区编号',
   `district_name` varchar(120) NOT NULL COMMENT '学校校区名称',
   `district_type` tinyint(4) NOT NULL COMMENT '校区类型',
-  `district_address` varchar(150) default NULL COMMENT '校区地址',
-  `district_phone` varchar(150) default NULL COMMENT '校区电话',
-  `district_parent` bigint(20) default NULL COMMENT '校区上级结构',
-  PRIMARY KEY  (`district_id`),
+  `district_address` varchar(150) DEFAULT NULL COMMENT '校区地址',
+  `district_phone` varchar(150) DEFAULT NULL COMMENT '校区电话',
+  `district_parent` bigint(20) DEFAULT NULL COMMENT '校区上级结构',
+  PRIMARY KEY (`district_id`),
   UNIQUE KEY `district_no` (`district_no`),
   KEY `district_parent` (`district_parent`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='校区设置' AUTO_INCREMENT=4 ;
 
 --
--- 列出以下資料庫的數據： `app_school_district`
+-- 转存表中的数据 `app_school_district`
 --
 
 INSERT INTO `app_school_district` (`district_id`, `district_no`, `district_name`, `district_type`, `district_address`, `district_phone`, `district_parent`) VALUES
@@ -1151,42 +1083,37 @@ INSERT INTO `app_school_district` (`district_id`, `district_no`, `district_name`
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_system_config`
+-- 表的结构 `app_system_config`
 --
 
 CREATE TABLE IF NOT EXISTS `app_system_config` (
-  `config_id` bigint(20) NOT NULL auto_increment,
+  `config_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `config_key` varchar(64) NOT NULL COMMENT 'Key',
   `config_name` varchar(64) NOT NULL COMMENT '配置名称',
-  `config_desc` varchar(256) default NULL COMMENT '配置描述',
+  `config_desc` varchar(256) DEFAULT NULL COMMENT '配置描述',
   `type_name` varchar(32) NOT NULL COMMENT '所属分类名称',
   `data_type` smallint(6) NOT NULL COMMENT '数据类型            1=varchar            2=intger            3=decimal            4=datetime            5=time            ',
-  `data_value` varchar(64) default NULL COMMENT '数据值',
-  PRIMARY KEY  (`config_id`)
+  `data_value` varchar(64) DEFAULT NULL COMMENT '数据值',
+  PRIMARY KEY (`config_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统配置,用于系统的全局配置' AUTO_INCREMENT=1 ;
-
---
--- 列出以下資料庫的數據： `app_system_config`
---
-
 
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_system_log`
+-- 表的结构 `app_system_log`
 --
 
 CREATE TABLE IF NOT EXISTS `app_system_log` (
-  `log_id` bigint(20) NOT NULL auto_increment,
+  `log_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(120) NOT NULL COMMENT '用户名',
   `user_id` int(11) NOT NULL COMMENT '用户id',
   `createtime` datetime NOT NULL COMMENT '创建时间',
   `operation` varchar(512) NOT NULL COMMENT '执行操作',
-  PRIMARY KEY  (`log_id`)
+  PRIMARY KEY (`log_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统日志' AUTO_INCREMENT=51 ;
 
 --
--- 列出以下資料庫的數據： `app_system_log`
+-- 转存表中的数据 `app_system_log`
 --
 
 INSERT INTO `app_system_log` (`log_id`, `user_name`, `user_id`, `createtime`, `operation`) VALUES
@@ -1244,38 +1171,38 @@ INSERT INTO `app_system_log` (`log_id`, `user_name`, `user_id`, `createtime`, `o
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_user`
+-- 表的结构 `app_user`
 --
 
 CREATE TABLE IF NOT EXISTS `app_user` (
-  `user_id` bigint(20) NOT NULL auto_increment COMMENT '主键',
+  `user_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `username` varchar(128) NOT NULL COMMENT '用户名',
   `password` varchar(128) NOT NULL COMMENT '密码',
-  `fullname` varchar(64) default NULL COMMENT '用户姓名',
-  `email` varchar(128) default NULL COMMENT '邮件',
-  `dep_id` bigint(20) default NULL COMMENT '所属部门',
-  `pos_id` bigint(20) default NULL COMMENT '职位',
-  `district_id` bigint(20) default NULL COMMENT '用户所在校区',
-  `emp_id` bigint(20) default NULL COMMENT '员工ID',
-  `phone` varchar(32) default NULL COMMENT '电话',
-  `mobile` varchar(32) default NULL COMMENT '手机',
-  `fax` varchar(32) default NULL COMMENT '传真',
-  `address` varchar(64) default NULL COMMENT '地址',
-  `zip` varchar(32) default NULL COMMENT '邮编',
-  `photo` varchar(128) default NULL COMMENT '相片',
+  `fullname` varchar(64) DEFAULT NULL COMMENT '用户姓名',
+  `email` varchar(128) DEFAULT NULL COMMENT '邮件',
+  `dep_id` bigint(20) DEFAULT NULL COMMENT '所属部门',
+  `pos_id` bigint(20) DEFAULT NULL COMMENT '职位',
+  `district_id` bigint(20) DEFAULT NULL COMMENT '用户所在校区',
+  `emp_id` bigint(20) DEFAULT NULL COMMENT '员工ID',
+  `phone` varchar(32) DEFAULT NULL COMMENT '电话',
+  `mobile` varchar(32) DEFAULT NULL COMMENT '手机',
+  `fax` varchar(32) DEFAULT NULL COMMENT '传真',
+  `address` varchar(64) DEFAULT NULL COMMENT '地址',
+  `zip` varchar(32) DEFAULT NULL COMMENT '邮编',
+  `photo` varchar(128) DEFAULT NULL COMMENT '相片',
   `status` smallint(6) NOT NULL COMMENT '状态            1=激活            0=冻结',
-  `logon_lastip` varchar(64) default NULL COMMENT '最后登录IP',
-  `logon_lastime` datetime default NULL COMMENT '最后登录时间',
-  PRIMARY KEY  (`user_id`),
+  `logon_lastip` varchar(64) DEFAULT NULL COMMENT '最后登录IP',
+  `logon_lastime` datetime DEFAULT NULL COMMENT '最后登录时间',
+  PRIMARY KEY (`user_id`),
   KEY `FK_AU_R_DPT` (`dep_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='app_user\r\n用户表' AUTO_INCREMENT=6 ;
 
 --
--- 列出以下資料庫的數據： `app_user`
+-- 转存表中的数据 `app_user`
 --
 
 INSERT INTO `app_user` (`user_id`, `username`, `password`, `fullname`, `email`, `dep_id`, `pos_id`, `district_id`, `emp_id`, `phone`, `mobile`, `fax`, `address`, `zip`, `photo`, `status`, `logon_lastip`, `logon_lastime`) VALUES
-(1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', '???', 'csx@jee-soft.cn', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '127.0.0.1', '2012-07-11 16:35:52'),
+(1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', '???', 'csx@jee-soft.cn', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '127.0.0.1', '2012-07-11 22:34:32'),
 (2, 'csx', '9uCh4qxBlFqap/+KiqoM68EqO8yYGpKa1c+BCgkOEa4=', '斩不刀', '111@hotmail.com', 1, NULL, 3, NULL, '', '', '', '', '', '', 0, '', NULL),
 (3, '0001012061241011', 'QGpDSgQ2on/ITC1MlNeed0CREM5MDxeCejn3iFEhLGk=', 'Manie', NULL, 9, 1, 3, 3, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL),
 (4, '0001112061243222', 'DnOH9eQngdjBAPlv4OAAtxF1BJdvw3DiTFece8c7PD8=', 'Charotte', NULL, 12, 2, 3, 4, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL),
@@ -1284,45 +1211,44 @@ INSERT INTO `app_user` (`user_id`, `username`, `password`, `fullname`, `email`, 
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `app_user_role`
+-- 表的结构 `app_user_role`
 --
 
 CREATE TABLE IF NOT EXISTS `app_user_role` (
   `user_id` bigint(20) NOT NULL,
   `role_id` bigint(20) NOT NULL,
-  PRIMARY KEY  (`user_id`,`role_id`)
+  PRIMARY KEY (`user_id`,`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户权限表';
 
 --
--- 列出以下資料庫的數據： `app_user_role`
---
-
-
---
--- 備份資料表限制
+-- 限制导出的表
 --
 
 --
--- 資料表限制 `app_function_url`
+-- 限制表 `app_function_url`
 --
 ALTER TABLE `app_function_url`
   ADD CONSTRAINT `app_function_url_ibfk_1` FOREIGN KEY (`func_id`) REFERENCES `app_function` (`func_id`);
 
 --
--- 資料表限制 `app_hrm_resume_file`
+-- 限制表 `app_hrm_resume_file`
 --
 ALTER TABLE `app_hrm_resume_file`
   ADD CONSTRAINT `app_hrm_resume_file_ibfk_1` FOREIGN KEY (`file_id`) REFERENCES `app_file_attach` (`file_id`);
 
 --
--- 資料表限制 `app_process_definition`
+-- 限制表 `app_process_definition`
 --
 ALTER TABLE `app_process_definition`
   ADD CONSTRAINT `app_process_definition_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `app_process_type` (`type_id`);
 
 --
--- 資料表限制 `app_role_func`
+-- 限制表 `app_role_func`
 --
 ALTER TABLE `app_role_func`
   ADD CONSTRAINT `app_role_func_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `app_role` (`role_id`),
   ADD CONSTRAINT `app_role_func_ibfk_2` FOREIGN KEY (`func_id`) REFERENCES `app_function` (`func_id`);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

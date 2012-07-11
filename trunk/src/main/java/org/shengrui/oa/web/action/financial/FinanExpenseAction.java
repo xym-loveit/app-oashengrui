@@ -14,7 +14,6 @@ import org.shengrui.oa.model.flow.ModelProcessType;
 import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
 
-import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.util.UtilBean;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
@@ -44,7 +43,15 @@ extends BaseFinanAction
 		try
 		{
 			ModelFinanExpense employeeExpenseForm = (ModelFinanExpense) form;
-			String op = request.getParameter("op");
+			
+			ModelProcessType procType = this.serviceProcessType.getTypesByKey("PROCESS_PAYMENT");
+			if (procType == null)
+			{
+				return ajaxPrint(response, getErrorCallback("费用支出申请流程类型不存在..."));
+			}
+			
+			request.setAttribute("types", this.getProcessSubTypes(procType.getId()));
+			
 			PagingBean pagingBean = this.getPagingBean(request);
 			PaginationSupport<ModelFinanExpense> employeeExpenseInfo =
 					this.serviceFinanExpense.getFinanExpenseInfoPagination(employeeExpenseForm, pagingBean);
@@ -53,17 +60,16 @@ extends BaseFinanAction
 			request.setAttribute("employeeExpenseForm", employeeExpenseForm);
 			
 			// 获取所有校区, 用于搜索查询使用
-//			request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
-			if("viewprogress".equals(op)){
-				request.setAttribute("op", op);
-			}
+			// request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
+			
 			// 输出分页信息至客户端
 			outWritePagination(request, pagingBean, employeeExpenseInfo);
 			
 		} 
-		catch (ServiceException e)
+		catch (Exception e)
 		{
 			LOGGER.error("Exception raised when fetch all expense documents.", e);
+			return ajaxPrint(response, getErrorCallback("页面加载失败:" + e.getMessage()));
 		}
 		return mapping.findForward("finan.page.expense.index");
 	}
@@ -86,20 +92,18 @@ extends BaseFinanAction
 			request.setAttribute("types", this.getProcessSubTypes(procType.getId()));
 			
 			String expenseId = request.getParameter("id");
-			if (this.isObjectIdValid(expenseId))
+			if (expenseId != null && this.isObjectIdValid(expenseId))
 			{
 				ModelFinanExpense expenseInfo = this.serviceFinanExpense.get(expenseId);
 				if (expenseInfo != null)
 				{
 					request.setAttribute("employeeExpenseEntry", expenseInfo);
 				}
-				request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
-				request.setAttribute("departments", this.serviceSchoolDepartment.getAll());
 			}
-			else
-			{
-				LOGGER.error("需要传入费用申请ID参数.");
-			}
+			
+			request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
+			request.setAttribute("departments", this.serviceSchoolDepartment.getAll());
+			request.setAttribute("op", request.getParameter("op"));
 		}
 		catch (Exception e)
 		{
@@ -153,6 +157,9 @@ extends BaseFinanAction
 				expenseInfo.setFormNo(AppUtil.genFormNo(FINAN_FORM_KEY_EXPENSE));
 				expenseInfo.setEntryDateTime(new Date());
 				expenseInfo.setEntryId(ContextUtil.getCurrentUserId());
+				
+				String typeId = request.getParameter("applyFormTypeId");
+				expenseInfo.setApplyFormType(this.serviceProcessType.get(typeId));
 			}
 			
 			// Only for testing...
