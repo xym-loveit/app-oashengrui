@@ -19,6 +19,7 @@ import org.shengrui.oa.model.flow.ModelProcessType;
 import org.shengrui.oa.service.flow.ServiceProcessDefinition;
 import org.shengrui.oa.service.flow.ServiceProcessTask;
 import org.shengrui.oa.service.flow.ServiceProcessType;
+import org.shengrui.oa.service.flow.ServiceWorkFlow;
 import org.shengrui.oa.web.action.BaseAppAction;
 
 import cn.trymore.core.exception.ServiceException;
@@ -56,6 +57,12 @@ extends BaseAppAction
 	@Resource
 	protected ServiceProcessTask serviceProcessTask;
 	
+	/**
+	 * The work flow service
+	 */
+	@Resource
+	protected ServiceWorkFlow serviceWorkFlow;
+
 	/**
 	 * <b>[WebAction]</b> 
 	 * <br/>
@@ -877,4 +884,13 @@ extends BaseAppAction
 		this.serviceProcessTask = serviceProcessTask;
 	}
 	
+	public ServiceWorkFlow getServiceWorkFlow()
+	{
+		return serviceWorkFlow;
+	}
+
+	public void setServiceWorkFlow(ServiceWorkFlow serviceWorkFlow)
+	{
+		this.serviceWorkFlow = serviceWorkFlow;
+	}
 }

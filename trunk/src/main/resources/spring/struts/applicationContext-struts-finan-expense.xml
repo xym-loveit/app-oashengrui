@@ -9,6 +9,8 @@
 		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
 		<property name="serviceFinanExpense" ref="serviceFinanExpense" />
 		<property name="serviceProcessType" ref="serviceProcessType" />
+		<property name="serviceHrmEmployee"	 ref="serviceHrmEmployee" />
+		<property name="serviceWorkFlow" ref="serviceWorkFlow" />
 	</bean>
 	
 </beans>

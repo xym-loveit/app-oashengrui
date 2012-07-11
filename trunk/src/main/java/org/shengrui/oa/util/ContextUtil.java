@@ -52,12 +52,12 @@ public class ContextUtil
 	 * 
 	 * @return
 	 */
-	public static String getCurrentUserId()
+	public static Integer getCurrentUserId()
 	{
 		ModelAppUser appUser = getCurrentUser();
 		if (appUser != null	)
 		{
-			return appUser.getId();
+			return Integer.parseInt(appUser.getId());
 		}
 		return null;
 	}

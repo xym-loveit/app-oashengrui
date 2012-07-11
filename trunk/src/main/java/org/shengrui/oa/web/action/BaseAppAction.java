@@ -18,6 +18,7 @@ import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
+import org.shengrui.oa.service.hrm.ServiceHrmEmployee;
 import org.shengrui.oa.service.system.ServiceAppUser;
 import org.shengrui.oa.service.system.ServiceSchoolDepartment;
 import org.shengrui.oa.service.system.ServiceSchoolDepartmentPosition;
@@ -69,6 +70,12 @@ extends BaseAction
 	 */
 	@Resource
 	protected ServiceAppUser serviceAppUser;
+	
+	/**
+	 * The employee service
+	 */
+	@Resource
+	protected ServiceHrmEmployee serviceHrmEmployee;
 	
 	/**
 	 * 获取所有校区
@@ -372,5 +379,15 @@ extends BaseAction
 	public void setServiceAppUser(ServiceAppUser serviceAppUser)
 	{
 		this.serviceAppUser = serviceAppUser;
+	}
+
+	public void setServiceHrmEmployee(ServiceHrmEmployee serviceHrmEmployee)
+	{
+		this.serviceHrmEmployee = serviceHrmEmployee;
+	}
+
+	public ServiceHrmEmployee getServiceHrmEmployee()
+	{
+		return serviceHrmEmployee;
 	}
 }
