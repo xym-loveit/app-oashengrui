@@ -115,8 +115,8 @@
 				<li treeicon="icon-setdic"><a href="blank.jsp" target="navTab" rel="demo_page1">数据字典设置</a></li>
 				<li treeicon="icon-setaskm"><a>工作安排设置</a>
 					<ul>
-						<li treeicon="icon-setaskmTpl"><a href="blank.jsp" target="navTab" rel="demo_page2">工作安排模板设置</a></li>
-						<li treeicon="icon-setaskmBase"><a href="blank.jsp" target="navTab" rel="demo_page2">工作安排基础设置</a></li>
+						<li treeicon="icon-setaskmTpl"><a href="app/system/work/template.do?action=pageWorkTemplateIndex" target="navTab" rel="sysmgr_work_template">工作安排模板设置</a></li>
+						<li treeicon="icon-setaskmBase"><a href="app/system/work/base.do?action=pageWorkBaseIndex" target="navTab" rel="sysmgr_work_base">工作安排基础设置</a></li>
 					</ul>
 				</li>
 				<li treeicon="icon-setflowm"><a>审批流程设置</a>

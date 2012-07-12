@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+       
+<tiles-definitions>
+	
+	<!-- 系统设置 - 工作安排设置 - 工作模板设置 -->
+	<definition name="page.sys.setting.work.template.index" 
+		path="/WEB-INF/jsp/application/system/work/template/templateIndex.jsp"/>
+		
+	<!-- 系统设置 - 工作安排设置 - 工作基础设置 -->
+	<definition name="page.sys.setting.work.base.index" 
+		path="/WEB-INF/jsp/application/system/work/base/baseIndex.jsp"/>	
+	
+</tiles-definitions>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	
+	<action-mappings>
+		<!-- 文档上传与下载管理-->
+		<action path="/app/admin/doc"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			
+			<!-- 文档上传-->
+			<forward name="admin.page.document.index" path="admin.page.document.index" />
+
+			<forward name="admin.page.document.detail" path="admin.page.document.detail" />
+		</action>
+		
+	</action-mappings>
+
+</struts-config>

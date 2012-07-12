@@ -5,27 +5,25 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.admin.DAOWorkArrange;
-import org.shengrui.oa.dao.hrm.DAOHrmJobHireInfo;
 import org.shengrui.oa.model.admin.ModelAdminWorkArrange;
 import org.shengrui.oa.service.admin.ServiceAdminWorkArrange;
-import org.shengrui.oa.service.hrm.ServiceHrmJobHireInfo;
 
-import cn.trymore.core.dao.DAOGeneric;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
-import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
 /**
- * The implementation for job hire information.
+ * The implementation for work arrange.
  * 
- * @author Jeccy.Zhao
+ * @author Tang
  *
  */
 public class ServiceAdminWorkArrangeImpl
 extends ServiceGenericImpl<ModelAdminWorkArrange> implements ServiceAdminWorkArrange
 {
+	private DAOWorkArrange daoWorkArrange;
+	
 	public ServiceAdminWorkArrangeImpl(DAOWorkArrange dao) {
 		super(dao);
 		this.daoWorkArrange = dao;
@@ -35,19 +33,12 @@ extends ServiceGenericImpl<ModelAdminWorkArrange> implements ServiceAdminWorkArr
 	 * 根据id得到一条工作安排记录
 	 * @author Tang 
 	 */
-	public ModelAdminWorkArrange getById(String id){
-		try {
-			return this.get(id);
-		} catch (ServiceException e) {
-			e.printStackTrace();
-		}
-		return null;
+	public ModelAdminWorkArrange getById(String id)throws ServiceException
+	{
+		return this.get(id);
 	}
 
-	/**
-	 * The repository for job hire information.
-	 */
-	private DAOWorkArrange daoWorkArrange;
+	
 	
 	@Override
 	public PaginationSupport<ModelAdminWorkArrange> getPaginationByEntity(

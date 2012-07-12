@@ -9,4 +9,12 @@
 	</bean>
 	
 	
+	<bean name="/app/admin/doc" class="org.shengrui.oa.web.action.admin.DocManageAction">
+	    <property name="serviceDocManage" ref="serviceDocManage" />
+	    <property name="serviceDocFile" ref="serviceDocFile" />
+	    <property name="serviceDocLevel" ref="serviceDocLevel" />
+	    <property name="serviceDocVisiableRange" ref="serviceDocVisiableRange" />
+	</bean>
+	
+	
 </beans>

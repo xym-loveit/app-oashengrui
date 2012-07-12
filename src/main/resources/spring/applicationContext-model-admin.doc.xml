@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<!-- doc文档管理-->
+	<bean id="daoDocManage" class="org.shengrui.oa.dao.admin.impl.DAODocManageImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceDocManage" parent="baseTxProxy">
+		<property name="target">
+			<bean class=" org.shengrui.oa.service.admin.impl.ServiceDocManageImpl">
+				<constructor-arg index="0" ref="daoDocManage"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Doc file-->
+	<bean id="daoDocFile" class="org.shengrui.oa.dao.admin.impl.DAODocFileImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceDocFile" parent="baseTxProxy">
+		<property name="target">
+			<bean class=" org.shengrui.oa.service.admin.impl.ServiceDocFileImpl">
+				<constructor-arg index="0" ref="daoDocFile"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Doc level-->
+	<bean id="daoDocLevel" class="org.shengrui.oa.dao.admin.impl.DAODocLevelImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceDocLevel" parent="baseTxProxy">
+		<property name="target">
+			<bean class=" org.shengrui.oa.service.admin.impl.ServiceDocLevelImpl">
+				<constructor-arg index="0" ref="daoDocLevel"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Doc VisiableRange-->
+	<bean id="daoDocVisiableRange" class="org.shengrui.oa.dao.admin.impl.DAODocVisiableRangeImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceDocVisiableRange" parent="baseTxProxy">
+		<property name="target">
+			<bean class=" org.shengrui.oa.service.admin.impl.ServiceDocVisiableRangeImpl">
+				<constructor-arg index="0" ref="daoDocVisiableRange"/>
+			</bean>
+		</property>
+	</bean>
+
+</beans>

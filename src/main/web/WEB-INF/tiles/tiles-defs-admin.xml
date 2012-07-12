@@ -24,6 +24,11 @@
 	<!-- 员工考勤管理 - 工作安排 -->
 	<definition name="admin.page.staff.work.arrange" 
 		path="/WEB-INF/jsp/application/administrator/staff/work/workArrangeIndex.jsp"/>
+		
+	<!-- 员工考勤管理 - 工作安排页面（新增 & 详细 & 编辑） -->
+	<definition name="admin.page.staff.work.arrange.add" 
+		path="/WEB-INF/jsp/application/administrator/staff/work/dialog/workArrangePage.jsp"/>	
+		
 	
 	<!-- 员工考勤管理 - 员工考勤 -->
 	<definition name="admin.page.staff.attendance" 

@@ -1,16 +1,11 @@
 package org.shengrui.oa.model.admin;
 
-import java.util.Date;
-import java.util.Set;
-
-import org.shengrui.oa.model.system.ModelAppUser;
-
 import com.google.gson.annotations.Expose;
 
 import cn.trymore.core.model.ModelBase;
 
 /**
- * Model: 员工工作安排
+ * Model: 员工工作类型
  * 
  * @author Tang
  * 
