@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<!-- WorkArrange-->
+	<bean id="daoWorkArrange" class="org.shengrui.oa.dao.admin.impl.DAOWorkArrangeImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceAdminWorkArrange" parent="baseTxProxy">
+		<property name="target">
+			<bean class=" org.shengrui.oa.service.admin.impl.ServiceAdminWorkArrangeImpl">
+				<constructor-arg index="0" ref="daoWorkArrange"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- WorkType-->
+	<bean id="daoWorkType" class="org.shengrui.oa.dao.admin.impl.DAOWorkTypeImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceAdminWorkType" parent="baseTxProxy">
+		<property name="target">
+			<bean class=" org.shengrui.oa.service.admin.impl.ServiceAdminWorkTypeImpl">
+				<constructor-arg index="0" ref="daoWorkType"/>
+			</bean>
+		</property>
+	</bean>
+
+</beans>

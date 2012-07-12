@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	
+	<!-- 定义Action的return节点和具体去向，跳转的URL对应到titles里面，那里给出具体的jsp页面地址-->
+	
+	<form-beans>
+		<form-bean name="form.process.type" type="org.shengrui.oa.model.flow.ModelProcessType"></form-bean>
+	</form-beans>
+	
+	<global-forwards> 
+		<forward name="data.sys.setting.flow.type.tree" path="data.sys.setting.flow.type.tree" />
+		
+	</global-forwards>
+	
+	<action-mappings>
+		
+		<!-- 工作模板设置 -->
+		<action path="/app/system/work/template"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="page.sys.setting.work.template.index" path="page.sys.setting.work.template.index" />
+		</action>
+		
+		<!-- 工作基础设置 -->
+		<action path="/app/system/work/base"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="page.sys.setting.work.base.index" path="page.sys.setting.work.base.index" />
+		</action>
+		
+		
+	</action-mappings>
+
+</struts-config>

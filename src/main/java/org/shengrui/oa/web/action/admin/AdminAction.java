@@ -3,12 +3,20 @@ package org.shengrui.oa.web.action.admin;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.shengrui.oa.model.admin.ModelAdminWorkArrange;
+import org.shengrui.oa.model.hrm.ModelHrmJobHireInfo;
+import org.shengrui.oa.model.system.ModelSchoolDistrict;
 import org.shengrui.oa.web.action.BaseAppAction;
+import org.shengrui.oa.web.action.hrm.HrmHireAction;
 
+import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.exception.WebException;
+import cn.trymore.core.web.paging.PaginationSupport;
+import cn.trymore.core.web.paging.PagingBean;
 
 /**
  * The administrator web action.
@@ -17,8 +25,16 @@ import cn.trymore.core.exception.WebException;
  *
  */
 public class AdminAction 
-extends BaseAppAction
+extends BaseAdminAction
 {
+	/**
+	 * The LOGGER
+	 */
+	private static final Logger LOGGER = Logger.getLogger(HrmHireAction.class);
+	
+	private static final String ACTION_FORM_FLAG_APPROVAL = "1";
+	
+	private static final String ACTION_FORM_FLAG_RETURNED = "2";
 	
 	/**
 	 * <b>[WebAction]</b> 
@@ -84,12 +100,70 @@ extends BaseAppAction
 	 * <br/>
 	 * 员工考勤管理 > 工作安排
 	 * @throws WebException 
+	 * @author Tang
 	 */
 	public ActionForward adminPageStaffWorkArrange (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws WebException 
 	{
+		try
+		{
+			ModelAdminWorkArrange formWorkArrange = (ModelAdminWorkArrange) form;
+
+			PagingBean pagingBean = this.getPagingBean(request);
+			PaginationSupport<ModelAdminWorkArrange> workArranges =
+					this.serviceAdminWorkArrange.getPaginationByEntity(formWorkArrange, pagingBean);
+			
+			request.setAttribute("workArranges", workArranges);
+			request.setAttribute("formWorkArrange", formWorkArrange);
+			
+			System.out.println("进入员工考勤管理->工作安排"+workArranges.getItems().get(0).getWorkDate());
+			
+			// 输出分页信息至客户端
+			outWritePagination(request, pagingBean, workArranges);
+			
+		} 
+		catch (ServiceException e)
+		{
+			LOGGER.error("Exception raised when fetch all hire jobs.", e);
+		}
+		
 		return mapping.findForward("admin.page.staff.work.arrange");
 	}
+	
+	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
+	 * 员工考勤管理 > 工作安排->添加工作安排dialog界面
+	 * @throws WebException 
+	 * @author Tang
+	 */
+	public ActionForward adminAddStaffWorkArrange (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) throws WebException 
+	{
+		try
+		{
+			//如果有Id传进来，则有可能是编辑或者查看详细,那么去读取详细的工作安排信息
+			String id = request.getParameter("id");
+			if (this.isObjectIdValid(id))
+			{
+				ModelAdminWorkArrange workArrange =  this.getServiceAdminWorkArrange().get(id);
+			    request.setAttribute("workArrange", workArrange);
+			}
+			
+//			request.setAttribute("districts", this.getAllDistricts());
+			request.setAttribute("op", request.getParameter("op"));
+	
+			request.setAttribute("workTypes", this.getServiceAdminWorkType().getAllWorkTypes());
+			return mapping.findForward("admin.page.staff.work.arrange.add");
+		}
+		catch (Exception e)
+		{
+			LOGGER.error("Exception raised when fetch the job hire entity!", e);
+			return ajaxPrint(response, getErrorCallback("数据加载失败,原因:" + e.getMessage()));
+		}
+	}
+	
+	
 	
 	/**
 	 * <b>[WebAction]</b> 

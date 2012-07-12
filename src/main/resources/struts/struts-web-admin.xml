@@ -15,7 +15,11 @@
 			
 			<forward name="admin.page.task.delegate.index" path="admin.page.task.delegate.index" />
 			
+			<!-- 工作安排-->
 			<forward name="admin.page.staff.work.arrange" path="admin.page.staff.work.arrange" />
+			<forward name="admin.page.staff.work.arrange.add" path="admin.page.staff.work.arrange.add" />
+			
+			<!-- 员工考勤-->
 			<forward name="admin.page.staff.attendance" path="admin.page.staff.attendance" />
 			<forward name="admin.page.staff.attendance.onpunch" path="admin.page.staff.attendance.onpunch" />
 			<forward name="admin.page.staff.attendance.onleave" path="admin.page.staff.attendance.onleave" />

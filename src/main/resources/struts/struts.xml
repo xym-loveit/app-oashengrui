@@ -22,7 +22,8 @@
 				/WEB-INF/tiles/tiles-defs-sysmgr-account.xml,
 				/WEB-INF/tiles/tiles-defs-sysmgr-menu.xml,
 				/WEB-INF/tiles/tiles-defs-sysmgr-roles.xml,
-				/WEB-INF/tiles/tiles-defs-sysmgr-school.xml
+				/WEB-INF/tiles/tiles-defs-sysmgr-school.xml,
+				/WEB-INF/tiles/tiles-defs-sysmgr-work.xml
 			"
 		/>
 		<set-property property="definitions-debug" value="2" />
