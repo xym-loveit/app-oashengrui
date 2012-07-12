@@ -78,7 +78,7 @@ extends ModelBase
 	/**
 	 * 付款方, 0=本校区, 1=总部
 	 */
-	private int payer = -1;
+	private Integer payer;
 	
 	/**
 	 * 合同编号
@@ -93,7 +93,7 @@ extends ModelBase
 	/**
 	 * 是否已事前审批, 0=否, 1=是
 	 */
-	private int auditAdvance = -1;
+	private Integer auditAdvance;
 	
 	/**
 	 * 固定资产编号
@@ -113,7 +113,7 @@ extends ModelBase
 	/**
 	 * 付款方式, 0=现金, 1=转账
 	 */
-	private int payMethod = -1;
+	private Integer payMethod;
 	
 	/**
 	 * 开户银行
@@ -138,12 +138,12 @@ extends ModelBase
 	/**
 	 * 审批状态
 	 */
-	private int auditState = -1;
+	private Integer auditState;
 	
 	/**
 	 * 录入人员
 	 */
-	private int entryId = -1;
+	private Integer entryId;
 	
 	/**
 	 * 录入日期
@@ -154,6 +154,11 @@ extends ModelBase
 	 * 审批历史
 	 */
 	private Set<ModelProcessHistory> processHistory = new HashSet<ModelProcessHistory>();
+	
+	/**
+	 * 当前审批环节
+	 */
+	private ModelProcessForm currentProcessForm;
 	
 	public ModelProcessType getApplyFormType() 
 	{
@@ -188,20 +193,37 @@ extends ModelBase
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
-	public int getAuditState() {
+	
+	public Integer getAuditState() 
+	{
+		if (this.auditState == null && this.applyForm != null)
+		{
+			ModelProcessForm[] forms = new ModelProcessForm[this.applyForm.size()];
+			this.applyForm.toArray(forms);
+			
+			for (int i = forms.length - 1 ; i >= 0; i--)
+			{
+				ModelProcessForm form = forms[i];
+				if (form.getAuditState() != null)
+				{
+					return form.getAuditState();
+				}
+			}
+		}
+		
 		return auditState;
 	}
-
-	public void setAuditState(int auditState) {
+	
+	public void setAuditState(Integer auditState) 
+	{
 		this.auditState = auditState;
 	}
 
-	public int getEntryId() {
+	public Integer getEntryId() {
 		return entryId;
 	}
 
-	public void setEntryId(int entryId) {
+	public void setEntryId(Integer entryId) {
 		this.entryId = entryId;
 	}
 
@@ -369,6 +391,38 @@ extends ModelBase
 	public ModelHrmEmployee getEmployee()
 	{
 		return employee;
+	}
+
+	public void setCurrentProcessForm(ModelProcessForm currentProcessForm)
+	{
+		this.currentProcessForm = currentProcessForm;
+	}
+	
+	/**
+	 * Obtains the current process form node.
+	 * 
+	 * @return the process form entity
+	 */
+	public ModelProcessForm getCurrentProcessForm()
+	{
+		if (currentProcessForm == null && this.applyForm != null)
+		{
+			ModelProcessForm[] forms = new ModelProcessForm[this.applyForm.size()];
+			this.applyForm.toArray(forms);
+			
+			for (int i = forms.length - 1 ; i >= 0; i--)
+			{
+				ModelProcessForm form = forms[i];
+				if (form.getAuditState() != null && 
+						ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue().equals(form.getAuditState()))
+				{
+					currentProcessForm = form;
+					break;
+				}
+			}
+		}
+			
+		return currentProcessForm;
 	}
 
 	

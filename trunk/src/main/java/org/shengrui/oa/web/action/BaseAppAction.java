@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.system.ModelAppRole;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
@@ -321,6 +322,72 @@ extends BaseAction
 					builder.append("{");
 					builder.append("\"id\":\"" + user.getId() + "\",");
 					builder.append("\"fullName\":\"" + user.getFullName() + "\"");
+					builder.append("}");
+					
+					if (count < result.size())
+					{
+						builder.append(",");
+					}
+				}
+				String callbackJson = "[" + builder.toString() + "]";
+				return ajaxPrint(response, callbackJson);
+			}
+		} 
+		catch (ServiceException e)
+		{
+			LOGGER.error("Exception raised when lookup user with full name:" + fullName, e);
+		}
+		
+		return ajaxPrint(response, "[]");
+	}
+	
+	/**
+	 * 根据姓名搜索员工并自动提示
+	 * 
+	 * @param userName
+	 * @return
+	 */
+	public  ActionForward lookupEmployeeByName (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	{
+		String fullName = request.getParameter("fullName");
+		
+		try
+		{
+			StringBuilder builder = new StringBuilder();
+			List<ModelHrmEmployee> result = this.serviceHrmEmployee.findByFullName(fullName, true);
+			if (result != null && result.size() > 0)
+			{
+				int count = 0;
+				for (ModelHrmEmployee employee : result)
+				{
+					count++;
+					
+					builder.append("{");
+					
+					builder.append("\"id\":\"" + employee.getId() + "\",");
+					builder.append("\"fullName\":\"" + employee.getEmpName() + "\",");
+					
+					if (employee.getEmployeeDepartment() != null)
+					{
+						builder.append("\"depId\":\"" + employee.getEmployeeDepartment().getId() + "\",");
+						builder.append("\"depName\":\"" + employee.getEmployeeDepartment().getDepName() + "\",");
+					}
+					
+					if (employee.getEmployeeDistrict() != null)
+					{
+						builder.append("\"districtId\":\"" + employee.getEmployeeDistrict().getId() + "\",");
+						builder.append("\"districtName\":\"" + employee.getEmployeeDistrict().getDistrictName() + "\",");
+					}
+					
+					if (employee.getEmployeePosition() != null)
+					{
+						builder.append("\"posId\":\"" + employee.getEmployeePosition().getId() + "\",");
+						builder.append("\"posName\":\"" + employee.getEmployeePosition().getPositionName() + "\",");
+					}
+					
+					builder.append("\"phoneNo\":\"" + employee.getPhoneNo() + "\"");
+					
 					builder.append("}");
 					
 					if (count < result.size())

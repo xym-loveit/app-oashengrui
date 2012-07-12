@@ -7,6 +7,8 @@
 		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
 		<property name="serviceSchoolDepartmentPosition" ref="serviceSchoolDepartmentPosition" />
 		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
+		<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
+		<property name="serviceAppUser" ref="serviceAppUser" />
 	</bean>
 	
 </beans>

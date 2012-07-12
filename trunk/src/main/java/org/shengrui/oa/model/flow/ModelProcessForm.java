@@ -154,7 +154,7 @@ extends ModelBase
 	/**
 	 * 审核状态码
 	 */
-	private int auditState;
+	private Integer auditState;
 	
 	/**
 	 * 排序码
@@ -338,12 +338,12 @@ extends ModelBase
 		this.auditIdea = auditIdea;
 	}
 
-	public int getAuditState()
+	public Integer getAuditState()
 	{
 		return auditState;
 	}
 
-	public void setAuditState(int auditState)
+	public void setAuditState(Integer auditState)
 	{
 		this.auditState = auditState;
 	}
@@ -485,5 +485,13 @@ extends ModelBase
 		this.taskType = taskType;
 	}
 	
-	
+	public String getToDistrictNames()
+	{
+		return toDistrictNames;
+	}
+
+	public void setToDistrictNames(String toDistrictNames)
+	{
+		this.toDistrictNames = toDistrictNames;
+	}
 }

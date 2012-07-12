@@ -148,15 +148,19 @@
 							$.each(response, function(i){
 								var liAttr = '', liLabel = '';
 								
-								for (var i=0; i<suggestFields.length; i++){
-									var str = this[suggestFields[i]];
+								// modified by Jeccy.Zhao on 12/07/2012, all of looup attributes should be stored.
+								for (var j=0; j<suggestFields.length; j++){
+									var str = this[suggestFields[j]];
 									if (str) {
-										if (liLabel) liLabel += '-';
+										if (liLabel) liLabel += ' - ';
 										liLabel += str;
-										if (liAttr) liAttr += ',';
-										liAttr += suggestFields[i]+":'"+str+"'";
 									}
 								}
+								for (var name in response[i]) {
+									if (liAttr) liAttr += ',';
+									liAttr += name+":'"+response[i][name]+"'";	
+								}
+								
 								html += '<li lookupId="'+this[_lookup.pk]+'" lookupAttrs="'+liAttr+'">' + liLabel + '</li>';
 							});
 							
