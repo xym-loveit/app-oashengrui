@@ -138,7 +138,7 @@
 					<logic:present name="employeeExpenseEntry" property="applyForm">
 						<logic:iterate name="employeeExpenseEntry" property="applyForm" id="entity">
 							<tr>
-								<td width="15%" style="line-height: 35px; background-color: #ddd">
+								<td width="15%" style="line-height: 35px; background-color:${entity.auditState eq null ? '#99BBE8' : (entity.auditState eq 1 ? '#FF7300' : '#ddd')}">
 									${entity.toDepartmentNames}-${entity.toPositionNames}
 									<c:choose>
 										<c:when test="${entity.taskType eq 1 || entity.taskType eq 2}">(校区)</c:when>
@@ -147,7 +147,7 @@
 									</c:choose>
 									审批
 								</td>
-								<td>${entity.auditIdea}</td>
+								<td style="padding:0 5px;">${entity.auditIdea}</td>
 							</tr>
 						</logic:iterate>
 					</logic:present>
