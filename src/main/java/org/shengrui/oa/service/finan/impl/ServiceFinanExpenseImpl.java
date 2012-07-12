@@ -61,7 +61,7 @@ extends ServiceGenericImpl<ModelFinanExpense> implements ServiceFinanExpense
 			{
 				criteria.createCriteria("applyFormType").add(Restrictions.eq("id", entity.getApplyFormType().getId()));
 			}
-			if (entity.getAuditState() > -1)
+			if (entity.getAuditState() != null && entity.getAuditState() > -1)
 			{
 				criteria.add(Restrictions.eq("auditState", entity.getAuditState()));
 			}

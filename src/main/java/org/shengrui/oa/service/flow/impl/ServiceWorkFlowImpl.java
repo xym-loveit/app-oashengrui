@@ -292,6 +292,12 @@ implements ServiceWorkFlow
 			form.setApplyFormNo(formNo);
 			form.setSortCode(task.getSortCode());
 			
+			// Sets the first task node status be approving. 
+			if (task.getSortCode().equals(1))
+			{
+				form.setAuditState(ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue());
+			}
+			
 			return form;
 		}
 		

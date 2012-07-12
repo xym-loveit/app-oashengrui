@@ -46,9 +46,10 @@
 						<label>审批结果：</label>
 						<select class="combox" name="auditState" style="width:108px;">
 							<option value="-1">所有</option>
-							<option value="0" ${employeeExpenseForm ne null && employeeExpenseForm.auditState eq 0 ? 'selected="selected"' : ''}>审批中</option>
-							<option value="1" ${employeeExpenseForm ne null && employeeExpenseForm.auditState eq 1 ? 'selected="selected"' : ''}>审批通过</option>
-							<option value="2" ${employeeExpenseForm ne null && employeeExpenseForm.auditState eq 2 ? 'selected="selected"' : ''}>审批不通过</option>
+							<option value="1" ${employeeExpenseForm ne null && employeeExpenseForm.auditState eq 1 ? 'selected="selected"' : ''}>审批中</option>
+							<option value="2" ${employeeExpenseForm ne null && employeeExpenseForm.auditState eq 2 ? 'selected="selected"' : ''}>审批通过</option>
+							<option value="3" ${employeeExpenseForm ne null && employeeExpenseForm.auditState eq 3 ? 'selected="selected"' : ''}>审批未通过</option>
+							<option value="3" ${employeeExpenseForm ne null && employeeExpenseForm.auditState eq 4 ? 'selected="selected"' : ''}>审批退回</option>
 						</select>
 					</td>
 				</tr>
@@ -71,7 +72,7 @@
 				<li class="line">line</li>
 			</ul>
 		</div>
-		<table class="table" width="100%" layoutH="168">
+		<table class="table" width="100%" layoutH="142">
 			<thead>
 				<tr>
 					<th align="center">申请类型</th>
@@ -82,6 +83,7 @@
 					<th align="center">申请时间</th>
 					<th align="center">审批状态</th>
 					<th align="center">审批环节</th>
+					<th align="center">审批结果</th>
 					<th align="center">申请单查看</th>
 				</tr>
 			</thead>
@@ -97,18 +99,27 @@
 							<td><fmt:formatDate  value="${entity.applyDate}" pattern="yyyy-MM-dd" /></td>
 							<td>
 								<c:choose>
-									<c:when test="${entity.auditState eq 0}">
-										审批中
-									</c:when>
-									<c:when test="${entity.auditState eq 1}">
-										审批通过
-									</c:when>
-									<c:when test="${entity.auditState eq 2}">
-										审批未通过
-									</c:when>
+									<c:when test="${entity.auditState eq 1}">审批中</c:when>
+									<c:otherwise>审批结束</c:otherwise>
 								</c:choose>
 							</td>
-							<td></td>
+							<td>
+								<c:if test="${entity.currentProcessForm ne null}">
+									${entity.currentProcessForm.toDepartmentNames}-${entity.currentProcessForm.toPositionNames}
+									<c:choose>
+										<c:when test="${entity.currentProcessForm.taskType eq 1 || entity.currentProcessForm.taskType eq 2}">(校区)</c:when>
+										<c:when test="${entity.currentProcessForm.taskType eq 3 || entity.currentProcessForm.taskType eq 4}">(总部)</c:when>
+										<c:otherwise>未知</c:otherwise>
+									</c:choose>
+								</c:if>
+							</td>
+							<td>
+								<c:choose>
+									<c:when test="${entity.auditState eq 2}">审核通过</c:when>
+									<c:when test="${entity.auditState eq 3}">审核未通过</c:when>
+									<c:otherwise>---</c:otherwise>
+								</c:choose>
+							</td>
 							<td><a class="oplink" href="app/finan/financial.do?action=FinanExpenseDetail&id=${entity.id}&op=view" target="dialog" title="查看${entity.employee.empName}申请单" width="1100" height="540" rel="dia_finexp_view_${entity.id}">详细</a></td>
 						</tr>
 					</logic:iterate>

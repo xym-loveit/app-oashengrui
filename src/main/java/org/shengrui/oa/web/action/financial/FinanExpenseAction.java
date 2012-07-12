@@ -1,7 +1,5 @@
 package org.shengrui.oa.web.action.financial;
 
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,10 +9,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.finan.ModelFinanExpense;
 import org.shengrui.oa.model.flow.ModelProcessType;
-import org.shengrui.oa.util.AppUtil;
-import org.shengrui.oa.util.ContextUtil;
 
-import cn.trymore.core.util.UtilBean;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
@@ -111,82 +106,5 @@ extends BaseFinanAction
 		}
 		return mapping.findForward("finan.page.expense.detail");
 	}
-
-	/**
-	 * <b>[WebAction]</b> <br/>
-	 * 财务申请保存
-	 */
-	public ActionForward actionFinanExpenseSave(ActionMapping mapping,
-			ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) 
-	{
-		try
-		{
-			boolean isCreation = false;
-			
-			ModelFinanExpense expenseInfo = null;
-			ModelFinanExpense formEntity = (ModelFinanExpense) form;
-			
-			String expenseId = request.getParameter("id");
-			if (formEntity.getId() != null)
-			{
-				// 修改
-				if (this.isObjectIdValid(expenseId))
-				{
-					expenseInfo = this.serviceFinanExpense.get(expenseId);
-					if (expenseInfo == null)
-					{
-						return ajaxPrint(response, getErrorCallback("费用申请记录不存在:id-" + expenseId));
-					}
-					else
-					{
-						UtilBean.copyNotNullProperties(expenseInfo, formEntity);
-					}
-				}
-				else
-				{
-					return ajaxPrint(response, getErrorCallback("需要传入合法费用申请ID参数."));
-				}
-			}
-			else
-			{
-				// 创建
-				isCreation = true;
-				
-				expenseInfo = formEntity;
-				expenseInfo.setFormNo(AppUtil.genFormNo(FINAN_FORM_KEY_EXPENSE));
-				expenseInfo.setEntryDateTime(new Date());
-				expenseInfo.setEntryId(ContextUtil.getCurrentUserId());
-				
-				String typeId = request.getParameter("applyFormTypeId");
-				expenseInfo.setApplyFormType(this.serviceProcessType.get(typeId));
-			}
-			
-			// Only for testing...
-			expenseInfo.setEmployee(this.serviceHrmEmployee.get("3"));
-			expenseInfo.setEmpDepartment(this.serviceSchoolDepartment.get("9"));
-			expenseInfo.setEmpDistrict(this.serviceSchoolDistrict.get("3"));
-			
-			this.serviceFinanExpense.save(expenseInfo);
-			
-			if (isCreation)
-			{
-				// 进入流程...
-				this.serviceWorkFlow.doStartProcess(
-						expenseInfo.getApplyFormType().getId(), 
-						null, 
-						expenseInfo.getApplyAmt(), 
-						expenseInfo.getFormNo(), 
-						expenseInfo.getEmployee());
-			}
-			
-			return ajaxPrint(response, 
-					getSuccessCallback("费用申请保存成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
-		}
-		catch (Exception e)
-		{
-			LOGGER.error("Exception raised when delete expense document.", e);
-			return ajaxPrint(response, getErrorCallback("费用申请保存失败:" + e.getMessage()));
-		}
-	}
+	
 }

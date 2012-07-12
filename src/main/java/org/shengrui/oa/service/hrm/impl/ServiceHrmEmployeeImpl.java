@@ -1,5 +1,7 @@
 package org.shengrui.oa.service.hrm.impl;
 
+import java.util.List;
+
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
@@ -14,11 +16,18 @@ import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
-
+/**
+ * The implementation of employee service.
+ * 
+ * @author Jeccy.Zhao
+ *
+ */
 public class ServiceHrmEmployeeImpl
 extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 {
-	
+	/**
+	 * The employee repository
+	 */
 	private DAOHrmEmployee daoHrmEmployee;
 	
 	public ServiceHrmEmployeeImpl(DAOHrmEmployee dao)
@@ -42,17 +51,40 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 		return criteria;
 	}
 	
-	public void setDaoHrmEmployee(DAOHrmEmployee daoHrmEmployee)
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmEmployee#findByFullName(java.lang.String)
+	 */
+	@Override
+	public List<ModelHrmEmployee> findByFullName(String fullName)
+			throws ServiceException
 	{
-		this.daoHrmEmployee = daoHrmEmployee;
-	}
-
-	public DAOHrmEmployee getDaoHrmEmployee()
-	{
-		return daoHrmEmployee;
+		return this.findByFullName(fullName, false);
 	}
 	
-
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmEmployee#findByFullName(java.lang.String, boolean)
+	 */
+	@Override
+	public List<ModelHrmEmployee> findByFullName(String fullName,
+			boolean fetchAll) throws ServiceException
+	{
+		try
+		{
+			return this.daoHrmEmployee.findByFullName(fullName, fetchAll);
+		} 
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmEmployee#getEmployeeInfoPagination(org.shengrui.oa.model.hrm.ModelHrmEmployee, cn.trymore.core.web.paging.PagingBean)
+	 */
 	@Override
 	public PaginationSupport<ModelHrmEmployee> getEmployeeInfoPagination(
 			ModelHrmEmployee entity, PagingBean pagingBean)
@@ -103,5 +135,14 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 		
 		return criteria;
 	}
+	
+	public void setDaoHrmEmployee(DAOHrmEmployee daoHrmEmployee)
+	{
+		this.daoHrmEmployee = daoHrmEmployee;
+	}
 
+	public DAOHrmEmployee getDaoHrmEmployee()
+	{
+		return daoHrmEmployee;
+	}
 }

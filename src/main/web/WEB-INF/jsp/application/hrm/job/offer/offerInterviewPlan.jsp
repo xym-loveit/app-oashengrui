@@ -20,7 +20,7 @@
 					<td>
 						<input id="inputOrg1" name="interviewer.id" value="" type="hidden"/>
 						<input class="required" name="interviewer.fullName" style="width:170px" type="text" postField="fullName" suggestFields="fullName" 
-							suggestUrl="app/hrm/hire/interview.do?action=lookupUserByName" lookupGroup="interviewer"/>
+							suggestUrl="app/base.do?action=lookupUserByName" lookupGroup="interviewer"/>
 					</td>
 					<td>面试地点：</td>
 					<td><input name="interviewAddress" type="text" class="required" value="" style="width:170px"/></td>
