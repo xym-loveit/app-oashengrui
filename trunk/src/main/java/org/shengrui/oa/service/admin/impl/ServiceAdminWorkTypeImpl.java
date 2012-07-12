@@ -10,9 +10,9 @@ import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
 
 /**
- * The implementation for job hire information.
+ * The implementation for work type 
  * 
- * @author Jeccy.Zhao
+ * @author Tang
  *
  */
 public class ServiceAdminWorkTypeImpl
@@ -20,20 +20,16 @@ extends ServiceGenericImpl<ModelAdminWorkType> implements ServiceAdminWorkType
 {
 	private DAOWorkType daoWorkType;
 	
-	public ServiceAdminWorkTypeImpl(DAOWorkType dao) {
+	public ServiceAdminWorkTypeImpl(DAOWorkType dao) 
+	{
 		super(dao);
 		this.daoWorkType = dao;
 	}
 	
 	@Override
-	public List<ModelAdminWorkType> getAllWorkTypes() {
-		// TODO Auto-generated method stub
-		try {
-			return this.getAll();
-		} catch (ServiceException e) {
-			e.printStackTrace();
-		}
-		return null;
+	public List<ModelAdminWorkType> getAllWorkTypes() throws ServiceException  
+	{
+		return this.getAll();
 	}
 
 

@@ -1,7 +1,6 @@
 package org.shengrui.oa.service.admin;
 
 import org.shengrui.oa.model.admin.ModelAdminWorkArrange;
-import org.shengrui.oa.model.hrm.ModelHrmJobHireInfo;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.ServiceGeneric;
@@ -22,7 +21,7 @@ extends ServiceGeneric<ModelAdminWorkArrange>
 	 * 根据id得到一条工作安排记录
 	 * @author Tang 
 	 */
-	public ModelAdminWorkArrange getById(String id);
+	public ModelAdminWorkArrange getById(String id)throws ServiceException;
 	
 	/**
 	 * 根据信息查分页数据
