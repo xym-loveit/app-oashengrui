@@ -2,7 +2,6 @@ package org.shengrui.oa.service.admin;
 
 import java.util.List;
 
-import org.shengrui.oa.model.admin.ModelAdminWorkArrange;
 import org.shengrui.oa.model.admin.ModelDoc;
 
 import cn.trymore.core.exception.ServiceException;
