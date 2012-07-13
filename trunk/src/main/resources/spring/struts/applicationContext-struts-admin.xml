@@ -6,6 +6,11 @@
 	<bean name="/app/admin" class="org.shengrui.oa.web.action.admin.AdminAction">
 	    <property name="serviceAdminWorkArrange" ref="serviceAdminWorkArrange" />
 	    <property name="serviceAdminWorkType" ref="serviceAdminWorkType" />
+	    
+	    <property name="serviceDocManage" ref="serviceDocManage" />
+	    <property name="serviceDocFile" ref="serviceDocFile" />
+	    <property name="serviceDocLevel" ref="serviceDocLevel" />
+	    <property name="serviceDocVisiableRange" ref="serviceDocVisiableRange" />
 	</bean>
 	
 	

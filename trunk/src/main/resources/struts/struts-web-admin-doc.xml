@@ -2,10 +2,14 @@
 <!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
 
 <struts-config>
+	<form-beans>
+		<form-bean name="form.admin.doc.info" type="org.shengrui.oa.model.admin.ModelDoc"></form-bean>
+	</form-beans>
 	
 	<action-mappings>
 		<!-- 文档上传与下载管理-->
 		<action path="/app/admin/doc"
+				name="form.admin.doc.info"
 				scope="request"
 				parameter="action"
 				type="org.springframework.web.struts.DelegatingActionProxy">

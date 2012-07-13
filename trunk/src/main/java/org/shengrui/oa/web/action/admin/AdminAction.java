@@ -18,7 +18,7 @@ import cn.trymore.core.web.paging.PagingBean;
 /**
  * The administrator web action.
  * 
- * @author  Jeccy.Zhao
+ * @author  Tang
  *
  */
 public class AdminAction 
@@ -27,7 +27,7 @@ extends BaseAdminAction
 	/**
 	 * The LOGGER
 	 */
-	private static final Logger LOGGER = Logger.getLogger(HrmHireAction.class);
+	private static final Logger LOGGER = Logger.getLogger(AdminAction.class);
 	
 	@SuppressWarnings("unused")
 	private static final String ACTION_FORM_FLAG_APPROVAL = "1";
@@ -149,7 +149,6 @@ extends BaseAdminAction
 			    request.setAttribute("workArrange", workArrange);
 			}
 			
-//			request.setAttribute("districts", this.getAllDistricts());
 			request.setAttribute("op", request.getParameter("op"));
 	
 			request.setAttribute("workTypes", this.getServiceAdminWorkType().getAllWorkTypes());
@@ -222,30 +221,6 @@ extends BaseAdminAction
 			HttpServletRequest request, HttpServletResponse response) throws WebException 
 	{
 		return mapping.findForward("admin.page.staff.attendance.onabsence");
-	}
-	
-	/**
-	 * <b>[WebAction]</b> 
-	 * <br/>
-	 * 文档上传与管理
-	 * @throws WebException 
-	 */
-	public ActionForward adminPageDocumentIndex (ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) throws WebException 
-	{
-		return mapping.findForward("admin.page.document.index");
-	}
-	
-	/**
-	 * <b>[WebAction]</b> 
-	 * <br/>
-	 * 文档上传与管理 - 文档详细页面
-	 * @throws WebException 
-	 */
-	public ActionForward adminPageDocumentDetail (ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) throws WebException 
-	{
-		return mapping.findForward("admin.page.document.detail");
 	}
 	
 }

@@ -6,7 +6,7 @@
 	<!-- 定义Action的return节点和具体去向，跳转的URL对应到titles里面，那里给出具体的jsp页面地址-->
 	
 	<form-beans>
-		<form-bean name="form.process.type" type="org.shengrui.oa.model.flow.ModelProcessType"></form-bean>
+		<form-bean name="form.work.arrange" type="org.shengrui.oa.model.admin.ModelAdminWorkArrange"></form-bean>
 	</form-beans>
 	
 	<global-forwards> 

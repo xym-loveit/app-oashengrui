@@ -8,6 +8,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn"%>
 <%@ taglib uri="/tags/trymore" prefix="tm"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 
 <style>
@@ -97,7 +98,7 @@
 		<logic:present name="workArranges">
 		   <logic:iterate name="workArranges" property="items" id="entity">
 			<tr target="sid" rel="${entity.id}">
-				<td>${entity.workDate}</td>
+				<td><fmt:formatDate value="${entity.workDate}" pattern="yyyy-MM-dd" /></td>
 				<td>${entity.workTime}</td>
 				<td>${entity.staff.fullName}</td>
 				<td>${entity.workType.type}</td>
