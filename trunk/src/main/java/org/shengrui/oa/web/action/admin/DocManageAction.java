@@ -23,10 +23,13 @@ extends BaseAdminAction
 	/**
 	 * The LOGGER
 	 */
+	@SuppressWarnings("unused")
 	private static final Logger LOGGER = Logger.getLogger(HrmHireAction.class);
 	
+	@SuppressWarnings("unused")
 	private static final String ACTION_FORM_FLAG_APPROVAL = "1";
 	
+	@SuppressWarnings("unused")
 	private static final String ACTION_FORM_FLAG_RETURNED = "2";
 	
 	
