@@ -3,11 +3,7 @@ package org.shengrui.oa.service.admin.impl;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.admin.DAODocManage;
-import org.shengrui.oa.model.admin.ModelAdminWorkArrange;
 import org.shengrui.oa.model.admin.ModelDoc;
 import org.shengrui.oa.service.admin.ServiceDocManage;
 
@@ -61,7 +57,6 @@ extends ServiceGenericImpl<ModelDoc> implements ServiceDocManage
 		{
 			
 		}
-		System.out.println("entity:"+entity);
 		
 //		criteria.addOrder(Order.desc("workTime"));
 		

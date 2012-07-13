@@ -56,6 +56,7 @@ extends ModelBase {
 	@Expose
 	protected Date createTime;
 	
+	@SuppressWarnings("rawtypes")
 	private Set docFiles = new HashSet(0);
 
 	public ModelDocVisiableRange getDocVisiableRange() {
@@ -138,10 +139,12 @@ extends ModelBase {
 		this.createTime = createTime;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public Set getDocFiles() {
 		return docFiles;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void setDocFiles(Set docFiles) {
 		this.docFiles = docFiles;
 	}

@@ -8,7 +8,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.admin.ModelAdminWorkArrange;
-import org.shengrui.oa.web.action.hrm.HrmHireAction;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.exception.WebException;
