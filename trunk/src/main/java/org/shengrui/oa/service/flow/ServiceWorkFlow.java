@@ -77,40 +77,82 @@ public interface ServiceWorkFlow
 			String taskId) throws ServiceException;
 	
 	/**
+	 * Jumps to the previous process task node.
 	 * 
-	 * @param taskId
+	 * @param procFormId
+	 *                 the process form id
 	 * @param comments
+	 *                 the audit comments
 	 * @throws ServiceException
 	 */
-	void jumpToPreTask (String taskId,
+	void jumpToPreTask (String procFormId,
 			String comments) throws ServiceException;
 	
 	/**
+	 * Jumps to the next process task node.
 	 * 
-	 * @param taskId
+	 * @param procFormId
+	 *                  the process form id
+	 * @param comments
+	 *                  the audit comments
 	 * @throws ServiceException
 	 */
-	void completeTask (String taskId) throws ServiceException;
+	void jumpToNextTask (String procFormId, String comments) throws ServiceException;
+	
+	/**
+	 * Completes task
+	 * 
+	 * @param procFormId
+	 *                 the process form id
+	 * @param auditState
+	 *                 the process audit state
+	 * @param comments
+	 *                 the process comments
+	 * @throws ServiceException
+	 */
+	void completeTask (String procFormId, 
+			Integer auditState, String comments) throws ServiceException;
 	
 	/**
 	 * Do starts the process
 	 * 
 	 * @param processTypeId
+	 *                  the process type id
 	 * @param filterPositions
+	 *                  the filtered position
 	 * @param condParamVal
+	 *                  the condition parameter value
 	 * @param formNo
+	 *                  the application form no
 	 * @param employee
+	 *                  the employee entity, aims to generate the form entities.
 	 * @throws ServiceException
 	 */
 	void doStartProcess (String processTypeId, 
 			String filterPositions, Object condParamVal, String formNo, ModelHrmEmployee employee) throws ServiceException;
 	
 	/**
+	 * Ends the process form nodes with the specified form no.
 	 * 
-	 * @param taskId
+	 * @param procFormNo
+	 *                  the process form no.
 	 * @throws ServiceException
 	 */
-	void doEndProcess (String taskId) throws ServiceException;
+	void doEndProcess (String procFormNo) throws ServiceException;
+	
+	/**
+	 * Proceeds task form approval.
+	 * 
+	 * @param procFormId
+	 *                  the process form id
+	 * @param procFormState
+	 *                  the process form state
+	 * @param comments
+	 *                  the comments
+	 * @throws ServiceException
+	 */
+	boolean proceed (String procFormId, 
+			Integer procFormState, String comments) throws ServiceException;
 	
 	/**
 	 * 

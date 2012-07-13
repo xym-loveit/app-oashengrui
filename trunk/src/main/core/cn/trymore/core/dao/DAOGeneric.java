@@ -136,11 +136,20 @@ public interface DAOGeneric<T extends ModelBase>
 	 *          the native SQL string
 	 * @return the affected row count
 	 */
-	/*
-	@deprecated: since the affected identity cannot be returned
 	int execUpdateByNativeSQL(final String nativeSql)
 			throws DAOException;
-	*/
+	
+	/**
+	 * Executes the specified HQL and returns the affected row count. 
+	 * It's already deprecated since the affected identity cannot be returned.
+	 * 
+	 * @param hql
+	 * @param params
+	 * @return
+	 * @throws DAOException
+	 */
+	int execUpdateByHQL(final String hql, final Object[] params)
+			throws DAOException;
 	
 	/**
 	 * Get object list by query criteria

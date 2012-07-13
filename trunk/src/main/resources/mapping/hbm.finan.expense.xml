@@ -92,7 +92,7 @@
 	    </set>
 	    
         <set name="processHistory" table="app_process_history" 
-        	cascade="none" lazy="true" order-by="history_id asc"> 
+        	lazy="true" cascade="all-delete-orphan" order-by="history_id asc"> 
 	      <key column="form_no" property-ref="formNo"/>  
 	      <one-to-many class="org.shengrui.oa.model.flow.ModelProcessHistory" />
 	    </set>

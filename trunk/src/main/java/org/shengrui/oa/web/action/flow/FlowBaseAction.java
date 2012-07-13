@@ -17,6 +17,7 @@ import org.shengrui.oa.model.flow.ModelProcessDefinition;
 import org.shengrui.oa.model.flow.ModelProcessTask;
 import org.shengrui.oa.model.flow.ModelProcessType;
 import org.shengrui.oa.service.flow.ServiceProcessDefinition;
+import org.shengrui.oa.service.flow.ServiceProcessForm;
 import org.shengrui.oa.service.flow.ServiceProcessTask;
 import org.shengrui.oa.service.flow.ServiceProcessType;
 import org.shengrui.oa.service.flow.ServiceWorkFlow;
@@ -55,7 +56,13 @@ extends BaseAppAction
 	 * The process task service
 	 */
 	@Resource
-	protected ServiceProcessTask serviceProcessTask;
+	protected ServiceProcessTask serviceProcessTask; 
+	
+	/**
+	 * The process form service
+	 */
+	@Resource
+	protected ServiceProcessForm serviceProcessForm;
 	
 	/**
 	 * The work flow service
@@ -892,5 +899,15 @@ extends BaseAppAction
 	public void setServiceWorkFlow(ServiceWorkFlow serviceWorkFlow)
 	{
 		this.serviceWorkFlow = serviceWorkFlow;
+	}
+	
+	public ServiceProcessForm getServiceProcessForm()
+	{
+		return serviceProcessForm;
+	}
+
+	public void setServiceProcessForm(ServiceProcessForm serviceProcessForm)
+	{
+		this.serviceProcessForm = serviceProcessForm;
 	}
 }

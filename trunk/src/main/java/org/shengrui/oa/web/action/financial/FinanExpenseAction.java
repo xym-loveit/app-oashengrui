@@ -37,6 +37,7 @@ extends BaseFinanAction
 		
 		try
 		{
+			
 			ModelFinanExpense employeeExpenseForm = (ModelFinanExpense) form;
 			
 			ModelProcessType procType = this.serviceProcessType.getTypesByKey("PROCESS_PAYMENT");
@@ -66,7 +67,7 @@ extends BaseFinanAction
 			LOGGER.error("Exception raised when fetch all expense documents.", e);
 			return ajaxPrint(response, getErrorCallback("页面加载失败:" + e.getMessage()));
 		}
-		return mapping.findForward("finan.page.expense.index");
+		return mapping.findForward("fina.application.list.index");
 	}
 	
 	/**
@@ -104,7 +105,7 @@ extends BaseFinanAction
 		{
 			LOGGER.error("Exception raised when fetch expense detail.", e);
 		}
-		return mapping.findForward("finan.page.expense.detail");
+		return mapping.findForward("dialog.fina.expense.application.page");
 	}
 	
 }

@@ -2,8 +2,6 @@ package org.shengrui.oa.model.flow;
 
 import java.util.Date;
 
-import org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop;
-
 import cn.trymore.core.model.ModelBase;
 
 /**
@@ -21,12 +19,7 @@ extends ModelBase
 	/**
 	 * 申请表单编号
 	 */
-	private ModelHrmEmployeeDevelop applyForm = new ModelHrmEmployeeDevelop();
-	
-	/**
-	 * 工作流定义
-	 */
-	private ModelProcessDefinition processDefinition;
+	private String applyFormNo;
 	
 	/**
 	 * 工作流类型
@@ -34,12 +27,12 @@ extends ModelBase
 	private ModelProcessType processType;
 	
 	/**
-	 * 
+	 * 前流程节点
 	 */
 	private ModelProcessForm previousProcess;
 	
 	/**
-	 * 
+	 * 后流程节点
 	 */
 	private ModelProcessForm nextProcess;
 	
@@ -48,7 +41,11 @@ extends ModelBase
 	 */
 	private String processName;
 	
-
+	/**
+	 * 任务类型
+	 */
+	private Integer taskType;
+	
 	/**
 	 * 待审核部门名称
 	 */
@@ -164,27 +161,6 @@ extends ModelBase
 	 */
 	private int auditState;
 	
-	/**
-	 * 排序码
-	 */
-	private Integer sortCode;
-
-	public ModelHrmEmployeeDevelop getApplyForm() {
-		return applyForm;
-	}
-
-	public void setApplyForm(ModelHrmEmployeeDevelop applyForm) {
-		this.applyForm = applyForm;
-	}
-
-	public ModelProcessDefinition getProcessDefinition() {
-		return processDefinition;
-	}
-
-	public void setProcessDefinition(ModelProcessDefinition processDefinition) {
-		this.processDefinition = processDefinition;
-	}
-
 	public ModelProcessType getProcessType() {
 		return processType;
 	}
@@ -401,12 +377,24 @@ extends ModelBase
 		this.auditState = auditState;
 	}
 
-	public Integer getSortCode() {
-		return sortCode;
+	public String getApplyFormNo()
+	{
+		return applyFormNo;
 	}
 
-	public void setSortCode(Integer sortCode) {
-		this.sortCode = sortCode;
+	public void setApplyFormNo(String applyFormNo)
+	{
+		this.applyFormNo = applyFormNo;
+	}
+
+	public Integer getTaskType()
+	{
+		return taskType;
+	}
+
+	public void setTaskType(Integer taskType)
+	{
+		this.taskType = taskType;
 	}
 
 	

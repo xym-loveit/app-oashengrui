@@ -427,14 +427,6 @@ extends ModelBase
 		this.toPositionIds = toPositionIds;
 	}
 
-	public String gettoDistrictNames() {
-		return toDistrictNames;
-	}
-
-	public void settoDistrictNames(String toDistrictNames) {
-		this.toDistrictNames = toDistrictNames;
-	}
-
 	public String getToDistrictIds() {
 		return toDistrictIds;
 	}

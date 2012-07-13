@@ -5,12 +5,16 @@
        
 <tiles-definitions>
 	
-	<!-- 财务支出管理 -->
-	<definition name="finan.page.expense.index"  
-		path="/WEB-INF/jsp/application/financial/expense/expenseApprovalIndex.jsp"/>
+	<!-- 财务申请管理页面 -->
+	<definition name="fina.application.list.index" 
+		path="/WEB-INF/jsp/application/financial/finaApprovalIndex.jsp"/>
+		
+	<!-- 财务申请数据项 -->
+	<definition name="data.fina.application.list" 
+		path="/WEB-INF/jsp/application/financial/data/dataFinaFormList.jsp"/>
 	
-	<!-- 财务申请详细 -->
-	<definition name="finan.page.expense.detail" 
-		path="/WEB-INF/jsp/application/financial/expense/expensePage.jsp"/>
+	<!-- 财务费用支出申请表单 -->
+	<definition name="dialog.fina.expense.application.page" 
+		path="/WEB-INF/jsp/application/financial/dialog/dialogFinaExpenseForm.jsp"/>
 	
 </tiles-definitions>

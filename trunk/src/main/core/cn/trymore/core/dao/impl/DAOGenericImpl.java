@@ -193,13 +193,32 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 	 * (non-Javadoc)
 	 * @see org.mary.dao.common.BaseDAO#execUpdateByNativeSQL(java.lang.String)
 	 */
-	/*
 	public int execUpdateByNativeSQL(final String nativeSql)
 			throws DAOException
 	{
 		return getSession().createSQLQuery(nativeSql).executeUpdate();
 	}
-	*/
+	
+	/*
+	 * (non-Javadoc)
+	 * @see cn.trymore.core.dao.DAOGeneric#execUpdateByNamedSQL(java.lang.String)
+	 */
+	public int execUpdateByHQL(final String hql, final Object[] params)
+			throws DAOException
+	{
+		Query query = getSession().createQuery(hql);
+		
+		if (params != null)
+		{
+			for (int i = 0, len = params.length; i < len; i++) 
+			{
+				query.setString(i, params[i].toString());
+			}
+		}
+		
+		return query.executeUpdate();
+		
+	}
 	
 	/*
 	 * (non-Javadoc)

@@ -1,5 +1,6 @@
 package org.shengrui.oa.service.flow.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -9,6 +10,7 @@ import org.shengrui.oa.model.flow.ModelProcessForm;
 import org.shengrui.oa.model.flow.ModelProcessHistory;
 import org.shengrui.oa.model.flow.ModelProcessTask;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
+import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.service.flow.ServiceProcessDefinition;
@@ -20,10 +22,12 @@ import org.shengrui.oa.service.flow.ServiceWorkFlow;
 import org.shengrui.oa.service.system.ServiceSchoolDepartment;
 import org.shengrui.oa.service.system.ServiceSchoolDepartmentPosition;
 import org.shengrui.oa.util.AppUtil;
+import org.shengrui.oa.util.ContextUtil;
 
 import cn.trymore.core.bean.PairObject;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.jstl.JstlTagString;
+import cn.trymore.core.util.UtilBean;
 import cn.trymore.core.util.UtilString;
 
 public class ServiceWorkFlowImpl
@@ -136,7 +140,33 @@ implements ServiceWorkFlow
 		{
 			throw new ServiceException("No process entities found for the specified type:" + processTypeId);
 		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.flow.ServiceWorkFlow#proceed(java.lang.String, java.lang.Integer, java.lang.String)
+	 */
+	@Override
+	public boolean proceed (String procFormId, 
+			Integer procFormState, String comments) throws ServiceException
+	{
+		if (ModelProcessForm.EProcessFormStatus.APPROVED.getValue().equals(procFormState))
+		{
+			// 审批通过, 跳转到下一个审批节点..
+			this.jumpToNextTask(procFormId, comments);
+		}
+		else if (ModelProcessForm.EProcessFormStatus.RETURNED.getValue().equals(procFormState))
+		{
+			// 审批退回
+			this.jumpToPreTask(procFormId, comments);
+		}
+		else if (ModelProcessForm.EProcessFormStatus.NOTPASSED.getValue().equals(procFormState))
+		{
+			// 审批不通过
+			completeTask(procFormId, ModelProcessForm.EProcessFormStatus.NOTPASSED.getValue(), comments);
+		}
 		
+		return true;
 	}
 
 	/*
@@ -182,29 +212,86 @@ implements ServiceWorkFlow
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.flow.ServiceWorkFlow#jumpToPreTask(java.lang.String, java.lang.String)
+	 */
 	@Override
-	public void jumpToPreTask(String taskId, String comments)
+	public void jumpToPreTask(String procFormId, String comments)
 			throws ServiceException
 	{
-		// TODO Auto-generated method stub
+		ModelProcessForm procForm = this.serviceProcessForm.get(procFormId);
+		
+		if (procForm != null)
+		{
+			ModelProcessForm previousForm = this.serviceProcessForm.getPreviousProcessForm(procFormId);
+			
+			if (previousForm == null)
+			{
+				// 当前为第一个流程节点, 回退代表结束.
+				this.completeTask(procForm, ModelProcessForm.EProcessFormStatus.RETURNED.getValue(), comments);
+				
+				// 结束流程
+				this.doEndProcess(procForm.getApplyFormNo());
+			}
+			else
+			{
+				// 回退到上一个节点, 并重置当前节点状态.
+				this.completeTask(procForm, null, ModelProcessForm.EProcessFormStatus.RETURNED.getValue(), comments);
+				
+				// 重置前一个审批流程节点为待审批状态
+				previousForm.setAuditState(ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue());
+				this.serviceProcessForm.save(previousForm);
+			}
+		}
 		
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.flow.ServiceWorkFlow#jumpToNextTask(java.lang.String, java.lang.String, java.lang.String)
+	 */
 	@Override
-	public void completeTask(String taskId) throws ServiceException
+	public void jumpToNextTask(String procFormId,
+			String comments) throws ServiceException
 	{
-		// TODO Auto-generated method stub
+		ModelProcessForm procForm = this.serviceProcessForm.get(procFormId);
 		
+		if (procForm != null)
+		{
+			// 完成当前流程节点并生成审批历史记录
+			this.completeTask(procForm, ModelProcessForm.EProcessFormStatus.APPROVED.getValue(), comments);
+			
+			// 查找下一个流程节点
+			ModelProcessForm nextForm = this.serviceProcessForm.getNextProcessForm(procFormId);
+			if (nextForm != null)
+			{
+				nextForm.setAuditState(ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue());
+				this.serviceProcessForm.save(nextForm);
+			}
+			else
+			{
+				// 当前已经是最后一个节点了, 移除ProcessForm表中的记录
+				this.doEndProcess(procForm.getApplyFormNo());
+			}
+		}
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.flow.ServiceWorkFlow#doEndProcess(java.lang.String)
+	 */
 	@Override
-	public void doEndProcess(String taskId) throws ServiceException
+	public void doEndProcess(String procFormNo) throws ServiceException
 	{
-		// TODO Auto-generated method stub
-		
+		this.serviceProcessForm.removeFormByNo(procFormNo);
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.flow.ServiceWorkFlow#getProcessHistoriesByFormNo(java.lang.String)
+	 */
 	@Override
 	public List<ModelProcessHistory> getProcessHistoriesByFormNo(String formNo)
 			throws ServiceException
@@ -304,6 +391,111 @@ implements ServiceWorkFlow
 		return null;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.flow.ServiceWorkFlow#completeTask(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public void completeTask(String procFormId, 
+			Integer auditState, String comments) throws ServiceException
+	{
+		completeTask(this.serviceProcessForm.get(procFormId), auditState, comments);
+	}
+	
+	/**
+	 * Completes the task with the specified process form entity.
+	 * 
+	 * @param procForm
+	 *                 the process form entity
+	 * @param auditState
+	 *                 the audit state
+	 * @param comments
+	 *                 the audit comments
+	 * @throws ServiceException
+	 */
+	private void completeTask(ModelProcessForm procForm, 
+			Integer auditState, String comments) throws ServiceException
+	{
+		this.completeTask(procForm, auditState, auditState, comments);
+	}
+	
+	/**
+	 * Completes the task with the specified process form entity.
+	 * 
+	 * @param procForm
+	 *                 the process form entity
+	 * @param auditState
+	 *                 the audit state
+	 * @param historyAuditState
+	 *                 the history audit state
+	 * @param comments
+	 *                 the audit comments
+	 * @throws ServiceException
+	 */
+	private void completeTask(ModelProcessForm procForm, 
+			Integer auditState, Integer historyAuditState, String comments) throws ServiceException
+	{
+		if (procForm != null)
+		{
+			// 设置审批状态
+			procForm.setAuditState(auditState);
+			
+			// 设置审批人相关信息
+			ModelAppUser user = ContextUtil.getCurrentUser();
+			if (user != null)
+			{
+				procForm.setAuditUserIds(user.getId());
+				procForm.setAuditUserNames(user.getFullName());
+				
+				if (user.getEmployee() != null)
+				{
+					if (user.getEmployee().getEmployeeDepartment() != null)
+					{
+						procForm.setAuditDepartmentIds(user.getEmployee().getEmployeeDepartment().getId());
+						procForm.setAuditDepartmentNames(user.getEmployee().getEmployeeDepartment().getDepName());
+					}
+					
+					if (user.getEmployee().getEmployeePosition() != null)
+					{
+						procForm.setAuditPositionIds(user.getEmployee().getEmployeePosition().getId());
+						procForm.setAuditPositionNames(user.getEmployee().getEmployeePosition().getPositionName());
+					}
+					
+					if (user.getEmployee().getEmployeeDistrict() != null)
+					{
+						procForm.setAuditDistrictIds(user.getEmployee().getEmployeeDistrict().getId());
+						procForm.setAuditDistrictNames(user.getEmployee().getEmployeeDistrict().getDistrictName());
+					}
+				}
+				
+				procForm.setAuditUserIds(user.getId());
+				procForm.setAuditUserNames(user.getFullName());
+			}
+			else
+			{
+				throw new ServiceException("No session user entity found.");
+			}
+			
+			procForm.setAuditIdea(comments);
+			procForm.setAuditDate(new Date());
+			
+			this.serviceProcessForm.save(procForm);
+			
+			// 记录流程审批历史记录...
+			doRecordProcessHistory(procForm, historyAuditState);
+			
+			// 审批未通过
+			if (ModelProcessForm.EProcessFormStatus.NOTPASSED.getValue().equals(auditState))
+			{
+				this.doEndProcess(procForm.getApplyFormNo());
+			}
+		}
+		else
+		{
+			throw new ServiceException("Nullpointer exception was found when completing the task.");
+		}
+	}
+	
 	/**
 	 * Obtain the matched position id from the position list laid in the department id.
 	 * 
@@ -338,6 +530,62 @@ implements ServiceWorkFlow
 			
 		}
 		return null;
+	}
+	
+	/**
+	 * Records process operation as history.
+	 * 
+	 * @param formId
+	 *                the process form id
+	 * @return
+	 */
+	@SuppressWarnings("unused")
+	private boolean doRecordProcessHistory (String formId) throws ServiceException
+	{
+		return this.doRecordProcessHistory(this.serviceProcessForm.get(formId), null);
+	}
+	
+	/**
+	 * Records process operation as history.
+	 * 
+	 * @param formEntity
+	 *                  the process form entity
+	 * @param auditState
+	 *                  the audit state
+	 * @return
+	 */
+	private boolean doRecordProcessHistory (ModelProcessForm formEntity, Integer auditState) throws ServiceException
+	{
+		if (formEntity != null)
+		{
+			try
+			{
+				ModelProcessHistory procHistory = new ModelProcessHistory();
+				
+				// 将ProcessForm中的属性值拷贝至历史数据中.
+				UtilBean.copyNotNullProperties(procHistory, formEntity);
+				
+				// 避免对象未被有效赋值
+				procHistory.setAuditDate(formEntity.getAuditDate());
+				
+				if (auditState != null)
+				{
+					procHistory.setAuditState(auditState);
+				}
+				
+				procHistory.setId(null);
+				
+				this.serviceProcessHistory.save(procHistory);
+				
+				return true;
+			}
+			catch (Exception e)
+			{
+				throw new ServiceException("Exception raised when do record the process history.", e);
+			}
+		}
+		
+		return false;
 	}
 
 	public void setServiceProcessDefinition(ServiceProcessDefinition serviceProcessDefinition)
@@ -401,11 +649,6 @@ implements ServiceWorkFlow
 		return serviceSchoolDepartmentPosition;
 	}
 
-	public static Logger getLogger()
-	{
-		return LOGGER;
-	}
-
 	public void setServiceProcessType(ServiceProcessType serviceProcessType)
 	{
 		this.serviceProcessType = serviceProcessType;
@@ -415,5 +658,9 @@ implements ServiceWorkFlow
 	{
 		return serviceProcessType;
 	}
-
+	
+	public static Logger getLogger()
+	{
+		return LOGGER;
+	}
 }

@@ -6,6 +6,7 @@
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
 
 <style>
@@ -23,7 +24,7 @@
 		<logic:present name="employeeExpenseEntry">
 			$("#cnRMB").val(Arabia_to_Chinese("${employeeExpenseEntry.applyAmt}"));
 		</logic:present>
-
+	
 	});
 </script>
 
@@ -130,30 +131,10 @@
 			</table>
 			
 			<!-- 审批状态 -->
-			<c:if test="${op ne null && op eq 'view'}">
-				<div style="padding: 10px 0px; border-bottom: 1px dotted #999; margin: 0 10px 15px 10px; overflow: auto; clear: both;">
-					<div style="color:#FF7300; line-height: 18px;">审批流程：</div>
-				</div>
-				<table id="tblexp" cellpadding="0" cellspacing="0" width="98%" border="1" style="border-collapse: collapse; border-color: #797979; margin: 0 auto;">
-					<logic:present name="employeeExpenseEntry" property="applyForm">
-						<logic:iterate name="employeeExpenseEntry" property="applyForm" id="entity">
-							<tr>
-								<td width="15%" style="line-height: 35px; background-color:${entity.auditState eq null ? '#99BBE8' : (entity.auditState eq 1 ? '#FF7300' : '#ddd')}">
-									${entity.toDepartmentNames}-${entity.toPositionNames}
-									<c:choose>
-										<c:when test="${entity.taskType eq 1 || entity.taskType eq 2}">(校区)</c:when>
-										<c:when test="${entity.taskType eq 3 || entity.taskType eq 4}">(总部)</c:when>
-										<c:otherwise>未知</c:otherwise>
-									</c:choose>
-									审批
-								</td>
-								<td style="padding:0 5px;">${entity.auditIdea}</td>
-							</tr>
-						</logic:iterate>
-					</logic:present>
-				</table>
-			</c:if>
+			<%@ include file="../data/dataFinaFormProcess.jsp" %>
+			
 		</div>
+		
 		<div class="formBar">
 			<ul>
 				<c:if test="${op eq null || op ne 'view'}">
@@ -167,27 +148,3 @@
 		<input type="hidden" name="id" value="${employeeExpenseEntry ne null ? employeeExpenseEntry.id : -1}" />
 	</form>
 </div>
-
-<%--
-	<tr>
-		<td>本部门意见：</td>
-		<td colspan="8"><textarea name="comments" rows="1" style="width: 100%">${employeeExpenseEntry.applyForm ne null ? employeeExpenseEntry.applyForm.auditIdea : ''}</textarea></td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>人资部意见：</td>
-		<td colspan="8"><textarea name="comments" rows="1" style="width: 100%">${employeeExpenseEntry.applyForm ne null ? employeeExpenseEntry.applyForm.auditIdea : ''}</textarea></td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>校区意见：</td>
-		<td colspan="8"><textarea name="comments" rows="1" style="width: 100%">${employeeExpenseEntry.applyForm ne null ? employeeExpenseEntry.applyForm.auditIdea : ''}</textarea></td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>总部意见：</td>
-		<td colspan="8"><textarea name="comments" rows="1" style="width: 100%">${employeeExpenseEntry ne null ? employeeExpenseEntry.applyForm.auditIdea : ''}</textarea></td>
-		<td></td>
-	</tr>
-</table>
---%>

@@ -103,4 +103,11 @@
         </many-to-one>
         
 	</class>
+	
+	<query name="form.removeByFormNo">
+		<![CDATA[
+			delete ModelProcessForm as form where form.applyFormNo = ?
+		]]>
+	</query>
+	
 </hibernate-mapping>

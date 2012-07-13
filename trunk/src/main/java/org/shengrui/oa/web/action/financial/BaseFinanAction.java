@@ -17,6 +17,7 @@ import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.web.action.flow.FlowBaseAction;
 
 import cn.trymore.core.util.UtilBean;
+import cn.trymore.core.util.UtilString;
 
 /**
  * The base action for Finance Management.
@@ -53,8 +54,7 @@ extends FlowBaseAction
 	 * 财务费用申请表单保存
 	 */
 	public ActionForward actionFinanApplicationFormSave(ActionMapping mapping,
-			ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) 
+			ActionForm form, HttpServletRequest request, HttpServletResponse response) 
 	{
 		try
 		{
@@ -131,6 +131,53 @@ extends FlowBaseAction
 		{
 			LOGGER.error("Exception raised when delete expense document.", e);
 			return ajaxPrint(response, getErrorCallback("费用申请保存失败:" + e.getMessage()));
+		}
+	}
+	
+	/**
+	 * <b>[WebAction]</b> <br/>
+	 * 财务费用申请审批
+	 */
+	public  ActionForward actionFinanApplicationApprove(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+	{
+		String procFormId = request.getParameter("id");
+		String procFormState = request.getParameter("state");
+		String procFormComments = request.getParameter("comments");
+		
+		if (UtilString.isNotEmpty(procFormId, procFormState))
+		{
+			if (this.isObjectIdValid(procFormId))
+			{
+				try
+				{
+					boolean result = this.serviceWorkFlow.proceed(
+							procFormId, Integer.parseInt(procFormState), procFormComments);
+					
+					if (result)
+					{
+						return ajaxPrint(response, 
+								getSuccessCallback("审批成功.", null, null, null, false));
+					}
+					else
+					{
+						return ajaxPrint(response, getErrorCallback("审批失败."));
+					}
+				}
+				catch (Exception e)
+				{
+					LOGGER.error("Exception raised when approving the financial application.");
+					return ajaxPrint(response, getErrorCallback("审批财务申请失败:" + e.getMessage()));
+				}
+			}
+			else
+			{
+				return ajaxPrint(response, getErrorCallback("需要传入合法的申请流程ID..."));
+			}
+		}
+		else
+		{
+			return ajaxPrint(response, getErrorCallback("需要传入申请流程ID..."));
 		}
 	}
 	
