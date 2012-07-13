@@ -8,9 +8,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.admin.ModelAdminWorkArrange;
-import org.shengrui.oa.model.hrm.ModelHrmJobHireInfo;
-import org.shengrui.oa.model.system.ModelSchoolDistrict;
-import org.shengrui.oa.web.action.BaseAppAction;
 import org.shengrui.oa.web.action.hrm.HrmHireAction;
 
 import cn.trymore.core.exception.ServiceException;
@@ -32,8 +29,10 @@ extends BaseAdminAction
 	 */
 	private static final Logger LOGGER = Logger.getLogger(HrmHireAction.class);
 	
+	@SuppressWarnings("unused")
 	private static final String ACTION_FORM_FLAG_APPROVAL = "1";
 	
+	@SuppressWarnings("unused")
 	private static final String ACTION_FORM_FLAG_RETURNED = "2";
 	
 	/**

@@ -9,17 +9,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.shengrui.oa.model.system.ModelAppRole;
-import org.shengrui.oa.model.system.ModelSchoolDepartment;
-import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
-import org.springframework.beans.BeanUtils;
-
-import cn.trymore.core.exception.ServiceException;
-import cn.trymore.core.log.LogAnnotation;
-import cn.trymore.core.util.UtilString;
-import cn.trymore.core.web.paging.PaginationSupport;
-import cn.trymore.core.web.paging.PagingBean;
 
 /**
  *工作安排设置-工作模板设置
