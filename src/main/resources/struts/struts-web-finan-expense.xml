@@ -2,9 +2,15 @@
 <!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
 
 <struts-config>
+	
 	<form-beans>
 		<form-bean name="form.finan.expense" type="org.shengrui.oa.model.finan.ModelFinanExpense"></form-bean>
 	</form-beans>
+	
+	<global-forwards> 
+		<forward name="data.fina.application.list" path="data.fina.application.list" />
+		<forward name="dialog.fina.expense.application.page" path="dialog.fina.expense.application.page" />
+	</global-forwards>
 	
 	<action-mappings>
 		
@@ -14,8 +20,7 @@
 				scope="request"
 				parameter="action"
 				type="org.springframework.web.struts.DelegatingActionProxy">
-			<forward name="finan.page.expense.index" path="finan.page.expense.index" />
-			<forward name="finan.page.expense.detail" path="finan.page.expense.detail" />
+			<forward name="fina.application.list.index" path="fina.application.list.index" />
 		</action>
 		
 	</action-mappings>

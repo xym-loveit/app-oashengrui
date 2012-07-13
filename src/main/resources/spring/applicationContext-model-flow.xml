@@ -62,12 +62,12 @@
 		<property name="target">
 			<bean class="org.shengrui.oa.service.flow.impl.ServiceWorkFlowImpl">
 				<property name="serviceProcessDefinition" ref="serviceProcessDefinition" />
+				<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
+				<property name="serviceSchoolDepartmentPosition" ref="serviceSchoolDepartmentPosition" />
 				<property name="serviceProcessForm" ref="serviceProcessForm" />
 				<property name="serviceProcessTask" ref="serviceProcessTask" />
 				<property name="serviceProcessHistory" ref="serviceProcessHistory" />
 				<property name="serviceProcessType" ref="serviceProcessType" />
-				<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
-				<property name="serviceSchoolDepartmentPosition" ref="serviceSchoolDepartmentPosition" />
 			</bean>
 		</property>
 	</bean>

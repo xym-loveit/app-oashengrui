@@ -37,24 +37,24 @@ extends ServiceGeneric<ModelProcessForm>
 	ModelProcessForm getCurrentProcessForm (String formNo) throws ServiceException;
 	
 	/**
-	 * Obtains the previous process form with the specified form no.
+	 * Obtains the previous process form with the specified form id.
 	 * 
-	 * @param formNo
-	 *          the process form no.
+	 * @param formId
+	 *                 the process form id.
 	 * @return process form entity
 	 * @throws ServiceException
 	 */
-	ModelProcessForm getPreviousProcessForm (String formNo) throws ServiceException;
+	ModelProcessForm getPreviousProcessForm (String formId) throws ServiceException;
 	
 	/**
 	 * Obtains the next process form with the specified form no.
 	 * 
-	 * @param formNo
-	 *          the process form no.
+	 * @param formId
+	 *                   the process form id.
 	 * @return process form entity
 	 * @throws ServiceException
 	 */
-	ModelProcessForm getNextProcessForm (String formNo) throws ServiceException;
+	ModelProcessForm getNextProcessForm (String formId) throws ServiceException;
 	
 	/**
 	 * Obtains list of process form entities with the specified process type id.
@@ -79,16 +79,13 @@ extends ServiceGeneric<ModelProcessForm>
 	Integer getProcessFormState (String formNo) throws ServiceException;
 	
 	/**
-	 * Enters the process and it will generate process form regarding to the 
-	 * process definition type.
+	 * Removes the form nodes with the specified form no.
 	 * 
-	 * @param processTypeId
-	 *          the process definition type id
 	 * @param formNo
-	 *          the process form no.
-	 * @return true if process entered succeed, false otherwise.
+	 *                 the process form no.
+	 * @return true if removal succeed; false otherwise.
 	 * @throws ServiceException
 	 */
-	boolean enterProcess (String processTypeId, String formNo) throws ServiceException;
+	boolean removeFormByNo (String formNo) throws ServiceException;
 	
 }

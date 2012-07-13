@@ -6,13 +6,13 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.flow.DAOProcessForm;
-import org.shengrui.oa.dao.flow.DAOProcessHistory;
-import org.shengrui.oa.dao.flow.DAOProcessTask;
 import org.shengrui.oa.model.flow.ModelProcessForm;
 import org.shengrui.oa.service.flow.ServiceProcessForm;
 
+import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
+import cn.trymore.core.util.UtilString;
 
 /**
  * The process form service implementation.
@@ -28,16 +28,6 @@ extends ServiceGenericImpl<ModelProcessForm> implements ServiceProcessForm
 	 * The process form repository
 	 */
 	private DAOProcessForm daoProcessForm;
-	
-	/**
-	 * The process history repository.
-	 */
-	private DAOProcessHistory daoProcessHistory;
-	
-	/**
-	 * The process task repository.
-	 */
-	private DAOProcessTask daoProcessTask;
 	
 	public ServiceProcessFormImpl(DAOProcessForm dao)
 	{
@@ -92,18 +82,27 @@ extends ServiceGenericImpl<ModelProcessForm> implements ServiceProcessForm
 	 * @see org.shengrui.oa.service.flow.ServiceProcessForm#getPreviousProcessForm(java.lang.String)
 	 */
 	@Override
-	public ModelProcessForm getPreviousProcessForm(String formNo)
+	public ModelProcessForm getPreviousProcessForm(String formId)
 			throws ServiceException
 	{
 		try
 		{
-			DetachedCriteria criteria = DetachedCriteria.forClass(ModelProcessForm.class);
-			criteria.add(Restrictions.eq("auditState", ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue()));
-			List<ModelProcessForm> result = this.daoProcessForm.getListByCriteria(criteria);
-			if (result != null && result.size() > 0)
+			ModelProcessForm procForm = this.daoProcessForm.get(formId);
+			
+			if (procForm == null)
 			{
-				return result.get(0).getPreviousProcess();
+				throw new ServiceException("The process form does not exist with id:" + formId);
 			}
+			
+			if (!this.isFormNodeFirstOne(procForm.getSortCode()))
+			{
+				List<ModelProcessForm> preForms = this.getFormNodesByOffset(procForm.getSortCode(), false);
+				if (preForms != null && preForms.size() > 0)
+				{
+					return preForms.get(preForms.size() - 1);
+				}
+			}
+			
 			return null;
 		}
 		catch (Exception e)
@@ -117,18 +116,27 @@ extends ServiceGenericImpl<ModelProcessForm> implements ServiceProcessForm
 	 * @see org.shengrui.oa.service.flow.ServiceProcessForm#getNextProcessForm(java.lang.String)
 	 */
 	@Override
-	public ModelProcessForm getNextProcessForm(String formNo)
+	public ModelProcessForm getNextProcessForm(String formId)
 			throws ServiceException
 	{
 		try
 		{
-			DetachedCriteria criteria = DetachedCriteria.forClass(ModelProcessForm.class);
-			criteria.add(Restrictions.eq("auditState", ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue()));
-			List<ModelProcessForm> result = this.daoProcessForm.getListByCriteria(criteria);
-			if (result != null && result.size() > 0)
+			ModelProcessForm procForm = this.daoProcessForm.get(formId);
+			
+			if (procForm == null)
 			{
-				return result.get(0).getNextProcess();
+				throw new ServiceException("The process form does not exist with id:" + formId);
 			}
+			
+			if (!this.isFormNodeLastOne(procForm.getSortCode()))
+			{
+				List<ModelProcessForm> nextForms = this.getFormNodesByOffset(procForm.getSortCode(), true);
+				if (nextForms != null && nextForms.size() > 0)
+				{
+					return nextForms.get(0);
+				}
+			}
+			
 			return null;
 		}
 		catch (Exception e)
@@ -179,14 +187,98 @@ extends ServiceGenericImpl<ModelProcessForm> implements ServiceProcessForm
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.shengrui.oa.service.flow.ServiceProcessForm#enterProcess(java.lang.String, java.lang.String)
+	 * @see org.shengrui.oa.service.flow.ServiceProcessForm#removeFormByNo(java.lang.String)
 	 */
 	@Override
-	public boolean enterProcess(String processTypeId, String formNo)
+	public boolean removeFormByNo(String formNo) throws ServiceException
+	{
+		if (UtilString.isNotEmpty(formNo))
+		{
+			try
+			{
+				return this.daoProcessForm.execUpdateByHQL("delete ModelProcessForm as form where form.applyFormNo = ?", new Object[] {formNo}) > 0;
+			} 
+			catch (DAOException e)
+			{
+				throw new ServiceException("Exception raised when removing the form entities with no:" + formNo, e);
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Obtains list of form nodes that started with the specified offset.
+	 * 
+	 * @param seqOffset
+	 *                     the process task sequence offset 
+	 * @param isGreaterThan
+	 *                     the flag of greater than
+	 * @return list of process form nodes
+	 * @throws ServiceException
+	 */
+	private List<ModelProcessForm> getFormNodesByOffset(int seqOffset, boolean isGreaterThan)
 			throws ServiceException
 	{
-		// TODO Auto-generated method stub
-		return false;
+		try
+		{
+			DetachedCriteria criteria = DetachedCriteria.forClass(ModelProcessForm.class);
+			
+			if (isGreaterThan) 
+			{
+				criteria.add(Restrictions.gt("sortCode", seqOffset));
+			}
+			else
+			{
+				criteria.add(Restrictions.lt("sortCode", seqOffset));
+			}
+			
+			return this.daoProcessForm.getListByCriteria(criteria);
+		}
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
+	}
+	
+	/**
+	 * Returns true if the process form with the specified sequence index last one
+	 * 
+	 * @param seq
+	 *         the process task sequence index
+	 * @return true if process form with the sequence index last one.
+	 * @throws ServiceException
+	 */
+	private boolean isFormNodeLastOne(int seq) throws ServiceException
+	{
+		try
+		{
+			return this.getFormNodesByOffset(seq, true) == null;
+		}
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
+	}
+	
+	/**
+	 * Returns true if the process form with the specified sequence index as first one
+	 * 
+	 * @param seq
+	 *         the process task sequence index
+	 * @return true if process form with the sequence index as first one.
+	 * @throws ServiceException
+	 */
+	private boolean isFormNodeFirstOne(int seq) throws ServiceException
+	{
+		try
+		{
+			return this.getFormNodesByOffset(seq, false) == null;
+		}
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
 	}
 	
 	public void setDaoProcessForm(DAOProcessForm daoProcessForm)
@@ -199,23 +291,4 @@ extends ServiceGenericImpl<ModelProcessForm> implements ServiceProcessForm
 		return daoProcessForm;
 	}
 
-	public void setDaoProcessHistory(DAOProcessHistory daoProcessHistory)
-	{
-		this.daoProcessHistory = daoProcessHistory;
-	}
-
-	public DAOProcessHistory getDaoProcessHistory()
-	{
-		return daoProcessHistory;
-	}
-
-	public void setDaoProcessTask(DAOProcessTask daoProcessTask)
-	{
-		this.daoProcessTask = daoProcessTask;
-	}
-
-	public DAOProcessTask getDaoProcessTask()
-	{
-		return daoProcessTask;
-	}
 }
