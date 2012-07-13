@@ -10,7 +10,7 @@ import cn.trymore.core.exception.DAOException;
 /**
  * The application dictionary repository.
  * 
- * @author Jeccy.Zhao
+ * @author Tang
  *
  */
 public interface DAOAppDictionary
@@ -18,10 +18,10 @@ extends DAOGeneric<ModelAppDictionary>
 {
 	/**
 	 * 
-	 * @param itemName
+	 * @param name
 	 * @return
 	 * @throws DAOException
 	 */
-	List<ModelAppDictionary> getByItemName (String itemName) throws DAOException;
+	List<ModelAppDictionary> getByName (String name) throws DAOException;
 	
 }

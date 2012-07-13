@@ -15,7 +15,7 @@ import cn.trymore.core.util.UtilString;
  * The implementation of 
  * application dictionary repository.
  * 
- * @author Jeccy.Zhao
+ * @author Tang
  *
  */
 public class DAOAppDictionaryImpl
@@ -23,15 +23,15 @@ extends DAOGenericImpl<ModelAppDictionary> implements DAOAppDictionary
 {
 	/*
 	 * (non-Javadoc)
-	 * @see org.shengrui.oa.dao.system.DAOAppDictionary#getByItemName(java.lang.String)
+	 * @see org.shengrui.oa.dao.system.DAOAppDictionary#getByName(java.lang.String)
 	 */
-	public List<ModelAppDictionary> getByItemName (String itemName) 
+	public List<ModelAppDictionary> getByName (String name) 
 			throws DAOException
 	{
-		if(UtilString.isNotEmpty(itemName))
+		if(UtilString.isNotEmpty(name))
 		{
 			DetachedCriteria criteria = DetachedCriteria.forClass(ModelAppDictionary.class);
-			criteria.add(Restrictions.eq("itemName", itemName));
+			criteria.add(Restrictions.eq("name", name));
 			
 			return this.getListByCriteria(criteria);
 		}
