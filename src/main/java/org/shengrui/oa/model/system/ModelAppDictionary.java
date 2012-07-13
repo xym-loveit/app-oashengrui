@@ -1,7 +1,6 @@
 package org.shengrui.oa.model.system;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.EqualsBuilder;
+import java.util.Date;
 
 import cn.trymore.core.model.ModelBase;
 
@@ -11,7 +10,7 @@ import com.google.gson.annotations.Expose;
 /**
  * Model: 数据字典
  * 
- * @author Jeccy.Zhao
+ * @author Tang
  */
 public class ModelAppDictionary 
 extends ModelBase 
@@ -23,106 +22,116 @@ extends ModelBase
 	 * 字典名称
 	 */
 	@Expose
-	protected String itemName;
+	protected String name;
 	
 	/**
 	 * 字典值
 	 */
 	@Expose
-	protected String itemValue;
+	protected String value;
 	
 	/**
 	 * 字典描述
 	 */
 	@Expose
-	protected String itemDesc;
+	protected String type;
 	
 	/**
 	 * 序号
 	 */
 	@Expose
-	protected Short sn;
+	protected Integer sn;
 	
+	/**
+	 * 额外值
+	 */
 	@Expose
-	protected ModelAppGlobalType globalType;
+	protected String extraValue;
 	
-	public ModelAppDictionary () 
-	{
-		super();
-	}
 	
-	public String getItemName() 
-	{
-		return this.itemName;
-	}
+	/**
+	 * 创建时间
+	 */
+	@Expose
+	protected Date createDate;
 	
-	public void setItemName(String aValue) 
-	{
-		this.itemName = aValue;
-	}	
+	
+	/**
+	 * 修改时间
+	 */
+	@Expose
+	protected  Date modifiedDate;
 
-	public String getItemValue() 
-	{
-		return this.itemValue;
-	}
-	
-	public void setItemValue(String aValue) 
-	{
-		this.itemValue = aValue;
-	}	
 
-	public String getItemDesc() 
-	{
-		return this.itemDesc;
-	}
-	
-	public void setItemDesc(String itemDesc) 
-	{
-		this.itemDesc = itemDesc;
-	}	
-	
-	public ModelAppGlobalType getGlobalType()
-	{
-		return globalType;
+	public String getName() {
+		return name;
 	}
 
-	public void setGlobalType(ModelAppGlobalType globalType) 
-	{
-		this.globalType = globalType;
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public Short getSn() 
-	{
+
+	public String getValue() {
+		return value;
+	}
+
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+
+	public String getType() {
+		return type;
+	}
+
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+
+	public Integer getSn() {
 		return sn;
 	}
 
-	public void setSn(Short sn) 
-	{
+
+	public void setSn(Integer sn) {
 		this.sn = sn;
 	}
-	
-	@Override
-	public boolean equals(Object object)
-	{
-		if (!(object instanceof ModelAppDictionary)) 
-		{
-			return false;
-		}
-		ModelAppDictionary rhs = (ModelAppDictionary) object;
-		return new EqualsBuilder()
-				.append(this.itemName, rhs.itemName)
-				.append(this.itemValue, rhs.itemValue)
-				.append(this.itemDesc, rhs.itemDesc)
-				.isEquals();
+
+
+	public String getExtraValue() {
+		return extraValue;
+	}
+
+
+	public void setExtraValue(String extraValue) {
+		this.extraValue = extraValue;
+	}
+
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
 	}
 	
-	@Override
-	public String toString() 
-	{
-		return new ToStringBuilder(this)
-				.append("itemName", this.itemName) 
-				.append("itemValue", this.itemValue) 
-				.append("descp", this.itemDesc) 
-				.toString();
-	}
+	
+	
 }

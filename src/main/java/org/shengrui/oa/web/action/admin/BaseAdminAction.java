@@ -8,6 +8,10 @@ import org.shengrui.oa.service.admin.ServiceDocFile;
 import org.shengrui.oa.service.admin.ServiceDocLevel;
 import org.shengrui.oa.service.admin.ServiceDocManage;
 import org.shengrui.oa.service.admin.ServiceDocVisiableRange;
+import org.shengrui.oa.service.system.ServiceAppDictionary;
+import org.shengrui.oa.service.system.ServiceSchoolDepartment;
+import org.shengrui.oa.service.system.ServiceSchoolDepartmentPosition;
+import org.shengrui.oa.service.system.ServiceSchoolDistrict;
 import org.shengrui.oa.web.action.BaseAppAction;
 
 /**
@@ -39,8 +43,53 @@ extends BaseAppAction
 	
 	@Resource
 	protected ServiceDocVisiableRange serviceDocVisiableRange;
-
 	
+	@Resource
+	protected ServiceSchoolDistrict serviceSchoolDistrict;
+	
+	@Resource
+	protected ServiceSchoolDepartment serviceSchoolDepartment;
+	
+	@Resource
+	protected ServiceSchoolDepartmentPosition serviceSchoolDepartmentPosition;
+
+	@Resource
+	protected ServiceAppDictionary serviceAppDictionary;
+
+	public ServiceAppDictionary getServiceAppDictionary() {
+		return serviceAppDictionary;
+	}
+
+	public void setServiceAppDictionary(ServiceAppDictionary serviceAppDictionary) {
+		this.serviceAppDictionary = serviceAppDictionary;
+	}
+
+	public ServiceSchoolDistrict getServiceSchoolDistrict() {
+		return serviceSchoolDistrict;
+	}
+
+	public void setServiceSchoolDistrict(ServiceSchoolDistrict serviceSchoolDistrict) {
+		this.serviceSchoolDistrict = serviceSchoolDistrict;
+	}
+
+	public ServiceSchoolDepartment getServiceSchoolDepartment() {
+		return serviceSchoolDepartment;
+	}
+
+	public void setServiceSchoolDepartment(
+			ServiceSchoolDepartment serviceSchoolDepartment) {
+		this.serviceSchoolDepartment = serviceSchoolDepartment;
+	}
+
+	public ServiceSchoolDepartmentPosition getServiceSchoolDepartmentPosition() {
+		return serviceSchoolDepartmentPosition;
+	}
+
+	public void setServiceSchoolDepartmentPosition(
+			ServiceSchoolDepartmentPosition serviceSchoolDepartmentPosition) {
+		this.serviceSchoolDepartmentPosition = serviceSchoolDepartmentPosition;
+	}
+
 	public ServiceDocManage getServiceDocManage() {
 		return serviceDocManage;
 	}

@@ -10,7 +10,7 @@ import cn.trymore.core.service.ServiceGeneric;
 /**
  * The application dictionary service
  * 
- * @author Jeccy.Zhao
+ * @author Tang
  *
  */
 public interface ServiceAppDictionary
@@ -22,6 +22,6 @@ extends ServiceGeneric<ModelAppDictionary>
 	 * @return
 	 * @throws ServiceException
 	 */
-	List<ModelAppDictionary> getByItemName (String itemName) 
+	List<ModelAppDictionary> getByName (String name) 
 			throws ServiceException;
 }

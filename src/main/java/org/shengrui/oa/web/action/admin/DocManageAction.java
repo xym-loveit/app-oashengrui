@@ -83,6 +83,26 @@ extends BaseAdminAction
 	public ActionForward adminPageDocumentDetail (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws WebException 
 	{
+		
+		try
+		{
+			//判断从前台是否传入了id值，如果有，则进行编辑操作
+			String id=request.getParameter("id");
+			if (this.isObjectIdValid(id))
+			{
+//				this.getServiceDocManage().remove(id);
+			}
+			
+			request.setAttribute("districts" , this.getServiceSchoolDistrict().getAll());
+			request.setAttribute("docLevels" , this.getServiceDocLevel().getAll());
+			request.setAttribute("docRanges" , this.getServiceDocVisiableRange().getAll());
+			
+		} 
+		catch (ServiceException e)
+		{
+			LOGGER.error("Exception raised when fetch all doc manages.", e);
+		}
+		
 		return mapping.findForward("admin.page.document.detail");
 	}
 	

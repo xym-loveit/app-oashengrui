@@ -13,7 +13,7 @@ import cn.trymore.core.service.impl.ServiceGenericImpl;
  * The implementation of 
  * application dictionary service.
  * 
- * @author Jeccy.Zhao
+ * @author Tang
  *
  */
 public class ServiceAppDictionaryImpl
@@ -38,15 +38,15 @@ extends ServiceGenericImpl<ModelAppDictionary> implements ServiceAppDictionary
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.shengrui.oa.service.system.ServiceAppDictionary#getByItemName(java.lang.String)
+//	 * @see org.shengrui.oa.service.system.ServiceAppDictionary#getByName(java.lang.String)
 	 */
 	@Override
-	public List<ModelAppDictionary> getByItemName(String itemName)
+	public List<ModelAppDictionary> getByName(String name)
 			throws ServiceException
 	{
 		try
 		{
-			return this.daoAppDict.getByItemName(itemName);
+			return this.daoAppDict.getByName(name);
 		} 
 		catch (Exception e)
 		{
