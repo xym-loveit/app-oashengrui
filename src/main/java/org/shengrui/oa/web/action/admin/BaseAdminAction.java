@@ -41,8 +41,6 @@ extends BaseAppAction
 	protected ServiceDocVisiableRange serviceDocVisiableRange;
 
 	
-	
-	
 	public ServiceDocManage getServiceDocManage() {
 		return serviceDocManage;
 	}

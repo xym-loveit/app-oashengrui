@@ -31,7 +31,7 @@
             <column name="doc_level_id" not-null="true">
             </column>
         </many-to-one>
-        <property name="typeDicid" type="java.lang.Long">
+        <property name="typeDicid" type="java.lang.Integer">
             <column name="type_dicid" not-null="true">
             </column>
         </property>

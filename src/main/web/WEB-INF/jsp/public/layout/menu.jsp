@@ -47,7 +47,7 @@
 						<li treeicon="icon-adminduty"><a href="app/admin.do?action=adminPageStaffAttendance" target="navTab" rel="admin_staffAttendance">员工考勤</a></li>
 					</ul>
 				</li>
-				<li treeicon="icon-infoshared"><a href="app/admin.do?action=adminPageDocumentIndex" target="navTab" rel="admin_doc">文档上传与管理</a></li>
+				<li treeicon="icon-infoshared"><a href="app/admin/doc.do?action=adminPageDocumentIndex" target="navTab" rel="admin_doc">文档上传与管理</a></li>
 			</ul>
 		</div>
 		
