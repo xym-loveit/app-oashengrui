@@ -501,6 +501,7 @@ extends DispatchAction
 	 */
 	protected String getErrorCallback (String message)
 	{
+		LOGGER.error("Error message received:" + message);
 		return  getErrorCallback(message, CALLBACK_TYPE_NONE, null, null, true);
 	}
 	

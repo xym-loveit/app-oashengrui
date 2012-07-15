@@ -20,36 +20,46 @@
 	td.finished {background-color: #ddd;}
 </style>
 
-<form id="pagerForm" method="post" action="app/finan/financial.do?action=FinanExpenseIndex">
+<form id="pagerForm" method="post" action="app/finan/${PAGE_TYPE eq 'FE' ? 'expense' : 'contract'}.do?action=pageFina${PAGE_TYPE eq 'FE' ? 'Expense' : 'Contract'}Index">
 	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
 	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
 </form>
 
 <!-- SearchBar -->
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="app/finan/financial.do?action=FinanExpenseIndex" method="post" id="searchForm" rel="pagerForm">
+	<form onsubmit="return navTabSearch(this);" action="app/finan/${PAGE_TYPE eq 'FE' ? 'expense' : 'contract'}.do?action=pageFina${PAGE_TYPE eq 'FE' ? 'Expense' : 'Contract'}Index" method="post" id="searchForm" rel="pagerForm">
 		<div class="searchBar">
 			<table class="searchContent">
 				<tr>
 					<td>
+						<label>所属校区：</label>
+						<select class="combox" name="empDistrictId" id="combox_district_emp${PAGE_TYPE}">
+							<option value="-1">所有校区</option>
+							<logic:present name="districts">
+								<logic:iterate name="districts" id="district">
+									<option value="${district.id}" ${formEntity ne null && formEntity.empDistrictId eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
+								</logic:iterate>
+							</logic:present>
+						</select>
+					</td>
+					<td>
 						<label>申请类型：</label>
-						<select class="combox" name="applyFormTypeId" style="width:108px;">
+						<select class="combox" name="applyFormTypeId">
 							<option value="-1">所有</option>
 							<logic:present name="types">
 								<logic:iterate name="types" id="entity">
-									<option value="${entity.id}" ${department ne null && department.depEquivalentBranch ne null && department.depEquivalentBranch.id eq entity.id ? "selected='selected'" : ""}>${entity.processTypeName}</option>
+									<option value="${entity.id}" ${formEntity ne null && formEntity.applyFormTypeId eq entity.id ? "selected='selected'" : ""}>${entity.processTypeName}</option>
 								</logic:iterate>
 							</logic:present>
 						</select>
 					</td>
 					<td>
 						<label>审批结果：</label>
-						<select class="combox" name="auditState" style="width:108px;">
+						<select class="combox" name="auditState">
 							<option value="-1">所有</option>
-							<option value="1" ${employeeExpenseForm ne null && employeeExpenseForm.auditState eq 1 ? 'selected="selected"' : ''}>审批中</option>
-							<option value="2" ${employeeExpenseForm ne null && employeeExpenseForm.auditState eq 2 ? 'selected="selected"' : ''}>审批通过</option>
-							<option value="3" ${employeeExpenseForm ne null && employeeExpenseForm.auditState eq 3 ? 'selected="selected"' : ''}>审批未通过</option>
-							<option value="3" ${employeeExpenseForm ne null && employeeExpenseForm.auditState eq 4 ? 'selected="selected"' : ''}>审批退回</option>
+							<option value="2" ${formEntity ne null && formEntity.auditState eq 2 ? 'selected="selected"' : ''}>审批通过</option>
+							<option value="3" ${formEntity ne null && formEntity.auditState eq 3 ? 'selected="selected"' : ''}>审批未通过</option>
+							<option value="4" ${formEntity ne null && formEntity.auditState eq 4 ? 'selected="selected"' : ''}>审批退回</option>
 						</select>
 					</td>
 				</tr>
@@ -60,6 +70,7 @@
 				</ul>
 			</div>
 		</div>
+		<input name="page_type" value="${PAGE_TYPE}" type="hidden" />
 	</form>
 </div>
 
@@ -68,7 +79,16 @@
 	<div class="pageContent">
 		<div class="panelBar">
 			<ul class="toolBar">
-				<li><a class="add" href="app/finan/financial.do?action=FinanExpenseDetail" target="dialog" title="财务申请" width="1100" height="540" rel="dia_finexp_add"><span>财务申请</span></a></li>
+				<li>
+					<c:choose>
+						<c:when test="${PAGE_TYPE eq 'FE'}">
+							<a class="add" href="app/finan/expense.do?action=diaglogFinaExpensePage" target="dialog" title="财务申请" width="1150" height="500" rel="dia_finexp_add"><span>财务申请</span></a>
+						</c:when>
+						<c:when test="${PAGE_TYPE eq 'FC'}">
+							<a class="add" href="app/finan/contract.do?action=diaglogFinaContractPage" target="dialog" title="合同申请" width="1150" height="500" rel="dia_fincta_add"><span>合同申请</span></a>
+						</c:when>	
+					</c:choose>
+				</li>
 				<li class="line">line</li>
 			</ul>
 		</div>

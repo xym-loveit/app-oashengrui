@@ -155,6 +155,7 @@
 				/WEB-INF/classes/struts/struts-web-hrm-entry.xml,
 				/WEB-INF/classes/struts/struts-web-hrm-hire.xml,
 				/WEB-INF/classes/struts/struts-web-finan-expense.xml,
+				/WEB-INF/classes/struts/struts-web-finan-contract.xml,
 				/WEB-INF/classes/struts/struts-web-personal.xml,
 				/WEB-INF/classes/struts/struts-web-personal-interview.xml,
 				/WEB-INF/classes/struts/struts-web-personal-jobapplication.xml,

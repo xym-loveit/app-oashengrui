@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2012 年 07 月 13 日 23:20
+-- 生成日期: 2012 年 07 月 15 日 21:29
 -- 服务器版本: 5.5.17
 -- PHP 版本: 5.3.8
 
@@ -210,6 +210,41 @@ CREATE TABLE IF NOT EXISTS `app_file_attach` (
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `app_finan_contract`
+--
+
+CREATE TABLE IF NOT EXISTS `app_finan_contract` (
+  `contract_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `apply_form_no` varchar(120) NOT NULL COMMENT '申请单号',
+  `apply_form_type` bigint(20) NOT NULL COMMENT '合同申请类型',
+  `emp_id` bigint(20) NOT NULL COMMENT '经办人 (申请人)',
+  `emp_district` bigint(20) NOT NULL COMMENT '员工所属校区',
+  `emp_dep` bigint(20) NOT NULL COMMENT '员工所属部门',
+  `emp_phone_no` varchar(24) NOT NULL COMMENT '员工联系电话',
+  `apply_date` date NOT NULL COMMENT '申请时间',
+  `comments` text COMMENT '合同事项说明',
+  `apply_amt` double NOT NULL COMMENT '合同总金额',
+  `contract_no` varchar(120) DEFAULT NULL COMMENT '合同编号',
+  `contract_parties` varchar(120) DEFAULT NULL COMMENT '合同签约方',
+  `contract_parties_contact` varchar(120) DEFAULT NULL COMMENT '合同签约方联系方式',
+  `pay_method` varchar(150) DEFAULT NULL COMMENT '付款方式',
+  `audit_state` tinyint(4) DEFAULT NULL COMMENT '审核状态, 1=审核中, 2=审核通过 3=审核不通过, 4=审核被退回...',
+  `entry_id` bigint(20) NOT NULL COMMENT '录入人员',
+  `entry_datetime` datetime NOT NULL COMMENT '录入时间',
+  PRIMARY KEY (`contract_id`),
+  KEY `apply_form_no` (`apply_form_no`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='合同申请' AUTO_INCREMENT=2 ;
+
+--
+-- 转存表中的数据 `app_finan_contract`
+--
+
+INSERT INTO `app_finan_contract` (`contract_id`, `apply_form_no`, `apply_form_type`, `emp_id`, `emp_district`, `emp_dep`, `emp_phone_no`, `apply_date`, `comments`, `apply_amt`, `contract_no`, `contract_parties`, `contract_parties_contact`, `pay_method`, `audit_state`, `entry_id`, `entry_datetime`) VALUES
+(1, 'FC20120715211609', 8, 4, 3, 12, '13588064354', '2012-07-15', '', 2450.5, '2351d11311', '41232', '13588064354', 'test', NULL, 1, '2012-07-15 21:16:09');
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `app_finan_expense`
 --
 
@@ -236,20 +271,11 @@ CREATE TABLE IF NOT EXISTS `app_finan_expense` (
   `account_name` varchar(120) DEFAULT NULL,
   `account_no` varchar(120) DEFAULT NULL,
   `status` char(1) DEFAULT NULL,
-  `audit_state` bigint(20) DEFAULT NULL,
+  `audit_state` bigint(20) DEFAULT NULL COMMENT '审核状态, 1=审核中, 2=审核通过 3=审核不通过, 4=审核被退回...',
   `entry_id` bigint(20) DEFAULT NULL,
   `entry_datetime` datetime DEFAULT NULL,
   PRIMARY KEY (`expense_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
-
---
--- 转存表中的数据 `app_finan_expense`
---
-
-INSERT INTO `app_finan_expense` (`expense_id`, `apply_form_no`, `apply_form_type`, `apply_date`, `comments`, `emp_id`, `emp_district`, `emp_dep`, `emp_phone_no`, `apply_amt`, `payer`, `contract_no`, `attach_count`, `audit_advance`, `asset_no`, `amt_receiver`, `amt_receiver_contact`, `pay_method`, `bank`, `account_name`, `account_no`, `status`, `audit_state`, `entry_id`, `entry_datetime`) VALUES
-(3, 'FE20120713171201', 7, '2012-07-13', '', 5, 3, 9, '13588064354', 643, 0, '2351d11311', '2', 0, 'va34551', 'Chonticha', '13513462345', 0, '工商银行', 'Manie', '634418764321987', NULL, NULL, 1, '2012-07-13 17:12:01'),
-(4, 'FE20120713194009', 7, '2012-07-19', 'test', 5, 3, 9, '13588064354', 189.2, 1, 'te', '2', 1, 'faw', 'Chonticha', '13513462345', 1, '工商银行', 'se', 'sn', NULL, NULL, 1, '2012-07-13 19:40:09'),
-(5, 'FE20120713223632', 7, '2012-07-10', '', 4, 3, 12, '13588064354', 214, 0, '213', '2', 1, '421421', '421', '13513462345', 0, '工商银行', '321', '12421512', NULL, NULL, 1, '2012-07-13 22:36:32');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -738,7 +764,7 @@ CREATE TABLE IF NOT EXISTS `app_process_definition` (
   `createtime` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`def_id`),
   KEY `type_id` (`type_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程定义' AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程定义' AUTO_INCREMENT=6 ;
 
 --
 -- 转存表中的数据 `app_process_definition`
@@ -747,7 +773,9 @@ CREATE TABLE IF NOT EXISTS `app_process_definition` (
 INSERT INTO `app_process_definition` (`def_id`, `type_id`, `def_name`, `def_description`, `filter_posnames`, `def_trigger`, `createtime`) VALUES
 (1, 7, '0 < 支出费用 <= 1000', '', 'test', 'x > 0 && x <= 1000', '2012-06-29 14:50:40'),
 (2, 7, '1000 < 支出费用 <= 10000', '', 'test', 'x > 1000 && x <= 10000', '2012-06-29 14:51:15'),
-(3, 7, '支出费用 >10000', '', 'test', 'x > 10000', '2012-06-29 15:00:28');
+(3, 7, '支出费用 >10000', '', 'test', 'x > 10000', '2012-06-29 15:00:28'),
+(4, 8, '0 < 合同费用 <= 1000', '', 'test', 'x > 0 && x <= 1000', '2012-07-15 14:30:52'),
+(5, 8, '1000 < 合同费用 <= 10000', '', 'test', 'x > 1000 && x <= 10000', '2012-07-15 21:01:38');
 
 -- --------------------------------------------------------
 
@@ -789,19 +817,15 @@ CREATE TABLE IF NOT EXISTS `app_process_form` (
   `audit_comments` text COMMENT '审核意见',
   PRIMARY KEY (`form_id`),
   KEY `form_no` (`form_no`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程表单, 存储保存在运行中的流程表单数据' AUTO_INCREMENT=31 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程表单, 存储保存在运行中的流程表单数据' AUTO_INCREMENT=3 ;
 
 --
 -- 转存表中的数据 `app_process_form`
 --
 
 INSERT INTO `app_process_form` (`form_id`, `form_no`, `type_id`, `task_name`, `task_from`, `task_next`, `seq_sn`, `task_type`, `to_rolenames`, `to_distnames`, `to_depnames`, `to_posnames`, `to_usernames`, `audit_rolenames`, `audit_distnames`, `audit_depnames`, `audit_usernames`, `audit_posnames`, `to_userids`, `to_roleids`, `to_distids`, `to_depids`, `to_posids`, `audit_userids`, `audit_roleids`, `audit_distids`, `audit_depids`, `audit_posids`, `audit_date`, `audit_state`, `audit_comments`) VALUES
-(25, 'FE20120713223632', 7, NULL, NULL, NULL, 1, 1, NULL, NULL, '行政部', '行政主管', NULL, NULL, NULL, NULL, '???', NULL, NULL, NULL, NULL, '12', '2', '1', NULL, NULL, NULL, NULL, '2012-07-13 22:40:36', 2, '审核通过...'),
-(26, 'FE20120713223632', 7, NULL, NULL, NULL, 2, 2, NULL, NULL, '人资部', '人事主管', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '9', '1', NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL),
-(27, 'FE20120713223632', 7, NULL, NULL, NULL, 3, 4, NULL, NULL, '人资部', '部门主管', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '7', '5', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(28, 'FE20120713223632', 7, NULL, NULL, NULL, 4, 2, NULL, NULL, '行政部', '行政主管', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '12', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(29, 'FE20120713223632', 7, NULL, NULL, NULL, 5, 2, NULL, NULL, '总经办', '部门主管', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '13', '3', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(30, 'FE20120713223632', 7, NULL, NULL, NULL, 6, 4, NULL, NULL, '人资部', '部门主管', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '7', '5', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(1, 'FC20120715211609', 8, NULL, NULL, NULL, 1, 2, NULL, NULL, '人资部', '人事主管', NULL, NULL, NULL, NULL, '???', NULL, NULL, NULL, NULL, '9', '1', '1', NULL, NULL, NULL, NULL, '2012-07-15 21:16:48', 2, '同意...'),
+(2, 'FC20120715211609', 8, NULL, NULL, NULL, 2, 1, NULL, NULL, '行政部', '行政主管', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '12', '2', NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -843,35 +867,14 @@ CREATE TABLE IF NOT EXISTS `app_process_history` (
   `audit_comments` text COMMENT '审核意见',
   PRIMARY KEY (`history_id`),
   KEY `form_no` (`form_no`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程表单, 存储保存在运行中的流程表单数据' AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程表单, 存储保存在运行中的流程表单数据' AUTO_INCREMENT=2 ;
 
 --
 -- 转存表中的数据 `app_process_history`
 --
 
 INSERT INTO `app_process_history` (`history_id`, `form_no`, `type_id`, `task_name`, `task_from`, `task_next`, `task_type`, `seq_sn`, `to_rolenames`, `to_distnames`, `to_depnames`, `to_posnames`, `to_usernames`, `audit_rolenames`, `audit_distnames`, `audit_depnames`, `audit_usernames`, `audit_posnames`, `to_userids`, `to_roleids`, `to_distids`, `to_depids`, `to_posids`, `audit_userids`, `audit_roleids`, `audit_distids`, `audit_depids`, `audit_posids`, `audit_date`, `audit_state`, `audit_comments`) VALUES
-(1, 'FE20120713165235', 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '行政部', '行政主管', NULL, NULL, NULL, NULL, '???', NULL, NULL, NULL, NULL, '12', '2', '1', NULL, NULL, NULL, NULL, NULL, 4, 'joijio'),
-(2, 'FE20120713165235', 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '行政部', '行政主管', NULL, NULL, NULL, NULL, '???', NULL, NULL, NULL, NULL, '12', '2', '1', NULL, NULL, NULL, NULL, NULL, 2, 'joijio'),
-(3, 'FE20120713170759', 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '人资部', '人事主管', NULL, NULL, NULL, NULL, '???', NULL, NULL, NULL, NULL, '9', '1', '1', NULL, NULL, NULL, NULL, NULL, 4, 'tesfaefea'),
-(4, 'FE20120713170759', 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '人资部', '人事主管', NULL, NULL, NULL, NULL, '???', NULL, NULL, NULL, NULL, '9', '1', '1', NULL, NULL, NULL, NULL, NULL, 2, 'tesfaefea'),
-(5, 'FE20120713171201', 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '人资部', '人事主管', NULL, NULL, NULL, NULL, '???', NULL, NULL, NULL, NULL, '9', '1', '1', NULL, NULL, NULL, NULL, NULL, 3, '你弄'),
-(6, 'FE20120713194009', 7, NULL, NULL, NULL, 1, NULL, NULL, NULL, '人资部', '人事主管', NULL, NULL, NULL, NULL, '???', NULL, NULL, NULL, NULL, '9', '1', '1', NULL, NULL, NULL, NULL, NULL, 2, '费用需要, 审批通过..'),
-(7, 'FE20120713194009', 7, NULL, NULL, NULL, 2, NULL, NULL, NULL, '人资部', '人事主管', NULL, NULL, NULL, NULL, '???', NULL, NULL, NULL, NULL, '9', '1', '1', NULL, NULL, NULL, NULL, NULL, 2, '费用需要, 审批通过.. '),
-(8, 'FE20120713194009', 7, NULL, NULL, NULL, 4, NULL, NULL, NULL, '人资部', '部门主管', NULL, NULL, NULL, NULL, '???', NULL, NULL, NULL, NULL, '7', '5', '1', NULL, NULL, NULL, NULL, NULL, 2, '费用需要, 审批通过.. '),
-(9, 'FE20120713194009', 7, NULL, NULL, NULL, 2, NULL, NULL, NULL, '行政部', '行政主管', NULL, NULL, NULL, NULL, '???', NULL, NULL, NULL, NULL, '12', '2', '1', NULL, NULL, NULL, NULL, NULL, 4, '审批退回, 需要重新审批...'),
-(10, 'FE20120713194009', 7, NULL, NULL, NULL, 2, NULL, NULL, NULL, '行政部', '行政主管', NULL, NULL, NULL, NULL, '???', NULL, NULL, NULL, NULL, '12', '2', '1', NULL, NULL, NULL, NULL, NULL, 2, '审批退回, 需要重新审批...'),
-(11, 'FE20120713194009', 7, NULL, NULL, NULL, 4, NULL, NULL, NULL, '人资部', '部门主管', NULL, NULL, NULL, NULL, '???', NULL, NULL, NULL, NULL, '7', '5', '1', NULL, NULL, NULL, NULL, NULL, 4, 'bibni'),
-(12, 'FE20120713194009', 7, NULL, NULL, NULL, 4, NULL, NULL, NULL, '人资部', '部门主管', NULL, NULL, NULL, NULL, '???', NULL, NULL, NULL, NULL, '7', '5', '1', NULL, NULL, NULL, NULL, NULL, 2, 'bibni'),
-(13, 'FE20120713194009', 7, NULL, NULL, NULL, 2, NULL, NULL, NULL, '人资部', '人事主管', NULL, NULL, NULL, NULL, '???', NULL, NULL, NULL, NULL, '9', '1', '1', NULL, NULL, NULL, NULL, NULL, 2, 'giuui'),
-(14, 'FE20120713194009', 7, NULL, NULL, NULL, 4, NULL, NULL, NULL, '人资部', '部门主管', NULL, NULL, NULL, NULL, '???', NULL, NULL, NULL, NULL, '7', '5', '1', NULL, NULL, NULL, NULL, NULL, 2, 'nioni'),
-(15, 'FE20120713194009', 7, NULL, NULL, NULL, 2, NULL, NULL, NULL, '人资部', '人事主管', NULL, NULL, NULL, NULL, '???', NULL, NULL, NULL, NULL, '9', '1', '1', NULL, NULL, NULL, NULL, '2012-07-13 22:17:11', 2, 'nini'),
-(16, 'FE20120713194009', 7, NULL, NULL, NULL, 4, NULL, NULL, NULL, '人资部', '部门主管', NULL, NULL, NULL, NULL, '???', NULL, NULL, NULL, NULL, '7', '5', '1', NULL, NULL, NULL, NULL, '2012-07-13 22:17:23', 2, 'momio'),
-(17, 'FE20120713194009', 7, NULL, NULL, NULL, 2, NULL, NULL, NULL, '行政部', '行政主管', NULL, NULL, NULL, NULL, '???', NULL, NULL, NULL, NULL, '12', '2', '1', NULL, NULL, NULL, NULL, '2012-07-13 22:17:32', 2, 'nnioio'),
-(18, 'FE20120713194009', 7, NULL, NULL, NULL, 2, NULL, NULL, NULL, '总经办', '部门主管', NULL, NULL, NULL, NULL, '???', NULL, NULL, NULL, NULL, '13', '3', '1', NULL, NULL, NULL, NULL, '2012-07-13 22:17:44', 2, 'bnjkoi'),
-(19, 'FE20120713194009', 7, NULL, NULL, NULL, 4, NULL, NULL, NULL, '人资部', '部门主管', NULL, NULL, NULL, NULL, '???', NULL, NULL, NULL, NULL, '7', '5', '1', NULL, NULL, NULL, NULL, '2012-07-13 22:18:09', 4, 'noiio'),
-(20, 'FE20120713194009', 7, NULL, NULL, NULL, 2, NULL, NULL, NULL, '总经办', '部门主管', NULL, NULL, NULL, NULL, '???', NULL, NULL, NULL, NULL, '13', '3', '1', NULL, NULL, NULL, NULL, '2012-07-13 22:18:18', 2, 'noin'),
-(21, 'FE20120713194009', 7, NULL, NULL, NULL, 4, NULL, NULL, NULL, '人资部', '部门主管', NULL, NULL, NULL, NULL, '???', NULL, NULL, NULL, NULL, '7', '5', '1', NULL, NULL, NULL, NULL, '2012-07-13 22:18:26', 2, 'vigiu'),
-(22, 'FE20120713223632', 7, NULL, NULL, NULL, 1, NULL, NULL, NULL, '行政部', '行政主管', NULL, NULL, NULL, NULL, '???', NULL, NULL, NULL, NULL, '12', '2', '1', NULL, NULL, NULL, NULL, '2012-07-13 22:40:36', 2, '审核通过...');
+(1, 'FC20120715211609', 8, NULL, NULL, NULL, 2, NULL, NULL, NULL, '人资部', '人事主管', NULL, NULL, NULL, NULL, '???', NULL, NULL, NULL, NULL, '9', '1', '1', NULL, NULL, NULL, NULL, '2012-07-15 21:16:48', 2, '同意...');
 
 -- --------------------------------------------------------
 
@@ -897,7 +900,7 @@ CREATE TABLE IF NOT EXISTS `app_process_task` (
   `comments` text COMMENT '意见',
   `task_type` tinyint(4) DEFAULT NULL COMMENT '活动类型',
   PRIMARY KEY (`task_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程任务设置' AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程任务设置' AUTO_INCREMENT=13 ;
 
 --
 -- 转存表中的数据 `app_process_task`
@@ -910,7 +913,12 @@ INSERT INTO `app_process_task` (`task_id`, `def_id`, `task_name`, `task_from`, `
 (4, 1, NULL, NULL, NULL, 4, NULL, '行政部', '行政主管', NULL, NULL, NULL, '12', '2', NULL, 2),
 (5, 2, NULL, NULL, NULL, 1, NULL, '行政部', '行政主管', NULL, NULL, NULL, '12', '2', NULL, 2),
 (6, 1, NULL, NULL, NULL, 5, NULL, '总经办', '部门主管', NULL, NULL, NULL, '13', '3', NULL, 2),
-(7, 1, NULL, NULL, NULL, 6, NULL, '人资部', '部门主管', NULL, NULL, NULL, '7', '5', NULL, 4);
+(7, 1, NULL, NULL, NULL, 6, NULL, '人资部', '部门主管', NULL, NULL, NULL, '7', '5', NULL, 4),
+(8, 4, NULL, NULL, NULL, 1, NULL, '行政部', '行政主管', NULL, NULL, NULL, '12', '2', NULL, 2),
+(9, 4, NULL, NULL, NULL, 2, NULL, '市场部,行政部,总经办,人资部', '部门主管,部门主管,行政主管,人事主管', NULL, NULL, NULL, '13,12,9,14', '1,4,3,2', NULL, 1),
+(10, 4, NULL, NULL, NULL, 3, NULL, '人资部', '部门主管', NULL, NULL, NULL, '7', '5', NULL, 4),
+(11, 5, NULL, NULL, NULL, 1, NULL, '人资部', '人事主管', NULL, NULL, NULL, '9', '1', NULL, 2),
+(12, 5, NULL, NULL, NULL, 2, NULL, '市场部,行政部,总经办,人资部', '部门主管,部门主管,行政主管,人事主管', NULL, NULL, NULL, '13,12,9,14', '1,4,3,2', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -1150,7 +1158,7 @@ CREATE TABLE IF NOT EXISTS `app_system_log` (
   `createtime` datetime NOT NULL COMMENT '创建时间',
   `operation` varchar(512) NOT NULL COMMENT '执行操作',
   PRIMARY KEY (`log_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统日志' AUTO_INCREMENT=55 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统日志' AUTO_INCREMENT=56 ;
 
 --
 -- 转存表中的数据 `app_system_log`
@@ -1210,7 +1218,8 @@ INSERT INTO `app_system_log` (`log_id`, `user_name`, `user_id`, `createtime`, `o
 (51, 'test', 1, '2012-07-13 11:10:53', '进入权限组配置页面'),
 (52, 'test', 1, '2012-07-13 11:11:21', '进入权限组配置页面'),
 (53, 'test', 1, '2012-07-13 11:17:36', '进入权限组配置页面'),
-(54, 'test', 1, '2012-07-13 15:35:02', '进入权限组配置页面');
+(54, 'test', 1, '2012-07-13 15:35:02', '进入权限组配置页面'),
+(55, 'test', 1, '2012-07-15 15:26:30', '进入权限组配置页面');
 
 -- --------------------------------------------------------
 
@@ -1246,7 +1255,7 @@ CREATE TABLE IF NOT EXISTS `app_user` (
 --
 
 INSERT INTO `app_user` (`user_id`, `username`, `password`, `fullname`, `email`, `dep_id`, `pos_id`, `district_id`, `emp_id`, `phone`, `mobile`, `fax`, `address`, `zip`, `photo`, `status`, `logon_lastip`, `logon_lastime`) VALUES
-(1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', '???', 'csx@jee-soft.cn', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '0:0:0:0:0:0:0:1', '2012-07-13 22:16:49'),
+(1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', '???', 'csx@jee-soft.cn', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '0:0:0:0:0:0:0:1', '2012-07-15 21:00:16'),
 (2, 'csx', '9uCh4qxBlFqap/+KiqoM68EqO8yYGpKa1c+BCgkOEa4=', '斩不刀', '111@hotmail.com', 1, NULL, 3, NULL, '', '', '', '', '', '', 0, '', NULL),
 (3, '0001012061241011', 'QGpDSgQ2on/ITC1MlNeed0CREM5MDxeCejn3iFEhLGk=', 'Manie', NULL, 9, 1, 3, 3, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL),
 (4, '0001112061243222', 'DnOH9eQngdjBAPlv4OAAtxF1BJdvw3DiTFece8c7PD8=', 'Charotte', NULL, 12, 2, 3, 4, NULL, NULL, NULL, NULL, NULL, NULL, 1, '0:0:0:0:0:0:0:1', '2012-07-13 11:13:19'),

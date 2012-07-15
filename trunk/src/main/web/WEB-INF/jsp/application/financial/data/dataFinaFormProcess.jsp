@@ -34,7 +34,14 @@
 					var comments = form_ele.find("textarea").val();
 					alertMsg.confirm("您确定进行该环节的审批操作么?", {
 						okCall: function(){
-							$.post("app/finan/financial.do?action=actionFinanApplicationApprove", {"id": id, "state": state, "comments": comments}, DWZ.ajaxDone, "json");
+							$.post("app/finan/${CATKEY}.do?action=actionFinanApplicationApprove", {"id": id, "state": state, "comments": comments, "formNo": "${entity.formNo}", "catkey": "${CATKEY}"}, function(){
+								// 重新加载当前的navTab
+								navTab.reload(navTab.getCurrentTabUrl(), {navTabId: navTab.getCurrentTabId()});
+								// 重新加载当前弹框页面数据
+								if ($.pdialog._current != null) {
+									$.pdialog.reload("app/finan/${CATKEY}.do?action=diaglogFina${CATKEY eq 'contract' ? 'Contract' : 'Expense'}Page&id=${entity.id}&op=view")
+								}
+							}, "json");
 						}
 					});
 				}
@@ -47,13 +54,13 @@
 	<!-- 审批状态 -->
 	<c:if test="${op ne null && op eq 'view'}">
 		<div style="padding: 10px 0px; border-bottom: 1px dotted #999; margin: 0 10px 15px 10px; overflow: auto; clear: both;">
-			<div style="color:#FF7300; line-height: 18px;">审批流程：</div>
+			<div style="color:#FF7300; line-height: 18px;">${entity.applyForm eq null || fn:length(entity.applyForm) == 0 ? '历史审批记录' : '审批流程'}：</div>
 		</div>
 		<table id="tblexp" cellpadding="0" cellspacing="0" width="98%" border="1" style="border-collapse: collapse; border-color: #797979; margin: 0 auto;">
 			<c:choose>
-				<c:when test="${employeeExpenseEntry.applyForm eq null || fn:length(employeeExpenseEntry.applyForm) == 0}">
-					<logic:present name="employeeExpenseEntry" property="processHistory">
-						<logic:iterate name="employeeExpenseEntry" property="processHistory" id="entity">
+				<c:when test="${entity.applyForm eq null || fn:length(entity.applyForm) == 0}">
+					<logic:present name="entity" property="processHistory">
+						<logic:iterate name="entity" property="processHistory" id="entity">
 							<tr>
 								<td width="15%" class="audit${entity.auditState}" style="line-height: 35px;">
 									${entity.toDepartmentNames}-${entity.toPositionNames}
@@ -89,8 +96,8 @@
 					</logic:present>
 				</c:when>
 				<c:otherwise>
-					<logic:present name="employeeExpenseEntry" property="applyForm">
-						<logic:iterate name="employeeExpenseEntry" property="applyForm" id="entity">
+					<logic:present name="entity" property="applyForm">
+						<logic:iterate name="entity" property="applyForm" id="entity">
 							<tr>
 								<td width="15%" class="audit${entity.auditState}" style="line-height: 35px;">
 									${entity.toDepartmentNames}-${entity.toPositionNames}

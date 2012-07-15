@@ -12,6 +12,7 @@
 <table class="table" width="100%" layoutH="142">
 	<thead>
 		<tr>
+			<th align="center">申请单号</th>
 			<th align="center">申请类型</th>
 			<th align="center">申请人</th>
 			<th align="center">申请金额</th>
@@ -25,21 +26,20 @@
 		</tr>
 	</thead>
 	<tbody>
-		<logic:present name="employeeExpenseInfo">
-			<logic:iterate name="employeeExpenseInfo" property="items" id="entity">
+		<logic:present name="dataList">
+			<logic:iterate name="dataList" property="items" id="entity">
 				<tr target="entry_id" rel="${entity.id}">
+					<td>${entity.formNo}</td>
 					<td>${entity.applyFormType.processTypeName}</td>
 					<td>${entity.employee ne null ? entity.employee.empName : ''}</td>
 					<td>${entity.applyAmt}</td>
 					<td>${entity.empDistrict ne null ? entity.empDistrict.districtName : ''}</td>
 					<td>${entity.empDepartment ne null ? entity.empDepartment.depName : ''}</td>
 					<td><fmt:formatDate  value="${entity.applyDate}" pattern="yyyy-MM-dd" /></td>
-					<td>
-						<c:choose>
-							<c:when test="${entity.applyForm eq null || fn:length(entity.applyForm) == 0}">审批结束</c:when>
-							<c:otherwise>审批中</c:otherwise>
-						</c:choose>
-					</td>
+					<c:choose>
+						<c:when test="${entity.applyForm eq null || fn:length(entity.applyForm) == 0}"><td style="background-color: #ddd">审批结束</td></c:when>
+						<c:otherwise><td style="background-color: #FFBD5A">审批中</td></c:otherwise>
+					</c:choose>
 					<td>
 						<c:choose>
 							<c:when test="${entity.applyForm eq null || fn:length(entity.applyForm) == 0}">---</c:when>
@@ -60,15 +60,24 @@
 							<c:when test="${entity.applyForm ne null && fn:length(entity.applyForm) > 0}">---</c:when>
 							<c:otherwise>
 								<c:choose>
-									<c:when test="${entity.finalState eq 2}">审核通过</c:when>
-									<c:when test="${entity.finalState eq 3}">审核未通过</c:when>
-									<c:when test="${entity.finalState eq 4}">审核退回</c:when>
+									<c:when test="${entity.auditState eq 2}">审批通过</c:when>
+									<c:when test="${entity.auditState eq 3}">审批未通过</c:when>
+									<c:when test="${entity.auditState eq 4}">审批退回</c:when>
 									<c:otherwise>---</c:otherwise>
 								</c:choose>
 							</c:otherwise>
 						</c:choose>
 					</td>
-					<td><a class="oplink" href="app/finan/financial.do?action=FinanExpenseDetail&id=${entity.id}&op=view" target="dialog" title="查看${entity.employee.empName}申请单" width="1100" height="640" rel="dia_finexp_view_${entity.id}">详细</a></td>
+					<td>
+						<c:choose>
+							<c:when test="${PAGE_TYPE eq 'FE'}">
+								<a class="oplink" href="app/finan/expense.do?action=diaglogFinaExpensePage&id=${entity.id}&op=view" target="dialog" title="查看‘${entity.employee.empName}’费用申请单-${entity.formNo}" width="1150" height="640" rel="dia_finexp_view_${entity.id}">详细</a></td>
+							</c:when>
+							<c:when test="${PAGE_TYPE eq 'FC'}">
+								<a class="oplink" href="app/finan/contract.do?action=diaglogFinaContractPage&id=${entity.id}&op=view" target="dialog" title="查看‘${entity.employee.empName}’合同申请单-${entity.formNo}" width="1150" height="640" rel="dia_fincontract_view_${entity.id}">详细</a></td>
+							</c:when>	
+						</c:choose>
+					</td>
 				</tr>
 			</logic:iterate>
 		</logic:present>

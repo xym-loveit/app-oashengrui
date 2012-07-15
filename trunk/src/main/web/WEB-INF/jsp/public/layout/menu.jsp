@@ -81,13 +81,13 @@
 			<ul class="tree treeFolder">
 				<li treeicon="icon-finmrmb"><a>费用支出管理</a>
 					<ul>
-						<li treeicon="icon-finmrmbApply"><a href="app/finan/financial.do?action=FinanExpenseIndex" target="navTab" rel="fina_expenseApply">费用支出申请</a></li>
+						<li treeicon="icon-finmrmbApply"><a href="app/finan/expense.do?action=pageFinaExpenseIndex" target="navTab" rel="fina_expense_index">费用支出申请</a></li>
 						<li treeicon="icon-finmrmbApproval"><a href="blank.jsp" target="navTab" rel="demo_page2">费用支出审批</a></li>
 					</ul>
 				</li>
 				<li treeicon="icon-finmcontracts"><a>合同管理</a>
 					<ul>
-						<li treeicon="icon-finmcontractsApply"><a href="blank.jsp" target="navTab" rel="demo_page2">合同审批申请</a></li>
+						<li treeicon="icon-finmcontractsApply"><a href="app/finan/contract.do?action=pageFinaContractIndex" target="navTab" rel="fina_contract_index">合同审批申请</a></li>
 						<li treeicon="icon-finmcontractsRecords"><a href="blank.jsp" target="navTab" rel="demo_page2">合同审批记录</a></li>
 					</ul>
 				</li>

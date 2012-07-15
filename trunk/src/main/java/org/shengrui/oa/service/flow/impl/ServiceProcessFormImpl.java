@@ -94,9 +94,9 @@ extends ServiceGenericImpl<ModelProcessForm> implements ServiceProcessForm
 				throw new ServiceException("The process form does not exist with id:" + formId);
 			}
 			
-			if (!this.isFormNodeFirstOne(procForm.getSortCode()))
+			if (!this.isFormNodeFirstOne(procForm.getSortCode(), procForm.getApplyFormNo()))
 			{
-				List<ModelProcessForm> preForms = this.getFormNodesByOffset(procForm.getSortCode(), false);
+				List<ModelProcessForm> preForms = this.getFormNodesByOffset(procForm.getSortCode(), procForm.getApplyFormNo(), false);
 				if (preForms != null && preForms.size() > 0)
 				{
 					return preForms.get(preForms.size() - 1);
@@ -128,9 +128,10 @@ extends ServiceGenericImpl<ModelProcessForm> implements ServiceProcessForm
 				throw new ServiceException("The process form does not exist with id:" + formId);
 			}
 			
-			if (!this.isFormNodeLastOne(procForm.getSortCode()))
+			if (!this.isFormNodeLastOne(procForm.getSortCode(), procForm.getApplyFormNo()))
 			{
-				List<ModelProcessForm> nextForms = this.getFormNodesByOffset(procForm.getSortCode(), true);
+				List<ModelProcessForm> nextForms = this.getFormNodesByOffset(
+						procForm.getSortCode(), procForm.getApplyFormNo(), true);
 				if (nextForms != null && nextForms.size() > 0)
 				{
 					return nextForms.get(0);
@@ -212,12 +213,14 @@ extends ServiceGenericImpl<ModelProcessForm> implements ServiceProcessForm
 	 * 
 	 * @param seqOffset
 	 *                     the process task sequence offset 
+	 * @param procFormNo
+	 *                     the process form no.
 	 * @param isGreaterThan
 	 *                     the flag of greater than
 	 * @return list of process form nodes
 	 * @throws ServiceException
 	 */
-	private List<ModelProcessForm> getFormNodesByOffset(int seqOffset, boolean isGreaterThan)
+	private List<ModelProcessForm> getFormNodesByOffset(int seqOffset, String procFormNo, boolean isGreaterThan)
 			throws ServiceException
 	{
 		try
@@ -233,6 +236,8 @@ extends ServiceGenericImpl<ModelProcessForm> implements ServiceProcessForm
 				criteria.add(Restrictions.lt("sortCode", seqOffset));
 			}
 			
+			criteria.add(Restrictions.eq("applyFormNo", procFormNo));
+			
 			return this.daoProcessForm.getListByCriteria(criteria);
 		}
 		catch (Exception e)
@@ -245,15 +250,17 @@ extends ServiceGenericImpl<ModelProcessForm> implements ServiceProcessForm
 	 * Returns true if the process form with the specified sequence index last one
 	 * 
 	 * @param seq
-	 *         the process task sequence index
+	 *                 the process task sequence index
+	 * @param procFormNo
+	 *                 the process form no.
 	 * @return true if process form with the sequence index last one.
 	 * @throws ServiceException
 	 */
-	private boolean isFormNodeLastOne(int seq) throws ServiceException
+	private boolean isFormNodeLastOne(int seq, String procFormNo) throws ServiceException
 	{
 		try
 		{
-			return this.getFormNodesByOffset(seq, true) == null;
+			return this.getFormNodesByOffset(seq, procFormNo, true) == null;
 		}
 		catch (Exception e)
 		{
@@ -265,15 +272,17 @@ extends ServiceGenericImpl<ModelProcessForm> implements ServiceProcessForm
 	 * Returns true if the process form with the specified sequence index as first one
 	 * 
 	 * @param seq
-	 *         the process task sequence index
+	 *                 the process task sequence index
+	 * @param procFormNo
+	 *                 the process form no.
 	 * @return true if process form with the sequence index as first one.
 	 * @throws ServiceException
 	 */
-	private boolean isFormNodeFirstOne(int seq) throws ServiceException
+	private boolean isFormNodeFirstOne(int seq, String procFormNo) throws ServiceException
 	{
 		try
 		{
-			return this.getFormNodesByOffset(seq, false) == null;
+			return this.getFormNodesByOffset(seq, procFormNo, false) == null;
 		}
 		catch (Exception e)
 		{
