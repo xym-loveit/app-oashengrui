@@ -14,6 +14,7 @@ import org.shengrui.oa.model.flow.ModelProcessType;
 import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
 
+import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.util.UtilBean;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
@@ -34,12 +35,11 @@ extends BaseFinanAction
 	
 	/**
 	 * <b>[WebAction]</b> <br/>
-	 * 财务管理
+	 * 费用支出申请
 	 */
 	public ActionForward pageFinaExpenseIndex(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) 
 	{
-		
 		try
 		{
 			ModelFinanExpense employeeExpenseForm = (ModelFinanExpense) form;
@@ -73,6 +73,97 @@ extends BaseFinanAction
 		request.setAttribute("PAGE_TYPE", FINAN_FORM_KEY_EXPENSE);
 		
 		return mapping.findForward("fina.application.list.index");
+	}
+	
+	/**
+	 * <b>[WebAction]</b> <br/>
+	 * 费用支出记录
+	 */
+	public ActionForward pageFinaExpenseRecords(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		try
+		{
+			ModelFinanExpense employeeExpenseForm = (ModelFinanExpense) form;
+			
+			ModelProcessType procType = this.serviceProcessType.getTypesByKey(PROC_TYPE_FINAN_PAYMENT);
+			if (procType == null)
+			{
+				return ajaxPrint(response, getErrorCallback("费用支出申请流程类型不存在..."));
+			}
+			
+			request.setAttribute("types", this.getProcessSubTypes(procType.getId()));
+			
+			// 加载审批数据
+			boolean isOnApproval = request.getParameter("finished") == null;
+			obtainFinaExpenseRecords(employeeExpenseForm, isOnApproval, request);
+			
+			request.setAttribute("formEntity", employeeExpenseForm);
+			request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
+			
+		} 
+		catch (Exception e)
+		{
+			LOGGER.error("Exception raised when fetch all expense documents.", e);
+			return ajaxPrint(response, getErrorCallback("页面加载失败:" + e.getMessage()));
+		}
+		
+		request.setAttribute("PAGE_TYPE", FINAN_FORM_KEY_EXPENSE);
+		return mapping.findForward("fina.application.list.index");
+	}
+	
+	/**
+	 * <b>[WebAction]</b> <br/>
+	 * 费用支出记录
+	 */
+	public ActionForward loadFinaExpenseRecords (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		try
+		{
+			ModelFinanExpense employeeExpenseForm = (ModelFinanExpense) form;
+			
+			// 加载审批数据
+			boolean isOnApproval = request.getParameter("finished") == null;
+			obtainFinaExpenseRecords(employeeExpenseForm, isOnApproval, request);
+			
+			request.setAttribute("formEntity", employeeExpenseForm);
+		} 
+		catch (Exception e)
+		{
+			LOGGER.error("Exception raised when fetch all expense documents.", e);
+			return ajaxPrint(response, getErrorCallback("页面加载失败:" + e.getMessage()));
+		}
+		
+		return mapping.findForward("fina.application.list.index");
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param onApprovalStatus
+	 * @return
+	 * @throws ServiceException 
+	 */
+	private PaginationSupport<ModelFinanExpense> obtainFinaExpenseRecords (ModelFinanExpense formEntity, 
+			Boolean isOnApproval, HttpServletRequest request) throws ServiceException
+	{
+		if (isOnApproval != null && isOnApproval)
+		{
+			// 审批中
+			formEntity.setAuditState(null);
+		}
+		
+		PagingBean pagingBean = this.getPagingBean(request);
+		PaginationSupport<ModelFinanExpense> employeeExpenseInfo =
+				this.serviceFinanExpense.getFinanExpenseInfoPagination(formEntity, pagingBean);
+		
+		request.setAttribute("dataList", employeeExpenseInfo);
+		
+		// 输出分页信息至客户端
+		outWritePagination(request, pagingBean, employeeExpenseInfo);
+		
+		return employeeExpenseInfo;
 	}
 	
 	/**
