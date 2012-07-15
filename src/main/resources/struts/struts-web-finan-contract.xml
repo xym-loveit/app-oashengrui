@@ -4,19 +4,19 @@
 <struts-config>
 	
 	<form-beans>
-		<form-bean name="form.finan.expense" type="org.shengrui.oa.model.finan.ModelFinanExpense"></form-bean>
+		<form-bean name="form.finan.contract" type="org.shengrui.oa.model.finan.ModelFinanContract"></form-bean>
 	</form-beans>
 	
 	<global-forwards> 
 		<forward name="data.fina.application.list" path="data.fina.application.list" />
-		<forward name="dialog.fina.expense.application.page" path="dialog.fina.expense.application.page" />
+		<forward name="dialog.fina.contract.application.page" path="dialog.fina.contract.application.page" />
 	</global-forwards>
 	
 	<action-mappings>
 		
 		<!-- 人力发展管理-->
-		<action path="/app/finan/expense"
-				name="form.finan.expense"
+		<action path="/app/finan/contract"
+				name="form.finan.contract"
 				scope="request"
 				parameter="action"
 				type="org.springframework.web.struts.DelegatingActionProxy">
