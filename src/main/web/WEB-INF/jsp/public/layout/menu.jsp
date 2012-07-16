@@ -121,7 +121,7 @@
 				</li>
 				<li treeicon="icon-setflowm"><a>审批流程设置</a>
 					<ul>
-						<li treeicon="icon-setflowmhr"><a href="blank.jsp" target="navTab" rel="sysmgr_flow_hrm">人资审批流程设置</a></li>
+						<li treeicon="icon-setflowmhr"><a href="app/flow/hrm.do?action=pageFlowIndex" target="navTab" rel="sysmgr_flow_hrm">人资审批流程设置</a></li>
 						<li treeicon="icon-setflowmfin"><a href="app/flow/financial.do?action=pageFlowIndex" target="navTab" rel="sysmgr_flow_financial">财务审批流程设置</a></li>
 					</ul>
 				</li>
@@ -129,6 +129,7 @@
 					<ul>
 						<li treeicon="icon-setorgDep"><a href="app/system/school/district.do?action=pageSchoolDistrictIndex" target="navTab" rel="sysmgr_school_district">校区设置</a></li>
 						<li treeicon="icon-setorgRepo"><a href="app/system/school/department.do?action=pageSchoolDepartmentIndex" target="navTab" rel="sysmgr_school_depindex">部门岗位设置</a></li>
+						<li treeicon="icon-setdePos"><a href="blank.jsp" target="navTab" rel="sysmgr_school_depos">职位岗位设置</a></li>
 						<!--<li treeicon="icon-setorgBricks"><a href="blank.jsp" target="navTab" rel="demo_page2">岗位权限设置</a></li>-->
 					</ul>
 				</li>

@@ -33,10 +33,6 @@
 	<definition name="page.sys.flow.configuration" 
 		path="/WEB-INF/jsp/application/system/flow/public/pageFlowConfiguration.jsp"/>
 	
-	<!-- 财务审批流程页面 -->
-	<definition name="page.sys.setting.flow.financial.index" 
-		path="/WEB-INF/jsp/application/system/flow/financial/flowFinancialIndex.jsp"/>
-	
 	<!-- 流程节点类型表单 - 本部门 -->
 	<definition name="form.flow.task.type.ownerDepsAgainst" 
 		path="/WEB-INF/jsp/application/system/flow/public/form/formFlowTaskDepCurrentAgainst.jsp"/>
@@ -52,5 +48,14 @@
 	<!-- 流程节点类型表单 - 总部某部门 -->
 	<definition name="form.flow.task.type.masterDepsSingle" 
 		path="/WEB-INF/jsp/application/system/flow/public/form/formFlowTaskDepMasterSingle.jsp"/>
+	
+	
+	<!-- 财务审批流程页面 -->
+	<definition name="page.sys.setting.flow.financial.index" 
+		path="/WEB-INF/jsp/application/system/flow/financial/flowFinancialIndex.jsp"/>
+		
+	<!-- 人资审批流程页面 -->
+	<definition name="page.sys.setting.flow.hrm.index" 
+		path="/WEB-INF/jsp/application/system/flow/hrm/flowHrmIndex.jsp"/>
 	
 </tiles-definitions>
