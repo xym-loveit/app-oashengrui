@@ -9,7 +9,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
 
-<table class="table" width="100%" layoutH="142">
+<table class="table" width="100%" layoutH="${recordPage eq null ? 142 : 148}">
 	<thead>
 		<tr>
 			<th align="center">申请单号</th>
