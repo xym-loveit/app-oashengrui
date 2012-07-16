@@ -45,6 +45,7 @@
 				scope="request"
 				parameter="action"
 				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="page.sys.setting.flow.hrm.index" path="page.sys.setting.flow.hrm.index" />
 		</action>
 		
 	</action-mappings>
