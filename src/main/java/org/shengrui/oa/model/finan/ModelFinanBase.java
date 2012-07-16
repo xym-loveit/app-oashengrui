@@ -116,6 +116,11 @@ extends ModelBase
 	protected Integer empDistrictId;
 	
 	/**
+	 * 审批状态 (临时变量, 主要用于记录状态过滤...)
+	 */
+	protected Integer[] condAuditStates;
+	
+	/**
 	 * 当前审批环节
 	 */
 	protected ModelProcessForm currentProcessForm;
@@ -275,6 +280,16 @@ extends ModelBase
 	public void setEmpDistrictId(Integer empDistrictId)
 	{
 		this.empDistrictId = empDistrictId;
+	}
+	
+	public Integer[] getCondAuditStates()
+	{
+		return condAuditStates;
+	}
+
+	public void setCondAuditStates(Integer[] condAuditStates)
+	{
+		this.condAuditStates = condAuditStates;
 	}
 	
 	/**

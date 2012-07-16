@@ -10,7 +10,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.finan.ModelFinanContract;
-import org.shengrui.oa.model.finan.ModelFinanExpense;
+import org.shengrui.oa.model.flow.ModelProcessForm;
 import org.shengrui.oa.model.flow.ModelProcessType;
 import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
@@ -85,21 +85,16 @@ extends BaseFinanAction
 	{
 		try
 		{
-			ModelFinanExpense employeeExpenseForm = (ModelFinanExpense) form;
+			ModelFinanContract formEntity = (ModelFinanContract) form;
 			
-			ModelProcessType procType = this.serviceProcessType.getTypesByKey(PROC_TYPE_FINAN_PAYMENT);
+			ModelProcessType procType = this.serviceProcessType.getTypesByKey(PROC_TYPE_FINAN_CONTRACT);
 			if (procType == null)
 			{
-				return ajaxPrint(response, getErrorCallback("合同申请流程类型不存在..."));
+				return ajaxPrint(response, getErrorCallback("费用支出申请流程类型不存在..."));
 			}
 			
 			request.setAttribute("types", this.getProcessSubTypes(procType.getId()));
-			
-			// 加载审批数据
-			boolean isOnApproval = request.getParameter("finished") == null;
-			obtainFinaContractRecords(employeeExpenseForm, isOnApproval, request);
-			
-			request.setAttribute("formEntity", employeeExpenseForm);
+			request.setAttribute("formEntity", formEntity);
 			request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
 			
 		} 
@@ -109,7 +104,8 @@ extends BaseFinanAction
 			return ajaxPrint(response, getErrorCallback("页面加载失败:" + e.getMessage()));
 		}
 		
-		request.setAttribute("PAGE_TYPE", FINAN_FORM_KEY_EXPENSE);
+		request.setAttribute("currentindex", request.getParameter("currentindex"));
+		request.setAttribute("PAGE_TYPE", FINAN_FORM_KEY_CONTRACT);
 		
 		return mapping.findForward("fina.application.records.index");
 	}
@@ -123,13 +119,15 @@ extends BaseFinanAction
 	{
 		try
 		{
-			ModelFinanExpense employeeExpenseForm = (ModelFinanExpense) form;
+			ModelFinanContract formEntity = (ModelFinanContract) form;
 			
 			// 加载审批数据
 			boolean isOnApproval = request.getParameter("finished") == null;
-			obtainFinaContractRecords(employeeExpenseForm, isOnApproval, request);
+			obtainFinaContractRecords(formEntity, isOnApproval, request);
 			
-			request.setAttribute("formEntity", employeeExpenseForm);
+			request.setAttribute("currentindex", request.getParameter("currentindex"));
+			request.setAttribute("isOnApproval", isOnApproval);
+			request.setAttribute("formEntity", formEntity);
 		} 
 		catch (Exception e)
 		{
@@ -137,6 +135,7 @@ extends BaseFinanAction
 			return ajaxPrint(response, getErrorCallback("页面加载失败:" + e.getMessage()));
 		}
 		
+		request.setAttribute("PAGE_TYPE", FINAN_FORM_KEY_CONTRACT);
 		request.setAttribute("recordPage", true);
 		
 		return mapping.findForward("data.fina.application.records");
@@ -149,7 +148,7 @@ extends BaseFinanAction
 	 * @return
 	 * @throws ServiceException 
 	 */
-	private PaginationSupport<ModelFinanExpense> obtainFinaContractRecords (ModelFinanExpense formEntity, 
+	private PaginationSupport<ModelFinanContract> obtainFinaContractRecords (ModelFinanContract formEntity, 
 			Boolean isOnApproval, HttpServletRequest request) throws ServiceException
 	{
 		if (isOnApproval != null && isOnApproval)
@@ -157,17 +156,31 @@ extends BaseFinanAction
 			// 审批中
 			formEntity.setAuditState(null);
 		}
+		else
+		{
+			if (formEntity.getAuditState() != null && formEntity.getAuditState() > -1) 
+			{
+				formEntity.setAuditState(formEntity.getAuditState());
+			}
+			else
+			{
+				formEntity.setCondAuditStates(new Integer[] {
+					ModelProcessForm.EProcessFormStatus.APPROVED.getValue(), 
+					ModelProcessForm.EProcessFormStatus.NOTPASSED.getValue(),
+					ModelProcessForm.EProcessFormStatus.RETURNED.getValue()});
+			}
+		}
 		
 		PagingBean pagingBean = this.getPagingBean(request);
-		PaginationSupport<ModelFinanExpense> employeeExpenseInfo =
-				this.serviceFinanExpense.getFinanExpenseInfoPagination(formEntity, pagingBean);
+		PaginationSupport<ModelFinanContract> items =
+				this.serviceFinanContract.getFinanContractInfoPagination(formEntity, pagingBean);
 		
-		request.setAttribute("dataList", employeeExpenseInfo);
+		request.setAttribute("dataList", items);
 		
 		// 输出分页信息至客户端
-		outWritePagination(request, pagingBean, employeeExpenseInfo);
+		outWritePagination(request, pagingBean, items);
 		
-		return employeeExpenseInfo;
+		return items;
 	}
 	
 	/**

@@ -15,7 +15,7 @@
 <div class="panelBar">
 	<div class="pages">
 		<span>显示</span>
-		<select class="combox" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
+		<select class="combox" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value, currentindex:${isOnApproval ? 1 : 0}})">
 			<option value="20" ${pagingBean ne null && pagingBean.pageSize eq 20 ? 'selected="selected"' : ''}>20</option>
 			<option value="50" ${pagingBean ne null && pagingBean.pageSize eq 50 ? 'selected="selected"' : ''}>50</option>
 			<option value="100" ${pagingBean ne null && pagingBean.pageSize eq 100 ? 'selected="selected"' : ''}>100</option>

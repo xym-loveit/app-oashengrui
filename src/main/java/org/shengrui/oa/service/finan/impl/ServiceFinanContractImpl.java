@@ -95,6 +95,10 @@ extends ServiceGenericImpl<ModelFinanContract> implements ServiceFinanContract
 			{
 				criteria.add(Restrictions.eq("auditState", entity.getAuditState()));
 			}
+			else if (entity.getCondAuditStates() != null && entity.getCondAuditStates().length > 0)
+			{
+				criteria.add(Restrictions.in("auditState", entity.getCondAuditStates()));
+			}
 		}
 		
 		criteria.addOrder(Order.desc("applyDate"));
