@@ -479,3 +479,10 @@ span.diaFuncMicon {
 .tabsPage .tabsPageHeader li span.icon-records {
 	background: url("../images/icons/myrecords.png") no-repeat left center;
 }
+
+.icon-setdePos,
+.tree div.icon-setdePos,
+.panelBar .toolBar a.icon span.icon-setdePos, 
+.tabsPage .tabsPageHeader li span.icon-setdePos {
+	background: url("../images/menus/settings/errands.png") no-repeat left center;
+}
