@@ -97,7 +97,14 @@ extends ServiceGenericImpl<ModelFinanExpense> implements ServiceFinanExpense
 			}
 			else if (entity.getCondAuditStates() != null && entity.getCondAuditStates().length > 0)
 			{
-				criteria.add(Restrictions.in("auditState", entity.getCondAuditStates()));
+				if (entity.getCondAuditStates().length == 1 && entity.getCondAuditStates()[0] == null)
+				{
+					criteria.add(Restrictions.isNull("auditState"));
+				}	
+				else
+				{
+					criteria.add(Restrictions.in("auditState", entity.getCondAuditStates()));
+				}
 			}
 		}
 		

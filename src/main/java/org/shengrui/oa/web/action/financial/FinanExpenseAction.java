@@ -155,6 +155,7 @@ extends BaseFinanAction
 		{
 			// 审批中
 			formEntity.setAuditState(null);
+			formEntity.setCondAuditStates(new Integer[] {null});
 		}
 		else
 		{
