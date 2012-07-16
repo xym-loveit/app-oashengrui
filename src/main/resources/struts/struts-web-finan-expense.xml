@@ -10,6 +10,7 @@
 	<global-forwards> 
 		<forward name="data.fina.application.list" path="data.fina.application.list" />
 		<forward name="dialog.fina.expense.application.page" path="dialog.fina.expense.application.page" />
+		<forward name="data.fina.application.records" path="data.fina.application.records" />
 	</global-forwards>
 	
 	<action-mappings>
@@ -21,6 +22,7 @@
 				parameter="action"
 				type="org.springframework.web.struts.DelegatingActionProxy">
 			<forward name="fina.application.list.index" path="fina.application.list.index" />
+			<forward name="fina.application.records.index" path="fina.application.records.index" />
 		</action>
 		
 	</action-mappings>

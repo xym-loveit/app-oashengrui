@@ -8,7 +8,15 @@
 	<!-- 财务申请管理页面 -->
 	<definition name="fina.application.list.index" 
 		path="/WEB-INF/jsp/application/financial/finaApprovalIndex.jsp"/>
-		
+	
+	<!-- 申请记录页面 -->
+	<definition name="fina.application.records.index" 
+		path="/WEB-INF/jsp/application/financial/finaRecordsIndex.jsp"/>
+	
+	<!-- 申请记录数据列表 -->
+	<definition name="data.fina.application.records" 
+		path="/WEB-INF/jsp/application/financial/data/dataFinaFormRecords.jsp"/>
+	
 	<!-- 财务申请数据项 -->
 	<definition name="data.fina.application.list" 
 		path="/WEB-INF/jsp/application/financial/data/dataFinaFormList.jsp"/>
@@ -20,5 +28,5 @@
 	<!--合同申请表单 -->
 	<definition name="dialog.fina.contract.application.page" 
 		path="/WEB-INF/jsp/application/financial/dialog/dialogFinaContractForm.jsp"/>
-		
+	
 </tiles-definitions>

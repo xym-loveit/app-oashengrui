@@ -82,7 +82,7 @@
 				<li treeicon="icon-finmrmb"><a>费用支出管理</a>
 					<ul>
 						<li treeicon="icon-finmrmbApply"><a href="app/finan/expense.do?action=pageFinaExpenseIndex" target="navTab" rel="fina_expense_index">费用支出申请</a></li>
-						<li treeicon="icon-finmrmbApproval"><a href="blank.jsp" target="navTab" rel="demo_page2">费用审批记录</a></li>
+						<li treeicon="icon-finmrmbApproval"><a href="app/finan/expense.do?action=pageFinaExpenseRecords" target="navTab" rel="fina_expense_records">费用审批记录</a></li>
 					</ul>
 				</li>
 				<li treeicon="icon-finmcontracts"><a>合同管理</a>

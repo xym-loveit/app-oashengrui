@@ -109,7 +109,8 @@ extends BaseFinanAction
 		}
 		
 		request.setAttribute("PAGE_TYPE", FINAN_FORM_KEY_EXPENSE);
-		return mapping.findForward("fina.application.list.index");
+		
+		return mapping.findForward("fina.application.records.index");
 	}
 	
 	/**
@@ -135,7 +136,9 @@ extends BaseFinanAction
 			return ajaxPrint(response, getErrorCallback("页面加载失败:" + e.getMessage()));
 		}
 		
-		return mapping.findForward("fina.application.list.index");
+		request.setAttribute("recordPage", true);
+		
+		return mapping.findForward("data.fina.application.records");
 	}
 	
 	/**
