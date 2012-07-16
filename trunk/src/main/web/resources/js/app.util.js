@@ -747,6 +747,58 @@ function polish_js_page(page_id,page_total,page_size){
 	return false;
  }
  
+ /**
+  * Obtains all form inputs
+  * 
+  * @param ele_id 
+  *           the element id
+  * @param json_obj
+  *           the json object
+  */
+ function get_form_inputs (ele_id, json_obj) {
+	if ($("#"+ele_id).size() > 0) {
+		
+		json_obj = json_obj || {};
+		
+		var ele_ipts = $("#"+ele_id).find("input");
+		var ele_textareas = $("#"+ele_id).find("textarea");
+		var ele_comboxs = $("#"+ele_id).find("select");
+		
+		// To be enhanced, radio and checkbox type should be supported also in the future.
+		if (ele_ipts.size() > 0) {
+			for (i = 0; i < ele_ipts.size(); i++) {
+				var name = $(ele_ipts.get(i)).attr("name");
+				if (name) {
+					var value = $(ele_ipts.get(i)).attr("value");
+					json_obj[name] = value;
+				}
+			}
+		}
+		
+		if (ele_textareas.size() > 0) {
+			for (i = 0; i < ele_textareas.size(); i++) {
+				var name = $(ele_textareas.get(i)).attr("name");
+				if (name) {
+					var value = $(ele_textareas.get(i)).attr("value");
+					json_obj[name] = value;
+				}
+			}
+		}
+		
+		if (ele_comboxs.size() > 0) {
+			for (i = 0; i < ele_comboxs.size(); i++) {
+				var name = $(ele_comboxs.get(i)).attr("name");
+				if (name) {
+					var value = $(ele_comboxs.get(i)).find("option").filter(":selected").attr("value");
+					json_obj[name] = value;
+				}
+			}
+		}
+		
+		return json_obj;
+	}
+ }
+ 
  function Arabia_to_Chinese(Num) {
 	for (i = Num.length - 1; i >= 0; i--) {
 		Num = Num.replace(",", "")//替换tomoney()中的“,”

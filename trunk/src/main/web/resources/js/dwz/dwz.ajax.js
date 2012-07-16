@@ -231,6 +231,8 @@ function _getPagerForm($parent, args) {
 		if (args["numPerPage"]) form[DWZ.pageInfo.numPerPage].value = args["numPerPage"];
 		if (args["orderField"]) form[DWZ.pageInfo.orderField].value = args["orderField"];
 		if (args["orderDirection"] && form[DWZ.pageInfo.orderDirection]) form[DWZ.pageInfo.orderDirection].value = args["orderDirection"];
+		// added by Jeccy.Zhao on 2012-7-16
+		if (args["currentindex"]) form["currentindex"].value = args["currentindex"];
 	}
 	
 	return form;

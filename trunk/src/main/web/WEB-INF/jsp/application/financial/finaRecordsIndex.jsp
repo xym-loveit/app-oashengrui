@@ -20,16 +20,23 @@
 	td.finished {background-color: #ddd;}
 </style>
 
-<form id="pagerForm" method="post" action="app/finan/${PAGE_TYPE eq 'FE' ? 'expense' : 'contract'}.do?action=pageFina${PAGE_TYPE eq 'FE' ? 'Expense' : 'Contract'}Index">
+<script>
+	function after_switch(tab_index) {
+		$("#currentindex").val(tab_index);
+	}
+</script>
+
+<form id="pagerForm" method="post" action="app/finan/${PAGE_TYPE eq 'FE' ? 'expense' : 'contract'}.do?action=pageFina${PAGE_TYPE eq 'FE' ? 'Expense' : 'Contract'}Records">
 	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
 	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
+	<input type="hidden" name="currentindex" value="${currentindex ne null ? currentindex : 0}" />
 </form>
 
 <!-- SearchBar -->
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="app/finan/${PAGE_TYPE eq 'FE' ? 'expense' : 'contract'}.do?action=pageFina${PAGE_TYPE eq 'FE' ? 'Expense' : 'Contract'}Index" method="post" id="searchForm" rel="pagerForm">
+	<form onsubmit="return navTabSearch(this);" action="app/finan/${PAGE_TYPE eq 'FE' ? 'expense' : 'contract'}.do?action=pageFina${PAGE_TYPE eq 'FE' ? 'Expense' : 'Contract'}Records" method="post" id="searchForm" rel="pagerForm">
 		<div class="searchBar">
-			<table class="searchContent">
+			<table class="searchContent" id="record_form">
 				<tr>
 					<td>
 						<label>所属校区：</label>
@@ -70,6 +77,7 @@
 				</ul>
 			</div>
 		</div>
+		<input type="hidden" name="currentindex" id="currentindex" value="${currentindex ne null ? currentindex : 0}" />
 		<input name="page_type" value="${PAGE_TYPE}" type="hidden" />
 	</form>
 </div>
@@ -79,12 +87,12 @@
 	<div class="pageContent">
 		
 		<!-- Tabs -->
-		<div class="tabs" currentindex="0" eventtype="click">
+		<div class="tabs" currentindex="${currentindex ne null ? currentindex : 0}" eventtype="click">
 			<div class="tabsHeader">
 				<div class="tabsHeaderContent">
 					<ul>
-						<li class="selected"><a href="app/finan/expense.do?action=loadFinaExpenseRecords&finished" class="j-ajax"><span>审批结束</span></a></li>
-						<li class=""><a href="app/finan/expense.do?action=loadFinaExpenseRecords" class="j-ajax"><span>审批中</span></a></li>
+						<li class="selected"><a href="app/finan/${PAGE_TYPE eq 'FE' ? 'expense' : 'contract'}.do?action=loadFina${PAGE_TYPE eq 'FE' ? 'Expense' : 'Contract'}Records&finished" class="j-ajax" callback="after_switch(0)" paramRef="pagerForm, record_form"><span>审批结束</span></a></li>
+						<li class=""><a href="app/finan/${PAGE_TYPE eq 'FE' ? 'expense' : 'contract'}.do?action=loadFina${PAGE_TYPE eq 'FE' ? 'Expense' : 'Contract'}Records" class="j-ajax" callback="after_switch(1)" paramRef="pagerForm, record_form"><span>审批中</span></a></li>
 					</ul>
 				</div>
 			</div>
