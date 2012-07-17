@@ -32,16 +32,6 @@ extends ServiceGenericImpl<ModelDoc> implements ServiceDocManage
 		this.daoDocManage=dao;
 	}
 	
-	public void saveDoc(ModelDoc doc)throws ServiceException{
-		if( UtilString.isNotEmpty(doc.getDocUserNames())){
-			String strUserNames=doc.getDocUserNames();
-			String []names=strUserNames.split(",");
-			for(int i=0 ; i<names.length;i++){
-				
-			}
-		}
-	}
-	
 	
 	@Override
 	public List<ModelDoc> getAllDocInfo() throws ServiceException {

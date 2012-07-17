@@ -7,7 +7,13 @@
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-
+<script type="text/javascript">
+	function callback_roleRemove(id) {
+		if ($("#doc_entity-" + id).size() > 0) {
+			$("#doc_entity-" + id).fadeOut("slow");
+		}
+	}
+</script>
 
 <form id="pagerForm" method="post" action="app/admin/doc.do?action=adminPageDocumentIndex">
 	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
@@ -70,8 +76,8 @@
 		<tbody>
 		<logic:present name="docs">
 		   <logic:iterate name="docs" property="items" id="entity">
-			<tr target="sid" rel="${entity.id}">
-				
+			<tr id="doc_entity-${entity.id}">
+			
                 <td>${entity.type.value}</td>
                 <td>${entity.docName}</td>
                 <td>${entity.createTime}</td>
@@ -80,7 +86,7 @@
 					<a href="app/admin/doc.do?action=adminPageDocumentDetail&id=${entity.id}" target="dialog" title="文档编辑" class="oplink" width="850" height="380" rel="admin_doc_edit">编辑</a>
 				</td>
 				<td>
-					<a href="app/admin/doc.do?action=adminPageDocumentDelete&id=${entity.id}" target="ajaxTodo" title="确定删除该文档吗？" class="oplink">删除</a>
+					<a href="app/admin/doc.do?action=adminPageDocumentDelete&id=${entity.id}" target="ajaxTodo" title="确定删除该文档吗？" class="oplink"  callback="callback_roleRemove(${entity.id})">删除</a>
 				</td>
 			</tr>
 			</logic:iterate>

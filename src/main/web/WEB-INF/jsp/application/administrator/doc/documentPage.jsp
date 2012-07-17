@@ -79,7 +79,7 @@
 <div class="pageContent">
 <form method="post" action="app/admin/doc.do?action=adminPageDocumentSave"
 	class="pageForm required-validate"
-	onsubmit="return validateCallback(this, navTabAjaxDone);">
+	onsubmit="return validateCallback(this, dialogAjaxDone);">
 <div class="pageFormContent" layoutH="56">
 <div style="float: right; width: 300px;">
 <div class="accordion">
@@ -238,5 +238,7 @@
 	</li>
 </ul>
 </div>
+<input type="hidden" name="id" value="${formDoc ne null ? formDoc.id : '-1'}" />
+
 </form>
 </div>
