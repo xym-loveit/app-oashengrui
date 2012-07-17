@@ -18,6 +18,11 @@ import cn.trymore.core.web.paging.PagingBean;
 public interface ServiceDocManage
 extends ServiceGeneric<ModelDoc>
 {
+	/**
+	 * 得到所有的文档信息
+	 * @author Tang
+	 */
+	public void saveDoc(ModelDoc doc)throws ServiceException;
 	
 	/**
 	 * 得到所有的文档信息

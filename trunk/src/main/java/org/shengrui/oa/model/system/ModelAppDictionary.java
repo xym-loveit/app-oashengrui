@@ -16,8 +16,12 @@ public class ModelAppDictionary
 extends ModelBase 
 {
 
-	private static final long serialVersionUID = -6522853859353390458L;
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3693956879066653L;
+
 	/**
 	 * 字典名称
 	 */

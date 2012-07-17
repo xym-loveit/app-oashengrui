@@ -23,7 +23,6 @@
             <column name="doc_postDepId" not-null="true">
             </column>
         </many-to-one>
-        
         <many-to-one name="author" class="org.shengrui.oa.model.system.ModelAppUser" fetch="select">
             <column name="author_id" not-null="true">
             </column>
@@ -32,10 +31,12 @@
             <column name="doc_level_id" not-null="true">
             </column>
         </many-to-one>
-        <property name="typeDicid" type="java.lang.Integer">
+        
+        <many-to-one name="type" class="org.shengrui.oa.model.system.ModelAppDictionary" fetch="select">
             <column name="type_dicid" not-null="true">
             </column>
-        </property>
+        </many-to-one>
+        
         <property name="docName" type="java.lang.String">
             <column name="doc_name" length="150" not-null="true">
             </column>
