@@ -6,4 +6,14 @@
 	<bean name="/app/personal" class="org.shengrui.oa.web.action.personal.MyDesktopAction">
 	</bean>
 	
+	
+	<bean name="/app/personal/doc" class="org.shengrui.oa.web.action.personal.MyDocAction">
+		<property name="serviceDocManage" ref="serviceDocManage" />
+	    <property name="serviceDocFile" ref="serviceDocFile" />
+	    <property name="serviceDocLevel" ref="serviceDocLevel" />
+	    <property name="serviceDocVisiableRange" ref="serviceDocVisiableRange" />
+	    <property name="serviceAppUser" ref="serviceAppUser" />
+	    <property name="serviceAppDictionary" ref="serviceAppDictionary" />
+	</bean>
+	
 </beans>

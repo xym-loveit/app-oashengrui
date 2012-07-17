@@ -76,7 +76,6 @@ extends BaseAdminAction
 		} 
 		catch (ServiceException e)
 		{
-			e.printStackTrace();
 			LOGGER.error("Exception raised when fetch all doc manages.", e);
 		}
 		
