@@ -13,9 +13,9 @@
         </property>
         
         <set name="positions" table="app_school_posets_terms" 
-        	lazy="true" inverse="true" cascade="all-delete-orphan" sort="unsorted"> 
+        	lazy="true" cascade="save-update" sort="unsorted" order-by="pos_id asc"> 
 	      <key column="poset_id"/>
-	      <one-to-many class="ModelSchoolDepartmentPosition"/> 
+	      <many-to-many class="ModelSchoolDepartmentPosition" column="pos_id" /> 
 	    </set>
 	    
 	</class>

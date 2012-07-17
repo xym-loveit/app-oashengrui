@@ -1,5 +1,8 @@
 package org.shengrui.oa.model.system;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import cn.trymore.core.model.ModelBase;
@@ -27,7 +30,7 @@ extends ModelBase
 	/**
 	 * 职位对应的岗位集合
 	 */
-	private Set<ModelSchoolDepartmentPosition> positions;
+	private Set<ModelSchoolDepartmentPosition> positions = new HashSet<ModelSchoolDepartmentPosition>();
 	
 	public String getPosetName()
 	{
@@ -47,6 +50,21 @@ extends ModelBase
 	public Set<ModelSchoolDepartmentPosition> getPositions()
 	{
 		return positions;
+	}
+	
+	public Map<String, Boolean> getPositionIds()
+	{
+		if (positions != null && positions.size() > 0)
+		{
+			Map<String, Boolean> positionIds = new HashMap<String, Boolean>();
+			for (ModelSchoolDepartmentPosition position : positions)
+			{
+				positionIds.put(position.getId(), true);
+			}
+			
+			return positionIds;
+		}
+		return null;
 	}
 	
 }

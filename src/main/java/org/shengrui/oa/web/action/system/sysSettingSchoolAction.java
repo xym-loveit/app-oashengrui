@@ -136,6 +136,103 @@ extends sysSettingBaseAction
 	/**
 	 * <b>[WebAction]</b> 
 	 * <br/>
+	 *  学校设置-职位岗位设置 - 职位保存
+	 */
+	public ActionForward actionSavePoset (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		try
+		{
+			String paramPosIds = request.getParameter("posIds");
+			if (!UtilString.isNotEmpty(paramPosIds) ||  paramPosIds.split(",").length == 0)
+			{
+				return ajaxPrint(response, getErrorCallback("需要选择职位对应的岗位..."));
+			}
+			
+			ModelSchoolPositionSet formEntity = (ModelSchoolPositionSet) form;
+			ModelSchoolPositionSet entity = null;
+			
+			boolean isCreation = !this.isObjectIdValid(formEntity.getId());
+			
+			if (!isCreation)
+			{
+				// 更新
+				entity = this.serviceSchoolPositionSet.get(formEntity.getId());
+				if (entity != null)
+				{
+					// 用表单输入的值覆盖实体中的属性值
+					BeanUtils.copyProperties(formEntity, entity, 
+							new String[] {"positions"});
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("职位(id:" + formEntity.getId() + ")不存在..."));
+				}
+			}
+			else
+			{
+				// 新建
+				entity = formEntity;
+			}
+			
+			// To be enhanced here...
+			entity.getPositions().clear();
+			String[] posIds = paramPosIds.split(",");
+			for (String posId : posIds)
+			{
+				entity.getPositions().add(this.serviceSchoolDepartmentPosition.get(posId));
+			}
+			
+			this.serviceSchoolPositionSet.save(entity);
+			
+			// 保存成功后, Dialog进行关闭
+			return ajaxPrint(response, 
+					getSuccessCallback("职位保存成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+		} 
+		catch (ServiceException e)
+		{
+			LOGGER.error("It failed to save the school position set entity!", e);
+			
+			return ajaxPrint(response, getErrorCallback("职位保存失败."));
+		}
+	}
+	
+	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
+	 * 学校设置-职位岗位配置-职位删除
+	 */
+	@LogAnnotation(description="删除职位")
+	public ActionForward actionRemovePoset (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		try
+		{
+			String posetId = request.getParameter("posetId");
+			if (this.isObjectIdValid(posetId))
+			{
+				// 删除
+				 this.serviceSchoolPositionSet.remove(posetId);
+				 
+				 return ajaxPrint(response, 
+							getSuccessCallbackAndReloadCurrent("职位删除成功."));
+			}
+			else
+			{
+				return ajaxPrint(response, getErrorCallback("职位删除失败,原因:非法ID(" + posetId + ")被传递"));
+			}
+		}
+		catch (ServiceException e)
+		{
+			LOGGER.error("Exception raised when removing position set entity!", e);
+			return ajaxPrint(response, getErrorCallback("职位删除失败,原因:" + e.getMessage()));
+		}
+	}
+	
+	
+	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
 	 * 学校设置-校区配置弹框页面
 	 */
 	public ActionForward dialogSchoolDistrictPage (ActionMapping mapping, ActionForm form,
@@ -301,7 +398,6 @@ extends sysSettingBaseAction
 			return ajaxPrint(response, getErrorCallback("校区删除失败,原因:" + e.getMessage()));
 		}
 	}
-	
 	
 	/**
 	 * <b>[WebAction]</b> 
