@@ -7,53 +7,53 @@
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
+<link rel="stylesheet" type="text/css" href="resources/js/jquery/jmulti/jquery.multiselect2side.css" />
+<script type="text/javascript" src="resources/js/jquery/jmulti/jquery.multiselect2side.js"></script>
+
+<script type="text/javascript">
+
+function form_post(ele_form) {
+	if ($("#positionListms2side__sx").size() > 0) {
+		var opts = $("#positionListms2side__sx").find("option");
+		var posIds = "";
+		for (i = 0; i < opts.size(); i++) {
+			posIds += $(opts.get(i)).attr("value");
+			if (i < opts.size() - 1) {
+				posIds += ",";
+			}
+		}
+		$("#posIds").val(posIds);		
+		return validateCallback(ele_form, dialogAjaxDone);
+	}
+}
+
+$(function(){
+   $("#positionList").multiselect2side({
+	    selectedPosition: 'left',
+	    moveOptions: false,
+		labelsx: '本职位包括以下岗位',
+		labeldx: '配置岗位列表'
+   });
+});
+</script>
 
 <div class="pageContent">
-	<form id="formRoleFunc" method="post" action="app/system/school/district.do?action=actionSaveDistrict" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<form id="formRoleFunc" method="post" action="app/system/school/poset.do?action=actionSavePoset" class="pageForm required-validate" onsubmit="return form_post(this);">
 		<div class="pageFormContent" layoutH="56">
-			<table cellspacing="10" cellpadding="10" class="dform">
-				<tr>
-					<td>校区名称：</td>
-					<td><input name="districtName" type="text" size="30" value="${district ne null ? district.districtName : ''}" class="required" style="width: 88%" ${view ne null ? 'readonly' : ''}/></td>
-				</tr>
-				<tr>
-					<td>校区编号：</td>
-					<td><input name="districtNo" type="text" size="30" value="${district ne null ? district.districtNo : ''}" class="required" style="width: 88%" ${district ne null ? 'readonly' : ''} <logic:notPresent name="district">remote="app/system/school/district.do?action=actionUniqueCheckDistrictNo"</logic:notPresent>/></td>
-				</tr>
-				<tr>
-					<td>校区类型：</td>
-					<td>
-						<select class="combox" name="districtType" id="dialog_districtType">
-							<option value="0" ${district ne null && district.districtType eq 0 ? "selected='selected'" : ""}>总部</option>
-							<option value="1" ${district ne null && district.districtType eq 1 ? "selected='selected'" : ""}>校区</option>
-							<option value="2" ${district ne null && district.districtType eq 2 ? "selected='selected'" : ""}>片区</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>上级结构：</td>
-					<td>
-						<select class="combox" name="rootId" id="dialog_districtParent">
-							<option value="">请选择</option>
-							<logic:present name="district.list">
-								<logic:iterate name="district.list" id="entity">
-									<c:if test="${entity.id ne district.id}">
-										<option value="${entity.id}" ${district.districtParent ne null && district.districtParent.id eq entity.id ? 'selected="true"' : ''}>${entity.districtName}</option>
-									</c:if>
-								</logic:iterate>
-							</logic:present>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>校区地址：</td>
-					<td><input name="districtAddress" type="text" size="30" value="${district ne null ? district.districtAddress : ''}" style="width: 88%" ${view ne null ? 'readonly' : ''}/></td>
-				</tr>
-				<tr>
-					<td>联系电话：</td>
-					<td><input name="districtPhone" type="text" size="30" value="${district ne null ? district.districtPhone : ''}" style="width: 88%" ${view ne null ? 'readonly' : ''}/></td>
-				</tr>
-			</table>
+			<div style="overflow:auto;">
+				<span style="float:left;line-height:18px">职位名称：</span>
+				<input name="posetName" type="text" size="30" value="${entity ne null ? entity.posetName : ''}" class="required" style="width: 150px" ${view ne null ? 'readonly' : ''}/>
+			</div>
+			<div style="margin-top:15px; overflow:hidden; border-top: 1px solid #ddd;">
+				<select name="positionList[]" id='positionList' multiple='multiple' size='8' >
+					<logic:present name="positions.list">
+						<logic:iterate name="positions.list" id="pos">
+							<option value="${pos.id}" ${entity ne null && entity.positionIds ne null && entity['positionIds'][pos.id] ? "selected='selected'" : ""}>${pos.department.depName} - ${pos.positionName} (${pos.department.depOrgType eq 0 ? '总部' : (pos.department.depOrgType eq 1 ? '校区' : '片区')})</option>
+						</logic:iterate>
+					</logic:present>
+				</select>
+			</div>
+			<input type="hidden" name="posIds" id="posIds" />
 		</div>
 		<div class="formBar">
 			<ul>
@@ -65,7 +65,7 @@
 				</li>
 			</ul>
 		</div>
-		<input type="hidden" name="id" value="${district ne null ? district.id : '-1'}" />
+		<input type="hidden" name="id" value="${entity ne null ? entity.id : '-1'}" />
 	</form>
 <div>
 		

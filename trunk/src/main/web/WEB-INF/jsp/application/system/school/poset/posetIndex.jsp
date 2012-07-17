@@ -8,27 +8,27 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <script type="text/javascript">
-	function callback_roleRemove(id) {
-		if ($("#ddistrict-" + id).size() > 0) {
-			$("#ddistrict-" + id).fadeOut("slow");
+	function callback_posetRemove(id) {
+		if ($("#dposet-" + id).size() > 0) {
+			$("#dposet-" + id).fadeOut("slow");
 		}
 	}
 </script>
 
-<form id="pagerForm" method="post" action="app/system/school/district.do?action=pageSchoolDistrictIndex">
+<form id="pagerForm" method="post" action="app/system/school/poset.do?action=pageSchoolPosetIndex">
 	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
 	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
 </form>
 
 <!-- SearchBar -->
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="app/system/school/district.do?action=pageSchoolDistrictIndex" method="post" id="searchForm" rel="pagerForm">
+	<form onsubmit="return navTabSearch(this);" action="app/system/school/poset.do?action=pageSchoolPosetIndex" method="post" id="searchForm" rel="pagerForm">
 		<div class="searchBar">
 			<table class="searchContent">
 				<tr>
 					<td>
-						<label>所属校区名称：</label>
-						<input type="text" name="districtName" rel="pagerForm" value="${districtForm ne null ? districtForm.districtName : ''}" />
+						<label>职位名称：</label>
+						<input type="text" name="posetName" rel="pagerForm" value="${formEntity ne null ? formEntity.posetName : ''}" />
 					</td>
 				</tr>
 			</table>
@@ -45,45 +45,11 @@
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a class="add" href="app/system/school/district.do?action=dialogSchoolDistrictPage" target="dialog" title="添加校区" mask="true" width="504" height="348" rel="dia_sys_school_districtadd"><span>添加校区</span></a></li>
+			<li><a class="add" href="app/system/school/poset.do?action=dialogSchoolPosetPage" target="dialog" title="添加新职位" mask="true" width="550" height="322" rel="dia_sys_school_posetadd"><span>添加新职位</span></a></li>
 		</ul>
 	</div>
-	<table class="table" width="100%" layoutH="138">
-		<thead>
-			<tr>
-				<th align="center">序号</th>
-				<th align="center">校区名称</th>
-				<th align="center">校区编号</th>
-				<th align="center">校区类型</th>
-				<th align="center">上级结构</th>
-				<th align="center">校区地址</th>
-				<th align="center">联系电话</th>
-				<th align="center">编辑</th>
-				<th align="center">删除</th>
-			</tr>
-		</thead>
-		<tbody>
-			<logic:present name="districts">
-				<logic:iterate name="districts" property="items" id="district" indexId="idx">
-					<tr id="ddistrict-${district.id}">
-						<td>${idx+1}</td>
-						<td>${district.districtName}</td>
-						<td>${district.districtNo}</td>
-						<td>${district.districtType == 0 ? '总部' : (district.districtType == 1 ? '校区' : (district.districtType == 2 ? '片区' : '/'))}</td>
-						<td>${district.districtParent ne null ? district.districtParent.districtName : '/'}</td>
-						<td>${district.districtAddress}</td>
-						<td>${district.districtPhone}</td>
-						<td>
-							<a href="app/system/school/district.do?action=dialogSchoolDistrictPage&districtId=${district.id}" target="dialog" title="校区编辑" class="oplink" width="504" height="348" rel="sysmgr_roleedit_${idx}">编辑</a>
-						</td>
-						<td>
-							<a href="app/system/school/district.do?action=actionRemoveDistrict&districtId=${district.id}" target="ajaxTodo" title="确定删除该校区吗？" class="oplink" callback="callback_roleRemove(${district.id})">删除</a>
-						</td>
-					</tr>
-				</logic:iterate>
-			</logic:present>
-		</tbody>
-	</table>
+	
+	<%@ include file="data/dataPosetList.jsp" %>
 	
 	<!-- Pagination -->
 	<div class="panelBar">
