@@ -3,12 +3,16 @@ package org.shengrui.oa.service.admin.impl;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.admin.DAODocManage;
 import org.shengrui.oa.model.admin.ModelDoc;
 import org.shengrui.oa.service.admin.ServiceDocManage;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
+import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
@@ -27,6 +31,17 @@ extends ServiceGenericImpl<ModelDoc> implements ServiceDocManage
 		super(dao);
 		this.daoDocManage=dao;
 	}
+	
+	public void saveDoc(ModelDoc doc)throws ServiceException{
+		if( UtilString.isNotEmpty(doc.getDocUserNames())){
+			String strUserNames=doc.getDocUserNames();
+			String []names=strUserNames.split(",");
+			for(int i=0 ; i<names.length;i++){
+				
+			}
+		}
+	}
+	
 	
 	@Override
 	public List<ModelDoc> getAllDocInfo() throws ServiceException {
@@ -55,10 +70,18 @@ extends ServiceGenericImpl<ModelDoc> implements ServiceDocManage
 		
 		if (entity != null)
 		{
+			if(entity.getType().getId()!=null)
+			{
+				criteria.add(Restrictions.eq("type", entity.getType()));
+			}
 			
+            if(entity.getDocName()!=null && UtilString.isNotEmpty(entity.getDocName()))
+            {
+            	criteria.add(Restrictions.like("docName", entity.getDocName(), MatchMode.ANYWHERE));
+			}
 		}
 		
-//		criteria.addOrder(Order.desc("workTime"));
+		criteria.addOrder(Order.desc("createTime"));
 		
 		return criteria;
 	}

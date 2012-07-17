@@ -11,6 +11,7 @@
 	    <property name="serviceDocFile" ref="serviceDocFile" />
 	    <property name="serviceDocLevel" ref="serviceDocLevel" />
 	    <property name="serviceDocVisiableRange" ref="serviceDocVisiableRange" />
+	    
 	</bean>
 	
 	
@@ -19,11 +20,12 @@
 	    <property name="serviceDocFile" ref="serviceDocFile" />
 	    <property name="serviceDocLevel" ref="serviceDocLevel" />
 	    <property name="serviceDocVisiableRange" ref="serviceDocVisiableRange" />
-	    
+	    <property name="serviceAppUser" ref="serviceAppUser" />
 	    <property name="serviceAppDictionary" ref="serviceAppDictionary" />
 	    <property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
 	    <property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
 		<property name="serviceSchoolDepartmentPosition" ref="serviceSchoolDepartmentPosition" />
+		
 	</bean>
 	
 	

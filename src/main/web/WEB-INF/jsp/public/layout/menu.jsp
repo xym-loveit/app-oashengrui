@@ -82,13 +82,13 @@
 				<li treeicon="icon-finmrmb"><a>费用支出管理</a>
 					<ul>
 						<li treeicon="icon-finmrmbApply"><a href="app/finan/expense.do?action=pageFinaExpenseIndex" target="navTab" rel="fina_expense_index">费用支出申请</a></li>
-						<li treeicon="icon-finmrmbApproval"><a href="app/finan/expense.do?action=pageFinaExpenseRecords" target="navTab" rel="fina_expense_records">费用审批记录</a></li>
+						<li treeicon="icon-finmrmbApproval"><a href="blank.jsp" target="navTab" rel="demo_page2">费用审批记录</a></li>
 					</ul>
 				</li>
 				<li treeicon="icon-finmcontracts"><a>合同管理</a>
 					<ul>
 						<li treeicon="icon-finmcontractsApply"><a href="app/finan/contract.do?action=pageFinaContractIndex" target="navTab" rel="fina_contract_index">合同审批申请</a></li>
-						<li treeicon="icon-finmcontractsRecords"><a href="app/finan/contract.do?action=pageFinaContractRecords" target="navTab" rel="fina_contract_records">合同审批记录</a></li>
+						<li treeicon="icon-finmcontractsRecords"><a href="blank.jsp" target="navTab" rel="demo_page2">合同审批记录</a></li>
 					</ul>
 				</li>
 			</ul>
@@ -121,7 +121,7 @@
 				</li>
 				<li treeicon="icon-setflowm"><a>审批流程设置</a>
 					<ul>
-						<li treeicon="icon-setflowmhr"><a href="app/flow/hrm.do?action=pageFlowIndex" target="navTab" rel="sysmgr_flow_hrm">人资审批流程设置</a></li>
+						<li treeicon="icon-setflowmhr"><a href="blank.jsp" target="navTab" rel="sysmgr_flow_hrm">人资审批流程设置</a></li>
 						<li treeicon="icon-setflowmfin"><a href="app/flow/financial.do?action=pageFlowIndex" target="navTab" rel="sysmgr_flow_financial">财务审批流程设置</a></li>
 					</ul>
 				</li>
@@ -129,7 +129,6 @@
 					<ul>
 						<li treeicon="icon-setorgDep"><a href="app/system/school/district.do?action=pageSchoolDistrictIndex" target="navTab" rel="sysmgr_school_district">校区设置</a></li>
 						<li treeicon="icon-setorgRepo"><a href="app/system/school/department.do?action=pageSchoolDepartmentIndex" target="navTab" rel="sysmgr_school_depindex">部门岗位设置</a></li>
-						<li treeicon="icon-setdePos"><a href="blank.jsp" target="navTab" rel="sysmgr_school_depos">职位岗位设置</a></li>
 						<!--<li treeicon="icon-setorgBricks"><a href="blank.jsp" target="navTab" rel="demo_page2">岗位权限设置</a></li>-->
 					</ul>
 				</li>

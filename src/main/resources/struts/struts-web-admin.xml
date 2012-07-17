@@ -9,7 +9,6 @@
 	<action-mappings>
 		<!-- Home Action -->
 		<action path="/app/admin"
-				name="form.admin.doc.info"
 				scope="request"
 				parameter="action"
 				type="org.springframework.web.struts.DelegatingActionProxy">
