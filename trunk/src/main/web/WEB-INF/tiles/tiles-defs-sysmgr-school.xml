@@ -37,4 +37,12 @@
 	<definition name="dialog.sys.setting.dep.position.role" 
 		path="/WEB-INF/jsp/application/system/school/department/dialog/dialogDepartmentPositionRolePage.jsp"/>
 	
+	<!-- 系统设置 - 学校设置 - 职位岗位设置 -->
+	<definition name="page.sys.setting.poset.index" 
+		path="/WEB-INF/jsp/application/system/school/poset/posetIndex.jsp"/>
+		
+	<!-- 系统设置 - 学校设置 - 职位岗位设置 - 职位配置数据 -->
+	<definition name="dialog.sys.setting.school.poset.page" 
+		path="/WEB-INF/jsp/application/system/school/poset/dialog/dialogPosetPage.jsp"/>
+	
 </tiles-definitions>

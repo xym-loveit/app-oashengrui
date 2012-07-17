@@ -18,4 +18,10 @@
 		<property name="serviceAppRole" ref="serviceAppRole" />
 	</bean>
 	
+	<bean name="/app/system/school/poset" class="org.shengrui.oa.web.action.system.sysSettingSchoolAction">
+		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
+		<property name="serviceSchoolDepartmentPosition" ref="serviceSchoolDepartmentPosition" />
+		<property name="serviceSchoolPositionSet" ref="serviceSchoolPositionSet" />
+	</bean>
+	
 </beans>

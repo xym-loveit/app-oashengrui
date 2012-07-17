@@ -24,6 +24,7 @@ import org.shengrui.oa.service.system.ServiceAppUser;
 import org.shengrui.oa.service.system.ServiceSchoolDepartment;
 import org.shengrui.oa.service.system.ServiceSchoolDepartmentPosition;
 import org.shengrui.oa.service.system.ServiceSchoolDistrict;
+import org.shengrui.oa.service.system.ServiceSchoolPositionSet;
 import org.shengrui.oa.util.AppUtil;
 
 import com.google.gson.FieldNamingStrategy;
@@ -65,6 +66,12 @@ extends BaseAction
 	 */
 	@Resource
 	protected ServiceSchoolDistrict serviceSchoolDistrict;
+	
+	/**
+	 * The school position set service
+	 */
+	@Resource
+	protected ServiceSchoolPositionSet serviceSchoolPositionSet;
 	
 	/**
 	 * The user service
@@ -456,5 +463,15 @@ extends BaseAction
 	public ServiceHrmEmployee getServiceHrmEmployee()
 	{
 		return serviceHrmEmployee;
+	}
+
+	public void setServiceSchoolPositionSet(ServiceSchoolPositionSet serviceSchoolPositionSet)
+	{
+		this.serviceSchoolPositionSet = serviceSchoolPositionSet;
+	}
+
+	public ServiceSchoolPositionSet getServiceSchoolPositionSet()
+	{
+		return serviceSchoolPositionSet;
 	}
 }
