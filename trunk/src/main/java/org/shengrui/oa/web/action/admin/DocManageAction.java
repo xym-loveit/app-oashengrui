@@ -102,15 +102,21 @@ extends BaseAdminAction
 			if (this.isObjectIdValid(id))
 			{
 				this.getServiceDocManage().remove(id);
+				System.out.println("123");
+				return ajaxPrint(response, getSuccessCallback("文档删除成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+			}
+			else
+			{
+				return ajaxPrint(response, getErrorCallback("文档删除失败,原因:非法文档ID(" + id + ")被传递"));
 			}
 		} 
 		catch (ServiceException e)
 		{
 			e.printStackTrace();
-			LOGGER.error("Exception raised when fetch all doc manages.", e);
+			LOGGER.error("Exception raised when delete doc manages.", e);
+			return ajaxPrint(response, getErrorCallback("删除失败,原因:" + e.getMessage()));
 		}
 		
-		return mapping.findForward("admin.page.document.index");
 	}
 	
 	
@@ -166,22 +172,44 @@ extends BaseAdminAction
 		try
 		{
 				ModelDoc formDoc = (ModelDoc) form;
+
+				ModelDoc entity = null;
 				
-				if(formDoc!=null){
+				if(formDoc!=null)
+				{
+					
+					System.out.println("111:"+formDoc.getDocVisiableRange().getId());
 					
 					//封装设置个人可见数据
-					if( formDoc.getDocVisiableRange().getId()=="2"&&UtilString.isNotEmpty(formDoc.getDocUserNames()))
+					if( "2".equals(formDoc.getDocVisiableRange().getId())&&UtilString.isNotEmpty(formDoc.getDocUserNames()))
 					{
-						String strUserNames=formDoc.getDocUserNames();
-						String userIds="";
-						String []names=strUserNames.split(",");
-						for(int i=0 ; i<names.length;i++)
+						
+						try {
+							String strUserNames = formDoc.getDocUserNames();
+							String userIds = "";
+							String[] names = strUserNames.split(",");
+							for (int i = 0; i < names.length; i++)
+							{
+								
+								try {
+									ModelAppUser user = this.getServiceAppUser()
+											.findByUserName(names[i]);
+									userIds = userIds + user.getId() + ",";
+								} catch (NullPointerException e) {
+									LOGGER.error("Exception raised when fetch all doc manages.", e);
+									return ajaxPrint(response, getErrorCallback("文档可见人不存在，请重新输入."));
+								}
+							}
+							userIds = userIds.substring(0, userIds.length() - 1);
+							formDoc.setDocUserIds(userIds);
+						} 
+						catch (Exception e)
 						{
-							ModelAppUser user=this.getServiceAppUser().findByUserName(names[i]);
-							userIds=userIds+user.getId()+",";
+							LOGGER.error("Exception raised when fetch all doc manages.", e);
+							return ajaxPrint(response, getErrorCallback("请按正确格式输入可见人姓名，用逗号分开."));
 						}
-						userIds=userIds.substring(0,userIds.length()-1);
-						formDoc.setDocUserIds(userIds);
+						
+						
 					}else if(formDoc.getDocVisiableRange().getId()!="2"&&UtilString.isNotEmpty(formDoc.getDocUserNames()))
 					{
 						return ajaxPrint(response, getErrorCallback("当前不是设置为个人可见!"));
@@ -191,12 +219,12 @@ extends BaseAdminAction
 					{
 						return ajaxPrint(response, getErrorCallback("文档名称不能为空!"));
 					}
-					ModelAppDictionary type=this.getServiceAppDictionary().get(formDoc.getType().getId());
-					ModelDocLevel level=this.getServiceDocLevel().get(formDoc.getDocLevel().getId());
-					ModelDocVisiableRange range=this.getServiceDocVisiableRange().get(formDoc.getDocVisiableRange().getId());
+					ModelAppDictionary type     =this.getServiceAppDictionary().get(formDoc.getType().getId());
+					ModelDocLevel level         =this.getServiceDocLevel().get(formDoc.getDocLevel().getId());
+					ModelDocVisiableRange range =this.getServiceDocVisiableRange().get(formDoc.getDocVisiableRange().getId());
 					ModelSchoolDistrict district=this.getServiceSchoolDistrict().get(formDoc.getDistrict().getId());
-					ModelSchoolDepartment dep=this.getServiceSchoolDepartment().get(formDoc.getDepartment().getId());
-					ModelAppUser author= this.getServiceAppUser().findByUserName((String)request.getSession().getAttribute("SPRING_SECURITY_LAST_USERNAME"));
+					ModelSchoolDepartment dep   =this.getServiceSchoolDepartment().get(formDoc.getDepartment().getId());
+					ModelAppUser author         = this.getServiceAppUser().findByUserName((String)request.getSession().getAttribute("SPRING_SECURITY_LAST_USERNAME"));
 					
 					formDoc.setType(type);
 					formDoc.setAuthor(author);
@@ -206,19 +234,23 @@ extends BaseAdminAction
 					formDoc.setDistrict(district);
 					formDoc.setCreateTime(new Date());
 					
-					ModelDoc entity=this.getServiceDocManage().get(formDoc.getId());
-					if(entity!=null && formDoc.equals(entity)){
+					entity=this.getServiceDocManage().get(formDoc.getId());
+					if(formDoc.equals(entity)){
 						return ajaxPrint(response, getErrorCallback("您没有做任何修改!"));
 					}
 					
-					this.serviceDocManage.save(formDoc);
+					entity=formDoc;
+					
+					this.serviceDocManage.merge(entity);
 				}
+				// 保存成功后, Dialog进行关闭
 				return ajaxPrint(response, 
-						getSuccessCallback("文档上传成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+						getSuccessCallback("上传成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 				
 		} 
 		catch (ServiceException e)
 		{
+			e.printStackTrace();
 			LOGGER.error("Exception raised when fetch all doc manages.", e);
 			return ajaxPrint(response, getErrorCallback("文档上传失败."));
 		}
