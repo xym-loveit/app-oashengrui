@@ -3,7 +3,9 @@ package org.shengrui.oa.service.admin;
 import java.util.List;
 
 import org.shengrui.oa.model.admin.ModelDoc;
+import org.shengrui.oa.model.admin.ModelDocLevel;
 
+import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.ServiceGeneric;
 import cn.trymore.core.web.paging.PaginationSupport;
@@ -18,6 +20,12 @@ import cn.trymore.core.web.paging.PagingBean;
 public interface ServiceDocManage
 extends ServiceGeneric<ModelDoc>
 {
+	/**
+	 * 得到类型查询文档
+	 * @author Tang
+	 * @throws DAOException 
+	 */
+	public List<ModelDoc> getDocsByLevel(ModelDocLevel level)throws ServiceException, DAOException;
 	
 	/**
 	 * 得到所有的文档信息

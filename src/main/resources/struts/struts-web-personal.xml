@@ -16,6 +16,14 @@
 			<forward name="page.my.baron" path="page.my.baron" />
 		</action>
 		
+		<!-- docDwonload-->
+		<action path="/app/personal/doc"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="page.my.doc" path="page.my.doc" />
+		</action>
+		
 	</action-mappings>
 
 </struts-config>

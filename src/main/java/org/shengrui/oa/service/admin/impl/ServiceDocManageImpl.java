@@ -8,8 +8,10 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.admin.DAODocManage;
 import org.shengrui.oa.model.admin.ModelDoc;
+import org.shengrui.oa.model.admin.ModelDocLevel;
 import org.shengrui.oa.service.admin.ServiceDocManage;
 
+import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
 import cn.trymore.core.util.UtilString;
@@ -27,10 +29,26 @@ extends ServiceGenericImpl<ModelDoc> implements ServiceDocManage
 {
 	private DAODocManage daoDocManage;
 	
-	public ServiceDocManageImpl(DAODocManage dao) {
+	public ServiceDocManageImpl(DAODocManage dao)
+	{
 		super(dao);
 		this.daoDocManage=dao;
 	}
+	
+	
+	public List<ModelDoc> getDocsByLevel(ModelDocLevel level)throws ServiceException, DAOException
+	{
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelDoc.class);
+		if(level!=null)
+		{
+			criteria.add(Restrictions.eq("docLevel", level));
+		}
+		criteria.addOrder(Order.desc("createTime"));
+		return daoDocManage.getListByCriteria(criteria);
+
+	}
+	
+	
 	
 	
 	@Override
