@@ -36,4 +36,14 @@
 		</property>
 	</bean>
 	
+	<bean id="daoSchoolPositionSet" class="org.shengrui.oa.dao.system.impl.DAOSchoolPositionSetImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceSchoolPositionSet" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.system.impl.ServiceSchoolPositionSetImpl">
+				<constructor-arg index="0" ref="daoSchoolPositionSet"/>
+			</bean>
+		</property>
+	</bean>
 </beans>

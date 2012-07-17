@@ -11,6 +11,7 @@ import org.shengrui.oa.model.system.ModelAppRole;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
+import org.shengrui.oa.model.system.ModelSchoolPositionSet;
 import org.springframework.beans.BeanUtils;
 
 import cn.trymore.core.exception.ServiceException;
@@ -63,6 +64,73 @@ extends sysSettingBaseAction
 		}
 		
 		return mapping.findForward("page.sys.setting.school.district.index");
+	}
+	
+	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
+	 * 学校设置-职位岗位配置
+	 */
+	public ActionForward pageSchoolPosetIndex (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		
+		ModelSchoolPositionSet formSchoolPoset = (ModelSchoolPositionSet) form;
+		
+		try
+		{
+			PagingBean pagingBean = this.getPagingBean(request);
+			PaginationSupport<ModelSchoolPositionSet> items = 
+					serviceSchoolPositionSet.getPagination(formSchoolPoset, pagingBean);
+			
+			request.setAttribute("dataList", items);
+			request.setAttribute("formEntity", formSchoolPoset);
+			
+			// 输出分页信息至客户端
+			outWritePagination(request, pagingBean, items);
+		} 
+		catch (ServiceException e)
+		{
+			LOGGER.error("Exception raised when fetch the school position set.", e);
+		}
+		
+		return mapping.findForward("page.sys.setting.poset.index");
+	}
+	
+	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
+	 * 学校设置-职位岗位设置 - 配置弹框页面
+	 */
+	public ActionForward dialogSchoolPosetPage (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		try
+		{
+			String posetId = request.getParameter("posetId");
+			if (this.isObjectIdValid(posetId))
+			{
+				// 职位更新操作
+				ModelSchoolPositionSet entity = this.serviceSchoolPositionSet.get(posetId);
+				if (entity != null)
+				{
+					request.setAttribute("entity", entity);
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("职位不存在!"));
+				}
+			}
+			
+			request.setAttribute("positions.list", this.serviceSchoolDepartmentPosition.getAll());
+			
+			return mapping.findForward("dialog.sys.setting.school.poset.page");
+		}
+		catch (ServiceException e)
+		{
+			LOGGER.error("Exception raised when fetch school position set entity!", e);
+			return ajaxPrint(response, getErrorCallback("数据加载失败,原因:" + e.getMessage()));
+		}
 	}
 	
 	/**
