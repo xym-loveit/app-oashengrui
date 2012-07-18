@@ -79,10 +79,10 @@ implements ServiceWorkFlow
 	 */
 	@Override
 	public void doStartProcess (String processTypeId, 
-			String filterPositions, Object condParamVal, String formNo, ModelHrmEmployee employee) throws ServiceException
+			ModelSchoolDepartmentPosition filterPosition, Object condParamVal, String formNo, ModelHrmEmployee employee) throws ServiceException
 	{
 		List<ModelProcessDefinition> processDefs = this.serviceProcessDefinition.getProcessDefinition(
-				processTypeId, filterPositions, condParamVal);
+				processTypeId, filterPosition, condParamVal);
 		
 		if (processDefs != null && processDefs.size() > 0)
 		{

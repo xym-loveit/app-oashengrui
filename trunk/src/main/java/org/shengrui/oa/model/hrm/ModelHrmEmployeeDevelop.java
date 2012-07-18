@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.shengrui.oa.model.flow.ModelProcessForm;
 import org.shengrui.oa.model.flow.ModelProcessHistory;
+import org.shengrui.oa.model.flow.ModelProcessType;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
@@ -32,17 +33,22 @@ extends ModelBase
 	/**
 	 * 人资申请单号
 	 */
-	private ModelProcessForm applyForm = new ModelProcessForm();
+	private String formNo;
 	
 	/**
 	 * 人资申请类型
 	 */
-	private int applyFormType;
+	private ModelProcessType applyFormType;
 	
 	/**
 	 * 人资申请日期
 	 */
 	private Date applyDate;
+	
+	/**
+	 * 到岗日期
+	 */
+	private Date onboardDate;
 	
 	/**
 	 * 申请备注
@@ -52,146 +58,273 @@ extends ModelBase
 	/**
 	 * 申请部门ID
 	 */
-	private ModelSchoolDepartment fromDepartment = new ModelSchoolDepartment();
+	private ModelSchoolDepartment toDepartment;
 	
 	/**
 	 * 申请校区ID
 	 */
-	private ModelSchoolDistrict fromDistrict = new ModelSchoolDistrict();
+	private ModelSchoolDistrict toDistrict;
 	
 	/**
 	 * 申请岗位ID
 	 */
-	private ModelSchoolDepartmentPosition fromPosition = new ModelSchoolDepartmentPosition();
+	private ModelSchoolDepartmentPosition toPosition;
+	
+	/**
+	 * 原部门ID
+	 */
+	private ModelSchoolDepartment fromDepartment;
+	
+	/**
+	 * 原校区ID
+	 */
+	private ModelSchoolDistrict fromDistrict;
+	
+	/**
+	 * 原岗位ID
+	 */
+	private ModelSchoolDepartmentPosition fromPosition;
 	
 	/**
 	 * 申请状态
 	 */
-	private String status;
+	@Deprecated
+	protected String status;
 	
 	/**
 	 * 审批状态
 	 */
-	private int auditState = -1;
+	private Integer auditState;
 	
 	/**
 	 * 录入人员
 	 */
-	private int entryId = -1;
+	private Integer entryId;
 	
 	/**
 	 * 录入日期
 	 */
 	private Date entryDateTime;
-
+	
+	/**
+	 * 审批流程单
+	 */
+	protected Set<ModelProcessForm> applyForm;
+	
 	/**
 	 * 审批历史
 	 */
 	private Set<ModelProcessHistory> processHistory = new HashSet<ModelProcessHistory>();
 	
-	public ModelHrmEmployee getEmployee() {
+	/**
+	 * 当前审批环节
+	 */
+	protected ModelProcessForm currentProcessForm;
+	
+	public ModelHrmEmployee getEmployee()
+	{
 		return employee;
 	}
 
-	public void setEmployee(ModelHrmEmployee employee) {
+	public void setEmployee(ModelHrmEmployee employee)
+	{
 		this.employee = employee;
 	}
 
-	public ModelProcessForm getApplyForm() {
-		return applyForm;
+	public String getFormNo()
+	{
+		return formNo;
 	}
 
-	public void setApplyForm(ModelProcessForm applyForm) {
-		this.applyForm = applyForm;
+	public void setFormNo(String formNo)
+	{
+		this.formNo = formNo;
 	}
 
-	public int getApplyFormType() {
+	public ModelProcessType getApplyFormType()
+	{
 		return applyFormType;
 	}
 
-	public void setApplyFormType(int applyFormType) {
+	public void setApplyFormType(ModelProcessType applyFormType)
+	{
 		this.applyFormType = applyFormType;
 	}
 
-	public Date getApplyDate() {
+	public Date getApplyDate()
+	{
 		return applyDate;
 	}
 
-	public void setApplyDate(Date applyDate) {
+	public void setApplyDate(Date applyDate)
+	{
 		this.applyDate = applyDate;
 	}
 
-	public String getComments() {
+	public String getComments()
+	{
 		return comments;
 	}
 
-	public void setComments(String comments) {
+	public void setComments(String comments)
+	{
 		this.comments = comments;
 	}
 
-	public ModelSchoolDepartment getFromDepartment() {
+	public ModelSchoolDepartment getToDepartment()
+	{
+		return toDepartment;
+	}
+
+	public void setToDepartment(ModelSchoolDepartment toDepartment)
+	{
+		this.toDepartment = toDepartment;
+	}
+
+	public ModelSchoolDistrict getToDistrict()
+	{
+		return toDistrict;
+	}
+
+	public void setToDistrict(ModelSchoolDistrict toDistrict)
+	{
+		this.toDistrict = toDistrict;
+	}
+
+	public ModelSchoolDepartmentPosition getToPosition()
+	{
+		return toPosition;
+	}
+
+	public void setToPosition(ModelSchoolDepartmentPosition toPosition)
+	{
+		this.toPosition = toPosition;
+	}
+
+	public ModelSchoolDepartment getFromDepartment()
+	{
 		return fromDepartment;
 	}
 
-	public void setFromDepartment(ModelSchoolDepartment fromDepartment) {
+	public void setFromDepartment(ModelSchoolDepartment fromDepartment)
+	{
 		this.fromDepartment = fromDepartment;
 	}
 
-	public ModelSchoolDistrict getFromDistrict() {
+	public ModelSchoolDistrict getFromDistrict()
+	{
 		return fromDistrict;
 	}
 
-	public void setFromDistrict(ModelSchoolDistrict fromDistrict) {
+	public void setFromDistrict(ModelSchoolDistrict fromDistrict)
+	{
 		this.fromDistrict = fromDistrict;
 	}
 
-	public ModelSchoolDepartmentPosition getFromPosition() {
+	public ModelSchoolDepartmentPosition getFromPosition()
+	{
 		return fromPosition;
 	}
 
-	public void setFromPosition(ModelSchoolDepartmentPosition fromPosition) {
+	public void setFromPosition(ModelSchoolDepartmentPosition fromPosition)
+	{
 		this.fromPosition = fromPosition;
 	}
 
-	public String getStatus() {
+	public String getStatus()
+	{
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(String status)
+	{
 		this.status = status;
 	}
 
-	public int getAuditState() {
+	public Integer getAuditState()
+	{
 		return auditState;
 	}
 
-	public void setAuditState(int auditState) {
+	public void setAuditState(Integer auditState)
+	{
 		this.auditState = auditState;
 	}
 
-	public int getEntryId() {
+	public Integer getEntryId()
+	{
 		return entryId;
 	}
 
-	public void setEntryId(int entryId) {
+	public void setEntryId(Integer entryId)
+	{
 		this.entryId = entryId;
 	}
 
-	public Date getEntryDateTime() {
+	public Date getEntryDateTime()
+	{
 		return entryDateTime;
 	}
 
-	public void setEntryDateTime(Date entryDateTime) {
+	public void setEntryDateTime(Date entryDateTime)
+	{
 		this.entryDateTime = entryDateTime;
 	}
 
-	public Set<ModelProcessHistory> getProcessHistory() {
+	public Set<ModelProcessForm> getApplyForm()
+	{
+		return applyForm;
+	}
+
+	public void setApplyForm(Set<ModelProcessForm> applyForm)
+	{
+		this.applyForm = applyForm;
+	}
+
+	public Set<ModelProcessHistory> getProcessHistory()
+	{
 		return processHistory;
 	}
 
-	public void setProcessHistory(Set<ModelProcessHistory> processHistory) {
+	public void setProcessHistory(Set<ModelProcessHistory> processHistory)
+	{
 		this.processHistory = processHistory;
 	}
 
+	public Date getOnboardDate()
+	{
+		return onboardDate;
+	}
+
+	public void setOnboardDate(Date onboardDate)
+	{
+		this.onboardDate = onboardDate;
+	}
 	
+	/**
+	 * Obtains the current process form node.
+	 * 
+	 * @return the process form entity
+	 */
+	public ModelProcessForm getCurrentProcessForm()
+	{
+		if (currentProcessForm == null && this.applyForm != null)
+		{
+			ModelProcessForm[] forms = new ModelProcessForm[this.applyForm.size()];
+			this.applyForm.toArray(forms);
+			
+			for (int i = forms.length - 1 ; i >= 0; i--)
+			{
+				ModelProcessForm form = forms[i];
+				if (form.getAuditState() != null && 
+						ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue().equals(form.getAuditState()))
+				{
+					currentProcessForm = form;
+					break;
+				}
+			}
+		}
+			
+		return currentProcessForm;
+	}
 }

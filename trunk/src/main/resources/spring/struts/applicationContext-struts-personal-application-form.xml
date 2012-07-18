@@ -7,7 +7,11 @@
 	<bean name="/app/personal/application_form" class="org.shengrui.oa.web.action.personal.MyFormApplicationAction">
 		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
 		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
+		<property name="serviceSchoolDepartmentPosition" ref="serviceSchoolDepartmentPosition" />
 		<property name="serviceProcessType" ref="serviceProcessType" />
+		<property name="serviceWorkFlow" ref="serviceWorkFlow" />
+		<property name="serviceHrmEmployeeDevelop" ref="serviceHrmEmployeeDevelop" />
+		<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
 	</bean>
 	
 </beans>

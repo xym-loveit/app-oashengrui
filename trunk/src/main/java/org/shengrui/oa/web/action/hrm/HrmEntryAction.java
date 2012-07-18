@@ -366,6 +366,7 @@ extends BaseHrmAction
 				employee.setEmpName(resume.getFullName());
 				employee.setEntryDateTime(new Date());
 				employee.setOnboardStatus(ModelHrmEmployee.EOnBoardStatus.ONINSPECT.getValue());
+				employee.setOnboardDate(entry.getEntryActDate());
 				
 				// 设置员工基本信息
 				employee.setPhoneNo(resume.getMobilePhone());

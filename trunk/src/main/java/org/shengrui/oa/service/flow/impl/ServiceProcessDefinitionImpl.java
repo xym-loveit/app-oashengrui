@@ -6,6 +6,7 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.flow.DAOProcessDefinition;
 import org.shengrui.oa.model.flow.ModelProcessDefinition;
+import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.service.flow.ServiceProcessDefinition;
 import org.shengrui.oa.util.AppUtil;
 
@@ -43,7 +44,7 @@ extends ServiceGenericImpl<ModelProcessDefinition> implements ServiceProcessDefi
 	 */
 	@Override
 	public List<ModelProcessDefinition> getProcessDefinition(String processTypeId,
-			String filterPositions, Object condParamValue) throws ServiceException
+			ModelSchoolDepartmentPosition filterPosition, Object condParamValue) throws ServiceException
 	{
 		if (UtilString.isNotEmpty(processTypeId))
 		{
@@ -52,9 +53,9 @@ extends ServiceGenericImpl<ModelProcessDefinition> implements ServiceProcessDefi
 				DetachedCriteria criteria = DetachedCriteria.forClass(ModelProcessDefinition.class);
 				criteria.createCriteria("processType").add(Restrictions.eq("id", processTypeId));
 				
-				if (UtilString.isNotEmpty(filterPositions))
+				if (filterPosition != null)
 				{
-					criteria.add(Restrictions.in("filterPositionNames", filterPositions.split(",")));
+					criteria.createCriteria("filterPoset").createCriteria("positions").add(Restrictions.eq("id", filterPosition.getId()));
 				}
 				
 				List<ModelProcessDefinition> entities =

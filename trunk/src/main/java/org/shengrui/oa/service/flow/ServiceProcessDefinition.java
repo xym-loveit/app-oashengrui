@@ -3,6 +3,7 @@ package org.shengrui.oa.service.flow;
 import java.util.List;
 
 import org.shengrui.oa.model.flow.ModelProcessDefinition;
+import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.ServiceGeneric;
@@ -34,15 +35,15 @@ extends ServiceGeneric<ModelProcessDefinition>
 	 * 
 	 * @param processTypeId
 	 *            the process type id
-	 * @param filterPositions
-	 *            the filtered positions
+	 * @param filterPosition
+	 *            the filtered position
 	 * @param condParamValue
 	 *            the condition parameter value
 	 * @return list of process definition entities
 	 * @throws ServiceException
 	 */
 	List<ModelProcessDefinition> getProcessDefinition (String processTypeId,
-			String filterPositions, Object condParamValue) throws ServiceException;
+			ModelSchoolDepartmentPosition filterPosition, Object condParamValue) throws ServiceException;
 	
 	/**
 	 * Obtains list of process definitions filtered by position set id.

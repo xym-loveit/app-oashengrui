@@ -239,24 +239,6 @@ extends FlowBaseAction
 		}
 	}
 	
-	/**
-	 * Returns true if it exists in/out for the specified process key 
-	 * 
-	 * @param procKey
-	 *         the process key
-	 * @return
-	 */
-	private boolean existsInstanceInAndOut (String procKey)
-	{
-		if (UtilString.isNotEmpty(procKey))
-		{
-			return PROCESS_MEMBER_PROMOTION.equals(procKey.toUpperCase()) 
-					|| PROCESS_MEMBER_TRANSFER.equals(procKey.toUpperCase());
-		}
-		
-		return false;
-	}
-	
 	public static Logger getLogger()
 	{
 		return LOGGER;

@@ -1,5 +1,7 @@
 package org.shengrui.oa.service.hrm.impl;
 
+import java.util.List;
+
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 
@@ -25,24 +27,38 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 		this.daoHrmEmployeeDevelop = dao;
 	}
 	
-	
-	public void setdaoHrmEmployeeDevelop(DAOHrmEmployeeDevelop daoHrmEmployeeDevelop)
-	{
-		this.daoHrmEmployeeDevelop = daoHrmEmployeeDevelop;
-	}
-
-	public DAOHrmEmployeeDevelop getdaoHrmEmployeeDevelop()
-	{
-		return daoHrmEmployeeDevelop;
-	}
-	
-
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmEmployeeDevelop#getEmployeeDevelopInfoPagination(org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop, cn.trymore.core.web.paging.PagingBean)
+	 */
 	@Override
 	public PaginationSupport<ModelHrmEmployeeDevelop> getEmployeeDevelopInfoPagination(
 			ModelHrmEmployeeDevelop entity, PagingBean pagingBean)
 			throws ServiceException
 	{
 		return this.getAll(this.getCriterias(entity), pagingBean);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmEmployeeDevelop#getByFormNo(java.lang.String)
+	 */
+	@Override
+	public ModelHrmEmployeeDevelop getByFormNo(String formNo)
+			throws ServiceException
+	{
+		try
+		{
+			DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployeeDevelop.class);
+			criteria.add(Restrictions.eq("formNo", formNo));
+			
+			List<ModelHrmEmployeeDevelop> result = this.daoHrmEmployeeDevelop.getListByCriteria(criteria);
+			return result != null && result.size() > 0 ? result.get(0) : null;
+		}
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
 	}
 	
 	/**
@@ -57,23 +73,32 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 
 		if (entity != null)
 		{
-			if (entity.getApplyFormType() > -1)
+			if (entity.getApplyFormType() != null && entity.getApplyFormType().getId() != null)
 			{
-				criteria.add(Restrictions.eq("applyFormType", entity.getApplyFormType()));
+				criteria.createCriteria("applyFormType").add(Restrictions.eq("id", entity.getApplyFormType().getId()));
 			}
+			
 			if (entity.getFromDistrict() != null && entity.getFromDistrict().getId() != null)
 			{
 				criteria.createCriteria("fromDistrict").add(Restrictions.eq("id", entity.getFromDistrict().getId()));
 			}
-			if (entity.getAuditState() > -1)
+			
+			if (entity.getAuditState() != null && entity.getAuditState() > -1)
 			{
 				criteria.add(Restrictions.eq("auditState", entity.getAuditState()));
 			}
 		}
 		
-		 criteria.add(Restrictions.eq("status", "Y"));
-		
 		return criteria;
 	}
+	
+	public void setdaoHrmEmployeeDevelop(DAOHrmEmployeeDevelop daoHrmEmployeeDevelop)
+	{
+		this.daoHrmEmployeeDevelop = daoHrmEmployeeDevelop;
+	}
 
+	public DAOHrmEmployeeDevelop getdaoHrmEmployeeDevelop()
+	{
+		return daoHrmEmployeeDevelop;
+	}
 }

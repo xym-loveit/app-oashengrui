@@ -28,6 +28,7 @@
 				<tr target="entry_id" rel="${entity.id}">
 					<td>${entity.formNo}</td>
 					<td>${entity.applyFormType.processTypeName}</td>
+					<td>${entity.employee.empName}</td>
 					<td><fmt:formatDate  value="${entity.applyDate}" pattern="yyyy-MM-dd" /></td>
 					<c:choose>
 						<c:when test="${entity.applyForm eq null || fn:length(entity.applyForm) == 0}"><td style="background-color: #ddd">审批结束</td></c:when>
@@ -62,14 +63,7 @@
 						</c:choose>
 					</td>
 					<td>
-						<c:choose>
-							<c:when test="${PAGE_TYPE eq 'FE'}">
-								<a class="oplink" href="app/finan/expense.do?action=diaglogFinaExpensePage&id=${entity.id}&op=view" target="dialog" title="查看‘${entity.employee.empName}’费用申请单-${entity.formNo}" width="1150" height="640" rel="dia_finexp_view_${entity.id}">详细</a></td>
-							</c:when>
-							<c:when test="${PAGE_TYPE eq 'FC'}">
-								<a class="oplink" href="app/finan/contract.do?action=diaglogFinaContractPage&id=${entity.id}&op=view" target="dialog" title="查看‘${entity.employee.empName}’合同申请单-${entity.formNo}" width="1150" height="640" rel="dia_fincontract_view_${entity.id}">详细</a></td>
-							</c:when>	
-						</c:choose>
+						<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${entity.id}&op=view" target="dialog" title="查看‘${entity.employee.empName}’人资申请单-${entity.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${entity.id}">详细</a></td>
 					</td>
 				</tr>
 			</logic:iterate>

@@ -7,9 +7,23 @@ import cn.trymore.core.service.ServiceGeneric;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
+/**
+ * The employee develop service.
+ * 
+ * @author Jeccy.Zhao
+ *
+ */
 public interface ServiceHrmEmployeeDevelop
 extends ServiceGeneric<ModelHrmEmployeeDevelop>
 {
+	
+	/**
+	 * 
+	 * @param formNo
+	 * @return
+	 * @throws ServiceException
+	 */
+	ModelHrmEmployeeDevelop getByFormNo (String formNo) throws ServiceException;
 	
 	/**
 	 * 人力资源发展查分页数据
