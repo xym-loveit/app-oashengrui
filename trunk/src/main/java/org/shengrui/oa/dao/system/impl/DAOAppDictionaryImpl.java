@@ -2,7 +2,6 @@ package org.shengrui.oa.dao.system.impl;
 
 import java.util.List;
 
-import org.hibernate.Hibernate;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.system.DAOAppDictionary;
@@ -26,7 +25,7 @@ extends DAOGenericImpl<ModelAppDictionary> implements DAOAppDictionary
 	 * (non-Javadoc)
 	 * @see org.shengrui.oa.dao.system.DAOAppDictionary#getByName(java.lang.String)
 	 */
-	public List<ModelAppDictionary> getByName (String name) 
+	public ModelAppDictionary getByName (String name) 
 			throws DAOException
 	{
 		if(UtilString.isNotEmpty(name))
@@ -34,7 +33,7 @@ extends DAOGenericImpl<ModelAppDictionary> implements DAOAppDictionary
 			DetachedCriteria criteria = DetachedCriteria.forClass(ModelAppDictionary.class);
 			criteria.add(Restrictions.eq("name", name));
 			
-			return this.getListByCriteria(criteria);
+			return this.getListByCriteria(criteria).get(0);
 		}
 		return null;
 	}

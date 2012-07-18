@@ -9,6 +9,7 @@ import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.admin.DAODocManage;
 import org.shengrui.oa.model.admin.ModelDoc;
 import org.shengrui.oa.model.admin.ModelDocLevel;
+import org.shengrui.oa.model.system.ModelAppDictionary;
 import org.shengrui.oa.service.admin.ServiceDocManage;
 
 import cn.trymore.core.exception.DAOException;
@@ -36,16 +37,16 @@ extends ServiceGenericImpl<ModelDoc> implements ServiceDocManage
 	}
 	
 	
-	public List<ModelDoc> getDocsByLevel(ModelDocLevel level)throws ServiceException, DAOException
+	public List<ModelDoc> getDocsByLevel(ModelDocLevel level,ModelAppDictionary type)throws ServiceException, DAOException
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelDoc.class);
 		if(level!=null)
 		{
 			criteria.add(Restrictions.eq("docLevel", level));
+			criteria.add(Restrictions.eq("type", type));
 		}
 		criteria.addOrder(Order.desc("createTime"));
-		return daoDocManage.getListByCriteria(criteria);
-
+		return daoDocManage.getListByCriteria(criteria, 0, 5);
 	}
 	
 	
@@ -78,7 +79,7 @@ extends ServiceGenericImpl<ModelDoc> implements ServiceDocManage
 		
 		if (entity != null)
 		{
-			if(entity.getType().getId()!=null)
+			if(entity.getType()!=null && UtilString.isNotEmpty(entity.getType().getId()))
 			{
 				criteria.add(Restrictions.eq("type", entity.getType()));
 			}
@@ -87,6 +88,10 @@ extends ServiceGenericImpl<ModelDoc> implements ServiceDocManage
             {
             	criteria.add(Restrictions.like("docName", entity.getDocName(), MatchMode.ANYWHERE));
 			}
+            if(entity.getDocLevel()!=null&& UtilString.isNotEmpty(entity.getDocLevel().getId()))
+            {
+            	criteria.add(Restrictions.eq("docLevel", entity.getDocLevel()));
+            }
 		}
 		
 		criteria.addOrder(Order.desc("createTime"));

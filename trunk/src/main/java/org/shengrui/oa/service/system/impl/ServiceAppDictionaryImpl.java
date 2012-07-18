@@ -42,7 +42,7 @@ extends ServiceGenericImpl<ModelAppDictionary> implements ServiceAppDictionary
 //	 * @see org.shengrui.oa.service.system.ServiceAppDictionary#getByName(java.lang.String)
 	 */
 	@Override
-	public List<ModelAppDictionary> getByName(String name)
+	public ModelAppDictionary getByName(String name)
 			throws ServiceException
 	{
 		try

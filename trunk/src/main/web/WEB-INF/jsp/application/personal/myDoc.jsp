@@ -7,11 +7,6 @@
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<style>
-	.noborder {border-left: none; border-right: none; border-top: none;}
-</style>
-
-
 <div class="pageContent bor" style="float:left; width: 50%;">
     <div class="toggleCollapse noborder">
 		<h2>公司文档区</h2>
@@ -40,3 +35,4 @@
 	    <%@ include file="docDownload/departmentDocs.jsp" %>
     </div>
 </div>
+

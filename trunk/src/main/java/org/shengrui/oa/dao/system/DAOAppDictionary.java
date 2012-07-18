@@ -22,7 +22,7 @@ extends DAOGeneric<ModelAppDictionary>
 	 * @return
 	 * @throws DAOException
 	 */
-	List<ModelAppDictionary> getByName (String name) throws DAOException;
+	ModelAppDictionary getByName (String name) throws DAOException;
 	
 	/**
 	 * 根据数据字典中的类型获取新闻类型名称

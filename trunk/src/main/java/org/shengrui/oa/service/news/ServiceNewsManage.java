@@ -1,7 +1,6 @@
 package org.shengrui.oa.service.news;
 
 import org.shengrui.oa.model.news.ModelNewsMag;
-import org.shengrui.oa.model.system.ModelAppDictionary;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.ServiceGeneric;

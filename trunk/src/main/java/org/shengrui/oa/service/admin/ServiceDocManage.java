@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.shengrui.oa.model.admin.ModelDoc;
 import org.shengrui.oa.model.admin.ModelDocLevel;
+import org.shengrui.oa.model.system.ModelAppDictionary;
 
 import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.exception.ServiceException;
@@ -25,7 +26,7 @@ extends ServiceGeneric<ModelDoc>
 	 * @author Tang
 	 * @throws DAOException 
 	 */
-	public List<ModelDoc> getDocsByLevel(ModelDocLevel level)throws ServiceException, DAOException;
+	public List<ModelDoc> getDocsByLevel(ModelDocLevel level,ModelAppDictionary type)throws ServiceException, DAOException;
 	
 	/**
 	 * 得到所有的文档信息

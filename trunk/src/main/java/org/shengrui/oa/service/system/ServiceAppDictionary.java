@@ -1,5 +1,6 @@
 package org.shengrui.oa.service.system;
 
+
 import java.util.List;
 
 import org.shengrui.oa.model.system.ModelAppDictionary;
@@ -22,7 +23,7 @@ extends ServiceGeneric<ModelAppDictionary>
 	 * @return
 	 * @throws ServiceException
 	 */
-	List<ModelAppDictionary> getByName (String name) 
+	ModelAppDictionary getByName (String name) 
 			throws ServiceException;
 	
 	/**
