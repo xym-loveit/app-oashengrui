@@ -8,6 +8,7 @@ import org.shengrui.oa.service.admin.ServiceDocFile;
 import org.shengrui.oa.service.admin.ServiceDocLevel;
 import org.shengrui.oa.service.admin.ServiceDocManage;
 import org.shengrui.oa.service.admin.ServiceDocVisiableRange;
+import org.shengrui.oa.service.news.ServiceNewsManage;
 import org.shengrui.oa.service.system.ServiceAppDictionary;
 import org.shengrui.oa.service.system.ServiceSchoolDepartment;
 import org.shengrui.oa.service.system.ServiceSchoolDepartmentPosition;
@@ -55,6 +56,16 @@ extends BaseAppAction
 
 	@Resource
 	protected ServiceAppDictionary serviceAppDictionary;
+	
+	protected ServiceNewsManage serviceNewsManage;
+
+	public ServiceNewsManage getServiceNewsManage() {
+		return serviceNewsManage;
+	}
+
+	public void setServiceNewsManage(ServiceNewsManage serviceNewsManage) {
+		this.serviceNewsManage = serviceNewsManage;
+	}
 
 	public ServiceAppDictionary getServiceAppDictionary() {
 		return serviceAppDictionary;

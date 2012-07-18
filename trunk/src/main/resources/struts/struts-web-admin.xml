@@ -2,6 +2,7 @@
 <!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
 
 <struts-config>
+
 	<form-beans>
 		<form-bean name="form.admin.doc.info" type="org.shengrui.oa.model.admin.ModelDoc"></form-bean>
 	</form-beans>
@@ -9,7 +10,7 @@
 	<action-mappings>
 		<!-- Home Action -->
 		<action path="/app/admin"
-				scope="request"
+			    scope="request"
 				parameter="action"
 				type="org.springframework.web.struts.DelegatingActionProxy">
 			<forward name="admin.page.entry.index" path="admin.page.entry.index" />

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans>
+		<form-bean name="form.admin.news" type="org.shengrui.oa.model.news.ModelNewsMag"></form-bean>
+    </form-beans>
+	
+	<action-mappings>
+		<!-- Home Action -->
+		<action path="/app/admin/news"
+				name="form.admin.news"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="admin.page.entry.index" path="admin.page.entry.index" />
+			<forward name="admin.page.entry.approval.index" path="admin.page.entry.approval.index" />
+			<forward name="admin.page.entry.detail" path="admin.page.entry.detail" />
+			
+			<forward name="admin.page.task.delegate.index" path="admin.page.task.delegate.index" />
+		</action>
+		
+	</action-mappings>
+
+</struts-config>

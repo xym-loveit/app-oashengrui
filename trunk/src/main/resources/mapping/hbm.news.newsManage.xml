@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="org.shengrui.oa.model.news">
+	<class name="ModelNewsMag" table="app_admin_news">
+		<id name="id" type="java.lang.String">
+			<column name="news_id" />
+			<generator class="native" />
+		</id>
+		<!--<property name="typeDicid" type="java.lang.Integer">
+			<column name="type_dicid" not-null="true"></column>
+		</property>-->
+		<property name="newsSubject" type="java.lang.String">
+			<column name="news_subject" not-null="true" />
+		</property>
+		<property name="newsContent" type="java.lang.String">
+			<column name="news_content" not-null="true"></column>
+		</property>
+		<property name="authorId" type="java.lang.Integer">
+			<column name="author_id" not-null="true"></column>
+		</property>
+		<property name="authorName" type="java.lang.String">
+			<column name="author_name" not-null="true"></column>
+		</property>
+		<property name="newsLevel" type="java.lang.Integer">
+			<column name="news_level" not-null="true" />
+		</property>
+		<property name="districtVisible" type="java.lang.Integer">
+			<column name="district_visible" not-null="true" />
+		</property>
+		<property name="createtime" type="java.util.Date">
+			<column name="createtime" not-null="true" />
+		</property>
+		<property name="updateTime" type="java.util.Date">
+			<column name="updateTime"></column>
+		</property>
+		<property name="topIndex" type="java.lang.Integer">
+			<column name="top_index" />
+		</property>
+		<property name="status" type="java.lang.Integer">
+			<column name="status" not-null="true" />
+		</property>
+		<many-to-one name="district" class="org.shengrui.oa.model.system.ModelSchoolDistrict" fetch="select">
+            <column name="district_post" not-null="true">
+            </column>
+        </many-to-one>
+        <many-to-one name="department" class="org.shengrui.oa.model.system.ModelSchoolDepartment" fetch="select">
+            <column name="dep_post" not-null="true">
+            </column>
+        </many-to-one>
+     	<many-to-one name="dictionary" class="org.shengrui.oa.model.system.ModelAppDictionary" fetch="select">
+            <column name="type_dicid" not-null="true">
+            </column>
+        </many-to-one>
+	</class>
+</hibernate-mapping>
