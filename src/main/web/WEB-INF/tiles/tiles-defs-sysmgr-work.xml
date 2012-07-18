@@ -13,4 +13,25 @@
 	<definition name="page.sys.setting.work.base.index" 
 		path="/WEB-INF/jsp/application/system/work/base/baseIndex.jsp"/>	
 	
+	<!-- 系统设置 - 工作安排设置 - 工作基础设置  - 工作内容 -->
+   <definition name="data.sys.setting.work.base.content" 
+      path="/WEB-INF/jsp/application/system/work/base/data/dataWorkBaseContent.jsp"/>
+      
+   <definition name="dialog.sys.setting.work.content.page"
+   	  path="/WEB-INF/jsp/application/system/work/base/dialog/dialogWorkContentPage.jsp"/>
+   	  
+   <definition name="dialog.sys.setting.work.content.addpage"
+   	  path="/WEB-INF/jsp/application/system/work/base/dialog/dialogAddWorkContentPage.jsp"/>
+   	  
+   <definition name="page.sys.setting.work.base.time.index"
+   	  path="/WEB-INF/jsp/application/system/work/base/baseIndex.jsp"/>
+   	  
+   <definition name="data.sys.setting.work.base.time"
+   	  path="/WEB-INF/jsp/application/system/work/base/data/dataWorkBaseTime.jsp"/>
+   	  
+   <definition name="dialog.sys.setting.work.time.page"
+   	  path="/WEB-INF/jsp/application/system/work/base/dialog/dialogWorkTimePage.jsp"/>
+   	  
+   <definition name="dialog.sys.setting.work.time.addpage"
+   	  path="/WEB-INF/jsp/application/system/work/base/dialog/dialogAddWorkTimePage.jsp"/>
 </tiles-definitions>
