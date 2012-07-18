@@ -531,11 +531,10 @@ CREATE TABLE IF NOT EXISTS `app_hrm_employee` (
 -- 转存表中的数据 `app_hrm_employee`
 --
 
-INSERT INTO `app_hrm_employee` (`emp_id`, `emp_no`, `dep_id`, `district_id`, `emp_name`, `position_id`, `birthdate`, `phone_no`, `short_no`, `positive_due_date`, `contract_end_date`, `onboard_status`, `teacher_star`, `consult_star`, `teach_class`, `teach_subject`, `resume_id`, `status`, `entry_id`, `entry_datetime`) VALUES
-(3, '0001012061241011', 9, 3, 'Manie', 1, NULL, '13588064354', NULL, NULL, NULL, 1, 3, 4, 'A,A1,A3,A5,B1,B3', 'A,A1,A3,B,B2,B6,C7,C8', 16, NULL, 1, '2012-06-12 16:10:11'),
-(4, '0001112061243222', 12, 3, 'Charotte', 2, NULL, '13588064354', NULL, NULL, NULL, 1, 1, 1, '', 'A2,B2', 18, NULL, 1, '2012-06-12 16:32:22'),
-(5, '0001012061244839', 9, 3, 'Chonticha', 1, NULL, '13588064354', NULL, NULL, NULL, 2, NULL, NULL, NULL, NULL, 19, NULL, 1, '2012-06-12 16:48:39');
-
+INSERT INTO `app_hrm_employee` (`emp_id`, `emp_no`, `dep_id`, `district_id`, `emp_name`, `position_id`, `birthdate`, `phone_no`, `short_no`, `positive_due_date`, `contract_end_date`, `onboard_status`, `teacher_star`, `consult_star`, `teach_class`, `teach_subject`, `resume_id`, `status`, `onboard_date`, `entry_id`, `entry_datetime`) VALUES
+(3, '0001012061241011', 9, 3, 'Manie', 1, NULL, '13588064354', NULL, NULL, NULL, 1, 3, 4, 'A,A1,A3,A5,B1,B3', 'A,A1,A3,B,B2,B6,C7,C8', 16, NULL, NULL, 1, '2012-06-12 16:10:11'),
+(4, '0001112061243222', 12, 3, 'Charotte', 2, NULL, '13588064354', NULL, NULL, NULL, 1, 1, 1, '', 'A2,B2', 18, NULL, NULL, 1, '2012-06-12 16:32:22'),
+(5, '0001012061244839', 9, 3, 'Chonticha', 1, NULL, '13588064354', NULL, NULL, NULL, 2, NULL, NULL, NULL, NULL, 19, NULL, NULL, 1, '2012-06-12 16:48:39');
 -- --------------------------------------------------------
 
 --
