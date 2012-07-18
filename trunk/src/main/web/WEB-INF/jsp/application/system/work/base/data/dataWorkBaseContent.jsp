@@ -23,11 +23,10 @@
 		$("#ajBoxMenuFunc").loadUrl("app/system/school/department/position.do?action=actionLoadDepartmentPosition", {}, function(){
 		});
 	}
-	
 	function callback_funcRemove(id) {
-		if (id == undefined && $("tr.selected", "#ajBoxMenuFunc").size() > 0) {
+/*		if (id == undefined && $("tr.selected", "#ajBoxMenuFunc").size() > 0) {
 			id = $("tr.selected", "#ajBoxMenuFunc").attr("rel");
-		}
+		}*/
 		if ($("#mfunc-" + id).size() > 0) {
 			$("#mfunc-" + id).fadeOut("slow");
 		}
@@ -64,10 +63,10 @@
 						<td>${entity.meto}</td>
 						<td>${entity.updateTime}</td>
 						<td>
-							<a href="app/system/work/base.do?action=dialogBaseWorkBasePage&contentId=${entity.id}" class="oplink" target="dialog" title="岗位编辑" width="504" height="335" rel="sys_dePosSet-${entity.id}">编辑</a>
+							<a href="app/system/work/base.do?action=dialogBaseWorkBasePage&contentId=${entity.id}" class="oplink" target="dialog" title="工作内容编辑" width="504" height="335" rel="sys_dePosSet-${entity.id}">编辑</a>
 						</td>
 						<td>
-							<a href="app/system/work/base.do?action=actionRemoveBaseWorkContent&contentId=${entity.id}" class="oplink" target="ajaxTodo" title="岗位删除" width="550" height="335"  target="ajaxTodo" title="确定要删除该岗位吗?" rel="sys_dePosDel-${entity.id}" callback="callback_funcRemove(${entity.id})">删除</a>
+							<a href="app/system/work/base.do?action=actionRemoveBaseWorkContent&contentId=${entity.id}" class="oplink" target="ajaxTodo" title="工作内容删除" width="550" height="335"  target="ajaxTodo" title="确定要删除该工作内容吗?" rel="sys_dePosDel-${entity.id}" callback="callback_funcRemove(${entity.id})">删除</a>
 						</td>
 					</tr>
 				</logic:iterate>

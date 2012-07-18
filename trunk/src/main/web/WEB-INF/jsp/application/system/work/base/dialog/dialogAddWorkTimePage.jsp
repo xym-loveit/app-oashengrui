@@ -6,10 +6,18 @@
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<script type="text/javascript">
+districtId = "-1";
+function content_refresh () {
+    $("#ajBoxDepPos").loadUrl("app/system/work/base/time.do?action=pageWorkBaseTime&districtId="+districtId, {}, function(){
+       $.pdialog.closeCurrent();
+    });
+}
+$(function(){districtId = $("#districtId").val();});
+</script>
 
 <div class="pageContent">
-	<form method="post" action="app/system/work/base/time.do?action=actionSaveBaseWorkTime" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<form method="post" action="app/system/work/base/time.do?action=actionSaveBaseWorkTime" class="pageForm required-validate" onsubmit="return validateCallback(this, content_refresh);">
 		<div class="pageFormContent" layoutH="56">
 			<table cellspacing="5" cellpadding="5" class="dform">
 			   <tr>
@@ -62,7 +70,7 @@
 			</ul>
 		</div>
 		<input type="hidden" name="id" value="${baseWorkTime ne null ? baseWorkTime.id : '-1'}" />
-		<input type="hidden" name="baseTimeDistrict.id" value="${districtId ne null ? districtId : '-1'}" />
+		<input type="hidden" id="districtId" name="baseTimeDistrict.id" value="${districtId ne null ? districtId : '-1'}" />
 	</form>
 <div>
 		
