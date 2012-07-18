@@ -6,6 +6,7 @@ import org.shengrui.oa.model.flow.ModelProcessDefinition;
 import org.shengrui.oa.model.flow.ModelProcessHistory;
 import org.shengrui.oa.model.flow.ModelProcessTask;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
+import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 
 import cn.trymore.core.exception.ServiceException;
 
@@ -118,7 +119,7 @@ public interface ServiceWorkFlow
 	 * 
 	 * @param processTypeId
 	 *                  the process type id
-	 * @param filterPositions
+	 * @param filterPosition
 	 *                  the filtered position
 	 * @param condParamVal
 	 *                  the condition parameter value
@@ -129,7 +130,7 @@ public interface ServiceWorkFlow
 	 * @throws ServiceException
 	 */
 	void doStartProcess (String processTypeId, 
-			String filterPositions, Object condParamVal, String formNo, ModelHrmEmployee employee) throws ServiceException;
+			ModelSchoolDepartmentPosition filterPosition, Object condParamVal, String formNo, ModelHrmEmployee employee) throws ServiceException;
 	
 	/**
 	 * Ends the process form nodes with the specified form no.

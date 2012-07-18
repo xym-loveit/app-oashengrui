@@ -17,78 +17,43 @@
 
 <table id="tblexp" cellpadding="0" cellspacing="0" width="98%" border="1" style="border-collapse: collapse; border-color: #797979; margin: 0 auto;">
 	<tr>
-		<td width="${op eq null || op ne 'view' ? '72%' : '100%'}" colspan="10" class="banner">申请单</td>
+		<td width="${op eq null || op ne 'view' ? '72%' : '100%'}" colspan="10" class="banner">员工转正申请单</td>
 	</tr>
 	<tr>
 		<td class='field'>申请人</td>
 		<td>
-			<input id="inputEmpId" name="emp.id" value="" type="hidden"/>
-			<input class="required" name="emp.fullName" type="text" value="${entity ne null ? entity.employee.empName : ''}" <c:choose><c:when test="${op ne null && op eq 'view'}">readonly</c:when> <c:otherwise>postField="fullName" suggestFields="fullName,districtName" suggestUrl="app/base.do?action=lookupEmployeeByName" lookupGroup="emp" </c:otherwise></c:choose>/>
+			<input id="inputEmpId" name="employee.id" value="${entity ne null ? entity.employee.id : employee.id}" type="hidden"/>
+			<input class="required" name="employee.empName" style="width: 87%;" type="text" readonly value="${entity ne null ? entity.employee.empName : employee.empName}" />
 		</td>
 		<td class='field'>性别</td>
-		<td><input name="applyDate" class="<c:if test='${op eq null || op ne \'view\'}'>date</c:if> required textInput" format="yyyy-MM-dd" type="text" value="<c:if test='${entity ne null}'><fmt:formatDate value='${entity.applyDate}' pattern='yyyy-MM-dd' /></c:if>" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>></td>
+		<td><input name="sex" style="width: 87%;" readonly class="required textInput" format="yyyy-MM-dd" type="text" value="${entity ne null ? (entity.employee.resume.sex eq 1 ? '男' : '女') : (employee.resume.sex eq 1 ? '男' : '女')}" /></td>
 		<td class='field'>出生日期</td>
 		<td>
-			<input name="emp.districtName" readonly type="text" value="${entity ne null ? entity.empDistrict.districtName : ''}"/>
+			<input name="birthdate" style="width: 87%;" readonly type="text" value="${entity ne null ? entity.employee.birthdate : employee.birthdate}"/>
 			<input id="inputEmpDisId" name="emp.districtId" value="" type="hidden"/>
 		</td>
 		<td class='field'>联系电话</td>
-		<td>
-			<input name="emp.depName" readonly type="text" value="${entity ne null ? entity.empDepartment.depName : ''}"/>
-			<input id="inputEmpDepId" name="emp.depId" value="" type="hidden"/>
-		</td>
-		<td class='field'>联系电话</td>
-		<td><input name="emp.phoneNo" class="required phone" type="text" value="${entity ne null ? entity.empPhoneNo : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
+		<td><input name="phoneNo" class="required phone" style="width: 87%;" type="text" value="${entity ne null ? entity.employee.phoneNo : employee.phoneNo}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
 	</tr>
 	<tr>
-		<td class='field'>费用说明</td>
-		<td colspan="9"><textarea name="comments" rows="1" style="width: 98%; height: 80px; margin: 5px;" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>>${entity ne null ? entity.comments : ''}</textarea></td>
-	</tr>
-	<tr>
-		<td class='field'>支出金额</td>
-		<td colspan="3"><input name="applyAmt" class="required number" id="enRMB" type="text" style="width: 80%" value="${entity ne null ? entity.applyAmt : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if> />￥小写</td>
-		<td colspan="3"><input id="cnRMB" readonly type="text" style="color: #999999;width: 80%" value="根据小写自动生成" />￥大写</td>
-		<td class='field'>付款方</td>
+		<td class='field'>所属校区</td>
+		<td colspan="3"><input name="districtName" type="text" readonly style="width: 96%" value="${entity ne null ? entity.employee.employeeDistrict.districtName : employee.employeeDistrict.districtName}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/><input type="hidden" name="fromDistrictId" value="${entity ne null ? entity.employee.employeeDistrict.id : employee.employeeDistrict.id}" /></td>
+		<td class='field'>所属部门</td>
+		<td><input name="depName" type="text" readonly style="width: 87%;" value="${entity ne null ? entity.employee.employeeDepartment.depName : employee.employeeDepartment.depName}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/><input type="hidden" name="fromDepId" value="${entity ne null ? entity.employee.employeeDepartment.id : employee.employeeDepartment.id}" /></td>
+		<td class='field'>岗位</td>
 		<td colspan="2">
-			<input type="radio" value="0" name="payer" ${entity ne null && entity.payer eq 0 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 本校区
-			<input type="radio" value="1" name="payer" ${entity ne null && entity.payer eq 1 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 总部
+			<input name="posName" readonly class="required" style="width: 87%;" type="text" value="${entity ne null ? entity.employee.employeePosition.positionName : employee.employeePosition.positionName}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/><input type="hidden" name="fromPosId" value="${entity ne null ? entity.employee.employeePosition.id : employee.employeePosition.id}" />
 		</td>
 	</tr>
 	<tr>
-		<td class='field'>合同编号</td>
-		<td colspan="4"><input name="contractNo" type="text" style="width: 96%" value="${entity ne null ? entity.contractNo : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
-		<td class='field'>附件张数</td>
-		<td><input name="attachCount" type="text" class="number" style="width: 80%;" value="${entity ne null ? entity.attachCount : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
-		<td class='field'>是否已事前审批</td>
-		<td colspan="2">
-			<input type="radio" value="1" name="auditAdvance" ${entity ne null && entity.auditAdvance eq 1 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 是
-			<input type="radio" value="0" name="auditAdvance" ${entity ne null && entity.auditAdvance eq 0 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 否
-		</td>
+		<td class='field'>到岗日期</td>
+		<td colspan="3"><input name="onboardTime" class="<c:if test='${op eq null || op ne \'view\'}'>date</c:if> required" type="text" style="width: 96%" value="${entity ne null ? entity.employee.onboardDate : employee.onboardDate}"  <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
+		<td class='field'>申请日期</td>
+		<td colspan="3"><input name="applyDate" type="text" class="<c:if test='${op eq null || op ne \'view\'}'>date</c:if> required" style="width: 96%;" value="${entity ne null ? entity.applyDate : ''}"  <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
 	</tr>
 	<tr>
-		<td class='field'>固定资产编号</td>
-		<td colspan="4"><input name="assetNo"  type="text" style="width: 96%" value="${entity ne null ? entity.assetNo : ''}"  <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
-		<td class='field'>收款方姓名</td>
-		<td><input name="amtReceiver" type="text" class="required" style="width: 80%;" value="${entity ne null ? entity.amtReceiver : ''}"  <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
-		<td class='field'>收款方联系方式</td>
-		<td colspan="2">
-			<input name="amtReceiverContact" class="required phone" type="text" style="width: 90%;" value="${entity ne null ? entity.amtReceiverContact : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/>
-		</td>
-	</tr>
-	<tr>
-		<td class='field'>付款方式</td>
-		<td colspan="2">
-			<input type="radio" value="0" name="payMethod" ${entity ne null && entity.payMethod eq 0 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 现金
-			<input type="radio" value="1" name="payMethod" ${entity ne null && entity.payMethod eq 1 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 转账
-		</td>
-		<td class='field'>开户银行</td>
-		<td><input name="bank" type="text" class="required" style="width: 80%;" value="${entity ne null ? entity.bank : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
-		<td class='field'>账户名</td>
-		<td><input name="accountName" class="required" type="text" style="width: 80%;" value="${entity ne null ? entity.accountName : ''}"  <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
-		<td class='field'>账号</td>
-		<td colspan="2">
-			<input name="accountNo" class="required" type="text" style="width: 90%;" value="${entity ne null ? entity.accountNo : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/>
-		</td>
+		<td class='field'>转正申请报告</td>
+		<td colspan="8"><textarea name="comments" rows="1" style="width: 98%; height: 120px; margin: 5px;" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>>${entity ne null ? entity.comments : ''}</textarea></td>
 	</tr>
 </table>
 

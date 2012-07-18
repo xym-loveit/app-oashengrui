@@ -127,6 +127,11 @@ extends ModelBase
 	 */
 	private Date entryDateTime;
 	
+	/**
+	 * 入职时间
+	 */
+	private Date onboardDate;
+	
 	
 	/**
 	 * The enumeration of interview state
@@ -332,6 +337,16 @@ extends ModelBase
 
 	public void setConsultStar(Integer consultStar) {
 		this.consultStar = consultStar;
+	}
+
+	public Date getOnboardDate()
+	{
+		return onboardDate;
+	}
+
+	public void setOnboardDate(Date onboardDate)
+	{
+		this.onboardDate = onboardDate;
 	}
 	
 	
