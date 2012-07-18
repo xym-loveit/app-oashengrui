@@ -1,6 +1,7 @@
 package org.shengrui.oa.web.action.flow;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -39,7 +40,50 @@ extends BaseAppAction
 	 * The LOGGER
 	 */
 	private static final Logger LOGGER = Logger.getLogger(FlowBaseAction.class);
-			
+	
+	/**
+	 * The process key of member transfer 
+	 */
+	protected static final String PROCESS_MEMBER_TRANSFER = "PROCESS_MEMBER_TRANSFER";
+	
+	/**
+	 * The process key of member be regular
+	 */
+	protected static final String PROCESS_MEMBER_BERGULAR = "PROCESS_MEMBER_BERGULAR";
+	
+	/**
+	 * The process key of member promotion
+	 */
+	protected static final String PROCESS_MEMBER_PROMOTION = "PROCESS_MEMBER_PROMOTION";
+	
+	/**
+	 * The process key of member fair-well
+	 */
+	protected static final String PROCESS_MEMBER_FAIRWELL = "PROCESS_MEMBER_FAIRWELL";
+	
+	/**
+	 * The expression for transfer inside
+	 */
+	protected static final String EXPR_TRANSFER_INSIDE  = "x == 0";
+	
+	/**
+	 * The expression for transfer outside
+	 */
+	protected static final String EXPR_TRANSFER_OUTSIDE = "x == 1";
+	
+	/**
+	 * The hash-alias for process keys
+	 */
+	protected static final Map<String, String> processKeyAlias = new HashMap<String, String>();
+	
+	static
+	{
+		processKeyAlias.put(PROCESS_MEMBER_TRANSFER, "transfer");
+		processKeyAlias.put(PROCESS_MEMBER_PROMOTION, "promotion");
+		processKeyAlias.put(PROCESS_MEMBER_BERGULAR, "beregular");
+		processKeyAlias.put(PROCESS_MEMBER_FAIRWELL, "fairwell");
+	}
+	
 	/**
 	 * The process type service
 	 */

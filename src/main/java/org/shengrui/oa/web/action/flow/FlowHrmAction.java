@@ -39,27 +39,6 @@ extends FlowBaseAction
 	public static final String PROCESS_TYPE_SLUG = "hrm";
 	
 	/**
-	 * The process key of member transfer 
-	 */
-	public static final String PROCESS_MEMBER_TRANSFER = "PROCESS_MEMBER_TRANSFER";
-	
-	/**
-	 * The process key of member promotion
-	 */
-	public static final String PROCESS_MEMBER_PROMOTION = "PROCESS_MEMBER_PROMOTION";
-	
-	/**
-	 * The expression for transfer inside
-	 */
-	public static final String EXPR_TRANSFER_INSIDE  = "x == 0";
-	
-	/**
-	 * The expression for transfer outside
-	 */
-	public static final String EXPR_TRANSFER_OUTSIDE = "x == 1";
-	
-	
-	/**
 	 * <b>[WebAction]</b> 
 	 * <br/>
 	 *财务审批流程页面
