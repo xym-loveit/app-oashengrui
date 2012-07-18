@@ -542,28 +542,30 @@ INSERT INTO `app_hrm_employee` (`emp_id`, `emp_no`, `dep_id`, `district_id`, `em
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_employee_develop` (
-  `develop_id` bigint(20) default NULL,
-  `apply_form_no` varchar(120) default NULL COMMENT '人资审批流程',
-  `apply_form_type` bigint(20) default NULL,
-  `apply_date` date default NULL,
-  `comments` longtext,
-  `emp_id` bigint(20) default NULL COMMENT '员工ID',
-  `from_district` bigint(20) default NULL,
-  `from_dep` bigint(20) default NULL,
-  `from_position` bigint(20) default NULL,
-  `status` char(1) default NULL,
-  `audit_state` bigint(20) default NULL,
-  `entry_id` bigint(20) default NULL,
-  `entry_datetime` datetime default NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `develop_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `apply_form_no` varchar(120) NOT NULL COMMENT '人资审批流程',
+  `apply_form_type` bigint(20) NOT NULL COMMENT '人资申请类型',
+  `apply_date` date NOT NULL COMMENT '申请时间',
+  `comments` longtext COMMENT '申请报告',
+  `emp_id` bigint(20) NOT NULL COMMENT '员工ID',
+  `onboard_date` date DEFAULT NULL COMMENT '到岗日期',
+  `from_district` bigint(20) DEFAULT NULL COMMENT '原校区',
+  `from_dep` bigint(20) DEFAULT NULL COMMENT '原部门',
+  `from_position` bigint(20) DEFAULT NULL COMMENT '原岗位',
+  `to_district` bigint(20) DEFAULT NULL COMMENT '申请校区',
+  `to_department` bigint(20) DEFAULT NULL COMMENT '申请部门',
+  `to_position` bigint(20) DEFAULT NULL COMMENT '申请岗位',
+  `status` char(1) DEFAULT NULL,
+  `audit_state` bigint(20) DEFAULT NULL,
+  `entry_id` bigint(20) DEFAULT NULL,
+  `entry_datetime` datetime DEFAULT NULL COMMENT '录入时间',
+  PRIMARY KEY (`develop_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='人资申请' AUTO_INCREMENT=3 ;
+
 
 --
 -- 转存表中的数据 `app_hrm_employee_develop`
 --
-
-INSERT INTO `app_hrm_employee_develop` (`develop_id`, `apply_form_no`, `apply_form_type`, `apply_date`, `comments`, `emp_id`, `from_district`, `from_dep`, `from_position`, `status`, `audit_state`, `entry_id`, `entry_datetime`) VALUES
-(1, '1', 1, '2012-06-19', '1weqeqw', 3, 1, 11, 1, 'Y', 1, 1, NULL),
-(1, '1', 1, '2012-06-19', '1weqeqw', 3, 1, 11, 1, 'Y', 1, 1, NULL);
 
 -- --------------------------------------------------------
 
