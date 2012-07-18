@@ -2,6 +2,9 @@
 <!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
 
 <struts-config>
+	<form-beans>
+		<form-bean name="form.personal.doc.info" type="org.shengrui.oa.model.admin.ModelDoc"></form-bean>
+	</form-beans>
 	
 	<action-mappings>
 		<!-- Home Action -->
@@ -19,9 +22,11 @@
 		<!-- docDwonload-->
 		<action path="/app/personal/doc"
 				scope="request"
+				name="form.personal.doc.info"
 				parameter="action"
 				type="org.springframework.web.struts.DelegatingActionProxy">
 			<forward name="page.my.doc" path="page.my.doc" />
+			<forward name="page.my.doc.more" path="page.my.doc.more" />
 		</action>
 		
 	</action-mappings>

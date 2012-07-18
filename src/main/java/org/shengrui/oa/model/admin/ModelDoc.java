@@ -57,6 +57,10 @@ extends ModelBase {
 	@Expose
 	protected Date createTime;
 	
+	//额外添加的
+	@Expose
+	protected String fileIds;
+	
 	@SuppressWarnings("rawtypes")
 	private Set docFiles = new HashSet(0);
 
@@ -235,6 +239,14 @@ extends ModelBase {
 		} else if (!type.equals(other.type))
 			return false;
 		return true;
+	}
+
+	public String getFileIds() {
+		return fileIds;
+	}
+
+	public void setFileIds(String fileIds) {
+		this.fileIds = fileIds;
 	}
 
 	

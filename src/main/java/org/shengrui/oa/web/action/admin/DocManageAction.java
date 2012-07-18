@@ -171,7 +171,9 @@ extends BaseAdminAction
 		try
 		{
 				ModelDoc formDoc = (ModelDoc) form;
-
+				
+				System.out.println("打印上传文档Id"+formDoc.getFileIds());
+				
 				ModelDoc entity = null;
 				
 				if(formDoc!=null)
@@ -249,7 +251,6 @@ extends BaseAdminAction
 		} 
 		catch (ServiceException e)
 		{
-			e.printStackTrace();
 			LOGGER.error("Exception raised when fetch all doc manages.", e);
 			return ajaxPrint(response, getErrorCallback("文档上传失败."));
 		}
