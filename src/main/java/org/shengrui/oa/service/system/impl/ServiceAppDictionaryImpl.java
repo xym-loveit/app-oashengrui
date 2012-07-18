@@ -6,6 +6,7 @@ import org.shengrui.oa.dao.system.DAOAppDictionary;
 import org.shengrui.oa.model.system.ModelAppDictionary;
 import org.shengrui.oa.service.system.ServiceAppDictionary;
 
+import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
 
@@ -53,7 +54,20 @@ extends ServiceGenericImpl<ModelAppDictionary> implements ServiceAppDictionary
 			throw new ServiceException(e);
 		}
 	}
-
+	
+	@Override
+	public List<ModelAppDictionary> getByType(String type)
+			throws ServiceException
+	{
+		try
+		{
+			return daoAppDict.getByType(type);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+	}
+	
+	
 	public void setDaoAppDict(DAOAppDictionary daoAppDict)
 	{
 		this.daoAppDict = daoAppDict;
@@ -63,5 +77,4 @@ extends ServiceGenericImpl<ModelAppDictionary> implements ServiceAppDictionary
 	{
 		return daoAppDict;
 	}
-
 }

@@ -39,7 +39,7 @@
 		</div>
 		<div class="accordionContent">
 			<ul class="tree treeFolder">
-				<li treeicon="icon-adminnews"><a href="app/admin.do?action=adminPageEntryIndex" target="navTab" rel="admin_entry">新闻发布与管理</a></li>
+				<li treeicon="icon-adminnews"><a href="app/admin/news.do?action=adminPageEntryIndex" target="navTab" rel="admin_entry">新闻发布与管理</a></li>
 				<li treeicon="icon-admintask"><a href="app/admin.do?action=adminPageTaskDelegateIndex" target="navTab" rel="admin_task">任务委托管理</a></li>
 				<li treeicon="icon-admindutyStaff"><a>员工考勤管理</a>
 					<ul>
@@ -100,7 +100,7 @@
 		</div>
 		<div class="accordionContent">
 			<ul class="tree treeFolder">
-				<li treeicon="icon-sysmpwd"><a href="blank.jsp" target="navTab" rel="demo_page1">密码修改</a></li>
+				<li treeicon="icon-sysmpwd"><a href="app/system/password.do?action=changePassword" target="navTab" rel="demo_page1">密码修改</a></li>
 				<li treeicon="icon-sysmusr"><a href="app/system/account.do?action=pageAccountIndex" target="navTab" rel="sysmgr_account">用户管理</a></li>
 				<li treeicon="icon-sysmlogs"><a href="blank.jsp" target="navTab" rel="demo_page1">系统日志</a></li>
 			</ul>

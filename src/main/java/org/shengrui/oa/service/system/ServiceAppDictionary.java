@@ -24,4 +24,12 @@ extends ServiceGeneric<ModelAppDictionary>
 	 */
 	List<ModelAppDictionary> getByName (String name) 
 			throws ServiceException;
+	
+	/**
+	 * 根据数据字典类型查询出新闻类型名称
+	 * @param type
+	 * @author pyc
+	 * 
+	 * */
+	List<ModelAppDictionary> getByType(String type) throws ServiceException;
 }
