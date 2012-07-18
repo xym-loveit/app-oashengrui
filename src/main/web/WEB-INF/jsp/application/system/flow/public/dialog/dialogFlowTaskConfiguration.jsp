@@ -38,7 +38,7 @@
 </script>
 
 <div class="pageContent">
-	<form method="post" action="app/flow.do?action=actionSaveProcessTask" class="pageForm required-validate" onsubmit="return validateCallback(this, after_save);">
+	<form method="post" action="app/flow/${typeSlug}.do?action=actionSaveProcessTask" class="pageForm required-validate" onsubmit="return validateCallback(this, after_save);">
 		<div class="pageFormContent" layoutH="56">
 			<div style="border-bottom: 1px solid #eee; overflow: hidden; padding-bottom: 4px;">
 				<span style="float:left; line-height: 20px; margin-bottom: 5px;"><b>请选择节点类型：</b></span>

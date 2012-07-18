@@ -39,31 +39,25 @@
 	</div>
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a class="refresh" href="app/flow.do?action=actionLoadProcessRootType&typeSlug=${typeSlug}" target="ajax" rel="ajBoxFlowTree_finance" title="刷新" rel="dia_admin_entryadd" callback="dep_refresh()"><span>刷新</span></a></li>
+			<li><a class="refresh" href="app/flow/${typeSlug}.do?action=actionLoadProcessRootType&typeSlug=${typeSlug}" target="ajax" rel="ajBoxFlowTree_finance" title="刷新" rel="dia_admin_entryadd" callback="dep_refresh()"><span>刷新</span></a></li>
 		</ul>
 	</div>
 	
-	<div id="ajBoxFlowTree_finance">
+	<div id="ajBoxFlowTree_hrm">
 		<%@ include file="../public/data/dataFlowTypeTree.jsp" %>
 	</div>
 </div>
 
 <div class="pageContent bol" style="margin-left: 230px;">
 	<div class="toggleCollapse noborder">
-		<h2>申请类别</h2>
+		<h2>职位审批流程配置</h2>
 	</div>
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a class="refresh uvar" href="app/flow.do?action=actionLoadProcessTypes&rootTypeId={_var_ftypeid}" warn="请从左侧选择审批类型!" target="ajax" rel="ajBoxMenuFunc" title="刷新" rel="dia_admin_entryadd"><span>刷新</span></a></li>
-			<li class="line">line</li>
-			<li><a class="add" href="app/flow.do?action=dialogFlowTypePage&rootTypeId={_var_ftypeid}" mask="true" warn="请从左侧选择审批类型!" target="dialog" title="添加申请类别" width="400" height="245" rel="dia_flowtype_add_${typeSlug}"><span>添加申请类别</span></a></li>
-			<li class="line">line</li>
-			<li><a class="delete" href="app/flow.do?action=actionRemoveDepartmentPosition&typeId={typeId}" target="ajaxTodo" warn="请选择需要修改的申请类别" title="确定要删除该申请类别吗?" callback="callback_funcRemove()"><span>删除</span></a></li>
-			<li class="line">line</li>
-			<li><a class="edit" href="app/flow.do?action=dialogFlowTypePage&rootTypeId={_var_ftypeid}&typeId={typeId}" target="dialog" warn="请选择需要修改的申请类别" title="修改申请类别" width="504" height="335" rel="dia_flowtype_edit_${typeSlug}"><span>修改</span></a></li>
+			<li><a class="refresh uvar" href="app/flow/${typeSlug}.do?action=actionLoadProcessTypes&rootTypeId={_var_ftypeid}" warn="请从左侧选择审批类型!" target="ajax" rel="ajBoxMenuFunc" title="刷新" rel="dia_admin_entryadd"><span>刷新</span></a></li>
 		</ul>
 	</div>
-	<div id="ajBoxFlowType_finance">
-		<%@ include file="../public/data/dataFlowTypeList.jsp" %>
+	<div id="ajBoxFlowType_hrm">
+		<%@ include file="data/dataFlowPosetList.jsp" %>
 	</div>
 </div>

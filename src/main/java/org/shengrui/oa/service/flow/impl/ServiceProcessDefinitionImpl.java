@@ -85,6 +85,37 @@ extends ServiceGenericImpl<ModelProcessDefinition> implements ServiceProcessDefi
 		return null;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.flow.ServiceProcessDefinition#getProcessDefinitionFilterByPoset(java.lang.String)
+	 */
+	@Override
+	public List<ModelProcessDefinition> getProcessDefinitionFilterByPoset(
+			String procTypeId, String posetId) throws ServiceException
+	{
+		if (UtilString.isNotEmpty(procTypeId))
+		{
+			try
+			{
+				DetachedCriteria criteria = DetachedCriteria.forClass(ModelProcessDefinition.class);
+				
+				if (UtilString.isNotEmpty(posetId))
+				{
+					criteria.createCriteria("filterPoset").add(Restrictions.eq("id", posetId));
+				}
+				
+				criteria.createCriteria("processType").add(Restrictions.eq("id", procTypeId));
+				
+				return this.daoProcessDefinition.getListByCriteria(criteria);
+			}
+			catch (Exception e)
+			{
+				throw new ServiceException(e);
+			}
+		}
+		return null;
+	}
+	
 	public void setDaoProcessDefinition(DAOProcessDefinition daoProcessDefinition)
 	{
 		this.daoProcessDefinition = daoProcessDefinition;

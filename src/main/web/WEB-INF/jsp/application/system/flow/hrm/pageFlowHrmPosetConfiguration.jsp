@@ -14,13 +14,8 @@
 	</div>
 	<div class="panelBar">
 		<ul class="toolBar">
-			<!--<li><a class="refresh" href="app/flow.do?action=actionLoadProcessRootType&typeSlug=${typeSlug}" target="ajax" rel="ajBoxFlowDefTree_${processType.id}" title="刷新" rel="dia_admin_entryadd" callback="dep_refresh()"><span>刷新</span></a></li>
-			<li class="line">line</li>-->
-			<li><a class="add" href="app/flow/${typeSlug}.do?action=dialogFlowDefConditionPage&procTypeId=${processType.id}" mask="true" target="dialog" title="添加流程触发条件" width="400" height="245" rel="dia_flowdef_add_${processType.id}"><span>添加触发条件</span></a></li>
+			<li><a class="refresh" href="app/flow.do?action=actionLoadProcessRootType&typeSlug=${typeSlug}" target="ajax" rel="ajBoxFlowDefTree_${processType.id}" title="刷新" rel="dia_admin_entryadd" callback="dep_refresh()"><span>刷新</span></a></li>
 			<li class="line">line</li>
-			<li><a class="edit" href="app/flow/${typeSlug}.do?action=dialogFlowDefConditionPage&procTypeId=${processType.id}&procDefId={_var_fdefid}" warn="请从下方选择需要进行修改的流程定义." mask="true" target="dialog" title="修改触发条件" width="400" height="245" rel="dia_flowdef_edit_${processType.id}"><span>修改</span></a></li>
-			<li class="line">line</li>
-			<li><a class="delete" href="app/flow/${typeSlug}.do?action=dialogFlowDefConditionPage&procTypeId=${processType.id}" mask="true" target="dialog" title="删除触发条件" width="400" height="245" rel="dia_flowdef_del_${processType.id}"><span>删除</span></a></li>
 		</ul>
 	</div>
 	
@@ -42,6 +37,6 @@
 		</ul>
 	</div>
 	<div id="ajBoxFlowConf_${processType.id}">
-		<%@ include file="data/dataFlowTaskList.jsp" %>
+		<%@ include file="../public/data/dataFlowTaskList.jsp" %>
 	</div>
 </div>
