@@ -10,4 +10,3 @@
 
 
 <%@ include file="data/districtDocs1.jsp"%>
-<%@ include file="data/districtDocs2.jsp"%>

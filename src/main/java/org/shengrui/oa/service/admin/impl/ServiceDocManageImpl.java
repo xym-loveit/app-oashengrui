@@ -43,6 +43,10 @@ extends ServiceGenericImpl<ModelDoc> implements ServiceDocManage
 		if(level!=null)
 		{
 			criteria.add(Restrictions.eq("docLevel", level));
+			
+		}
+		if(type!=null)
+		{
 			criteria.add(Restrictions.eq("type", type));
 		}
 		criteria.addOrder(Order.desc("createTime"));

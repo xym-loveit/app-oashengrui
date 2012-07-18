@@ -9,4 +9,3 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
 
 <%@ include file="data/deparentDocs1.jsp"%>
-<%@ include file="data/deparentDocs2.jsp"%>
