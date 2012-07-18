@@ -833,7 +833,7 @@ CREATE TABLE IF NOT EXISTS `app_process_definition` (
   `type_id` bigint(20) default NULL COMMENT '流程分类ID',
   `def_name` varchar(256) default NULL COMMENT '流程名称',
   `def_description` varchar(250) default NULL COMMENT '流程描述',
-  `filter_posnames` varchar(250) default NULL COMMENT '过滤职位',
+  `filter_poset` bigint(20) default NULL COMMENT '过滤职位',
   `def_trigger` varchar(120) default NULL COMMENT '条件',
   `createtime` datetime default NULL COMMENT '创建时间',
   PRIMARY KEY  (`def_id`),
