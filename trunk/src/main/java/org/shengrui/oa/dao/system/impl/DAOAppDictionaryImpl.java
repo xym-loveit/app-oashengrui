@@ -39,11 +39,15 @@ extends DAOGenericImpl<ModelAppDictionary> implements DAOAppDictionary
 	}
 	
 	@Override
-	public List<ModelAppDictionary> getByType(String type) throws DAOException {
-		DetachedCriteria criteria = DetachedCriteria.forClass(ModelAppDictionary.class);
-		criteria.add(Restrictions.eq("type", type));
-		
-		return this.getListByCriteria(criteria);
+	public List<ModelAppDictionary> getByType(String type) throws DAOException
+	{
+		if(UtilString.isNotEmpty(type))
+		{
+			DetachedCriteria criteria = DetachedCriteria.forClass(ModelAppDictionary.class);
+			criteria.add(Restrictions.eq("type", type));
+			return this.getListByCriteria(criteria);
+		}
+		return null;
 	}
 	
 }
