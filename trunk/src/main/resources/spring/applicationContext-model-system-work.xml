@@ -4,5 +4,26 @@
 		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
 <!-- 实例化DAO和Service的Bean对象-->
-	
+	  <!-- base work content-->
+   <bean id="daoBaseWorkContent" class="org.shengrui.oa.dao.system.impl.DAOBaseWorkContentImpl">
+      <property name="hibernateTemplate" ref="hibernateTemplate" />
+   </bean>
+   <bean id="serviceBaseWorkContent" parent="baseTxProxy">
+      <property name="target">
+         <bean class="org.shengrui.oa.service.system.impl.ServiceBaseWorkContentImpl">
+            <constructor-arg index="0" ref="daoBaseWorkContent"/>
+         </bean>
+      </property>
+   </bean>
+   
+   <bean id="daoBaseWorkTime" class="org.shengrui.oa.dao.system.impl.DAOBaseWorkTimeImpl">
+      <property name="hibernateTemplate" ref="hibernateTemplate" />
+   </bean>
+   <bean id="serviceBaseWorkTime" parent="baseTxProxy">
+      <property name="target">
+         <bean class="org.shengrui.oa.service.system.impl.ServiceBaseWorkTimeImpl">
+            <constructor-arg index="0" ref="daoBaseWorkTime"/>
+         </bean>
+      </property>
+   </bean>
 </beans>
