@@ -13,11 +13,11 @@
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
-		    <li><a class="add" href="app/personal/doc.do?action=pageMyDocMore&typeId=1&levleId=1" target="navTab" rel="moreDocs"><span>人资文档</span></a></li>
-			<li><a class="add" href="app/personal/doc.do?action=pageMyDocMore&typeId=1&levleId=1" target="navTab" rel="moreDocs"><span>More</span></a></li>
+		    <li><a class="add" href="app/personal/doc.do?action=pageMyDocMore&typeId=1&levleId=1" target="navTab" rel="moreDocs"><span>More人资文档</span></a></li>
+			<li><a class="add" href="app/personal/doc.do?action=pageMyDocMore&typeId=2&levleId=1" target="navTab" rel="moreDocs"><span>More行政文档</span></a></li>
 		</ul>
 	</div>
-	<table class="table" width="100%" layoutH="350px">
+	<table class="table" width="100%" layoutH="380px">
 		<thead>
 			<tr>
 				<th align="center">文档名称</th>
@@ -29,7 +29,7 @@
 		<logic:present name="company_docs1">
 		   <logic:iterate name="company_docs1" id="entity">
 			<tr id="doc_entity-${entity.id}">
-                <td>${entity.docName}</td>
+                <td><a href="">${entity.docName}</a></td>
                 <td><fmt:formatDate value="${entity.createTime}" pattern="yyyy-MM-dd" /></td>
 			</tr>
 			</logic:iterate>

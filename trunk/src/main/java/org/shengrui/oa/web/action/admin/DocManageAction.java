@@ -70,7 +70,7 @@ extends BaseAdminAction
 				
 				// 输出分页信息至客户端
 				outWritePagination(request, pagingBean, docs);
-				request.setAttribute("docTypes", this.getServiceAppDictionary().getAll());
+				request.setAttribute("docTypes", this.getServiceAppDictionary().getByType("docType"));
 			
 			
 		} 
@@ -143,7 +143,7 @@ extends BaseAdminAction
 			else if(!op.equals("loding"))
 			{
 			}
-			request.setAttribute("docTypes", this.getServiceAppDictionary().getAll());
+			request.setAttribute("docTypes", this.getServiceAppDictionary().getByType("docType"));
 			request.setAttribute("districts" , this.getServiceSchoolDistrict().getAll());
 			request.setAttribute("docLevels" , this.getServiceDocLevel().getAll());
 			request.setAttribute("docRanges" , this.getServiceDocVisiableRange().getAll());
