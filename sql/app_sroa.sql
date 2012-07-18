@@ -844,7 +844,7 @@ CREATE TABLE IF NOT EXISTS `app_process_definition` (
 -- 列出以下資料庫的數據： `app_process_definition`
 --
 
-INSERT INTO `app_process_definition` (`def_id`, `type_id`, `def_name`, `def_description`, `filter_posnames`, `def_trigger`, `createtime`) VALUES
+INSERT INTO `app_process_definition` (`def_id`, `type_id`, `def_name`, `def_description`, `filter_poset`, `def_trigger`, `createtime`) VALUES
 (1, 7, '0 < 支出费用 <= 1000', '', '', 'x > 0 && x <= 1000', '2012-06-29 14:50:40'),
 (2, 7, '1000 < 支出费用 <= 10000', '', '', 'x > 1000 && x <= 10000', '2012-06-29 14:51:15'),
 (3, 7, '支出费用 >10000', '', 'test', 'x > 10000', '2012-06-29 15:00:28'),
