@@ -5,6 +5,9 @@
 	
 	<!-- 我的申请 -->
 	<bean name="/app/personal/application_form" class="org.shengrui.oa.web.action.personal.MyFormApplicationAction">
+		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
+		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
+		<property name="serviceProcessType" ref="serviceProcessType" />
 	</bean>
 	
 </beans>

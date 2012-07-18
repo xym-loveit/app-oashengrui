@@ -11,6 +11,11 @@
 				parameter="action"
 				type="org.springframework.web.struts.DelegatingActionProxy">
 			<forward name="page.my.application.form.index" path="page.my.application.form.index" />
+			<forward name="dialog.my.application.form" path="dialog.my.application.form" />
+			<forward name="tpl.my.application.form.beregular" path="tpl.my.application.form.beregular" />
+			<forward name="tpl.my.application.form.transfer" path="tpl.my.application.form.transfer" />
+			<forward name="tpl.my.application.form.promotion" path="tpl.my.application.form.promotion" />
+			<forward name="tpl.my.application.form.fairwell" path="tpl.my.application.form.fairwell" />
 		</action>
 		
 	</action-mappings>

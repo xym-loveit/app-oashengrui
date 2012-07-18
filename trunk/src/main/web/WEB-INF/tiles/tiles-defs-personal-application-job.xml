@@ -5,7 +5,7 @@
        
 <tiles-definitions>
 	
-	<!-- 我要申请 -->
+	<!-- 我要应聘-->
 	<definition name="page.my.jobapplication.index"
 		path="/WEB-INF/jsp/application/personal/jobapplication/myJobApplication.jsp"/>
 	
