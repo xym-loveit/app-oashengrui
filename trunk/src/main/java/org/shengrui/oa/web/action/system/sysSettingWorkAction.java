@@ -191,7 +191,7 @@ extends sysSettingBaseAction
              this.serviceBaseWorkContent.remove(contentId);
              
              return ajaxPrint(response, 
-                     getSuccessCallbackAndReloadCurrent("工作内容删除成功."));
+                     getSuccessCallback("工作内容删除成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
          }
          else
          {

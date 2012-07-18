@@ -199,7 +199,7 @@ extends sysSettingBaseAction
              this.serviceBaseWorkTime.remove(id);
              
              return ajaxPrint(response, 
-                     getSuccessCallbackAndReloadCurrent("工作时间删除成功."));
+                     getSuccessCallback("工作时间删除成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
          }
          else
          {
