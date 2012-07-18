@@ -520,6 +520,7 @@ CREATE TABLE IF NOT EXISTS `app_hrm_employee` (
   `teach_subject` varchar(120) default NULL,
   `resume_id` bigint(20) default NULL COMMENT '简历',
   `status` char(1) default NULL COMMENT '员工状态',
+  `onboard_date` date DEFAULT NULL COMMENT '到岗日期',
   `entry_id` bigint(20) default NULL COMMENT '录入人员',
   `entry_datetime` datetime default NULL COMMENT '录入日期',
   PRIMARY KEY  (`emp_id`),
