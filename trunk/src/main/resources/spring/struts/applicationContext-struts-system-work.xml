@@ -13,6 +13,11 @@
 	<!-- 工作安排基础设置-->
 	<bean name="/app/system/work/base" class="org.shengrui.oa.web.action.system.sysSettingWorkAction">
 		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
+		<property name="serviceBaseWorkContent" ref="serviceBaseWorkContent"/>
 	</bean>
 	
+	<bean name="/app/system/work/base/time" class="org.shengrui.oa.web.action.system.sysSettingWorkTimeAction">
+		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
+		<property name="serviceBaseWorkTime" ref="serviceBaseWorkTime"/>
+	</bean>
 </beans>
