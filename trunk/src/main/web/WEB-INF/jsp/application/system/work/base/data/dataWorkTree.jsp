@@ -14,6 +14,17 @@
 		uroot.find("div.selected").removeClass("selected");
 		$("#dentity_" + id).parent().addClass("selected");
 	}
+	
+	function district_activated(id) {
+	      var uroot = $("#district_" + id).parent().parent().parent();
+	      uroot.find("div.selected").removeClass("selected");
+	      $("#district_" + id).parent().addClass("selected");
+	   }
+	function template_activated(id) {
+		var uroot = $("#template_" + id).parent().parent().parent();
+        uroot.find("div.selected").removeClass("selected");
+        $("#template_" + id).parent().addClass("selected");
+	}
 </script>
 
 <logic:present name="lookup">
@@ -26,8 +37,15 @@
 		<c:forEach items="${districts}" var="entity">
 			<li class="expand"><a id="org_master"><c:out value="${entity.districtName}" /></a>
 			   <ul>
-			     <li><a id="dentity_${entity.id}" class='tparam' param="_var_depid" paramRel="${entity.id}" href="app/system/school/department/position.do?action=actionLoadDepartmentPosition&depId=${entity.id}" callback="dep_activated(${entity.id});" target="ajax" rel="ajBoxDepPos"><c:out value="工作内容设置" /></a></li>
-			     <li><a id="dentity_${entity.id}" class='tparam' param="_var_depid" paramRel="${entity.id}" href="app/system/school/department/position.do?action=actionLoadDepartmentPosition&depId=${entity.id}" callback="dep_activated(${entity.id});" target="ajax" rel="ajBoxDepPos"><c:out value="工作时间设置" /></a></li>
+			     <li><a id="dentity_${entity.id}" class='tparam' param="_var_districtId" paramRel="${entity.id}" href="app/system/work/base.do?action=pageWorkBaseContent&districtId=${entity.id}" callback="dep_activated(${entity.id});" target="ajax" rel="ajBoxDepPos"><c:out value="工作内容设置" /></a></li>
+			     <li><a id="district_${entity.id}" class='tparam' param="_var_districtId" paramRel="${entity.id}" href="app/system/work/base/time.do?action=pageWorkBaseTime&districtId=${entity.id}" callback="district_activated(${entity.id});" target="ajax" rel="ajBoxDepPos"><c:out value="工作时间设置" /></a>
+			         <ul>
+                     <li><a id="template_${entity.id}" class='tparam' param="_var_templateId" paramRel="1" href="app/system/work/base/time.do?action=pageWorkBaseTime&districtId=${entity.id}&templateId=1" callback="template_activated(${entity.id});" target="ajax" rel="ajBoxDepPos">第一套</a></li>
+                     <li><a id="template_${entity.id}" class='tparam' param="_var_templateId" paramRel="2" href="app/system/work/base/time.do?action=pageWorkBaseTime&districtId=${entity.id}&templateId=2" callback="template_activated(${entity.id});" target="ajax" rel="ajBoxDepPos">第二套</a></li>
+                     <li><a id="template_${entity.id}" class='tparam' param="_var_templateId" paramRel="3" href="app/system/work/base/time.do?action=pageWorkBaseTime&districtId=${entity.id}&templateId=3" callback="template_activated(${entity.id});" target="ajax" rel="ajBoxDepPos">第三套</a></li>
+                     <li><a id="template_${entity.id}" class='tparam' param="_var_templateId" paramRel="4" href="app/system/work/base/time.do?action=pageWorkBaseTime&districtId=${entity.id}&templateId=4" callback="template_activated(${entity.id});" target="ajax" rel="ajBoxDepPos">第四套</a></li>
+                  </ul>
+			     </li>
 			   </ul>
 			</li>
 		</c:forEach>

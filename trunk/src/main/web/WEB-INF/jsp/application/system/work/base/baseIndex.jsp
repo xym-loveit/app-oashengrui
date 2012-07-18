@@ -38,7 +38,7 @@
 <!--		}-->
 <!--	}-->
 <!--</script>-->
-<div class="pageContent bor" style="float:left; width: 150px;">
+<div class="pageContent bor" style="float:left; width: 160px;">
 	<div class="toggleCollapse noborder">
 		<h2>校区列表</h2>
 	</div>
@@ -55,18 +55,7 @@
 </div>
 
 <div class="pageContent bol" style="margin-left: 160px;">
-	<div class="toggleCollapse noborder">
-		<h2>工作安排设置</h2>
-	</div>
-	<div class="panelBar">
-		<ul class="toolBar">
-			<li><a class="refresh uvar" href="app/system/school/department/position.do?action=actionLoadDepartmentPosition&depId={_var_depid}" warn="请从左侧选择部门!" target="ajax" rel="ajBoxDepPos" title="刷新" rel="dia_admin_entryadd"><span>刷新</span></a></li>
-			<li class="line">line</li>
-			<li><a class="add" href="app/system/school/department/position.do?action=dialogSchoolDepartmentPositionPage&depId={_var_depid}" mask="true" warn="请从左侧选择部门!" target="dialog" title="添加新模板" width="504" height="335" rel="dia_admin_entryadd"><span>添加新模板</span></a></li>
-			<li class="line">line</li>
-			<li><a class="delete" href="app/system/school/department/position.do?action=actionRemoveDepartmentPosition&posId={posId}" target="ajaxTodo" warn="请选择需要删除的模板" title="确定要删除该模板吗?" callback="callback_funcRemove()"><span>删除模板</span></a></li>
-		</ul>
-	</div>
+	
 	<div id="ajBoxDepPos">
 	    <%@ include file="data/dataWorkBaseContent.jsp" %>
 	</div>
