@@ -1391,10 +1391,44 @@ CREATE TABLE IF NOT EXISTS `app_user_role` (
 -- 列出以下資料庫的數據： `app_user_role`
 --
 
-
 --
 -- 備份資料表限制
 --
+
+----------------------------------------------------------
+
+--
+-- 表结构 `app_system_work_content`
+--
+
+CREATE TABLE `app_system_work_content` (
+  `cnt_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '工作内容ID',
+  `item_name` varchar(120) DEFAULT NULL COMMENT '选项名称',
+  `item_value` varchar(120) DEFAULT NULL COMMENT '选项值',
+  `meto` varchar(250) DEFAULT NULL COMMENT '工作内容说明',
+  `district_id` bigint(20) NOT NULL COMMENT '校区ID',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`cnt_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='系统工作内容设置'
+
+-- -------------------------------------------------------
+
+--
+-- 表结构 `app_system_work_time`
+--
+
+CREATE TABLE `app_system_work_time` (
+  `worktm_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '工作时间ID',
+  `item_name` varchar(120) DEFAULT NULL COMMENT '选项名称',
+  `work_stime` varchar(20) DEFAULT NULL COMMENT '工作开始时间',
+  `work_etime` varchar(20) DEFAULT NULL COMMENT '工作结束时间',
+  `meto` varchar(250) DEFAULT NULL COMMENT '说明',
+  `adjust_days` varchar(120) DEFAULT NULL COMMENT '适用天数',
+  `template_id` bigint(20) DEFAULT NULL COMMENT '模板ID',
+  `district_id` bigint(20) NOT NULL COMMENT '校区ID',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`worktm_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='工作时间设置'
 
 --
 -- 資料表限制 `app_function_url`
