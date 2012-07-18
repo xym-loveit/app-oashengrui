@@ -112,8 +112,19 @@ extends BaseAppAction
 		{
 			try
 			{
-				request.setAttribute("types", 
+				
+				ModelProcessType rootType = this.serviceProcessType.get(rootTypeId);
+				if (rootType != null)
+				{
+					request.setAttribute("typeSlug", rootType.getProcessTypeSlug());
+					request.setAttribute("types", 
 						this.getProcessSubTypes(rootTypeId));
+				}
+				else
+				{
+					return ajaxPrint(response, 
+							getErrorCallback("流程类型(id:" + rootTypeId + ")不存在..."));
+				}
 			} 
 			catch (Exception e)
 			{
@@ -144,6 +155,7 @@ extends BaseAppAction
 				if (procDefEntity != null)
 				{
 					request.setAttribute("processDef", procDefEntity);
+					request.setAttribute("typeSlug", procDefEntity.getProcessType().getProcessTypeSlug());
 					return mapping.findForward("data.sys.setting.flow.task.list");
 				}
 				else
@@ -393,6 +405,7 @@ extends BaseAppAction
 				if (procTypeEntity != null)
 				{
 					request.setAttribute("processType", procTypeEntity);
+					request.setAttribute("typeSlug", procTypeEntity.getProcessTypeSlug());
 					return mapping.findForward("page.sys.flow.configuration");
 				}
 				else
@@ -463,6 +476,9 @@ extends BaseAppAction
 						}
 					}
 					
+					request.setAttribute("typeSlug", 
+							procDefEntity.getProcessType().getProcessTypeSlug());
+					
 					return mapping.findForward("dialog.sys.flow.task.configuration");
 				}
 				else
@@ -503,6 +519,7 @@ extends BaseAppAction
 				if (procTypeEntity != null)
 				{
 					request.setAttribute("processType", procTypeEntity);
+					request.setAttribute("typeSlug", procTypeEntity.getProcessTypeSlug());
 					
 					String procDefId = request.getParameter("procDefId");
 					if (this.isObjectIdValid(procDefId))
@@ -757,7 +774,8 @@ extends BaseAppAction
 					procDefEntity.setProcessDefName(processDefName);
 					procDefEntity.setProcessType(procTypeEntity);
 					procDefEntity.setCreateTime(new Date());
-					procDefEntity.setFilterPositionNames("test");
+					
+					// procDefEntity.setFilterPositionNames("test");
 					
 					this.serviceProcessDefinition.save(procDefEntity);
 					

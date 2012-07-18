@@ -14,15 +14,16 @@
         <property name="processDefDesc" type="java.lang.String">
             <column name="def_description"/>
         </property>
-        <property name="filterPositionNames" type="java.lang.String">
-            <column name="filter_posnames" />
-        </property>
         <property name="condition" type="java.lang.String">
             <column name="def_trigger" />
         </property>
         <property name="createTime" type="timestamp">
             <column name="createtime" />
         </property>
+        
+        <many-to-one name="filterPoset" class="org.shengrui.oa.model.system.ModelSchoolPositionSet" unique="true">
+            <column name="filter_poset" />
+        </many-to-one>
         
         <many-to-one name="processType" class="ModelProcessType">
         	<column name="type_id" />

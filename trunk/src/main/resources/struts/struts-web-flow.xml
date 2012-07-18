@@ -33,7 +33,7 @@
 		</action>
 		
 		<!-- 财务审批流程设置 -->
-		<action path="/app/flow/financial"
+		<action path="/app/flow/finance"
 				scope="request"
 				parameter="action"
 				type="org.springframework.web.struts.DelegatingActionProxy">
@@ -46,6 +46,8 @@
 				parameter="action"
 				type="org.springframework.web.struts.DelegatingActionProxy">
 			<forward name="page.sys.setting.flow.hrm.index" path="page.sys.setting.flow.hrm.index" />
+			<forward name="page.sys.flow.hrm.configuration" path="page.sys.flow.hrm.configuration" />
+			<forward name="data.sys.setting.flow.hrm.poset.list" path="data.sys.setting.flow.hrm.poset.list" />
 		</action>
 		
 	</action-mappings>

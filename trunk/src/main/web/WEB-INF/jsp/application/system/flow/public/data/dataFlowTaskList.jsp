@@ -55,10 +55,10 @@
 						</c:choose>
 					</td>
 					<td>
-						<a href="app/flow.do?action=dialogFlowTaskConfigurationPage&procDefId={_var_fdefid}&procTaskId=${entity.id}" class="oplink" target="dialog" title="流程节点编辑" width="215" height="400" rel="sys_flowTaskEdit-${entity.id}">编辑</a>
+						<a href="app/flow/${typeSlug}.do?action=dialogFlowTaskConfigurationPage&procDefId={_var_fdefid}&procTaskId=${entity.id}" class="oplink" target="dialog" title="流程节点编辑" width="215" height="400" rel="sys_flowTaskEdit-${entity.id}">编辑</a>
 					</td>
 					<td>
-						<a href="app/flow.do?action=actionRemoveProcessTask&procTaskId=${entity.id}" class="oplink" target="ajaxTodo" title="确定要删除该流程节点吗?" rel="sys_flowDel-${entity.id}" callback="callback_procTaskRemove(${entity.processDefinition.processType.id}, ${entity.processDefinition.id})">删除</a>
+						<a href="app/flow/${typeSlug}.do?action=actionRemoveProcessTask&procTaskId=${entity.id}" class="oplink" target="ajaxTodo" title="确定要删除该流程节点吗?" rel="sys_flowDel-${entity.id}" callback="callback_procTaskRemove(${entity.processDefinition.processType.id}, ${entity.processDefinition.id})">删除</a>
 					</td>
 				</tr>
 			</logic:iterate>

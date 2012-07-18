@@ -3,6 +3,8 @@ package org.shengrui.oa.model.flow;
 import java.util.Date;
 import java.util.Set;
 
+import org.shengrui.oa.model.system.ModelSchoolPositionSet;
+
 import com.google.gson.annotations.Expose;
 
 import cn.trymore.core.model.ModelBase;
@@ -44,10 +46,9 @@ extends ModelBase
 	private ModelProcessType processType;
 	
 	/**
-	 * 过滤的职位名称, 多个名称以逗号分隔
+	 * 职位, 用于职位申请审批过滤
 	 */
-	@Expose
-	private String filterPositionNames;
+	private ModelSchoolPositionSet filterPoset;
 	
 	/**
 	 * 工作流创建时间
@@ -78,16 +79,6 @@ extends ModelBase
 	public void setProcessType(ModelProcessType processType)
 	{
 		this.processType = processType;
-	}
-
-	public void setFilterPositionNames(String filterPositionNames)
-	{
-		this.filterPositionNames = filterPositionNames;
-	}
-
-	public String getFilterPositionNames()
-	{
-		return filterPositionNames;
 	}
 
 	public String getProcessDefName()
@@ -128,6 +119,16 @@ extends ModelBase
 	public Set<ModelProcessTask> getProcessTasks()
 	{
 		return processTasks;
+	}
+
+	public void setFilterPoset(ModelSchoolPositionSet filterPoset)
+	{
+		this.filterPoset = filterPoset;
+	}
+
+	public ModelSchoolPositionSet getFilterPoset()
+	{
+		return filterPoset;
 	}
 	
 }

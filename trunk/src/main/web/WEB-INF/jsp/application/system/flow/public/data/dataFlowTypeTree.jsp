@@ -10,9 +10,9 @@
 <script type="text/javascript">
 	// 高亮显示选中
 	function ftype_activated(id) {
-		var uroot = $("#ftentity_" + id).parent().parent().parent();
+		var uroot = $("#ftentity_${typeSlug}_" + id).parent().parent().parent();
 		uroot.find("div.selected").removeClass("selected");
-		$("#ftentity_" + id).parent().addClass("selected");
+		$("#ftentity_${typeSlug}_" + id).parent().addClass("selected");
 	}
 </script>
 
@@ -22,7 +22,14 @@
 		<ul>
 			<c:if test="${rootTypes ne null}">
 				<c:forEach items="${rootTypes}" var="entity">
-					<li><a id="ftentity_${entity.id}" class='tparam' param="_var_ftypeid" paramRel="${entity.id}" href="app/flow.do?action=actionLoadProcessTypes&rootTypeId=${entity.id}" callback="ftype_activated(${entity.id});" target="ajax" rel="ajBoxFlowType_${typeSlug}"><c:out value="${entity.processTypeName}" /></a></li>
+					<c:choose>
+						<c:when test="${typeSlug eq 'finance'}">
+							<li><a id="ftentity_${typeSlug}_${entity.id}" class='tparam' param="_var_ftypeid" paramRel="${entity.id}" href="app/flow/${typeSlug}.do?action=actionLoadProcessTypes&rootTypeId=${entity.id}" callback="ftype_activated(${entity.id});" target="ajax" rel="ajBoxFlowType_${typeSlug}"><c:out value="${entity.processTypeName}" /></a></li>
+						</c:when>
+						<c:when test="${typeSlug eq 'hrm'}">
+							<li><a id="ftentity_${typeSlug}_${entity.id}" class='tparam' param="_var_ftypeid" paramRel="${entity.id}" href="app/flow/${typeSlug}.do?action=actionLoadProcessPosets&rootTypeId=${entity.id}" callback="ftype_activated(${entity.id});" target="ajax" rel="ajBoxFlowType_${typeSlug}"><c:out value="${entity.processTypeName}" /></a></li>
+						</c:when>
+					</c:choose>
 				</c:forEach>
 			</c:if>
 		</ul>

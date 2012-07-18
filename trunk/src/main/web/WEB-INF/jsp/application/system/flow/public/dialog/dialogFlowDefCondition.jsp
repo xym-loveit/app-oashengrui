@@ -8,7 +8,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div class="pageContent">
-	<form method="post" action="app/flow.do?action=actionSaveProcessDefinition" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<form method="post" action="app/flow/${typeSlug}.do?action=actionSaveProcessDefinition" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent" layoutH="56">
 			<table cellspacing="10" cellpadding="10" class="dform">
 				<tr>

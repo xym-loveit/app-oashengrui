@@ -44,4 +44,17 @@ extends ServiceGeneric<ModelProcessDefinition>
 	List<ModelProcessDefinition> getProcessDefinition (String processTypeId,
 			String filterPositions, Object condParamValue) throws ServiceException;
 	
+	/**
+	 * Obtains list of process definitions filtered by position set id.
+	 * 
+	 * @param procTypeId
+	 *           the process type id
+	 * @param posetId
+	 *           the position set id
+	 * @return list of process definition entities
+	 * @throws ServiceException
+	 */
+	List<ModelProcessDefinition> getProcessDefinitionFilterByPoset (String procTypeId, 
+			String posetId) throws ServiceException;
+	
 }

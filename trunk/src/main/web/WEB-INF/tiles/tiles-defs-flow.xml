@@ -52,10 +52,18 @@
 	
 	<!-- 财务审批流程页面 -->
 	<definition name="page.sys.setting.flow.financial.index" 
-		path="/WEB-INF/jsp/application/system/flow/financial/flowFinancialIndex.jsp"/>
+		path="/WEB-INF/jsp/application/system/flow/financial/pageFlowFinancialIndex.jsp"/>
 		
 	<!-- 人资审批流程页面 -->
 	<definition name="page.sys.setting.flow.hrm.index" 
-		path="/WEB-INF/jsp/application/system/flow/hrm/flowHrmIndex.jsp"/>
+		path="/WEB-INF/jsp/application/system/flow/hrm/pageFlowHrmIndex.jsp"/>
+	
+	<!--人资职位流程配置数据列表页面 -->
+	<definition name="data.sys.setting.flow.hrm.poset.list" 
+		path="/WEB-INF/jsp/application/system/flow/hrm/data/dataFlowPosetList.jsp"/>
+	
+	<!-- 人资职位流程配置页面 -->
+	<definition name="page.sys.flow.hrm.configuration" 
+		path="/WEB-INF/jsp/application/system/flow/hrm/pageFlowHrmPosetConfiguration.jsp"/>
 	
 </tiles-definitions>

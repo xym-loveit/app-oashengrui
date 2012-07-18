@@ -12,34 +12,26 @@
 	<thead>
 		<tr>
 			<th align="center">序号</th>
-			<th align="center">类别名称</th>
-			<th align="center">类别标识</th>
-			<th align="center">类别说明</th>
+			<th align="center">职位名称</th>
 			<th align="center">流程状态</th>
 			<th align="center">流程配置</th>
-			<th align="center">编辑</th>
 			<th align="center">删除</th>
 		</tr>
 	</thead>
 	<tbody>
-		<logic:present name="types">
-			<logic:iterate name="types" id="entity" indexId="idx">
+		<logic:present name="posetList">
+			<logic:iterate name="posetList" id="entity" indexId="idx">
 				<tr target="typeId" rel="${entity.id}" id="mfunc-${entity.id}">
 					<td>${idx+1}</td>
-					<td>${entity.processTypeName}</td>
-					<td>${entity.processTypeKey}</td>
-					<td>${entity.processTypeDesc}</td>
+					<td>${entity.posetName}</td>
 					<td>
 						<c:choose>
-							<c:when test="${fn:length(entity.processDefinitions) gt 0}">已配置</c:when>
+							<c:when test="${filteredDefs ne null && fn:length(filteredDefs) gt 0 && filteredDefs[entity.id] ne null}">已配置</c:when>
 							<c:otherwise>未配置</c:otherwise>
 						</c:choose>
 					</td>
 					<td>
-						<a href="app/flow/${typeSlug}.do?action=pageFlowConfigure&procTypeId=${entity.id}" class="oplink" target="navTab" title="流程`${entity.processTypeName}`配置" width="400" height="245" rel="sys_flowEdit-${entity.id}">流程配置</a>
-					</td>
-					<td>
-						<a href="app/flow/${typeSlug}.do?action=dialogFlowTypePage&rootTypeId=${entity.processTypeParent.id}&id=${entity.id}" class="oplink" target="dialog" title="审批类型`${entity.processTypeName}`编辑" width="400" height="245" rel="sys_flowEdit-${entity.id}">编辑</a>
+						<a href="app/flow/hrm.do?action=pageFlowPosetConfigure&procTypeId=${rootTypeId}&posetId=${entity.id}" class="oplink" target="navTab" title="流程`${entity.posetName}`配置" width="400" height="245" rel="sys_flowEdit-${entity.id}">流程配置</a>
 					</td>
 					<td>
 						<a href="app/system/school/department/position.do?action=actionRemoveDepartmentPosition&posId=${entity.id}" class="oplink" target="ajaxTodo" title="确定要删除该审批类型吗?" rel="sys_flowDel-${entity.id}" callback="callback_funcRemove(${entity.id})">删除</a>
