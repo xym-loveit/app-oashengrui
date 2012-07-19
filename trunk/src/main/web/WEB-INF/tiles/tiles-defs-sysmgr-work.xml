@@ -9,6 +9,10 @@
 	<definition name="page.sys.setting.work.template.index" 
 		path="/WEB-INF/jsp/application/system/work/template/templateIndex.jsp"/>
 		
+   <!-- 系统设置 - 工作安排设置 - 添加工作安排 -->
+   <definition name="dialog.sys.setting.work.template.addpage" 
+      path="/WEB-INF/jsp/application/system/work/template/dialog/dialogAddWorkArrangePage.jsp"/>
+      
 	<!-- 系统设置 - 工作安排设置 - 工作基础设置 -->
 	<definition name="page.sys.setting.work.base.index" 
 		path="/WEB-INF/jsp/application/system/work/base/baseIndex.jsp"/>	
