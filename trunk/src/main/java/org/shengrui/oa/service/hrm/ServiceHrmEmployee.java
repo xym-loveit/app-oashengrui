@@ -51,5 +51,10 @@ extends ServiceGeneric<ModelHrmEmployee>
 	 */
 	PaginationSupport<ModelHrmEmployee> getEmployeeInfoPagination (ModelHrmEmployee entity, 
 			PagingBean pagingBen) throws ServiceException;
+	
+	/**
+	 * 根据校区和部门查员工
+	 */
+	List<ModelHrmEmployee> getEmployeeByDistrictIdAndDeptId(ModelHrmEmployee entity) throws ServiceException;
 
 }
