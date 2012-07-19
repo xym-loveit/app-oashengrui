@@ -557,6 +557,7 @@ CREATE TABLE IF NOT EXISTS `app_hrm_employee_develop` (
   `to_position` bigint(20) DEFAULT NULL COMMENT '申请岗位',
   `status` char(1) DEFAULT NULL,
   `audit_state` bigint(20) DEFAULT NULL,
+  `op_state` tinyint(4) NOT NULL DEFAULT '0' COMMENT '操作状态, 0=未操作, 1=已操作 ',
   `entry_id` bigint(20) DEFAULT NULL,
   `entry_datetime` datetime DEFAULT NULL COMMENT '录入时间',
   PRIMARY KEY (`develop_id`)
