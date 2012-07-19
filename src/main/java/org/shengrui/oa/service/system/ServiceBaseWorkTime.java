@@ -34,5 +34,5 @@ public interface ServiceBaseWorkTime extends ServiceGeneric<ModelBaseWorkTime> {
 	/**
 	 * 根据模板号查工作时间分布
 	 */
-	public List<ModelBaseWorkTime> getDayWorkTimeByTemplateId(String templateId) throws ServiceException;
+	public List<ModelBaseWorkTime> getDayWorkTimeByDistrictIdAndTemplateId(String districtId,String templateId) throws ServiceException;
 }
