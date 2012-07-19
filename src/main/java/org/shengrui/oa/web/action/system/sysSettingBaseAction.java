@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.shengrui.oa.service.system.ServiceAppFunction;
 import org.shengrui.oa.service.system.ServiceBaseWorkContent;
 import org.shengrui.oa.service.system.ServiceBaseWorkTime;
+import org.shengrui.oa.service.system.ServiceWorkTemplate;
 import org.shengrui.oa.web.action.BaseAppAction;
 
 /**
@@ -16,6 +17,21 @@ import org.shengrui.oa.web.action.BaseAppAction;
 public class sysSettingBaseAction
 extends BaseAppAction
 {
+	protected ServiceWorkTemplate serviceWorkTemplate;
+	/**
+	 * @return the serviceWorkTemplate
+	 */
+	public ServiceWorkTemplate getServiceWorkTemplate() {
+		return serviceWorkTemplate;
+	}
+
+	/**
+	 * @param serviceWorkTemplate the serviceWorkTemplate to set
+	 */
+	public void setServiceWorkTemplate(ServiceWorkTemplate serviceWorkTemplate) {
+		this.serviceWorkTemplate = serviceWorkTemplate;
+	}
+
 	protected ServiceBaseWorkTime serviceBaseWorkTime;
 	/**
 	 * base work content service
