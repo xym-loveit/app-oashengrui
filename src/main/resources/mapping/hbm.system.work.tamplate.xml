@@ -28,11 +28,11 @@
          <column name="district_id" />
         </many-to-one>
         
-        <many-to-one name="workTime" class="org.shengrui.oa.model.system.ModelBaseWorkTime">
+        <many-to-one name="workTime" class="org.shengrui.oa.model.system.ModelBaseWorkTime" cascade="save-update,persist" update="false" insert="false">
          <column name="worktm_id" />
         </many-to-one>
         
-        <many-to-one name="workContent" class="org.shengrui.oa.model.system.ModelBaseWorkContent">
+        <many-to-one name="workContent" class="org.shengrui.oa.model.system.ModelBaseWorkContent" cascade="save-update,persist" update="false" insert="false">
          <column name="workcnt_id" />
         </many-to-one>
    </class>
