@@ -32,7 +32,7 @@
 				<tr>
 					<td>入职校区</td>
 					<td>
-						<select class="combox required" name="entryDistrictId" id="combox_district_in" style="width:150px" ref="combox_dept_in" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
+						<select class="combox required" name="entryDistrictId" id="combox_district_in" style="width:150px" ref="combox_dept_in" refUrl="app/base.do?action=actionLoadDepartmentByOrg&districtId={value}">
 							<option value="">请选择校区</option>
 							<logic:present name="districts">
 								<logic:iterate name="districts" id="district">
@@ -43,7 +43,7 @@
 					</td>
 					<td>入职部门：</td>
 					<td>
-						<select class="combox required" name="entryDepartmentId" id="combox_dept_in" defOPKey="请选择部门" defOPVal="" style="width:150px" ref="combox_position_in" refUrl="app/hrm/hire.do?action=actionLoadPositionByDepartment&depId={value}">
+						<select class="combox required" name="entryDepartmentId" id="combox_dept_in" defOPKey="请选择部门" defOPVal="" style="width:150px" ref="combox_position_in" refUrl="app/base.do?action=actionLoadPositionByDepartment&depId={value}">
 							<option value="">请选择部门</option>
 							<logic:present name="departments">
 								<logic:iterate name="departments" id="entity">
