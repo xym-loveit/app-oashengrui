@@ -10,6 +10,7 @@ import org.shengrui.oa.dao.hrm.DAOHrmEmployee;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.service.hrm.ServiceHrmEmployee;
 
+import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
 import cn.trymore.core.util.UtilString;
@@ -144,5 +145,31 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 	public DAOHrmEmployee getDaoHrmEmployee()
 	{
 		return daoHrmEmployee;
+	}
+
+	@Override
+	public List<ModelHrmEmployee> getEmployeeByDistrictIdAndDeptId(
+			ModelHrmEmployee entity) throws ServiceException {
+		// TODO Auto-generated method stub
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployee.class);
+		
+		if (entity != null)
+		{
+			if (entity.getEmployeeDistrict() != null && entity.getEmployeeDistrict().getId() != null)
+			{
+				criteria.createCriteria("employeeDistrict").add(Restrictions.eq("id", entity.getEmployeeDistrict().getId()));
+			}
+			
+			if (UtilString.isNotEmpty(entity.getEmpName()))
+			{
+				criteria.createCriteria("employeeDepartment").add(Restrictions.eq("id", entity.getEmployeeDepartment().getId()));
+			}
+		}
+		try {
+			return this.daoHrmEmployee.getListByCriteria(criteria);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			throw new ServiceException(e);
+		}
 	}
 }
