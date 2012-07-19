@@ -9,6 +9,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
 
+<style>
+	a.op_enable {color: blue; text-decoration: underline;}
+	a.op_disable {color: #999; text-decoration: underline; cursor: text;}
+</style>
+
+<script>
+	function callback_finalizeDone() {
+		// 重新加载当前的navTab
+		navTab.reload(navTab.getCurrentTabUrl(), {navTabId: navTab.getCurrentTabId()});
+	}
+</script>
+
 <table class="table" width="100%" layoutH="75">
 	<thead>
 		<tr>
@@ -19,7 +31,10 @@
 			<th align="center">审批状态</th>
 			<th align="center">审批环节</th>
 			<th align="center">审批结果</th>
-			<th align="center">申请单查看</th>
+			<th align="center">审批详细</th>
+			<c:if test="${!isOnApproval}">
+			<th align="center">操作</th>
+			</c:if>
 		</tr>
 	</thead>
 	<tbody>
@@ -65,6 +80,36 @@
 					<td>
 						<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${entity.id}&op=view" target="dialog" title="查看‘${entity.employee.empName}’人资申请单-${entity.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${entity.id}">详细</a></td>
 					</td>
+					<c:if test="${!isOnApproval}">
+					<td align="center">
+						<c:choose>
+							<c:when test="${entity.applyFormType.processTypeKey eq 'PROCESS_MEMBER_BERGULAR'}">
+								<c:choose>
+									<c:when test="${entity.auditState eq 2 && entity.operationState eq 0}"><a target="ajaxTodo" href="app/hrm/develop.do?action=actionDevelopFinalize&id=${entity.id}&state=2" class="op_enable" title="确定要进行转正操作吗?" callback="callback_finalizeDone()">转正</a></c:when>
+									<c:otherwise><a href="javascript:void(0);" class="op_disable">转正</a></c:otherwise>
+								</c:choose>
+							</c:when>
+							<c:when test="${entity.applyFormType.processTypeKey eq 'PROCESS_MEMBER_PROMOTION'}">
+								<c:choose>
+									<c:when test="${entity.auditState eq 2 && entity.operationState eq 0}"><a target="ajaxTodo" href="app/hrm/develop.do?action=actionDevelopFinalize&id=${entity.id}&state=6" class="op_enable" title="确定要进行晋升操作吗?">晋升</a></c:when>
+									<c:otherwise><a href="javascript:void(0);" class="op_disable">晋升</a></c:otherwise>
+								</c:choose>
+							</c:when>
+							<c:when test="${entity.applyFormType.processTypeKey eq 'PROCESS_MEMBER_FAIRWELL'}">
+								<c:choose>
+									<c:when test="${entity.auditState eq 2 && entity.operationState eq 0}"><a target="ajaxTodo" href="app/hrm/develop.do?action=actionDevelopFinalize&id=${entity.id}&state=4" class="op_enable" title="确定要进行离职操作吗?">离职</a></c:when>
+									<c:otherwise><a href="javascript:void(0);" class="op_disable">离职</a></c:otherwise>
+								</c:choose>
+							</c:when>
+							<c:when test="${entity.applyFormType.processTypeKey eq 'PROCESS_MEMBER_TRANSFER'}">
+								<c:choose>
+									<c:when test="${entity.auditState eq 2 && entity.operationState eq 0}"><a target="ajaxTodo" href="app/hrm/develop.do?action=actionDevelopFinalize&id=${entity.id}&state=3" class="op_enable" title="点击进行调动操作...">调动</a></c:when>
+									<c:otherwise><a href="javascript:void(0);" class="op_disable">调动</a></c:otherwise>
+								</c:choose>
+							</c:when>
+						</c:choose>
+					</td>
+					</c:if>
 				</tr>
 			</logic:iterate>
 		</logic:present>

@@ -26,6 +26,9 @@
          <property name="auditState" type="java.lang.Integer">
             <column name="audit_state" />
         </property>
+         <property name="operationState" type="java.lang.Integer">
+            <column name="op_state" />
+        </property>
          <property name="entryId" type="java.lang.Integer">
             <column name="entry_id" />
         </property>

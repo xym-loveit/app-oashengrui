@@ -13,6 +13,7 @@
 		var currentPanel = $(navTab.getCurrentPanel());
 		if ($("#_var_fdefid", currentPanel).size() > 0) {
 			var def_id = $("#_var_fdefid", currentPanel).val();
+			// $(navTab.getCurrentPanel())
 			$("#ajBoxFlowConf_${processDef.processType.id}").loadUrl("app/flow.do?action=actionLoadProcessTasks&procDefId=" + def_id, {}, function(){
 				$.pdialog.closeCurrent();
 			});
@@ -23,15 +24,19 @@
 	
 		$("#proc_task_type").unbind("change");
 		$("#proc_task_type").bind("change", function(){
-			var task_type = $(this).find("option").filter(":selected").attr("value");
-			$("#form_box").loadUrl("app/flow.do?action=actionLoadProcessTaskFormPage&processTaskType=" + task_type, {}, function(){
-				
-			});
+			if ($.pdialog._current) {
+				var task_type = $(this).find("option").filter(":selected").attr("value");
+				$($.pdialog._current.find("#form_box")).loadUrl("app/flow.do?action=actionLoadProcessTaskFormPage&processTaskType=" + task_type, {}, function(){
+					
+				});
+			}
 		});
 		
 		<logic:present name="taskType">
-			$("#form_box").loadUrl("app/flow.do?action=actionLoadProcessTaskFormPage&processTaskType=${taskType}<c:if test='${procTask ne null}'>&procTaskId=${procTask.id}</c:if>", {}, function(){
-			});
+			if ($.pdialog._current) {
+				$($.pdialog._current.find("#form_box")).loadUrl("app/flow.do?action=actionLoadProcessTaskFormPage&processTaskType=${taskType}<c:if test='${procTask ne null}'>&procTaskId=${procTask.id}</c:if>", {}, function(){
+				});
+			}
 		</logic:present>
 		
 	});

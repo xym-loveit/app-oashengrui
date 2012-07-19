@@ -41,14 +41,17 @@
 								
 								// added by Jeccy.Zhao on 2012.07.16
 								var params = {};
-								if ($(this).attr("paramRef")) {
-									var refs = $(this).attr("paramRef").split(",");
-									for (k=0; k < refs.length; k++) {
-										var ref = $.trim(refs[k]);
-										if ($("#"+ref).size() > 0) {
-											get_form_inputs(ref, params);
+								var cpanl = $(navTab.getCurrentPanel());
+								if (cpanl) {
+									if ($(this).attr("paramRef")) {
+										var refs = $(this).attr("paramRef").split(",");
+										for (k=0; k < refs.length; k++) {
+											var ref = $.trim(refs[k]);
+											if ($("#"+ref).size() > 0) {
+												get_form_inputs(cpanl.find("#"+ref), params);
+											}
 										}
-									}
+									}									
 								}
 								
 								var callback = $(this).attr("callback");

@@ -755,14 +755,14 @@ function polish_js_page(page_id,page_total,page_size){
   * @param json_obj
   *           the json object
   */
- function get_form_inputs (ele_id, json_obj) {
-	if ($("#"+ele_id).size() > 0) {
+ function get_form_inputs (ele, json_obj) {
+	if ($(ele).size() > 0) {
 		
 		json_obj = json_obj || {};
 		
-		var ele_ipts = $("#"+ele_id).find("input");
-		var ele_textareas = $("#"+ele_id).find("textarea");
-		var ele_comboxs = $("#"+ele_id).find("select");
+		var ele_ipts = $(ele).find("input");
+		var ele_textareas = $(ele).find("textarea");
+		var ele_comboxs = $(ele).find("select");
 		
 		// To be enhanced, radio and checkbox type should be supported also in the future.
 		if (ele_ipts.size() > 0) {

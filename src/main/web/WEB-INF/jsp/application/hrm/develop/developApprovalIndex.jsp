@@ -26,7 +26,7 @@
 	}
 </script>
 
-<form id="pagerForm" method="post" action="app/finan/${PAGE_TYPE eq 'FE' ? 'expense' : 'contract'}.do?action=pageFina${PAGE_TYPE eq 'FE' ? 'Expense' : 'Contract'}Records">
+<form id="pagerForm" method="post" action="app/hrm/develop.do?action=hrmEmployeeDevelopIndex">
 	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
 	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
 	<input type="hidden" name="currentindex" value="${currentindex ne null ? currentindex : 0}" />
@@ -34,10 +34,14 @@
 
 <!-- SearchBar -->
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="app/finan/${PAGE_TYPE eq 'FE' ? 'expense' : 'contract'}.do?action=pageFina${PAGE_TYPE eq 'FE' ? 'Expense' : 'Contract'}Records" method="post" id="searchForm" rel="pagerForm">
+	<form onsubmit="return navTabSearch(this);" action="app/hrm/develop.do?action=hrmEmployeeDevelopIndex" method="post" id="searchForm" rel="pagerForm">
 		<div class="searchBar">
 			<table class="searchContent" id="record_form">
 				<tr>
+					<td>
+						<label>审批人：</label>
+						<input name="employee.fullName" type="text" value="${formEntity ne null && formEntity.employee.fullName ne null ? formEntity.employee.fullName : ''}" postField="fullName" suggestFields="fullName,districtName" suggestUrl="app/base.do?action=lookupEmployeeByName" lookupGroup="employee" />
+					</td>
 					<td>
 						<label>所属校区：</label>
 						<select class="combox" name="empDistrictId" id="combox_district_emp${PAGE_TYPE}">
@@ -90,8 +94,8 @@
 			<div class="tabsHeader">
 				<div class="tabsHeaderContent">
 					<ul>
-						<li class="selected"><a href="app/hrm/develop.do?action=actionLoadDevelopRecords&finished" class="j-ajax" callback="after_switch(0)" paramRef="pagerForm, record_form"><span>审批结束</span></a></li>
-						<li class=""><a href="app/hrm/develop.do?action=actionLoadDevelopRecords" class="j-ajax" callback="after_switch(1)" paramRef="pagerForm, record_form"><span>审批中</span></a></li>
+						<li class="selected"><a href="app/hrm/develop.do?action=actionDevelopLoadRecords&finished" class="j-ajax" callback="after_switch(0)" paramRef="pagerForm, record_form"><span>审批结束</span></a></li>
+						<li class=""><a href="app/hrm/develop.do?action=actionDevelopLoadRecords" class="j-ajax" callback="after_switch(1)" paramRef="pagerForm, record_form"><span>审批中</span></a></li>
 					</ul>
 				</div>
 			</div>

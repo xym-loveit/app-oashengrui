@@ -1,5 +1,6 @@
 package org.shengrui.oa.web.action.hrm;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,8 +10,10 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.shengrui.oa.model.flow.ModelProcessForm;
 import org.shengrui.oa.model.flow.ModelProcessType;
 import org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop;
+import org.shengrui.oa.model.hrm.ModelHrmEmployeeRoadMap;
 import org.shengrui.oa.service.flow.ServiceProcessType;
 
 import cn.trymore.core.exception.ServiceException;
@@ -47,13 +50,6 @@ extends BaseHrmAction
 		try
 		{
 			ModelHrmEmployeeDevelop employeeDevelopForm = (ModelHrmEmployeeDevelop) form;
-			String op = request.getParameter("op");
-			PagingBean pagingBean = this.getPagingBean(request);
-			PaginationSupport<ModelHrmEmployeeDevelop> employeeDevelopInfo =
-					this.serviceHrmEmployeeDevelop.getEmployeeDevelopInfoPagination(employeeDevelopForm, pagingBean);
-			
-			request.setAttribute("employeeDevelopInfo", employeeDevelopInfo);
-			request.setAttribute("employeeDevelopForm", employeeDevelopForm);
 			
 			List<ModelProcessType> procTypes = this.serviceProcessType.getTypesBySlug("hrm", true);
 			if (procTypes == null)
@@ -62,17 +58,10 @@ extends BaseHrmAction
 			}
 			
 			request.setAttribute("types", procTypes);
+			request.setAttribute("formEntity", employeeDevelopForm);
 			
 			// 获取所有校区, 用于搜索查询使用
 			request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
-			
-			if("viewprogress".equals(op))
-			{
-				request.setAttribute("op", op);
-			}
-			// 输出分页信息至客户端
-			outWritePagination(request, pagingBean, employeeDevelopInfo);
-			
 		} 
 		catch (ServiceException e)
 		{
@@ -120,7 +109,7 @@ extends BaseHrmAction
 	 * <b>[WebAction]</b> <br/>
 	 * 人力资源发展调动，离职，晋升，转正
 	 */
-	public ActionForward hrmEmployeeDevelopFinalize(ActionMapping mapping, ActionForm form,
+	public ActionForward actionDevelopFinalize(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) 
 	{
 		try
@@ -128,16 +117,47 @@ extends BaseHrmAction
 			String developId = request.getParameter("id");
 			if (this.isObjectIdValid(developId))
 			{
-				ModelHrmEmployeeDevelop developInfo = this.serviceHrmEmployeeDevelop.get(developId);
-				if (developInfo != null)
+				String state = request.getParameter("state");
+				if (this.isObjectIdValid(state) && this.isOperationStateAccepted(Integer.valueOf(state)))
 				{
-					request.setAttribute("employeeDevelopEntry", developInfo);
+					ModelHrmEmployeeDevelop developInfo = this.serviceHrmEmployeeDevelop.get(developId);
+					if (developInfo != null)
+					{
+						// 保存操作
+						developInfo.setOperationState(1);
+						this.serviceHrmEmployeeDevelop.save(developInfo);
+
+						// 记录至员工晟睿旅程
+						ModelHrmEmployeeRoadMap roadMap = new ModelHrmEmployeeRoadMap();
+						roadMap.setDate(new Date());
+						roadMap.setEmployee(developInfo.getEmployee());
+						roadMap.setOrginalDistrict(developInfo.getFromDistrict());
+						roadMap.setOrginalDepartmentPosition(developInfo.getFromPosition());
+						roadMap.setOrginalDepartment(developInfo.getFromDepartment());
+						roadMap.setDstDepartment(developInfo.getToDepartment());
+						roadMap.setDstDepartmentPosition(developInfo.getToPosition());
+						roadMap.setDstDistrict(developInfo.getToDistrict());
+						roadMap.setType(Integer.valueOf(state));
+						
+						this.serviceHrmEmployeeRoadMap.save(roadMap);
+						
+						// 保存成功后, Dialog进行关闭
+						return ajaxPrint(response, 
+								getSuccessCallback("操作成功...", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+					}
+					else
+					{
+						return ajaxPrint(response, getErrorCallback("人力申请(id:" + developId + ")数据不存在."));
+					}
 				}
-				request.setAttribute("op", request.getParameter("op"));
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("需要传入合法的操作状态, 非法状态参数被传递: " + state));
+				}
 			}
 			else
 			{
-				LOGGER.error("需要传入人资发展ID参数.");
+				return ajaxPrint(response, getErrorCallback("需要传入人资发展ID参数."));
 			}
 		}
 		catch (ServiceException e)
@@ -151,7 +171,7 @@ extends BaseHrmAction
 	 * <b>[WebAction]</b> <br/>
 	 * 费用支出记录
 	 */
-	public ActionForward actionLoadDevelopRecords (ActionMapping mapping, ActionForm form,
+	public ActionForward actionDevelopLoadRecords (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) 
 	{
 		try
@@ -163,6 +183,7 @@ extends BaseHrmAction
 			obtainDevelopRecords(formEntity, isOnApproval, request);
 			
 			request.setAttribute("formEntity", formEntity);
+			request.setAttribute("isOnApproval", isOnApproval);
 		} 
 		catch (Exception e)
 		{
@@ -187,6 +208,21 @@ extends BaseHrmAction
 		{
 			// 审批中
 			formEntity.setAuditState(null);
+			formEntity.setCondAuditStates(new Integer[] {null});
+		}
+		else
+		{
+			if (formEntity.getAuditState() != null && formEntity.getAuditState() > -1) 
+			{
+				formEntity.setAuditState(formEntity.getAuditState());
+			}
+			else
+			{
+				formEntity.setCondAuditStates(new Integer[] {
+					ModelProcessForm.EProcessFormStatus.APPROVED.getValue(), 
+					ModelProcessForm.EProcessFormStatus.NOTPASSED.getValue(),
+					ModelProcessForm.EProcessFormStatus.RETURNED.getValue()});
+			}
 		}
 		
 		PagingBean pagingBean = this.getPagingBean(request);
@@ -199,6 +235,26 @@ extends BaseHrmAction
 		outWritePagination(request, pagingBean, items);
 		
 		return items;
+	}
+	
+	/**
+	 * Returns true if the specified operation state accepted.  
+	 * 
+	 * @param operationState
+	 *                  the operation state.
+	 * @return
+	 */
+	private boolean isOperationStateAccepted (Integer operationState)
+	{
+		if (operationState != null)
+		{
+			return ModelHrmEmployeeRoadMap.ERoadMapType.BEREGULAR.getValue().equals(operationState) || 
+						ModelHrmEmployeeRoadMap.ERoadMapType.PROMOTION.getValue().equals(operationState) || 
+						ModelHrmEmployeeRoadMap.ERoadMapType.FAIRWELL.getValue().equals(operationState) || 
+						ModelHrmEmployeeRoadMap.ERoadMapType.TRANSFER.getValue().equals(operationState);
+		}
+		
+		return false;
 	}
 	
 	public ServiceProcessType getServiceProcessType()

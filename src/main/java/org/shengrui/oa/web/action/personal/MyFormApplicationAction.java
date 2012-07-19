@@ -187,7 +187,6 @@ extends FlowBaseAction
 							}
 							
 							request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
-							request.setAttribute("departments", this.serviceSchoolDepartment.getAll());
 							request.setAttribute("op", request.getParameter("op"));
 							
 							return mapping.findForward(

@@ -9,6 +9,8 @@
 		<property name="serviceSchoolDepartmentPosition" ref="serviceSchoolDepartmentPosition" />
 		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
 		<property name="serviceHrmEmployeeDevelop" ref="serviceHrmEmployeeDevelop" />
+		<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
+		<property name="serviceHrmEmployeeRoadMap" ref="serviceHrmEmployeeRoadMap" />
 		<property name="serviceProcessType" ref="serviceProcessType" />
 	</bean>
 	
