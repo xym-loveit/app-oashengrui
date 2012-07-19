@@ -65,14 +65,16 @@ CREATE TABLE `app_admin_doc` (
   `doc_postDepId` bigint(20) NOT NULL COMMENT '文档上传部门',
   `author_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '上传用户',
   `create_time` datetime NOT NULL COMMENT '上传时间',
+  `file_id` bigint(20) DEFAULT NULL COMMENT '附件id',
   PRIMARY KEY (`doc_id`),
   KEY `PK_range` (`doc_VisiableRange_id`),
   KEY `PK_level` (`doc_level_id`),
   KEY `PK_district` (`doc_postDistrictId`),
   KEY `PK_department` (`doc_postDepId`),
   KEY `PK_author` (`author_id`),
-  KEY `PK_dcoType` (`type_dicid`)
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8 COMMENT='行政管理-文档';
+  KEY `PK_dcoType` (`type_dicid`),
+  KEY `PK_file` (`file_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='行政管理-文档';
 
 #
 # Dumping data for table app_admin_doc
@@ -80,37 +82,8 @@ CREATE TABLE `app_admin_doc` (
 
 LOCK TABLES `app_admin_doc` WRITE;
 /*!40000 ALTER TABLE `app_admin_doc` DISABLE KEYS */;
-INSERT INTO `app_admin_doc` VALUES (1,1,'技术与经济',1,2,'ll','ll',3,7,1,'2011-12-29');
-INSERT INTO `app_admin_doc` VALUES (2,2,'你好，舒先生',1,1,'1','1',1,7,1,'2012-07-22');
-INSERT INTO `app_admin_doc` VALUES (60,2,'奖赏某某员工',2,1,'',NULL,1,7,1,'2012-07-18 08:54:56');
-INSERT INTO `app_admin_doc` VALUES (61,2,'外派出差安排',2,1,'',NULL,3,10,1,'2012-07-18 13:28:46');
-INSERT INTO `app_admin_doc` VALUES (62,1,'公司发展谋略',1,3,'',NULL,1,11,1,'2012-07-18 13:29:33');
-INSERT INTO `app_admin_doc` VALUES (63,1,'大家一起游玩去吧',1,1,'',NULL,1,7,1,'2012-07-18 13:29:46');
-INSERT INTO `app_admin_doc` VALUES (64,1,'世界末日',1,1,'',NULL,1,7,1,'2012-07-18 15:49:24');
-INSERT INTO `app_admin_doc` VALUES (65,1,'我想回家',1,1,'',NULL,1,7,1,'2012-07-18 15:58:56');
-INSERT INTO `app_admin_doc` VALUES (66,1,'谢谢你们曾经看清我',1,1,'',NULL,1,7,1,'2012-07-18 16:02:57');
+INSERT INTO `app_admin_doc` VALUES (19,1,'sssss',1,1,'',NULL,1,7,1,'2012-07-19 23:40:40',1);
 /*!40000 ALTER TABLE `app_admin_doc` ENABLE KEYS */;
-UNLOCK TABLES;
-
-#
-# Source for table app_admin_doc_file
-#
-
-DROP TABLE IF EXISTS `app_admin_doc_file`;
-CREATE TABLE `app_admin_doc_file` (
-  `doc_id` bigint(20) NOT NULL COMMENT '文档ID',
-  `file_id` bigint(20) NOT NULL COMMENT '文件ID',
-  PRIMARY KEY (`doc_id`),
-  KEY `PK_doc` (`doc_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-文档文件关联表';
-
-#
-# Dumping data for table app_admin_doc_file
-#
-
-LOCK TABLES `app_admin_doc_file` WRITE;
-/*!40000 ALTER TABLE `app_admin_doc_file` DISABLE KEYS */;
-/*!40000 ALTER TABLE `app_admin_doc_file` ENABLE KEYS */;
 UNLOCK TABLES;
 
 #
@@ -336,7 +309,7 @@ CREATE TABLE `app_file_attach` (
   `file_bytes` int(11) NOT NULL COMMENT '文件总大小',
   `del_flag` smallint(6) DEFAULT '0' COMMENT '1=已删除, 0=未删除',
   PRIMARY KEY (`file_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='附件';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='附件';
 
 #
 # Dumping data for table app_file_attach
@@ -344,12 +317,45 @@ CREATE TABLE `app_file_attach` (
 
 LOCK TABLES `app_file_attach` WRITE;
 /*!40000 ALTER TABLE `app_file_attach` DISABLE KEYS */;
-INSERT INTO `app_file_attach` VALUES (18,'link.ico','others/201207/49e68712f43b4a4c8f3c2ad0b56a02ce.ico','2012-07-18 15:58:50','ico','others','189.94 KB','Unknow',NULL,194503,0);
-INSERT INTO `app_file_attach` VALUES (19,'hot.ico','others/201207/cf48e7e68b894518b20ab0c59696dc91.ico','2012-07-18 15:58:54','ico','others','14.73 KB','Unknow',NULL,15086,0);
-INSERT INTO `app_file_attach` VALUES (20,'Favorites.ico','others/201207/1a3bfc9bb9594989bbeade880e877d23.ico','2012-07-18 16:02:53','ico','others','14.73 KB','Unknow',NULL,15086,0);
-INSERT INTO `app_file_attach` VALUES (21,'link.ico','others/201207/3beb42c7cd91453a8baff84abd109249.ico','2012-07-18 16:02:56','ico','others','189.94 KB','Unknow',NULL,194503,0);
-INSERT INTO `app_file_attach` VALUES (22,'recent.ico','others/201207/e1341b2477224d41b8ba79f440f11477.ico','2012-07-18 16:06:36','ico','others','14.73 KB','Unknow',NULL,15086,0);
+INSERT INTO `app_file_attach` VALUES (1,'使用说明.txt','others\\201207\\606b9c4fbcb64f0591b1a8cb563647dd.txt','2012-07-19 23:40:38','txt','others','1.87 KB','Unknow',NULL,1918,0);
 /*!40000 ALTER TABLE `app_file_attach` ENABLE KEYS */;
+UNLOCK TABLES;
+
+#
+# Source for table app_finan_contract
+#
+
+DROP TABLE IF EXISTS `app_finan_contract`;
+CREATE TABLE `app_finan_contract` (
+  `contract_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `apply_form_no` varchar(120) NOT NULL COMMENT '申请单号',
+  `apply_form_type` bigint(20) NOT NULL COMMENT '合同申请类型',
+  `emp_id` bigint(20) NOT NULL COMMENT '经办人 (申请人)',
+  `emp_district` bigint(20) NOT NULL COMMENT '员工所属校区',
+  `emp_dep` bigint(20) NOT NULL COMMENT '员工所属部门',
+  `emp_phone_no` varchar(24) NOT NULL COMMENT '员工联系电话',
+  `apply_date` date NOT NULL COMMENT '申请时间',
+  `comments` text COMMENT '合同事项说明',
+  `apply_amt` double NOT NULL COMMENT '合同总金额',
+  `contract_no` varchar(120) DEFAULT NULL COMMENT '合同编号',
+  `contract_parties` varchar(120) DEFAULT NULL COMMENT '合同签约方',
+  `contract_parties_contact` varchar(120) DEFAULT NULL COMMENT '合同签约方联系方式',
+  `pay_method` varchar(150) DEFAULT NULL COMMENT '付款方式',
+  `audit_state` tinyint(4) DEFAULT NULL COMMENT '审核状态, 1=审核中, 2=审核通过 3=审核不通过, 4=审核被退回...',
+  `entry_id` bigint(20) NOT NULL COMMENT '录入人员',
+  `entry_datetime` datetime NOT NULL COMMENT '录入时间',
+  PRIMARY KEY (`contract_id`),
+  KEY `apply_form_no` (`apply_form_no`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='合同申请';
+
+#
+# Dumping data for table app_finan_contract
+#
+
+LOCK TABLES `app_finan_contract` WRITE;
+/*!40000 ALTER TABLE `app_finan_contract` DISABLE KEYS */;
+INSERT INTO `app_finan_contract` VALUES (1,'FC20120715211609',8,4,3,12,'13588064354','2012-07-15','',2450.5,'2351d11311','41232','13588064354','test',NULL,1,'2012-07-15 21:16:09');
+/*!40000 ALTER TABLE `app_finan_contract` ENABLE KEYS */;
 UNLOCK TABLES;
 
 #
@@ -358,7 +364,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `app_finan_expense`;
 CREATE TABLE `app_finan_expense` (
-  `expense_id` bigint(20) DEFAULT NULL,
+  `expense_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `apply_form_no` varchar(120) DEFAULT NULL COMMENT '人资审批流程',
   `apply_form_type` bigint(20) DEFAULT NULL,
   `apply_date` date DEFAULT NULL,
@@ -380,9 +386,10 @@ CREATE TABLE `app_finan_expense` (
   `account_name` varchar(120) DEFAULT NULL,
   `account_no` varchar(120) DEFAULT NULL,
   `status` char(1) DEFAULT NULL,
-  `audit_state` bigint(20) DEFAULT NULL,
+  `audit_state` bigint(20) DEFAULT NULL COMMENT '审核状态, 1=审核中, 2=审核通过 3=审核不通过, 4=审核被退回...',
   `entry_id` bigint(20) DEFAULT NULL,
-  `entry_datetime` datetime DEFAULT NULL
+  `entry_datetime` datetime DEFAULT NULL,
+  PRIMARY KEY (`expense_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
@@ -391,8 +398,6 @@ CREATE TABLE `app_finan_expense` (
 
 LOCK TABLES `app_finan_expense` WRITE;
 /*!40000 ALTER TABLE `app_finan_expense` DISABLE KEYS */;
-INSERT INTO `app_finan_expense` VALUES (1,'1',1,'2012-06-19','1weqeqw',3,1,1,'qwe',NULL,1,NULL,NULL,1,NULL,NULL,NULL,1,NULL,NULL,NULL,'Y',1,1,NULL);
-INSERT INTO `app_finan_expense` VALUES (1,'1',1,'2012-06-19','1weqeqw',3,1,1,'qwe',NULL,1,NULL,NULL,1,NULL,NULL,NULL,1,NULL,NULL,NULL,'Y',1,1,NULL);
 /*!40000 ALTER TABLE `app_finan_expense` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -411,7 +416,7 @@ CREATE TABLE `app_function` (
   PRIMARY KEY (`func_id`),
   UNIQUE KEY `func_key` (`func_key`),
   KEY `menu_id` (`menu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='功能表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='功能表';
 
 #
 # Dumping data for table app_function
@@ -421,6 +426,8 @@ LOCK TABLES `app_function` WRITE;
 /*!40000 ALTER TABLE `app_function` DISABLE KEYS */;
 INSERT INTO `app_function` VALUES (1,'_FUNCKEY_myplan_edit','编辑任务','icon-btnedit','',4);
 INSERT INTO `app_function` VALUES (2,'_FUNCKEY_myplan_del','删除任务','icon-btndel','',4);
+INSERT INTO `app_function` VALUES (3,'_FUNCKEY_fina_apply','费用支出申请','','',7);
+INSERT INTO `app_function` VALUES (4,'_FUNCKEY_fina_form_view','费用申请查看','','',7);
 /*!40000 ALTER TABLE `app_function` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -435,7 +442,7 @@ CREATE TABLE `app_function_url` (
   `url_path` varchar(120) NOT NULL COMMENT '功能链接',
   PRIMARY KEY (`url_id`),
   KEY `func_id` (`func_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='功能URL';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='功能URL';
 
 #
 # Dumping data for table app_function_url
@@ -445,6 +452,8 @@ LOCK TABLES `app_function_url` WRITE;
 /*!40000 ALTER TABLE `app_function_url` DISABLE KEYS */;
 INSERT INTO `app_function_url` VALUES (3,1,'aefew');
 INSERT INTO `app_function_url` VALUES (4,2,'sdewr');
+INSERT INTO `app_function_url` VALUES (5,3,'app/finan/financial.do?action=FinanExpenseDetail');
+INSERT INTO `app_function_url` VALUES (6,4,'app/finan/financial.do?action=FinanExpenseDetail&id=7&op=view');
 /*!40000 ALTER TABLE `app_function_url` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -523,6 +532,7 @@ CREATE TABLE `app_hrm_employee` (
   `teach_subject` varchar(120) DEFAULT NULL,
   `resume_id` bigint(20) DEFAULT NULL COMMENT '简历',
   `status` char(1) DEFAULT NULL COMMENT '员工状态',
+  `onboard_date` date DEFAULT NULL COMMENT '到岗日期',
   `entry_id` bigint(20) DEFAULT NULL COMMENT '录入人员',
   `entry_datetime` datetime DEFAULT NULL COMMENT '录入日期',
   PRIMARY KEY (`emp_id`),
@@ -535,9 +545,9 @@ CREATE TABLE `app_hrm_employee` (
 
 LOCK TABLES `app_hrm_employee` WRITE;
 /*!40000 ALTER TABLE `app_hrm_employee` DISABLE KEYS */;
-INSERT INTO `app_hrm_employee` VALUES (3,'0001012061241011',9,3,'Manie',1,NULL,'13588064354',NULL,NULL,NULL,1,3,4,'A,A1,A3,A5,B1,B3','A,A1,A3,B,B2,B6,C7,C8',16,NULL,1,'2012-06-12 16:10:11');
-INSERT INTO `app_hrm_employee` VALUES (4,'0001112061243222',12,3,'Charotte',2,NULL,'13588064354',NULL,NULL,NULL,1,1,1,'','A2,B2',18,NULL,1,'2012-06-12 16:32:22');
-INSERT INTO `app_hrm_employee` VALUES (5,'0001012061244839',9,3,'Chonticha',1,NULL,'13588064354',NULL,NULL,NULL,2,NULL,NULL,NULL,NULL,19,NULL,1,'2012-06-12 16:48:39');
+INSERT INTO `app_hrm_employee` VALUES (3,'0001012061241011',9,3,'Manie',1,NULL,'13588064354',NULL,NULL,NULL,1,3,4,'A,A1,A3,A5,B1,B3','A,A1,A3,B,B2,B6,C7,C8',16,NULL,NULL,1,'2012-06-12 16:10:11');
+INSERT INTO `app_hrm_employee` VALUES (4,'0001112061243222',12,3,'Charotte',2,NULL,'13588064354',NULL,NULL,NULL,1,1,1,'','A2,B2',18,NULL,NULL,1,'2012-06-12 16:32:22');
+INSERT INTO `app_hrm_employee` VALUES (5,'0001012061244839',9,3,'Chonticha',1,NULL,'13588064354',NULL,NULL,NULL,2,NULL,NULL,NULL,NULL,19,NULL,NULL,1,'2012-06-12 16:48:39');
 /*!40000 ALTER TABLE `app_hrm_employee` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -547,20 +557,26 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `app_hrm_employee_develop`;
 CREATE TABLE `app_hrm_employee_develop` (
-  `develop_id` bigint(20) DEFAULT NULL,
-  `apply_form_no` varchar(120) DEFAULT NULL COMMENT '人资审批流程',
-  `apply_form_type` bigint(20) DEFAULT NULL,
-  `apply_date` date DEFAULT NULL,
-  `comments` longtext,
-  `emp_id` bigint(20) DEFAULT NULL COMMENT '员工ID',
-  `from_district` bigint(20) DEFAULT NULL,
-  `from_dep` bigint(20) DEFAULT NULL,
-  `from_position` bigint(20) DEFAULT NULL,
+  `develop_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `apply_form_no` varchar(120) NOT NULL COMMENT '人资审批流程',
+  `apply_form_type` bigint(20) NOT NULL COMMENT '人资申请类型',
+  `apply_date` date NOT NULL COMMENT '申请时间',
+  `comments` longtext COMMENT '申请报告',
+  `emp_id` bigint(20) NOT NULL COMMENT '员工ID',
+  `onboard_date` date DEFAULT NULL COMMENT '到岗日期',
+  `from_district` bigint(20) DEFAULT NULL COMMENT '原校区',
+  `from_dep` bigint(20) DEFAULT NULL COMMENT '原部门',
+  `from_position` bigint(20) DEFAULT NULL COMMENT '原岗位',
+  `to_district` bigint(20) DEFAULT NULL COMMENT '申请校区',
+  `to_department` bigint(20) DEFAULT NULL COMMENT '申请部门',
+  `to_position` bigint(20) DEFAULT NULL COMMENT '申请岗位',
   `status` char(1) DEFAULT NULL,
   `audit_state` bigint(20) DEFAULT NULL,
+  `op_state` tinyint(4) NOT NULL DEFAULT '0' COMMENT '操作状态, 0=未操作, 1=已操作 ',
   `entry_id` bigint(20) DEFAULT NULL,
-  `entry_datetime` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `entry_datetime` datetime DEFAULT NULL COMMENT '录入时间',
+  PRIMARY KEY (`develop_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='人资申请';
 
 #
 # Dumping data for table app_hrm_employee_develop
@@ -568,7 +584,6 @@ CREATE TABLE `app_hrm_employee_develop` (
 
 LOCK TABLES `app_hrm_employee_develop` WRITE;
 /*!40000 ALTER TABLE `app_hrm_employee_develop` DISABLE KEYS */;
-INSERT INTO `app_hrm_employee_develop` VALUES (1,'1',1,'2012-06-19','1weqeqw',3,1,11,1,'Y',1,1,NULL);
 /*!40000 ALTER TABLE `app_hrm_employee_develop` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -784,7 +799,7 @@ CREATE TABLE `app_hrm_hire_job` (
   `memo` varchar(1024) DEFAULT NULL COMMENT '备注',
   `isopen` tinyint(4) DEFAULT '1' COMMENT '应聘控制 0=关闭, 1=开放',
   PRIMARY KEY (`hjob_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='招聘岗位发布';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='招聘岗位发布';
 
 #
 # Dumping data for table app_hrm_hire_job
@@ -795,8 +810,6 @@ LOCK TABLES `app_hrm_hire_job` WRITE;
 INSERT INTO `app_hrm_hire_job` VALUES (1,'技术总监',3,1,2,NULL,'2012-06-18',1,'','杭州','test','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL);
 INSERT INTO `app_hrm_hire_job` VALUES (2,'产品经理',1,7,1,NULL,'2012-06-19',5,'','杭州电子科技大学','','',NULL,NULL,NULL,NULL,'卡卡西',NULL,'2012-06-09 12:34:23',1,NULL,1);
 INSERT INTO `app_hrm_hire_job` VALUES (3,'test',3,12,1,NULL,'2012-06-15',21,'','','','','卡卡西','2012-06-13 16:39:34',NULL,NULL,NULL,NULL,NULL,4,NULL,NULL);
-INSERT INTO `app_hrm_hire_job` VALUES (4,'adsasd',3,9,1,NULL,'2012-07-10',2,'asd','asd','ads','asd','唐伯虎','2012-07-16 16:21:31',NULL,NULL,NULL,NULL,NULL,1,NULL,NULL);
-INSERT INTO `app_hrm_hire_job` VALUES (5,'45645',1,11,1,NULL,'2012-07-19',12,'ads','奥德赛ads','ad','asd','唐伯虎','2012-07-18 15:27:48',NULL,NULL,NULL,NULL,NULL,2,NULL,NULL);
 /*!40000 ALTER TABLE `app_hrm_hire_job` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -905,7 +918,7 @@ CREATE TABLE `app_menu` (
   PRIMARY KEY (`menu_id`),
   UNIQUE KEY `menu_key` (`menu_key`),
   KEY `menu_parent` (`menu_parent`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='系统菜单';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='系统菜单';
 
 #
 # Dumping data for table app_menu
@@ -915,6 +928,9 @@ LOCK TABLES `app_menu` WRITE;
 /*!40000 ALTER TABLE `app_menu` DISABLE KEYS */;
 INSERT INTO `app_menu` VALUES (3,'我的工作区','icon-desktop','javascript:void(0);','_menu_mod_personal','',NULL,0);
 INSERT INTO `app_menu` VALUES (4,'我的任务','icon-myplan','javascript:void(0);','_menu_mod_personal_mytask','test0',3,0);
+INSERT INTO `app_menu` VALUES (5,'财务管理','icon-financial','javascript:void(0);','_menu_mod_fina','',NULL,0);
+INSERT INTO `app_menu` VALUES (6,'费用支出管理','icon-finmrmb','javascript:void(0);','_menu_mod_fina_exp_mgr','',5,0);
+INSERT INTO `app_menu` VALUES (7,'费用支出申请','icon-finmrmbApply','app/finan/financial.do?action=FinanExpenseIndex','_menu_mod_fina_exp_apply','',6,0);
 /*!40000 ALTER TABLE `app_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -928,12 +944,12 @@ CREATE TABLE `app_process_definition` (
   `type_id` bigint(20) DEFAULT NULL COMMENT '流程分类ID',
   `def_name` varchar(256) DEFAULT NULL COMMENT '流程名称',
   `def_description` varchar(250) DEFAULT NULL COMMENT '流程描述',
-  `filter_posnames` varchar(250) DEFAULT NULL COMMENT '过滤职位',
+  `filter_poset` bigint(20) DEFAULT NULL COMMENT '过滤职位',
   `def_trigger` varchar(120) DEFAULT NULL COMMENT '条件',
   `createtime` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`def_id`),
   KEY `type_id` (`type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='流程定义';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='流程定义';
 
 #
 # Dumping data for table app_process_definition
@@ -941,9 +957,11 @@ CREATE TABLE `app_process_definition` (
 
 LOCK TABLES `app_process_definition` WRITE;
 /*!40000 ALTER TABLE `app_process_definition` DISABLE KEYS */;
-INSERT INTO `app_process_definition` VALUES (1,7,'0 < 支出费用 <= 1000','','test','x > 0 && x <= 1000','2012-06-29 14:50:40');
-INSERT INTO `app_process_definition` VALUES (2,7,'1000 < 支出费用 <= 10000','','test','x > 1000 && x <= 10000','2012-06-29 14:51:15');
-INSERT INTO `app_process_definition` VALUES (3,7,'支出费用 >10000','','test','x > 10000','2012-06-29 15:00:28');
+INSERT INTO `app_process_definition` VALUES (1,7,'0 < 支出费用 <= 1000','',0,'x > 0 && x <= 1000','2012-06-29 14:50:40');
+INSERT INTO `app_process_definition` VALUES (2,7,'1000 < 支出费用 <= 10000','',0,'x > 1000 && x <= 10000','2012-06-29 14:51:15');
+INSERT INTO `app_process_definition` VALUES (3,7,'支出费用 >10000','',0,'x > 10000','2012-06-29 15:00:28');
+INSERT INTO `app_process_definition` VALUES (4,8,'0 < 合同费用 <= 1000','',0,'x > 0 && x <= 1000','2012-07-15 14:30:52');
+INSERT INTO `app_process_definition` VALUES (5,8,'1000 < 合同费用 <= 10000','',0,'x > 1000 && x <= 10000','2012-07-15 21:01:38');
 /*!40000 ALTER TABLE `app_process_definition` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -956,10 +974,11 @@ CREATE TABLE `app_process_form` (
   `form_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `form_no` varchar(120) NOT NULL COMMENT '流程申请单号',
   `type_id` bigint(20) NOT NULL COMMENT '流程类型',
-  `task_name` varchar(128) NOT NULL COMMENT '活动或任务名称',
+  `task_name` varchar(128) DEFAULT NULL COMMENT '活动或任务名称',
   `task_from` varchar(64) DEFAULT NULL COMMENT '该任务来自由哪一任务跳转过来，目的是为了查到该任务的上一任务，方便任务驳回',
   `task_next` varchar(64) DEFAULT NULL COMMENT '跳转节点, 跳转至下一任务',
   `seq_sn` int(11) NOT NULL COMMENT '序列编号',
+  `task_type` tinyint(4) NOT NULL COMMENT '任务类型',
   `to_rolenames` varchar(250) DEFAULT NULL,
   `to_distnames` varchar(250) DEFAULT NULL,
   `to_depnames` varchar(250) DEFAULT NULL,
@@ -981,11 +1000,11 @@ CREATE TABLE `app_process_form` (
   `audit_depids` varchar(250) DEFAULT NULL,
   `audit_posids` varchar(250) DEFAULT NULL,
   `audit_date` datetime DEFAULT NULL,
-  `audit_state` smallint(6) DEFAULT NULL COMMENT '审核状态, 0=审核中, 1=审核通过 2=审核不通过',
+  `audit_state` smallint(6) DEFAULT NULL COMMENT '审核状态, 1=审核中, 2=审核通过 3=审核不通过, 4=审核被退回...',
   `audit_comments` text COMMENT '审核意见',
   PRIMARY KEY (`form_id`),
   KEY `form_no` (`form_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='流程表单, 存储保存在运行中的流程表单数据';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='流程表单, 存储保存在运行中的流程表单数据';
 
 #
 # Dumping data for table app_process_form
@@ -993,7 +1012,8 @@ CREATE TABLE `app_process_form` (
 
 LOCK TABLES `app_process_form` WRITE;
 /*!40000 ALTER TABLE `app_process_form` DISABLE KEYS */;
-INSERT INTO `app_process_form` VALUES (1,'1',1,'234234','1','1',1,'1',NULL,'行政部','人事主管','1','1',NULL,'11','11','1','1','1',NULL,'1','1','1','11',NULL,'1','1','2012-06-22 21:03:28',1,'11');
+INSERT INTO `app_process_form` VALUES (1,'FC20120715211609',8,NULL,NULL,NULL,1,2,NULL,NULL,'人资部','人事主管',NULL,NULL,NULL,NULL,'???',NULL,NULL,NULL,NULL,'9','1','1',NULL,NULL,NULL,NULL,'2012-07-15 21:16:48',2,'同意...');
+INSERT INTO `app_process_form` VALUES (2,'FC20120715211609',8,NULL,NULL,NULL,2,1,NULL,NULL,'行政部','行政主管',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'12','2',NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
 /*!40000 ALTER TABLE `app_process_form` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1006,10 +1026,11 @@ CREATE TABLE `app_process_history` (
   `history_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `form_no` varchar(120) NOT NULL COMMENT '流程申请单号',
   `type_id` bigint(20) NOT NULL COMMENT '流程类型',
-  `task_name` varchar(128) NOT NULL COMMENT '活动或任务名称',
+  `task_name` varchar(128) DEFAULT NULL COMMENT '活动或任务名称',
   `task_from` varchar(64) DEFAULT NULL COMMENT '该任务来自由哪一任务跳转过来，目的是为了查到该任务的上一任务，方便任务驳回',
   `task_next` varchar(64) DEFAULT NULL COMMENT '跳转节点, 跳转至下一任务',
-  `seq_sn` int(11) NOT NULL COMMENT '序列编号',
+  `task_type` tinyint(4) DEFAULT NULL COMMENT '任务类型',
+  `seq_sn` int(11) DEFAULT NULL COMMENT '序列编号',
   `to_rolenames` varchar(250) DEFAULT NULL,
   `to_distnames` varchar(250) DEFAULT NULL,
   `to_depnames` varchar(250) DEFAULT NULL,
@@ -1043,7 +1064,7 @@ CREATE TABLE `app_process_history` (
 
 LOCK TABLES `app_process_history` WRITE;
 /*!40000 ALTER TABLE `app_process_history` DISABLE KEYS */;
-INSERT INTO `app_process_history` VALUES (1,'1',1,'11','1','1',1,'1','1','1','1','1','1','1','1','11','11','11','11','1','1','1','11','11','11','1','1','0000-00-00 00:00:00',1,NULL);
+INSERT INTO `app_process_history` VALUES (1,'FC20120715211609',8,NULL,NULL,NULL,2,NULL,NULL,NULL,'人资部','人事主管',NULL,NULL,NULL,NULL,'???',NULL,NULL,NULL,NULL,'9','1','1',NULL,NULL,NULL,NULL,'2012-07-15 21:16:48',2,'同意...');
 /*!40000 ALTER TABLE `app_process_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1070,7 +1091,7 @@ CREATE TABLE `app_process_task` (
   `comments` text COMMENT '意见',
   `task_type` tinyint(4) DEFAULT NULL COMMENT '活动类型',
   PRIMARY KEY (`task_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='流程任务设置';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='流程任务设置';
 
 #
 # Dumping data for table app_process_task
@@ -1085,6 +1106,11 @@ INSERT INTO `app_process_task` VALUES (4,1,NULL,NULL,NULL,4,NULL,'行政部','�
 INSERT INTO `app_process_task` VALUES (5,2,NULL,NULL,NULL,1,NULL,'行政部','行政主管',NULL,NULL,NULL,'12','2',NULL,2);
 INSERT INTO `app_process_task` VALUES (6,1,NULL,NULL,NULL,5,NULL,'总经办','部门主管',NULL,NULL,NULL,'13','3',NULL,2);
 INSERT INTO `app_process_task` VALUES (7,1,NULL,NULL,NULL,6,NULL,'人资部','部门主管',NULL,NULL,NULL,'7','5',NULL,4);
+INSERT INTO `app_process_task` VALUES (8,4,NULL,NULL,NULL,1,NULL,'行政部','行政主管',NULL,NULL,NULL,'12','2',NULL,2);
+INSERT INTO `app_process_task` VALUES (9,4,NULL,NULL,NULL,2,NULL,'市场部,行政部,总经办,人资部','部门主管,部门主管,行政主管,人事主管',NULL,NULL,NULL,'13,12,9,14','1,4,3,2',NULL,1);
+INSERT INTO `app_process_task` VALUES (10,4,NULL,NULL,NULL,3,NULL,'人资部','部门主管',NULL,NULL,NULL,'7','5',NULL,4);
+INSERT INTO `app_process_task` VALUES (11,5,NULL,NULL,NULL,1,NULL,'人资部','人事主管',NULL,NULL,NULL,'9','1',NULL,2);
+INSERT INTO `app_process_task` VALUES (12,5,NULL,NULL,NULL,2,NULL,'市场部,行政部,总经办,人资部','部门主管,部门主管,行政主管,人事主管',NULL,NULL,NULL,'13,12,9,14','1,4,3,2',NULL,1);
 /*!40000 ALTER TABLE `app_process_task` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1146,7 +1172,7 @@ CREATE TABLE `app_role` (
 LOCK TABLES `app_role` WRITE;
 /*!40000 ALTER TABLE `app_role` DISABLE KEYS */;
 INSERT INTO `app_role` VALUES (1,'超级管理员','ROLE_SUPER',NULL,1,'__ALL',0,0);
-INSERT INTO `app_role` VALUES (5,'校长','ROLE_MASTER','teset',1,'_FUNCKEY_myplan_edit',1,1);
+INSERT INTO `app_role` VALUES (5,'校长','ROLE_MASTER','teset',1,'_FUNCKEY_myplan_edit,_FUNCKEY_fina_apply,_FUNCKEY_fina_form_view',1,1);
 /*!40000 ALTER TABLE `app_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1170,6 +1196,8 @@ CREATE TABLE `app_role_func` (
 LOCK TABLES `app_role_func` WRITE;
 /*!40000 ALTER TABLE `app_role_func` DISABLE KEYS */;
 INSERT INTO `app_role_func` VALUES (5,1);
+INSERT INTO `app_role_func` VALUES (5,3);
+INSERT INTO `app_role_func` VALUES (5,4);
 /*!40000 ALTER TABLE `app_role_func` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1192,6 +1220,9 @@ LOCK TABLES `app_role_menu` WRITE;
 /*!40000 ALTER TABLE `app_role_menu` DISABLE KEYS */;
 INSERT INTO `app_role_menu` VALUES (5,3);
 INSERT INTO `app_role_menu` VALUES (5,4);
+INSERT INTO `app_role_menu` VALUES (5,5);
+INSERT INTO `app_role_menu` VALUES (5,6);
+INSERT INTO `app_role_menu` VALUES (5,7);
 /*!40000 ALTER TABLE `app_role_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1250,7 +1281,7 @@ CREATE TABLE `app_school_department_position` (
 LOCK TABLES `app_school_department_position` WRITE;
 /*!40000 ALTER TABLE `app_school_department_position` DISABLE KEYS */;
 INSERT INTO `app_school_department_position` VALUES (1,'人事主管','',0,9,'');
-INSERT INTO `app_school_department_position` VALUES (2,'行政主管','',0,12,'');
+INSERT INTO `app_school_department_position` VALUES (2,'行政主管','',0,12,'ROLE_MASTER');
 INSERT INTO `app_school_department_position` VALUES (3,'部门主管','',0,13,'');
 INSERT INTO `app_school_department_position` VALUES (4,'部门主管','',0,14,'');
 INSERT INTO `app_school_department_position` VALUES (5,'部门主管','',0,7,'');
@@ -1274,6 +1305,7 @@ CREATE TABLE `app_school_department_position_role` (
 
 LOCK TABLES `app_school_department_position_role` WRITE;
 /*!40000 ALTER TABLE `app_school_department_position_role` DISABLE KEYS */;
+INSERT INTO `app_school_department_position_role` VALUES (2,5);
 /*!40000 ALTER TABLE `app_school_department_position_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1302,8 +1334,49 @@ CREATE TABLE `app_school_district` (
 LOCK TABLES `app_school_district` WRITE;
 /*!40000 ALTER TABLE `app_school_district` DISABLE KEYS */;
 INSERT INTO `app_school_district` VALUES (1,'0000','杭州总部',0,'','',NULL);
-INSERT INTO `app_school_district` VALUES (3,'0001','萧山校区',1,'asdads','',1);
+INSERT INTO `app_school_district` VALUES (3,'0001','萧山校区',1,'','',1);
 /*!40000 ALTER TABLE `app_school_district` ENABLE KEYS */;
+UNLOCK TABLES;
+
+#
+# Source for table app_school_posets
+#
+
+DROP TABLE IF EXISTS `app_school_posets`;
+CREATE TABLE `app_school_posets` (
+  `poset_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '职位岗位ID',
+  `poset_name` varchar(64) NOT NULL COMMENT '职位岗位名称',
+  PRIMARY KEY (`poset_id`),
+  UNIQUE KEY `poset_name` (`poset_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='职位岗位';
+
+#
+# Dumping data for table app_school_posets
+#
+
+LOCK TABLES `app_school_posets` WRITE;
+/*!40000 ALTER TABLE `app_school_posets` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app_school_posets` ENABLE KEYS */;
+UNLOCK TABLES;
+
+#
+# Source for table app_school_posets_terms
+#
+
+DROP TABLE IF EXISTS `app_school_posets_terms`;
+CREATE TABLE `app_school_posets_terms` (
+  `poset_id` bigint(20) NOT NULL COMMENT '职位岗位ID',
+  `pos_id` bigint(20) NOT NULL COMMENT '岗位ID',
+  PRIMARY KEY (`poset_id`,`pos_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='职位与岗位关系表';
+
+#
+# Dumping data for table app_school_posets_terms
+#
+
+LOCK TABLES `app_school_posets_terms` WRITE;
+/*!40000 ALTER TABLE `app_school_posets_terms` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app_school_posets_terms` ENABLE KEYS */;
 UNLOCK TABLES;
 
 #
@@ -1371,7 +1444,7 @@ CREATE TABLE `app_system_log` (
   `createtime` datetime NOT NULL COMMENT '创建时间',
   `operation` varchar(512) NOT NULL COMMENT '执行操作',
   PRIMARY KEY (`log_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8 COMMENT='系统日志';
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 COMMENT='系统日志';
 
 #
 # Dumping data for table app_system_log
@@ -1429,9 +1502,63 @@ INSERT INTO `app_system_log` VALUES (47,'test',1,'2012-06-20 21:32:49','进入�
 INSERT INTO `app_system_log` VALUES (48,'test',1,'2012-06-26 22:49:02','进入权限组配置页面');
 INSERT INTO `app_system_log` VALUES (49,'test',1,'2012-06-30 22:14:12','进入权限组配置页面');
 INSERT INTO `app_system_log` VALUES (50,'test',1,'2012-07-09 21:23:20','进入权限组配置页面');
-INSERT INTO `app_system_log` VALUES (51,'test',1,'2012-07-17 15:02:15','进入权限组配置页面');
-INSERT INTO `app_system_log` VALUES (52,'test',1,'2012-07-18 13:13:21','进入权限组配置页面');
+INSERT INTO `app_system_log` VALUES (51,'test',1,'2012-07-13 11:10:53','进入权限组配置页面');
+INSERT INTO `app_system_log` VALUES (52,'test',1,'2012-07-13 11:11:21','进入权限组配置页面');
+INSERT INTO `app_system_log` VALUES (53,'test',1,'2012-07-13 11:17:36','进入权限组配置页面');
+INSERT INTO `app_system_log` VALUES (54,'test',1,'2012-07-13 15:35:02','进入权限组配置页面');
+INSERT INTO `app_system_log` VALUES (55,'test',1,'2012-07-15 15:26:30','进入权限组配置页面');
 /*!40000 ALTER TABLE `app_system_log` ENABLE KEYS */;
+UNLOCK TABLES;
+
+#
+# Source for table app_system_work_content
+#
+
+DROP TABLE IF EXISTS `app_system_work_content`;
+CREATE TABLE `app_system_work_content` (
+  `cnt_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '工作内容ID',
+  `item_name` varchar(120) DEFAULT NULL COMMENT '选项名称',
+  `item_value` varchar(120) DEFAULT NULL COMMENT '选项值',
+  `meto` varchar(250) DEFAULT NULL COMMENT '工作内容说明',
+  `district_id` bigint(20) NOT NULL COMMENT '校区ID',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`cnt_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='系统工作内容设置';
+
+#
+# Dumping data for table app_system_work_content
+#
+
+LOCK TABLES `app_system_work_content` WRITE;
+/*!40000 ALTER TABLE `app_system_work_content` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app_system_work_content` ENABLE KEYS */;
+UNLOCK TABLES;
+
+#
+# Source for table app_system_work_time
+#
+
+DROP TABLE IF EXISTS `app_system_work_time`;
+CREATE TABLE `app_system_work_time` (
+  `worktm_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '工作时间ID',
+  `item_name` varchar(120) DEFAULT NULL COMMENT '选项名称',
+  `work_stime` varchar(20) DEFAULT NULL COMMENT '工作开始时间',
+  `work_etime` varchar(20) DEFAULT NULL COMMENT '工作结束时间',
+  `meto` varchar(250) DEFAULT NULL COMMENT '说明',
+  `adjust_days` varchar(120) DEFAULT NULL COMMENT '适用天数',
+  `template_id` bigint(20) DEFAULT NULL COMMENT '模板ID',
+  `district_id` bigint(20) NOT NULL COMMENT '校区ID',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`worktm_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='工作时间设置';
+
+#
+# Dumping data for table app_system_work_time
+#
+
+LOCK TABLES `app_system_work_time` WRITE;
+/*!40000 ALTER TABLE `app_system_work_time` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app_system_work_time` ENABLE KEYS */;
 UNLOCK TABLES;
 
 #
@@ -1468,10 +1595,10 @@ CREATE TABLE `app_user` (
 
 LOCK TABLES `app_user` WRITE;
 /*!40000 ALTER TABLE `app_user` DISABLE KEYS */;
-INSERT INTO `app_user` VALUES (1,'admin','jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=','唐伯虎','csx@jee-soft.cn',NULL,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'0:0:0:0:0:0:0:1','2012-07-18 16:02:33');
+INSERT INTO `app_user` VALUES (1,'admin','jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=','???','csx@jee-soft.cn',NULL,NULL,1,3,NULL,NULL,NULL,NULL,NULL,NULL,1,'0:0:0:0:0:0:0:1','2012-07-18 19:55:55');
 INSERT INTO `app_user` VALUES (2,'csx','9uCh4qxBlFqap/+KiqoM68EqO8yYGpKa1c+BCgkOEa4=','斩不刀','111@hotmail.com',1,NULL,3,NULL,'','','','','','',0,'',NULL);
 INSERT INTO `app_user` VALUES (3,'0001012061241011','QGpDSgQ2on/ITC1MlNeed0CREM5MDxeCejn3iFEhLGk=','Manie',NULL,9,1,3,3,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL);
-INSERT INTO `app_user` VALUES (4,'0001112061243222','DnOH9eQngdjBAPlv4OAAtxF1BJdvw3DiTFece8c7PD8=','Charotte',NULL,12,2,3,4,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL);
+INSERT INTO `app_user` VALUES (4,'0001112061243222','DnOH9eQngdjBAPlv4OAAtxF1BJdvw3DiTFece8c7PD8=','Charotte',NULL,12,2,3,4,NULL,NULL,NULL,NULL,NULL,NULL,1,'0:0:0:0:0:0:0:1','2012-07-13 11:13:19');
 INSERT INTO `app_user` VALUES (5,'0001012061244839','1pB+T6eAui2DtQe83R0qWFGgwWGmY5HB2cuU4vgLHl4=','Chonticha',NULL,9,1,3,5,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL);
 /*!40000 ALTER TABLE `app_user` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1501,6 +1628,7 @@ UNLOCK TABLES;
 #
 
 ALTER TABLE `app_admin_doc`
+ADD CONSTRAINT `PK_file` FOREIGN KEY (`file_id`) REFERENCES `app_file_attach` (`file_id`),
 ADD CONSTRAINT `PK_author` FOREIGN KEY (`author_id`) REFERENCES `app_user` (`user_id`),
 ADD CONSTRAINT `PK_dcoType` FOREIGN KEY (`type_dicid`) REFERENCES `app_system_dictionary` (`id`),
 ADD CONSTRAINT `PK_department` FOREIGN KEY (`doc_postDepId`) REFERENCES `app_school_department` (`dep_id`),
@@ -1509,26 +1637,12 @@ ADD CONSTRAINT `PK_level` FOREIGN KEY (`doc_level_id`) REFERENCES `app_admin_doc
 ADD CONSTRAINT `PK_range` FOREIGN KEY (`doc_VisiableRange_id`) REFERENCES `app_admin_doc_visiable_range` (`id`);
 
 #
-#  Foreign keys for table app_admin_doc_file
-#
-
-ALTER TABLE `app_admin_doc_file`
-ADD CONSTRAINT `PK_doc` FOREIGN KEY (`doc_id`) REFERENCES `app_admin_doc` (`doc_id`);
-
-#
 #  Foreign keys for table app_admin_workarrange
 #
 
 ALTER TABLE `app_admin_workarrange`
 ADD CONSTRAINT `PK_type` FOREIGN KEY (`work_type`) REFERENCES `app_admin_worktype` (`id`),
 ADD CONSTRAINT `PK_user` FOREIGN KEY (`staff_id`) REFERENCES `app_user` (`user_id`);
-
-#
-#  Foreign keys for table app_function_url
-#
-
-ALTER TABLE `app_function_url`
-ADD CONSTRAINT `app_function_url_ibfk_1` FOREIGN KEY (`func_id`) REFERENCES `app_function` (`func_id`);
 
 #
 #  Foreign keys for table app_hrm_resume_file
