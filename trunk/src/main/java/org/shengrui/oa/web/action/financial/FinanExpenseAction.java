@@ -10,6 +10,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.finan.ModelFinanExpense;
+import org.shengrui.oa.model.flow.ModelProcessForm;
 import org.shengrui.oa.model.flow.ModelProcessType;
 import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
@@ -93,11 +94,6 @@ extends BaseFinanAction
 			}
 			
 			request.setAttribute("types", this.getProcessSubTypes(procType.getId()));
-			
-			// 加载审批数据
-			boolean isOnApproval = request.getParameter("finished") == null;
-			obtainFinaExpenseRecords(employeeExpenseForm, isOnApproval, request);
-			
 			request.setAttribute("formEntity", employeeExpenseForm);
 			request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
 			
@@ -108,8 +104,10 @@ extends BaseFinanAction
 			return ajaxPrint(response, getErrorCallback("页面加载失败:" + e.getMessage()));
 		}
 		
+		request.setAttribute("currentindex", request.getParameter("currentindex"));
 		request.setAttribute("PAGE_TYPE", FINAN_FORM_KEY_EXPENSE);
-		return mapping.findForward("fina.application.list.index");
+		
+		return mapping.findForward("fina.application.records.index");
 	}
 	
 	/**
@@ -127,6 +125,8 @@ extends BaseFinanAction
 			boolean isOnApproval = request.getParameter("finished") == null;
 			obtainFinaExpenseRecords(employeeExpenseForm, isOnApproval, request);
 			
+			request.setAttribute("currentindex", request.getParameter("currentindex"));
+			request.setAttribute("isOnApproval", isOnApproval);
 			request.setAttribute("formEntity", employeeExpenseForm);
 		} 
 		catch (Exception e)
@@ -135,7 +135,10 @@ extends BaseFinanAction
 			return ajaxPrint(response, getErrorCallback("页面加载失败:" + e.getMessage()));
 		}
 		
-		return mapping.findForward("fina.application.list.index");
+		request.setAttribute("PAGE_TYPE", FINAN_FORM_KEY_EXPENSE);
+		request.setAttribute("recordPage", true);
+		
+		return mapping.findForward("data.fina.application.records");
 	}
 	
 	/**
@@ -152,6 +155,21 @@ extends BaseFinanAction
 		{
 			// 审批中
 			formEntity.setAuditState(null);
+			formEntity.setCondAuditStates(new Integer[] {null});
+		}
+		else
+		{
+			if (formEntity.getAuditState() != null && formEntity.getAuditState() > -1) 
+			{
+				formEntity.setAuditState(formEntity.getAuditState());
+			}
+			else
+			{
+				formEntity.setCondAuditStates(new Integer[] {
+					ModelProcessForm.EProcessFormStatus.APPROVED.getValue(), 
+					ModelProcessForm.EProcessFormStatus.NOTPASSED.getValue(),
+					ModelProcessForm.EProcessFormStatus.RETURNED.getValue()});
+			}
 		}
 		
 		PagingBean pagingBean = this.getPagingBean(request);
