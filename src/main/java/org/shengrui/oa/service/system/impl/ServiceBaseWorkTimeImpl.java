@@ -1,5 +1,7 @@
 package org.shengrui.oa.service.system.impl;
 
+import java.util.List;
+
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -7,6 +9,7 @@ import org.shengrui.oa.dao.system.DAOBaseWorkTime;
 import org.shengrui.oa.model.system.ModelBaseWorkTime;
 import org.shengrui.oa.service.system.ServiceBaseWorkTime;
 
+import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
 import cn.trymore.core.web.paging.PaginationSupport;
@@ -63,5 +66,22 @@ public class ServiceBaseWorkTimeImpl extends
 		criteria.addOrder(Order.desc("updateTime"));
 
 		return this.getAll(criteria, pagingBean);
+	}
+
+	@Override
+	public List<ModelBaseWorkTime> getDayWorkTimeByTemplateId(String templateId)
+			throws ServiceException {
+		// TODO Auto-generated method stub
+		DetachedCriteria criteria = DetachedCriteria
+		.forClass(ModelBaseWorkTime.class);
+		if(templateId!=null && !"".equals(templateId)){
+			criteria.add(Restrictions.eq("templateId", templateId));
+		}
+		try {
+			return this.getDaoBaseWorkTime().getListByCriteria(criteria);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			throw new ServiceException(e);
+		}
 	}
 }
