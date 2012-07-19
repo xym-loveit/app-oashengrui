@@ -49,7 +49,7 @@
 					</td>
 					<td>
 						<label style="width:150px">请选择您要设置的工作模板：</label>
-						<select class="combox" name="templateId" id="templateId" onchange="districtChange()">
+						<select class="combox" name="templateId" id="template_id"  onchange="districtChange()">
 						   <option value="-1">所有</option>
 							<option value="1" ${formWorkTemplate ne null && formWorkTemplate.templateId eq '1' ? 'selected="selected"' : ''}>第一套</option>
 							<option value="2" ${formWorkTemplate ne null && formWorkTemplate.templateId eq '2' ? 'selected="selected"' : ''}>第二套</option>
@@ -78,7 +78,7 @@
 		<tr>
 			<th align="center">工作时间</th>
 			<th align="center">周一<a onclick="ajaxDialogPost(this)" day="周一" class="oplink" target="dialog" title="工作安排" width="504" height="335">（安排）</a></th>
-			<th align="center">周二<a href="app/system/work/template.do?action=dialogWorkArrangePage&districtId=${formWorkTemplate ne null ? formWorkTemplate.district.id:'-1'}&templateId=${formWorkTemplate.templateId}&workDay=1" class="oplink" target="dialog" title="工作安排" width="555" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></th>
+			<th align="center">周二<a href="app/system/work/template.do?action=dialogWorkArrangePage&districtId=${formWorkTemplate ne null ? formWorkTemplate.district.id:'-1'}&templateId=${formWorkTemplate.templateId}&workDay=1" class="oplink" target="dialog" title="工作安排" width="755" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></th>
 			<th align="center">周三<a href="app/system/work/template/work.do?action=dialogWorkTemplateWorkPlanPage&planId=${entity.id}" class="oplink" target="dialog" title="工作安排" width="555" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></th>
 			<th align="center">周四<a href="app/system/work/template/work.do?action=dialogWorkTemplateWorkPlanPage&planId=${entity.id}" class="oplink" target="dialog" title="工作安排" width="504" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></th>
 			<th align="center">周五<a href="app/system/work/template/work.do?action=dialogWorkTemplateWorkPlanPage&planId=${entity.id}" class="oplink" target="dialog" title="工作安排" width="504" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></th>
