@@ -83,13 +83,13 @@
 				<li treeicon="icon-finmrmb"><a>费用支出管理</a>
 					<ul>
 						<li treeicon="icon-finmrmbApply"><a href="app/finan/expense.do?action=pageFinaExpenseIndex" target="navTab" rel="fina_expense_index">费用支出申请</a></li>
-						<li treeicon="icon-finmrmbApproval"><a href="blank.jsp" target="navTab" rel="demo_page2">费用审批记录</a></li>
+						<li treeicon="icon-finmrmbApproval"><a href="app/finan/expense.do?action=pageFinaExpenseRecords" target="fina_expense_records" rel="demo_page2">费用审批记录</a></li>
 					</ul>
 				</li>
 				<li treeicon="icon-finmcontracts"><a>合同管理</a>
 					<ul>
 						<li treeicon="icon-finmcontractsApply"><a href="app/finan/contract.do?action=pageFinaContractIndex" target="navTab" rel="fina_contract_index">合同审批申请</a></li>
-						<li treeicon="icon-finmcontractsRecords"><a href="blank.jsp" target="navTab" rel="demo_page2">合同审批记录</a></li>
+						<li treeicon="icon-finmcontractsRecords"><a href="app/finan/contract.do?action=pageFinaContractRecords" target="navTab" rel="fina_contract_records">合同审批记录</a></li>
 					</ul>
 				</li>
 			</ul>
@@ -101,7 +101,7 @@
 		</div>
 		<div class="accordionContent">
 			<ul class="tree treeFolder">
-				<li treeicon="icon-sysmpwd"><a href="app/system/password.do?action=changePassword" target="navTab" rel="demo_page1">密码修改</a></li>
+				<li treeicon="icon-sysmpwd"><a href="blank.jsp" target="navTab" rel="demo_page1">密码修改</a></li>
 				<li treeicon="icon-sysmusr"><a href="app/system/account.do?action=pageAccountIndex" target="navTab" rel="sysmgr_account">用户管理</a></li>
 				<li treeicon="icon-sysmlogs"><a href="blank.jsp" target="navTab" rel="demo_page1">系统日志</a></li>
 			</ul>
