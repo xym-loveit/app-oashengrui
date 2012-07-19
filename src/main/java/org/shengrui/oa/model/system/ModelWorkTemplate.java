@@ -10,8 +10,8 @@ public class ModelWorkTemplate extends ModelBase {
 
 	private static final long serialVersionUID = -2790048549311290646L;
 	protected String workDay;
-	protected ModelBaseWorkTime workTime;
-	protected ModelBaseWorkContent workContent;
+	protected ModelBaseWorkTime workTime = new ModelBaseWorkTime();
+	protected ModelBaseWorkContent workContent = new ModelBaseWorkContent();
 	protected String staffId;
 	protected String staffName;
 	protected ModelSchoolDistrict district = new ModelSchoolDistrict();
