@@ -15,63 +15,14 @@
 		$("#dentity_" + id).parent().addClass("selected");
 	}
 </script>
-
-<logic:present name="lookup">
-<div class="pageContent">
-	<div class="pageFormContent" layoutH="58">
-</logic:present>
-
 <ul class="tree treeFolder" layoutH="8">
-	<li class="expand">
-		<a id="org_master">总部</a>
-		<ul>
-			<c:if test="${departments ne null}">
-				<c:forEach items="${departments}" var="entry">
-					<c:if test="${entry.key eq 0}">
-						<c:forEach items="${entry.value}" var="entity">
-							<li><a id="dentity_${entity.id}" class='tparam' param="_var_depid" paramRel="${entity.id}" href="app/system/school/department/position.do?action=actionLoadDepartmentPosition&depId=${entity.id}" callback="dep_activated(${entity.id});" target="ajax" rel="ajBoxDepPos"><c:out value="${entity.depName}" /></a></li>
-						</c:forEach>
-					</c:if>
+	<c:if test="${district ne null}">
+		<li class="expand"><a id="org_master"><c:out value="${district.districtName}" /></a>
+			<ul>
+				<c:forEach items="${departments}" var="entity">
+			    	 <li><a id="dentity_${entity.id}" class='tparam' param="_var_departId" paramRel="${entity.id}"><c:out value="${entity.depName }" /></a></li>
 				</c:forEach>
-			</c:if>
-		</ul>
-	</li>
-	<li class="expand">
-		<a id="org_campus">校区</a>
-		<ul>
-			<c:if test="${departments ne null}">
-				<c:forEach items="${departments}" var="entry">
-					<c:if test="${entry.key eq 1}">
-						<c:forEach items="${entry.value}" var="entity">
-							<li><a id="dentity_${entity.id}" class='tparam' param="_var_depid" paramRel="${entity.id}" href="app/system/school/department/position.do?action=actionLoadDepartmentPosition&depId=${entity.id}" callback="dep_activated(${entity.id});" target="ajax" rel="ajBoxDepPos"><c:out value="${entity.depName}" /></a></li>
-						</c:forEach>
-					</c:if>
-				</c:forEach>
-			</c:if>
-		</ul>
-	</li>
-	<li>
-		<a id="org_slog">片区</a>
-		<ul>
-			<c:if test="${departments ne null}">
-				<c:forEach items="${departments}" var="entry">
-					<c:if test="${entry.key eq 2}">
-						<c:forEach items="${entry.value}" var="entity">
-							<li><a id="dentity_${entity.id}" class='tparam' param="_var_depid" paramRel="${entity.id}" href="app/system/school/department/position.do?action=actionLoadDepartmentPosition&depId=${entity.id}" callback="dep_activated(${entity.id});" target="ajax" rel="ajBoxDepPos"><c:out value="${entity.depName}" /></a></li>
-						</c:forEach>
-					</c:if>
-				</c:forEach>
-			</c:if>
-		</ul>
-	</li>
+			   </ul>
+			</li>
+	</c:if>
 </ul>
-
-<logic:present name="lookup">
-	</div>
-	<div class="formBar">
-		<ul>
-			<li><div class="button"><div class="buttonContent"><button class="close" type="button">关闭</button></div></div></li>
-		</ul>
-	</div>
-</div>
-</logic:present>
