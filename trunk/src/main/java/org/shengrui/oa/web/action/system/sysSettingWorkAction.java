@@ -11,7 +11,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.system.ModelBaseWorkContent;
+import org.shengrui.oa.model.system.ModelBaseWorkTime;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
+import org.shengrui.oa.model.system.ModelWorkTemplate;
 import org.springframework.beans.BeanUtils;
 
 import cn.trymore.core.exception.ServiceException;
@@ -42,10 +44,150 @@ extends sysSettingBaseAction
    public ActionForward pageWorkTemplateIndex (ActionMapping mapping, ActionForm form,
          HttpServletRequest request, HttpServletResponse response) 
    {
+	   ModelWorkTemplate formWorkTemplate = (ModelWorkTemplate)form;
+	   if(formWorkTemplate.getTemplateId()==null){
+		   formWorkTemplate.setTemplateId("-1");
+	   }
+	   if(formWorkTemplate.getDistrict().getId() == null){
+		   formWorkTemplate.getDistrict().setId("-1");
+	   }
+	   try {
+		   List<ModelWorkTemplate> listWorkTemplate = this.serviceWorkTemplate.getListByCriteria(formWorkTemplate);
+		   
+		   String[] zam = {"","","","","","","",""};
+		   String[] zpm = {"","","","","","","",""};
+		   for(ModelWorkTemplate entity : listWorkTemplate){
+			   if("周一".equals(entity.getWorkDay())){
+				   if("AM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
+					   zam[1]+= entity.getStaffName()+",";
+				   else if("PM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
+					   zpm[1]+=entity.getStaffName()+",";
+			   }else if("周二".equals(entity.getWorkDay())){
+				   if("AM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
+					   zam[2]+= entity.getStaffName()+",";
+				   else if("PM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
+					   zpm[2]+=entity.getStaffName()+",";
+			   }else if("周三".equals(entity.getWorkDay())){
+				   if("AM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
+					   zam[3]+= entity.getStaffName()+",";
+				   else if("PM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
+					   zpm[3]+=entity.getStaffName()+",";
+			   }else if("周四".equals(entity.getWorkDay())){
+				   if("AM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
+					   zam[4]+= entity.getStaffName()+",";
+				   else if("PM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
+					   zpm[4]+=entity.getStaffName()+",";
+			   }else if("周五".equals(entity.getWorkDay())){
+				   if("AM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
+					   zam[5]+= entity.getStaffName()+",";
+				   else if("PM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
+					   zpm[5]+=entity.getStaffName()+",";
+			   }else if("周六".equals(entity.getWorkDay())){
+				   if("AM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
+					   zam[6]+= entity.getStaffName()+",";
+				   else if("PM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
+					   zpm[6]+=entity.getStaffName()+",";
+			   }else if("周日".equals(entity.getWorkDay())){
+				   if("AM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
+					   zam[7]+= entity.getStaffName()+",";
+				   else if("PM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
+					   zpm[7]+=entity.getStaffName()+",";
+			   }
+		   }
+		   request.setAttribute("staffOnAM", zam);
+		   request.setAttribute("staffOnPM", zpm);
+		   List<ModelSchoolDistrict> districts=this.getAllDistricts();
+	       request.setAttribute("districts", districts);
+	       List<ModelBaseWorkTime> dayWorkTimes = this.serviceBaseWorkTime.getDayWorkTimeByTemplateId(formWorkTemplate.getTemplateId());
+	       String startWorkTimePM = "";
+	       String endWorkTimePM = "";
+	       String startWorkTimeWeekAM = "";
+	       String endWorkTimeWeekAM = "";
+	       String startWorkTimeWeekendAM = "";
+	       String endWorkTimeWeekendAM = "";
+	       int loop1 = 1;
+	       int loop2 = 1;
+	       int loop3 = 1;
+	       for(ModelBaseWorkTime entity : dayWorkTimes){
+	    	   if("PM".equals(checkWorkTime(entity.getWorkStime()))){ //工作时间在晚上
+	    		   if(loop1 == 1){
+	    			   startWorkTimePM = entity.getWorkStime();
+	    			   endWorkTimePM = entity.getWorkEtime();
+		    		   loop1++;
+		    	   }else{
+		    		   if(startWorkTimePM.compareTo(entity.getWorkStime())>0){
+		    			   startWorkTimePM = entity.getWorkStime();
+		    		   }
+		    		   if(endWorkTimePM.compareTo(entity.getWorkEtime())<0){
+		    			   endWorkTimePM = entity.getWorkEtime();
+		    		   }
+		    	   }
+	    	   }else{ //工作时间在白天
+	    		   if(entity.getAdjustDays().contains("周六") || entity.getAdjustDays().contains("周日")){
+	    			   if(loop2 == 1){
+	    				   startWorkTimeWeekendAM = entity.getWorkStime();
+	    				   endWorkTimeWeekendAM = entity.getWorkEtime();
+		    			   loop2++;
+	    			   }else{
+		    			   if(startWorkTimeWeekendAM.compareTo(entity.getWorkStime())>0){
+		    				   startWorkTimeWeekendAM = entity.getWorkStime();
+		    			   }
+		    			   if(endWorkTimeWeekendAM.compareTo(entity.getWorkEtime())<0){
+		    				   endWorkTimeWeekendAM = entity.getWorkEtime();
+		    			   }
+	    			   }
+	    		   }
+	    		   if(entity.getAdjustDays().contains("周一") || entity.getAdjustDays().contains("周二") ||
+	    				   entity.getAdjustDays().contains("周三") || entity.getAdjustDays().contains("周四") ||
+	    				   entity.getAdjustDays().contains("周五")){
+	    			   if(loop3==1){
+	    				   startWorkTimeWeekAM = entity.getWorkStime();
+	    				   endWorkTimeWeekAM = entity.getWorkEtime();
+		    			   loop3 ++;
+	    			   }else{
+		    			   if(startWorkTimeWeekAM.compareTo(entity.getWorkStime())>0){
+		    				   startWorkTimeWeekAM = entity.getWorkStime();
+		    			   }
+		    			   if(endWorkTimeWeekAM.compareTo(entity.getWorkEtime())<0){
+		    				   endWorkTimeWeekAM = entity.getWorkEtime();
+		    			   }
+	    			   }
+	    		   }
+	    	   }
+	       }
+	       request.setAttribute("startWorkTimePM", startWorkTimePM);
+	       request.setAttribute("endWorkTimePM", endWorkTimePM);
+	       request.setAttribute("startWorkTimeWeekAM", startWorkTimeWeekAM);
+	       request.setAttribute("endWorkTimeWeekAM", endWorkTimeWeekAM);
+	       request.setAttribute("startWorkTimeWeekendAM", startWorkTimeWeekendAM);
+	       request.setAttribute("endWorkTimeWeekendAM", endWorkTimeWeekendAM);
+	       request.setAttribute("formWorkTemplate", formWorkTemplate);
+	   	} catch (ServiceException e) {
+	   		// TODO Auto-generated catch block
+	   		LOGGER.error("Exception raised when fetch all work template by template id.", e);
+	   	}
       return mapping.findForward("page.sys.setting.work.template.index");
    }
    
-
+   public ActionForward dialogWorkArrangePage(ActionMapping mapping, ActionForm form,
+		   HttpServletRequest request, HttpServletResponse response)
+   {
+	   String[] week = {"","周一","周二","周三","周四","周五","周六","周日"};
+	   //request.setAttribute("districtId", request.getParameter("districtId"));
+	   System.out.println("add work arrange\t"+request.getParameter("workDay"));
+	   String districtId = request.getParameter("districtId");
+	   String templateId = request.getParameter("templateId");
+	   if(this.isObjectIdValid(districtId) && this.isObjectIdValid(templateId)){
+		   request.setAttribute("districtId", districtId);
+		   request.setAttribute("templateId", templateId);
+		   request.setAttribute("workDay", week[Integer.parseInt(request.getParameter("workDay"))]);
+	   }
+       else
+       {
+          return ajaxPrint(response, getErrorCallback("请先选择校区和模板"));
+       }
+	      return mapping.findForward("dialog.sys.setting.work.template.addpage");
+   }
    
    
    /**
@@ -220,5 +362,15 @@ extends sysSettingBaseAction
    {
       request.setAttribute("districtId", request.getParameter("districtId"));
       return mapping.findForward("dialog.sys.setting.work.content.addpage");
+   }
+   
+   public String checkWorkTime(String time){
+	   if(time == null || "".equals(time))return "";
+	   String hour = time.substring(0, time.indexOf(":"));
+	   if(hour!=null && !"".equals(hour)){
+		   if(Integer.parseInt(hour)<18) return "AM";
+		   else return "PM";
+	   }
+	   return "";
    }
 }
