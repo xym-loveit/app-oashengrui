@@ -2,7 +2,7 @@ package org.shengrui.oa.dao.system;
 
 import java.util.List;
 
-import org.shengrui.oa.model.system.ModelSchoolDepartment;
+import org.shengrui.oa.model.system.ModelWorkTemplate;
 
 import cn.trymore.core.dao.DAOGeneric;
 import cn.trymore.core.exception.DAOException;
@@ -14,16 +14,16 @@ import cn.trymore.core.exception.DAOException;
  *
  */
 public interface DAOWorkTemplate
-extends DAOGeneric<ModelSchoolDepartment>
+extends DAOGeneric<ModelWorkTemplate>
 {
 	
 	/**
-	 * 根据结构类型获取部门列表
+	 * 根据模板ID和日期获取工作安排列表
 	 * 
 	 * @param orgType
 	 * @return
 	 * @throws DAOException
 	 */
-	List<ModelSchoolDepartment> getDepartmentByOrganization (Integer orgType) throws DAOException;
+	List<ModelWorkTemplate> getWorkArrangesByCriteria (ModelWorkTemplate entity) throws DAOException;
 	
 }
