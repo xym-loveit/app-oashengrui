@@ -1,5 +1,7 @@
 package org.shengrui.oa.service.system;
 
+import java.util.List;
+
 import org.shengrui.oa.model.system.ModelBaseWorkTime;
 
 import cn.trymore.core.exception.ServiceException;
@@ -28,4 +30,9 @@ public interface ServiceBaseWorkTime extends ServiceGeneric<ModelBaseWorkTime> {
 	 */
 	PaginationSupport<ModelBaseWorkTime> getPaginationByEntity (ModelBaseWorkTime entity, 
 			PagingBean pagingBean) throws ServiceException;
+	
+	/**
+	 * 根据模板号查工作时间分布
+	 */
+	public List<ModelBaseWorkTime> getDayWorkTimeByTemplateId(String templateId) throws ServiceException;
 }
