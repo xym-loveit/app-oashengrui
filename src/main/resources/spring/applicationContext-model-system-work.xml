@@ -26,4 +26,16 @@
          </bean>
       </property>
    </bean>
+   
+   <!-- 工作模板设置 -->
+   <bean id="daoWorkTemplate" class="org.shengrui.oa.dao.system.impl.DAOWorkTemplateImpl">
+      <property name="hibernateTemplate" ref="hibernateTemplate" />
+   </bean>
+   <bean id="serviceWorkTemplate" parent="baseTxProxy">
+      <property name="target">
+         <bean class="org.shengrui.oa.service.system.impl.ServiceWorkTemplateImpl">
+            <constructor-arg index="0" ref="daoWorkTemplate"/>
+         </bean>
+      </property>
+   </bean>
 </beans>
