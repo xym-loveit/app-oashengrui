@@ -1,8 +1,6 @@
 package org.shengrui.oa.model.admin;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.shengrui.oa.model.system.ModelAppDictionary;
 import org.shengrui.oa.model.system.ModelAppUser;
@@ -10,6 +8,7 @@ import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 
 import cn.trymore.core.model.ModelBase;
+import cn.trymore.oa.model.system.ModelFileAttach;
 
 import com.google.gson.annotations.Expose;
 
@@ -55,14 +54,10 @@ extends ModelBase {
 	protected String docUserIds;
 	
 	@Expose
-	protected Date createTime;
+	protected ModelFileAttach file;
 	
-	//额外添加的
 	@Expose
-	protected String fileIds;
-	
-	@SuppressWarnings("rawtypes")
-	private Set docFiles = new HashSet(0);
+	protected Date createTime;
 
 	public ModelDocVisiableRange getDocVisiableRange() {
 		return docVisiableRange;
@@ -145,16 +140,6 @@ extends ModelBase {
 		this.createTime = createTime;
 	}
 
-	@SuppressWarnings("rawtypes")
-	public Set getDocFiles() {
-		return docFiles;
-	}
-
-	@SuppressWarnings("rawtypes")
-	public void setDocFiles(Set docFiles) {
-		this.docFiles = docFiles;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -166,8 +151,6 @@ extends ModelBase {
 				+ ((department == null) ? 0 : department.hashCode());
 		result = prime * result
 				+ ((district == null) ? 0 : district.hashCode());
-		result = prime * result
-				+ ((docFiles == null) ? 0 : docFiles.hashCode());
 		result = prime * result
 				+ ((docLevel == null) ? 0 : docLevel.hashCode());
 		result = prime * result + ((docName == null) ? 0 : docName.hashCode());
@@ -241,12 +224,12 @@ extends ModelBase {
 		return true;
 	}
 
-	public String getFileIds() {
-		return fileIds;
+	public ModelFileAttach getFile() {
+		return file;
 	}
 
-	public void setFileIds(String fileIds) {
-		this.fileIds = fileIds;
+	public void setFile(ModelFileAttach file) {
+		this.file = file;
 	}
 
 	

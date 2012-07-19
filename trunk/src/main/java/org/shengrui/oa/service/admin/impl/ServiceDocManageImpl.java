@@ -36,6 +36,20 @@ extends ServiceGenericImpl<ModelDoc> implements ServiceDocManage
 		this.daoDocManage=dao;
 	}
 	
+	public ModelDoc getNewDoc()throws ServiceException, DAOException
+	{
+		String sql ="select * from app_admin_doc doc where doc_id=(select max(doc_id) from app_admin_doc)";
+		ModelDoc doc=(ModelDoc) daoDocManage.findListByNativeSQL(sql,ModelDoc.class).get(0);
+		if(doc!=null){
+			return doc;
+		}
+		return null;
+	}
+	
+	public void saveDoc(ModelDoc doc,String fileIds)throws ServiceException, DAOException
+	{
+		daoDocManage.saveOrUpdate(doc);
+	}
 	
 	public List<ModelDoc> getDocsByLevel(ModelDocLevel level,ModelAppDictionary type)throws ServiceException, DAOException
 	{
@@ -103,7 +117,7 @@ extends ServiceGenericImpl<ModelDoc> implements ServiceDocManage
 		return criteria;
 	}
 	
-	
+
 	public DAODocManage getDaoDocManage() {
 		return daoDocManage;
 	}

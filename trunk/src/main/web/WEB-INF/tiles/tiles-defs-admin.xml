@@ -57,5 +57,9 @@
 	<!-- 文档上传与管理 - 文档详细 -->
 	<definition name="admin.page.document.detail" 
 		path="/WEB-INF/jsp/application/administrator/doc/documentPage.jsp"/>
+	
+	<!-- 文档上传与管理 - 编辑文档详细 -->
+	<definition name="admin.page.document.detail.edit" 
+		path="/WEB-INF/jsp/application/administrator/doc/documentEditPage.jsp"/>	
 		
 </tiles-definitions>

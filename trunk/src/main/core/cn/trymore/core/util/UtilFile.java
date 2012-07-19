@@ -35,7 +35,7 @@ public class UtilFile
 		{
 			extension = fileName.substring(i);
 		}
-		return timestamp + "/" + UtilUUIDGenerator.getUUID() + extension;
+		return timestamp + "\\" + UtilUUIDGenerator.getUUID() + extension;
 	}
 	
 	/**

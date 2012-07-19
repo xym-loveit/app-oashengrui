@@ -114,6 +114,16 @@
 		<url-pattern>/file-upload</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>FileDownload</servlet-name>
+		<servlet-class>cn.trymore.core.web.servlet.FileDownloadServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>FileDownload</servlet-name>
+		<url-pattern>/file-download</url-pattern>
+	</servlet-mapping>
+	
 	<!-- UrlRewrite configuration
 	<filter>
 		<filter-name>rewriteFilter</filter-name>
