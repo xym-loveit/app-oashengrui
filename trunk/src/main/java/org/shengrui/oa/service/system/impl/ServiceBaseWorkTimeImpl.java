@@ -69,13 +69,14 @@ public class ServiceBaseWorkTimeImpl extends
 	}
 
 	@Override
-	public List<ModelBaseWorkTime> getDayWorkTimeByTemplateId(String templateId)
+	public List<ModelBaseWorkTime> getDayWorkTimeByDistrictIdAndTemplateId(String districtId,String templateId)
 			throws ServiceException {
 		// TODO Auto-generated method stub
 		DetachedCriteria criteria = DetachedCriteria
 		.forClass(ModelBaseWorkTime.class);
 		if(templateId!=null && !"".equals(templateId)){
 			criteria.add(Restrictions.eq("templateId", templateId));
+			criteria.createCriteria("baseTimeDistrict").add(Restrictions.eq("id", districtId));
 		}
 		try {
 			return this.getDaoBaseWorkTime().getListByCriteria(criteria);
