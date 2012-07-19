@@ -21,6 +21,22 @@ import cn.trymore.core.web.paging.PagingBean;
 public interface ServiceDocManage
 extends ServiceGeneric<ModelDoc>
 {
+	
+	/**
+	 * 得到最新的文档
+	 * @author Tang
+	 * @throws DAOException 
+	 */
+	public ModelDoc getNewDoc()throws ServiceException, DAOException;
+
+	/**
+	 * 文档上传保存
+	 * @author Tang
+	 * @throws DAOException 
+	 */
+	public void saveDoc(ModelDoc doc,String fileIds)throws ServiceException, DAOException;
+	
+	
 	/**
 	 * 得到类型查询文档
 	 * @author Tang

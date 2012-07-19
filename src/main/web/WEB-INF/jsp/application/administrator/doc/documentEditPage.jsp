@@ -77,7 +77,7 @@
 	
 </script>
 <div class="pageContent">
-<form method="post" action="app/admin/doc.do?action=adminPageDocumentSave"
+<form method="post" action="app/admin/doc.do?action=adminPageDocumentEdit"
 	class="pageForm required-validate"
 	onsubmit="return validateCallback(this, dialogAjaxDone);">
 <div class="pageFormContent" layoutH="56">
@@ -197,18 +197,16 @@
 </div>
 <div class="formBar">
 <ul>
-	<!--<li><a class="buttonActive" href="javascript:;"><span>保存</span></a></li>-->
-
-	<logic:notPresent name="op">
+	<logic:present name="op">
 		<li>
 		<div class="buttonActive">
 		<div class="buttonContent">
-		<button type="submit">文档上传</button>
+		<button type="submit">文档编辑</button>
 		</div>
 		</div>
 		</li>
-	</logic:notPresent>
-
+	</logic:present>
+	
 	<li>
 	<div class="button">
 	<div class="buttonContent">

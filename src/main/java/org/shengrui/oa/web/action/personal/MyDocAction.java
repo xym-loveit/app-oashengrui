@@ -1,5 +1,4 @@
 package org.shengrui.oa.web.action.personal;
-
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,31 +47,21 @@ extends BasePersonalAction
 			ModelDocLevel level3=this.getServiceDocLevel().get("3");//总部文档
 			ModelDocLevel level4=this.getServiceDocLevel().get("4");//部分文档
 			
-//			ModelAppDictionary type1=this.getServiceAppDictionary().getByName("人资文档");
-//			ModelAppDictionary type2=this.getServiceAppDictionary().getByName("行政文档");
 			PagingBean pagingBean=new PagingBean();
 			pagingBean.setPageSize(5);
 			
 			List<ModelDoc> company_docs1   =this.getServiceDocManage().getDocsByLevel(level1,null);
-//			List<ModelDoc> company_docs2   =this.getServiceDocManage().getDocsByLevel(level1,type2);
 
 			List<ModelDoc> district_docs1  =this.getServiceDocManage().getDocsByLevel(level2,null);
-//			List<ModelDoc> district_docs2  =this.getServiceDocManage().getDocsByLevel(level2,type2);
 			
 			List<ModelDoc> department_docs1=this.getServiceDocManage().getDocsByLevel(level3,null);
-//			List<ModelDoc> department_docs2=this.getServiceDocManage().getDocsByLevel(level3,type2);
 			
 			List<ModelDoc> deparent_docs1  =this.getServiceDocManage().getDocsByLevel(level4,null);
-//			List<ModelDoc> deparent_docs2  =this.getServiceDocManage().getDocsByLevel(level4,type2);
 			
 		    request.setAttribute("company_docs1",company_docs1);
-//		    request.setAttribute("company_docs2",company_docs2);
 		    request.setAttribute("district_docs1",district_docs1);
-//		    request.setAttribute("district_docs2",district_docs2);
 		    request.setAttribute("department_docs1",department_docs1);
-//		    request.setAttribute("department_docs2",department_docs2);
 		    request.setAttribute("deparent_docs1",deparent_docs1);
-//		    request.setAttribute("deparent_docs2",deparent_docs2);
 				
 		} catch (ServiceException e)
 		{

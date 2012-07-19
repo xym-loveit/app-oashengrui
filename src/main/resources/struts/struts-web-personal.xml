@@ -27,6 +27,7 @@
 				type="org.springframework.web.struts.DelegatingActionProxy">
 			<forward name="page.my.doc" path="page.my.doc" />
 			<forward name="page.my.doc.more" path="page.my.doc.more" />
+			<forward name="page.my.doc.download" path="page.my.doc.download" />
 		</action>
 		
 	</action-mappings>

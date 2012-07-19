@@ -36,6 +36,8 @@
 	    <property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
 	    <property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
 		<property name="serviceSchoolDepartmentPosition" ref="serviceSchoolDepartmentPosition" />
+		<property name="serviceFileAttach" ref="serviceFileAttach" />
+		
 		
 	</bean>
 	<!-- <property name="serviceNewsManage" ref="serviceNewsManage"></property> -->

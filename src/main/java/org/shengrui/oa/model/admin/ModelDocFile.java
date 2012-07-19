@@ -1,6 +1,8 @@
 package org.shengrui.oa.model.admin;
 
+
 import cn.trymore.core.model.ModelBase;
+import cn.trymore.oa.model.system.ModelFileAttach;
 
 /**
  * Model: 文档附件
@@ -13,9 +15,13 @@ extends ModelBase {
 	
 	// Fields
 
+	public ModelDocFile(){
+
+	}
+	
 	private static final long serialVersionUID = 777263096968029840L;
-	private ModelDoc doc;
-	private Long fileId;
+	private ModelDoc doc=new ModelDoc();
+	private ModelFileAttach file=new ModelFileAttach();
 	
 	
 	public ModelDoc getDoc() {
@@ -24,11 +30,11 @@ extends ModelBase {
 	public void setDoc(ModelDoc doc) {
 		this.doc = doc;
 	}
-	public Long getFileId() {
-		return fileId;
+	public ModelFileAttach getFile() {
+		return file;
 	}
-	public void setFileId(Long fileId) {
-		this.fileId = fileId;
+	public void setFile(ModelFileAttach file) {
+		this.file = file;
 	}
 
 

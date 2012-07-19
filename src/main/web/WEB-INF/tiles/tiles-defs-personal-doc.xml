@@ -6,5 +6,6 @@
 <tiles-definitions>
 		
 	<definition name="page.my.doc.more"  path="/WEB-INF/jsp/application/personal/docDownload/public/doclists.jsp"/>
+    <definition name="page.my.doc.download"  path="/WEB-INF/jsp/application/personal/docDownload/download.jsp"/>
 
 </tiles-definitions>

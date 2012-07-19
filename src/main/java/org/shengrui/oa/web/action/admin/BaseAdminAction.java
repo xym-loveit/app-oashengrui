@@ -15,6 +15,8 @@ import org.shengrui.oa.service.system.ServiceSchoolDepartmentPosition;
 import org.shengrui.oa.service.system.ServiceSchoolDistrict;
 import org.shengrui.oa.web.action.BaseAppAction;
 
+import cn.trymore.oa.service.system.ServiceFileAttach;
+
 /**
  * The base action for Admin Management.
  * 
@@ -58,7 +60,10 @@ extends BaseAppAction
 	protected ServiceAppDictionary serviceAppDictionary;
 	
 	protected ServiceNewsManage serviceNewsManage;
-
+	
+	@Resource
+	protected ServiceFileAttach serviceFileAttach;
+	
 	public ServiceNewsManage getServiceNewsManage() {
 		return serviceNewsManage;
 	}
@@ -150,8 +155,14 @@ extends BaseAppAction
 			ServiceAdminWorkArrange serviceAdminWorkArrange) {
 		this.serviceAdminWorkArrange = serviceAdminWorkArrange;
 	}
+
+	public ServiceFileAttach getServiceFileAttach() {
+		return serviceFileAttach;
+	}
+
+	public void setServiceFileAttach(ServiceFileAttach serviceFileAttach) {
+		this.serviceFileAttach = serviceFileAttach;
+	}
 	
-
-
 	
 }

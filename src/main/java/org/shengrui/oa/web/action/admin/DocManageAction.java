@@ -22,6 +22,7 @@ import cn.trymore.core.exception.WebException;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
+import cn.trymore.oa.model.system.ModelFileAttach;
 /**
  * The administrator doc manage action.
  * 
@@ -101,7 +102,6 @@ extends BaseAdminAction
 			if (this.isObjectIdValid(id))
 			{
 				this.getServiceDocManage().remove(id);
-				System.out.println("123");
 				return ajaxPrint(response, getSuccessCallback("文档删除成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 			}
 			else
@@ -111,7 +111,6 @@ extends BaseAdminAction
 		} 
 		catch (ServiceException e)
 		{
-			e.printStackTrace();
 			LOGGER.error("Exception raised when delete doc manages.", e);
 			return ajaxPrint(response, getErrorCallback("删除失败,原因:" + e.getMessage()));
 		}
@@ -133,16 +132,12 @@ extends BaseAdminAction
 		{
 			//判断从前台是否传入了id值，如果有，则进行编辑操作
 			String id=request.getParameter("id");
-			String op=request.getParameter("op");
 			if (this.isObjectIdValid(id))
 			{
 				request.setAttribute("formDoc", this.getServiceDocManage().get(id));
 				request.setAttribute("op", "op");
 			}
-			//否则进行上传文档操作
-			else if(!op.equals("loding"))
-			{
-			}
+
 			request.setAttribute("docTypes", this.getServiceAppDictionary().getByType("docType"));
 			request.setAttribute("districts" , this.getServiceSchoolDistrict().getAll());
 			request.setAttribute("docLevels" , this.getServiceDocLevel().getAll());
@@ -161,6 +156,41 @@ extends BaseAdminAction
 	/**
 	 * <b>[WebAction]</b> 
 	 * <br/>
+	 * 文档上传与管理 - 编辑文档详细页面
+	 * @throws WebException 
+	 */
+	public ActionForward adminPageDocumentEditDetail (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) throws WebException 
+	{
+		
+		try
+		{
+			//判断从前台是否传入了id值，如果有，则进行编辑操作
+			String id=request.getParameter("id");
+			if (this.isObjectIdValid(id))
+			{
+				request.setAttribute("formDoc", this.getServiceDocManage().get(id));
+				request.setAttribute("op", "op");
+			}
+
+			request.setAttribute("docTypes", this.getServiceAppDictionary().getByType("docType"));
+			request.setAttribute("districts" , this.getServiceSchoolDistrict().getAll());
+			request.setAttribute("docLevels" , this.getServiceDocLevel().getAll());
+			request.setAttribute("docRanges" , this.getServiceDocVisiableRange().getAll());
+			request.setAttribute("deps" , this.getServiceSchoolDepartment().getDepartmentByOrganization(0));
+			
+		} 
+		catch (ServiceException e)
+		{
+			LOGGER.error("Exception raised when fetch all doc manages.", e);
+		}
+		
+		return mapping.findForward("admin.page.document.detail.edit");
+	}
+	
+	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
 	 * 文档上传与管理 - 文档上传信息保存
 	 * @throws WebException 
 	 */
@@ -172,15 +202,125 @@ extends BaseAdminAction
 		{
 				ModelDoc formDoc = (ModelDoc) form;
 				
-				System.out.println("打印上传文档Id"+formDoc.getFileIds());
-				
 				ModelDoc entity = null;
 				
 				if(formDoc!=null)
 				{
 					
-					System.out.println("111:"+formDoc.getDocVisiableRange().getId());
+					//封装设置个人可见数据
+					if( "2".equals(formDoc.getDocVisiableRange().getId())&&UtilString.isNotEmpty(formDoc.getDocUserNames()))
+					{
+						
+						try {
+							String strUserNames = formDoc.getDocUserNames();
+							String userIds = "";
+							String[] names = strUserNames.split(",");
+							for (int i = 0; i < names.length; i++)
+							{
+								
+								try {
+									ModelAppUser user = this.getServiceAppUser()
+											.findByUserName(names[i]);
+									userIds = userIds + user.getId() + ",";
+								} catch (NullPointerException e) {
+									LOGGER.error("Exception raised when fetch all doc manages.", e);
+									return ajaxPrint(response, getErrorCallback("文档可见人不存在，请重新输入."));
+								}
+							}
+							userIds = userIds.substring(0, userIds.length() - 1);
+							formDoc.setDocUserIds(userIds);
+						} 
+						catch (Exception e)
+						{
+							LOGGER.error("Exception raised when fetch all doc manages.", e);
+							return ajaxPrint(response, getErrorCallback("请按正确格式输入可见人姓名，用逗号分开."));
+						}
+						
+						
+					}else if(formDoc.getDocVisiableRange().getId()!="2"&&UtilString.isNotEmpty(formDoc.getDocUserNames()))
+					{
+						return ajaxPrint(response, getErrorCallback("当前不是设置为个人可见!"));
+					}
+				
+					if(!UtilString.isNotEmpty(formDoc.getDocName()))
+					{
+						return ajaxPrint(response, getErrorCallback("文档名称不能为空!"));
+					}
+					ModelAppDictionary type     =this.getServiceAppDictionary().get(formDoc.getType().getId());
+					ModelDocLevel level         =this.getServiceDocLevel().get(formDoc.getDocLevel().getId());
+					ModelDocVisiableRange range =this.getServiceDocVisiableRange().get(formDoc.getDocVisiableRange().getId());
+					ModelSchoolDistrict district=this.getServiceSchoolDistrict().get(formDoc.getDistrict().getId());
+					ModelSchoolDepartment dep   =this.getServiceSchoolDepartment().get(formDoc.getDepartment().getId());
+					ModelAppUser author         = this.getServiceAppUser().findByUserName((String)request.getSession().getAttribute("SPRING_SECURITY_LAST_USERNAME"));
 					
+					formDoc.setType(type);
+					formDoc.setAuthor(author);
+					formDoc.setDepartment(dep);
+					formDoc.setDocLevel(level);
+					formDoc.setDocVisiableRange(range);
+					formDoc.setDistrict(district);
+					formDoc.setCreateTime(new Date());
+					
+					entity=this.getServiceDocManage().get(formDoc.getId());
+					if(formDoc.equals(entity)){
+						return ajaxPrint(response, getErrorCallback("您没有做任何修改!"));
+					}
+					
+					entity=formDoc;
+					
+					//在数据上传的FileUploadServlet中传过来的session值，用完销毁掉。
+					String fileIds=(String)request.getSession().getAttribute("fileIds");
+					if(fileIds==null)
+					{
+						return ajaxPrint(response, getErrorCallback("上传文档不能为空，请添加文件!"));
+					}
+					else
+					{
+						String []ids=fileIds.split(",");
+						if(ids.length>=2)
+						{
+							request.getSession().removeAttribute("fileIds");
+							return ajaxPrint(response, getErrorCallback("一个文档只能上传一个附件，请重新上传!", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+						}else{
+							ModelFileAttach file=this.getServiceFileAttach().get(fileIds);
+							entity.setFile(file);
+							this.serviceDocManage.merge(entity);
+						}
+					}
+					request.getSession().removeAttribute("fileIds");
+					
+				}
+				// 保存成功后, Dialog进行关闭
+				return ajaxPrint(response, 
+						getSuccessCallback("文档上传成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+				
+		} 
+		catch (ServiceException e)
+		{
+			LOGGER.error("Exception raised when fetch all doc manages.", e);
+			return ajaxPrint(response, getErrorCallback("文档上传失败."));
+		}
+	}
+	
+	
+	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
+	 * 文档上传与管理 - 文档上传信息编辑
+	 * @throws WebException 
+	 */
+	public ActionForward adminPageDocumentEdit (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) throws WebException 
+	{
+		
+		try
+		{
+				ModelDoc formDoc = (ModelDoc) form;
+				
+				ModelDoc entity = null;
+				
+				if(formDoc!=null)
+				{
 					//封装设置个人可见数据
 					if( "2".equals(formDoc.getDocVisiableRange().getId())&&UtilString.isNotEmpty(formDoc.getDocUserNames()))
 					{
@@ -246,13 +386,13 @@ extends BaseAdminAction
 				}
 				// 保存成功后, Dialog进行关闭
 				return ajaxPrint(response, 
-						getSuccessCallback("上传成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+						getSuccessCallback("文档编辑成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 				
 		} 
 		catch (ServiceException e)
 		{
 			LOGGER.error("Exception raised when fetch all doc manages.", e);
-			return ajaxPrint(response, getErrorCallback("文档上传失败."));
+			return ajaxPrint(response, getErrorCallback("文档编辑失败."));
 		}
 	}
 
