@@ -85,5 +85,9 @@
 	<!-- 未到弹框处理 -->
 	<definition name="dialog.page.entry.finalize"  
 		path="/WEB-INF/jsp/application/hrm/entry/dialog/dialogEntryFinalize.jsp"/>
-		
+	
+	<!-- 人力资源发展数据列表 -->
+	<definition name="hrm.data.employee.develop.records"  
+		path="/WEB-INF/jsp/application/hrm/develop/data/dataDevelopRecords.jsp"/>
+	
 </tiles-definitions>

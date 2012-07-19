@@ -17,6 +17,10 @@
 	<definition name="data.my.application.form.process" 
 		path="/WEB-INF/jsp/application/personal/application/form/data/dataFormProcess.jsp"/>
 	
+	<!-- 申请流程列表 -->
+	<definition name="data.my.application.form.list" 
+		path="/WEB-INF/jsp/application/personal/application/form/data/dataFormList.jsp"/>
+	
 	<!-- 转正申请单 -->
 	<definition name="tpl.my.application.form.beregular" 
 		path="/WEB-INF/jsp/application/personal/application/form/tpl/tplFormBeRegularPage.jsp"/>
