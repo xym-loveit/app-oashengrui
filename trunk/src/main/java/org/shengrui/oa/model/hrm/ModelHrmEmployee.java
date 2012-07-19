@@ -132,6 +132,12 @@ extends ModelBase
 	 */
 	private Date onboardDate;
 	
+	/**
+	 * 临时变量...
+	 */
+	@Deprecated
+	private String fullName;
+	
 	
 	/**
 	 * The enumeration of interview state
@@ -347,6 +353,16 @@ extends ModelBase
 	public void setOnboardDate(Date onboardDate)
 	{
 		this.onboardDate = onboardDate;
+	}
+
+	public String getFullName()
+	{
+		return fullName;
+	}
+
+	public void setFullName(String fullName)
+	{
+		this.fullName = fullName;
 	}
 	
 	

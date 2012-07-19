@@ -77,7 +77,8 @@ extends ModelBase
 		BEREGULAR (2, "beregular"),						// 转正
 		TRANSFER(3, "transfer"),							// 调动
 		FAIRWELL(4, "fairwell"),								// 离职
-		FIRED(5, "fired");										// 辞退
+		FIRED(5, "fired"),										// 辞退
+		PROMOTION(6, "promotion");						// 晋升
 		
 		private Integer value;
 		private String text;

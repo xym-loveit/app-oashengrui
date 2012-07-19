@@ -18,21 +18,25 @@
 <script>
 	$(function(){
 	
-		$("#proc_task_type").unbind("change");
-		$("#proc_task_type").bind("change", function(){
+		$("#hrm_apply_type").unbind("change");
+		$("#hrm_apply_type").bind("change", function(){
 			var task_type = $(this).find("option").filter(":selected").attr("value");
 			if (task_type != "") {
-				$("#form_box").loadUrl("app/personal/application_form.do?action=actionLoadTemplatePage<c:if test='${formId ne null}'>&formId=${formId}</c:if><c:if test='${op ne null}'>&op=${op}</c:if>&procTypeId=" + task_type, {}, function(){
-					
-				});
+				if ($.pdialog._current) {
+					$($.pdialog._current.find("#form_box")).loadUrl("app/personal/application_form.do?action=actionLoadTemplatePage<c:if test='${formId ne null}'>&formId=${formId}</c:if><c:if test='${op ne null}'>&op=${op}</c:if>&procTypeId=" + task_type, {}, function(){
+						
+					});
+				}
 			} else {
 				$("#form_box").html("");
 			}
 		});
 		
 		<logic:present name="procTypeId">
-			$("#form_box").loadUrl("app/personal/application_form.do?action=actionLoadTemplatePage&procTypeId=${procTypeId}<c:if test='${formId ne null}'>&formId=${formId}</c:if><c:if test='${op ne null}'>&op=${op}</c:if>", {}, function(){
-			});
+			if ($.pdialog._current) {
+				$($.pdialog._current.find("#form_box")).loadUrl("app/personal/application_form.do?action=actionLoadTemplatePage&procTypeId=${procTypeId}<c:if test='${formId ne null}'>&formId=${formId}</c:if><c:if test='${op ne null}'>&op=${op}</c:if>", {}, function(){
+				});
+			}
 		</logic:present>
 		
 	});
@@ -46,7 +50,7 @@
 					<c:when test="${op ne null && op eq 'view'}"><span style="float:left; color:#FF7300; line-height: 18px;">所选人资申请类型：<b>${entity.applyFormType.processTypeName}</b></span></c:when>
 					<c:otherwise>
 						<span style="float:left; color:#FF7300; line-height: 18px;">人资申请类型：</span>
-						<select class="combox required" name="applyFormTypeId" id="proc_task_type">
+						<select class="combox required" name="applyFormTypeId" id="hrm_apply_type">
 							<option value="">请选择申请类型</option>
 							<logic:present name="types">
 								<logic:iterate name="types" id="typeEntity">

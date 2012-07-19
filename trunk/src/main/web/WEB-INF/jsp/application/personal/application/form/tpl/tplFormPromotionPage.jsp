@@ -46,60 +46,56 @@
 		</td>
 	</tr>
 	<tr>
-		<td>申请校区</td>
-		<td colspan="3">
-			<c:choose>
-				<c:when test="${(op ne null && op eq 'view') && (entity ne null && entity.toDistrict ne null)}">
-					<input name="toDistrictName" type="text" readonly style="width: 96%" value="${entity.toDistrict.districtName" readonly /><input type="hidden" name="toDistrictId" value="${entity.fromDistrict.id}" />
-				</c:when>
-				<c:otherwise>
-					<select class="combox required" name="toDistrictId" id="combox_district_in" style="width:150px" ref="combox_dept_in" refUrl="app/base.do?action=actionLoadDepartmentByOrg&districtId={value}">
-						<option value="">请选择校区</option>
-						<logic:present name="districts">
-							<logic:iterate name="districts" id="district">
-								<option value="${district.id}">${district.districtName}</option>
-							</logic:iterate>
-						</logic:present>
-					</select>
-				</c:otherwise>
-			</c:choose>
+		<td class='field'>申请校区</td>
+		<c:choose>
+			<c:when test="${(op ne null && op eq 'view') && (entity ne null && entity.toDistrict ne null)}">
+				<td colspan="3"><input name="toDistrictName" type="text" readonly style="width: 96%" value="${entity.toDistrict.districtName}" readonly /><input type="hidden" name="toDistrictId" value="${entity.fromDistrict.id}" />
+			</c:when>
+			<c:otherwise>
+				<td colspan="3" style="padding:0 5px;"><select class="combox required" name="toDistrictId" id="combox_district_in" style="width:150px" ref="combox_dept_in" refUrl="app/base.do?action=actionLoadDepartmentByOrg&districtId={value}">
+					<option value="">请选择校区</option>
+					<logic:present name="districts">
+						<logic:iterate name="districts" id="district">
+							<option value="${district.id}">${district.districtName}</option>
+						</logic:iterate>
+					</logic:present>
+				</select>
+			</c:otherwise>
+		</c:choose>
 		</td>
-		<td>申请部门</td>
-		<td>
-			<c:choose>
-				<c:when test="${(op ne null && op eq 'view') && (entity ne null && entity.toDepartment ne null)}">
-					<input name="toDistrictName" type="text" readonly style="width: 96%" value="${entity.toDepartment.depName" readonly /><input type="hidden" name="toDepId" value="${entity.toDepartment.id}" />
-				</c:when>
-				<c:otherwise>
-					<select class="combox required" name="toDepId" id="combox_dept_in" defOPKey="请选择部门" defOPVal="" style="width:150px" ref="combox_position_in" refUrl="app/base.do?action=actionLoadPositionByDepartment&depId={value}">
-						<option value="">请选择部门</option>
-						<logic:present name="departments">
-							<logic:iterate name="departments" id="entity">
-								<option value="${entity.id}">${entity.depName}</option>
-							</logic:iterate>
-						</logic:present>
-					</select>
-				</c:otherwise>
-			</c:choose>
+		<td class='field'>申请部门</td>
+		<c:choose>
+			<c:when test="${(op ne null && op eq 'view') && (entity ne null && entity.toDepartment ne null)}">
+				<td><input name="toDistrictName" type="text" readonly style="width: 87%" value="${entity.toDepartment.depName}" readonly /><input type="hidden" name="toDepId" value="${entity.toDepartment.id}" />
+			</c:when>
+			<c:otherwise>
+				<td style="padding:0 5px;"><select class="combox required" name="toDepId" id="combox_dept_in" defOPKey="请选择部门" defOPVal="" style="width:150px" ref="combox_position_in" refUrl="app/base.do?action=actionLoadPositionByDepartment&depId={value}">
+					<option value="">请选择部门</option>
+					<logic:present name="departments">
+						<logic:iterate name="departments" id="department">
+							<option value="${department.id}">${department.depName}</option>
+						</logic:iterate>
+					</logic:present>
+				</select>
+			</c:otherwise>
+		</c:choose>
 		</td>
-				
-		<td>申请岗位</td>
-		<td colspan="2">
-			<c:choose>
-				<c:when test="${(op ne null && op eq 'view') && (entity ne null && entity.toDepartment ne null)}">
-					<input name="toPosName" type="text" readonly style="width: 96%" value="${entity.toPosition.positionName" readonly /><input type="hidden" name="toPosId" value="${entity.toPosition.id}" />
-				</c:when>
-				<c:otherwise>
-					<select class="combox required" name="toPosId" id="combox_position_in" defOPKey="请选择岗位" defOPVal="" style="width:150px">
-						<option value="">请选择岗位</option>
-						<logic:present name="positions">
-							<logic:iterate name="positions" id="entity">
-								<option value="${entity.id}">${entity.positionName}</option>
-							</logic:iterate>
-						</logic:present>
-					</select>
-				</c:otherwise>
-			</c:choose>
+		<td class='field'>申请岗位</td>
+		<c:choose>
+			<c:when test="${(op ne null && op eq 'view') && (entity ne null && entity.toDepartment ne null)}">
+				<td colspan="2"><input name="toPosName" type="text" readonly style="width: 87%" value="${entity.toPosition.positionName}" readonly /><input type="hidden" name="toPosId" value="${entity.toPosition.id}" />
+			</c:when>
+			<c:otherwise>
+				<td colspan="2" style="padding:0 5px;"><select class="combox required" name="toPosId" id="combox_position_in" defOPKey="请选择岗位" defOPVal="" style="width:150px">
+					<option value="">请选择岗位</option>
+					<logic:present name="positions">
+						<logic:iterate name="positions" id="position">
+							<option value="${position.id}">${position.positionName}</option>
+						</logic:iterate>
+					</logic:present>
+				</select>
+			</c:otherwise>
+		</c:choose>
 		</td>
 	</tr>
 	<tr>

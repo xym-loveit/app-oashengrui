@@ -97,6 +97,11 @@ extends ModelBase
 	private Integer auditState;
 	
 	/**
+	 * 操作状态, 0=未操作, 1=已操作
+	 */
+	private Integer operationState = 0;
+	
+	/**
 	 * 录入人员
 	 */
 	private Integer entryId;
@@ -120,6 +125,55 @@ extends ModelBase
 	 * 当前审批环节
 	 */
 	protected ModelProcessForm currentProcessForm;
+	
+	/**
+	 * 审批状态 (临时变量, 主要用于记录状态过滤...)
+	 */
+	protected Integer[] condAuditStates;
+	
+	/**
+	 * 申请类型ID (临时变量, 主要用于页面上的搜索...)
+	 */
+	protected Integer applyFormTypeId;
+	
+	/**
+	 * 申请类型ID (临时变量, 主要用于页面上的搜索...)
+	 */
+	protected Integer empDistrictId;
+	
+	
+	/**
+	 * The enumeration of operation state
+	 * 
+	 * @author Jeccy.Zhao
+	 *
+	 */
+	public static enum EOperationState
+	{
+		BEREGULAR(1, "beregular"),					// 转正
+		TRANSFER (2, "transfer"),					// 调动
+		PROMOTION(3, "promotion"),				// 晋升
+		FAIRWELL(4, "fairwell");						// 辞职
+		
+		private Integer value;
+		private String text;
+		
+		EOperationState (Integer value, String text)
+		{
+			this.value = value;
+			this.text = text;
+		}
+		
+		public Integer getValue(){
+			return value;
+		}
+		
+		public String getText()
+		{
+			return this.text;
+		}
+	}
+	
 	
 	public ModelHrmEmployee getEmployee()
 	{
@@ -301,6 +355,36 @@ extends ModelBase
 		this.onboardDate = onboardDate;
 	}
 	
+	public Integer[] getCondAuditStates()
+	{
+		return condAuditStates;
+	}
+
+	public void setCondAuditStates(Integer[] condAuditStates)
+	{
+		this.condAuditStates = condAuditStates;
+	}
+	
+	public Integer getApplyFormTypeId()
+	{
+		return applyFormTypeId;
+	}
+
+	public void setApplyFormTypeId(Integer applyFormTypeId)
+	{
+		this.applyFormTypeId = applyFormTypeId;
+	}
+
+	public Integer getEmpDistrictId()
+	{
+		return empDistrictId;
+	}
+
+	public void setEmpDistrictId(Integer empDistrictId)
+	{
+		this.empDistrictId = empDistrictId;
+	}
+	
 	/**
 	 * Obtains the current process form node.
 	 * 
@@ -326,5 +410,15 @@ extends ModelBase
 		}
 			
 		return currentProcessForm;
+	}
+
+	public Integer getOperationState()
+	{
+		return operationState;
+	}
+
+	public void setOperationState(Integer operationState)
+	{
+		this.operationState = operationState;
 	}
 }
