@@ -37,12 +37,12 @@
 	</tr>
 	<tr>
 		<td class='field'>所属校区</td>
-		<td colspan="3"><input name="districtName" type="text" readonly style="width: 96%" value="${entity ne null ? entity.employee.employeeDistrict.districtName : employee.employeeDistrict.districtName}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/><input type="hidden" name="fromDistrictId" value="${entity ne null ? entity.employee.employeeDistrict.id : employee.employeeDistrict.id}" /></td>
+		<td colspan="3"><input name="districtName" type="text" readonly style="width: 96%" value="${entity ne null ? entity.fromDistrict.districtName : employee.employeeDistrict.districtName}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/><input type="hidden" name="fromDistrictId" value="${entity ne null ? entity.fromDistrict.id : employee.employeeDistrict.id}" /></td>
 		<td class='field'>所属部门</td>
-		<td><input name="depName" type="text" readonly style="width: 87%;" value="${entity ne null ? entity.employee.employeeDepartment.depName : employee.employeeDepartment.depName}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/><input type="hidden" name="fromDepId" value="${entity ne null ? entity.employee.employeeDepartment.id : employee.employeeDepartment.id}" /></td>
+		<td><input name="depName" type="text" readonly style="width: 87%;" value="${entity ne null ? entity.fromDepartment.depName : employee.employeeDepartment.depName}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/><input type="hidden" name="fromDepId" value="${entity ne null ? entity.fromDepartment.id : employee.employeeDepartment.id}" /></td>
 		<td class='field'>岗位</td>
 		<td colspan="2">
-			<input name="posName" readonly class="required" style="width: 87%;" type="text" value="${entity ne null ? entity.employee.employeePosition.positionName : employee.employeePosition.positionName}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/><input type="hidden" name="fromPosId" value="${entity ne null ? entity.employee.employeePosition.id : employee.employeePosition.id}" />
+			<input name="posName" readonly class="required" style="width: 87%;" type="text" value="${entity ne null ? entity.fromPosition.positionName : employee.employeePosition.positionName}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/><input type="hidden" name="fromPosId" value="${entity ne null ? entity.fromPosition.id : employee.employeePosition.id}" />
 		</td>
 	</tr>
 	<tr>
