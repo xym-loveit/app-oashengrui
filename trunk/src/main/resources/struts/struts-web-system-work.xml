@@ -9,6 +9,7 @@
 		<form-bean name="form.work.arrange" type="org.shengrui.oa.model.admin.ModelAdminWorkArrange"></form-bean>
 		<form-bean name="form.work.base.content" type="org.shengrui.oa.model.system.ModelBaseWorkContent"></form-bean>
 		<form-bean name="form.work.base.time" type="org.shengrui.oa.model.system.ModelBaseWorkTime"></form-bean>
+		<form-bean name="form.work.template" type="org.shengrui.oa.model.system.ModelWorkTemplate"></form-bean>
 	</form-beans>
 	
 	<global-forwards> 
@@ -20,10 +21,12 @@
 		
 		<!-- 工作模板设置 -->
 		<action path="/app/system/work/template"
+				name="form.work.template"
 				scope="request"
 				parameter="action"
 				type="org.springframework.web.struts.DelegatingActionProxy">
 			<forward name="page.sys.setting.work.template.index" path="page.sys.setting.work.template.index" />
+         <forward name="dialog.sys.setting.work.template.addpage" path="dialog.sys.setting.work.template.addpage" />
 		</action>
 		
 		<!-- 工作基础设置 -->
