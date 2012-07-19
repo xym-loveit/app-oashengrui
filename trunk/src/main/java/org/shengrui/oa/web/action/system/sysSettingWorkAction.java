@@ -10,8 +10,10 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.system.ModelBaseWorkContent;
 import org.shengrui.oa.model.system.ModelBaseWorkTime;
+import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 import org.shengrui.oa.model.system.ModelWorkTemplate;
 import org.springframework.beans.BeanUtils;
@@ -98,7 +100,7 @@ extends sysSettingBaseAction
 		   request.setAttribute("staffOnPM", zpm);
 		   List<ModelSchoolDistrict> districts=this.getAllDistricts();
 	       request.setAttribute("districts", districts);
-	       List<ModelBaseWorkTime> dayWorkTimes = this.serviceBaseWorkTime.getDayWorkTimeByTemplateId(formWorkTemplate.getTemplateId());
+	       List<ModelBaseWorkTime> dayWorkTimes = this.serviceBaseWorkTime.getDayWorkTimeByDistrictIdAndTemplateId(formWorkTemplate.getDistrict().getId(),formWorkTemplate.getTemplateId());
 	       String startWorkTimePM = "";
 	       String endWorkTimePM = "";
 	       String startWorkTimeWeekAM = "";
@@ -181,6 +183,24 @@ extends sysSettingBaseAction
 		   request.setAttribute("districtId", districtId);
 		   request.setAttribute("templateId", templateId);
 		   request.setAttribute("workDay", week[Integer.parseInt(request.getParameter("workDay"))]);
+		   try {
+			   List<ModelBaseWorkTime> workTimes = this.serviceBaseWorkTime.getDayWorkTimeByDistrictIdAndTemplateId(districtId, templateId);
+			   List<ModelBaseWorkContent> workContents = this.serviceBaseWorkContent.getAll();
+			   request.setAttribute("workTimes", workTimes);
+			   request.setAttribute("workContents", workContents);
+			   ModelSchoolDistrict district = this.serviceSchoolDistrict.get(districtId);
+			   if(district == null){
+				   System.out.println("get district failed\t"+districtId);
+			   }else{
+				   System.out.println(district.getId()+"\t"+district.getDistrictName()+"\t"+district.getDistrictType());
+			   }
+			   List<ModelSchoolDepartment> departments = this.serviceSchoolDepartment.getDepartmentByOrganization(district.getDistrictType());
+			   request.setAttribute("district", district);
+			   request.setAttribute("departments", departments);
+		   } catch (ServiceException e) {
+			   // TODO Auto-generated catch block
+			   LOGGER.error("Exception raised when fetch all work content by district.", e);
+		   }
 	   }
        else
        {
@@ -189,6 +209,71 @@ extends sysSettingBaseAction
 	      return mapping.findForward("dialog.sys.setting.work.template.addpage");
    }
    
+   public ActionForward getAllStaffByDprtId(ActionMapping mapping,ActionForm form,
+		   HttpServletRequest request, HttpServletResponse response)
+   {
+	   ModelHrmEmployee employee = new ModelHrmEmployee();
+	   employee.getEmployeeDepartment().setId(request.getParameter("departId"));
+	   employee.getEmployeeDistrict().setId(request.getParameter("districtId"));
+	   try {
+		   List<ModelHrmEmployee> listStaff = this.serviceHrmEmployee.getEmployeeByDistrictIdAndDeptId(employee);
+		   StringBuffer staffNames = new StringBuffer();
+		   StringBuffer staffIds = new StringBuffer();
+		   for(ModelHrmEmployee entity : listStaff){
+			   staffNames.append(entity.getEmpName()).append(",");
+			   staffIds.append(entity.getId()).append(",");
+		   }
+		   return ajaxPrint(response,"[{\"staffNames\":"+staffNames.toString()+",\"staffIds\":"+staffIds.toString()+"}]");
+	   } catch (ServiceException e) {
+		   // TODO Auto-generated catch block
+		   LOGGER.error("Exception raised when fetch all work content by district.", e);
+	   }
+	   
+	   return ajaxPrint(response,"[]");
+   }
+   
+   public ActionForward actionSaveWorkArrange(ActionMapping mapping,ActionForm form,
+		   HttpServletRequest requst,HttpServletResponse response){
+	   try
+	      {
+	         ModelWorkTemplate formModeWorkTemplate = (ModelWorkTemplate) form;
+	         ModelWorkTemplate entity = null;
+	         
+	         boolean isCreation = !this.isObjectIdValid(formModeWorkTemplate.getId());
+	         
+	         if (!isCreation)
+	         {
+	            // 更新
+	            entity = this.serviceWorkTemplate.get(formModeWorkTemplate.getId());
+	            if (entity != null)
+	            {
+	               // 用表单输入的值覆盖实体中的属性值
+	               BeanUtils.copyProperties(formModeWorkTemplate, entity);
+	            }
+	            else
+	            {
+	               return ajaxPrint(response, AjaxResponse.RESPONSE_ERROR);
+	            }
+	         }
+	         else
+	         {
+	            // 新建
+	            entity = formModeWorkTemplate;
+	         }
+	         
+	         this.serviceWorkTemplate.save(entity);
+	         
+	         // 保存成功后, Dialog进行关闭
+	         return ajaxPrint(response, 
+	               getSuccessCallback("工作安排保存成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+	      } 
+	      catch (ServiceException e)
+	      {
+	         LOGGER.error("It failed to save the base work content item entity!", e);
+	         
+	         return ajaxPrint(response, getErrorCallback("工作安排保存失败."));
+	      }
+   }
    
    /**
     * <b>[WebAction]</b> 
