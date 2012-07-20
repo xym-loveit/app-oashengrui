@@ -8,6 +8,7 @@ import org.shengrui.oa.service.admin.ServiceDocFile;
 import org.shengrui.oa.service.admin.ServiceDocLevel;
 import org.shengrui.oa.service.admin.ServiceDocManage;
 import org.shengrui.oa.service.admin.ServiceDocVisiableRange;
+import org.shengrui.oa.service.admin.ServiceStaffAttendance;
 import org.shengrui.oa.service.news.ServiceNewsManage;
 import org.shengrui.oa.service.system.ServiceAppDictionary;
 import org.shengrui.oa.service.system.ServiceSchoolDepartment;
@@ -26,6 +27,8 @@ import cn.trymore.oa.service.system.ServiceFileAttach;
 public class BaseAdminAction
 extends BaseAppAction
 {
+	@Resource
+	protected ServiceStaffAttendance serviceStaffAttendance;
 	/**
 	 * The work arrange service.
 	 */
@@ -137,6 +140,21 @@ extends BaseAppAction
 	public void setServiceDocVisiableRange(
 			ServiceDocVisiableRange serviceDocVisiableRange) {
 		this.serviceDocVisiableRange = serviceDocVisiableRange;
+	}
+
+	/**
+	 * @return the serviceStaffAttendance
+	 */
+	public ServiceStaffAttendance getServiceStaffAttendance() {
+		return serviceStaffAttendance;
+	}
+
+	/**
+	 * @param serviceStaffAttendance the serviceStaffAttendance to set
+	 */
+	public void setServiceStaffAttendance(
+			ServiceStaffAttendance serviceStaffAttendance) {
+		this.serviceStaffAttendance = serviceStaffAttendance;
 	}
 
 	public ServiceAdminWorkType getServiceAdminWorkType() {
