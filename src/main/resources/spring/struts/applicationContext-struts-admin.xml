@@ -13,7 +13,7 @@
 	    <property name="serviceDocLevel" ref="serviceDocLevel" />
 	    <property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
 	    <property name="serviceDocVisiableRange" ref="serviceDocVisiableRange" />
-	     <property name="serviceAppDictionary" ref="serviceAppDictionary" />
+	    <property name="serviceAppDictionary" ref="serviceAppDictionary" />
 	</bean>
 	
 		<bean name="/app/admin/news" class="org.shengrui.oa.web.action.admin.AdminAction">
@@ -25,6 +25,11 @@
 	     <property name="serviceAppDictionary" ref="serviceAppDictionary" />
 	</bean>
 	
+	<bean name="/app/admin/attendance" class="org.shengrui.oa.web.action.admin.AdminAction">
+       <property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
+       <property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
+       <property name="serviceStaffAttendance" ref="serviceStaffAttendance"/>
+	</bean>
 	
 	<bean name="/app/admin/doc" class="org.shengrui.oa.web.action.admin.DocManageAction">
 	    <property name="serviceDocManage" ref="serviceDocManage" />
