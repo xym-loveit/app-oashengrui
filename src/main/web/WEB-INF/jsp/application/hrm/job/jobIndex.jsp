@@ -128,7 +128,7 @@
 						<td>
 							<c:choose>
 								<c:when test="${entity.status eq 2}">
-									<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}" target="dialog" title="编辑岗位" width="930" height="500">编辑</a>
+									<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}&op=edit" target="dialog" title="编辑岗位" width="930" height="500">编辑</a>
 								</c:when>
 								<c:otherwise>
 									<label class="opdisabled">编辑</label>

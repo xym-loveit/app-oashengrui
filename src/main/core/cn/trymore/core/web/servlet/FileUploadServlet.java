@@ -182,7 +182,7 @@ extends HttpServlet
 				
 				response.setContentType("text/html;charset=UTF-8");
 				PrintWriter writer = response.getWriter();
-				writer.println("{\"status\": 1, \"data\":{\"id\":" + fileAttach.getId() + "}}");
+				writer.println("{\"status\": 1, \"data\":{\"id\":" + fileAttach.getId() + ", \"url\":\"" + fileAttach.getFilePath() + "\"}}");
 			}
 			request.getSession().setAttribute("fileIds", fileIds);
 		}
