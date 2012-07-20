@@ -24,438 +24,488 @@ import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
 /**
- *工作安排设置-工作模板设置
+ * 工作安排设置-工作模板设置
  * 
  * @author Lee
- *
+ * 
  */
-public class sysSettingWorkAction
-extends sysSettingBaseAction
-{
+public class sysSettingWorkAction extends sysSettingBaseAction {
    /**
     * The LOGGER
     */
-   private static final Logger LOGGER = Logger.getLogger(sysSettingWorkAction.class);
-   
-   
+   private static final Logger LOGGER = Logger
+         .getLogger(sysSettingWorkAction.class);
+
    /**
-    * <b>[WebAction]</b> 
-    * <br/>
+    * <b>[WebAction]</b> <br/>
     * 工作安排设置-工作模板设置
     */
-   public ActionForward pageWorkTemplateIndex (ActionMapping mapping, ActionForm form,
-         HttpServletRequest request, HttpServletResponse response) 
-   {
-	   ModelWorkTemplate formWorkTemplate = (ModelWorkTemplate)form;
-	   if(formWorkTemplate.getTemplateId()==null){
-		   formWorkTemplate.setTemplateId("-1");
-	   }
-	   if(formWorkTemplate.getDistrict().getId() == null){
-		   formWorkTemplate.getDistrict().setId("-1");
-	   }
-	   try {
-		   List<ModelWorkTemplate> listWorkTemplate = this.serviceWorkTemplate.getListByCriteria(formWorkTemplate);
-		   
-		   String[] zam = {"","","","","","","",""};
-		   String[] zpm = {"","","","","","","",""};
-		   for(ModelWorkTemplate entity : listWorkTemplate){
-			   if("周一".equals(entity.getWorkDay())){
-				   if("AM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
-					   zam[1]+= entity.getStaffName()+",";
-				   else if("PM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
-					   zpm[1]+=entity.getStaffName()+",";
-			   }else if("周二".equals(entity.getWorkDay())){
-				   if("AM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
-					   zam[2]+= entity.getStaffName()+",";
-				   else if("PM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
-					   zpm[2]+=entity.getStaffName()+",";
-			   }else if("周三".equals(entity.getWorkDay())){
-				   if("AM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
-					   zam[3]+= entity.getStaffName()+",";
-				   else if("PM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
-					   zpm[3]+=entity.getStaffName()+",";
-			   }else if("周四".equals(entity.getWorkDay())){
-				   if("AM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
-					   zam[4]+= entity.getStaffName()+",";
-				   else if("PM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
-					   zpm[4]+=entity.getStaffName()+",";
-			   }else if("周五".equals(entity.getWorkDay())){
-				   if("AM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
-					   zam[5]+= entity.getStaffName()+",";
-				   else if("PM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
-					   zpm[5]+=entity.getStaffName()+",";
-			   }else if("周六".equals(entity.getWorkDay())){
-				   if("AM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
-					   zam[6]+= entity.getStaffName()+",";
-				   else if("PM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
-					   zpm[6]+=entity.getStaffName()+",";
-			   }else if("周日".equals(entity.getWorkDay())){
-				   if("AM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
-					   zam[7]+= entity.getStaffName()+",";
-				   else if("PM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
-					   zpm[7]+=entity.getStaffName()+",";
-			   }
-		   }
-		   request.setAttribute("staffOnAM", zam);
-		   request.setAttribute("staffOnPM", zpm);
-		   List<ModelSchoolDistrict> districts=this.getAllDistricts();
-	       request.setAttribute("districts", districts);
-	       List<ModelBaseWorkTime> dayWorkTimes = this.serviceBaseWorkTime.getDayWorkTimeByDistrictIdAndTemplateId(formWorkTemplate.getDistrict().getId(),formWorkTemplate.getTemplateId());
-	       String startWorkTimePM = "";
-	       String endWorkTimePM = "";
-	       String startWorkTimeWeekAM = "";
-	       String endWorkTimeWeekAM = "";
-	       String startWorkTimeWeekendAM = "";
-	       String endWorkTimeWeekendAM = "";
-	       int loop1 = 1;
-	       int loop2 = 1;
-	       int loop3 = 1;
-	       for(ModelBaseWorkTime entity : dayWorkTimes){
-	    	   if("PM".equals(checkWorkTime(entity.getWorkStime()))){ //工作时间在晚上
-	    		   if(loop1 == 1){
-	    			   startWorkTimePM = entity.getWorkStime();
-	    			   endWorkTimePM = entity.getWorkEtime();
-		    		   loop1++;
-		    	   }else{
-		    		   if(startWorkTimePM.compareTo(entity.getWorkStime())>0){
-		    			   startWorkTimePM = entity.getWorkStime();
-		    		   }
-		    		   if(endWorkTimePM.compareTo(entity.getWorkEtime())<0){
-		    			   endWorkTimePM = entity.getWorkEtime();
-		    		   }
-		    	   }
-	    	   }else{ //工作时间在白天
-	    		   if(entity.getAdjustDays().contains("周六") || entity.getAdjustDays().contains("周日")){
-	    			   if(loop2 == 1){
-	    				   startWorkTimeWeekendAM = entity.getWorkStime();
-	    				   endWorkTimeWeekendAM = entity.getWorkEtime();
-		    			   loop2++;
-	    			   }else{
-		    			   if(startWorkTimeWeekendAM.compareTo(entity.getWorkStime())>0){
-		    				   startWorkTimeWeekendAM = entity.getWorkStime();
-		    			   }
-		    			   if(endWorkTimeWeekendAM.compareTo(entity.getWorkEtime())<0){
-		    				   endWorkTimeWeekendAM = entity.getWorkEtime();
-		    			   }
-	    			   }
-	    		   }
-	    		   if(entity.getAdjustDays().contains("周一") || entity.getAdjustDays().contains("周二") ||
-	    				   entity.getAdjustDays().contains("周三") || entity.getAdjustDays().contains("周四") ||
-	    				   entity.getAdjustDays().contains("周五")){
-	    			   if(loop3==1){
-	    				   startWorkTimeWeekAM = entity.getWorkStime();
-	    				   endWorkTimeWeekAM = entity.getWorkEtime();
-		    			   loop3 ++;
-	    			   }else{
-		    			   if(startWorkTimeWeekAM.compareTo(entity.getWorkStime())>0){
-		    				   startWorkTimeWeekAM = entity.getWorkStime();
-		    			   }
-		    			   if(endWorkTimeWeekAM.compareTo(entity.getWorkEtime())<0){
-		    				   endWorkTimeWeekAM = entity.getWorkEtime();
-		    			   }
-	    			   }
-	    		   }
-	    	   }
-	       }
-	       request.setAttribute("startWorkTimePM", startWorkTimePM);
-	       request.setAttribute("endWorkTimePM", endWorkTimePM);
-	       request.setAttribute("startWorkTimeWeekAM", startWorkTimeWeekAM);
-	       request.setAttribute("endWorkTimeWeekAM", endWorkTimeWeekAM);
-	       request.setAttribute("startWorkTimeWeekendAM", startWorkTimeWeekendAM);
-	       request.setAttribute("endWorkTimeWeekendAM", endWorkTimeWeekendAM);
-	       request.setAttribute("formWorkTemplate", formWorkTemplate);
-	   	} catch (ServiceException e) {
-	   		// TODO Auto-generated catch block
-	   		LOGGER.error("Exception raised when fetch all work template by template id.", e);
-	   	}
+   public ActionForward pageWorkTemplateIndex(ActionMapping mapping,
+         ActionForm form, HttpServletRequest request,
+         HttpServletResponse response) {
+      ModelWorkTemplate formWorkTemplate = (ModelWorkTemplate) form;
+      if (formWorkTemplate.getTemplateId() == null) {
+         formWorkTemplate.setTemplateId("-1");
+      }
+      if (formWorkTemplate.getDistrict().getId() == null) {
+         formWorkTemplate.getDistrict().setId("-1");
+      }
+      try {
+         List<ModelWorkTemplate> listWorkTemplate = this.serviceWorkTemplate
+               .getListByCriteria(formWorkTemplate);
+
+         String[] zam = { "", "", "", "", "", "", "", "" };
+         String[] zpm = { "", "", "", "", "", "", "", "" };
+         for (ModelWorkTemplate entity : listWorkTemplate) {
+            if ("周一".equals(entity.getWorkDay())) {
+               if ("AM".equals(checkWorkTime(entity.getWorkTime()
+                     .getWorkEtime())))
+                  zam[1] += entity.getStaffName() + ",";
+               else if ("PM".equals(checkWorkTime(entity.getWorkTime()
+                     .getWorkEtime())))
+                  zpm[1] += entity.getStaffName() + ",";
+            } else if ("周二".equals(entity.getWorkDay())) {
+               if ("AM".equals(checkWorkTime(entity.getWorkTime()
+                     .getWorkEtime())))
+                  zam[2] += entity.getStaffName() + ",";
+               else if ("PM".equals(checkWorkTime(entity.getWorkTime()
+                     .getWorkEtime())))
+                  zpm[2] += entity.getStaffName() + ",";
+            } else if ("周三".equals(entity.getWorkDay())) {
+               if ("AM".equals(checkWorkTime(entity.getWorkTime()
+                     .getWorkEtime())))
+                  zam[3] += entity.getStaffName() + ",";
+               else if ("PM".equals(checkWorkTime(entity.getWorkTime()
+                     .getWorkEtime())))
+                  zpm[3] += entity.getStaffName() + ",";
+            } else if ("周四".equals(entity.getWorkDay())) {
+               if ("AM".equals(checkWorkTime(entity.getWorkTime()
+                     .getWorkEtime())))
+                  zam[4] += entity.getStaffName() + ",";
+               else if ("PM".equals(checkWorkTime(entity.getWorkTime()
+                     .getWorkEtime())))
+                  zpm[4] += entity.getStaffName() + ",";
+            } else if ("周五".equals(entity.getWorkDay())) {
+               if ("AM".equals(checkWorkTime(entity.getWorkTime()
+                     .getWorkEtime())))
+                  zam[5] += entity.getStaffName() + ",";
+               else if ("PM".equals(checkWorkTime(entity.getWorkTime()
+                     .getWorkEtime())))
+                  zpm[5] += entity.getStaffName() + ",";
+            } else if ("周六".equals(entity.getWorkDay())) {
+               if ("AM".equals(checkWorkTime(entity.getWorkTime()
+                     .getWorkEtime())))
+                  zam[6] += entity.getStaffName() + ",";
+               else if ("PM".equals(checkWorkTime(entity.getWorkTime()
+                     .getWorkEtime())))
+                  zpm[6] += entity.getStaffName() + ",";
+            } else if ("周日".equals(entity.getWorkDay())) {
+               if ("AM".equals(checkWorkTime(entity.getWorkTime()
+                     .getWorkEtime())))
+                  zam[7] += entity.getStaffName() + ",";
+               else if ("PM".equals(checkWorkTime(entity.getWorkTime()
+                     .getWorkEtime())))
+                  zpm[7] += entity.getStaffName() + ",";
+            }
+         }
+         request.setAttribute("staffOnAM", zam);
+         request.setAttribute("staffOnPM", zpm);
+         List<ModelSchoolDistrict> districts = this.getAllDistricts();
+         request.setAttribute("districts", districts);
+         List<ModelBaseWorkTime> dayWorkTimes = this.serviceBaseWorkTime
+               .getDayWorkTimeByDistrictIdAndTemplateId(formWorkTemplate
+                     .getDistrict().getId(), formWorkTemplate
+                     .getTemplateId());
+         String startWorkTimePM = "";
+         String endWorkTimePM = "";
+         String startWorkTimeWeekAM = "";
+         String endWorkTimeWeekAM = "";
+         String startWorkTimeWeekendAM = "";
+         String endWorkTimeWeekendAM = "";
+         int loop1 = 1;
+         int loop2 = 1;
+         int loop3 = 1;
+         for (ModelBaseWorkTime entity : dayWorkTimes) {
+            if ("PM".equals(checkWorkTime(entity.getWorkStime()))) { // 工作时间在晚上
+               if (loop1 == 1) {
+                  startWorkTimePM = entity.getWorkStime();
+                  endWorkTimePM = entity.getWorkEtime();
+                  loop1++;
+               } else {
+                  if (startWorkTimePM.compareTo(entity.getWorkStime()) > 0) {
+                     startWorkTimePM = entity.getWorkStime();
+                  }
+                  if (endWorkTimePM.compareTo(entity.getWorkEtime()) < 0) {
+                     endWorkTimePM = entity.getWorkEtime();
+                  }
+               }
+            } else { // 工作时间在白天
+               if (entity.getAdjustDays().contains("周六")
+                     || entity.getAdjustDays().contains("周日")) {
+                  if (loop2 == 1) {
+                     startWorkTimeWeekendAM = entity.getWorkStime();
+                     endWorkTimeWeekendAM = entity.getWorkEtime();
+                     loop2++;
+                  } else {
+                     if (startWorkTimeWeekendAM.compareTo(entity
+                           .getWorkStime()) > 0) {
+                        startWorkTimeWeekendAM = entity.getWorkStime();
+                     }
+                     if (endWorkTimeWeekendAM.compareTo(entity
+                           .getWorkEtime()) < 0) {
+                        endWorkTimeWeekendAM = entity.getWorkEtime();
+                     }
+                  }
+               }
+               if (entity.getAdjustDays().contains("周一")
+                     || entity.getAdjustDays().contains("周二")
+                     || entity.getAdjustDays().contains("周三")
+                     || entity.getAdjustDays().contains("周四")
+                     || entity.getAdjustDays().contains("周五")) {
+                  if (loop3 == 1) {
+                     startWorkTimeWeekAM = entity.getWorkStime();
+                     endWorkTimeWeekAM = entity.getWorkEtime();
+                     loop3++;
+                  } else {
+                     if (startWorkTimeWeekAM.compareTo(entity
+                           .getWorkStime()) > 0) {
+                        startWorkTimeWeekAM = entity.getWorkStime();
+                     }
+                     if (endWorkTimeWeekAM.compareTo(entity
+                           .getWorkEtime()) < 0) {
+                        endWorkTimeWeekAM = entity.getWorkEtime();
+                     }
+                  }
+               }
+            }
+         }
+         request.setAttribute("startWorkTimePM", startWorkTimePM);
+         request.setAttribute("endWorkTimePM", endWorkTimePM);
+         request.setAttribute("startWorkTimeWeekAM", startWorkTimeWeekAM);
+         request.setAttribute("endWorkTimeWeekAM", endWorkTimeWeekAM);
+         request.setAttribute("startWorkTimeWeekendAM",
+               startWorkTimeWeekendAM);
+         request.setAttribute("endWorkTimeWeekendAM", endWorkTimeWeekendAM);
+         request.setAttribute("formWorkTemplate", formWorkTemplate);
+         ModelWorkTemplate enabledTemplate = this.serviceWorkTemplate
+               .getEnabledWorkTemplate(formWorkTemplate.getDistrict()
+                     .getId());
+         request.setAttribute("enabledTemplate", enabledTemplate);
+      } catch (ServiceException e) {
+         // TODO Auto-generated catch block
+         LOGGER.error(
+               "Exception raised when fetch all work template by template id.",
+               e);
+      }
       return mapping.findForward("page.sys.setting.work.template.index");
    }
-   
-   public ActionForward dialogWorkArrangePage(ActionMapping mapping, ActionForm form,
-		   HttpServletRequest request, HttpServletResponse response)
-   {
-	   String[] week = {"","周一","周二","周三","周四","周五","周六","周日"};
-	   //request.setAttribute("districtId", request.getParameter("districtId"));
-	   System.out.println("add work arrange\t"+request.getParameter("workDay"));
-	   String districtId = request.getParameter("districtId");
-	   String templateId = request.getParameter("templateId");
-	   if(this.isObjectIdValid(districtId) && this.isObjectIdValid(templateId)){
-		   request.setAttribute("districtId", districtId);
-		   request.setAttribute("templateId", templateId);
-		   request.setAttribute("workDay", week[Integer.parseInt(request.getParameter("workDay"))]);
-		   try {
-			   List<ModelBaseWorkTime> workTimes = this.serviceBaseWorkTime.getDayWorkTimeByDistrictIdAndTemplateId(districtId, templateId);
-			   List<ModelBaseWorkContent> workContents = this.serviceBaseWorkContent.getAll();
-			   request.setAttribute("workTimes", workTimes);
-			   request.setAttribute("workContents", workContents);
-			   ModelSchoolDistrict district = this.serviceSchoolDistrict.get(districtId);
-			   if(district == null){
-				   System.out.println("get district failed\t"+districtId);
-			   }else{
-				   System.out.println(district.getId()+"\t"+district.getDistrictName()+"\t"+district.getDistrictType());
-			   }
-			   List<ModelSchoolDepartment> departments = this.serviceSchoolDepartment.getDepartmentByOrganization(district.getDistrictType());
-			   request.setAttribute("district", district);
-			   request.setAttribute("departments", departments);
-		   } catch (ServiceException e) {
-			   // TODO Auto-generated catch block
-			   LOGGER.error("Exception raised when fetch all work content by district.", e);
-		   }
-	   }
-       else
-       {
-          return ajaxPrint(response, getErrorCallback("请先选择校区和模板"));
-       }
-	      return mapping.findForward("dialog.sys.setting.work.template.addpage");
+
+   public ActionForward dialogWorkArrangePage(ActionMapping mapping,
+         ActionForm form, HttpServletRequest request,
+         HttpServletResponse response) {
+      String[] week = { "", "周一", "周二", "周三", "周四", "周五", "周六", "周日" };
+      String districtId = request.getParameter("districtId");
+      String templateId = request.getParameter("templateId");
+      if (this.isObjectIdValid(districtId)
+            && this.isObjectIdValid(templateId)) {
+         request.setAttribute("districtId", districtId);
+         request.setAttribute("templateId", templateId);
+         request.setAttribute("workDay",
+               week[Integer.parseInt(request.getParameter("workDay"))]);
+         try {
+            List<ModelBaseWorkTime> workTimes = this.serviceBaseWorkTime
+                  .getDayWorkTimeByDistrictIdAndTemplateId(districtId,
+                        templateId);
+            List<ModelBaseWorkContent> workContents = this.serviceBaseWorkContent
+                  .getAll();
+            request.setAttribute("workTimes", workTimes);
+            request.setAttribute("workContents", workContents);
+            ModelSchoolDistrict district = this.serviceSchoolDistrict
+                  .get(districtId);
+            List<ModelSchoolDepartment> departments = this.serviceSchoolDepartment
+                  .getDepartmentByOrganization(district.getDistrictType());
+            request.setAttribute("district", district);
+            request.setAttribute("departments", departments);
+         } catch (ServiceException e) {
+            // TODO Auto-generated catch block
+            LOGGER.error(
+                  "Exception raised when fetch all work content by district.",
+                  e);
+         }
+      } else {
+         return ajaxPrint(response, getErrorCallback("请先选择校区和模板"));
+      }
+      return mapping.findForward("dialog.sys.setting.work.template.addpage");
    }
-   
-   public ActionForward getAllStaffByDprtId(ActionMapping mapping,ActionForm form,
-		   HttpServletRequest request, HttpServletResponse response)
-   {
-	   ModelHrmEmployee employee = new ModelHrmEmployee();
-	   employee.getEmployeeDepartment().setId(request.getParameter("departId"));
-	   employee.getEmployeeDistrict().setId(request.getParameter("districtId"));
-	   try {
-		   List<ModelHrmEmployee> listStaff = this.serviceHrmEmployee.getEmployeeByDistrictIdAndDeptId(employee);
-		   StringBuffer staffNames = new StringBuffer();
-		   StringBuffer staffIds = new StringBuffer();
-		   for(ModelHrmEmployee entity : listStaff){
-			   staffNames.append(entity.getEmpName()).append(",");
-			   staffIds.append(entity.getId()).append(",");
-		   }
-		   return ajaxPrint(response,"[{\"staffNames\":"+staffNames.toString()+",\"staffIds\":"+staffIds.toString()+"}]");
-	   } catch (ServiceException e) {
-		   // TODO Auto-generated catch block
-		   LOGGER.error("Exception raised when fetch all work content by district.", e);
-	   }
-	   
-	   return ajaxPrint(response,"[]");
+
+   public ActionForward getAllStaffByDprtId(ActionMapping mapping,
+         ActionForm form, HttpServletRequest request,
+         HttpServletResponse response) {
+      ModelHrmEmployee employee = new ModelHrmEmployee();
+      employee.getEmployeeDepartment()
+            .setId(request.getParameter("departId"));
+      employee.getEmployeeDistrict()
+            .setId(request.getParameter("districtId"));
+      try {
+         List<ModelHrmEmployee> listStaff = this.serviceHrmEmployee
+               .getEmployeeByDistrictIdAndDeptId(employee);
+         StringBuffer staffNames = new StringBuffer();
+         StringBuffer staffIds = new StringBuffer();
+         for (ModelHrmEmployee entity : listStaff) {
+            staffNames.append(entity.getEmpName()).append(",");
+            staffIds.append(entity.getId()).append(",");
+         }
+         return ajaxPrint(response,
+               "[{\"staffNames\":" + staffNames.toString()
+                     + ",\"staffIds\":" + staffIds.toString() + "}]");
+      } catch (ServiceException e) {
+         // TODO Auto-generated catch block
+         LOGGER.error(
+               "Exception raised when fetch all work content by district.",
+               e);
+      }
+
+      return ajaxPrint(response, "[]");
    }
-   
-   public ActionForward actionSaveWorkArrange(ActionMapping mapping,ActionForm form,
-		   HttpServletRequest requst,HttpServletResponse response){
-	   try
-	      {
-	         ModelWorkTemplate formModeWorkTemplate = (ModelWorkTemplate) form;
-	         ModelWorkTemplate entity = null;
-	         
-	         boolean isCreation = !this.isObjectIdValid(formModeWorkTemplate.getId());
-	         
-	         if (!isCreation)
-	         {
-	            // 更新
-	            entity = this.serviceWorkTemplate.get(formModeWorkTemplate.getId());
-	            if (entity != null)
-	            {
-	               // 用表单输入的值覆盖实体中的属性值
-	               BeanUtils.copyProperties(formModeWorkTemplate, entity);
-	            }
-	            else
-	            {
-	               return ajaxPrint(response, AjaxResponse.RESPONSE_ERROR);
-	            }
-	         }
-	         else
-	         {
-	            // 新建
-	            entity = formModeWorkTemplate;
-	         }
-	         
-	         this.serviceWorkTemplate.save(entity);
-	         
-	         // 保存成功后, Dialog进行关闭
-	         return ajaxPrint(response, 
-	               getSuccessCallback("工作安排保存成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
-	      } 
-	      catch (ServiceException e)
-	      {
-	         LOGGER.error("It failed to save the base work content item entity!", e);
-	         
-	         return ajaxPrint(response, getErrorCallback("工作安排保存失败."));
-	      }
+
+   public ActionForward actionSaveWorkArrange(ActionMapping mapping,
+         ActionForm form, HttpServletRequest requst,
+         HttpServletResponse response) {
+      try {
+         ModelWorkTemplate formModeWorkTemplate = (ModelWorkTemplate) form;
+         ModelWorkTemplate entity = null;
+
+         boolean isCreation = !this.isObjectIdValid(formModeWorkTemplate
+               .getId());
+
+         if (!isCreation) {
+            // 更新
+            entity = this.serviceWorkTemplate.get(formModeWorkTemplate
+                  .getId());
+            if (entity != null) {
+               // 用表单输入的值覆盖实体中的属性值
+               BeanUtils.copyProperties(formModeWorkTemplate, entity);
+            } else {
+               return ajaxPrint(response, AjaxResponse.RESPONSE_ERROR);
+            }
+         } else {
+            // 新建
+            entity = formModeWorkTemplate;
+         }
+
+         this.serviceWorkTemplate.save(entity);
+
+         // 保存成功后, Dialog进行关闭
+         return ajaxPrint(
+               response,
+               getSuccessCallback("工作安排保存成功.", CALLBACK_TYPE_CLOSE,
+                     CURRENT_NAVTABID, null, false));
+      } catch (ServiceException e) {
+         LOGGER.error(
+               "It failed to save the base work content item entity!", e);
+
+         return ajaxPrint(response, getErrorCallback("工作安排保存失败."));
+      }
    }
-   
+
+   public ActionForward actionEnableWorkTemplate(ActionMapping mapping,
+         ActionForm form, HttpServletRequest request,
+         HttpServletResponse response) {
+      try {
+         String id = request.getParameter("templateId");
+
+         if (this.isObjectIdValid(id)) {
+            if (this.serviceWorkTemplate.enableWorkTemplate(id) > 0) {
+               // 保存成功后, Dialog进行关闭
+               return ajaxPrint(
+                     response,
+                     getSuccessCallback("启动模板成功.", CALLBACK_TYPE_CLOSE,
+                           CURRENT_NAVTABID, null, false));
+            } else {
+               return ajaxPrint(response, getErrorCallback("启动模板失败."));
+            }
+         } else {
+            return ajaxPrint(response, AjaxResponse.RESPONSE_ERROR);
+         }
+
+      } catch (ServiceException e) {
+         LOGGER.error(
+               "It failed to save the base work content item entity!", e);
+
+         return ajaxPrint(response, getErrorCallback("工作安排保存失败."));
+      }
+   }
+
    /**
-    * <b>[WebAction]</b> 
-    * <br/>
+    * <b>[WebAction]</b> <br/>
     * 工作安排设置-工作基础设置
     */
-   public ActionForward pageWorkBaseIndex (ActionMapping mapping, ActionForm form,
-         HttpServletRequest request, HttpServletResponse response) 
-   {
+   public ActionForward pageWorkBaseIndex(ActionMapping mapping,
+         ActionForm form, HttpServletRequest request,
+         HttpServletResponse response) {
       System.out.println("进入工作基础设置");
-      //获得校区信息
-        List<ModelSchoolDistrict> districts=this.getAllDistricts();
-        request.setAttribute("districts", districts);
-      
+      // 获得校区信息
+      List<ModelSchoolDistrict> districts = this.getAllDistricts();
+      request.setAttribute("districts", districts);
+
       return mapping.findForward("page.sys.setting.work.base.index");
    }
-   
+
    /**
-    * <b>[WebAction]</b> 
-    * <br/>
+    * <b>[WebAction]</b> <br/>
     * 工作安排设置-工作基础设置
     */
-   public ActionForward pageWorkBaseContent (ActionMapping mapping, ActionForm form,
-         HttpServletRequest request, HttpServletResponse response) 
-   {
-      ModelBaseWorkContent formBaseWorkContent = (ModelBaseWorkContent)form;
-      if(request.getParameter("districtId")!=null)formBaseWorkContent.getBaseWorkDistrict().setId(request.getParameter("districtId"));
-        PagingBean pagingBean = this.getPagingBean(request);
+   public ActionForward pageWorkBaseContent(ActionMapping mapping,
+         ActionForm form, HttpServletRequest request,
+         HttpServletResponse response) {
+      ModelBaseWorkContent formBaseWorkContent = (ModelBaseWorkContent) form;
+      if (request.getParameter("districtId") != null)
+         formBaseWorkContent.getBaseWorkDistrict().setId(
+               request.getParameter("districtId"));
+      PagingBean pagingBean = this.getPagingBean(request);
       try {
-         PaginationSupport<ModelBaseWorkContent> baseWorkContents =
-               this.serviceBaseWorkContent.getPaginationByEntity(formBaseWorkContent, pagingBean);
+         PaginationSupport<ModelBaseWorkContent> baseWorkContents = this.serviceBaseWorkContent
+               .getPaginationByEntity(formBaseWorkContent, pagingBean);
          request.setAttribute("baseWorkContents", baseWorkContents);
          outWritePagination(request, pagingBean, baseWorkContents);
       } catch (ServiceException e) {
          // TODO Auto-generated catch block
-         LOGGER.error("Exception raised when fetch all work content by district.", e);
+         LOGGER.error(
+               "Exception raised when fetch all work content by district.",
+               e);
       }
       return mapping.findForward("data.sys.setting.work.base.content");
    }
-   
+
    /**
-    * <b>[WebAction]</b> 
-    * <br/>
+    * <b>[WebAction]</b> <br/>
     * 工作内容设置-工作内容配置弹框页面
     */
-   public ActionForward dialogBaseWorkBasePage (ActionMapping mapping, ActionForm form,
-         HttpServletRequest request, HttpServletResponse response) 
-   {
-      try
-      {
+   public ActionForward dialogBaseWorkBasePage(ActionMapping mapping,
+         ActionForm form, HttpServletRequest request,
+         HttpServletResponse response) {
+      try {
          String contentId = request.getParameter("contentId");
-         if (this.isObjectIdValid(contentId))
-         {
-            ModelBaseWorkContent baseWorkContent = this.serviceBaseWorkContent.get(contentId);
-            if (baseWorkContent != null)
-            {
+         if (this.isObjectIdValid(contentId)) {
+            ModelBaseWorkContent baseWorkContent = this.serviceBaseWorkContent
+                  .get(contentId);
+            if (baseWorkContent != null) {
                request.setAttribute("baseWorkContent", baseWorkContent);
-            }
-            else
-            {
+            } else {
                return ajaxPrint(response, getErrorCallback("该工作内容不存在!"));
             }
          }
-         
+
          return mapping.findForward("dialog.sys.setting.work.content.page");
-      }
-      catch (ServiceException e)
-      {
+      } catch (ServiceException e) {
          LOGGER.error("Exception raised when fetch menu function entity!", e);
-         return ajaxPrint(response, getErrorCallback("数据加载失败,原因:" + e.getMessage()));
+         return ajaxPrint(response,
+               getErrorCallback("数据加载失败,原因:" + e.getMessage()));
       }
    }
-   
-   
+
    /**
-    * <b>[WebAction]</b> 
-    * <br/>
-    *  工作内容设置-工作内容修改保存
+    * <b>[WebAction]</b> <br/>
+    * 工作内容设置-工作内容修改保存
     */
-   public ActionForward actionSaveBaseWorkContent (ActionMapping mapping, ActionForm form,
-         HttpServletRequest request, HttpServletResponse response) 
-   {
-      
-      try
-      {
+   public ActionForward actionSaveBaseWorkContent(ActionMapping mapping,
+         ActionForm form, HttpServletRequest request,
+         HttpServletResponse response) {
+
+      try {
          ModelBaseWorkContent formModelBaseWorkContent = (ModelBaseWorkContent) form;
          Date date = new Date();
          formModelBaseWorkContent.setUpdateTime(date);
          ModelBaseWorkContent entity = null;
-         
-         boolean isCreation = !this.isObjectIdValid(formModelBaseWorkContent.getId());
-         
-         if (!isCreation)
-         {
+
+         boolean isCreation = !this.isObjectIdValid(formModelBaseWorkContent
+               .getId());
+
+         if (!isCreation) {
             // 更新
-            entity = this.serviceBaseWorkContent.get(formModelBaseWorkContent.getId());
-            if (entity != null)
-            {
+            entity = this.serviceBaseWorkContent
+                  .get(formModelBaseWorkContent.getId());
+            if (entity != null) {
                // 用表单输入的值覆盖实体中的属性值
                BeanUtils.copyProperties(formModelBaseWorkContent, entity);
-            }
-            else
-            {
+            } else {
                return ajaxPrint(response, AjaxResponse.RESPONSE_ERROR);
             }
-         }
-         else
-         {
+         } else {
             // 新建
             entity = formModelBaseWorkContent;
          }
-         
+
          this.serviceBaseWorkContent.save(entity);
-         
+
          // 保存成功后, Dialog进行关闭
-         return ajaxPrint(response, 
-               getSuccessCallback("工作内容保存成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
-      } 
-      catch (ServiceException e)
-      {
-         LOGGER.error("It failed to save the base work content item entity!", e);
-         
+         return ajaxPrint(
+               response,
+               getSuccessCallback("工作内容保存成功.", CALLBACK_TYPE_CLOSE,
+                     CURRENT_NAVTABID, null, false));
+      } catch (ServiceException e) {
+         LOGGER.error(
+               "It failed to save the base work content item entity!", e);
+
          return ajaxPrint(response, getErrorCallback("工作内容保存失败."));
       }
    }
-   
+
    /**
-    * <b>[WebAction]</b> 
-    * <br/>
+    * <b>[WebAction]</b> <br/>
     * 工作内容设置-工作内容删除
     */
-   @LogAnnotation(description="删除基础工作内容")
-   public ActionForward actionRemoveBaseWorkContent (ActionMapping mapping, ActionForm form,
-         HttpServletRequest request, HttpServletResponse response) 
-   {
-      try
-      {
+   @LogAnnotation(description = "删除基础工作内容")
+   public ActionForward actionRemoveBaseWorkContent(ActionMapping mapping,
+         ActionForm form, HttpServletRequest request,
+         HttpServletResponse response) {
+      try {
          String contentId = request.getParameter("contentId");
-         if (this.isObjectIdValid(contentId))
-         {
+         if (this.isObjectIdValid(contentId)) {
             // 删除
-             this.serviceBaseWorkContent.remove(contentId);
-             
-             return ajaxPrint(response, 
-                     getSuccessCallback("工作内容删除成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+            this.serviceBaseWorkContent.remove(contentId);
+
+            return ajaxPrint(
+                  response,
+                  getSuccessCallback("工作内容删除成功.", CALLBACK_TYPE_CLOSE,
+                        CURRENT_NAVTABID, null, false));
+         } else {
+            return ajaxPrint(response,
+                  getErrorCallback("工作内容删除失败,原因:非法工作内容ID(" + contentId
+                        + ")被传递"));
          }
-         else
-         {
-            return ajaxPrint(response, getErrorCallback("工作内容删除失败,原因:非法工作内容ID(" + contentId + ")被传递"));
-         }
-      }
-      catch (ServiceException e)
-      {
+      } catch (ServiceException e) {
          LOGGER.error("Exception raised when fetch menu function entity!", e);
-         return ajaxPrint(response, getErrorCallback("工作内容删除失败,原因:" + e.getMessage()));
+         return ajaxPrint(response,
+               getErrorCallback("工作内容删除失败,原因:" + e.getMessage()));
       }
    }
 
-   public static Logger getLogger()
-   {
+   public static Logger getLogger() {
       return LOGGER;
    }
 
    /**
-    * <b>[WebAction]</b> 
-    * <br/>
+    * <b>[WebAction]</b> <br/>
     * 工作内容配置-添加工作内容配置
     */
-   public ActionForward dialogAddWorkContent (ActionMapping mapping, ActionForm form,
-         HttpServletRequest request, HttpServletResponse response) 
-   {
+   public ActionForward dialogAddWorkContent(ActionMapping mapping,
+         ActionForm form, HttpServletRequest request,
+         HttpServletResponse response) {
       request.setAttribute("districtId", request.getParameter("districtId"));
       return mapping.findForward("dialog.sys.setting.work.content.addpage");
    }
-   
-   public String checkWorkTime(String time){
-	   if(time == null || "".equals(time))return "";
-	   String hour = time.substring(0, time.indexOf(":"));
-	   if(hour!=null && !"".equals(hour)){
-		   if(Integer.parseInt(hour)<18) return "AM";
-		   else return "PM";
-	   }
-	   return "";
+
+   public String checkWorkTime(String time) {
+      if (time == null || "".equals(time))
+         return "";
+      String hour = time.substring(0, time.indexOf(":"));
+      if (hour != null && !"".equals(hour)) {
+         if (Integer.parseInt(hour) < 18)
+            return "AM";
+         else
+            return "PM";
+      }
+      return "";
    }
 }
