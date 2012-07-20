@@ -77,13 +77,13 @@
 	<thead>
 		<tr>
 			<th align="center">工作时间</th>
-			<th align="center">周一<a onclick="ajaxDialogPost(this)" day="周一" class="oplink" target="dialog" title="工作安排" width="504" height="335">（安排）</a></th>
-			<th align="center">周二<a href="app/system/work/template.do?action=dialogWorkArrangePage&districtId=${formWorkTemplate ne null ? formWorkTemplate.district.id:'-1'}&templateId=${formWorkTemplate.templateId}&workDay=1" class="oplink" target="dialog" title="工作安排" width="755" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></th>
-			<th align="center">周三<a href="app/system/work/template/work.do?action=dialogWorkTemplateWorkPlanPage&planId=${entity.id}" class="oplink" target="dialog" title="工作安排" width="555" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></th>
-			<th align="center">周四<a href="app/system/work/template/work.do?action=dialogWorkTemplateWorkPlanPage&planId=${entity.id}" class="oplink" target="dialog" title="工作安排" width="504" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></th>
-			<th align="center">周五<a href="app/system/work/template/work.do?action=dialogWorkTemplateWorkPlanPage&planId=${entity.id}" class="oplink" target="dialog" title="工作安排" width="504" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></th>
-			<th align="center">周六<a href="app/system/work/template/work.do?action=dialogWorkTemplateWorkPlanPage&planId=${entity.id}" class="oplink" target="dialog" title="工作安排" width="504" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></th>
-			<th align="center">周日<a href="app/system/work/template/work.do?action=dialogWorkTemplateWorkPlanPage&planId=${entity.id}" class="oplink" target="dialog" title="工作安排" width="504" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></th>
+			<th align="center">周一<a href="app/system/work/template.do?action=dialogWorkArrangePage&districtId=${formWorkTemplate ne null ? formWorkTemplate.district.id:'-1'}&templateId=${formWorkTemplate.templateId}&workDay=1" class="oplink" target="dialog" title="工作安排" width="755" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></th>
+			<th align="center">周二<a href="app/system/work/template.do?action=dialogWorkArrangePage&districtId=${formWorkTemplate ne null ? formWorkTemplate.district.id:'-1'}&templateId=${formWorkTemplate.templateId}&workDay=2" class="oplink" target="dialog" title="工作安排" width="755" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></th>
+			<th align="center">周三<a href="app/system/work/template.do?action=dialogWorkArrangePage&districtId=${formWorkTemplate ne null ? formWorkTemplate.district.id:'-1'}&templateId=${formWorkTemplate.templateId}&workDay=3" class="oplink" target="dialog" title="工作安排" width="755" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></th>
+			<th align="center">周四<a href="app/system/work/template.do?action=dialogWorkArrangePage&districtId=${formWorkTemplate ne null ? formWorkTemplate.district.id:'-1'}&templateId=${formWorkTemplate.templateId}&workDay=4" class="oplink" target="dialog" title="工作安排" width="755" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></th>
+			<th align="center">周五<a href="app/system/work/template.do?action=dialogWorkArrangePage&districtId=${formWorkTemplate ne null ? formWorkTemplate.district.id:'-1'}&templateId=${formWorkTemplate.templateId}&workDay=5" class="oplink" target="dialog" title="工作安排" width="755" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></th>
+			<th align="center">周六<a href="app/system/work/template.do?action=dialogWorkArrangePage&districtId=${formWorkTemplate ne null ? formWorkTemplate.district.id:'-1'}&templateId=${formWorkTemplate.templateId}&workDay=6" class="oplink" target="dialog" title="工作安排" width="755" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></th>
+			<th align="center">周日<a href="app/system/work/template.do?action=dialogWorkArrangePage&districtId=${formWorkTemplate ne null ? formWorkTemplate.district.id:'-1'}&templateId=${formWorkTemplate.templateId}&workDay=7" class="oplink" target="dialog" title="工作安排" width="755" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></th>
 		</tr>
 	</thead>
 	<tbody>
