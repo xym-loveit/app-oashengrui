@@ -27,8 +27,11 @@ $(function(){
 	$("#addStaff").bind("click",function(){
 		if($("#staffName").val()!=""){
 			var old_ctx = $("#staffNames").val();
-			$("#staffNames").val(old_ctx+$("#staffName").val()+",");
+			$("#staffNames").val((old_ctx==""?"":old_ctx+",")+$("#staffName").val());
 			$("#staffName").val("");
+			var old_staffIds = $("#staffIds").val();
+			$("#staffIds").val((old_staffIds==""?"":old_staffIds+",")+$("#staffId").val())
+			$("#staffId").val("");
 		}
 	});
 });
@@ -46,7 +49,7 @@ function loadData(obj){
 	               <td>设置时间：</td>
 	               <td><input type="text" size="30" name="workDay" value="${workDay}" readonly=readonly class="required" style="width: 88%"/></td>
 				      <td>
-				         <select class="combox" name="workTime.Id"
+				         <select class="combox" name="workTime.id"
 	                     id="workTmId">
 							<c:if test="${workTimes ne null}">
 								<c:forEach items="${workTimes}" var="workTime">
@@ -59,7 +62,7 @@ function loadData(obj){
 	            <tr>
 	               <td>工作内容：</td>
 	               <td>
-	               <select class="combox" name="workContent.Id"
+	               <select class="combox" name="workContent.id"
 	                     id="workCntId">
 	                     <c:if test="${workContents ne null}">
 	                    	<c:forEach items="${workContents}" var="workContent">
@@ -73,14 +76,15 @@ function loadData(obj){
 	            <tr>
 	               <td style="vertical-align: top;">工作人员：</td>
 	               <td><input id="staffName" type="text" name="emp.fullName" style="width: 88%" postField="fullName" suggestFields="fullName,districtName" suggestUrl="app/base.do?action=lookupEmployeeByName" lookupGroup="emp" />
+	                    <input id="staffId" type="hidden" name="emp.id"  lookupGroup="emp" />
 	               </td>
 	               <td><div class="button"><div class="buttonContent"><button id="addStaff" type="button" class="submit">添加</button></div></td>
 	            </tr>
 	            <tr>
 	               <td></td>
-	               <td><textarea id="staffNames" rows="2" cols="40" name="staffNames" class="textInput" readonly=readonly style="width: 88%"></textarea></td>
-	               <td>
-	               </td>
+	               <td><textarea id="staffNames" rows="2" cols="40" name="staffName" class="textInput" readonly=readonly style="width: 88%"></textarea></td>
+	               <td><input type="hidden" name="staffId" id="staffIds" value="" />
+ 	               </td>
 	            </tr>
 				</table>
 	        </div>       
