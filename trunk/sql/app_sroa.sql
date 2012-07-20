@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2012 年 07 月 20 日 11:11
+-- 生成日期: 2012 年 07 月 21 日 00:44
 -- 服务器版本: 5.0.51
 -- PHP 版本: 5.2.13
 
@@ -231,11 +231,11 @@ CREATE TABLE IF NOT EXISTS `app_admin_task_file` (
 CREATE TABLE IF NOT EXISTS `app_admin_workarrange` (
   `work_id` bigint(20) NOT NULL auto_increment COMMENT '工作ID',
   `work_date` date NOT NULL COMMENT '工作日期',
-  `work_time` varchar(64) NOT NULL COMMENT '工作时间',
+  `work_time` bigint(20) NOT NULL COMMENT '工作时间',
   `staff_name` varchar(64) NOT NULL COMMENT '员工姓名',
   `staff_id` bigint(20) NOT NULL COMMENT '员工ID',
   `work_type` int(5) default NULL COMMENT '上班类型',
-  `work_content` text COMMENT '工作内容',
+  `work_content` bigint(20) default NULL COMMENT '工作内容',
   PRIMARY KEY  (`work_id`),
   KEY `PK_user` (`staff_id`),
   KEY `PK_type` (`work_type`)
@@ -246,8 +246,8 @@ CREATE TABLE IF NOT EXISTS `app_admin_workarrange` (
 --
 
 INSERT INTO `app_admin_workarrange` (`work_id`, `work_date`, `work_time`, `staff_name`, `staff_id`, `work_type`, `work_content`) VALUES
-(1, '2012-07-12', '12:00-13:00', '斩不刀', 2, 1, '工作好轻松'),
-(2, '2012-06-13', '13:30-15:59', '唐伯虎', 1, 3, '123456');
+(1, '2012-07-12', 3, '斩不刀', 2, 1, 3),
+(2, '2012-06-13', 4, '唐伯虎', 1, 3, 4);
 
 -- --------------------------------------------------------
 
@@ -759,7 +759,7 @@ INSERT INTO `app_hrm_hire_job` (`hjob_id`, `job_title`, `hjob_districtid`, `hjob
 -- --------------------------------------------------------
 
 --
--- 表的结构： `app_hrm_hire_job_file`
+-- 表的结构 `app_hrm_hire_job_file`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_hire_job_file` (
@@ -769,8 +769,9 @@ CREATE TABLE IF NOT EXISTS `app_hrm_hire_job_file` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='招聘岗位附件';
 
 --
--- 列出以下資料庫的數據： `app_hrm_hire_job_file`
+-- 转存表中的数据 `app_hrm_hire_job_file`
 --
+
 
 -- --------------------------------------------------------
 
@@ -1566,13 +1567,6 @@ ALTER TABLE `app_admin_doc`
   ADD CONSTRAINT `PK_district` FOREIGN KEY (`doc_postDistrictId`) REFERENCES `app_school_district` (`district_id`),
   ADD CONSTRAINT `PK_level` FOREIGN KEY (`doc_level_id`) REFERENCES `app_admin_doc_level` (`id`),
   ADD CONSTRAINT `PK_range` FOREIGN KEY (`doc_VisiableRange_id`) REFERENCES `app_admin_doc_visiable_range` (`id`);
-
---
--- 限制表 `app_admin_workarrange`
---
-ALTER TABLE `app_admin_workarrange`
-  ADD CONSTRAINT `PK_type` FOREIGN KEY (`work_type`) REFERENCES `app_admin_worktype` (`id`),
-  ADD CONSTRAINT `PK_user` FOREIGN KEY (`staff_id`) REFERENCES `app_user` (`user_id`);
 
 --
 -- 限制表 `app_hrm_resume_file`
