@@ -35,4 +35,24 @@ extends DAOGenericImpl<ModelWorkTemplate> implements DAOWorkTemplate
 		return this.getListByCriteria(criteria);
 	}
 
+	@Override
+	public int enableTemplate(String id) throws DAOException {
+		// TODO Auto-generated method stub
+		String sql = "update app_system_work_template set enable='1' where templateId='"+id+"'";
+		return this.execUpdateByNativeSQL(sql);
+	}
+
+	@Override
+	public ModelWorkTemplate getEnabledWorkTemplate(String districtId) throws DAOException {
+		// TODO Auto-generated method stub
+		DetachedCriteria criteria  = DetachedCriteria.forClass(ModelWorkTemplate.class);
+		if(districtId == null){
+			districtId = "-1";
+		}
+		criteria.createCriteria("district").add(Restrictions.eq("id", districtId));
+		criteria.add(Restrictions.eq("enable", "1"));
+		List<ModelWorkTemplate> list = this.getListByCriteria(criteria);
+		return list.size()>0?list.get(0):null;
+	}
+
 }
