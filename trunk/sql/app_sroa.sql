@@ -759,6 +759,22 @@ INSERT INTO `app_hrm_hire_job` (`hjob_id`, `job_title`, `hjob_districtid`, `hjob
 -- --------------------------------------------------------
 
 --
+-- 表的结构： `app_hrm_hire_job_file`
+--
+
+CREATE TABLE IF NOT EXISTS `app_hrm_hire_job_file` (
+  `hjob_id` bigint(20) NOT NULL,
+  `file_id` bigint(20) NOT NULL,
+  PRIMARY KEY  (`hjob_id`,`file_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='招聘岗位附件';
+
+--
+-- 列出以下資料庫的數據： `app_hrm_hire_job_file`
+--
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `app_hrm_resume`
 --
 
