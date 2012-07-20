@@ -29,7 +29,6 @@ import cn.trymore.oa.service.system.ServiceFileAttach;
  * The servlet for file uploading.
  * 
  * @author Jeccy.Zhao
- * 修改：Tang，路径分割线由正斜杠换成了反斜杠，和下载保持统一。
  *
  */
 public class FileUploadServlet
@@ -79,14 +78,17 @@ extends HttpServlet
 	 */
 	public void init() throws ServletException
 	{
-		this.uploadPath = servletConfig.getServletContext().getRealPath("\\uploads\\");
+		this.uploadPath = servletConfig.getServletContext().getRealPath("/uploads/");
+		
+		System.out.println(this.uploadPath);
+		
 		File localFile = new File(this.uploadPath);
 		if (!localFile.exists())
 		{
 			localFile.mkdirs();
 		}
 		
-		this.tempPath = this.uploadPath + "\\temp";
+		this.tempPath = this.uploadPath + "/temp";
 		File tmpFile = new File(this.tempPath);
 		if (!tmpFile.exists())
 		{
@@ -130,18 +132,18 @@ extends HttpServlet
 				// obtains the file path and name
 				String filePath = fileItem.getName();
 				
-				String fileName = filePath.substring(filePath.lastIndexOf("\\") + 1);
+				String fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
 				// generates new file name with the current time stamp.
-				String newFileName = this.fileCat + "\\" + UtilFile.generateFilename(fileName);
+				String newFileName = this.fileCat + "/" + UtilFile.generateFilename(fileName);
 				// ensure the directory existed before creating the file.
-				File dir = new File(this.uploadPath + "\\" + newFileName.substring(0, newFileName.lastIndexOf("\\") + 1));
+				File dir = new File(this.uploadPath + "/" + newFileName.substring(0, newFileName.lastIndexOf("/") + 1));
 				if (!dir.exists())
 				{
 					dir.mkdirs();
 				}
 				
 				// stream writes to the destination file
-				fileItem.write(new File(this.uploadPath + "\\" + newFileName));
+				fileItem.write(new File(this.uploadPath + "/" + newFileName));
 				
 				// storages the file into database.
 				ModelFileAttach fileAttach = new ModelFileAttach();

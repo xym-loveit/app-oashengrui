@@ -5,6 +5,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
@@ -23,6 +25,20 @@ public class FileDownloadServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = -5563238888658319929L;
+	
+	
+	/**
+	 * The servlet configuration
+	 */
+	private ServletConfig servletConfig = null;
+	
+	public void init(ServletConfig servletConfig) throws ServletException
+	{
+		this.servletConfig = servletConfig;
+		super.init(servletConfig);
+	}
+	
+	
 
 	protected void service(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
@@ -30,7 +46,9 @@ public class FileDownloadServlet extends HttpServlet {
 		//  服务器相对路径    
 		String path = req.getParameter("path");
 		//  服务器绝对路径    
-		path = getServletContext().getRealPath("/") + "uploads" + "\\" + path;
+		path = servletConfig.getServletContext().getRealPath("/uploads/")+"/"+path;
+		
+		System.out.println(path);
 
 		//  检查文件是否存在   
 		File obj = new File(path);
@@ -41,7 +59,7 @@ public class FileDownloadServlet extends HttpServlet {
 			return;
 		}
 		//  读取文件名：用于设置客户端保存时指定默认文件名   
-		int index = path.lastIndexOf("\\");
+		int index = path.lastIndexOf("/");
 		//  前提：传入的path字符串以“\”表示目录分隔符    
 		String fileName = path.substring(index + 1);
 		//  写流文件到前端浏览器    
