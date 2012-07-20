@@ -16,9 +16,9 @@
 		<property name="newsContent" type="java.lang.String">
 			<column name="news_content" not-null="true"></column>
 		</property>
-		<property name="authorId" type="java.lang.Integer">
+	<!--	<property name="authorId" type="java.lang.Integer">
 			<column name="author_id" not-null="true"></column>
-		</property>
+		</property>-->
 		<property name="authorName" type="java.lang.String">
 			<column name="author_name" not-null="true"></column>
 		</property>
@@ -50,6 +50,10 @@
         </many-to-one>
      	<many-to-one name="dictionary" class="org.shengrui.oa.model.system.ModelAppDictionary" fetch="select">
             <column name="type_dicid" not-null="true">
+            </column>
+        </many-to-one>
+        <many-to-one name="user" class="org.shengrui.oa.model.system.ModelAppUser" fetch="select">
+            <column name="author_id" not-null="true">
             </column>
         </many-to-one>
 	</class>

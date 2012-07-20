@@ -7,8 +7,78 @@
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
+<script>
+$(function(){
+	$("#pass").unbind("click");
+	$("#pass").bind("click", function() { 
+		$("#formAction").val("0");
+		$("#formnews").submit();
+	});
+	
+	$("#return").unbind("click");
+	$("#return").bind("click", function() { 
+		$("#formAction").val("1");
+		$("#formnews").submit();
+	});
+	
+	$("#approval").unbind("click");
+	$("#approval").bind("click", function() { 
+		$("#formadd").val("2");
+		$("#formnews").submit();
+		return false;
+	});
+	
+	$("#save").unbind("click");
+	$("#save").bind("click", function() { 
+		$("#formadd").val("3");
+		$("#formnews").submit();
+		return false;
+	});
+	KISSY.use('gallery/form/1.2/uploader/queue/base', function (S, Queue) {
+		var queue = new Queue();
+	})
+
+	//加载上传组件入口文件
+	KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
+		var ru = new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue',{
+			 //服务器端配置
+			serverConfig:{
+				//处理上传的服务器端脚本路径
+				action:"file-upload",
+				data: {
+					"test" : "a"
+				}
+			},
+			// 文件域
+			name:"Filedata",
+			//用于放服务器端返回的url的隐藏域
+			urlsInputName:"fileUrls"
+		});
+		
+		ru.on('init', function (ev) {
+			//上传组件实例
+			var uploader = ev.uploader;
+			//上传按钮实例
+			var button = uploader.get('button');
+			
+			uploader.on('success', function (ev) {
+				var feedback = ev.result;
+				var file_id = feedback.data.id;
+				if (file_id) {
+					$("#fileIds").val($("#fileIds").val() == "" ? file_id : ($("#fileIds").val() + "," + file_id));
+				}
+			});
+			
+			uploader.on('error', function (ev) {
+				alert("文件上传失败:" + ev.result.message);
+			});
+			
+		});
+	});
+});
+</script>
 <div class="pageContent">
-	<form method="post" action="app/admin/news.do?action=actionNewsEditOrSave" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<form method="post" action="app/admin/news.do?action=actionNewsEditOrSave" id="formnews" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent" layoutH="56">
 			<table cellspacing="10" cellpadding="10" style="border-spacing:12">
 				<tr>
@@ -27,7 +97,7 @@
 					<td>可见校区：</td>
 					<td>
 						<c:choose>
-							<c:when test="${op eq null && op ne 'view'}">
+							<c:when test="${op ne 'opp'}">
 								<select class="combox" name="districtVisible" id="combox_VisibleDistrict" style="width:120px" ref="combox_dept" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
 									<option value="-1">所有校区</option>
 									<logic:present name="districts">
@@ -55,7 +125,7 @@
 					<td>发布校区：</td>
 					<td>
 						<c:choose>
-							<c:when test="${op eq null && op ne 'view'}">
+							<c:when test="${op ne 'opp'}">
 								<select class="combox" name="districtPost" id="combox_publishDistrict" style="width:120px" ref="combox_dept" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
 									<option value="-1">所有校区</option>
 									<logic:present name="districts">
@@ -70,7 +140,7 @@
 					<td>发布部门：</td>
 					<td>
 						<c:choose>
-							<c:when test="${op eq null && op ne 'view'}">
+							<c:when test="${op ne 'opp'}">
 								<select class="combox" name="depPost" id="combox_department1" style="width:120px" ref="combox_dept" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
 									<option value="-1">所有部门</option>
 									<logic:present name="departments">
@@ -87,20 +157,37 @@
 					<td style="vertical-align:top">新闻内容：</td>
 					<td colspan="5"><textarea class="editor" name="newsContent" rows="15" cols="80">内容</textarea></td>
 				</tr>
+				<tr>
+					<td style="vertical-align: top;">附件区：</td>
+					<td colspan="7">
+						<!-- Uploader Demo-->
+						<div>
+							<!-- 上传按钮，组件配置请写在data-config内 -->
+							<a id="J_UploaderBtn" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件 </a>
+							<!-- 文件上传队列 -->
+							<ul id="J_UploaderQueue"></ul>
+							<div id="J_Panel" class="event-panel"></div>
+							<input type="hidden" name="fileUrls" id="fileUrls" />
+							<input type="hidden" name="fileIds" id="fileIds" />
+						</div>
+						<!--<a class="oplink" href="app/hrm.do?action=hrmPageJobDetail&id=1" target="dialog" title="上传附件">上传附件</a>-->
+					</td>
+				</tr>
 			</table>
 		</div>
 		<div class="formBar">
 			<ul>
 				<!--<li><a class="buttonActive" href="javascript:;"><span>保存</span></a></li>-->
 				<logic:present name="op">
-					<logic:equal name="op" value="approval">
-						<li><div class="buttonActive"><div class="buttonContent"><button type="submit">通过</button></div></div></li>
-						<li><div class="buttonActive"><div class="buttonContent"><button type="submit">退回</button></div></div></li>
+					<logic:equal name="op" value="view">
+						<li><div class="buttonActive"><div class="buttonContent"><button id="pass" type="submit">通过</button></div></div></li>
+						<li><div class="buttonActive"><div class="buttonContent"><button id="return" type="submit">退回</button></div></div></li>
+						<li><div class="buttonActive"><div class="buttonContent"><a class="icon" href="app/admin/news.do?action=actionNewsScan&id=${news.id }" target="dialog" rel="admin_entrycheck" width="900" height="500"><button>预览</button></a></div></div></li>
 					</logic:equal>
 				</logic:present>
 				<logic:notPresent name="op">
-					<li><div class="buttonActive"><div class="buttonContent"><button type="submit">提交审核</button></div></div></li>
-					<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存草稿</button></div></div></li>
+					<li><div class="buttonActive"><div class="buttonContent"><button id="approval" type="submit">提交审核</button></div></div></li>
+					<li><div class="buttonActive"><div class="buttonContent"><button id="save" type="submit">保存草稿</button></div></div></li>
 				</logic:notPresent>
 				<li>
 					<div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
@@ -110,6 +197,11 @@
 		<c:if test="${news ne null}">
 			<input type="hidden" id="formAction" name="formAction" value="" />
 		</c:if>
+		<c:if test="${news eq null}">
+			<input type="hidden" id="formadd" name="formadd" value="" />
+		</c:if>
 		<input type="hidden" name="id" value="${news ne null ? news.id : '-1'}" />
+	<!--  	<input type="hidden" name="status" value="${news.status}" />
+		<input type="hidden" name="op" value="view" /> -->
 	</form>
 </div>

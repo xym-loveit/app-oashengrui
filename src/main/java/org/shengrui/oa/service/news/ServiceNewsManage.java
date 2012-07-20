@@ -36,5 +36,18 @@ extends ServiceGeneric<ModelNewsMag>
 	 * */
 	public ModelNewsMag updateNews(ModelNewsMag modelNewsMag) throws ServiceException;
 	
+	/**
+	 * 查询新闻类别为”公司新闻“的新闻纪录
+	 * @author pyc
+	 * */
+	PaginationSupport<ModelNewsMag> getCompanyNews(ModelNewsMag news,
+			PagingBean pagingBean)throws ServiceException;
+	
+	/**
+	 * 查询新闻类别为”校区新闻“的新闻纪录
+	 * @author pyc
+	 * */
+	PaginationSupport<ModelNewsMag> getDistrictNews(ModelNewsMag news,
+			PagingBean pagingBean)throws ServiceException;
 	
 }

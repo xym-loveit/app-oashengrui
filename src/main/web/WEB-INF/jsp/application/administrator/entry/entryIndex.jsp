@@ -20,8 +20,19 @@
 			$("#news-" + id).fadeOut("slow");
 		}
 	}
+	function callback_funcRemove(id) {
+		if (id == undefined) {
+			id = $("tr.selected").attr("rel");
+		}
+		if ($("#news-" + id).size() > 0) {
+			$("#news-" + id).fadeOut("slow");
+		}
+	}
 </script>
-
+<form id="pagerForm" method="post" action="app/admin/news.do?action=adminPageEntryIndex">
+	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
+	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
+</form>
 <!-- SearchBar -->
 <div class="pageHeader">
 	<form onsubmit="return navTabSearch(this);" action="app/admin/news.do?action=adminPageEntryIndex" method="post">
@@ -72,9 +83,9 @@
 		<ul class="toolBar">
 			<li><a class="add" href="app/admin.do?action=adminPageEntryDetail" target="dialog" title="添加新闻" width="900" height="500" rel="dia_admin_entryadd"><span>添加</span></a></li>
 			<li class="line">line</li>
-			<li><a class="delete" href="app/admin.do?action=adminOprEntryRemove&id={sid}" target="ajaxTodo" title="确定要删除吗?" callback="hello"><span>删除</span></a></li>
+			<li><a class="delete" href="app/admin.do?action=adminOprEntryRemove&id={sid}" target="ajaxTodo" title="确定要删除吗?" callback="callback_funcRemove()"><span>删除</span></a></li>
 			<li class="line">line</li>
-			<li><a class="edit" href="app/admin.do?action=adminPageEntryDetail&id={sid}" target="dialog" title="修改新闻" width="900" height="500" rel="dia_admin_entryedit{sid}"><span>修改</span></a></li>
+			<li><a class="edit" href="app/admin.do?action=adminPageEntryDetail&id={sid}" target="dialog" title="修改新闻" width="900" height="500" rel="dia_admin_entryedit"><span>修改</span></a></li>
 			<!--
 			<li class="line">line</li>
 			<li><a class="icon" href="demo/common/dwz-team.xls" target="dwzExport" targetType="navTab" title="实要导出这些记录吗?"><span>导出EXCEL</span></a></li>
@@ -128,7 +139,7 @@
 					<td>${news.district.districtName} / ${news.department.depName} </td>
 					<td><c:if test="${news.updateTime ne null}"><fmt:formatDate value="${news.updateTime}" pattern="yyyy-MM-dd hh:mm:ss" /></c:if></td>
 					<td> 
-						<a href="app/admin.do?action=adminOprEntryRemove&id=${news.id}" target="ajaxTodo" title="确定要删除吗?" callback="callback_removeRec(${news.id})"><img class="opr" src="resources/images/icons/remove.png" /></a>&nbsp;
+						<a href="app/admin.do?action=adminOprEntryRemove&id=${news.id}" target="ajaxTodo" title="确定要删除${news.newsSubject }吗?" callback="callback_removeRec(${news.id})"><img class="opr" src="resources/images/icons/remove.png" /></a>&nbsp;
 						<a href="app/admin.do?action=adminPageEntryDetail&id=${news.id}" target="dialog" title="修改新闻" width="900" height="500"><img class="opr" src="resources/images/icons/edit.gif" /></a>
 					</td>
 					</tr>
@@ -151,5 +162,4 @@
 			<div class="pagination" targetType="navTab" totalCount="${pagingBean ne null ? pagingBean.totalItems : 0}" numPerPage="${pagingBean ne null ? pagingBean.pageSize : 20}" pageNumShown="${pagingBean ne null ? pagingBean.pageNumShown : 10}" currentPage="${pagingBean ne null ? pagingBean.currentPage : 1}"></div>
 
 		</div>
-	</form>
 </div>

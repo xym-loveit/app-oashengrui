@@ -16,6 +16,10 @@
 	<!-- 新闻详细页面 (新增 & 编辑) -->
 	<definition name="admin.page.entry.detail" 
 		path="/WEB-INF/jsp/application/administrator/entry/entryPage.jsp"/>
+		
+	<!-- 新闻预览 -->
+	<definition name="admin.page.entry.scan"  
+		path="/WEB-INF/jsp/application/administrator/entry/entryScan.jsp"/>
 	
 	<!-- 任务委托管理 -->
 	<definition name="admin.page.task.delegate.index" 

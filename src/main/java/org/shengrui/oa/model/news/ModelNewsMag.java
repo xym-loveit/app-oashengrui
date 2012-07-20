@@ -3,6 +3,7 @@ package org.shengrui.oa.model.news;
 import java.util.Date;
 
 import org.shengrui.oa.model.system.ModelAppDictionary;
+import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 
@@ -88,13 +89,18 @@ extends ModelBase
 	
 	protected ModelAppDictionary dictionary;
 	
+	protected ModelAppUser user;
 	
 	/**
 	 * 主要用于多状态集合搜索,超级用户
 	 */
 	private Integer[] searchStatusCondition;
 	
-	
+	/**
+	 * 
+	 * 新闻状态
+	 * 
+	 * */
 	public static enum newsStatus{
 		TODO_DRAFT(0, "todo_draft"),	// 草稿
 		TODO_HEAD(1, "todo_inhead"),	// 已发布并待审核
@@ -119,7 +125,10 @@ extends ModelBase
 			return this.text;
 		}
 	}
-	
+	/**
+	 * 新闻级别
+	 * 
+	 * */
 	public static enum newsLevel
 	{
 		TODO_COMPANYNEWS(0,"todo_companyNews"),
@@ -152,7 +161,7 @@ extends ModelBase
 		
 	}
 	
-
+	
 	public Integer getTypeDicid() {
 		return typeDicid;
 	}
@@ -254,6 +263,12 @@ extends ModelBase
 	}
 	public void setDictionary(ModelAppDictionary dictionary) {
 		this.dictionary = dictionary;
+	}
+	public ModelAppUser getUser() {
+		return user;
+	}
+	public void setUser(ModelAppUser user) {
+		this.user = user;
 	}
 	
 }
