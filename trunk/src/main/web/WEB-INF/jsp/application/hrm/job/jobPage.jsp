@@ -108,7 +108,7 @@ ${tm:fileRestore(jobHire['attachFiles'])}
 					<td nowrap>招聘校区：</td>
 					<td>
 						<c:choose>
-							<c:when test="${op eq null && op ne 'view'}">
+							<c:when test="${op eq null || op ne 'view'}">
 								<select class="combox" name="jobHireDistrictId" id="combox_district" style="width:120px" ref="combox_dept" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
 									<option value="">请选择校区</option>
 									<logic:present name="districts">
@@ -126,7 +126,7 @@ ${tm:fileRestore(jobHire['attachFiles'])}
 					<td nowrap>招聘部门：</td>
 					<td>
 						<c:choose>
-							<c:when test="${op eq null && op ne 'view'}">
+							<c:when test="${op eq null || op ne 'view'}">
 								<select class="combox" name="jobHireDepartmentId" id="combox_dept" defOPKey="请选择部门" defOPVal="" style="width:120px">
 									<option value="">请选择部门</option>
 									<logic:present name="departments">
@@ -148,7 +148,7 @@ ${tm:fileRestore(jobHire['attachFiles'])}
 					<td>招聘范围：</td>
 					<td>
 						<c:choose>
-							<c:when test="${op eq null && op ne 'view'}">
+							<c:when test="${op eq null || op ne 'view'}">
 								<select class="combox" name="jobHireRange" id="combox_range" style="width:120px">
 									<option value="1" ${jobHire ne null && jobHire.jobHireRange eq 1 ? 'selected="selected"' : ''}>内外兼招</option>
 									<option value="2" ${jobHire ne null && jobHire.jobHireRange eq 2 ? 'selected="selected"' : ''}>外部招聘</option>
@@ -165,7 +165,7 @@ ${tm:fileRestore(jobHire['attachFiles'])}
 					<td>可见范围：</td>
 					<td>
 						<c:choose>
-							<c:when test="${op eq null && op ne 'view'}">
+							<c:when test="${op eq null || op ne 'view'}">
 								<select class="combox" name="jobHireVisibleDistrictId" id="combox_districtvisible" style="width:120px">
 									<option value="">所有校区</option>
 									<logic:present name="districts">
@@ -244,7 +244,7 @@ ${tm:fileRestore(jobHire['attachFiles'])}
 			<ul>
 				<c:if test="${op eq null || op ne 'view'}">
 					<c:choose>
-						<c:when test="${jobHire ne null}">
+						<c:when test="${jobHire ne null && op ne 'edit'}">
 							<c:choose>
 								<c:when test="${jobHire.status eq 1}">
 									<li><div class="buttonActive"><div class="buttonContent"><button id="btnapproval" type="submit">提交总部审核</button></div></div></li>
