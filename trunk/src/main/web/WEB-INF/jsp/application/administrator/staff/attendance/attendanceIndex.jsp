@@ -6,6 +6,7 @@
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <style>
 	label {width: auto;}
@@ -14,6 +15,10 @@
 	a.oplink  {color: blue; text-decoration: underline;}
 </style>
 
+<form id="pagerForm" method="post" action="app/admin.do?action=adminPageStaffAttendance">
+	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
+	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
+</form>
 <script type="text/javascript">
 	function hello(rsp_msg) {
 		alert(rsp_msg.message);
@@ -22,25 +27,25 @@
 
 <!-- SearchBar -->
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="app/admin.do?action=adminPageEntryIndex" method="post">
+	<form onsubmit="return navTabSearch(this);" action="/app/admin/attendance.do?action=adminPageStaffAttendance" method="post">
 		<div class="searchBar">
 			<table class="searchContent">
 				<tr>
 					<td>
-						员工姓名：<input type="text" />
+						员工姓名：<input type="text" name="staffName" value="${formStaffAttendance ne null ? formStaffAttendance.staffName : ''}" />
 					</td>
 					<td>
 						<label>上班状态：</label>
-						<select class="combox" name="type" id="entry_type">
+						<select class="combox" name="workType" id="workType">
 							<option value="">所有</option>
 							<option value="1">在岗</option>
-							<option value="1">出差</option>
-							<option value="1">请假</option>
+							<option value="2">出差</option>
+							<option value="0">请假</option>
 						</select>
 					</td>
 					<td>
 						<label>考勤结果：</label>
-						<select class="combox" name="status" id="entry_status">
+						<select class="combox" name="attendanceResult" id="attendanceResult">
 							<option value="">所有</option>
 							<option value="1">按时</option>
 							<option value="2">迟到</option>
@@ -88,54 +93,38 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr target="sid" rel="1">
-				<td>2012-02-27</td>
-				<td>8:30 - 17:30</td>
-				<td>王伟平</td>
-				<td>正常上班</td>
-				<td>08:25 - 17:25</td>
-				<td>在岗</td>
-				<td>梅杰</td>
-				<td>---</td>
-				<td></td>
-				<td><a href="app/admin.do?action=adminPageStaffAttendanceOnPunch&id=1" class="oplink" target="dialog" title="员工考勤-打卡" width="550" height="250" rel="admin_dutypunch-1">打卡</a></td>
-				<td><a href="app/admin.do?action=adminPageStaffAttendanceOnTravel&id=1" class="oplink" target="dialog" title="员工考勤-出差安排" width="350" height="220" rel="admin_dutytravel-1">出差安排</a></td>
-				<td><a href="app/admin.do?action=adminPageStaffAttendanceOnLeave&id=1" class="oplink" target="dialog" title="员工考勤-请假" width="550" height="320" rel="admin_dutyleave-1">请假</a></td>
-				<td><a href="app/admin.do?action=adminPageStaffAttendanceOnAbsence&id=1" class="oplink" target="dialog" title="员工考勤-旷工" width="550" height="300" rel="admin_dutyabsence-1">旷工</a></td>
-			</tr>
-			<tr target="sid" rel="1">
-				<td>2012-02-27</td>
-				<td>8:30 - 17:30</td>
-				<td>许老师</td>
-				<td>正常上班</td>
-				<td>08:25 - 17:25</td>
-				<td>出差</td>
-				<td>---</td>
-				<td>---</td>
-				<td></td>
-				<td><a href="app/admin.do?action=adminPageStaffAttendanceOnPunch&id=2" class="oplink" target="dialog" title="员工考勤-打卡" width="550" height="250" rel="admin_dutypunch-2">打卡</a></td>
-				<td><a href="app/admin.do?action=adminPageStaffAttendanceOnTravel&id=2" class="oplink" target="dialog" title="员工考勤-出差安排" width="350" height="220" rel="admin_dutytravel-2">出差安排</a></td>
-				<td><a href="app/admin.do?action=adminPageStaffAttendanceOnLeave&id=2" class="oplink" target="dialog" title="员工考勤-请假" width="550" height="320" rel="admin_dutyleave-2">请假</a></td>
-				<td><a href="app/admin.do?action=adminPageStaffAttendanceOnAbsence&id=2" class="oplink" target="dialog" title="员工考勤-旷工" width="550" height="300" rel="admin_dutyabsence-2">旷工</a></td>
-
-			</tr>
+			<logic:present name="staffAttendances">
+		       <logic:iterate name="staffAttendances" property="items" id="entity">
+			      <tr target="sid" rel="${entity.id}">
+					<td><fmt:formatDate value="${entity.workDate}" type="date" pattern="yyyy-MM-dd"/></td>
+					<td>${entity.workTime}</td>
+					<td>${entity.staffName}</td>
+					<td><c:if test="${entity.workType==0}">正常上班</c:if><c:if test="${entity.workType==1 }">带薪上班</c:if></td>
+					<td>${entity.offtimeShour}:${entity.offtimeSmin} - ${entity.offtimeEhour}:${entity.offtimeEmin}</td>
+					<td><c:if test="${entity.workStatus==0}">在岗</c:if><c:if test="${entity.workStatus==1}">出差</c:if><c:if test="${entity.workStatus==2}">请假</c:if></td>
+					<td>${entity.staffBehalfName ne null ? entity.staffBehalfName : "-"}</td>
+					<td>${entity.attendanceResult}</td>
+					<td></td>
+					<td><a href="app/admin.do?action=adminPageStaffAttendanceOnPunch&id=2" class="oplink" target="dialog" title="员工考勤-打卡" width="550" height="250" rel="admin_dutypunch-2">打卡</a></td>
+				    <td><a href="app/admin.do?action=adminPageStaffAttendanceOnTravel&id=2" class="oplink" target="dialog" title="员工考勤-出差安排" width="350" height="220" rel="admin_dutytravel-2">出差安排</a></td>
+					<td><a href="app/admin.do?action=adminPageStaffAttendanceOnLeave&id=2" class="oplink" target="dialog" title="员工考勤-请假" width="550" height="320" rel="admin_dutyleave-2">请假</a></td>
+					<td><a href="app/admin.do?action=adminPageStaffAttendanceOnAbsence&id=2" class="oplink" target="dialog" title="员工考勤-旷工" width="550" height="300" rel="admin_dutyabsence-2">旷工</a></td>
+				</tr>
+			</logic:iterate>
+		  </logic:present>
 		</tbody>
 	</table>
 	<div class="panelBar">
 		<div class="pages">
 			<span>显示</span>
 			<select class="combox" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
-				<option value="20">20</option>
-				<option value="50">50</option>
-				<option value="100">100</option>
-				<option value="200">200</option>
+				<option value="20" ${pagingBean ne null && pagingBean.pageSize eq 20 ? 'selected="selected"' : ''}>20</option>
+				<option value="50" ${pagingBean ne null && pagingBean.pageSize eq 50 ? 'selected="selected"' : ''}>50</option>
+				<option value="100" ${pagingBean ne null && pagingBean.pageSize eq 100 ? 'selected="selected"' : ''}>100</option>
+				<option value="200" ${pagingBean ne null && pagingBean.pageSize eq 200 ? 'selected="selected"' : ''}>200</option>
 			</select>
-			<span>条，共${totalCount}条</span>
+			<span>条，共${pagingBean ne null ? pagingBean.totalItems : 0}条</span>
 		</div>
-		
-		<div class="pagination" targetType="navTab" totalCount="200" numPerPage="20" pageNumShown="10" currentPage="1"></div>
-
+		<div class="pagination" targetType="navTab" totalCount="${pagingBean ne null ? pagingBean.totalItems : 0}" numPerPage="${pagingBean ne null ? pagingBean.pageSize : 20}" pageNumShown="${pagingBean ne null ? pagingBean.pageNumShown : 10}" currentPage="${pagingBean ne null ? pagingBean.currentPage : 1}"></div>
 	</div>
-		
-	</form>
 </div>
