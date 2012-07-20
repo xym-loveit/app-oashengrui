@@ -79,4 +79,8 @@ public final class Constants
 	// the default date format of Y-M-D
 	public static final String DATE_FORMAT_YMD = "yyyy-MM-dd";
 	
+	// the default file URL parameter flag.
+	public static final String DefaultFileUrlParam = "fileUrls";
+	
+	
 }
