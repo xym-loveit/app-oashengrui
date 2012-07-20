@@ -65,5 +65,12 @@
 	     <property name="source" type="java.lang.Integer">
             <column name="source" />
         </property>
+        
+         <set name="attachFiles" table="app_hrm_resume_file"
+        	cascade="save-update" lazy="true"> 
+	      <key column="resum_id"/>  
+	      <many-to-many class="cn.trymore.oa.model.system.ModelFileAttach" column="file_id" />
+	    </set>
+	    
 	</class>
 </hibernate-mapping>

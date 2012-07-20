@@ -50,7 +50,7 @@
 		<c:if test="${op eq null || op ne 'view'}">
 		//加载上传组件入口文件
 		KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
-			var ru = new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue',{
+			var ru = new RenderUploader('#jp_J_UploaderBtn', '#jp_J_UploaderQueue',{
 				 //服务器端配置
 				serverConfig:{
 					//处理上传的服务器端脚本路径
@@ -59,29 +59,10 @@
 				// 文件域
 				name:"Filedata",
 				//用于放服务器端返回的url的隐藏域
-				urlsInputName:"fileUrls",
-				themeConfig:{
-					fileTpl:
-						'<li id="queue-file-{id}" class="clearfix" data-name="{name}">' +
-						'<div class="f-l sprite file-icon"></div>' +
-						'<div class="f-l">{name}</div>' +
-						'<input type="hidden" id="fileId_{id}" name="fileId_{id}" value="{fileId}" />' + 
-						'<div class="f-l status-wrapper J_FileStatus">' +
-							'<div class="status waiting-status">等待上传，<a class="J_Upload_{id}" href="#Upload">点此上传</a> </div>' +
-							'<div class="status start-status progress-status success-status clearfix">' +
-								'<div class="J_ProgressBar_{id} f-l uploader-progress"><img class="loading" src="http://img01.taobaocdn.com/tps/i1/T1F5tVXjRfXXXXXXXX-16-16.gif" alt="loading" /></div>' +
-								' <a  class="J_Cancel_{id} f-l upload-cancel" href="#uploadCancel">取消</a>' +
-								'<a href="#fileDel" class="J_Del_{id}" style="display:none;">删除</a>' +
-							'</div> ' +
-							'<div class="status cancel-status">已经取消上传，<a href="#reUpload" id="J_ReUpload_{id}" class="J_Upload_{id}">点此重新上传</a> </div>' +
-							'<div class="status error-status upload-error"><span class="J_ErrorMsg_{id}"></span><a href="#fileDel" class="J_Del_{id}">删除</a></div>' +
-						'</div>' +
-						'</li>'
-				}
+				urlsInputName:"fileUrls"
 				<c:if test="${jobHire ne null && fn:length(jobHire.attachFiles) gt 0}">
-				,
 				// 用于数据展现
-				restoreHook:"#J_UploaderRestore"
+				,restoreHook:"#jp_J_UploaderRestore"
 				</c:if>
 			});
 			
@@ -112,7 +93,7 @@
 
 <!--- 生成需要展现文件的JSON -->
 <c:if test="${(op eq null || op ne 'view') && (jobHire ne null && fn:length(jobHire.attachFiles) gt 0)}">
-<script type="text/uploader-restore" id="J_UploaderRestore">
+<script type="text/uploader-restore" id="jp_J_UploaderRestore">
 ${tm:fileRestore(jobHire['attachFiles'])}
 </script>
 </c:if>
@@ -233,9 +214,9 @@ ${tm:fileRestore(jobHire['attachFiles'])}
 							<c:choose>
 								<c:when test="${op eq null || op ne 'view'}">
 									<!-- 上传按钮，组件配置请写在data-config内 -->
-									<a id="J_UploaderBtn" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件 </a>
+									<a id="jp_J_UploaderBtn" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件 </a>
 									<!-- 文件上传队列 -->
-									<ul id="J_UploaderQueue"></ul>
+									<ul id="jp_J_UploaderQueue"></ul>
 									<div id="J_Panel" class="event-panel"></div>
 									<input type="hidden" name="fileUrls" id="fileUrls" />
 									<input type="hidden" name="fileIds" id="fileIds" />

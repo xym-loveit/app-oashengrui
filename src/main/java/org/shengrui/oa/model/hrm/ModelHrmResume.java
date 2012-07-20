@@ -1,10 +1,8 @@
 package org.shengrui.oa.model.hrm;
 
 import java.util.Date;
-import java.util.Set;
 
 import cn.trymore.core.model.ModelBase;
-import cn.trymore.oa.model.system.ModelFileAttach;
 
 /**
  * Model: 应聘简历
@@ -107,11 +105,6 @@ extends ModelBase
 	 * 员工ID
 	 */
 	private Integer employeeId;
-	
-	/**
-	 * 附件
-	 */
-	private Set<ModelFileAttach> attachFiles;
 	
 	/**
 	 * 简历来源
@@ -318,16 +311,6 @@ extends ModelBase
 	public void setChineseLevel(Integer chineseLevel)
 	{
 		this.chineseLevel = chineseLevel;
-	}
-
-	public void setAttachFiles(Set<ModelFileAttach> attachFiles)
-	{
-		this.attachFiles = attachFiles;
-	}
-
-	public Set<ModelFileAttach> getAttachFiles()
-	{
-		return attachFiles;
 	}
 
 	public Integer getSource()
