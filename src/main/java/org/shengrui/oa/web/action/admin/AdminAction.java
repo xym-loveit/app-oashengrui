@@ -10,6 +10,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.admin.ModelAdminWorkArrange;
+import org.shengrui.oa.model.admin.ModelStaffAttendance;
 import org.shengrui.oa.model.news.ModelNewsMag;
 
 import cn.trymore.core.exception.ServiceException;
@@ -306,6 +307,27 @@ extends BaseAdminAction
 	public ActionForward adminPageStaffAttendance (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws WebException 
 	{
+		try
+		{
+			ModelStaffAttendance formStaffAttendance = (ModelStaffAttendance) form;
+
+			PagingBean pagingBean = this.getPagingBean(request);
+			PaginationSupport<ModelStaffAttendance> staffAttendances =
+				this.serviceStaffAttendance.getPaginationByEntity(formStaffAttendance, pagingBean);
+		
+			request.setAttribute("staffAttendances", staffAttendances);
+			request.setAttribute("formStaffAttendance", formStaffAttendance);
+		
+			//System.out.println("进入员工考勤管理->工作安排"+staffAttendances.getItems().get(0).getWorkDate());
+		
+			// 输出分页信息至客户端
+			outWritePagination(request, pagingBean, staffAttendances);
+		
+		} 
+		catch (ServiceException e)
+		{
+			LOGGER.error("Exception raised when fetch all hire jobs.", e);
+		}
 		return mapping.findForward("admin.page.staff.attendance");
 	}
 	
