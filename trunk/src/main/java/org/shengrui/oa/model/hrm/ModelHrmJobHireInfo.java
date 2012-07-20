@@ -8,7 +8,6 @@ import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 
 import cn.trymore.core.model.ModelBase;
-import cn.trymore.oa.model.system.ModelFileAttach;
 
 /**
  * Model: 招聘岗位
@@ -131,11 +130,6 @@ extends ModelBase
 	 * 应聘记录
 	 */
 	private Set<ModelHrmJobHireIssue> jobHireIssues = new HashSet<ModelHrmJobHireIssue>();
-	
-	/**
-	 * 附件
-	 */
-	private Set<ModelFileAttach> attachFiles;
 	
 	/**
 	 * 主要用于多状态集合搜索,超级用户
@@ -332,16 +326,6 @@ extends ModelBase
 	public void setJobHireVisibleDistrict(ModelSchoolDistrict jobHireVisibleDistrict)
 	{
 		this.jobHireVisibleDistrict = jobHireVisibleDistrict;
-	}
-
-	public Set<ModelFileAttach> getAttachFiles()
-	{
-		return attachFiles;
-	}
-
-	public void setAttachFiles(Set<ModelFileAttach> attachFiles)
-	{
-		this.attachFiles = attachFiles;
 	}
 
 	public String getPostAuthorName()

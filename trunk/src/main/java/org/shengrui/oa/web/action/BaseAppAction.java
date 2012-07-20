@@ -2,6 +2,7 @@ package org.shengrui.oa.web.action;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -31,9 +32,12 @@ import com.google.gson.FieldNamingStrategy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import cn.trymore.core.common.Constants;
 import cn.trymore.core.exception.ServiceException;
+import cn.trymore.core.model.ModelBase;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.action.BaseAction;
+import cn.trymore.oa.model.system.ModelFileAttach;
 import cn.trymore.oa.service.system.ServiceFileAttach;
 
 /**
@@ -317,7 +321,7 @@ extends BaseAction
 	 * @param userName
 	 * @return
 	 */
-	public  ActionForward lookupUserByName (ActionMapping mapping, ActionForm form,
+	public ActionForward lookupUserByName (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	{
 		String fullName = request.getParameter("fullName");
@@ -361,7 +365,7 @@ extends BaseAction
 	 * @param userName
 	 * @return
 	 */
-	public  ActionForward lookupEmployeeByName (ActionMapping mapping, ActionForm form,
+	public ActionForward lookupEmployeeByName (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	{
 		String fullName = request.getParameter("fullName");
@@ -419,6 +423,49 @@ extends BaseAction
 		}
 		
 		return ajaxPrint(response, "[]");
+	}
+	
+	/**
+	 * Handles file attachments
+	 * 
+	 * @param entity
+	 *          the entity that has property of file attachment
+	 * @param request
+	 */
+	protected void handleFileAttachments (ModelBase entity, HttpServletRequest request)
+	{
+		String fileUrls = request.getParameter(Constants.DefaultFileUrlParam);
+		if (entity.getAttachFiles() != null)
+		{
+			entity.setAttachFiles(null);
+		}
+		if (UtilString.isNotEmpty(fileUrls))
+		{
+			if (entity.getAttachFiles() == null)
+			{
+				entity.setAttachFiles(new HashSet<ModelFileAttach>());
+			}
+			
+			String[] urls = fileUrls.split(",");
+			for (String url : urls)
+			{
+				if (UtilString.isNotEmpty(url))
+				{
+					try
+					{
+						ModelFileAttach fileEntity = this.serviceFileAttach.getByPath(url);
+						if (fileEntity != null)
+						{
+							entity.getAttachFiles().add(fileEntity);
+						}
+					}
+					catch (Exception e)
+					{
+						LOGGER.error("Exception raised when saving file: " + url);
+					}
+				}
+			}
+		}
 	}
 	
 	public ServiceSchoolDepartment getServiceSchoolDepartment()
