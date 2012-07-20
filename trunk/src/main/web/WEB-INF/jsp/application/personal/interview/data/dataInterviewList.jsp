@@ -9,6 +9,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
 
+<style>
+	a.oplink {line-height: 21px;}
+</style>
+
 <table class="table" width="100%" layoutH="75">
 	<thead>
 		<tr>

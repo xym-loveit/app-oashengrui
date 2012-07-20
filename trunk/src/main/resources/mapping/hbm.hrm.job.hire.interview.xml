@@ -27,6 +27,12 @@
             <column name="meto" />
         </property>
         
+        <set name="attachFiles" table="app_hrm_hire_interviews_file"
+        	cascade="save-update" lazy="true"> 
+	      <key column="interview_id"/>
+	      <many-to-many class="cn.trymore.oa.model.system.ModelFileAttach" column="file_id" />
+	    </set>
+	    
         <many-to-one name="jobHireIssue" class="ModelHrmJobHireIssue">
         	<column name="hissue_id" />
         </many-to-one>

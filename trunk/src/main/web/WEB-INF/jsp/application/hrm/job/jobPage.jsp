@@ -24,16 +24,7 @@
 </style>
 
 <script>
-	/**
-     * 向事件面板添加消息
-     * @param evt
-     * @param msg
-     */
-    function addMsg(evt, msg) {
-        var $panel = $("#J_Panel");
-        $panel.append("<p>事件名称：" + evt.type + "，" + msg + "</p>");
-    }
-
+	
 	$(function(){
 		$("#btnapproval").unbind("click");
 		$("#btnapproval").bind("click", function() { 

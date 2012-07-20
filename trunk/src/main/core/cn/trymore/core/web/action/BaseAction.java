@@ -430,7 +430,7 @@ extends DispatchAction
 				
 				if (paramOutprint)
 				{
-					request.setAttribute(paramName, paramValue);
+					request.setAttribute(paramName, paramValue != null && paramValue.size() == 1 ? paramValue.get(0) : paramValue);
 				}
 				
 				if (excludes == null || (!excludeParams.contains(paramName)))

@@ -3,6 +3,7 @@ package org.shengrui.oa.service.hrm.impl;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.hrm.DAOHrmJobHireInterview;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireInterview;
@@ -75,6 +76,8 @@ extends ServiceGenericImpl<ModelHrmJobHireInterview> implements ServiceHrmJobHir
 			
 			criteria.add(Restrictions.in("interviewStatus", status));
 			criteria.createCriteria("interviewer").add(Restrictions.eq("id", interviewId));
+			
+			criteria.addOrder(Order.desc("interviewDate"));
 			
 			return this.getAll(criteria, pagingBean);
 		}

@@ -524,20 +524,27 @@ extends BaseHrmAction
 							this.serviceHrmJobHireIssue.getPaginationByJobId(jobId, pagingBean);
 					
 					request.setAttribute("jobHireIssues", jobHireIssues);
+					request.setAttribute("jobId", jobId);
 					
 					// 输出分页信息至客户端
 					outWritePagination(request, pagingBean, jobHireIssues);
-
+					
 					return mapping.findForward("hrm.page.job.offer.index");
 				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("岗位(id:" + jobId + ")数据不存在..."));
+				}
+			}
+			else
+			{
+				return ajaxPrint(response, getErrorCallback("需要传入岗位Id..."));
 			}
 		}
 		catch (Exception e)
 		{
-			LOGGER.error("Exception raised when open the job offer page.", e);
+			return ajaxPrint(response, getErrorCallback("页面加载失败:" + e.getMessage()));
 		}
-		
-		return ajaxPrint(response, getErrorCallback("发现异常数据!"));
 	}
 	
 	/**
@@ -642,6 +649,10 @@ extends BaseHrmAction
 					}
 					
 					formResume.setSource(Integer.parseInt(source));
+					
+					// 设置简历附件...
+					this.handleFileAttachments(formResume, request);
+					
 					this.serviceHrmResume.save(formResume);
 					
 					ModelHrmJobHireIssue jobHireIssue = new ModelHrmJobHireIssue();
@@ -662,14 +673,20 @@ extends BaseHrmAction
 					return ajaxPrint(response, 
 							getSuccessCallback("岗位应聘成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("岗位(id:" + jobId + ")数据不存在..."));
+				}
+			}
+			else
+			{
+				return ajaxPrint(response, getErrorCallback("需要传入岗位Id..."));
 			}
 		}
 		catch (Exception e)
 		{
-			LOGGER.error("Exception raised when apply job.", e);
+			return ajaxPrint(response, getErrorCallback("岗位应聘失败:" + e.getMessage()));
 		}
-		
-		return ajaxPrint(response, getErrorCallback("岗位应聘失败."));
 	}
 	
 	/**

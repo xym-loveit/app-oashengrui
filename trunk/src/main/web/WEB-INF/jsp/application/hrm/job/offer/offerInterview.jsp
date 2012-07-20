@@ -7,13 +7,13 @@
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <style>
 	label {width: auto;}
 	.opr {margin: 3px 2px;}
 	.dispose {text-decoration: line-through; color: red;}
 </style>
-
 
 <div class="pageContent">
 	<table class="table" width="100%" layoutH="50">
@@ -36,7 +36,13 @@
 						<td><fmt:formatDate  value="${entity.interviewDate}" pattern="yyyy.MM.dd hh:mm:ss" /></td>
 						<td class="iflag-${entity.interviewStatus}">${entity.interviewStatus eq 0 ? '待面试' : (entity.interviewStatus eq 1 ? '面试' : (entity.interviewStatus eq 2 ? '通过' : (entity.interviewStatus eq 3 ? '淘汰' : (entity.interviewStatus eq 4 ? '未到' : ''))))}</td>
 						<td>${entity.interviewComments}</td>
-						<td><!--<a class="oplink" href="app/hrm.do?action=hrmPageJobDetail&id=1" target="ajaxdo" title="下载附件">下载</a>--></td>
+						<td>
+							<c:if test="${entity ne null && fn:length(entity.attachFiles) gt 0}">
+								<logic:iterate name="entity" property="attachFiles" id="file">
+									<a title="点击下载`${file.fileName}`文件" href="uploads/${file.filePath}" target="_blank" style="line-height:20px;color: blue;text-decoration: underline;">下载</a>
+								</logic:iterate>
+							</c:if>
+						</td>
 					</tr>
 				</logic:iterate>
 			</logic:present>

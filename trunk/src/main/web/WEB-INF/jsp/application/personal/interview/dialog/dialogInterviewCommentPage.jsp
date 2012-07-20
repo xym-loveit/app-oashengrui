@@ -14,6 +14,55 @@
 	.dispose {text-decoration: line-through; color: red;}
 </style>
 
+<script>
+	
+	$(function(){
+		
+		<c:if test="${op eq null || op ne 'view'}">
+		//加载上传组件入口文件
+		KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
+			var ru = new RenderUploader('#dicp_J_UploaderBtn', '#dicp_J_UploaderQueue',{
+				 //服务器端配置
+				serverConfig:{
+					//处理上传的服务器端脚本路径
+					action:"file-upload"
+				},
+				// 文件域
+				name:"Filedata",
+				//用于放服务器端返回的url的隐藏域
+				urlsInputName:"fileUrls",
+				//验证配置
+				authConfig: {
+					max:[1, "最多上传{max}个文件！"],
+					allowRepeat:[false, "该文件已经存在！"]
+				}
+			});
+			
+			ru.on('init', function (ev) {
+				//上传组件实例
+				var uploader = ev.uploader;
+				//上传按钮实例
+				var button = uploader.get('button');
+				
+				uploader.on('success', function (ev) {
+					var feedback = ev.result;
+					var file_id = feedback.data.id;
+					if (file_id) {
+						$("#fileIds").val($("#fileIds").val() == "" ? file_id : ($("#fileIds").val() + "," + file_id));
+					}
+				});
+				
+				uploader.on('error', function (ev) {
+					alert("文件上传失败:" + ev.result.message);
+				});
+				
+			});
+		});
+		</c:if>
+	});
+	
+</script>
+
 <form method="post" action="app/personal/interview.do?action=actionDoComment" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 	<!-- SearchBar -->
 	<div class="pageHeader">
@@ -35,7 +84,15 @@
 			<tr>
 				<td nowrap style="vertical-align: top;">面试附件：</td>
 				<td>
-					<input type="text" style="width:100%"/>
+					<div>
+						<!-- 上传按钮，组件配置请写在data-config内 -->
+						<a id="dicp_J_UploaderBtn" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件 </a>
+						<!-- 文件上传队列 -->
+						<ul id="dicp_J_UploaderQueue"></ul>
+						<div id="J_Panel" class="event-panel"></div>
+						<input type="hidden" name="fileUrls" id="fileUrls" />
+						<input type="hidden" name="fileIds" id="fileIds" />
+					</div>
 				</td>
 			</tr>
 			<tr>
