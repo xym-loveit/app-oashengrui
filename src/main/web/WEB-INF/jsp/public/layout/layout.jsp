@@ -72,7 +72,7 @@
 	<script src="resources/js/dwz/dwz.regional.zh.js" type="text/javascript"></script>
 	
 	<script src="resources/js/app.util.js" type="text/javascript"></script>
-	<script src="resources/js/kissyForm/kissy-min.js" type="text/javascript"></script>
+	<script src="resources/js/kissyForm/kissy.js" type="text/javascript"></script>
 	
 	<!--[if lt IE 7]>  
 	<script type="text/javascript" src="resources/js/pngfix/DD_belatedPNG_0.0.8a.js"></script>  

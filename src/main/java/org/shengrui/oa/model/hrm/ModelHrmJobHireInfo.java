@@ -4,11 +4,11 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.shengrui.oa.model.system.ModelFileAttach;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 
 import cn.trymore.core.model.ModelBase;
+import cn.trymore.oa.model.system.ModelFileAttach;
 
 /**
  * Model: 招聘岗位

@@ -32,4 +32,16 @@
      </example>
 </function>
 
+<function>
+   <description>
+     render json for file restore
+   </description>
+   <name>fileRestore</name>
+   <function-class>cn.trymore.core.jstl.JstlTagFileRestore</function-class>
+   <function-signature>java.lang.String fileRestore(java.util.Set)</function-signature>
+     <example>
+        name: ${ltag:fileRestore(obj_list)}
+     </example>
+</function>
+
 </taglib>

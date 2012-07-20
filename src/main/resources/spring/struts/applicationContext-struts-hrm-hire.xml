@@ -14,6 +14,7 @@
 		<property name="serviceAppUser" ref="serviceAppUser" />
 		<property name="serviceHrmJobHireEntry" ref="serviceHrmJobHireEntry" />
 		<property name="serviceHrmArchive" ref="serviceHrmArchive" />
+		<property name="serviceFileAttach" ref="serviceFileAttach" />
 	</bean>
 	
 	<!-- 当前招聘管理 - 简历申请等相关操作-->
@@ -28,6 +29,7 @@
 		<property name="serviceAppUser" ref="serviceAppUser" />
 		<property name="serviceHrmJobHireEntry" ref="serviceHrmJobHireEntry" />
 		<property name="serviceHrmArchive" ref="serviceHrmArchive" />
+		<property name="serviceFileAttach" ref="serviceFileAttach" />
 	</bean>
 	
 	<!-- 当前招聘管理 - 面试等相关操作-->
@@ -42,6 +44,7 @@
 		<property name="serviceAppUser" ref="serviceAppUser" />
 		<property name="serviceHrmJobHireEntry" ref="serviceHrmJobHireEntry" />
 		<property name="serviceHrmArchive" ref="serviceHrmArchive" />
+		<property name="serviceFileAttach" ref="serviceFileAttach" />
 	</bean>
 	
 </beans>

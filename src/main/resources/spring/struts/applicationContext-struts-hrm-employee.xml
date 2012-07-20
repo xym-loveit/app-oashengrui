@@ -11,6 +11,7 @@
 		<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
 		<property name="serviceHrmEmployeeRoadMap" ref="serviceHrmEmployeeRoadMap" />
 		<property name="serviceAppUser" ref="serviceAppUser" />
+		<property name="serviceFileAttach" ref="serviceFileAttach" />
 	</bean>
 	
 </beans>

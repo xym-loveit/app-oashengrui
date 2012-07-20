@@ -1,7 +1,7 @@
 /*--------- 默认模板，目前应用于淘宝退款页 BY 明河 ---------*/
 .clearfix:before, .clearfix:after {
     content: "";
-    display: table;
+    display: block;
 }
 
 .clearfix:after {
