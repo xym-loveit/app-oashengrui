@@ -34,6 +34,7 @@ import com.google.gson.GsonBuilder;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.action.BaseAction;
+import cn.trymore.oa.service.system.ServiceFileAttach;
 
 /**
  * The base application action.
@@ -84,6 +85,12 @@ extends BaseAction
 	 */
 	@Resource
 	protected ServiceHrmEmployee serviceHrmEmployee;
+	
+	/**
+	 * The file attach service
+	 */
+	@Resource
+	protected ServiceFileAttach serviceFileAttach;
 	
 	/**
 	 * 获取所有校区
@@ -473,5 +480,15 @@ extends BaseAction
 	public ServiceSchoolPositionSet getServiceSchoolPositionSet()
 	{
 		return serviceSchoolPositionSet;
+	}
+
+	public void setServiceFileAttach(ServiceFileAttach serviceFileAttach)
+	{
+		this.serviceFileAttach = serviceFileAttach;
+	}
+
+	public ServiceFileAttach getServiceFileAttach()
+	{
+		return serviceFileAttach;
 	}
 }

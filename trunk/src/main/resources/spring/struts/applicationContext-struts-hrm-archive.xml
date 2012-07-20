@@ -10,6 +10,7 @@
 		<property name="serviceSchoolDepartmentPosition" ref="serviceSchoolDepartmentPosition" />
 		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
 		<property name="serviceHrmArchive" ref="serviceHrmArchive" />
+		<property name="serviceFileAttach" ref="serviceFileAttach" />
 	</bean>
 		
 </beans>

@@ -75,6 +75,12 @@
         	<column name="hjob_visible_districtid" />
         </many-to-one>
         
+        <set name="attachFiles" table="app_hrm_hire_job_file"
+        	cascade="save-update" lazy="true"> 
+	      <key column="hjob_id"/>  
+	      <many-to-many class="cn.trymore.oa.model.system.ModelFileAttach" column="file_id" />
+	    </set>
+	    
         <set name="jobHireIssues" table="app_hrm_hire_issue" 
         	cascade="save-update" inverse="false" lazy="true"> 
 	      <key column="hjob_id"/>  

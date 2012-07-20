@@ -2,6 +2,7 @@ package org.shengrui.oa.web.action.hrm;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +27,7 @@ import cn.trymore.core.util.UtilBean;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
+import cn.trymore.oa.model.system.ModelFileAttach;
 
 /**
  * 人资管理 - 招聘管理
@@ -330,6 +332,33 @@ extends BaseHrmAction
 			if (ContextUtil.getCurrentUser() != null)
 			{
 				entity.setPostAuthorName(ContextUtil.getCurrentUser().getFullName());
+			}
+			
+			// 设置岗位附件
+			String fileUrls = request.getParameter("fileUrls");
+			if (entity.getAttachFiles() != null)
+			{
+				entity.setAttachFiles(null);
+			}
+			if (UtilString.isNotEmpty(fileUrls))
+			{
+				if (entity.getAttachFiles() == null)
+				{
+					entity.setAttachFiles(new HashSet<ModelFileAttach>());
+				}
+				
+				String[] urls = fileUrls.split(",");
+				for (String url : urls)
+				{
+					if (UtilString.isNotEmpty(url))
+					{
+						ModelFileAttach fileEntity = this.serviceFileAttach.getByPath(url);
+						if (fileEntity != null)
+						{
+							entity.getAttachFiles().add(fileEntity);
+						}
+					}
+				}
 			}
 			
 			this.serviceHrmJobHireInfo.save(entity);

@@ -3,9 +3,8 @@ package org.shengrui.oa.model.hrm;
 import java.util.Date;
 import java.util.Set;
 
-import org.shengrui.oa.model.system.ModelFileAttach;
-
 import cn.trymore.core.model.ModelBase;
+import cn.trymore.oa.model.system.ModelFileAttach;
 
 /**
  * Model: 应聘简历
