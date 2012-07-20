@@ -6,6 +6,7 @@
 	<bean name="/app/personal/interview" class="org.shengrui.oa.web.action.personal.MyInterviewAction">
 		<property name="serviceHrmJobHireInterview" ref="serviceHrmJobHireInterview" />
 		<property name="serviceHrmJobHireIssue" ref="serviceHrmJobHireIssue" />
+		<property name="serviceFileAttach" ref="serviceFileAttach" />
 	</bean>
 	
 </beans>

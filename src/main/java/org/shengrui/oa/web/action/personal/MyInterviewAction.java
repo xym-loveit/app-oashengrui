@@ -208,6 +208,9 @@ extends BaseAppAction
 						jobHireInterview.getJobHireIssue().setCurrentStatus(ModelHrmJobHireIssue.EJobHireIssueStatus.TOPLAN.getValue());
 					}
 					
+					// 设置面试附件
+					this.handleFileAttachments(jobHireInterview, request);
+					
 					this.serviceHrmJobHireInterview.save(jobHireInterview);
 					
 					// 保存后关闭dialog页面并刷新navTab.

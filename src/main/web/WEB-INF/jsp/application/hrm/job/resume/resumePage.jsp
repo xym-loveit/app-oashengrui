@@ -8,6 +8,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="/tags/trymore" prefix="tm"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
 
 <style>
 	.item_file {
@@ -98,7 +99,7 @@ ${tm:fileRestore(resume['attachFiles'])}
 				</tr>
 				<tr>
 					<td align="right">出生日期：</td>
-					<td><input name="birthday" class="date textInput" yearstart="-80" yearend="0" style="width: 100%" value="${resume ne null ? resume.birthday : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
+					<td><input name="birthday" class="${op ne null && op eq 'view' ? '' : 'date'} textInput" yearstart="-80" yearend="0" style="width: 100%" value="<c:if test='${resume ne null && resume.birthday ne null}'><fmt:formatDate value='${resume.birthday}' pattern='yyyy-MM-dd'/></c:if>" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 					<td align="right">联系电话：</td>
 					<td><input class="required" name="mobilePhone" type="text" style="width: 100%" value="${resume ne null ? resume.mobilePhone : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 					<td align="right">婚姻状况：</td>
@@ -245,6 +246,6 @@ ${tm:fileRestore(resume['attachFiles'])}
 			</ul>
 		</div>
 		<input type="hidden" name="source" value="${source ne null ? source : '0'}" />
-		<input type="hidden" name="jobId" value="${jobId ne null ? jobId : '0'}" />
+		<input type="hidden" name="jobId" value="${jobId ne null ? jobId : '-1'}" />
 	</form>
 </div>
