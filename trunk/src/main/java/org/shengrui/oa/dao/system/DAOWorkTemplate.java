@@ -18,7 +18,7 @@ extends DAOGeneric<ModelWorkTemplate>
 {
 	
 	/**
-	 * 根据模板ID和日期获取工作安排列表
+	 * 根据模板ID和校区ID获取工作安排列表
 	 * 
 	 * @param orgType
 	 * @return
@@ -26,4 +26,13 @@ extends DAOGeneric<ModelWorkTemplate>
 	 */
 	List<ModelWorkTemplate> getWorkArrangesByCriteria (ModelWorkTemplate entity) throws DAOException;
 	
+	/**
+	 * 启动模板
+	 */
+	int enableTemplate(String id) throws DAOException;
+	
+	/*
+	 * 查询当前启用的模板
+	 */
+	ModelWorkTemplate getEnabledWorkTemplate(String districtId) throws DAOException;
 }
