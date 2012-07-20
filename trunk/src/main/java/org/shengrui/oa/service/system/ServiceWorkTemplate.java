@@ -16,4 +16,8 @@ public interface ServiceWorkTemplate extends ServiceGeneric<ModelWorkTemplate> {
 	public List<ModelWorkTemplate> getListByCriteria(ModelWorkTemplate entity) throws ServiceException;
 	
 	public List<ModelWorkTemplate> getListByNativeSQL(ModelWorkTemplate entity) throws ServiceException;
+	
+	public int enableWorkTemplate(String id) throws ServiceException;
+	
+	public ModelWorkTemplate getEnabledWorkTemplate(String districtId) throws ServiceException;
 }

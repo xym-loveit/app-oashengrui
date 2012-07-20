@@ -55,4 +55,26 @@ public class ServiceWorkTemplateImpl extends ServiceGenericImpl<ModelWorkTemplat
 		return null;
 	}
 
+	@Override
+	public int enableWorkTemplate(String id) throws ServiceException {
+		// TODO Auto-generated method stub
+		try {
+			return this.daoWorkTemplate.enableTemplate(id);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			throw new ServiceException(e);
+		}
+	}
+
+	@Override
+	public ModelWorkTemplate getEnabledWorkTemplate(String districtId) throws ServiceException {
+		// TODO Auto-generated method stub
+		try {
+			return this.daoWorkTemplate.getEnabledWorkTemplate(districtId);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			throw new ServiceException(e);
+		}
+	}
+
 }
