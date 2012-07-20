@@ -16,6 +16,7 @@
 			<forward name="admin.page.entry.index" path="admin.page.entry.index" />
 			<forward name="admin.page.entry.approval.index" path="admin.page.entry.approval.index" />
 			<forward name="admin.page.entry.detail" path="admin.page.entry.detail" />
+			<forward name="admin.page.entry.scan" path="admin.page.entry.scan" />
 			
 			<forward name="admin.page.task.delegate.index" path="admin.page.task.delegate.index" />
 		</action>

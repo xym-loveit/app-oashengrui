@@ -21,6 +21,8 @@ import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 import org.shengrui.oa.service.hrm.ServiceHrmEmployee;
+import org.shengrui.oa.service.news.ServiceNewsManage;
+import org.shengrui.oa.service.system.ServiceAppDictionary;
 import org.shengrui.oa.service.system.ServiceAppUser;
 import org.shengrui.oa.service.system.ServiceSchoolDepartment;
 import org.shengrui.oa.service.system.ServiceSchoolDepartmentPosition;
@@ -96,6 +98,9 @@ extends BaseAction
 	@Resource
 	protected ServiceFileAttach serviceFileAttach;
 	
+	protected ServiceNewsManage serviceNewsManage;
+	
+	protected ServiceAppDictionary serviceAppDictionary;
 	/**
 	 * 获取所有校区
 	 * 
@@ -538,4 +543,21 @@ extends BaseAction
 	{
 		return serviceFileAttach;
 	}
+
+	public ServiceNewsManage getServiceNewsManage() {
+		return serviceNewsManage;
+	}
+
+	public void setServiceNewsManage(ServiceNewsManage serviceNewsManage) {
+		this.serviceNewsManage = serviceNewsManage;
+	}
+
+	public ServiceAppDictionary getServiceAppDictionary() {
+		return serviceAppDictionary;
+	}
+
+	public void setServiceAppDictionary(ServiceAppDictionary serviceAppDictionary) {
+		this.serviceAppDictionary = serviceAppDictionary;
+	}
+	
 }

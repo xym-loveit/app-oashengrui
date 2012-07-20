@@ -42,22 +42,29 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 			{
 				criteria.createCriteria("dictionary").add(Restrictions.eq("id", news.getDictionary().getId()));
 			}
-		}
 		
-		if(news.getSearchStatusCondition() !=null && news.getSearchStatusCondition().length > 0)
-		{
-			criteria.add(Restrictions.in("status", news.getSearchStatusCondition()));
-		}
-		else
-		{
-			if (news.getStatus() != null && news.getStatus() > -1)
+			if(news.getSearchStatusCondition() !=null && news.getSearchStatusCondition().length > 0)
 			{
-				criteria.add(Restrictions.eq("status", news.getStatus()));
+				criteria.add(Restrictions.in("status", news.getSearchStatusCondition()));
 			}
-		}
+			else
+			{
+				if (news.getStatus() != null && news.getStatus() > -1)
+				{
+					criteria.add(Restrictions.eq("status", news.getStatus()));
+				}
+			}
+			
+			if(news.getNewsSubject() !=null)
+			{
+				criteria.add(Restrictions.like("newsSubject", news.getNewsSubject(), MatchMode.ANYWHERE));
+			}
+			
+			if(news.getDistrict() != null && UtilString.isNotEmpty(news.getDistrict().getId()))
+			{
+				criteria.createCriteria("district").add(Restrictions.eq("id", news.getDistrict().getId()));
+			}
 		
-		if(news.getNewsSubject() !=null){
-			criteria.add(Restrictions.like("newsSubject", news.getNewsSubject(), MatchMode.ANYWHERE));
 		}
 		criteria.addOrder(Order.desc("updateTime"));
 		return criteria;
@@ -96,6 +103,22 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 
 	public void setDaoNewsManage(DAONewsManage daoNewsManage) {
 		this.daoNewsManage = daoNewsManage;
+	}
+
+	@Override
+	public PaginationSupport<ModelNewsMag> getCompanyNews(
+			ModelNewsMag news, PagingBean pagingBean) throws ServiceException {
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelNewsMag.class);
+		criteria.add(Restrictions.eq("newsLevel", 0));
+		return this.getAll(criteria, pagingBean);
+	}
+
+	@Override
+	public PaginationSupport<ModelNewsMag> getDistrictNews(ModelNewsMag news,
+			PagingBean pagingBean) throws ServiceException {
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelNewsMag.class);
+		criteria.add(Restrictions.eq("newsLevel", 1));
+		return this.getAll(criteria, pagingBean);
 	}
 
 }

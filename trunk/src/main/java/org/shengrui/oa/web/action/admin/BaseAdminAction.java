@@ -11,6 +11,7 @@ import org.shengrui.oa.service.admin.ServiceDocVisiableRange;
 import org.shengrui.oa.service.admin.ServiceStaffAttendance;
 import org.shengrui.oa.service.news.ServiceNewsManage;
 import org.shengrui.oa.service.system.ServiceAppDictionary;
+import org.shengrui.oa.service.system.ServiceAppUser;
 import org.shengrui.oa.service.system.ServiceSchoolDepartment;
 import org.shengrui.oa.service.system.ServiceSchoolDepartmentPosition;
 import org.shengrui.oa.service.system.ServiceSchoolDistrict;
@@ -63,6 +64,9 @@ extends BaseAppAction
 	protected ServiceAppDictionary serviceAppDictionary;
 	
 	protected ServiceNewsManage serviceNewsManage;
+	
+	protected ServiceAppUser serviceAppUser;
+
 	
 	@Resource
 	protected ServiceFileAttach serviceFileAttach;
@@ -174,10 +178,16 @@ extends BaseAppAction
 		this.serviceAdminWorkArrange = serviceAdminWorkArrange;
 	}
 
+	public ServiceAppUser getServiceAppUser() {
+		return serviceAppUser;
+	}
 	public ServiceFileAttach getServiceFileAttach() {
 		return serviceFileAttach;
 	}
 
+	public void setServiceAppUser(ServiceAppUser serviceAppUser) {
+		this.serviceAppUser = serviceAppUser;
+	}
 	public void setServiceFileAttach(ServiceFileAttach serviceFileAttach) {
 		this.serviceFileAttach = serviceFileAttach;
 	}

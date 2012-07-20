@@ -176,6 +176,7 @@
 				/WEB-INF/classes/struts/struts-web-system-menu.xml,
 				/WEB-INF/classes/struts/struts-web-system-role.xml,
 				/WEB-INF/classes/struts/struts-web-system-school.xml,
+				/WEB-INF/classes/struts/struts-web-personal-news.xml,
 				/WEB-INF/classes/struts/struts-web-system-work.xml
 			</param-value>
 		</init-param>

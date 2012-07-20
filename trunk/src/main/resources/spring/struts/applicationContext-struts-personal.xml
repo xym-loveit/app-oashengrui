@@ -16,4 +16,11 @@
 	    <property name="serviceAppDictionary" ref="serviceAppDictionary" />
 	</bean>
 	
+	<bean name="/app/personal/news" class="org.shengrui.oa.web.action.personal.MyNewsAction">
+		<property name="serviceNewsManage" ref="serviceNewsManage"></property>
+		<property name="serviceAppDictionary" ref="serviceAppDictionary" />
+		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
+		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
+	</bean>
+	
 </beans>
