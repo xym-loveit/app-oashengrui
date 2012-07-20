@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="org.shengrui.oa.model.system.ModelWorkTemplate" table="app_system_work_template">
+    <class name="org.shengrui.oa.model.system.ModelWorkTemplate" table="app_system_work_template" dynamic-insert="true" >
         <id name="id" type="java.lang.String">
             <column name="work_tpl_id" />
             <generator class="native" />
@@ -12,10 +12,10 @@
             <column name="work_day" />
         </property>
          <property name="staffId" type="java.lang.String">
-            <column name="staff_id" />
+            <column name="staff_ids" />
         </property>
          <property name="staffName" type="java.lang.String">
-            <column name="staff_name" />
+            <column name="staff_names" />
         </property>
          <property name="enable" type="java.lang.String">
             <column name="enable" />
@@ -28,11 +28,11 @@
          <column name="district_id" />
         </many-to-one>
         
-        <many-to-one name="workTime" class="org.shengrui.oa.model.system.ModelBaseWorkTime" cascade="save-update,persist" update="false" insert="false">
+        <many-to-one name="workTime" class="org.shengrui.oa.model.system.ModelBaseWorkTime" cascade="none">
          <column name="worktm_id" />
         </many-to-one>
         
-        <many-to-one name="workContent" class="org.shengrui.oa.model.system.ModelBaseWorkContent" cascade="save-update,persist" update="false" insert="false">
+        <many-to-one name="workContent" class="org.shengrui.oa.model.system.ModelBaseWorkContent" cascade="none">
          <column name="workcnt_id" />
         </many-to-one>
    </class>
