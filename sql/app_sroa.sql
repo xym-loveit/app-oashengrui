@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2012 年 07 月 18 日 20:27
+-- 生成日期: 2012 年 07 月 20 日 11:11
 -- 服务器版本: 5.0.51
 -- PHP 版本: 5.2.13
 
@@ -68,48 +68,23 @@ CREATE TABLE IF NOT EXISTS `app_admin_doc` (
   `doc_postDepId` bigint(20) NOT NULL COMMENT '文档上传部门',
   `author_id` bigint(20) NOT NULL default '0' COMMENT '上传用户',
   `create_time` datetime NOT NULL COMMENT '上传时间',
+  `file_id` bigint(20) default NULL COMMENT '附件id',
   PRIMARY KEY  (`doc_id`),
   KEY `PK_range` (`doc_VisiableRange_id`),
   KEY `PK_level` (`doc_level_id`),
   KEY `PK_district` (`doc_postDistrictId`),
   KEY `PK_department` (`doc_postDepId`),
   KEY `PK_author` (`author_id`),
-  KEY `PK_dcoType` (`type_dicid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='行政管理-文档' AUTO_INCREMENT=68 ;
+  KEY `PK_dcoType` (`type_dicid`),
+  KEY `PK_file` (`file_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='行政管理-文档' AUTO_INCREMENT=20 ;
 
 --
 -- 转存表中的数据 `app_admin_doc`
 --
 
-INSERT INTO `app_admin_doc` (`doc_id`, `type_dicid`, `doc_name`, `doc_level_id`, `doc_VisiableRange_id`, `doc_userNames`, `doc_userIds`, `doc_postDistrictId`, `doc_postDepId`, `author_id`, `create_time`) VALUES
-(1, 1, '技术与经济', 1, 2, 'll', 'll', 3, 7, 1, '2011-12-29 00:00:00'),
-(2, 2, '你好，舒先生', 1, 1, '1', '1', 1, 7, 1, '2012-07-22 00:00:00'),
-(60, 2, '奖赏某某员工', 2, 1, '', NULL, 1, 7, 1, '2012-07-18 08:54:56'),
-(61, 2, '外派出差安排', 2, 1, '', NULL, 3, 10, 1, '2012-07-18 13:28:46'),
-(62, 1, '公司发展谋略', 1, 3, '', NULL, 1, 11, 1, '2012-07-18 13:29:33'),
-(63, 1, '大家一起游玩去吧', 1, 1, '', NULL, 1, 7, 1, '2012-07-18 13:29:46'),
-(64, 1, '世界末日', 1, 1, '', NULL, 1, 7, 1, '2012-07-18 15:49:24'),
-(65, 1, '我想回家', 1, 1, '', NULL, 1, 7, 1, '2012-07-18 15:58:56'),
-(66, 1, '谢谢你们曾经看清我', 1, 1, '', NULL, 1, 7, 1, '2012-07-18 16:02:57'),
-(67, 1, '阿萨德', 1, 1, '', NULL, 1, 7, 1, '2012-07-18 17:00:04');
-
--- --------------------------------------------------------
-
---
--- 表的结构 `app_admin_doc_file`
---
-
-CREATE TABLE IF NOT EXISTS `app_admin_doc_file` (
-  `doc_id` bigint(20) NOT NULL COMMENT '文档ID',
-  `file_id` bigint(20) NOT NULL COMMENT '文件ID',
-  PRIMARY KEY  (`doc_id`),
-  KEY `PK_doc` (`doc_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-文档文件关联表';
-
---
--- 转存表中的数据 `app_admin_doc_file`
---
-
+INSERT INTO `app_admin_doc` (`doc_id`, `type_dicid`, `doc_name`, `doc_level_id`, `doc_VisiableRange_id`, `doc_userNames`, `doc_userIds`, `doc_postDistrictId`, `doc_postDepId`, `author_id`, `create_time`, `file_id`) VALUES
+(19, 1, 'sssss', 1, 1, '', NULL, 1, 7, 1, '2012-07-19 23:40:40', 1);
 
 -- --------------------------------------------------------
 
@@ -315,12 +290,14 @@ CREATE TABLE IF NOT EXISTS `app_file_attach` (
   `file_bytes` int(11) NOT NULL COMMENT '文件总大小',
   `del_flag` smallint(6) default '0' COMMENT '1=已删除, 0=未删除',
   PRIMARY KEY  (`file_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='附件' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='附件' AUTO_INCREMENT=2 ;
 
 --
 -- 转存表中的数据 `app_file_attach`
 --
 
+INSERT INTO `app_file_attach` (`file_id`, `file_name`, `file_path`, `createtime`, `file_ext`, `file_type`, `note`, `creator`, `creator_id`, `file_bytes`, `del_flag`) VALUES
+(1, '使用说明.txt', 'others\\201207\\606b9c4fbcb64f0591b1a8cb563647dd.txt', '2012-07-19 23:40:38', 'txt', 'others', '1.87 KB', 'Unknow', NULL, 1918, 0);
 
 -- --------------------------------------------------------
 
@@ -520,7 +497,7 @@ CREATE TABLE IF NOT EXISTS `app_hrm_employee` (
   `teach_subject` varchar(120) default NULL,
   `resume_id` bigint(20) default NULL COMMENT '简历',
   `status` char(1) default NULL COMMENT '员工状态',
-  `onboard_date` date DEFAULT NULL COMMENT '到岗日期',
+  `onboard_date` date default NULL COMMENT '到岗日期',
   `entry_id` bigint(20) default NULL COMMENT '录入人员',
   `entry_datetime` datetime default NULL COMMENT '录入日期',
   PRIMARY KEY  (`emp_id`),
@@ -535,6 +512,7 @@ INSERT INTO `app_hrm_employee` (`emp_id`, `emp_no`, `dep_id`, `district_id`, `em
 (3, '0001012061241011', 9, 3, 'Manie', 1, NULL, '13588064354', NULL, NULL, NULL, 1, 3, 4, 'A,A1,A3,A5,B1,B3', 'A,A1,A3,B,B2,B6,C7,C8', 16, NULL, NULL, 1, '2012-06-12 16:10:11'),
 (4, '0001112061243222', 12, 3, 'Charotte', 2, NULL, '13588064354', NULL, NULL, NULL, 1, 1, 1, '', 'A2,B2', 18, NULL, NULL, 1, '2012-06-12 16:32:22'),
 (5, '0001012061244839', 9, 3, 'Chonticha', 1, NULL, '13588064354', NULL, NULL, NULL, 2, NULL, NULL, NULL, NULL, 19, NULL, NULL, 1, '2012-06-12 16:48:39');
+
 -- --------------------------------------------------------
 
 --
@@ -542,31 +520,31 @@ INSERT INTO `app_hrm_employee` (`emp_id`, `emp_no`, `dep_id`, `district_id`, `em
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_employee_develop` (
-  `develop_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `develop_id` bigint(20) NOT NULL auto_increment,
   `apply_form_no` varchar(120) NOT NULL COMMENT '人资审批流程',
   `apply_form_type` bigint(20) NOT NULL COMMENT '人资申请类型',
   `apply_date` date NOT NULL COMMENT '申请时间',
   `comments` longtext COMMENT '申请报告',
   `emp_id` bigint(20) NOT NULL COMMENT '员工ID',
-  `onboard_date` date DEFAULT NULL COMMENT '到岗日期',
-  `from_district` bigint(20) DEFAULT NULL COMMENT '原校区',
-  `from_dep` bigint(20) DEFAULT NULL COMMENT '原部门',
-  `from_position` bigint(20) DEFAULT NULL COMMENT '原岗位',
-  `to_district` bigint(20) DEFAULT NULL COMMENT '申请校区',
-  `to_department` bigint(20) DEFAULT NULL COMMENT '申请部门',
-  `to_position` bigint(20) DEFAULT NULL COMMENT '申请岗位',
-  `status` char(1) DEFAULT NULL,
-  `audit_state` bigint(20) DEFAULT NULL,
-  `op_state` tinyint(4) NOT NULL DEFAULT '0' COMMENT '操作状态, 0=未操作, 1=已操作 ',
-  `entry_id` bigint(20) DEFAULT NULL,
-  `entry_datetime` datetime DEFAULT NULL COMMENT '录入时间',
-  PRIMARY KEY (`develop_id`)
+  `onboard_date` date default NULL COMMENT '到岗日期',
+  `from_district` bigint(20) default NULL COMMENT '原校区',
+  `from_dep` bigint(20) default NULL COMMENT '原部门',
+  `from_position` bigint(20) default NULL COMMENT '原岗位',
+  `to_district` bigint(20) default NULL COMMENT '申请校区',
+  `to_department` bigint(20) default NULL COMMENT '申请部门',
+  `to_position` bigint(20) default NULL COMMENT '申请岗位',
+  `status` char(1) default NULL,
+  `audit_state` bigint(20) default NULL,
+  `op_state` tinyint(4) NOT NULL default '0' COMMENT '操作状态, 0=未操作, 1=已操作 ',
+  `entry_id` bigint(20) default NULL,
+  `entry_datetime` datetime default NULL COMMENT '录入时间',
+  PRIMARY KEY  (`develop_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='人资申请' AUTO_INCREMENT=3 ;
-
 
 --
 -- 转存表中的数据 `app_hrm_employee_develop`
 --
+
 
 -- --------------------------------------------------------
 
@@ -1455,6 +1433,30 @@ CREATE TABLE IF NOT EXISTS `app_system_work_content` (
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `app_system_work_template`
+--
+
+CREATE TABLE IF NOT EXISTS `app_system_work_template` (
+  `work_tpl_id` bigint(20) NOT NULL auto_increment COMMENT '工作模板ID',
+  `work_day` varchar(20) default NULL COMMENT '工作日期',
+  `worktm_id` bigint(20) default NULL COMMENT '工作时间ID',
+  `district_id` bigint(20) default NULL COMMENT '校区ID',
+  `staff_ids` text COMMENT '员工ID，逗号拼接',
+  `staff_names` text COMMENT '员工姓名，逗号拼接',
+  `enable` char(1) default '0' COMMENT '该模板是否启用',
+  `template_id` bigint(20) default NULL COMMENT '模板ID',
+  `workcnt_id` bigint(20) default NULL,
+  PRIMARY KEY  (`work_tpl_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='工作模板设置' AUTO_INCREMENT=1 ;
+
+--
+-- 转存表中的数据 `app_system_work_template`
+--
+
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `app_system_work_time`
 --
 
@@ -1541,18 +1543,13 @@ CREATE TABLE IF NOT EXISTS `app_user_role` (
 -- 限制表 `app_admin_doc`
 --
 ALTER TABLE `app_admin_doc`
+  ADD CONSTRAINT `PK_file` FOREIGN KEY (`file_id`) REFERENCES `app_file_attach` (`file_id`),
   ADD CONSTRAINT `PK_author` FOREIGN KEY (`author_id`) REFERENCES `app_user` (`user_id`),
   ADD CONSTRAINT `PK_dcoType` FOREIGN KEY (`type_dicid`) REFERENCES `app_system_dictionary` (`id`),
   ADD CONSTRAINT `PK_department` FOREIGN KEY (`doc_postDepId`) REFERENCES `app_school_department` (`dep_id`),
   ADD CONSTRAINT `PK_district` FOREIGN KEY (`doc_postDistrictId`) REFERENCES `app_school_district` (`district_id`),
   ADD CONSTRAINT `PK_level` FOREIGN KEY (`doc_level_id`) REFERENCES `app_admin_doc_level` (`id`),
   ADD CONSTRAINT `PK_range` FOREIGN KEY (`doc_VisiableRange_id`) REFERENCES `app_admin_doc_visiable_range` (`id`);
-
---
--- 限制表 `app_admin_doc_file`
---
-ALTER TABLE `app_admin_doc_file`
-  ADD CONSTRAINT `PK_doc` FOREIGN KEY (`doc_id`) REFERENCES `app_admin_doc` (`doc_id`);
 
 --
 -- 限制表 `app_admin_workarrange`
