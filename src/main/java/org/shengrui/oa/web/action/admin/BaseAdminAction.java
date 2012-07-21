@@ -58,24 +58,9 @@ extends BaseAppAction
 	protected ServiceDocVisiableRange serviceDocVisiableRange;
 	
 	@Resource
-	protected ServiceSchoolDistrict serviceSchoolDistrict;
-	
-	@Resource
-	protected ServiceSchoolDepartment serviceSchoolDepartment;
-	
-	@Resource
-	protected ServiceSchoolDepartmentPosition serviceSchoolDepartmentPosition;
-
-	@Resource
 	protected ServiceAppDictionary serviceAppDictionary;
 	
 	protected ServiceNewsManage serviceNewsManage;
-	
-	protected ServiceAppUser serviceAppUser;
-
-	
-	@Resource
-	protected ServiceFileAttach serviceFileAttach;
 	
 	public ServiceNewsManage getServiceNewsManage() {
 		return serviceNewsManage;
