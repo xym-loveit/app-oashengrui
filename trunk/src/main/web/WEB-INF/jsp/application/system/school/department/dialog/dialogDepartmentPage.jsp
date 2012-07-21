@@ -18,7 +18,7 @@
 				</tr>
 				<tr>
 					<td>部门编号：</td>
-					<td><input name="depNo" type="text" size="30" value="${department ne null ? department.depNo : ''}" class="required" style="width: 88%" /></td>
+					<td><input name="depNo" type="text" size="30" value="${department ne null ? department.depNo : ''}" minlength="1" maxlength="1" class="required" style="width: 88%" /></td>
 				</tr>
 				<tr>
 					<td>部门结构：</td>

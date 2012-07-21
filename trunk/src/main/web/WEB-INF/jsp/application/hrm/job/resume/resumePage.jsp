@@ -21,6 +21,16 @@
 		color: blue;
 		text-decoration: underline;
 	}
+	
+	#tblresume input.textInput {width: 90%; margin: 5px;}
+	#tblresume td.field {
+		background-color: #CFDBEC;
+		font-size: 9pt;
+		line-height: 35px;
+		margin: 0;
+		text-align: center;
+	}
+	#tblresume textarea {height: 30px;margin: 5px;width: 98%;}
 </style>
 
 
@@ -82,28 +92,28 @@ ${tm:fileRestore(resume['attachFiles'])}
 <div class="pageContent">
 	<form method="post" action="app/hrm/hire/resume.do?action=actionJobApply" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent" layoutH="56">
-			<table width="100%" cellspacing="15" cellpadding="10" style="border-spacing:15">
+			<table width="100%" cellspacing="15" cellpadding="10" style="border-spacing:15; border-collapse:collapse;" border="1" id="tblresume">
 				<tr>
-					<td nowrap style="width: 80px;" align="right">姓名：</td>
-					<td><input name="fullName" type="text" value="${resume ne null ? resume.fullName : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''} style="width: 100%" class="required"/></td>
-					<td nowrap align="right">籍贯：</td>
-					<td><input name="bornPlace" type="text" value="${resume ne null ? resume.bornPlace : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''} style="width: 100%"/></td>
-					<td nowrap align="right">性别：</td>
-					<td>
+					<td nowrap class="field" style="width: 80px;" >姓名：</td>
+					<td><input name="fullName" type="text" value="${resume ne null ? resume.fullName : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''} style="" class="required"/></td>
+					<td nowrap class="field">籍贯：</td>
+					<td><input name="bornPlace" type="text" value="${resume ne null ? resume.bornPlace : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''} style=""/></td>
+					<td nowrap class="field">性别：</td>
+					<td style="padding: 5px;">
 						<select class="combox" name="sex" style="width:60px">
 							<option value="1" ${resume ne null && resume.sex eq 1 ? 'selected="selected"' : ''}>男</option>
 							<option value="2" ${resume ne null && resume.sex eq 2 ? 'selected="selected"' : ''}>女</option>
 						</select>
 					</td>
-					<td cospan="2" rowspan="9" valign="top" align="center"><a href="#" title="点击上传照片"><img src="resources/images/nopic.gif" /></a></td>
+					<td cospan="2" rowspan="13" valign="top" align="center" style="padding: 5px;"><a href="#" title="点击上传照片"><img src="resources/images/nopic.gif" /></a></td>
 				</tr>
 				<tr>
-					<td align="right">出生日期：</td>
-					<td><input name="birthday" class="${op ne null && op eq 'view' ? '' : 'date'} textInput" yearstart="-80" yearend="0" style="width: 100%" value="<c:if test='${resume ne null && resume.birthday ne null}'><fmt:formatDate value='${resume.birthday}' pattern='yyyy-MM-dd'/></c:if>" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
-					<td align="right">联系电话：</td>
-					<td><input class="required" name="mobilePhone" type="text" style="width: 100%" value="${resume ne null ? resume.mobilePhone : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
-					<td align="right">婚姻状况：</td>
-					<td>
+					<td class="field">出生日期：</td>
+					<td><input name="birthday" class="${op ne null && op eq 'view' ? '' : 'date'} textInput" yearstart="-80" yearend="0" style="" value="<c:if test='${resume ne null && resume.birthday ne null}'><fmt:formatDate value='${resume.birthday}' pattern='yyyy-MM-dd'/></c:if>" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
+					<td class="field">联系电话：</td>
+					<td><input class="required" name="mobilePhone" type="text" style="" value="${resume ne null ? resume.mobilePhone : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
+					<td class="field">婚姻状况：</td>
+					<td style="padding: 5px;">
 						<select class="combox" name="marriage" style="width:60px">
 							<option value="1" ${resume ne null && resume.marriage eq 1 ? 'selected="selected"' : ''}>未婚</option>
 							<option value="2" ${resume ne null && resume.marriage eq 2 ? 'selected="selected"' : ''}>已婚</option>
@@ -111,24 +121,24 @@ ${tm:fileRestore(resume['attachFiles'])}
 					</td>
 				</tr>
 				<tr>
-					<td align="right">身份证号：</td>
-					<td colspan="5"><input name="identityNo" type="text"  style="width: 100%" value="${resume ne null ? resume.identityNo : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
+					<td class="field">身份证号：</td>
+					<td colspan="5"><input name="identityNo" type="text"  style="" value="${resume ne null ? resume.identityNo : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 				</tr>
 				<tr>
-					<td align="right">居住地址：</td>
-					<td colspan="5"><input name="address" type="text"  style="width: 100%" value="${resume ne null ? resume.address : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
+					<td class="field">居住地址：</td>
+					<td colspan="5"><input name="address" type="text"  style="" value="${resume ne null ? resume.address : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 				</tr>
 				<tr>
-					<td align="right">电子邮箱：</td>
-					<td colspan="5"><input name="email" type="text"  style="width: 100%" value="${resume ne null ? resume.email : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
+					<td class="field">电子邮箱：</td>
+					<td colspan="5"><input name="email" type="text"  style="" value="${resume ne null ? resume.email : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 				</tr>
 				<tr>
-					<td align="right">毕业院校：</td>
-					<td><input name="educationCollege" type="text" style="width: 100%" value="${resume ne null ? resume.educationCollege : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
-					<td align="right">专业：</td>
+					<td class="field">毕业院校：</td>
+					<td><input name="educationCollege" type="text" style="" value="${resume ne null ? resume.educationCollege : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
+					<td class="field">专业：</td>
 					<td><input name="educationMajority" type="text" style="width:140px" value="${resume ne null ? resume.educationMajority : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
-					<td align="right">学历：</td>
-					<td>
+					<td class="field">学历：</td>
+					<td style="padding: 5px;">
 						<select class="combox" name="educationDegree" style="width:60px">
 							<option value="1" ${resume ne null && resume.educationDegree eq 1 ? 'selected="selected"' : ''}>研究生</option>
 							<option value="2" ${resume ne null && resume.educationDegree eq 2 ? 'selected="selected"' : ''}>本科生</option>
@@ -138,22 +148,22 @@ ${tm:fileRestore(resume['attachFiles'])}
 					</td>
 				</tr>
 				<tr>
-					<td align="right">师范专业：</td>
-					<td>
+					<td class="field">师范专业：</td>
+					<td style="padding: 5px;">
 						<select class="combox" name="teacherMajority" style="width:60px">
 							<option value="1" ${resume ne null && resume.teacherMajority eq 1 ? 'selected="selected"' : ''}>是</option>
 							<option value="2" ${resume ne null && resume.teacherMajority eq 2 ? 'selected="selected"' : ''}>否</option>
 						</select>
 					</td>
-					<td style="width: 80px" align="right">教师资格：</td>
-					<td>
+					<td class="field" style="width: 80px" >教师资格：</td>
+					<td style="padding: 5px;">
 						<select class="combox" name="teacherCertifaciton" style="width:60px">
 							<option value="1" ${resume ne null && resume.teacherCertifaciton eq 1 ? 'selected="selected"' : ''}>有</option>
 							<option value="2" ${resume ne null && resume.teacherCertifaciton eq 2 ? 'selected="selected"' : ''}>无</option>
 						</select>
 					</td>
-					<td nowrap align="right">政治面貌：</td>
-					<td>
+					<td nowrap class="field">政治面貌：</td>
+					<td style="padding: 5px;">
 						<select class="combox" name="party"  style="width:60px">
 							<option value="1" ${resume ne null && resume.party eq 1 ? 'selected="selected"' : ''}>群众</option>
 							<option value="2" ${resume ne null && resume.party eq 2 ? 'selected="selected"' : ''}>党员</option>
@@ -162,8 +172,8 @@ ${tm:fileRestore(resume['attachFiles'])}
 					</td>
 				</tr>
 				<tr>
-					<td align="right">外语等级：</td>
-					<td>
+					<td class="field">外语等级：</td>
+					<td style="padding: 5px;">
 						<select class="combox" name="englishLevel" style="width:60px">
 							<option value="1" ${resume ne null && resume.englishLevel eq 1 ? 'selected="selected"' : ''}>CET-4</option>
 							<option value="2" ${resume ne null && resume.englishLevel eq 2 ? 'selected="selected"' : ''}>CET-6</option>
@@ -172,8 +182,8 @@ ${tm:fileRestore(resume['attachFiles'])}
 							<option value="5" ${resume ne null && resume.englishLevel eq 5 ? 'selected="selected"' : ''}>其他</option>
 						</select>
 					</td>
-					<td align="right">普通话等级：</td>
-					<td>
+					<td class="field">普通话等级：</td>
+					<td colspan="3" style="padding: 5px;">
 						<select class="combox" name="chineseLevel" style="width:60px">
 							<option value="1" ${resume ne null && resume.chineseLevel eq 1 ? 'selected="selected"' : ''}>一级甲等</option>
 							<option value="2" ${resume ne null && resume.chineseLevel eq 2 ? 'selected="selected"' : ''}>一级乙等</option>
@@ -186,24 +196,24 @@ ${tm:fileRestore(resume['attachFiles'])}
 					</td>
 				</tr>
 				<tr>
-					<td align="right">教育经历：</td>
-					<td colspan="5"><textarea rows="1" style="width: 100%"></textarea></td>
+					<td class="field">教育经历：</td>
+					<td colspan="5"><textarea rows="1" style=""></textarea></td>
 				</tr>
 				<tr>
-					<td align="right">工作经历：</td>
-					<td colspan="5"><textarea rows="1" style="width: 100%"></textarea></td>
+					<td class="field">工作经历：</td>
+					<td colspan="5"><textarea rows="1" style=""></textarea></td>
 				</tr>
 				<tr>
-					<td align="right">获奖情况：</td>
-					<td colspan="5"><textarea rows="1" style="width: 100%"></textarea></td>
+					<td class="field">获奖情况：</td>
+					<td colspan="5"><textarea rows="1" style=""></textarea></td>
 				</tr>
 				<tr>
-					<td align="right">兴趣爱好：</td>
-					<td colspan="5"><textarea rows="1" style="width: 100%"></textarea></td>
+					<td class="field">兴趣爱好：</td>
+					<td colspan="5"><textarea rows="1" style=""></textarea></td>
 				</tr>
 				<tr>
-					<td align="right">简历附件：</td>
-					<td colspan="7">
+					<td class="field">简历附件：</td>
+					<td colspan="5" style="padding: 5px;">
 						<div>
 							<c:choose>
 								<c:when test="${op eq null || op ne 'view'}">

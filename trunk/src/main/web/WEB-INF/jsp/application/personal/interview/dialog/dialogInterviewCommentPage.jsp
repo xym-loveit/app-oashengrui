@@ -85,8 +85,9 @@
 				<td nowrap style="vertical-align: top;">面试附件：</td>
 				<td>
 					<div>
+						<span style="float:right;line-height:20px">(最多只能上传1个文件...)</span>
 						<!-- 上传按钮，组件配置请写在data-config内 -->
-						<a id="dicp_J_UploaderBtn" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件 </a>
+						<a id="dicp_J_UploaderBtn" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件</a>
 						<!-- 文件上传队列 -->
 						<ul id="dicp_J_UploaderQueue"></ul>
 						<div id="J_Panel" class="event-panel"></div>

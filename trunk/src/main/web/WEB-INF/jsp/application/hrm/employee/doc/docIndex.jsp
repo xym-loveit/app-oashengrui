@@ -90,6 +90,7 @@
 		<table class="table" width="100%" layoutH="168">
 			<thead>
 				<tr>
+					<th align="center">员工编号</th>
 					<th align="center">姓名</th>
 					<th align="center">所在校区</th>
 					<th align="center">所在部门</th>
@@ -108,6 +109,7 @@
 				<logic:present name="employeeInfo">
 					<logic:iterate name="employeeInfo" property="items" id="entity">
 						<tr target="entry_id" rel="${entity.id}">
+							<td>${entity.empNo}</td>
 							<td>${entity.empName}</td>
 							<td>${entity.employeeDistrict ne null ? entity.employeeDistrict.districtName : ''}</td>
 							<td>${entity.employeeDepartment ne null ? entity.employeeDepartment.depName : ''}</td>

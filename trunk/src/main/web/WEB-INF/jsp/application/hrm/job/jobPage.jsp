@@ -21,6 +21,16 @@
 		color: blue;
 		text-decoration: underline;
 	}
+	#tbljob input.textInput {width: 90%; margin: 5px;}
+	#tbljob td.field {
+		background-color: #CFDBEC;
+		font-size: 9pt;
+		line-height: 35px;
+		margin: 0;
+		text-align: center;
+		width: 120px;
+	}
+	#tbljob textarea {height: 30px;margin: 5px;width: 98%;}
 </style>
 
 <script>
@@ -92,12 +102,12 @@ ${tm:fileRestore(jobHire['attachFiles'])}
 <div class="pageContent">
 	<form method="post" action="app/hrm/hire.do?action=actionJobSave" id="formjob" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent" layoutH="56">
-			<table cellspacing="10" cellpadding="10" style="border-spacing:12">
+			<table cellspacing="10" cellpadding="10" style="border-spacing:15; border-collapse:collapse;" border="1" id="tbljob">
 				<tr>
-					<td nowrap>岗位名称：</td>
-					<td><input name="jobHireTitle" type="text" style="width:140px" class="required" value="${jobHire ne null ? jobHire.jobHireTitle : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
-					<td nowrap>招聘校区：</td>
-					<td>
+					<td nowrap class="field">岗位名称：</td>
+					<td><input name="jobHireTitle" type="text" class="required" value="${jobHire ne null ? jobHire.jobHireTitle : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
+					<td nowrap class="field">招聘校区：</td>
+					<td style="padding: 5px;">
 						<c:choose>
 							<c:when test="${op eq null || op ne 'view'}">
 								<select class="combox" name="jobHireDistrictId" id="combox_district" style="width:120px" ref="combox_dept" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
@@ -110,12 +120,12 @@ ${tm:fileRestore(jobHire['attachFiles'])}
 								</select>
 							</c:when>
 							<c:otherwise>
-								<input name="jobHireDistrictId" type="text" style="width:140px" value="${jobHire ne null && jobHire.jobHireDistrict ne null ? jobHire.jobHireDistrict.districtName : ''}" readonly />
+								<input name="jobHireDistrictId" type="text"  value="${jobHire ne null && jobHire.jobHireDistrict ne null ? jobHire.jobHireDistrict.districtName : ''}" readonly />
 							</c:otherwise>
 						</c:choose>
 					</td>
-					<td nowrap>招聘部门：</td>
-					<td>
+					<td nowrap class="field">招聘部门：</td>
+					<td style="padding: 5px;">
 						<c:choose>
 							<c:when test="${op eq null || op ne 'view'}">
 								<select class="combox" name="jobHireDepartmentId" id="combox_dept" defOPKey="请选择部门" defOPVal="" style="width:120px">
@@ -128,16 +138,16 @@ ${tm:fileRestore(jobHire['attachFiles'])}
 								</select>
 							</c:when>
 							<c:otherwise>
-								<input name="jobHireDepartmentId" type="text" style="width:140px" value="${jobHire ne null && jobHire.jobHireDepartment ne null ? jobHire.jobHireDepartment.depName : ''}" readonly />
+								<input name="jobHireDepartmentId" type="text"  value="${jobHire ne null && jobHire.jobHireDepartment ne null ? jobHire.jobHireDepartment.depName : ''}" readonly />
 							</c:otherwise>
 						</c:choose>
 					</td>
-					<td nowrap>截止时间：</td>
-					<td><input name="jobHireEndDate" class="date textInput required" style="width:100px;float:left;" value='<logic:present name="jobHire"><fmt:formatDate value="${jobHire.jobHireEndDate}" pattern="yyyy-MM-dd" /></logic:present>' ${op ne null && op eq 'view' ? 'readonly' : ''}/><c:if test="${op eq null || op ne 'view'}"><a class="inputDateButton" href="javascript:;">选择</a></c:if></td>
+					<td nowrap class="field">截止时间：</td>
+					<td style="width: 120px; padding: 5px;"><input name="jobHireEndDate" class="date textInput required" style="width:70px;float:left;margin:0" value='<logic:present name="jobHire"><fmt:formatDate value="${jobHire.jobHireEndDate}" pattern="yyyy-MM-dd" /></logic:present>' ${op ne null && op eq 'view' ? 'readonly' : ''}/><c:if test="${op eq null || op ne 'view'}"><a class="inputDateButton" href="javascript:;">选择</a></c:if></td>
 				</tr>
 				<tr>
-					<td>招聘范围：</td>
-					<td>
+					<td class="field">招聘范围：</td>
+					<td style="padding: 5px;">
 						<c:choose>
 							<c:when test="${op eq null || op ne 'view'}">
 								<select class="combox" name="jobHireRange" id="combox_range" style="width:120px">
@@ -147,14 +157,14 @@ ${tm:fileRestore(jobHire['attachFiles'])}
 								</select>
 							</c:when>
 							<c:otherwise>
-								<input name="jobHireRange" type="text" style="width:140px" value="${jobHire ne null && jobHire.jobHireRange ne null ? (jobHire.jobHireRange eq 1 ? '内外兼招' : (jobHire.jobHireRange eq 2 ? '外部招聘' : '内部招聘')) : ''}" readonly />
+								<input name="jobHireRange" type="text"  value="${jobHire ne null && jobHire.jobHireRange ne null ? (jobHire.jobHireRange eq 1 ? '内外兼招' : (jobHire.jobHireRange eq 2 ? '外部招聘' : '内部招聘')) : ''}" readonly />
 							</c:otherwise>
 						</c:choose>
 					</td>
-					<td>招聘人数：</td>
-					<td><input name="jobHireCount" type="text" style="width:140px" class="required" value="${jobHire ne null ? jobHire.jobHireCount : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
-					<td>可见范围：</td>
-					<td>
+					<td class="field">招聘人数：</td>
+					<td><input name="jobHireCount" type="text"  class="required" value="${jobHire ne null ? jobHire.jobHireCount : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
+					<td class="field">可见范围：</td>
+					<td colspan="7" style="padding: 5px;">
 						<c:choose>
 							<c:when test="${op eq null || op ne 'view'}">
 								<select class="combox" name="jobHireVisibleDistrictId" id="combox_districtvisible" style="width:120px">
@@ -167,40 +177,30 @@ ${tm:fileRestore(jobHire['attachFiles'])}
 								</select>
 							</c:when>
 							<c:otherwise>
-								<input name="jobHireVisibleDistrictId" type="text" style="width:140px" value="${jobHire ne null && jobHire.jobHireVisibleDistrict ne null ? jobHire.jobHireVisibleDistrict.districtName : '所有校区'}" readonly />
+								<input name="jobHireVisibleDistrictId" type="text"  value="${jobHire ne null && jobHire.jobHireVisibleDistrict ne null ? jobHire.jobHireVisibleDistrict.districtName : '所有校区'}" readonly />
 							</c:otherwise>
 						</c:choose>
 					</td>
-					<td></td>
-					<td></td>
 				</tr>
 				<tr>
-					<td>工作地点：</td>
-					<td colspan="5"><input name="jobHireAddress" type="text" value="${jobHire ne null ? jobHire.jobHireAddress : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''} style="width:100%"/></td>
-					<td></td>
-					<td></td>
+					<td class="field">工作地点：</td>
+					<td colspan="7"><input name="jobHireAddress" type="text" style="width:98%" value="${jobHire ne null ? jobHire.jobHireAddress : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''} /></td>
 				</tr>
 				<tr>
-					<td style="vertical-align: top;">工作职责：</td>
-					<td colspan="5"><textarea name="jobHireResponsibility" rows="3" style="width:100%" ${op ne null && op eq 'view' ? 'readonly' : ''}>${jobHire ne null ? jobHire.jobHireResponsibility : ''}</textarea></td>
-					<td></td>
-					<td></td>
+					<td class="field" style="vertical-align: top;">工作职责：</td>
+					<td colspan="7"><textarea name="jobHireResponsibility" rows="3" ${op ne null && op eq 'view' ? 'readonly' : ''}>${jobHire ne null ? jobHire.jobHireResponsibility : ''}</textarea></td>
 				</tr>
 				<tr>
-					<td style="vertical-align: top;">任职要求：</td>
-					<td colspan="5"><textarea name="jobHireCondition" rows="3" style="width:100%" ${op ne null && op eq 'view' ? 'readonly' : ''}>${jobHire ne null ? jobHire.jobHireCondition : ''}</textarea></td>
-					<td></td>
-					<td></td>
+					<td class="field" style="vertical-align: top;">任职要求：</td>
+					<td colspan="7"><textarea name="jobHireCondition" rows="3" ${op ne null && op eq 'view' ? 'readonly' : ''}>${jobHire ne null ? jobHire.jobHireCondition : ''}</textarea></td>
 				</tr>
 				<tr>
-					<td style="vertical-align: top;">薪酬福利：</td>
-					<td colspan="5"><textarea name="jobHireSalary" rows="3" style="width:100%" ${op ne null && op eq 'view' ? 'readonly' : ''}>${jobHire ne null ? jobHire.jobHireSalary : ''}</textarea></td>
-					<td></td>
-					<td></td>
+					<td class="field" style="vertical-align: top;">薪酬福利：</td>
+					<td colspan="7"><textarea name="jobHireSalary" rows="3" ${op ne null && op eq 'view' ? 'readonly' : ''}>${jobHire ne null ? jobHire.jobHireSalary : ''}</textarea></td>
 				</tr>
 				<tr>
-					<td style="vertical-align: top;">附件区：</td>
-					<td colspan="7">
+					<td class="field" style="vertical-align: top;">附件区：</td>
+					<td colspan="7" style="padding: 5px;">
 						<div>
 							<c:choose>
 								<c:when test="${op eq null || op ne 'view'}">
