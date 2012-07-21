@@ -285,8 +285,6 @@ extends BaseFinanAction
 			
 			contractInfo.setEmpPhoneNo(request.getParameter("emp.phoneNo"));
 			
-			this.serviceFinanContract.save(contractInfo);
-			
 			if (isCreation)
 			{
 				// 进入流程...
@@ -297,6 +295,8 @@ extends BaseFinanAction
 						contractInfo.getFormNo(), 
 						contractInfo.getEmployee());
 			}
+			
+			this.serviceFinanContract.save(contractInfo);
 			
 			return ajaxPrint(response, 
 					getSuccessCallback("合同申请保存成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));

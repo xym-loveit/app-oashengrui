@@ -199,8 +199,6 @@ extends ModelBase
 		this.empNo = empNo;
 	}
 
-	
-
 	public String getEmpName() {
 		return empName;
 	}

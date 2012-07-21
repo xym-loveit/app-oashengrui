@@ -286,8 +286,6 @@ extends FlowBaseAction
 						
 						entity.setFormNo(AppUtil.genFormNo("HRM"));
 						
-						this.serviceHrmEmployeeDevelop.save(entity);
-						
 						if (isCreation)
 						{
 							// 进入流程...
@@ -325,6 +323,8 @@ extends FlowBaseAction
 									entity.getFormNo(), 
 									entity.getEmployee());
 						}
+						
+						this.serviceHrmEmployeeDevelop.save(entity);
 						
 						// 保存成功后, Dialog进行关闭
 						return ajaxPrint(response, 

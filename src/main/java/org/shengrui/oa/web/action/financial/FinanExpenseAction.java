@@ -290,8 +290,6 @@ extends BaseFinanAction
 			
 			expenseInfo.setEmpPhoneNo(request.getParameter("emp.phoneNo"));
 			
-			this.serviceFinanExpense.save(expenseInfo);
-			
 			if (isCreation)
 			{
 				// 进入流程...
@@ -302,6 +300,8 @@ extends BaseFinanAction
 						expenseInfo.getFormNo(), 
 						expenseInfo.getEmployee());
 			}
+			
+			this.serviceFinanExpense.save(expenseInfo);
 			
 			return ajaxPrint(response, 
 					getSuccessCallback("费用申请保存成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
