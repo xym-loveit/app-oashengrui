@@ -156,7 +156,7 @@ extends BaseAdminAction
 			boolean isCreation = !this.isObjectIdValid(modelNewsMag.getId());
 			if(!isCreation){
 				entity = serviceNewsManage.getModelNewsMag(modelNewsMag.getId());
-				if(entity != null){
+				if(entity != null && formAction ==null && formadd == null){
 					String districtPost = request.getParameter("districtPost");
 					entity.setDistrict(this.serviceSchoolDistrict.get(districtPost));
 					String districtVisible = request.getParameter("districtVisible");
@@ -192,16 +192,17 @@ extends BaseAdminAction
 			{
 				if(formAction.equals("0")){
 					entity.setStatus(2);
+					this.serviceNewsManage.save(entity);
+					return ajaxPrint(response, 
+							getSuccessCallback("新闻审核通过.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 				}
 				if(formAction.equals("1")){
 					entity.setStatus(3);
+					this.serviceNewsManage.save(entity);
+					return ajaxPrint(response, 
+							getSuccessCallback("新闻审批退回.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 				}
-				if(formAction.equals("2")){
-					entity.setStatus(1);
-				}
-				if(formAction.equals("3")){
-					entity.setStatus(0);
-				}
+
 			}
 			//添加
 			if(formadd != null){
