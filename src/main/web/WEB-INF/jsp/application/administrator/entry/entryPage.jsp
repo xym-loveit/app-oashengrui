@@ -5,7 +5,9 @@
 <%@ taglib uri="/tags/struts-logic" prefix="logic"%>
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <script>
 $(function(){
@@ -40,7 +42,7 @@ $(function(){
 
 	//加载上传组件入口文件
 	KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
-		var ru = new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue',{
+		var ru = new RenderUploader('#J_UploaderBtnNews', '#J_UploaderQueueNews',{
 			 //服务器端配置
 			serverConfig:{
 				//处理上传的服务器端脚本路径
@@ -53,6 +55,10 @@ $(function(){
 			name:"Filedata",
 			//用于放服务器端返回的url的隐藏域
 			urlsInputName:"fileUrls"
+			<c:if test="${news ne null && fn:length(news.attachFiles) gt 0}">
+			// 用于数据展现
+			,restoreHook:"#jp_J_UploaderRestoreNews"
+			</c:if>
 		});
 		
 		ru.on('init', function (ev) {
@@ -76,6 +82,12 @@ $(function(){
 		});
 	});
 });
+</script>
+
+
+<!--- 生成需要展现文件的JSON -->
+<script type="text/uploader-restore" id="jp_J_UploaderRestore">
+${tm:fileRestore(news['attachFiles'])}
 </script>
 <div class="pageContent">
 	<form method="post" action="app/admin/news.do?action=actionNewsEditOrSave" id="formnews" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
@@ -155,7 +167,7 @@ $(function(){
 				</tr>
 				<tr>
 					<td style="vertical-align:top">新闻内容：</td>
-					<td colspan="5"><textarea class="editor" name="newsContent" rows="15" cols="80">内容</textarea></td>
+					<td colspan="5"><textarea class="editor" name="newsContent" rows="15" cols="80">${news.newsContent }</textarea></td>
 				</tr>
 				<tr>
 					<td style="vertical-align: top;">附件区：</td>
@@ -163,9 +175,9 @@ $(function(){
 						<!-- Uploader Demo-->
 						<div>
 							<!-- 上传按钮，组件配置请写在data-config内 -->
-							<a id="J_UploaderBtn" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件 </a>
+							<a id="J_UploaderBtnNews" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件 </a>
 							<!-- 文件上传队列 -->
-							<ul id="J_UploaderQueue"></ul>
+							<ul id="J_UploaderQueueNews"></ul>
 							<div id="J_Panel" class="event-panel"></div>
 							<input type="hidden" name="fileUrls" id="fileUrls" />
 							<input type="hidden" name="fileIds" id="fileIds" />
