@@ -41,6 +41,9 @@
         <property name="email" type="java.lang.String">
             <column name="email" />
         </property>
+        <property name="photo" type="java.lang.String">
+            <column name="photo" />
+        </property>
         <property name="educationCollege" type="java.lang.String">
             <column name="eduCollege" />
         </property>

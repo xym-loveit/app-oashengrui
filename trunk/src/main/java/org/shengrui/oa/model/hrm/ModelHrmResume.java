@@ -112,6 +112,11 @@ extends ModelBase
 	private Integer source;
 	
 	/**
+	 * 头像
+	 */
+	private String photo;
+	
+	/**
 	 * The enumeration of resume source
 	 * 
 	 * @author Jeccy.Zhao
@@ -331,6 +336,16 @@ extends ModelBase
 	public void setEmployeeId(Integer employeeId)
 	{
 		this.employeeId = employeeId;
+	}
+
+	public String getPhoto()
+	{
+		return photo;
+	}
+
+	public void setPhoto(String photo)
+	{
+		this.photo = photo;
 	}
 	
 }

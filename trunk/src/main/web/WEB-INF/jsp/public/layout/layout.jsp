@@ -75,6 +75,11 @@
 	<script src="resources/js/kissyForm/kissy.js" type="text/javascript"></script>
 	<script src="resources/js/kissyForm/gallery/form/1.2/uploader/queue.js" type="text/javascript"></script>
 	
+	<script type="text/javascript" src="resources/js/swfupload/swfupload.js"></script>
+	<script type="text/javascript" src="resources/js/swfupload/swfupload.queue.js"></script>
+	<script type="text/javascript" src="resources/js/swfupload/fileprogress.js"></script>
+	<script type="text/javascript" src="resources/js/swfupload/handlers.js"></script>
+
 	<!--[if lt IE 7]>  
 	<script type="text/javascript" src="resources/js/pngfix/DD_belatedPNG_0.0.8a.js"></script>  
 	<script type="text/javascript">  

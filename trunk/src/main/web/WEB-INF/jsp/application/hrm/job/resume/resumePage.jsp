@@ -10,6 +10,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
 
+<%  
+	String path = request.getContextPath();  
+	String basePath = request.getScheme()+"://"+request.getServerName()+
+		(request.getServerPort() == 80 ? "" : (":"+request.getServerPort())) +path+"/";  
+%>
+
 <style>
 	.item_file {
 		background: url("resources/images/icons/fit_icon.png") no-repeat scroll 0 0 transparent;
@@ -31,16 +37,37 @@
 		text-align: center;
 	}
 	#tblresume textarea {height: 30px;margin: 5px;width: 98%;}
+	
+	#pwrap dt, #pwrap dd {float: none; width: auto;}
+	#pwrap dl {width: auto; height: auto; float:none}
 </style>
 
 
 <script>
+		
+	function uploadSuccessQueue(file, serverData){
+		var progress = new FileProgress(file, this.customSettings.progressTarget);
+		progress.setComplete();
+		progress.setStatus("成功传输.");
+		progress.toggleCancel(false);
+
+		if(serverData != "") {
+			var data = eval('(' + serverData + ')');
+			if (data.status == 1) {
+				$("#photo_val").val(data.data.url);
+				$("#emp_photo img").attr("src", "uploads/" + data.data.url);
+			} else {
+				alert("图片上传失败...");
+			}
+		}
+	}
 	
 	$(function(){
 		
 		<c:if test="${op eq null || op ne 'view'}">
 		//加载上传组件入口文件
 		KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
+			
 			var ru = new RenderUploader('#rp_J_UploaderBtn', '#rp_J_UploaderQueue',{
 				 //服务器端配置
 				serverConfig:{
@@ -76,9 +103,49 @@
 				});
 				
 			});
+			
 		});
 		</c:if>
 	});
+	
+	var settings = {
+		flash_url : "resources/js/swfupload/swfupload.swf",
+		upload_url: "<%=basePath%>file-upload?noattach",
+		file_size_limit : "100 MB",
+		file_types : "*.jpg;*.png;*.gif;*.bmp",
+		file_types_description : "图片文件",
+		file_upload_limit : 100,
+		file_queue_limit : 0,
+		custom_settings : {
+			progressTarget : "fsUploadProgress",
+			cancelButtonId : "btnCancel"
+		},
+		debug: false,
+
+		// Button settings
+		button_image_url: "<%=basePath%>resources/js/swfupload/upload.png",
+		button_width: "130",
+		button_height: "24",
+		button_placeholder_id: "spanButtonPlaceHolder",
+		button_text: '<span class="button">头像上传</span>',
+		button_text_style: '.button { text-align: center; font-weight: bold; font-family:"Lucida Grande",Verdana,Arial,"Bitstream Vera Sans",sans-serif; }',
+		button_height: "24",
+		button_width: "132",
+		button_text_top_padding: 2, 
+			
+		// The event handler functions are defined in handlers.js
+		file_queued_handler : fileQueued,
+		file_queue_error_handler : fileQueueError,
+		file_dialog_complete_handler : fileDialogComplete,
+		upload_start_handler : uploadStart,
+		upload_progress_handler : uploadProgress,
+		upload_error_handler : uploadError,
+		upload_success_handler : uploadSuccessQueue,
+		upload_complete_handler : uploadComplete,
+		queue_complete_handler : queueComplete	// Queue plugin event
+	};
+
+	swfu = new SWFUpload(settings);
 	
 </script>
 
@@ -105,11 +172,54 @@ ${tm:fileRestore(resume['attachFiles'])}
 							<option value="2" ${resume ne null && resume.sex eq 2 ? 'selected="selected"' : ''}>女</option>
 						</select>
 					</td>
-					<td cospan="2" rowspan="13" valign="top" align="center" style="padding: 5px;"><a href="#" title="点击上传照片"><img src="resources/images/nopic.gif" /></a></td>
+					<td cospan="2" rowspan="13" valign="top" align="center" style="padding: 5px;">
+						<div id="pwrap">
+							<c:choose>
+								<c:when test="${op eq null || op ne 'view'}">
+									<dl>
+										<dt>
+											<span id="emp_photo">
+												<c:choose>
+													<c:when test="${resume ne null && resume.photo ne null}">
+														<img src="uploads/${resume.photo}" width="110px" />
+														<input type="hidden" name="photo" id="photo_val" value="${resume.photo}"/>
+													</c:when>
+													<c:otherwise>
+														<img src="resources/images/nopic.gif" width="110px"/>
+														<input type="hidden" name="photo" id="photo_val" />
+													</c:otherwise>
+												</c:choose>
+											</span>
+										</dt>
+										<dd>
+											<div class="fieldset flash" id="fsUploadProgress" style="height:200px; overflow: auto; display:none;">
+												<span class="legend">传输序列</span>
+											</div>
+											<div id="divStatus" style="padding:5px;font-size:9pt;display:none;">0 个文件已经上传</div>
+											<span id="spanButtonPlaceHolder"></span><input id="btnCancel" class="button" type="button" value="取消上传" onclick="swfu.cancelQueue();" disabled="disabled" style="display:none" /></dd>
+									</dl>
+								</c:when>
+								<c:otherwise>
+									<span id="emp_photo">
+										<c:choose>
+											<c:when test="${resume ne null && resume.photo ne null}">
+												<img src="uploads/${resume.photo}" width="110px" />
+												<input type="hidden" name="photo" id="photo_val" value="${resume.photo}"/>
+											</c:when>
+											<c:otherwise>
+												<img src="resources/images/nopic.gif" width="110px"/>
+												<input type="hidden" name="photo" id="photo_val" />
+											</c:otherwise>
+										</c:choose>
+									</span>
+								</c:otherwise>
+							</c:choose>
+						</div>
+					</td>
 				</tr>
 				<tr>
 					<td class="field">出生日期：</td>
-					<td><input name="birthday" class="${op ne null && op eq 'view' ? '' : 'date'} textInput" yearstart="-80" yearend="0" style="" value="<c:if test='${resume ne null && resume.birthday ne null}'><fmt:formatDate value='${resume.birthday}' pattern='yyyy/MM/dd'/></c:if>" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
+					<td><input name="birthday" class="${op ne null && op eq 'view' ? '' : 'date'} textInput" yearstart="-80" yearend="0" style="" value="<c:if test='${resume ne null && resume.birthday ne null}'><fmt:formatDate value='${resume.birthday}' pattern='yyyy-MM-dd'/></c:if>" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 					<td class="field">联系电话：</td>
 					<td><input class="required" name="mobilePhone" type="text" style="" value="${resume ne null ? resume.mobilePhone : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 					<td class="field">婚姻状况：</td>
