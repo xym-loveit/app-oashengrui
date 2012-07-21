@@ -9,19 +9,42 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
 
+<style>
+	.item_file {
+		background: url("resources/images/icons/fit_icon.png") no-repeat scroll 0 0 transparent;
+		padding-left: 16px;
+		line-height: 16px;
+		margin-top:5px;
+	}
+	.item_file a {
+		color: blue;
+		text-decoration: underline;
+	}
+	
+	#tblroadmap input.textInput {width: 90%; margin: 5px;}
+	#tblroadmap td.field {
+		background-color: #CFDBEC;
+		font-size: 9pt;
+		line-height: 35px;
+		margin: 0;
+		text-align: center;
+	}
+	#tblroadmap textarea {height: 30px;margin: 5px;width: 98%;}
+</style>
+
 <div class="pageContent">
 	<form method="post" action="app/hrm/employee.do?action=actionRoadMapSave&id=${employee.id}" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
-		<div class="pageFormContent" layoutH="56">
-			<table width="100%" cellspacing="15" cellpadding="10" style="border-spacing:15">
+		<div class="pageFormContent" layoutH="${cat eq null ? 98 : 56}">
+			<table width="100%" cellspacing="15" cellpadding="10" style="border-spacing:15; border-collapse:collapse;" border="1" id="tblroadmap">
 				<tr>
-					<td nowrap style="width: 80px;" align="right">员工编号：</td>
+					<td nowrap class="field" style="width: 80px;" align="right">员工编号：</td>
 					<td><input name="empNo" type="text" value="${employee ne null ? employee.empNo : ''}" readonly/></td>
-					<td nowrap align="right">预转正时间：</td>
-					<td><input name="positiveDueDate" class="textInput" yearstart="-80" yearend="0" style="width: 100%" value="${employee ne null ? employee.positiveDueDate : ''}" readonly/></td>
-					<td nowrap align="right">合同到期时间：</td>
-					<td><input name="contractEndDate" class="textInput" yearstart="-80" yearend="0" style="width: 100%" value="${employee ne null ? employee.contractEndDate : ''}" readonly/></td>
-					<td nowrap align="right">员工状态：</td>
-					<td>
+					<td nowrap class="field" align="right">预转正时间：</td>
+					<td><input name="positiveDueDate" class="textInput" yearstart="-80" yearend="0" value="${employee ne null ? employee.positiveDueDate : ''}" readonly/></td>
+					<td nowrap class="field" align="right">合同到期时间：</td>
+					<td><input name="contractEndDate" class="textInput" yearstart="-80" yearend="0" value="${employee ne null ? employee.contractEndDate : ''}" readonly/></td>
+					<td nowrap class="field" align="right">员工状态：</td>
+					<td style="padding: 5px;">
 						<select class="combox" name="onboardStatus" style="width:60px" readonly>
 							<option value="1" ${employee ne null && employee.onboardStatus eq 1 ? 'selected="selected"' : ''}>试用</option>
 							<option value="2" ${employee ne null && employee.onboardStatus eq 2 ? 'selected="selected"' : ''}>正式</option>
@@ -31,8 +54,8 @@
 					</td>
 				</tr>
 				<tr>
-					<td align="right">所在校区：</td>
-					<td>
+					<td class="field" align="right">所在校区：</td>
+					<td style="padding: 5px;">
 						<select class="combox" name="employeeDistrict.id" id="combox_district_eindex" style="width:108px" readonly>
 							<logic:present name="districts">
 								<logic:iterate name="districts" id="district">
@@ -41,8 +64,8 @@
 							</logic:present>
 						</select>
 					</td>
-					<td align="right">所在部门：</td>
-					<td>
+					<td class="field" align="right">所在部门：</td>
+					<td style="padding: 5px;">
 						<select class="combox" name="employeeDepartment.id" id="combox_dept_eindex" style="width:108px" readonly>
 							<logic:present name="departments">
 								<logic:iterate name="departments" id="department">
@@ -51,8 +74,8 @@
 							</logic:present>
 						</select>
 					</td>
-					<td align="right">所在岗位：</td>
-					<td>
+					<td class="field" align="right">所在岗位：</td>
+					<td style="padding: 5px;">
 						<select class="combox" name="employeePosition.id" id="combox_pos_eindex" style="width:108px" readonly>
 							<logic:present name="positions">
 								<logic:iterate name="positions" id="position">
@@ -61,12 +84,12 @@
 							</logic:present>
 						</select>
 					</td>
-					<td align="right">办公电话：</td>
-					<td><input name="phoneNo" type="text"  style="width: 100%" value="${employee ne null ? employee.phoneNo : ''}" readonly/></td>
+					<td class="field" align="right">办公电话：</td>
+					<td><input name="phoneNo" type="text"  value="${employee ne null ? employee.phoneNo : ''}" readonly/></td>
 				</tr>
 				<tr>
-					<td align="right">教师星级：</td>
-					<td><!--  Change employee.phoneNo to teacherStar/consultStar -->
+					<td class="field" align="right">教师星级：</td>
+					<td style="padding: 5px;"><!--  Change employee.phoneNo to teacherStar/consultStar -->
 						<select class="combox" name="teacherStar" style="width:60px">
 							<option value="1" ${employee ne null && employee.teacherStar eq 1 ? 'selected="selected"' : ''}>一星</option>
 							<option value="2" ${employee ne null && employee.teacherStar eq 2 ? 'selected="selected"' : ''}>二星</option>
@@ -75,7 +98,7 @@
 						</select>
 					</td>
 					<td align="right">咨询师星级：</td>
-					<td>
+					<td style="padding: 5px;">
 						<select class="combox" name="consultStar" style="width:60px">
 							<option value="1" ${employee ne null && employee.consultStar eq 1 ? 'selected="selected"' : ''}>一星</option>
 							<option value="2" ${employee ne null && employee.consultStar eq 2 ? 'selected="selected"' : ''}>二星</option>
@@ -86,8 +109,8 @@
 					<td colspan="4"></td>
 				</tr>
 				<tr>
-					<td align="right">教授年级：</td>
-					<td colspan="7">
+					<td class="field" align="right">教授年级：</td>
+					<td colspan="7" style="padding: 5px;">
 						<input name="teachClass" type="checkbox" value="A" <c:if test="${tm:inRange(employee.teachClass, 'A', ',')}">checked</c:if>>
 						小学
 						<input name="teachClass" type="checkbox" value="A1" <c:if test="${tm:inRange(employee.teachClass, 'A1', ',')}">checked</c:if>>
@@ -125,8 +148,8 @@
 					</td>
 				</tr>
 				<tr>
-					<td align="right">教授科目：</td>
-					<td colspan="7">
+					<td class="field" align="right">教授科目：</td>
+					<td colspan="7" style="padding: 5px;">
 						<input name="teachSubject" type="checkbox" value="A" <c:if test="${tm:inRange(employee.teachSubject, 'A', ',')}">checked</c:if>>
 						小学
 						<input name="teachSubject" type="checkbox" value="A1" <c:if test="${tm:inRange(employee.teachSubject, 'A1', ',')}">checked</c:if>>
@@ -178,9 +201,9 @@
 					</td>
 				</tr>
 				<tr>
-					<td align="right">晟睿旅程：</td>
-					<td colspan="7">
-						<table class="table" width="100%" >
+					<td class="field" align="right">晟睿旅程：</td>
+					<td colspan="7" style="padding: 5px;">
+						<table width="100%" class="datalst" rules="all" bordercolor="#CCC">
 							<thead>
 								<tr>
 									<th align="center">所在校区</th>
@@ -195,8 +218,8 @@
 							</thead>
 							<tbody>
 								<logic:present name="roadmap">
-									<logic:iterate name="roadmap" id="entity">
-										<tr target="entry_id" rel="${entity.id}">
+									<logic:iterate name="roadmap" id="entity" indexId="idx">
+										<tr target="entry_id" rel="${entity.id}" style="${idx % 2 == 1 ? 'background-color:#F3F7FA' : ''}">
 											<td>${entity.orginalDistrict ne null ? entity.orginalDistrict.districtName : ''}</td>
 											<td>${entity.orginalDepartment ne null ? entity.orginalDepartment.depName : ''}</td>
 											<td>${entity.orginalDepartmentPosition ne null ? entity.orginalDepartmentPosition.positionName : ''}</td>
@@ -222,27 +245,17 @@
 						</table>
 					</td>
 				</tr>
-				<tr>
-				<td cospan="8">
-					<c:if test="${op eq null || op ne 'view'}">
-						<div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div>
-					</c:if>
-				</td>
-				</tr>
 			</table>
 		</div>
-		<div class="formBar">
-			<ul>
-				<c:if test="${op eq null || op ne 'view'}">
+		<c:if test="${op eq null || op ne 'view'}">
+			<div class="formBar">
+				<ul>
 					<li>
 						<div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div>
 					</li>
-				</c:if>
-				<li>
-					<div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div>
-				</li>
-			</ul>
-		</div>
+				</ul>
+			</div>
+		</c:if>
 		<input type="hidden" name="source" value="${source ne null ? source : '0'}" />
 		<input type="hidden" name="jobId" value="${jobId ne null ? jobId : '0'}" />
 	</form>

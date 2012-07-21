@@ -14,7 +14,7 @@
 		<div class="tabsHeader">
 			<div class="tabsHeaderContent">
 				<ul>
-					<li class="selected"><a href="app/hrm/hire.do?action=hrmPageJobResume&resumeId=${employee.resume.id}" class="j-ajax"><span>基础信息</span></a></li>
+					<li class="selected"><a href="app/hrm/hire.do?action=hrmPageJobResume&resumeId=${employee.resume.id}&cat=dev" class="j-ajax"><span>基础信息</span></a></li>
 					<li class=""><a href="app/hrm/employee.do?action=hrmEmployeeDocRoadMap&id=${employee.id}" class="j-ajax"><span>晟睿旅程</span></a></li>
 				</ul>
 			</div>
