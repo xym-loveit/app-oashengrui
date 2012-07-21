@@ -6,11 +6,13 @@
 	<form-beans>
 		<form-bean name="form.admin.doc.info" type="org.shengrui.oa.model.admin.ModelDoc"></form-bean>
       <form-bean name="form.admin.attendance.info" type="org.shengrui.oa.model.admin.ModelStaffAttendance"></form-bean>
+      <form-bean name="form.admin.workarrange.info" type="org.shengrui.oa.model.admin.ModelAdminWorkArrange"></form-bean>
 	</form-beans>
 	
 	<action-mappings>
 		<!-- Home Action -->
 		<action path="/app/admin"
+				name="form.admin.workarrange.info"
 			    scope="request"
 				parameter="action"
 				type="org.springframework.web.struts.DelegatingActionProxy">
@@ -22,7 +24,9 @@
 			
 			<!-- 工作安排-->
 			<forward name="admin.page.staff.work.arrange" path="admin.page.staff.work.arrange" />
-			<forward name="admin.page.staff.work.arrange.add" path="admin.page.staff.work.arrange.add" />
+			<forward name="admin.page.staff.work.arrange.dialog" path="admin.page.staff.work.arrange.dialog" />
+			<forward name="admin.dialog.staff.work.arrange.edit" path="admin.dialog.staff.work.arrange.edit"/>
+			<forward name="admin.dialog.staff.work.arrange.adjust" path="admin.dialog.staff.work.arrange.adjust"/>
 			
 			<!-- 员工考勤-->
 			<forward name="admin.page.staff.attendance" path="admin.page.staff.attendance" />
