@@ -137,20 +137,15 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 		return criteria;
 	}
 	
-	public void setDaoHrmEmployee(DAOHrmEmployee daoHrmEmployee)
-	{
-		this.daoHrmEmployee = daoHrmEmployee;
-	}
-
-	public DAOHrmEmployee getDaoHrmEmployee()
-	{
-		return daoHrmEmployee;
-	}
-
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmEmployee#getEmployeeByDistrictIdAndDeptId(org.shengrui.oa.model.hrm.ModelHrmEmployee)
+	 */
 	@Override
 	public List<ModelHrmEmployee> getEmployeeByDistrictIdAndDeptId(
-			ModelHrmEmployee entity) throws ServiceException {
-		// TODO Auto-generated method stub
+			ModelHrmEmployee entity) throws ServiceException 
+	{
+		
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployee.class);
 		
 		if (entity != null)
@@ -165,11 +160,45 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 				criteria.createCriteria("employeeDepartment").add(Restrictions.eq("id", entity.getEmployeeDepartment().getId()));
 			}
 		}
-		try {
+		
+		try 
+		{
 			return this.daoHrmEmployee.getListByCriteria(criteria);
-		} catch (DAOException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (DAOException e) 
+		{
 			throw new ServiceException(e);
 		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmEmployee#getEmployeeAmoutByDistrictIdAndDepId(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public int getEmployeeAmoutByDistrictIdAndDepId (String districtId, 
+			String depId) throws ServiceException
+	{
+		try
+		{
+			List<Object> result = this.daoHrmEmployee.findListByNativeSQL(
+					"SELECT COUNT(*) FROM app_hrm_employee WHERE dep_id=" + depId + " AND district_id =" + districtId);
+			
+			return result != null && result.size() > 0 ? Integer.valueOf(result.get(0).toString()) : 0;
+		} 
+		catch (DAOException e)
+		{
+			throw new ServiceException(e);
+		}
+	}
+	
+	public void setDaoHrmEmployee(DAOHrmEmployee daoHrmEmployee)
+	{
+		this.daoHrmEmployee = daoHrmEmployee;
+	}
+
+	public DAOHrmEmployee getDaoHrmEmployee()
+	{
+		return daoHrmEmployee;
 	}
 }

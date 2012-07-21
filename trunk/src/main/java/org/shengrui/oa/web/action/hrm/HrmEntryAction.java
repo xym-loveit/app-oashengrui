@@ -18,7 +18,6 @@ import org.shengrui.oa.model.hrm.ModelHrmResume;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.util.ContextUtil;
 
-import cn.trymore.core.util.UtilDate;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
@@ -376,9 +375,11 @@ extends BaseHrmAction
 				employee.setEntryDateTime(new Date());
 				employee.setEntryId(Integer.parseInt(ContextUtil.getCurrentUser().getId()));
 				
-				// TODO, 更换员工号生成算法
-				employee.setEmpNo(entry.getEntryDistrict().getDistrictNo() + entry.getEntryDepartment().getDepNo() + 
-						UtilDate.parseTime(new Date(), "yyMMddhms"));
+				// 生成员工号编号
+				int amount = this.serviceHrmEmployee.getEmployeeAmoutByDistrictIdAndDepId(
+						employee.getEmployeeDistrict().getId(), employee.getEmployeeDepartment().getId());
+				employee.setEmpNo(this.generateEmployeeNo(
+						employee.getEmployeeDistrict(), employee.getEmployeeDepartment(), amount));
 				
 				// 生成员工的履历
 				ModelHrmEmployeeRoadMap employeeRoadMap = new ModelHrmEmployeeRoadMap();

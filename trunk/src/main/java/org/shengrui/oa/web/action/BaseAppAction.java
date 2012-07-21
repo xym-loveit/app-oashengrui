@@ -473,6 +473,51 @@ extends BaseAction
 		}
 	}
 	
+	/**
+	 * Generates the employee no with the specified school district and department.
+	 * 
+	 * Rule for employee no:
+	 * district_no + department_no + SN
+	 * 
+	 * @param district
+	 *                 the employee district
+	 * @param department
+	 *                 the employee department
+	 * @param startIndex
+	 *                 the start index
+	 * @return employee no
+	 */
+	protected String generateEmployeeNo (ModelSchoolDistrict district, 
+			ModelSchoolDepartment department, int startIndex) throws Exception
+	{
+		if (district != null && department != null)
+		{
+			if (UtilString.isNotEmpty(district.getDistrictNo(), department.getDepNo()))
+			{
+				StringBuilder builder = new StringBuilder();
+				
+				// 校区编号
+				builder.append(district.getDistrictNo());
+				
+				// 部门编号
+				builder.append(department.getDepNo());
+				
+				// 追加序号
+				builder.append(String.format("%03d", startIndex + 1));
+				
+				return builder.toString();
+			}
+			else
+			{
+				throw new Exception("校区编号或者部门编号不存在...");
+			}
+		}
+		else
+		{
+			throw new Exception("校区或者部门数据为空...");
+		}
+	}
+	
 	public ServiceSchoolDepartment getServiceSchoolDepartment()
 	{
 		return serviceSchoolDepartment;

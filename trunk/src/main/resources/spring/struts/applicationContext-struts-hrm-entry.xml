@@ -12,9 +12,9 @@
 		<property name="serviceAppUser" ref="serviceAppUser" />
 		<property name="serviceHrmJobHireEntry" ref="serviceHrmJobHireEntry" />
 		<property name="serviceHrmArchive" ref="serviceHrmArchive" />
-		<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
 		<property name="serviceHrmResume" ref="serviceHrmResume" />
 		<property name="serviceFileAttach" ref="serviceFileAttach" />
+		<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
 	</bean>
 	
 </beans>
