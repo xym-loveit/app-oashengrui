@@ -62,7 +62,7 @@
 	<table class="searchContent" layoutH="138">
 	<tr>
 		<td>
-			<logic:present name="news">
+			<logic:present name="newsdistrict">
 				<logic:iterate name="newsdistrict" property="items" id="newsdistrict">
 					<tr id="companyNews" target="sid" rel="${newsdistrict.id}" height="30">
 						<td>
