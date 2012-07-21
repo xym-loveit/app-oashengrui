@@ -85,4 +85,27 @@ public class ServiceBaseWorkTimeImpl extends
 			throw new ServiceException(e);
 		}
 	}
+
+	@Override
+	public List<ModelBaseWorkTime> getDayWorkTimeByCriteria(
+			ModelBaseWorkTime entity) throws ServiceException {
+		// TODO Auto-generated method stub
+		DetachedCriteria criteria = DetachedCriteria
+		.forClass(ModelBaseWorkTime.class);
+		if(entity!=null){
+			if(entity.getTemplateId()!=null){
+				criteria.add(Restrictions.eq("templateId", entity.getTemplateId()));
+			}
+			if(entity.getBaseTimeDistrict()!=null && entity.getBaseTimeDistrict().getId()!=null){
+				criteria.createCriteria("baseTimeDistrict").add(Restrictions.eq("id", entity.getBaseTimeDistrict().getId()));
+			}
+		}
+		
+		try {
+			return this.getDaoBaseWorkTime().getListByCriteria(criteria);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			throw new ServiceException(e);
+		}
+	}
 }
