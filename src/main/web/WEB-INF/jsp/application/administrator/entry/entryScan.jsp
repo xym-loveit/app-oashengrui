@@ -57,7 +57,7 @@
 	</div>
 	<div class="newsDetail">
 		<table class="newsContent" cellspacing="10" cellpadding="10" style="border-spacing:12">
-			<tr><td colspan="5"><textarea name="newsContent" rows="20" cols="95">内容</textarea></td></tr>
+			<tr><td colspan="5"><textarea name="newsContent" rows="20" cols="95">${newsScanInfo.newsContent}</textarea></td></tr>
 		</table>
 	</div>
 </body>
