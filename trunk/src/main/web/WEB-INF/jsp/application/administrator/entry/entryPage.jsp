@@ -39,7 +39,7 @@ $(function(){
 
 	//加载上传组件入口文件
 	KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
-		var ru = new RenderUploader('#J_UploaderBtnNews', '#J_UploaderQueueNews',{
+		var ru = new RenderUploader('#jp_J_UploaderBtnNews', '#jp_J_UploaderQueueNews',{
 			 //服务器端配置
 			serverConfig:{
 				//处理上传的服务器端脚本路径
@@ -208,7 +208,7 @@ ${tm:fileRestore(news['attachFiles'])}
 					<logic:equal name="op" value="view">
 						<li><div class="buttonActive"><div class="buttonContent"><button id="pass" type="submit">通过</button></div></div></li>
 						<li><div class="buttonActive"><div class="buttonContent"><button id="return" type="submit">退回</button></div></div></li>
-						<li><div class="buttonActive"><div class="buttonContent"><a class="icon" href="app/admin/news.do?action=actionNewsScan&id=${news.id }&op=view" target="dialog" rel="admin_entrycheck" width="900" height="500"><button>预览</button></a></div></div></li>
+						<li><div class="buttonActive"><div class="buttonContent"><a class="icon" href="app/admin/news.do?action=actionNewsScan&id=${news.id }&op=view" target="dialog" rel="admin_entrycheck" width="900" height="650"><button>预览</button></a></div></div></li>
 					</logic:equal>
 				</logic:present>
 				<logic:notPresent name="op">
