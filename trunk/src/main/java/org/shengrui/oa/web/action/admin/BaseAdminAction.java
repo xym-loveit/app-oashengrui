@@ -12,9 +12,11 @@ import org.shengrui.oa.service.admin.ServiceStaffAttendance;
 import org.shengrui.oa.service.news.ServiceNewsManage;
 import org.shengrui.oa.service.system.ServiceAppDictionary;
 import org.shengrui.oa.service.system.ServiceAppUser;
-import org.shengrui.oa.service.system.ServiceSchoolDepartment;
+import org.shengrui.oa.service.system.ServiceBaseWorkContent;
+import org.shengrui.oa.service.system.ServiceBaseWorkTime;import org.shengrui.oa.service.system.ServiceSchoolDepartment;
 import org.shengrui.oa.service.system.ServiceSchoolDepartmentPosition;
 import org.shengrui.oa.service.system.ServiceSchoolDistrict;
+import org.shengrui.oa.service.system.ServiceWorkTemplate;
 import org.shengrui.oa.web.action.BaseAppAction;
 
 import cn.trymore.oa.service.system.ServiceFileAttach;
@@ -28,6 +30,10 @@ import cn.trymore.oa.service.system.ServiceFileAttach;
 public class BaseAdminAction
 extends BaseAppAction
 {
+	protected ServiceWorkTemplate serviceWorkTemplate;
+	protected ServiceBaseWorkTime serviceBaseWorkTime;
+	
+	protected ServiceBaseWorkContent serviceBaseWorkContent;
 	@Resource
 	protected ServiceStaffAttendance serviceStaffAttendance;
 	/**
@@ -147,6 +153,35 @@ extends BaseAppAction
 	}
 
 	/**
+	 * @return the serviceBaseWorkTime
+	 */
+	public ServiceBaseWorkTime getServiceBaseWorkTime() {
+		return serviceBaseWorkTime;
+	}
+
+	/**
+	 * @param serviceBaseWorkTime the serviceBaseWorkTime to set
+	 */
+	public void setServiceBaseWorkTime(ServiceBaseWorkTime serviceBaseWorkTime) {
+		this.serviceBaseWorkTime = serviceBaseWorkTime;
+	}
+
+	/**
+	 * @return the serviceBaseWorkContent
+	 */
+	public ServiceBaseWorkContent getServiceBaseWorkContent() {
+		return serviceBaseWorkContent;
+	}
+
+	/**
+	 * @param serviceBaseWorkContent the serviceBaseWorkContent to set
+	 */
+	public void setServiceBaseWorkContent(
+			ServiceBaseWorkContent serviceBaseWorkContent) {
+		this.serviceBaseWorkContent = serviceBaseWorkContent;
+	}
+
+	/**
 	 * @return the serviceStaffAttendance
 	 */
 	public ServiceStaffAttendance getServiceStaffAttendance() {
@@ -190,6 +225,20 @@ extends BaseAppAction
 	}
 	public void setServiceFileAttach(ServiceFileAttach serviceFileAttach) {
 		this.serviceFileAttach = serviceFileAttach;
+	}
+
+	/**
+	 * @return the serviceWorkTemplate
+	 */
+	public ServiceWorkTemplate getServiceWorkTemplate() {
+		return serviceWorkTemplate;
+	}
+
+	/**
+	 * @param serviceWorkTemplate the serviceWorkTemplate to set
+	 */
+	public void setServiceWorkTemplate(ServiceWorkTemplate serviceWorkTemplate) {
+		this.serviceWorkTemplate = serviceWorkTemplate;
 	}
 	
 	

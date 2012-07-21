@@ -1,6 +1,8 @@
 package org.shengrui.oa.web.action.admin;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,8 +14,11 @@ import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.admin.ModelAdminWorkArrange;
 import org.shengrui.oa.model.admin.ModelStaffAttendance;
 import org.shengrui.oa.model.news.ModelNewsMag;
+import org.shengrui.oa.model.system.ModelBaseWorkContent;
+import org.shengrui.oa.model.system.ModelBaseWorkTime;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
-
+import org.shengrui.oa.model.system.ModelWorkTemplate;
+import org.springframework.beans.BeanUtils;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.exception.WebException;
 import cn.trymore.core.util.UtilBean;
@@ -356,7 +361,7 @@ extends BaseAdminAction
 			request.setAttribute("workArranges", workArranges);
 			request.setAttribute("formWorkArrange", formWorkArrange);
 			
-			System.out.println("进入员工考勤管理->工作安排"+workArranges.getItems().get(0).getWorkDate());
+			//System.out.println("进入员工考勤管理->工作安排"+workArranges.getItems().get(0).getWorkDate());
 			
 			// 输出分页信息至客户端
 			outWritePagination(request, pagingBean, workArranges);
@@ -373,11 +378,11 @@ extends BaseAdminAction
 	/**
 	 * <b>[WebAction]</b> 
 	 * <br/>
-	 * 员工考勤管理 > 工作安排->添加工作安排dialog界面
+	 * 员工考勤管理 > 工作安排->编辑工作安排dialog界面
 	 * @throws WebException 
 	 * @author Tang
 	 */
-	public ActionForward adminAddStaffWorkArrange (ActionMapping mapping, ActionForm form,
+	public ActionForward adminEditStaffWorkArrangeDialog (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws WebException 
 	{
 		try
@@ -388,21 +393,245 @@ extends BaseAdminAction
 			{
 				ModelAdminWorkArrange workArrange =  this.getServiceAdminWorkArrange().get(id);
 			    request.setAttribute("workArrange", workArrange);
+			    request.setAttribute("workTypes", this.getServiceAdminWorkType().getAllWorkTypes());
+				//ModelBaseWorkTime baseWorkTime = this.serviceBaseWorkTime.get(workArrange.getWorkTime().getId())
+				ModelWorkTemplate enabledTemplate = this.serviceWorkTemplate.getEnabledWorkTemplate(workArrange.getWorkTime().getBaseTimeDistrict().getId());
+				List<ModelBaseWorkTime> workTimes = this.serviceBaseWorkTime
+		        .getDayWorkTimeByDistrictIdAndTemplateId(workArrange.getWorkTime().getBaseTimeDistrict().getId(),
+		              enabledTemplate.getTemplateId());
+				List<ModelBaseWorkContent> workContents = this.serviceBaseWorkContent
+		        .getAll();
+				request.setAttribute("workTimes", workTimes);
+				request.setAttribute("workContents", workContents);
+				return mapping.findForward("admin.dialog.staff.work.arrange.edit");
+			}else{
+				return ajaxPrint(response,"请求异常");
 			}
-			
-			request.setAttribute("op", request.getParameter("op"));
-	
-			request.setAttribute("workTypes", this.getServiceAdminWorkType().getAllWorkTypes());
-			return mapping.findForward("admin.page.staff.work.arrange.add");
 		}
 		catch (Exception e)
 		{
-			LOGGER.error("Exception raised when fetch the job hire entity!", e);
+			LOGGER.error("Exception raised when fetch the work arrange!", e);
 			return ajaxPrint(response, getErrorCallback("数据加载失败,原因:" + e.getMessage()));
 		}
 	}
 	
+	/**
+	 * 编辑工作安排
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ActionForward adminUpdateWorkArrange(ActionMapping mapping,ActionForm form,HttpServletRequest request,HttpServletResponse response)
+	{
+		//如果有Id传进来，则有可能是编辑或者查看详细,那么去读取详细的工作安排信息
+		String id = request.getParameter("id");
+		String staffName = request.getParameter("emp.fullName");
+		String staffId = request.getParameter("emp.id");
+		ModelAdminWorkArrange workArrange = (ModelAdminWorkArrange)form;
+		workArrange.getStaff().setId(staffId);
+		workArrange.setStaffName(staffName);
+		ModelAdminWorkArrange entity = null;
+		if (this.isObjectIdValid(id))
+		{
+			try {
+				entity =  this.getServiceAdminWorkArrange().get(id);
+				if (entity != null) {
+		               // 用表单输入的值覆盖实体中的属性值
+		            BeanUtils.copyProperties(workArrange, entity);
+		        } else {
+		            return ajaxPrint(response, AjaxResponse.RESPONSE_ERROR);
+		        }
+			} catch (ServiceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				this.serviceAdminWorkArrange.save(entity);
+		         // 保存成功后, Dialog进行关闭
+		         return ajaxPrint(response, 
+		               getSuccessCallback("添加工作安排成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+			} catch (ServiceException e) {
+				// TODO Auto-generated catch block
+				LOGGER.error("Exception raised when fetch the work arrange!", e);
+				return ajaxPrint(response, getErrorCallback("数据加载失败,原因:" + e.getMessage()));
+			}
+		}else{
+			return ajaxPrint(response,"请求异常");
+		}
+	}
 	
+	/**
+	 * 添加工作安排(单个&批量)
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ActionForward  adminAddStaffWorkArrange(ActionMapping mapping,ActionForm form,HttpServletRequest request,HttpServletResponse response){
+		String staffNames = request.getParameter("staffNames");
+		String staffIds = request.getParameter("staffIds");
+		String[] staffNameArray = null;
+		String[] staffIdArray = null;
+		ModelAdminWorkArrange entity = (ModelAdminWorkArrange)form;
+		if(staffNames!=null && staffIds!=null ){
+			if(staffNames.contains(",") || staffIds.contains(",")){
+				staffNameArray = staffNames.split(",");
+				staffIdArray = staffIds.split(",");
+				if(staffNameArray.length != staffIdArray.length){
+					return ajaxPrint(response,"提交的数据异常");
+				}else{
+					List<ModelAdminWorkArrange> list = new ArrayList<ModelAdminWorkArrange>();
+					for(int i=0;i<staffNameArray.length;i++){
+						ModelAdminWorkArrange model = new ModelAdminWorkArrange();
+						model.getStaff().setId(staffIdArray[i]);
+						model.setStaffName(staffNameArray[i]);
+						model.setWorkDate(entity.getWorkDate());
+						model.getWorkContent().setId(entity.getWorkContent().getId());
+						model.getWorkTime().setId(entity.getWorkTime().getId());
+						model.getWorkType().setId(entity.getWorkType().getId());
+						list.add(model);
+					}
+					try {
+						this.serviceAdminWorkArrange.batchInsert(list);
+					} catch (ServiceException e) {
+						// TODO Auto-generated catch block
+						LOGGER.error("Exception raised when add a work arrange!", e);
+						return ajaxPrint(response, getErrorCallback("添加工作安排失败,原因:" + e.getMessage()));
+					}
+			         // 保存成功后, Dialog进行关闭
+			         return ajaxPrint(response, 
+			               getSuccessCallback("添加工作安排成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+				}
+			}else{
+				entity.getStaff().setId(staffIds);
+				entity.setStaffName(staffNames);
+				try {
+					this.serviceAdminWorkArrange.save(entity);
+				} catch (ServiceException e) {
+					// TODO Auto-generated catch block
+					LOGGER.error("Exception raised when add a work arrange!", e);
+					return ajaxPrint(response, getErrorCallback("添加工作安排失败,原因:" + e.getMessage()));
+				}
+		         // 保存成功后, Dialog进行关闭
+		         return ajaxPrint(response, 
+		               getSuccessCallback("添加工作安排成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+			}
+		}else{
+			return ajaxPrint(response,"提交的数据异常");
+		}
+	}
+	
+	/**
+	 * 转到添加工作安排dialog
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServiceException
+	 */
+	
+	public ActionForward dialogStaffWorkArrange(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request,HttpServletResponse response) throws ServiceException
+	{
+		//如果有Id传进来，则有可能是编辑或者查看详细,那么去读取详细的工作安排信息
+		String id = request.getParameter("id");
+//		String districtId = request.getParameter("districtId");
+		if (this.isObjectIdValid(id))
+		{
+			ModelAdminWorkArrange workArrange =  this.getServiceAdminWorkArrange().get(id);
+		    request.setAttribute("workArrange", workArrange);
+		}
+		
+		request.setAttribute("op", request.getParameter("op"));
+
+		request.setAttribute("workTypes", this.getServiceAdminWorkType().getAllWorkTypes());
+		List<ModelSchoolDistrict> districts=this.serviceSchoolDistrict.getAll();//.getAllDistricts();
+        request.setAttribute("districts", districts);
+//		ModelWorkTemplate enabledTemplate = this.serviceWorkTemplate.getEnabledWorkTemplate(districtId);
+//		List<ModelBaseWorkTime> workTimes = this.serviceBaseWorkTime
+//        .getDayWorkTimeByDistrictIdAndTemplateId(districtId,
+//              enabledTemplate.getTemplateId());
+		List<ModelBaseWorkContent> workContents = this.serviceBaseWorkContent
+        .getAll();
+//		request.setAttribute("workTimes", workTimes);
+		request.setAttribute("workContents", workContents);
+		return mapping.findForward("admin.page.staff.work.arrange.dialog");
+	}
+	
+	/**
+	 * 删除工作安排
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ActionForward adminDeleteWorkArrange(ActionMapping mapping,ActionForm form,HttpServletRequest request,HttpServletResponse response)
+	{
+		String id = request.getParameter("id");
+		try{
+			if(this.isObjectIdValid(id)){
+				this.serviceAdminWorkArrange.remove(id);
+				return ajaxPrint(
+		                  response,
+		                  getSuccessCallback("工作安排删除成功.", CALLBACK_TYPE_CLOSE,
+		                        CURRENT_NAVTABID, null, false));
+			}else{
+				return ajaxPrint(response,getErrorCallback("无效的ID"));
+			}
+		}catch(Exception e){
+			return ajaxPrint(response,getErrorCallback("删除工作安排失败"));
+		}
+	}
+	
+	/**
+	 * 根据日期和工作时间加载已经安排工作的员工
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ActionForward actionLoadArrangedStaffs(ActionMapping mapping,ActionForm form,HttpServletRequest request,HttpServletResponse response){
+		ModelAdminWorkArrange formWorkArrange = (ModelAdminWorkArrange)form;
+		try {
+			List<ModelAdminWorkArrange> list = this.serviceAdminWorkArrange.queryByCriteria(formWorkArrange);
+			int loop = 1;
+			StringBuffer sb = new StringBuffer();
+			sb.append("[");
+			for(ModelAdminWorkArrange entity : list){
+				sb.append("[\"id\",\"").append(entity.getStaff().getId()).append("\",\"staffName\",\"").append(entity.getStaffName()).append("\"]");
+				if(loop!=list.size()){
+					sb.append(",");
+				}
+				loop++;
+			}
+			sb.append("]");
+			System.out.println(sb.toString());
+			return ajaxPrint(response,sb.toString());
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			return ajaxPrint(response,"[]");
+		}
+	}
+	
+	public ActionForward actionAdjustWorkArrangeDialog(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	{
+		List<ModelSchoolDistrict> districts;
+		try {
+			districts = this.serviceSchoolDistrict.getAll();
+	        request.setAttribute("districts", districts);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			LOGGER.error("Exception raised when fetch all hire jobs.", e);
+		}
+		return mapping.findForward("admin.dialog.staff.work.arrange.adjust");
+	}
 	
 	/**
 	 * <b>[WebAction]</b> 
