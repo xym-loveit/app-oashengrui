@@ -23,5 +23,6 @@
 	<bean name="/app/system/work/base/time" class="org.shengrui.oa.web.action.system.sysSettingWorkTimeAction">
 		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
 		<property name="serviceBaseWorkTime" ref="serviceBaseWorkTime"/>
+		<property name="serviceWorkTemplate" ref="serviceWorkTemplate"/>
 	</bean>
 </beans>
