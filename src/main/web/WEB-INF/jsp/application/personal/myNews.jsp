@@ -30,7 +30,7 @@
 							</c:choose>
 						</td>
 						<td width="30"></td>
-						<td><a class="icon" href="app/admin/news.do?action=actionNewsScan&id=${news.id }" target="dialog" rel="admin_entrycheck" width="900" height="500">${news.newsSubject}</a></td>
+						<td><a class="icon" href="app/admin/news.do?action=actionNewsScan&id=${news.id }&op=view" target="dialog" rel="admin_entrycheck" width="900" height="650">${news.newsSubject}</a></td>
 						<td width="30"></td>
 						<td>(<c:if test="${news.updateTime ne null}"><fmt:formatDate value="${news.updateTime}" pattern="yyyy-MM-dd" /></c:if>)</td>
 					</tr>
@@ -71,7 +71,7 @@
 							</c:choose>
 						</td>
 						<td width="30"></td>
-						<td><a href="app/admin/news.do?action=actionNewsScan&id=${newsdistrict.id }" target="dialog" width="900" height="500" title="新闻详细"><span>${newsdistrict.newsSubject}</span></a></td>
+						<td><a href="app/admin/news.do?action=actionNewsScan&id=${newsdistrict.id }" target="dialog" width="900" height="650" title="新闻详细"><span>${newsdistrict.newsSubject}</span></a></td>
 						<td width="30"></td>
 						<td>(<c:if test="${newsdistrict.updateTime ne null}"><fmt:formatDate value="${newsdistrict.updateTime}" pattern="yyyy-MM-dd" /></c:if>)</td>
 					</tr>
