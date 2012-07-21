@@ -55,11 +55,6 @@ extends ModelBase
 	 * */
 	private Integer newsLevel;
 	/**
-	 * 可见校区
-	 * 
-	 * */
-	private Integer districtVisible;
-	/**
 	 * 创建时间
 	 * 
 	 * */
@@ -74,6 +69,8 @@ extends ModelBase
 	 * 
 	 * */
 	private Integer topIndex;
+	
+
 	/**
 	 * 新闻状态
 	 * */
@@ -83,13 +80,15 @@ extends ModelBase
 	
 	private Integer districtPost;
 	
-	protected ModelSchoolDistrict district;
+	private ModelSchoolDistrict district;
 	
-	protected ModelSchoolDepartment department;
+	private ModelSchoolDepartment department;
 	
-	protected ModelAppDictionary dictionary;
+	private ModelAppDictionary dictionary;
 	
-	protected ModelAppUser user;
+	private ModelAppUser user;
+	
+	private ModelSchoolDistrict newsDistrictVisible;
 	
 	/**
 	 * 主要用于多状态集合搜索,超级用户
@@ -198,12 +197,7 @@ extends ModelBase
 	public void setNewsLevel(Integer newsLevel) {
 		this.newsLevel = newsLevel;
 	}
-	public Integer getDistrictVisible() {
-		return districtVisible;
-	}
-	public void setDistrictVisible(Integer districtVisible) {
-		this.districtVisible = districtVisible;
-	}
+
 	public Date getCreatetime() {
 		return createtime;
 	}
@@ -270,5 +264,12 @@ extends ModelBase
 	public void setUser(ModelAppUser user) {
 		this.user = user;
 	}
+	public ModelSchoolDistrict getNewsDistrictVisible() {
+		return newsDistrictVisible;
+	}
+	public void setNewsDistrictVisible(ModelSchoolDistrict newsDistrictVisible) {
+		this.newsDistrictVisible = newsDistrictVisible;
+	}
+
 	
 }

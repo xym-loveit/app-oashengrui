@@ -28,6 +28,9 @@
 			$("#news-" + id).fadeOut("slow");
 		}
 	}
+	function refresh(){
+		navTab.reload();
+	}
 </script>
 <form id="pagerForm" method="post" action="app/admin/news.do?action=adminPageEntryIndex">
 	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
@@ -139,7 +142,7 @@
 					<td>${news.district.districtName} / ${news.department.depName} </td>
 					<td><c:if test="${news.updateTime ne null}"><fmt:formatDate value="${news.updateTime}" pattern="yyyy-MM-dd hh:mm:ss" /></c:if></td>
 					<td> 
-						<a href="app/admin.do?action=adminOprEntryRemove&id=${news.id}" target="ajaxTodo" title="确定要删除${news.newsSubject }吗?" callback="callback_removeRec(${news.id})"><img class="opr" src="resources/images/icons/remove.png" /></a>&nbsp;
+						<a href="app/admin.do?action=adminOprEntryRemove&id=${news.id}" target="ajaxTodo" title="确定要删除${news.newsSubject }吗?" callback="refresh()"><img class="opr" src="resources/images/icons/remove.png" /></a>&nbsp;
 						<a href="app/admin.do?action=adminPageEntryDetail&id=${news.id}" target="dialog" title="修改新闻" width="900" height="500"><img class="opr" src="resources/images/icons/edit.gif" /></a>
 					</td>
 					</tr>

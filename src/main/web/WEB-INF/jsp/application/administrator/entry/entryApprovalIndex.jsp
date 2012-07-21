@@ -33,9 +33,7 @@
 	}
 	
 	function refresh(){
-		$(".pageContent").loadUrl("app/admin/news.do?action=adminPageEntryApprovalIndex", {}, function(){
-
-		});
+		navTab.reload();
 	}
 </script>
 <form id="pagerForm" method="post" action="app/admin/news.do?action=adminPageEntryIndex">
@@ -168,10 +166,10 @@
 							<td>
 								<c:choose>
 									<c:when test="${newsInfo.topIndex eq 1 }">
-										<a class="oplink" href="app/admin.do?action=adminOprEntryFirst&id=${newsInfo.id}" target="ajaxTodo" title="确定要对${newsInfo.newsSubject }置顶么?" callback="refresh(${newsInfo.id})">置顶</a>
+										<a class="oplink" href="app/admin.do?action=adminOprEntryFirst&id=${newsInfo.id}" target="ajaxTodo" title="确定要对${newsInfo.newsSubject }置顶么?" callback="refresh()">置顶</a>
 								</c:when>
 								<c:when test="${newsInfo.topIndex eq 0 }">
-										<a class="oplink" href="app/admin.do?action=adminOprEntryRemoveFirst&id={sid}" target="ajaxTodo" title="确定要对${newsInfo.newsSubject }取消置顶么?">取消</a>
+										<a class="oplink" href="app/admin.do?action=adminOprEntryRemoveFirst&id={sid}" target="ajaxTodo" title="确定要对${newsInfo.newsSubject }取消置顶么?" callback="refresh()">取消</a>
 								</c:when>
 								</c:choose>
 							</td>
@@ -179,7 +177,7 @@
 								<a class="oplink" href="app/admin.do?action=adminPageEntryDetail&id={sid}" target="dialog" width="900" height="500" title="新闻编辑" rel="dia_admin_entryedit-id">编辑</a>
 							</td>
 							<td>
-								<a class="oplink" href="app/admin.do?action=adminOprEntryRemove&id={sid}" target="ajaxTodo" title="确定要删除 ${newsInfo.newsSubject}吗?" callback="remove(${newsInfo.id})">删除</a>
+								<a class="oplink" href="app/admin.do?action=adminOprEntryRemove&id={sid}" target="ajaxTodo" title="确定要删除 ${newsInfo.newsSubject}吗?" callback="refresh()">删除</a>
 							</td>
 						</tr>
 					</logic:iterate>

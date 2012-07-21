@@ -14,17 +14,19 @@
 	    <property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
 	    <property name="serviceDocVisiableRange" ref="serviceDocVisiableRange" />
 	    <property name="serviceAppDictionary" ref="serviceAppDictionary" />
-	      <property name="serviceAppUser" ref="serviceAppUser" />
+	    <property name="serviceAppUser" ref="serviceAppUser" />
+	    <property name="serviceFileAttach" ref="serviceFileAttach" />
 	</bean>
 	
 		<bean name="/app/admin/news" class="org.shengrui.oa.web.action.admin.AdminAction">
 		 <property name="serviceNewsManage" ref="serviceNewsManage"></property> 
 		 <property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
 		 <property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
-	    <property name="serviceAdminWorkArrange" ref="serviceAdminWorkArrange" />
-	    <property name="serviceAdminWorkType" ref="serviceAdminWorkType" />
-	     <property name="serviceAppDictionary" ref="serviceAppDictionary" />
-	      <property name="serviceAppUser" ref="serviceAppUser" />
+	   	 <property name="serviceAdminWorkArrange" ref="serviceAdminWorkArrange" />
+	   	 <property name="serviceAdminWorkType" ref="serviceAdminWorkType" />
+	   	 <property name="serviceAppDictionary" ref="serviceAppDictionary" />
+	     <property name="serviceAppUser" ref="serviceAppUser" />
+	     <property name="serviceFileAttach" ref="serviceFileAttach" />
 	</bean>
 	
 	<bean name="/app/admin/attendance" class="org.shengrui.oa.web.action.admin.AdminAction">

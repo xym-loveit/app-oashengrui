@@ -26,6 +26,7 @@
 				/WEB-INF/tiles/tiles-defs-sysmgr-roles.xml,
 				/WEB-INF/tiles/tiles-defs-sysmgr-password.xml,
 				/WEB-INF/tiles/tiles-defs-sysmgr-school.xml,
+				/WEB-INF/classes/struts/struts-web-personal-news.xml,
 				/WEB-INF/tiles/tiles-defs-sysmgr-work.xml
 			"
 		/>
