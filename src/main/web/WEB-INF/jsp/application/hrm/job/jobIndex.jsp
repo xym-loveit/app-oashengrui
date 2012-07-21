@@ -81,7 +81,7 @@
 			</ul>
 		</c:if>
 		<ul class="toolBar">
-			<li><a class="add" href="app/hrm/hire.do?action=hrmPageJobDetail" target="dialog" title="岗位发布" width="960" height="500" rel="dia_hr_entryadd"><span>添加</span></a></li>
+			<li><a class="add" href="app/hrm/hire.do?action=hrmPageJobDetail" target="dialog" title="岗位发布" width="960" height="420" rel="dia_hr_entryadd"><span>添加</span></a></li>
 			<li class="line">line</li>
 		</ul>
 	</div>
@@ -124,11 +124,11 @@
 								</c:when>
 							</c:choose>
 						</td>
-						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}&op=view" target="dialog" title="岗位详细" width="930" height="500">详细</a></td>
+						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}&op=view" target="dialog" title="岗位详细" width="960" height="420">详细</a></td>
 						<td>
 							<c:choose>
 								<c:when test="${entity.status eq 2}">
-									<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}&op=edit" target="dialog" title="编辑岗位" width="930" height="500">编辑</a>
+									<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}&op=edit" target="dialog" title="编辑岗位" width="960" height="420">编辑</a>
 								</c:when>
 								<c:otherwise>
 									<label class="opdisabled">编辑</label>

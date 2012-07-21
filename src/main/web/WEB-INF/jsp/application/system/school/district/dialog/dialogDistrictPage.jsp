@@ -18,7 +18,7 @@
 				</tr>
 				<tr>
 					<td>校区编号：</td>
-					<td><input name="districtNo" type="text" size="30" value="${district ne null ? district.districtNo : ''}" class="required" style="width: 88%" ${district ne null ? 'readonly' : ''} <logic:notPresent name="district">remote="app/system/school/district.do?action=actionUniqueCheckDistrictNo"</logic:notPresent>/></td>
+					<td><input name="districtNo" type="text" size="30" value="${district ne null ? district.districtNo : ''}" class="required" minlength="4" maxlength="4" style="width: 88%" ${district ne null ? 'readonly' : ''} <logic:notPresent name="district">remote="app/system/school/district.do?action=actionUniqueCheckDistrictNo"</logic:notPresent>/></td>
 				</tr>
 				<tr>
 					<td>校区类型：</td>

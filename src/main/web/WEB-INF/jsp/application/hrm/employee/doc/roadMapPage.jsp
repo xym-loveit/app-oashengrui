@@ -7,6 +7,8 @@
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="/tags/trymore" prefix="tm"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
+
 <div class="pageContent">
 	<form method="post" action="app/hrm/employee.do?action=actionRoadMapSave&id=${employee.id}" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent" layoutH="56">
@@ -203,18 +205,13 @@
 											<td>${entity.dstDepartmentPosition ne null ? entity.dstDepartmentPosition.positionName : ''}</td>
 											<td>
 												<c:choose>
-													<c:when test="${entity.type eq 1}">
-														试用
-													</c:when>
-													<c:when test="${entity.type eq 2}">
-														正式
-													</c:when>
-													<c:when test="${entity.type eq 3}">
-														离职
-													</c:when>
-													<c:when test="${entity.type eq 4}">
-														辞退
-													</c:when>
+													<c:when test="${entity.type eq 1}">入职</c:when>
+													<c:when test="${entity.type eq 2}">转正</c:when>
+													<c:when test="${entity.type eq 3}">调动</c:when>
+													<c:when test="${entity.type eq 4}">离职</c:when>
+													<c:when test="${entity.type eq 5}">辞退</c:when>
+													<c:when test="${entity.type eq 6}">晋升</c:when>
+													<c:otherwise>未知</c:otherwise>
 												</c:choose>
 											</td>
 											<td><fmt:formatDate  value="${entity.date}" pattern="yyyy-MM-dd" /></td>
