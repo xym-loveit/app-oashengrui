@@ -91,7 +91,7 @@ ${tm:fileRestore(resume['attachFiles'])}
 
 <div class="pageContent">
 	<form method="post" action="app/hrm/hire/resume.do?action=actionJobApply" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
-		<div class="pageFormContent" layoutH="56">
+		<div class="pageFormContent" layoutH="${cat ne null ? 98 : 56}">
 			<table width="100%" cellspacing="15" cellpadding="10" style="border-spacing:15; border-collapse:collapse;" border="1" id="tblresume">
 				<tr>
 					<td nowrap class="field" style="width: 80px;" >姓名：</td>
@@ -250,9 +250,11 @@ ${tm:fileRestore(resume['attachFiles'])}
 						<div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div>
 					</li>
 				</c:if>
+				<c:if test="${cat eq null}">
 				<li>
 					<div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div>
 				</li>
+				</c:if>
 			</ul>
 		</div>
 		<input type="hidden" name="source" value="${source ne null ? source : '0'}" />

@@ -43,7 +43,7 @@
 	<div class="pageContent">
 		<div class="panelBar">
 			<ul class="toolBar">
-				<li><a class="add" href="app/hrm/hire.do?action=hrmPageJobResume&jobId=${jobHireInfo.id}&source=0" target="dialog" width="830" height="460"><span class="icon-edit">添加简历</span></a></li>
+				<li><a class="add" href="app/hrm/hire.do?action=hrmPageJobResume&jobId=${jobHireInfo.id}&source=0" target="dialog" width="930" height="600"><span class="icon-edit">添加简历</span></a></li>
 			</ul>
 			<!--
 			<ul class="toolBar" style="float:right">
