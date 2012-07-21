@@ -23,9 +23,27 @@
 </form>
 
 <script type="text/javascript">
-	function hello(rsp_msg) {
-		alert(rsp_msg.message);
+function dep_refresh (refresh) {
+	if (refresh) {
+		$("#ajBoxMenuTree").loadUrl("app/system/school/department.do?action=actionLoadDepartmentTree", {}, function(){
+			if ($("#_var_depid", $(navTab.getCurrentPanel())).size() > 0) {
+				$("#_var_depid", $(navTab.getCurrentPanel())).remove();
+			}
+		});
+	} else {
+		if ($("#_var_depid", $(navTab.getCurrentPanel())).size() > 0) {
+			$("#_var_depid", $(navTab.getCurrentPanel())).remove();
+		}
 	}
+	
+	$("#ajBoxMenuFunc").loadUrl("app/system/school/department/position.do?action=actionLoadDepartmentPosition", {}, function(){
+	});
+}
+function callback_funcRemove(id) {
+	if ($("#workarrangerow-" + id).size() > 0) {
+		$("#workarrangerow-" + id).fadeOut("slow");
+	}
+}
 </script>
 
 <!-- SearchBar -->
@@ -69,13 +87,11 @@
 		</ul>
 	
 		<ul class="toolBar">
-			<li><a class="add" href="app/admin.do?action=adminAddStaffWorkArrange" target="dialog" title="添加工作安排" width="300" height="350"><span>添加工作安排</span></a></li>
+			<li><a class="add" href="app/admin.do?action=dialogStaffWorkArrange&districtId=1" target="dialog" title="添加工作安排" width="400" height="400"><span>添加工作安排</span></a></li>
 			<li class="line">line</li>
 			<li><a class="add" href="app/admin.do?action=adminAddStaffWorkArranges" target="dialog" title="批量工作安排" width="900" height="500"><span>加载模板批量加载安排</span></a></li>
 			<li class="line">line</li>
-			<li><a class="delete" href="app/admin.do?action=adminWorkArrangeDelete&id={sid}" target="ajaxTodo" title="确定要删除吗?" callback="hello"><span>删除</span></a></li>
-			<li class="line">line</li>
-			<li><a class="edit" href="app/admin.do?action=adminAddStaffWorkArrange&id={sid}" target="dialog" title="修改工作安排" width="300" height="350"><span>修改</span></a></li>
+			<li><a class="edit" href="app/admin.do?action=actionAdjustWorkArrangeDialog" target="dialog" title="工作安排调整" width="600" height="400"><span>工作安排调整</span></a></li>
 			<!--
 			<li class="line">line</li>
 			<li><a class="icon" href="demo/common/dwz-team.xls" target="dwzExport" targetType="navTab" title="实要导出这些记录吗?"><span>导出EXCEL</span></a></li>
@@ -97,14 +113,14 @@
 		<tbody>
 		<logic:present name="workArranges">
 		   <logic:iterate name="workArranges" property="items" id="entity">
-			<tr target="sid" rel="${entity.id}">
+			<tr target="sid" rel="${entity.id}"  id="workarrangerow-${entity.id}">
 				<td><fmt:formatDate value="${entity.workDate}" pattern="yyyy-MM-dd" /></td>
-				<td>${entity.workTime}</td>
+				<td>${entity.workTime.workStime}-${entity.workTime.workEtime }</td>
 				<td>${entity.staff.fullName}</td>
-				<td>${entity.workType.type}</td>
-				<td>${entity.workContent}</td>
-				<td><a href="app/admin.do?action=adminAddStaffWorkArrange&id=${entity.id}" class="oplink" target="dialog" title="员工工作安排编辑" width="300" height="350" rel="admin_staffWorkEdit-1">编辑</a></td>
-				<td><a href="app/admin.do?action=adminWorkArrangeDelete&id=${entity.id}" class="oplink" target="ajaxToDo" title="确定要删除吗？"rel="admin_staffWorkRemove-1">删除</a></td>
+				<td <c:if test="${entity.workType.id==3 }">style="background-color:yellow;"</c:if>>${entity.workType.type}</td>
+				<td>${entity.workContent.itemName}</td>
+				<td><a href="app/admin.do?action=adminEditStaffWorkArrangeDialog&id=${entity.id}" class="oplink" target="dialog" title="员工工作安排编辑" width="600" height="350" rel="admin_staffWorkEdit-1">编辑</a></td>
+				<td><a href="app/admin.do?action=adminDeleteWorkArrange&id=${entity.id}" class="oplink" target="ajaxToDo" title="确定要删除该员工的工作安排吗?"rel="admin_staffWorkRemove-1" callback="callback_funcRemove(${entity.id})">删除</a></td>
 			</tr>
 			</logic:iterate>
 		  </logic:present>
