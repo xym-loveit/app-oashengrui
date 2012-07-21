@@ -12,10 +12,12 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.system.ModelBaseWorkTime;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
+import org.shengrui.oa.model.system.ModelWorkTemplate;
 import org.springframework.beans.BeanUtils;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.log.LogAnnotation;
+import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
@@ -229,4 +231,49 @@ extends sysSettingBaseAction
       request.setAttribute("districtId", request.getParameter("districtId"));
       return mapping.findForward("dialog.sys.setting.work.time.addpage");
    }
+   
+	
+	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
+	 * 根据校区ID刷新工作时间列表
+	 * @throws ServiceException 
+	 */
+	public ActionForward actionLoadWorkTimeByDistrict (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) throws ServiceException 
+	{
+		String districtId = request.getParameter("districtId");
+		System.out.println(districtId);
+		if (UtilString.isNotEmpty(districtId))
+		{
+			ModelWorkTemplate enabledTemplate = this.serviceWorkTemplate.getEnabledWorkTemplate(districtId);
+			String templateId = "-1";
+			if(enabledTemplate!=null && enabledTemplate.getTemplateId()!=null)
+				templateId = enabledTemplate.getTemplateId();
+			System.out.println(districtId+"\t"+templateId);
+			List<ModelBaseWorkTime> workTimes = this.serviceBaseWorkTime.getDayWorkTimeByDistrictIdAndTemplateId(districtId, templateId);
+			if (workTimes != null)
+			{
+				StringBuilder sb = new StringBuilder();
+				sb.append("[");
+				int loop = 1;
+				for(ModelBaseWorkTime entity : workTimes){
+					sb.append("[\"").append(entity.getId()).append("\",").append("\"")
+					.append(entity.getWorkStime()).append("-").append(entity.getWorkEtime())
+					.append("\"]");
+					if(loop != workTimes.size()){
+						sb.append(",");
+					}
+					loop++;
+				}
+				sb.append("]");
+				System.out.println(sb.toString());
+				return ajaxPrint(response, sb.toString());
+			}
+		}
+		
+		return ajaxPrint(response, "[]");
+	}
+	
+
 }
