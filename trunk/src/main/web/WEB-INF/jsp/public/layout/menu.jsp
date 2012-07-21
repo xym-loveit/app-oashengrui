@@ -44,7 +44,7 @@
 				<li treeicon="icon-admintask"><a href="app/admin.do?action=adminPageTaskDelegateIndex" target="navTab" rel="admin_task">任务委托管理</a></li>
 				<li treeicon="icon-admindutyStaff"><a>员工考勤管理</a>
 					<ul>
-						<li treeicon="icon-admindutyArrange"><a href="app/admin/attendance.do?action=adminPageStaffWorkArrange" target="navTab" rel="admin_workArrange">工作安排</a></li>
+						<li treeicon="icon-admindutyArrange"><a href="app/admin.do?action=adminPageStaffWorkArrange" target="navTab" rel="admin_workArrange">工作安排</a></li>
 						<li treeicon="icon-adminduty"><a href="app/admin/attendance.do?action=adminPageStaffAttendance" target="navTab" rel="admin_staffAttendance">员工考勤</a></li>
 					</ul>
 				</li>
