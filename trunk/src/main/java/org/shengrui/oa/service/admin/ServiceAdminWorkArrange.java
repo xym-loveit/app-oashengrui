@@ -1,5 +1,7 @@
 package org.shengrui.oa.service.admin;
 
+import java.util.List;
+
 import org.shengrui.oa.model.admin.ModelAdminWorkArrange;
 
 import cn.trymore.core.exception.ServiceException;
@@ -34,4 +36,12 @@ extends ServiceGeneric<ModelAdminWorkArrange>
 	PaginationSupport<ModelAdminWorkArrange> getPaginationByEntity (ModelAdminWorkArrange entity, 
 			PagingBean pagingBean) throws ServiceException;
 	
+	/**
+	 * 用原生SQL批量插入
+	 * @param list
+	 * @throws ServiceException
+	 */
+	public void batchInsert(List<ModelAdminWorkArrange> list) throws ServiceException;
+	
+	public List<ModelAdminWorkArrange> queryByCriteria(ModelAdminWorkArrange criteria) throws ServiceException;
 }
