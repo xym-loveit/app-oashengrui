@@ -10,16 +10,11 @@
             <column name="work_id" />
             <generator class="native" />
         </id>
-        <many-to-one name="staff" class="org.shengrui.oa.model.system.ModelAppUser" fetch="select">
-            <column name="staff_id" not-null="true">
-            </column>
+        <many-to-one name="staff" class="org.shengrui.oa.model.system.ModelAppUser" cascade="none">
+			<column name="staff_id"></column>
         </many-to-one>
         <property name="workDate" type="java.util.Date">
             <column name="work_date" length="0" not-null="true">
-            </column>
-        </property>
-        <property name="workTime" type="java.lang.String">
-            <column name="work_time" length="64" not-null="true">
             </column>
         </property>
         <property name="staffName" type="java.lang.String">
@@ -27,20 +22,15 @@
             </column>
         </property>
         
-        <many-to-one name="workType" class="org.shengrui.oa.model.admin.ModelAdminWorkType" fetch="select">
-            <column name="work_type" not-null="true">
+        <many-to-one name="workType" class="org.shengrui.oa.model.admin.ModelAdminWorkType" cascade="none">
+            <column name="work_type">
             </column>
         </many-to-one>
-        
-        <!--
-        <property name="workType" type="java.lang.Integer">
-            <column name="work_type" not-null="true">
-            </column>
-        </property>
-        -->
-        <property name="workContent" type="java.lang.String">
-            <column name="work_content" length="65535">
-            </column>
-        </property>
+        <many-to-one name="workTime" class="org.shengrui.oa.model.system.ModelBaseWorkTime" cascade="none">
+            <column name="work_time"/>
+        </many-to-one>
+        <many-to-one name="workContent" class="org.shengrui.oa.model.system.ModelBaseWorkContent" cascade="none">
+            <column name="work_content" />
+        </many-to-one>
     </class>
 </hibernate-mapping>
