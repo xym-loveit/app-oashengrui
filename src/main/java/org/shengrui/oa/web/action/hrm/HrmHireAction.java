@@ -148,6 +148,16 @@ extends BaseHrmAction
 			try
 			{
 				request.setAttribute("resume", this.serviceHrmResume.get(resumeId));
+				
+				if (request.getParameter("empId") != null)
+				{
+					ModelHrmEmployee employee = this.serviceHrmEmployee.get(request.getParameter("empId"));
+					if (employee != null)
+					{
+						request.setAttribute("employee", employee);
+					}
+				}
+				
 			} 
 			catch (ServiceException e)
 			{
@@ -155,6 +165,7 @@ extends BaseHrmAction
 				return ajaxPrint(response, getErrorCallback("简历获取失败:" + e.getMessage()));
 			}
 		}
+		
 		
 		// 输出请求参数至页面.
 		this.getRequestQueryString(request, null, true);
