@@ -488,6 +488,8 @@ CREATE TABLE IF NOT EXISTS `app_hrm_employee` (
   `birthdate` date default NULL COMMENT '出生日期',
   `phone_no` varchar(64) default NULL COMMENT '电话',
   `short_no` varchar(64) default NULL COMMENT '短号',
+  `office_phone` varchar(64) default NULL COMMENT '办公室电话',
+  `urgency_contacts` varchar(64) default NULL COMMENT '紧急联系人联系方式',
   `positive_due_date` date default NULL COMMENT '待转正日期',
   `contract_end_date` date default NULL COMMENT '合同到期日期',
   `onboard_status` bigint(20) default NULL COMMENT '在职状态',

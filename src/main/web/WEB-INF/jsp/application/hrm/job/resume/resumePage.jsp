@@ -109,7 +109,7 @@ ${tm:fileRestore(resume['attachFiles'])}
 				</tr>
 				<tr>
 					<td class="field">出生日期：</td>
-					<td><input name="birthday" class="${op ne null && op eq 'view' ? '' : 'date'} textInput" yearstart="-80" yearend="0" style="" value="<c:if test='${resume ne null && resume.birthday ne null}'><fmt:formatDate value='${resume.birthday}' pattern='yyyy-MM-dd'/></c:if>" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
+					<td><input name="birthday" class="${op ne null && op eq 'view' ? '' : 'date'} textInput" yearstart="-80" yearend="0" style="" value="<c:if test='${resume ne null && resume.birthday ne null}'><fmt:formatDate value='${resume.birthday}' pattern='yyyy/MM/dd'/></c:if>" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 					<td class="field">联系电话：</td>
 					<td><input class="required" name="mobilePhone" type="text" style="" value="${resume ne null ? resume.mobilePhone : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 					<td class="field">婚姻状况：</td>
@@ -120,6 +120,14 @@ ${tm:fileRestore(resume['attachFiles'])}
 						</select>
 					</td>
 				</tr>
+				<c:if test="${empId ne null}">
+				<tr>
+					<td class="field">短号：</td>
+					<td><input class="" name="shortNo" type="text" style="" value="${employee ne null ? employee.shortNo : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
+					<td class="field">紧急联系人：</td>
+					<td colspan="3"><input class="" name="urgentContact" type="text" style="" value="${employee ne null ? employee.urgentContact : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
+				</tr>
+				</c:if>
 				<tr>
 					<td class="field">身份证号：</td>
 					<td colspan="5"><input name="identityNo" type="text"  style="" value="${resume ne null ? resume.identityNo : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>

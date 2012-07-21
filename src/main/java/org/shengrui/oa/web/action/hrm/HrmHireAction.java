@@ -647,6 +647,9 @@ extends BaseHrmAction
 					// 重写对象中的属性值...
 					UtilBean.copyNotNullProperties(entity, formResume);
 					
+					// Date类型未被覆写...
+					entity.setBirthday(formResume.getBirthday());
+					
 					// 保存简历附件...
 					this.handleFileAttachments(entity, request);
 					
@@ -661,6 +664,9 @@ extends BaseHrmAction
 							employee.setEmpName(entity.getFullName());
 							employee.setBirthdate(entity.getBirthday());
 							employee.setPhoneNo(entity.getMobilePhone());
+							
+							employee.setShortNo(request.getParameter("shortNo"));
+							employee.setUrgentContact(request.getParameter("urgentContact"));
 							
 							this.serviceHrmEmployee.save(employee);
 						}

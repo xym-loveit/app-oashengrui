@@ -23,6 +23,12 @@
          <property name="shortNo" type="java.lang.String">
             <column name="short_no" />
         </property>
+        <property name="officePhone" type="java.lang.String">
+            <column name="office_phone" />
+        </property>
+       <property name="urgentContact" type="java.lang.String">
+            <column name="urgency_contacts" />
+        </property> 
          <property name="positiveDueDate" type="java.util.Date">
             <column name="positive_due_date" />
         </property>

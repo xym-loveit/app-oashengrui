@@ -73,6 +73,16 @@ extends ModelBase
 	private String shortNo;
 	
 	/**
+	 * 办公室电话
+	 */
+	private String officePhone;
+	
+	/**
+	 * 紧急联系人联系方式
+	 */
+	private String urgentContact;
+	
+	/**
 	 * 待转正日期
 	 */
 	private Date positiveDueDate;
@@ -361,6 +371,26 @@ extends ModelBase
 	public void setFullName(String fullName)
 	{
 		this.fullName = fullName;
+	}
+
+	public String getOfficePhone()
+	{
+		return officePhone;
+	}
+
+	public void setOfficePhone(String officePhone)
+	{
+		this.officePhone = officePhone;
+	}
+
+	public String getUrgentContact()
+	{
+		return urgentContact;
+	}
+
+	public void setUrgentContact(String urgentContact)
+	{
+		this.urgentContact = urgentContact;
 	}
 	
 	
