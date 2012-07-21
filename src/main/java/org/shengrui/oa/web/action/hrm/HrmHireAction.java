@@ -11,6 +11,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.hrm.ModelHrmArchive;
+import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireEntry;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireInfo;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireInterview;
@@ -622,6 +623,69 @@ extends BaseHrmAction
 			LOGGER.error("Exception raised when finalize the hire issue.", e);
 			return ajaxPrint(response, getErrorCallback("操作失败:" + e.getMessage()));
 		}
+	}
+	
+	/**
+	 * <b>[WebAction]</b> <br/>
+	 * 简历保存
+	 */
+	public ActionForward actionEmployeeResumeSave(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) 
+	{
+		try
+		{
+			ModelHrmResume formResume = (ModelHrmResume) form;
+			
+			String resumeId = request.getParameter("resumeId");
+			
+			if (UtilString.isNotEmpty(resumeId) && Integer.valueOf(resumeId) > -1)
+			{
+				ModelHrmResume entity = this.serviceHrmResume.get(resumeId);
+				if (entity != null)
+				{
+					// 重写对象中的属性值...
+					UtilBean.copyNotNullProperties(entity, formResume);
+					
+					// 保存简历附件...
+					this.handleFileAttachments(entity, request);
+					
+					this.serviceHrmResume.save(formResume);
+					
+					String empId = request.getParameter("empId");
+					if (UtilString.isNotEmpty(empId) && this.isObjectIdValid(empId))
+					{
+						ModelHrmEmployee employee = this.serviceHrmEmployee.get(empId);
+						if (employee != null)
+						{
+							employee.setEmpName(entity.getFullName());
+							employee.setBirthdate(entity.getBirthday());
+							employee.setPhoneNo(entity.getMobilePhone());
+							
+							this.serviceHrmEmployee.save(employee);
+						}
+					}
+					
+					// 保存成功后, Dialog进行关闭
+					return ajaxPrint(response, 
+							getSuccessCallback("简历保存成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("简历(Id:" + resumeId + ")数据不存在..."));
+				}
+			}
+			else
+			{
+				return ajaxPrint(response, getErrorCallback("需要传入简历Id..."));
+			}
+			
+		}
+		catch (Exception e)
+		{
+			return ajaxPrint(response, getErrorCallback("简历保存失败:" + e.getMessage()));
+		}
+		
 	}
 	
 	/**
