@@ -40,12 +40,12 @@
 					<td nowrap class="field" style="width: 80px;" align="right">员工编号：</td>
 					<td><input name="empNo" type="text" value="${employee ne null ? employee.empNo : ''}" readonly/></td>
 					<td nowrap class="field" align="right">预转正时间：</td>
-					<td><input name="positiveDueDate" class="textInput" yearstart="-80" yearend="0" value="${employee ne null ? employee.positiveDueDate : ''}" readonly/></td>
+					<td><input name="positiveDueDate" class="date required textInput" yearstart="-80" yearend="10" value="<c:if test='${employee ne null}'><fmt:formatDate value='${employee.positiveDueDate}' pattern='yyyy-MM-dd'/></c:if>" /></td>
 					<td nowrap class="field" align="right">合同到期时间：</td>
-					<td><input name="contractEndDate" class="textInput" yearstart="-80" yearend="0" value="${employee ne null ? employee.contractEndDate : ''}" readonly/></td>
-					<td nowrap class="field" align="right">员工状态：</td>
+					<td><input name="contractEndDate" class="date required textInput" yearstart="-80" yearend="10" value="<c:if test='${employee ne null}'><fmt:formatDate value='${employee.contractEndDate}' pattern='yyyy-MM-dd'/></c:if>" /></td>
+					<td nowrap class="field">员工状态：</td>
 					<td style="padding: 5px;">
-						<select class="combox" name="onboardStatus" style="width:60px" readonly>
+						<select class="combox required" name="onboardStatus" style="width:60px" readonly>
 							<option value="1" ${employee ne null && employee.onboardStatus eq 1 ? 'selected="selected"' : ''}>试用</option>
 							<option value="2" ${employee ne null && employee.onboardStatus eq 2 ? 'selected="selected"' : ''}>正式</option>
 							<option value="3" ${employee ne null && employee.onboardStatus eq 3 ? 'selected="selected"' : ''}>离职</option>
@@ -56,7 +56,7 @@
 				<tr>
 					<td class="field" align="right">所在校区：</td>
 					<td style="padding: 5px;">
-						<select class="combox" name="employeeDistrict.id" id="combox_district_eindex" style="width:108px" readonly>
+						<select class="combox required" name="employeeDistrict.id" id="combox_district_eindex" style="width:108px" >
 							<logic:present name="districts">
 								<logic:iterate name="districts" id="district">
 									<option value="${district.id}" ${employee ne null && employee.employeeDistrict ne null && employee.employeeDistrict.id eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
@@ -66,7 +66,7 @@
 					</td>
 					<td class="field" align="right">所在部门：</td>
 					<td style="padding: 5px;">
-						<select class="combox" name="employeeDepartment.id" id="combox_dept_eindex" style="width:108px" readonly>
+						<select class="combox required" name="employeeDepartment.id" id="combox_dept_eindex" style="width:108px" >
 							<logic:present name="departments">
 								<logic:iterate name="departments" id="department">
 									<option value="${department.id}" ${employee ne null && entity.employeeDepartment ne null && employee.employeeDepartment.id eq department.id ? 'selected="selected"' : ''}>${department.depName}</option>
@@ -76,7 +76,7 @@
 					</td>
 					<td class="field" align="right">所在岗位：</td>
 					<td style="padding: 5px;">
-						<select class="combox" name="employeePosition.id" id="combox_pos_eindex" style="width:108px" readonly>
+						<select class="combox required" name="employeePosition.id" id="combox_pos_eindex" style="width:108px" >
 							<logic:present name="positions">
 								<logic:iterate name="positions" id="position">
 									<option value="${position.id}" ${employee ne null && employee.employeePosition ne null && employee.employeePosition.id eq position.id ? 'selected="selected"' : ''}>${position.positionName}</option>
@@ -85,7 +85,7 @@
 						</select>
 					</td>
 					<td class="field" align="right">办公电话：</td>
-					<td><input name="phoneNo" type="text"  value="${employee ne null ? employee.phoneNo : ''}" readonly/></td>
+					<td><input name="officePhone" type="text"  value="${employee ne null ? employee.officePhone : ''}" /></td>
 				</tr>
 				<tr>
 					<td class="field" align="right">教师星级：</td>

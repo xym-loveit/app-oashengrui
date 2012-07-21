@@ -111,6 +111,12 @@ extends BaseHrmAction
 					employeeInfo.setConsultStar(Integer.parseInt(consultStar));
 					employeeInfo.setTeachClass(teachClass);
 					employeeInfo.setTeachSubject(teachSubject);
+					
+					ModelHrmEmployee formEntity = (ModelHrmEmployee) form;
+					employeeInfo.setPositiveDueDate(formEntity.getPositiveDueDate());
+					employeeInfo.setContractEndDate(formEntity.getContractEndDate());
+					employeeInfo.setOfficePhone(formEntity.getOfficePhone());
+					
 					this.serviceHrmEmployee.save(employeeInfo);
 					
 					return ajaxPrint(response, 
