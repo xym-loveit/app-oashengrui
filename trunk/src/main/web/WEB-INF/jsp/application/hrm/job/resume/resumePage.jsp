@@ -90,7 +90,7 @@ ${tm:fileRestore(resume['attachFiles'])}
 </c:if>
 
 <div class="pageContent">
-	<form method="post" action="app/hrm/hire/resume.do?action=actionJobApply" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<form method="post" action="${cat ne null ? 'app/hrm/hire/resume.do?action=actionEmployeeResumeSave' : 'app/hrm/hire/resume.do?action=actionJobApply'}" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent" layoutH="${cat ne null ? 98 : 56}">
 			<table width="100%" cellspacing="15" cellpadding="10" style="border-spacing:15; border-collapse:collapse;" border="1" id="tblresume">
 				<tr>
@@ -259,5 +259,7 @@ ${tm:fileRestore(resume['attachFiles'])}
 		</div>
 		<input type="hidden" name="source" value="${source ne null ? source : '0'}" />
 		<input type="hidden" name="jobId" value="${jobId ne null ? jobId : '-1'}" />
+		<input type="hidden" name="resumeId" value="${resume ne null ? resume.id : -1}" />
+		<input type="hidden" name="empId" value="${empId ne null ? empId : -1}" />
 	</form>
 </div>

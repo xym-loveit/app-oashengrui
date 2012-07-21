@@ -30,6 +30,7 @@
 		<property name="serviceHrmJobHireEntry" ref="serviceHrmJobHireEntry" />
 		<property name="serviceHrmArchive" ref="serviceHrmArchive" />
 		<property name="serviceFileAttach" ref="serviceFileAttach" />
+		<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
 	</bean>
 	
 	<!-- 当前招聘管理 - 面试等相关操作-->
