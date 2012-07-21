@@ -104,7 +104,7 @@ ${tm:fileRestore(newsScanInfo['attachFiles'])}
 	</div>
 	<div class="newsDetail">
 		<table class="newsContent" cellspacing="10" cellpadding="10" style="border-spacing:12">
-			<tr><td colspan="5"><textarea name="newsContent" rows="20" cols="95">${newsScanInfo.newsContent}</textarea></td></tr>
+			<tr><td colspan="5"><textarea class="editor" name="newsContent" rows="20" cols="95">${newsScanInfo.newsContent}</textarea></td></tr>
 		</table>
 		<table>
 				<tr>
