@@ -145,44 +145,51 @@ extends HttpServlet
 				// stream writes to the destination file
 				fileItem.write(new File(this.uploadPath + "/" + newFileName));
 				
-				// storages the file into database.
-				ModelFileAttach fileAttach = new ModelFileAttach();
-				fileAttach.setFileName(fileName);
-				fileAttach.setFilePath(newFileName);
-				fileAttach.setTotalBytes(Long.valueOf(fileItem.getSize()));
-				fileAttach.setNote(this.getStrFileSize(fileItem.getSize()));
-				fileAttach.setFileExt(fileName.substring(fileName.lastIndexOf(".") + 1));
-				fileAttach.setCreatetime(new Date());
-				fileAttach.setDelFlag(ModelFileAttach.FLAG_NOT_DEL);
-				fileAttach.setFileType(this.fileCat);
-				
-				ModelAppUser user = ContextUtil.getCurrentUser();
-				if (user != null)
+				ModelFileAttach fileAttach = null;
+				if (request.getParameter("noattach") == null)
 				{
-					fileAttach.setCreatorId(Long.valueOf(user.getId()));
-					fileAttach.setCreator(user.getFullName());
+					// storages the file into database.
+					fileAttach = new ModelFileAttach();
+					fileAttach.setFileName(fileName);
+					fileAttach.setFilePath(newFileName);
+					fileAttach.setTotalBytes(Long.valueOf(fileItem.getSize()));
+					fileAttach.setNote(this.getStrFileSize(fileItem.getSize()));
+					fileAttach.setFileExt(fileName.substring(fileName.lastIndexOf(".") + 1));
+					fileAttach.setCreatetime(new Date());
+					fileAttach.setDelFlag(ModelFileAttach.FLAG_NOT_DEL);
+					fileAttach.setFileType(this.fileCat);
+					
+					ModelAppUser user = ContextUtil.getCurrentUser();
+					if (user != null)
+					{
+						fileAttach.setCreatorId(Long.valueOf(user.getId()));
+						fileAttach.setCreator(user.getFullName());
+					}
+					else
+					{
+						fileAttach.setCreator("Unknow");
+					}
+					
+					this.serviceFileAttach.save(fileAttach);
 				}
-				else
-				{
-					fileAttach.setCreator("Unknow");
-				}
-				
-				this.serviceFileAttach.save(fileAttach);
 				
 				//add by Tang 这部分代码用于临时保存fileIds，用完后一定要注意及时销毁。
-				fileIds=(String) request.getSession().getAttribute("fileIds");
-				if(fileIds==null)
+				if (fileAttach != null)
 				{
-					fileIds=fileAttach.getId();
-				}
-				else
-				{
-					fileIds=fileIds+","+fileAttach.getId();
+					fileIds=(String) request.getSession().getAttribute("fileIds");
+					if(fileIds==null)
+					{
+						fileIds=fileAttach.getId();
+					}
+					else
+					{
+						fileIds=fileIds+","+fileAttach.getId();
+					}
 				}
 				
 				response.setContentType("text/html;charset=UTF-8");
 				PrintWriter writer = response.getWriter();
-				writer.println("{\"status\": 1, \"data\":{\"id\":" + fileAttach.getId() + ", \"url\":\"" + fileAttach.getFilePath() + "\"}}");
+				writer.println("{\"status\": 1, \"data\":{\"id\":" + (fileAttach != null ? fileAttach.getId() : "\"\"") + ", \"url\":\"" + newFileName + "\"}}");
 			}
 			request.getSession().setAttribute("fileIds", fileIds);
 		}
