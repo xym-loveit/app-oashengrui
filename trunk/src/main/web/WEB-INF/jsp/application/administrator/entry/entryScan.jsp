@@ -7,6 +7,8 @@
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -20,8 +22,53 @@
 	.newsDetail .newsContent p{margin-top:40px;}
 	.newsDetail .newsContent{margin:auto;}
 </style>
-<script>
 
+<script>
+$(function(){
+<c:if test="${op eq null || op ne 'view'}">
+//加载上传组件入口文件
+KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
+	var ru = new RenderUploader('#jp_J_UploaderBtn', '#jp_J_UploaderQueue',{
+		 //服务器端配置
+		serverConfig:{
+			//处理上传的服务器端脚本路径
+			action:"file-upload"
+		},
+		// 文件域
+		name:"Filedata",
+		//用于放服务器端返回的url的隐藏域
+		urlsInputName:"fileUrls"
+		<c:if test="${newsScanInfo ne null && fn:length(newsScanInfo.attachFiles) gt 0}">
+		// 用于数据展现
+		,restoreHook:"#jp_J_UploaderRestore"
+		</c:if>
+	});
+	
+	ru.on('init', function (ev) {
+		//上传组件实例
+		var uploader = ev.uploader;
+		//上传按钮实例
+		var button = uploader.get('button');
+		
+		uploader.on('success', function (ev) {
+			var feedback = ev.result;
+			var file_id = feedback.data.id;
+			if (file_id) {
+				$("#fileIds").val($("#fileIds").val() == "" ? file_id : ($("#fileIds").val() + "," + file_id));
+			}
+		});
+		
+		uploader.on('error', function (ev) {
+			alert("文件上传失败:" + ev.result.message);
+		});
+		
+	});
+});
+</c:if>
+});
+</script>
+<script type="text/uploader-restore" id="jp_J_UploaderRestore">
+${tm:fileRestore(newsScanInfo['attachFiles'])}
 </script>
 
 <body>
@@ -58,6 +105,39 @@
 	<div class="newsDetail">
 		<table class="newsContent" cellspacing="10" cellpadding="10" style="border-spacing:12">
 			<tr><td colspan="5"><textarea name="newsContent" rows="20" cols="95">${newsScanInfo.newsContent}</textarea></td></tr>
+		</table>
+		<table>
+				<tr>
+					<td style="vertical-align: top;">附件区：</td>
+					<td colspan="7">
+						<div>
+							<c:choose>
+								<c:when test="${op eq null || op ne 'view'}">
+									<!-- 上传按钮，组件配置请写在data-config内 -->
+									<a id="jp_J_UploaderBtn" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件 </a>
+									<!-- 文件上传队列 -->
+									<ul id="jp_J_UploaderQueue"></ul>
+									<div id="J_Panel" class="event-panel"></div>
+									<input type="hidden" name="fileUrls" id="fileUrls" />
+									<input type="hidden" name="fileIds" id="fileIds" />
+								</c:when>
+								<c:otherwise>
+									<c:choose>
+										<c:when test="${newsfile ne null && fn:length(newsfile.attachFiles) gt 0}">
+											<ul>
+												<logic:iterate name="newsScanInfo" property="attachFiles" id="newsfile">
+													<li class="item_file"><a title="点击下载`${newsfile.fileName}`文件" href="uploads/${newsfile.filePath}" target="_blank">${newsfile.fileName}</a></li>
+												</logic:iterate>
+											</ul>
+										</c:when>
+										<c:otherwise>暂未上传任何附件..</c:otherwise>
+									</c:choose>
+								</c:otherwise>
+							</c:choose>
+						</div>
+						<!--<a class="oplink" href="app/hrm.do?action=hrmPageJobDetail&id=1" target="dialog" title="上传附件">上传附件</a>-->
+					</td>
+				</tr>
 		</table>
 	</div>
 </body>

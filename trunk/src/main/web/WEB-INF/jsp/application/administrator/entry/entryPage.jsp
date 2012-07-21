@@ -36,9 +36,6 @@ $(function(){
 		$("#formnews").submit();
 		return false;
 	});
-	KISSY.use('gallery/form/1.2/uploader/queue/base', function (S, Queue) {
-		var queue = new Queue();
-	})
 
 	//加载上传组件入口文件
 	KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
@@ -86,9 +83,11 @@ $(function(){
 
 
 <!--- 生成需要展现文件的JSON -->
-<script type="text/uploader-restore" id="jp_J_UploaderRestore">
+<c:if test="${(op eq null || op ne 'view') && (news ne null && fn:length(news.attachFiles) gt 0)}">
+<script type="text/uploader-restore" id="jp_J_UploaderRestoreNews">
 ${tm:fileRestore(news['attachFiles'])}
 </script>
+</c:if>
 <div class="pageContent">
 	<form method="post" action="app/admin/news.do?action=actionNewsEditOrSave" id="formnews" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent" layoutH="56">
@@ -110,11 +109,11 @@ ${tm:fileRestore(news['attachFiles'])}
 					<td>
 						<c:choose>
 							<c:when test="${op ne 'opp'}">
-								<select class="combox" name="districtVisible" id="combox_VisibleDistrict" style="width:120px" ref="combox_dept" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
+								<select class="combox" name="districtVisible" style="width:120px" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
 									<option value="-1">所有校区</option>
 									<logic:present name="districts">
 										<logic:iterate name="districts" id="district">
-											<option value="${district.id}" ${news ne null && news.districtVisible ne null && news.districtVisible eq district.id? 'selected="selected"' : ''}>${district.districtName}</option>
+											<option value="${district.id}" ${news ne null && news.newsDistrictVisible ne null && news.newsDistrictVisible.id eq district.id? 'selected="selected"' : ''}>${district.districtName}</option>
 										</logic:iterate>
 									</logic:present>
 								</select>
@@ -138,7 +137,7 @@ ${tm:fileRestore(news['attachFiles'])}
 					<td>
 						<c:choose>
 							<c:when test="${op ne 'opp'}">
-								<select class="combox" name="districtPost" id="combox_publishDistrict" style="width:120px" ref="combox_dept" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
+								<select class="combox" name="districtPost" style="width:120px" ref="combox_department1" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
 									<option value="-1">所有校区</option>
 									<logic:present name="districts">
 										<logic:iterate name="districts" id="districtPublic">
@@ -153,7 +152,7 @@ ${tm:fileRestore(news['attachFiles'])}
 					<td>
 						<c:choose>
 							<c:when test="${op ne 'opp'}">
-								<select class="combox" name="depPost" id="combox_department1" style="width:120px" ref="combox_dept" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
+								<select class="combox" name="depPost" id="combox_department1" style="width:120px" efOPKey="请选择部门" defOPVal="">
 									<option value="-1">所有部门</option>
 									<logic:present name="departments">
 										<logic:iterate name="departments" id="department">
@@ -172,15 +171,30 @@ ${tm:fileRestore(news['attachFiles'])}
 				<tr>
 					<td style="vertical-align: top;">附件区：</td>
 					<td colspan="7">
-						<!-- Uploader Demo-->
 						<div>
-							<!-- 上传按钮，组件配置请写在data-config内 -->
-							<a id="J_UploaderBtnNews" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件 </a>
-							<!-- 文件上传队列 -->
-							<ul id="J_UploaderQueueNews"></ul>
-							<div id="J_Panel" class="event-panel"></div>
-							<input type="hidden" name="fileUrls" id="fileUrls" />
-							<input type="hidden" name="fileIds" id="fileIds" />
+							<c:choose>
+								<c:when test="${op eq null || op ne 'view'}">
+									<!-- 上传按钮，组件配置请写在data-config内 -->
+									<a id="jp_J_UploaderBtnNews" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件 </a>
+									<!-- 文件上传队列 -->
+									<ul id="jp_J_UploaderQueueNews"></ul>
+									<div id="J_Panel" class="event-panel"></div>
+									<input type="hidden" name="fileUrls" id="fileUrls" />
+									<input type="hidden" name="fileIds" id="fileIds" />
+								</c:when>
+								<c:otherwise>
+									<c:choose>
+										<c:when test="${news ne null && fn:length(news.attachFiles) gt 0}">
+											<ul>
+												<logic:iterate name="news" property="attachFiles" id="file">
+													<li class="item_file"><a title="点击下载`${file.fileName}`文件" href="uploads/${file.filePath}" target="_blank">${file.fileName}</a></li>
+												</logic:iterate>
+											</ul>
+										</c:when>
+										<c:otherwise>暂未上传任何附件..</c:otherwise>
+									</c:choose>
+								</c:otherwise>
+							</c:choose>
 						</div>
 						<!--<a class="oplink" href="app/hrm.do?action=hrmPageJobDetail&id=1" target="dialog" title="上传附件">上传附件</a>-->
 					</td>
@@ -194,7 +208,7 @@ ${tm:fileRestore(news['attachFiles'])}
 					<logic:equal name="op" value="view">
 						<li><div class="buttonActive"><div class="buttonContent"><button id="pass" type="submit">通过</button></div></div></li>
 						<li><div class="buttonActive"><div class="buttonContent"><button id="return" type="submit">退回</button></div></div></li>
-						<li><div class="buttonActive"><div class="buttonContent"><a class="icon" href="app/admin/news.do?action=actionNewsScan&id=${news.id }" target="dialog" rel="admin_entrycheck" width="900" height="500"><button>预览</button></a></div></div></li>
+						<li><div class="buttonActive"><div class="buttonContent"><a class="icon" href="app/admin/news.do?action=actionNewsScan&id=${news.id }&op=view" target="dialog" rel="admin_entrycheck" width="900" height="500"><button>预览</button></a></div></div></li>
 					</logic:equal>
 				</logic:present>
 				<logic:notPresent name="op">

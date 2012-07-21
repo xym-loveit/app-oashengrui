@@ -12,6 +12,7 @@ import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.admin.ModelAdminWorkArrange;
 import org.shengrui.oa.model.admin.ModelStaffAttendance;
 import org.shengrui.oa.model.news.ModelNewsMag;
+import org.shengrui.oa.model.system.ModelSchoolDistrict;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.exception.WebException;
@@ -96,14 +97,12 @@ extends BaseAdminAction
 			request.setAttribute("newsInfo", newsInfo);
 			request.setAttribute("newsApprove", approvalNews);
 			request.setAttribute("newsTypes", this.getServiceAppDictionary().getByType(type));
-			request.setAttribute("districts", this.getServiceSchoolDistrict().getAll());
+			request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
 			request.setAttribute("op", request.getParameter("op"));
 			// 输出分页信息至客户端
 			outWritePagination(request, pagingBean, newsInfo);
 			return mapping.findForward("admin.page.entry.approval.index");
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println( e.getMessage());
 			LOGGER.error("Exception raised when open the archive index page.", e);
 			return ajaxPrint(response, getErrorCallback("加载新闻发布与管理数据失败:" + e.getMessage()));
 		}
@@ -123,15 +122,21 @@ extends BaseAdminAction
 		String newsId = request.getParameter("id");
 		try {
 			if(this.isObjectIdValid(newsId)){
-				ModelNewsMag modelNewsMag = serviceNewsManage.getModelNewsMag(newsId);
-				
+				ModelNewsMag modelNewsMag = this.serviceNewsManage.getModelNewsMag(newsId);
+				if(modelNewsMag != null && modelNewsMag.getDistrictPost() != null)
+				{
+					ModelSchoolDistrict district = modelNewsMag.getDistrict();
+					request.setAttribute("departments", this.getDepartmentByOrganization(district.getDistrictType().toString()));
+				}
 				request.setAttribute("news", modelNewsMag);
 			}
 			request.setAttribute("departments", this.serviceSchoolDepartment.getAll());
-			request.setAttribute("districts", this.getServiceSchoolDistrict().getAll());
+			request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
+			
 			request.setAttribute("newsTypes", this.getServiceAppDictionary().getByType(type));
 			request.setAttribute("op", request.getParameter("op"));
 		} catch (Exception e) {
+			e.printStackTrace();
 			LOGGER.error("Exception raised when open the archive index page.", e);
 			return ajaxPrint(response, getErrorCallback("进入新闻编辑页面失败 由于：" + e.getMessage())); 
 		}
@@ -156,11 +161,11 @@ extends BaseAdminAction
 			boolean isCreation = !this.isObjectIdValid(modelNewsMag.getId());
 			if(!isCreation){
 				entity = serviceNewsManage.getModelNewsMag(modelNewsMag.getId());
-				if(entity != null && formAction ==null && formadd == null){
+				if(entity != null && formAction =="" && formadd == null){
 					String districtPost = request.getParameter("districtPost");
 					entity.setDistrict(this.serviceSchoolDistrict.get(districtPost));
 					String districtVisible = request.getParameter("districtVisible");
-					entity.setDistrict(this.serviceSchoolDistrict.get(districtVisible));
+					entity.setNewsDistrictVisible(this.serviceSchoolDistrict.get(districtVisible));
 					String depPost = request.getParameter("depPost");
 					entity.setDepartment(this.serviceSchoolDepartment.get(depPost));
 					String typeDicid = request.getParameter("typeDicid");
@@ -177,7 +182,7 @@ extends BaseAdminAction
 				//创建一条新闻
 				entity = modelNewsMag;
 				modelNewsMag.setDistrict(this.serviceSchoolDistrict.get(request.getParameter("districtPost")));
-				modelNewsMag.setDistrictVisible(Integer.parseInt(request.getParameter("districtVisible")));
+				modelNewsMag.setNewsDistrictVisible(this.serviceSchoolDistrict.get(request.getParameter("districtVisible")));
 				modelNewsMag.setDepartment(this.serviceSchoolDepartment.get(request.getParameter("depPost")));
 				modelNewsMag.setDictionary(this.serviceAppDictionary.get(request.getParameter("typeDicid")));
 				modelNewsMag.setUser(this.serviceAppUser.findByUserName((String) request.getSession().getAttribute("SPRING_SECURITY_LAST_USERNAME")));
@@ -241,6 +246,7 @@ extends BaseAdminAction
 			ModelNewsMag newsScanInfo = serviceNewsManage.getModelNewsMag(newsId);
 			
 			request.setAttribute("newsScanInfo", newsScanInfo);
+			request.setAttribute("op", request.getParameter("op"));
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
