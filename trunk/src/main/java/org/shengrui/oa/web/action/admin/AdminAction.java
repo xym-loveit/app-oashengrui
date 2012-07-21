@@ -168,6 +168,7 @@ extends BaseAdminAction
 					entity.setUpdateTime(new Date());
 					// 用表单输入的值覆盖实体中的属性值
 					UtilBean.copyNotNullProperties(entity, modelNewsMag);
+					this.serviceNewsManage.save(entity);
 					return ajaxPrint(response, 
 							getSuccessCallback("新闻编辑成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 				}
@@ -185,6 +186,7 @@ extends BaseAdminAction
 				modelNewsMag.setTopIndex(1);
 				modelNewsMag.setUpdateTime(new Date());
 			}
+
 			//审核
 			if(formAction != null)
 			{
@@ -210,7 +212,10 @@ extends BaseAdminAction
 					entity.setStatus(0);
 				}
 			}
-			serviceNewsManage.save(entity);
+			//设置新闻附件
+			this.handleFileAttachments(entity, request);
+			
+			this.serviceNewsManage.save(entity);
 			return ajaxPrint(response, 
 					getSuccessCallback("新闻添加成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 			
