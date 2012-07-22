@@ -20,4 +20,11 @@ public interface ServiceWorkTemplate extends ServiceGeneric<ModelWorkTemplate> {
 	public int enableWorkTemplate(String id) throws ServiceException;
 	
 	public ModelWorkTemplate getEnabledWorkTemplate(String districtId) throws ServiceException;
+	
+	/**
+	 * 用原生SQL批量插入
+	 * @param list
+	 * @throws ServiceException
+	 */
+	public void batchInsert(List<ModelWorkTemplate> list) throws ServiceException;
 }
