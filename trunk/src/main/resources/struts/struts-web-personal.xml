@@ -4,6 +4,7 @@
 <struts-config>
 	<form-beans>
 		<form-bean name="form.personal.doc.info" type="org.shengrui.oa.model.admin.ModelDoc"></form-bean>
+		<form-bean name="form.personal.conference.info" type="org.shengrui.oa.model.admin.ModelConference"></form-bean>
 	</form-beans>
 	
 	<action-mappings>
@@ -30,6 +31,14 @@
 			<forward name="page.my.doc.download" path="page.my.doc.download" />
 		</action>
 		
+		<action path="/app/personal/conference"
+				name="form.personal.conference.info"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="my.page.conference.index" path="my.page.conference.index" />
+			<forward name="person.page.conference.detail" path="person.page.conference.detail"/>
+		</action>
 	</action-mappings>
 
 </struts-config>
