@@ -1337,6 +1337,7 @@ CREATE TABLE IF NOT EXISTS `app_system_dictionary` (
   `name` varchar(200) NOT NULL,
   `value` varchar(200) NOT NULL,
   `type` varchar(200) NOT NULL,
+  `level`  varchar(200) default NULL COMMENT '级别',
   `sequence` int(11) NOT NULL default '0',
   `extra_value` varchar(200) default NULL,
   `creation_date` datetime default '0000-00-00 00:00:00',
@@ -1348,9 +1349,9 @@ CREATE TABLE IF NOT EXISTS `app_system_dictionary` (
 -- 转存表中的数据 `app_system_dictionary`
 --
 
-INSERT INTO `app_system_dictionary` (`id`, `name`, `value`, `type`, `sequence`, `extra_value`, `creation_date`, `modified_date`) VALUES
-(1, '人资文档', '人资文档', 'docType', 0, '123456', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(2, '行政文档', '行政文档', 'docType', 0, '456789', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `app_system_dictionary` (`id`, `name`, `value`, `type`, `level`, `sequence`, `extra_value`, `creation_date`, `modified_date`) VALUES
+(1, '人资文档', '人资文档', 'docType', '总部文档', 0, '123456', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(2, '行政文档', '行政文档', 'docType', '总部文档', 0, '456789', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
