@@ -23,4 +23,11 @@
 		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
 	</bean>
 	
+	
+	<bean name="/app/personal/conference" class="org.shengrui.oa.web.action.admin.ConferenceAction">
+		<property name="serviceConference" ref="serviceConference" />
+		<property name="serviceAppDictionary" ref="serviceAppDictionary" />
+		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
+		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
+	</bean>
 </beans>
