@@ -40,6 +40,7 @@ extends ModelBase
 	@Expose
 	protected String type;
 	
+	protected String level;
 	/**
 	 * 序号
 	 */
@@ -134,6 +135,22 @@ extends ModelBase
 
 	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
+	}
+
+
+	/**
+	 * @return the level
+	 */
+	public String getLevel() {
+		return level;
+	}
+
+
+	/**
+	 * @param level the level to set
+	 */
+	public void setLevel(String level) {
+		this.level = level;
 	}
 	
 	
