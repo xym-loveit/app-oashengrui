@@ -2,6 +2,7 @@ package org.shengrui.oa.web.action.system;
 
 import javax.annotation.Resource;
 
+import org.shengrui.oa.service.system.ServiceAppDictionary;
 import org.shengrui.oa.service.system.ServiceAppFunction;
 import org.shengrui.oa.service.system.ServiceBaseWorkContent;
 import org.shengrui.oa.service.system.ServiceBaseWorkTime;
@@ -17,6 +18,7 @@ import org.shengrui.oa.web.action.BaseAppAction;
 public class sysSettingBaseAction
 extends BaseAppAction
 {
+	protected ServiceAppDictionary serviceDictionary;
 	protected ServiceWorkTemplate serviceWorkTemplate;
 	/**
 	 * @return the serviceWorkTemplate
@@ -75,6 +77,20 @@ extends BaseAppAction
 	public void setServiceBaseWorkContent(
 			ServiceBaseWorkContent serviceBaseWorkContent) {
 		this.serviceBaseWorkContent = serviceBaseWorkContent;
+	}
+
+	/**
+	 * @return the serviceDictionary
+	 */
+	public ServiceAppDictionary getServiceDictionary() {
+		return serviceDictionary;
+	}
+
+	/**
+	 * @param serviceDictionary the serviceDictionary to set
+	 */
+	public void setServiceDictionary(ServiceAppDictionary serviceDictionary) {
+		this.serviceDictionary = serviceDictionary;
 	}
 	
 }
