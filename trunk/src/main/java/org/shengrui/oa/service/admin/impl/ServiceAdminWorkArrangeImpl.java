@@ -67,10 +67,10 @@ extends ServiceGenericImpl<ModelAdminWorkArrange> implements ServiceAdminWorkArr
 		{
 			if (entity.getStaffName() != null && !"".equals(entity.getStaffName()))
 			{
-				criteria.add(Restrictions.like("staffName", entity.getStaff().getId(),MatchMode.ANYWHERE));
+				criteria.add(Restrictions.like("staffName", entity.getStaffName(),MatchMode.ANYWHERE));
 			}
 
-			if (entity.getWorkType() != null && entity.getWorkType().getId()!=null && !"".equals(entity.getWorkType().getId()))
+			if (entity.getWorkType() != null && entity.getWorkType().getId()!=null && !"".equals(entity.getWorkType().getId()) && !"-1".equals(entity.getWorkType().getId()))
 			{
 				criteria.createCriteria("workType").add(Restrictions.eq("id", entity.getWorkType().getId()));
 			}
@@ -138,6 +138,47 @@ extends ServiceGenericImpl<ModelAdminWorkArrange> implements ServiceAdminWorkArr
 			throw new ServiceException(e);
 		}
 	}
-	
+
+	@Override
+	public void batchRemoveByCriteria(ModelAdminWorkArrange criteria)
+			throws ServiceException {
+		// TODO Auto-generated method stub
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		String sql = "delete from app_admin_workarrange where work_date = '"+format.format(criteria.getWorkDate())+"'";
+		try {
+			this.daoWorkArrange.execUpdateByNativeSQL(sql);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			throw new ServiceException(e);
+		}
+	}
+
+	@Override
+	public void batchUpdateByCriteria(ModelAdminWorkArrange criteria,String day)
+			throws ServiceException {
+		// TODO Auto-generated method stub
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		String sql ="update app_admin_workarrage set work_date='"+format.format(criteria.getWorkDate())+"',work_time='"+criteria.getWorkTime().getId()+"'"
+					+ " where work_date='"+day+"'";
+		try {
+			this.daoWorkArrange.execUpdateByNativeSQL(sql);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			throw new ServiceException(e);
+		}
+	}
+
+	@Override
+	public void batchCopyByDay(String day,String date, String districtId) throws ServiceException {
+		// TODO Auto-generated method stub
+		String sql = "insert into app_admin_workarrange(work_date,work_time,staff_name,staff_id,work_type,work_content)"
+					+ " select '"+date+"',worktm_id,staff_name,staff_id,'1',workcnt_id from app_system_work_template where enable='1' and district_id="+districtId+" and work_day='"+day+"'";
+		try {
+			this.daoWorkArrange.execUpdateByNativeSQL(sql);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			throw new ServiceException(e);
+		}
+	}
 
 }

@@ -43,5 +43,34 @@ extends ServiceGeneric<ModelAdminWorkArrange>
 	 */
 	public void batchInsert(List<ModelAdminWorkArrange> list) throws ServiceException;
 	
+	/**
+	 * 多条件查询
+	 * @param criteria
+	 * @return
+	 * @throws ServiceException
+	 */
 	public List<ModelAdminWorkArrange> queryByCriteria(ModelAdminWorkArrange criteria) throws ServiceException;
+	
+	/**
+	 * 批量删除
+	 * @param criteria
+	 * @throws ServiceException
+	 */
+	public void batchRemoveByCriteria(ModelAdminWorkArrange criteria) throws ServiceException;
+	
+	/**
+	 * 批量更新
+	 * @param criteria
+	 * @throws ServiceException
+	 */
+	public void batchUpdateByCriteria(ModelAdminWorkArrange criteria,String day) throws ServiceException;
+	
+	/**
+	 * 按校区批量导入模板
+	 * @param day
+	 * @param date
+	 * @param districtId
+	 * @throws ServiceException
+	 */
+	public void batchCopyByDay(String day,String date,String districtId) throws ServiceException;
 }
