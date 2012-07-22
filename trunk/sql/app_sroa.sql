@@ -1461,13 +1461,13 @@ CREATE TABLE IF NOT EXISTS `app_system_work_template` (
   `work_day` varchar(20) default NULL COMMENT '工作日期',
   `worktm_id` bigint(20) default NULL COMMENT '工作时间ID',
   `district_id` bigint(20) default NULL COMMENT '校区ID',
-  `staff_ids` text COMMENT '员工ID，逗号拼接',
-  `staff_names` text COMMENT '员工姓名，逗号拼接',
+  `staff_id` bigint(20) COMMENT '员工ID',
+  `staff_name` varchar(60) COMMENT '员工姓名',
   `enable` char(1) default '0' COMMENT '该模板是否启用',
   `template_id` bigint(20) default NULL COMMENT '模板ID',
   `workcnt_id` bigint(20) default NULL,
   PRIMARY KEY  (`work_tpl_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='工作模板设置' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='工作模板设置';
 
 --
 -- 转存表中的数据 `app_system_work_template`
