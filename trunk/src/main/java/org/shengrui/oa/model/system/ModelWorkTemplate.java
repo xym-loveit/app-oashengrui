@@ -12,7 +12,7 @@ public class ModelWorkTemplate extends ModelBase {
 	protected String workDay;
 	protected ModelBaseWorkTime workTime = new ModelBaseWorkTime();
 	protected ModelBaseWorkContent workContent = new ModelBaseWorkContent();
-	protected String staffId;
+	protected ModelAppUser staff = new ModelAppUser();
 	protected String staffName;
 	protected ModelSchoolDistrict district = new ModelSchoolDistrict();
 	protected String templateId;
@@ -54,16 +54,16 @@ public class ModelWorkTemplate extends ModelBase {
 		this.workContent = workContent;
 	}
 	/**
-	 * @return the staffId
+	 * @return the staff
 	 */
-	public String getStaffId() {
-		return staffId;
+	public ModelAppUser getStaff() {
+		return staff;
 	}
 	/**
-	 * @param staffId the staffId to set
+	 * @param staff the staff to set
 	 */
-	public void setStaffId(String staffId) {
-		this.staffId = staffId;
+	public void setStaff(ModelAppUser staff) {
+		this.staff = staff;
 	}
 	/**
 	 * @return the staffName
