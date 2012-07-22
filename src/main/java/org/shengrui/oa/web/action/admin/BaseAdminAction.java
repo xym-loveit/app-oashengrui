@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 
 import org.shengrui.oa.service.admin.ServiceAdminWorkArrange;
 import org.shengrui.oa.service.admin.ServiceAdminWorkType;
+import org.shengrui.oa.service.admin.ServiceConferenceInfo;
 import org.shengrui.oa.service.admin.ServiceDocFile;
 import org.shengrui.oa.service.admin.ServiceDocLevel;
 import org.shengrui.oa.service.admin.ServiceDocManage;
@@ -30,6 +31,7 @@ import cn.trymore.oa.service.system.ServiceFileAttach;
 public class BaseAdminAction
 extends BaseAppAction
 {
+	protected ServiceConferenceInfo serviceConference;
 	protected ServiceWorkTemplate serviceWorkTemplate;
 	protected ServiceBaseWorkTime serviceBaseWorkTime;
 	
@@ -224,6 +226,20 @@ extends BaseAppAction
 	 */
 	public void setServiceWorkTemplate(ServiceWorkTemplate serviceWorkTemplate) {
 		this.serviceWorkTemplate = serviceWorkTemplate;
+	}
+
+	/**
+	 * @return the serviceConference
+	 */
+	public ServiceConferenceInfo getServiceConference() {
+		return serviceConference;
+	}
+
+	/**
+	 * @param serviceConference the serviceConference to set
+	 */
+	public void setServiceConference(ServiceConferenceInfo serviceConference) {
+		this.serviceConference = serviceConference;
 	}
 	
 	
