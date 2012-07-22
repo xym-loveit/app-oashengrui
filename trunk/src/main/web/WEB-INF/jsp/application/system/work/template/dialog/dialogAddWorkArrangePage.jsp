@@ -41,7 +41,7 @@ function loadData(obj){
 
 </script>
 <div class="pageContent" style="float:left; width: 600px;">
-	<form method="post" action="app/system/work/template.do?action=actionSaveWorkArrange" class="pageForm required-validate" onsubmit="return validateCallback(this, content_refresh);">
+	<form method="post" action="app/system/work/template.do?action=actionSaveWorkArrange" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent" layoutH="56">
 			<div style="float:left">
 				<table cellspacing="5" cellpadding="5" class="dform">
@@ -82,8 +82,8 @@ function loadData(obj){
 	            </tr>
 	            <tr>
 	               <td></td>
-	               <td><textarea id="staffNames" rows="2" cols="40" name="staffName" class="textInput" readonly=readonly style="width: 88%"></textarea></td>
-	               <td><input type="hidden" name="staffId" id="staffIds" value="" />
+	               <td><textarea id="staffNames" rows="2" cols="40" name="staffNames" class="textInput" readonly=readonly style="width: 88%"></textarea></td>
+	               <td><input type="hidden" name="staffIds" id="staffIds" value="" />
  	               </td>
 	            </tr>
 				</table>
@@ -117,6 +117,7 @@ function loadData(obj){
 		</div>
 		<input type="hidden" id="templateId" name="templateId" value="${templateId ne null ? templateId : '-1'}" />
 		<input type="hidden" id="districtId" name="district.id" value="${districtId ne null ? districtId : '-1'}" />
+		<input type="hidden" id="enable" name="enable" value="0" />
 	</form>
 <div>
 		
