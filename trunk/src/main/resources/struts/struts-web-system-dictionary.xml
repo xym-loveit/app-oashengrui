@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	
+	<!-- 定义Action的return节点和具体去向，跳转的URL对应到titles里面，那里给出具体的jsp页面地址-->
+	
+	<form-beans>
+		<form-bean name="form.sys.dictionary" type="org.shengrui.oa.model.system.ModelAppDictionary"></form-bean>
+	</form-beans>
+	
+	<global-forwards> 
+		<forward name="data.sys.setting.flow.type.tree" path="data.sys.setting.flow.type.tree" />
+		
+	</global-forwards>
+	
+	<action-mappings>
+		
+		<!-- 数据字典设置 -->
+		<action path="/app/system/dictionary"
+				name="form.sys.dictionary"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="page.sys.setting.dictionary.index" path="page.sys.setting.dictionary.index" />
+         	<forward name="dialog.sys.setting.dictionary.edit" path="dialog.sys.setting.dictionary.edit" />
+         	<forward name="page.sys.setting.dictionary.list" path="page.sys.setting.dictionary.list" />
+		</action>
+	</action-mappings>
+
+</struts-config>
