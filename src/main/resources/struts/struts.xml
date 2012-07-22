@@ -21,6 +21,7 @@
 				/WEB-INF/tiles/tiles-defs-personal-interview.xml,
 				/WEB-INF/tiles/tiles-defs-personal-application-job.xml,
 				/WEB-INF/tiles/tiles-defs-personal-application-form.xml,
+				/WEB-INF/tiles/tiles-defs-sysmgr-dictionary.xml,
 				/WEB-INF/tiles/tiles-defs-sysmgr-account.xml,
 				/WEB-INF/tiles/tiles-defs-sysmgr-menu.xml,
 				/WEB-INF/tiles/tiles-defs-sysmgr-roles.xml,
