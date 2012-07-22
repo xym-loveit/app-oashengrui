@@ -1,5 +1,7 @@
 package org.shengrui.oa.web.action.admin;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +20,7 @@ import org.shengrui.oa.model.system.ModelBaseWorkContent;
 import org.shengrui.oa.model.system.ModelBaseWorkTime;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 import org.shengrui.oa.model.system.ModelWorkTemplate;
+import org.shengrui.oa.util.UtilDateTime;
 import org.springframework.beans.BeanUtils;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.exception.WebException;
@@ -619,6 +622,14 @@ extends BaseAdminAction
 		}
 	}
 	
+	/**
+	 * 跳转到调整工作dialog
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	public ActionForward actionAdjustWorkArrangeDialog(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	{
@@ -631,6 +642,143 @@ extends BaseAdminAction
 			LOGGER.error("Exception raised when fetch all hire jobs.", e);
 		}
 		return mapping.findForward("admin.dialog.staff.work.arrange.adjust");
+	}
+	
+	/**
+	 * 调整工作安排
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ActionForward actionAdjustWorkArrange(ActionMapping mapping,ActionForm form,HttpServletRequest request,HttpServletResponse response)
+	{
+		String operation = request.getParameter("operations");
+		ModelAdminWorkArrange entity = (ModelAdminWorkArrange)form;
+		if("remove".equals(operation)){
+			try {
+				this.serviceAdminWorkArrange.batchRemoveByCriteria(entity);
+			} catch (ServiceException e) {
+				// TODO Auto-generated catch block
+				return ajaxPrint(
+		                  response,
+		                  getErrorCallback("调整工作安排失败."+e.getMessage()));
+			}
+			return ajaxPrint(
+	                response,
+	                getSuccessCallback("调整工作安排成功.", CALLBACK_TYPE_CLOSE,
+	                      CURRENT_NAVTABID, null, false));
+		}else if("adjust".equals(operation)){
+			String newWorkDate = request.getParameter("newWorkDate");
+			String newWorkTime = request.getParameter("newWorkTime");
+			entity.getWorkTime().setId(newWorkTime);
+			try {
+				this.serviceAdminWorkArrange.batchUpdateByCriteria(entity, newWorkDate);
+			} catch (ServiceException e) {
+				// TODO Auto-generated catch block
+				return ajaxPrint(
+		                  response,
+		                  getErrorCallback("调整工作安排失败."+e.getMessage()));
+			}
+			return ajaxPrint(
+	                response,
+	                getSuccessCallback("调整工作安排成功.", CALLBACK_TYPE_CLOSE,
+	                      CURRENT_NAVTABID, null, false));
+		}else{
+			return ajaxPrint(
+	                  response,
+	                  getErrorCallback("请求异常"));
+		}
+	}
+	
+	/**
+	 * 导入模板dialog
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServiceException 
+	 */
+	public ActionForward actionImportDataFromTemplateDialog(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) throws ServiceException
+	{
+		List<ModelSchoolDistrict> districts=this.serviceSchoolDistrict.getAll();//.getAllDistricts();
+        request.setAttribute("districts", districts);
+		return mapping.findForward("admin.dialog.staff.work.arrange.import");
+	}
+	
+	/**
+	 * 批量导入
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ActionForward actionImportDataFromTemplate(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	{
+		String startDate = request.getParameter("startDate");
+		String endDate = request.getParameter("endDate");
+		String districtId = request.getParameter("districtId");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			Date sDate = format.parse(startDate);
+			Date eDate = format.parse(endDate);
+			if(eDate.after(sDate)){
+				int days = UtilDateTime.getIntervalDays(sDate, eDate);
+				List<Date> allDaysList = UtilDateTime.getDatesDateRange(sDate, eDate);
+				int loop = days/7;
+				int remain = days%7;
+				List<Date> weekDate = new ArrayList<Date>();
+				String[] weekDay = {"","","","","","",""};//一周模板顺序
+				int firstDayIndex = (UtilDateTime.week2int.get(UtilDateTime.getDateWeekStr(sDate))-1)%7;
+				for(int i=0;i<7;i++){
+					weekDay[i]=UtilDateTime.int2week.get((i+firstDayIndex)%7);
+				}
+				for(int i=0;i<loop;i++){
+					for(int j=7*i;j<7*(i+1);j++){
+						weekDate.add(allDaysList.get(j));
+					}
+					this.copyByWeek(weekDay, weekDate,districtId);
+					weekDate.clear();
+				}
+				weekDate.clear();
+				for(int i=0;i<remain;i++){
+					weekDate.add(allDaysList.get(loop*7+i));
+				}
+				this.copyByWeek(weekDay, weekDate,districtId);
+				return ajaxPrint(
+		                response,
+		                getSuccessCallback("批量导入工作安排成功.", CALLBACK_TYPE_CLOSE,
+		                      CURRENT_NAVTABID, null, false));
+			}else{
+				return  ajaxPrint(response,"非法的时间段");
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			return ajaxPrint(
+	                  response,
+	                  getErrorCallback("批量导入工作安排失败."+e.getMessage()));
+		}
+	}
+	
+	/**
+	 * 按周模板批量导入
+	 * @param week
+	 * @param list
+	 */
+	public void copyByWeek(String[] week,List<Date> list,String districtId){
+		for(int i =0 ; i < (list.size()>7?7:list.size());i++){
+			try {
+				this.serviceAdminWorkArrange.batchCopyByDay(week[i], UtilDateTime.dateString(list.get(i)),districtId);
+			} catch (ServiceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/**
@@ -669,37 +817,178 @@ extends BaseAdminAction
 	/**
 	 * <b>[WebAction]</b> 
 	 * <br/>
-	 * 员工考勤管理 > 员工考勤 > 打卡
+	 * 员工考勤管理 > 员工考勤 > 打卡Dialog
 	 * @throws WebException 
 	 */
 	public ActionForward adminPageStaffAttendanceOnPunch (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws WebException 
 	{
+		String id = request.getParameter("id");
+		if(this.isObjectIdValid(id)){
+			try {
+				ModelStaffAttendance staffAttendance = this.serviceStaffAttendance.get(id);
+				request.setAttribute("staffAttendance", staffAttendance);
+			} catch (ServiceException e) {
+				// TODO Auto-generated catch block
+				return ajaxPrint(response,"请求数据失败");
+			}
+		}else{
+			return ajaxPrint(response,"请求数据失败");
+		}
 		return mapping.findForward("admin.page.staff.attendance.onpunch");
+	}
+	
+	/**
+	 * 手动打卡
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ActionForward actionPuchOnHand(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	{
+		String id = request.getParameter("id");
+		if(this.isObjectIdValid(id)){
+			try {
+				ModelStaffAttendance staffAttendance = (ModelStaffAttendance)form;
+				ModelStaffAttendance entity = this.serviceStaffAttendance.get(id);
+				if (entity != null) {
+		               // 用表单输入的值覆盖实体中的属性值
+		            BeanUtils.copyProperties(staffAttendance, entity);
+		        } else {
+		            return ajaxPrint(response, AjaxResponse.RESPONSE_ERROR);
+		        }
+				this.serviceStaffAttendance.save(entity);
+			    // 保存成功后, Dialog进行关闭
+			    return ajaxPrint(response, 
+			           getSuccessCallback("手动打卡成功 .", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+			} catch (ServiceException e) {
+				// TODO Auto-generated catch block
+				return ajaxPrint(response,"请求数据失败");
+			}
+		}else{
+			return ajaxPrint(response,"数据异常，打卡失败");
+		}
 	}
 	
 	/**
 	 * <b>[WebAction]</b> 
 	 * <br/>
-	 * 员工考勤管理 > 员工考勤 > 出差安排
+	 * 员工考勤管理 > 员工考勤 > 出差安排Dialog
 	 * @throws WebException 
 	 */
 	public ActionForward adminPageStaffAttendanceOnTravel (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws WebException 
 	{
+		String id = request.getParameter("id");
+		if(this.isObjectIdValid(id)){
+			try {
+				ModelStaffAttendance staffAttendance = this.serviceStaffAttendance.get(id);
+				request.setAttribute("staffAttendance", staffAttendance);
+			} catch (ServiceException e) {
+				// TODO Auto-generated catch block
+				return ajaxPrint(response,"请求数据失败");
+			}
+		}else{
+			return ajaxPrint(response,"请求数据失败");
+		}
 		return mapping.findForward("admin.page.staff.attendance.ontravel");
+	}
+	
+	/**
+	 * 安排出差
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ActionForward actionArrangeOnTravel(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	{
+		String id = request.getParameter("id");
+		if(this.isObjectIdValid(id)){
+			try {
+				ModelStaffAttendance staffAttendance = (ModelStaffAttendance)form;
+				ModelStaffAttendance entity = this.serviceStaffAttendance.get(id);
+				if (entity != null) {
+		               // 用表单输入的值覆盖实体中的属性值
+		            BeanUtils.copyProperties(staffAttendance, entity);
+		        } else {
+		            return ajaxPrint(response, AjaxResponse.RESPONSE_ERROR);
+		        }
+				this.serviceStaffAttendance.save(entity);
+			    // 保存成功后, Dialog进行关闭
+			    return ajaxPrint(response, 
+			           getSuccessCallback("手动打卡成功 .", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+			} catch (ServiceException e) {
+				// TODO Auto-generated catch block
+				return ajaxPrint(response,"请求数据失败");
+			}
+		}else{
+			return ajaxPrint(response,"数据异常，打卡失败");
+		}
 	}
 	
 	/**
 	 * <b>[WebAction]</b> 
 	 * <br/>
-	 * 员工考勤管理 > 员工考勤 > 请假
+	 * 员工考勤管理 > 员工考勤 > 请假Dialog
 	 * @throws WebException 
 	 */
 	public ActionForward adminPageStaffAttendanceOnLeave (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws WebException 
 	{
+		String id = request.getParameter("id");
+		if(this.isObjectIdValid(id)){
+			try {
+				ModelStaffAttendance staffAttendance = this.serviceStaffAttendance.get(id);
+				request.setAttribute("staffAttendance", staffAttendance);
+			} catch (ServiceException e) {
+				// TODO Auto-generated catch block
+				return ajaxPrint(response,"请求数据失败");
+			}
+		}else{
+			return ajaxPrint(response,"请求数据失败");
+		}
 		return mapping.findForward("admin.page.staff.attendance.onleave");
+	}
+	
+	/**
+	 * 安排请假
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ActionForward actionArrangeOnLeave(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	{
+		String id = request.getParameter("id");
+		if(this.isObjectIdValid(id)){
+			try {
+				ModelStaffAttendance staffAttendance = (ModelStaffAttendance)form;
+				ModelStaffAttendance entity = this.serviceStaffAttendance.get(id);
+				if (entity != null) {
+		               // 用表单输入的值覆盖实体中的属性值
+		            BeanUtils.copyProperties(staffAttendance, entity);
+		        } else {
+		            return ajaxPrint(response, AjaxResponse.RESPONSE_ERROR);
+		        }
+				this.serviceStaffAttendance.save(entity);
+			    // 保存成功后, Dialog进行关闭
+			    return ajaxPrint(response, 
+			           getSuccessCallback("手动打卡成功 .", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+			} catch (ServiceException e) {
+				// TODO Auto-generated catch block
+				return ajaxPrint(response,"请求数据失败");
+			}
+		}else{
+			return ajaxPrint(response,"数据异常，打卡失败");
+		}
 	}
 	
 	/**
@@ -711,7 +1000,54 @@ extends BaseAdminAction
 	public ActionForward adminPageStaffAttendanceOnAbsence (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws WebException 
 	{
+		String id = request.getParameter("id");
+		if(this.isObjectIdValid(id)){
+			try {
+				ModelStaffAttendance staffAttendance = this.serviceStaffAttendance.get(id);
+				request.setAttribute("staffAttendance", staffAttendance);
+			} catch (ServiceException e) {
+				// TODO Auto-generated catch block
+				return ajaxPrint(response,"请求数据失败");
+			}
+		}else{
+			return ajaxPrint(response,"请求数据失败");
+		}
 		return mapping.findForward("admin.page.staff.attendance.onabsence");
+	}
+	
+	/**
+	 * 标记为旷工
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ActionForward actionMarkOnAbsence(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	{
+		String id = request.getParameter("id");
+		if(this.isObjectIdValid(id)){
+			try {
+				ModelStaffAttendance staffAttendance = (ModelStaffAttendance)form;
+				ModelStaffAttendance entity = this.serviceStaffAttendance.get(id);
+				if (entity != null) {
+		               // 用表单输入的值覆盖实体中的属性值
+		            BeanUtils.copyProperties(staffAttendance, entity);
+		        } else {
+		            return ajaxPrint(response, AjaxResponse.RESPONSE_ERROR);
+		        }
+				this.serviceStaffAttendance.save(entity);
+			    // 保存成功后, Dialog进行关闭
+			    return ajaxPrint(response, 
+			           getSuccessCallback("手动打卡成功 .", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+			} catch (ServiceException e) {
+				// TODO Auto-generated catch block
+				return ajaxPrint(response,"请求数据失败");
+			}
+		}else{
+			return ajaxPrint(response,"数据异常，打卡失败");
+		}
 	}
 	
 	/**
@@ -737,5 +1073,5 @@ extends BaseAdminAction
 	{
 		return mapping.findForward("admin.page.document.detail");
 	}
-	
+    
 }
