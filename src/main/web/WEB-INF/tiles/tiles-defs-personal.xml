@@ -7,7 +7,9 @@
 	
 	<definition name="page.my.workplan"  path="/WEB-INF/jsp/application/personal/myWorkPlan.jsp"/>
 	
-	<definition name="page.my.conference"  path="/WEB-INF/jsp/application/personal/myConference.jsp"/>
+	<definition name="my.page.conference.index"  path="/WEB-INF/jsp/application/personal/myConference.jsp"/>
+	
+	<definition name="person.page.conference.detail" path="/WEB-INF/jsp/application/personal/conferencePage.jsp"/>
 	
 	<definition name="page.my.news"  path="/WEB-INF/jsp/application/personal/myNews.jsp"/>
 	
