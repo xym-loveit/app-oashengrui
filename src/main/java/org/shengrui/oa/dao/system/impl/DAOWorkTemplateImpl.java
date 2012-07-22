@@ -39,6 +39,8 @@ extends DAOGenericImpl<ModelWorkTemplate> implements DAOWorkTemplate
 	public int enableTemplate(String id) throws DAOException {
 		// TODO Auto-generated method stub
 		String sql = "update app_system_work_template set enable='1' where templateId='"+id+"'";
+		String sql2 = "update app_system_work_template set enable='0'";
+		this.execUpdateByNativeSQL(sql2);
 		return this.execUpdateByNativeSQL(sql);
 	}
 
