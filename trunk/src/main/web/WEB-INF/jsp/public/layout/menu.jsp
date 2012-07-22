@@ -113,7 +113,7 @@
 		</div>
 		<div class="accordionContent">
 			<ul class="tree treeFolder">
-				<li treeicon="icon-setdic"><a href="blank.jsp" target="navTab" rel="demo_page1">数据字典设置</a></li>
+				<li treeicon="icon-setdic"><a href="app/system/dictionary.do?action=actionDictionaryPage" target="navTab" rel="sysmgr_dictionary">数据字典设置</a></li>
 				<li treeicon="icon-setaskm"><a>工作安排设置</a>
 					<ul>
 						<li treeicon="icon-setaskmTpl"><a href="app/system/work/template.do?action=pageWorkTemplateIndex" target="navTab" rel="sysmgr_work_template">工作安排模板设置</a></li>
