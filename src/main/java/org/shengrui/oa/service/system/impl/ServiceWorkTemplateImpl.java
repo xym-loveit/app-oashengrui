@@ -77,4 +77,28 @@ public class ServiceWorkTemplateImpl extends ServiceGenericImpl<ModelWorkTemplat
 		}
 	}
 
+	@Override
+	public void batchInsert(List<ModelWorkTemplate> list)
+			throws ServiceException {
+		// TODO Auto-generated method stub
+		StringBuffer sql  = new StringBuffer();
+		sql.append("insert into app_system_work_template(`work_day`, `worktm_id`, `district_id`, `staff_id`, `staff_name`, `enable`, `template_id`, `workcnt_id`) values");
+		for(int i=0;i<list.size();i++){
+			ModelWorkTemplate entity = list.get(i);
+			sql.append("('").append(entity.getWorkDay()).append("',").append(entity.getWorkTime().getId()).append(",")
+			.append(entity.getDistrict().getId()).append(",").append(entity.getStaff().getId()).append(",'")
+			.append(entity.getStaffName()).append("','").append(entity.getEnable()).append("',").append(entity.getTemplateId())
+			.append(",").append(entity.getWorkContent().getId()).append(")");
+			if(i != list.size()-1){
+				sql.append(",");
+			}
+		}
+		try {
+			this.daoWorkTemplate.execUpdateByNativeSQL(sql.toString());
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			throw new ServiceException(e);
+		}
+	}
+
 }
