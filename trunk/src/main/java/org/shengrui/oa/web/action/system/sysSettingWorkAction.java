@@ -1,5 +1,6 @@
 package org.shengrui.oa.web.action.system;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -107,6 +108,14 @@ public class sysSettingWorkAction extends sysSettingBaseAction {
                      .getWorkEtime())))
                   zpm[7] += entity.getStaffName() + ",";
             }
+         }
+         for(int i=1;i<8;i++){
+        	 if(!"".equals(zam[i])&&zam[i].endsWith(",")){
+        		 zam[i] = zam[i].substring(0, zam[i].length()-1);
+        	 }
+        	 if(!"".equals(zpm[i])&&zpm[i].endsWith(",")){
+        		 zpm[i] = zpm[i].substring(0, zpm[i].length()-1);
+        	 }
          }
          request.setAttribute("staffOnAM", zam);
          request.setAttribute("staffOnPM", zpm);
@@ -269,43 +278,63 @@ public class sysSettingWorkAction extends sysSettingBaseAction {
    }
 
    public ActionForward actionSaveWorkArrange(ActionMapping mapping,
-         ActionForm form, HttpServletRequest requst,
+         ActionForm form, HttpServletRequest request,
          HttpServletResponse response) {
-      try {
-         ModelWorkTemplate formModeWorkTemplate = (ModelWorkTemplate) form;
-         ModelWorkTemplate entity = null;
-
-         boolean isCreation = !this.isObjectIdValid(formModeWorkTemplate
-               .getId());
-
-         if (!isCreation) {
-            // 更新
-            entity = this.serviceWorkTemplate.get(formModeWorkTemplate
-                  .getId());
-            if (entity != null) {
-               // 用表单输入的值覆盖实体中的属性值
-               BeanUtils.copyProperties(formModeWorkTemplate, entity);
-            } else {
-               return ajaxPrint(response, AjaxResponse.RESPONSE_ERROR);
-            }
-         } else {
-            // 新建
-            entity = formModeWorkTemplate;
-         }
-
-         this.serviceWorkTemplate.save(entity);
-
-         // 保存成功后, Dialog进行关闭
-         return ajaxPrint(
-               response,
-               getSuccessCallback("工作安排保存成功.", CALLBACK_TYPE_CLOSE,
-                     CURRENT_NAVTABID, null, false));
-      } catch (ServiceException e) {
-         LOGGER.error(
-               "It failed to save the base work content item entity!", e);
-
-         return ajaxPrint(response, getErrorCallback("工作安排保存失败."));
-      }
+	    String staffNames = request.getParameter("staffNames");
+		String staffIds = request.getParameter("staffIds");
+		String[] staffNameArray = null;
+		String[] staffIdArray = null;
+        ModelWorkTemplate formModeWorkTemplate = (ModelWorkTemplate) form;
+        if(staffNames!=null && staffIds!=null ){
+			if(staffNames.contains(",") || staffIds.contains(",")){
+				staffNameArray = staffNames.split(",");
+				staffIdArray = staffIds.split(",");
+				if(staffNameArray.length != staffIdArray.length){
+					return ajaxPrint(response,"提交的数据异常");
+				}else{
+					List<ModelWorkTemplate> list = new ArrayList<ModelWorkTemplate>();
+					for(int i=0;i<staffNameArray.length;i++){
+						ModelWorkTemplate template = new ModelWorkTemplate();
+						template.setWorkDay(formModeWorkTemplate.getWorkDay());
+						template.getWorkTime().setId(formModeWorkTemplate.getWorkTime().getId());
+						template.getWorkContent().setId(formModeWorkTemplate.getWorkContent().getId());
+						template.setStaffName(staffNameArray[i]);
+						template.getStaff().setId(staffIdArray[i]);
+						template.setTemplateId(formModeWorkTemplate.getTemplateId());
+						template.setEnable(formModeWorkTemplate.getEnable());
+						template.getDistrict().setId(formModeWorkTemplate.getDistrict().getId());
+						list.add(template);
+					}
+					try {
+						this.serviceWorkTemplate.batchInsert(list);
+					} catch (ServiceException e) {
+						// TODO Auto-generated catch block
+						LOGGER.error("Exception raised when add a work arrange!", e);
+						return ajaxPrint(response, getErrorCallback("添加工作安排失败,原因:" + e.getMessage()));
+					}
+			         // 保存成功后, Dialog进行关闭
+			         return ajaxPrint(response, 
+			               getSuccessCallback("添加工作安排成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+				}
+			}else{
+			      try {
+			          formModeWorkTemplate.setStaffName(staffNames);
+			          formModeWorkTemplate.getStaff().setId(staffIds);
+			          this.serviceWorkTemplate.save(formModeWorkTemplate);
+			          // 保存成功后, Dialog进行关闭
+			          return ajaxPrint(
+			                response,
+			                getSuccessCallback("工作安排保存成功.", CALLBACK_TYPE_CLOSE,
+			                      CURRENT_NAVTABID, null, false));
+			       } catch (ServiceException e) {
+			          LOGGER.error(
+			                "It failed to save the base work content item entity!", e);
+			          return ajaxPrint(response, getErrorCallback("工作安排保存失败."));
+			       }
+			}
+        }else{
+        	return ajaxPrint(response,"提交的数据异常");
+        }
    }
 
    public ActionForward actionEnableWorkTemplate(ActionMapping mapping,
