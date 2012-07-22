@@ -57,8 +57,8 @@ function callback_funcRemove(id) {
 					</td>
 					<td>
 						<label>上班类型：</label>
-						<select class="combox" name="workType" id="workType">
-							<option value="">所有类型</option>
+						<select class="combox" name="workType.id" id="workType">
+							<option value="-1">所有类型</option>
 							<option value="1">正常上班</option>
 							<option value="2">调休加班</option>
 							<option value="3">带薪加班</option>
@@ -89,7 +89,7 @@ function callback_funcRemove(id) {
 		<ul class="toolBar">
 			<li><a class="add" href="app/admin.do?action=dialogStaffWorkArrange&districtId=1" target="dialog" title="添加工作安排" width="400" height="400"><span>添加工作安排</span></a></li>
 			<li class="line">line</li>
-			<li><a class="add" href="app/admin.do?action=adminAddStaffWorkArranges" target="dialog" title="批量工作安排" width="900" height="500"><span>加载模板批量加载安排</span></a></li>
+			<li><a class="add" href="app/admin.do?action=actionImportDataFromTemplateDialog" target="dialog" title="批量工作安排" width="500" height="200"><span>加载模板批量加载安排</span></a></li>
 			<li class="line">line</li>
 			<li><a class="edit" href="app/admin.do?action=actionAdjustWorkArrangeDialog" target="dialog" title="工作安排调整" width="600" height="400"><span>工作安排调整</span></a></li>
 			<!--

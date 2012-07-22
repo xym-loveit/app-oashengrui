@@ -32,7 +32,7 @@
     });
     
     function bindDistricId(){
-    	alert("ddd");
+    	alert($("#workDate").val());
     	var relUrl = "app/system/work/base/time.do?action=actionLoadWorkTimeByDistrict&districtId={value}";
     	$("#dialog_arrangedStaffNames").attr("relUrl",relUrl+"&workDate="+$("#workDate").val());
     }
