@@ -39,6 +39,9 @@
 	<definition name="admin.dialog.staff.work.arrange.adjust"
 		path="/WEB-INF/jsp/application/administrator/staff/work/dialog/adjustWorkArrangeDialog.jsp"/>
 	
+	<definition name="admin.dialog.staff.work.arrange.import"
+		path="/WEB-INF/jsp/application/administrator/staff/work/dialog/importWorkArrangeDialog.jsp"/>
+	
 	<!-- 员工考勤管理 - 员工考勤 -->
 	<definition name="admin.page.staff.attendance" 
 		path="/WEB-INF/jsp/application/administrator/staff/attendance/attendanceIndex.jsp"/>
