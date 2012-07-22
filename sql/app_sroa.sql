@@ -1554,6 +1554,37 @@ CREATE TABLE IF NOT EXISTS `app_user_role` (
 -- 转存表中的数据 `app_user_role`
 --
 
+CREATE TABLE `app_admin_conference` (
+  `conference_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `conference_name` varchar(45) DEFAULT NULL,
+  `conference_level` varchar(45) DEFAULT NULL,
+  `district_id` bigint(20) DEFAULT NULL,
+  `depart_id` bigint(20) DEFAULT NULL,
+  `address` varchar(45) DEFAULT NULL,
+  `start_day` date DEFAULT NULL,
+  `start_hour` varchar(45) DEFAULT NULL,
+  `start_minute` varchar(45) DEFAULT NULL,
+  `end_day` date DEFAULT NULL,
+  `end_hour` varchar(45) DEFAULT NULL,
+  `end_minute` varchar(45) DEFAULT NULL,
+  `attendances` text,
+  `count` int(11) DEFAULT NULL,
+  `contactor` varchar(45) DEFAULT NULL,
+  `phone` varchar(45) DEFAULT NULL,
+  `content` text,
+  `status` char(1) DEFAULT NULL,
+  `sponsor` bigint(20) DEFAULT NULL COMMENT '发起者',
+  `summary` text,
+  `conference_type` char(1) DEFAULT NULL,
+  PRIMARY KEY (`conference_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='会议表';
+
+CREATE TABLE `app_conference_file` (
+  `conference_id` bigint(20) NOT NULL,
+  `file_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`conference_id`,`file_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='会议文件';
+
 
 --
 -- 限制导出的表
