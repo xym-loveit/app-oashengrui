@@ -20,6 +20,10 @@
             <column name="type" not-null="true" />
         </property>
         
+        <property name="level" type="java.lang.String">
+            <column name="level"/>
+        </property>
+        
         <property name="sn" type="java.lang.Integer">
             <column name="sequence" />
         </property>

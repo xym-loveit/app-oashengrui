@@ -11,11 +11,8 @@
          <property name="workDay" type="java.lang.String">
             <column name="work_day" />
         </property>
-         <property name="staffId" type="java.lang.String">
-            <column name="staff_ids" />
-        </property>
          <property name="staffName" type="java.lang.String">
-            <column name="staff_names" />
+            <column name="staff_name" />
         </property>
          <property name="enable" type="java.lang.String">
             <column name="enable" />
@@ -23,6 +20,10 @@
         <property name="templateId" type="java.lang.String">
         	<column name="template_id" />
         </property>
+        
+        <many-to-one name="staff" class="org.shengrui.oa.model.system.ModelAppUser">
+         <column name="staff_id" />
+        </many-to-one>
         
         <many-to-one name="district" class="org.shengrui.oa.model.system.ModelSchoolDistrict">
          <column name="district_id" />
