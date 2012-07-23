@@ -9,6 +9,7 @@ import org.shengrui.oa.dao.system.DAOAppUser;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.service.system.ServiceAppUser;
 
+import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
 import cn.trymore.core.util.UtilString;
@@ -123,4 +124,18 @@ extends ServiceGenericImpl<ModelAppUser> implements ServiceAppUser
 		return daoAppUser;
 	}
 
+	@Override
+	public ModelAppUser getPasswordByUserName(String userName)
+			throws ServiceException {
+		// TODO Auto-generated method stub
+		ModelAppUser modelAppUser = null;
+		try {
+			 modelAppUser =  daoAppUser.getPasswordByUserName(userName);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return modelAppUser;
+	}
+	
 }

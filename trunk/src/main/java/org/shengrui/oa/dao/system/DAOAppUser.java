@@ -38,4 +38,10 @@ extends DAOGeneric<ModelAppUser>
 	 */
 	List<ModelAppUser> findByFullName (String fullName, boolean fetchAll) throws DAOException;
 	
+	/**
+	 * 根据用户帐号查询用户密码 用做验证密码是否正确
+	 * @param userName
+	 * @return String password
+	 * */
+	ModelAppUser getPasswordByUserName(String userName)throws DAOException;
 }

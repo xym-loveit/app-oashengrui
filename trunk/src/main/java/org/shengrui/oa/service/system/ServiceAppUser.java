@@ -51,6 +51,13 @@ extends ServiceGeneric<ModelAppUser>
 	List<ModelAppUser> findByFullName (String fullName, boolean fetchAll) throws ServiceException;
 	
 	/**
+	 * 根据用户名获取用户密码
+	 * @param userName
+	 * */
+	ModelAppUser getPasswordByUserName(String userName)throws ServiceException;
+	
+	
+	/**
 	 * 获取分页用户数据
 	 * 
 	 * @param entity
