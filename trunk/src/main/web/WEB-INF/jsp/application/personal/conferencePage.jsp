@@ -105,7 +105,7 @@ ${tm:fileRestore(conference['attachFiles'])}
 			<table cellspacing="10" cellpadding="10" style="border-spacing:15; border-collapse:collapse;" border="1" id="tbljob">
 				<tr>
 					<td nowrap class="field">会议名称：</td>
-					<td colspan="5"><input name="jobHireTitle" type="text" class="required" value="${jobHire ne null ? jobHire.jobHireTitle : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
+					<td colspan="5"><input name="conferenceName" type="text" class="required" value="${jobHire ne null ? jobHire.jobHireTitle : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 					<td nowrap class="field">会议级别：</td>
 					<td style="padding: 5px;">
 						<c:choose>
@@ -176,7 +176,7 @@ ${tm:fileRestore(conference['attachFiles'])}
 				<tr>
 					<td class="field">开始时间：</td>
 					<td colspan="2" style="width: 120px; padding: 5px;">
-					<input name="startDay" class="textInput required" style="width:70px;float:left;margin:0" value=""/>
+					<input name="startDay" class="date textInput required" style="width:70px;float:left;margin:0" value=""/>
 					<select name="startHour">
 						<option value="08">08</option>
 						<option value="09">09</option>
@@ -204,8 +204,8 @@ ${tm:fileRestore(conference['attachFiles'])}
 					</td>
 					<td class="field">结束时间：</td>
 					<td colspan="2" style="width: 120px; padding: 5px;">
-					<input name="jobHireEndDate" class="textInput required" style="width:70px;float:left;margin:0" value=""/>
-					<select name="startHour">
+					<input name="endDay" class="date textInput required" style="width:70px;float:left;margin:0" value=""/>
+					<select name="endHour">
 						<option value="08">08</option>
 						<option value="09">09</option>
 						<option value="10">10</option>
@@ -221,7 +221,7 @@ ${tm:fileRestore(conference['attachFiles'])}
 						<option value="20">20</option>
 						<option value="21">21</option>
 						<option value="22">22</option>
-					</select>-<select name="startMinute">
+					</select>-<select name="endMinute">
 					<option value="00">00</option>
 					<option value="10">10</option>
 					<option value="20">20</option>
