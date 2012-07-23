@@ -6,6 +6,7 @@ import org.shengrui.oa.dao.system.DAOSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.service.system.ServiceSchoolDepartment;
 
+import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
 
@@ -44,6 +45,23 @@ extends ServiceGenericImpl<ModelSchoolDepartment> implements ServiceSchoolDepart
 			throw new ServiceException(e);
 		}
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.system.ServiceSchoolDepartment#getDistinctDepartmentNames()
+	 */
+	@Override
+	 public List<Object> getDistinctDepartmentNames () throws ServiceException
+	 {
+		try
+		{
+			return this.daoSchoolDepartment.findListByNativeSQL("SELECT distinct(dep_name) FROM app_school_department");
+		} 
+		catch (DAOException e)
+		{
+			throw new ServiceException (e);
+		}
+	 }
 	
 	public DAOSchoolDepartment getDaoSchoolDepartment()
 	{

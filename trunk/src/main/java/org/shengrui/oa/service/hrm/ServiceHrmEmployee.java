@@ -58,6 +58,11 @@ extends ServiceGeneric<ModelHrmEmployee>
 	List<ModelHrmEmployee> getEmployeeByDistrictIdAndDeptId(ModelHrmEmployee entity) throws ServiceException;
 	
 	/**
+	 * 根据校区和部门查员工
+	 */
+	List<ModelHrmEmployee> getEmployeeByDistrictIdAndDeptId(String depId, String districtId) throws ServiceException;
+	
+	/**
 	 * 根据校区和部门ID获取拥有的员工数量
 	 * 
 	 * @param districtId

@@ -23,4 +23,13 @@ extends ServiceGeneric<ModelSchoolDepartment>
 	 * @throws ServiceException
 	 */
 	 List<ModelSchoolDepartment> getDepartmentByOrganization(Integer orgType) throws ServiceException;
+	 
+	 /**
+	  * Obtains distinct names of department.
+	  * 
+	  * @return
+	  * @throws ServiceException
+	  */
+	 List<Object> getDistinctDepartmentNames () throws ServiceException;
+	 
 }

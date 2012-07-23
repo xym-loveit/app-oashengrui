@@ -11,6 +11,7 @@
 		<property name="serviceWorkTemplate" ref="serviceWorkTemplate"/>
 		<property name="serviceBaseWorkTime" ref="serviceBaseWorkTime"/>
 		<property name="serviceBaseWorkContent" ref="serviceBaseWorkContent"/>
+		<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
 	</bean>
 	
 	

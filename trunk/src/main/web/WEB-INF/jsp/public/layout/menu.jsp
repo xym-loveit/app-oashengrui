@@ -23,7 +23,7 @@
 		</div>
 		<div class="accordionContent">
 			<ul class="tree treeFolder">
-				<li treeicon="icon-myplan"><a href="app/personal.do?action=pageMyWorkplan" target="navTab" rel="myplan">我的任务</a></li>
+				<li treeicon="icon-myplan"><a href="app/personal/task.do?action=pageTaskIndex" target="navTab" rel="myplan">我的任务</a></li>
 				<li treeicon="icon-myconference"><a href="app/personal/conference.do?action=myConferenceIndex" target="navTab" rel="myconference">我的会议</a></li>
 				<li treeicon="icon-mynews"><a href="app/personal/news.do?action=pageMyNews" target="navTab" rel="mynews">我的新闻</a></li>
 				<li treeicon="icon-infodoc"><a href="app/personal/doc.do?action=pageMyDoc" target="navTab" rel="mydoc">文档下载区</a></li>

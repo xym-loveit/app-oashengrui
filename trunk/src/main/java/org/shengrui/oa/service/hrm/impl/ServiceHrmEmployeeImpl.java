@@ -173,6 +173,29 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 	
 	/*
 	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmEmployee#getEmployeeByDistrictIdAndDeptId(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public List<ModelHrmEmployee> getEmployeeByDistrictIdAndDeptId(String depId, 
+			String districtId) throws ServiceException
+	{
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployee.class);
+		
+		criteria.createCriteria("employeeDistrict").add(Restrictions.eq("id", districtId));
+		criteria.createCriteria("employeeDepartment").add(Restrictions.eq("id", depId));
+		
+		try 
+		{
+			return this.daoHrmEmployee.getListByCriteria(criteria);
+		} 
+		catch (DAOException e) 
+		{
+			throw new ServiceException(e);
+		}	
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.shengrui.oa.service.hrm.ServiceHrmEmployee#getEmployeeAmoutByDistrictIdAndDepId(java.lang.String, java.lang.String)
 	 */
 	@Override
