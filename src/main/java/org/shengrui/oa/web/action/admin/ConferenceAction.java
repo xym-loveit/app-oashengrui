@@ -241,30 +241,32 @@ public class ConferenceAction extends BaseAdminAction {
 
 			Date now = new Date();
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			for(ModelConference entity : conferences.getItems()){
-				if("1".equals(entity.getStatus())){
-					String edatetime = format.format(entity.getEndDay())+" "+entity.getEndHour()+":"+entity.getEndMinute()+":00";
-					String sdatetime = format.format(entity.getStartDay())+" "+entity.getStartHour()+":"+entity.getStartMinute()+":00";
-					Date endDate = format.parse(edatetime);
-					Date startDate = format.parse(sdatetime);
-					String result = "";
-					if(now.before(startDate)){
-						result = UtilDateTime.getTimeBetweenDates(now, startDate);
-					}
-					if(now.after(startDate) && now.before(endDate)){
-						result = "会议进行中";
-					}
-					if(now.after(endDate)){ 
-						result = "会议时间已过";
-						if(entity.getSummary()==null || UtilString.isNotEmpty(entity.getSummary())){
-							result += "<br/><font color=\"red\"请进行会议总结</font>";
+			if(conferences !=null){
+				for(ModelConference entity : conferences.getItems()){
+					if("1".equals(entity.getStatus())){
+						String edatetime = format.format(entity.getEndDay())+" "+entity.getEndHour()+":"+entity.getEndMinute()+":00";
+						String sdatetime = format.format(entity.getStartDay())+" "+entity.getStartHour()+":"+entity.getStartMinute()+":00";
+						Date endDate = format.parse(edatetime);
+						Date startDate = format.parse(sdatetime);
+						String result = "";
+						if(now.before(startDate)){
+							result = UtilDateTime.getTimeBetweenDates(now, startDate);
 						}
+						if(now.after(startDate) && now.before(endDate)){
+							result = "会议进行中";
+						}
+						if(now.after(endDate)){ 
+							result = "会议时间已过";
+							if(entity.getSummary()==null || UtilString.isNotEmpty(entity.getSummary())){
+								result += "<br/><font color=\"red\"请进行会议总结</font>";
+							}
+						}
+						entity.setResult(result);
+					}else if("2".equals(entity.getStatus())){
+						entity.setResult("会议已取消");
+					}else if("3".equals(entity.getStatus())){
+						entity.setResult("会议时间已过");
 					}
-					entity.setResult(result);
-				}else if("2".equals(entity.getStatus())){
-					entity.setResult("会议已取消");
-				}else if("3".equals(entity.getStatus())){
-					entity.setResult("会议时间已过");
 				}
 			}
 			request.setAttribute("conferences", conferences);

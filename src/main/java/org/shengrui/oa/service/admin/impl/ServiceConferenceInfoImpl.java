@@ -1,5 +1,7 @@
 package org.shengrui.oa.service.admin.impl;
 
+import java.util.List;
+
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
@@ -8,6 +10,7 @@ import org.shengrui.oa.dao.admin.DAOConferenceInfo;
 import org.shengrui.oa.model.admin.ModelConference;
 import org.shengrui.oa.service.admin.ServiceConferenceInfo;
 
+import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
 import cn.trymore.core.util.UtilString;
@@ -116,5 +119,23 @@ extends ServiceGenericImpl<ModelConference> implements ServiceConferenceInfo
 	 */
 	public void setDaoConferenceInfo(DAOConferenceInfo daoConferenceInfo) {
 		this.daoConferenceInfo = daoConferenceInfo;
+	}
+
+	@Override
+	public int getNoSummaryConference()
+			throws ServiceException {
+		// TODO Auto-generated method stub
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelConference.class);
+		criteria.add(Restrictions.eq("summary", null));
+		criteria.add(Restrictions.ne("status", "3"));
+		try {
+			List<ModelConference> list = this.daoConferenceInfo.getListByCriteria(criteria);
+			if(list != null)
+				return list.size();
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			throw new ServiceException(e);
+		}
+		return 0;
 	}
 }

@@ -28,4 +28,5 @@ extends ServiceGeneric<ModelConference>
 	PaginationSupport<ModelConference> getPaginationByEntity (ModelConference entity, 
 			PagingBean pagingBean) throws ServiceException;
 	
+	public int getNoSummaryConference() throws ServiceException;
 }
