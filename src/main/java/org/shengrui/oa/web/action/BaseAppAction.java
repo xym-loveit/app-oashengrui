@@ -279,6 +279,7 @@ extends BaseAction
 		return ajaxPrint(response, "[]");
 	}
 	
+	
 	/**
 	 * <b>[WebAction]</b> 
 	 * <br/>
@@ -516,6 +517,57 @@ extends BaseAction
 		{
 			throw new Exception("校区或者部门数据为空...");
 		}
+	}
+	
+	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
+	 * 根据部门ID和校区ID刷新员工列表
+	 */
+	public ActionForward actionLoadEmployeeByDepAndDistrict (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		String depId = request.getParameter("depId");
+		String districtId = request.getParameter("districtId");
+		
+		if (UtilString.isNotEmpty(depId, districtId))
+		{
+			try
+			{
+				ModelSchoolDepartment entityDep = this.serviceSchoolDepartment.get(depId);
+				ModelSchoolDistrict entityDistrict = this.serviceSchoolDistrict.get(districtId);
+				
+				if (entityDep != null && entityDistrict != null)
+				{
+					
+					List<ModelHrmEmployee> emps = 
+							this.serviceHrmEmployee.getEmployeeByDistrictIdAndDeptId(entityDep.getId(), entityDistrict.getId());
+					
+					if (emps != null)
+					{
+						GsonBuilder builder = new GsonBuilder();
+						builder.excludeFieldsWithoutExposeAnnotation();
+						Gson gson = builder.create();
+						return ajaxPrint(response, gson.toJson(emps));
+					}
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("部门数据或校区数据不存在..."));
+				}
+				
+			}
+			catch (Exception e)
+			{
+				return ajaxPrint(response, getErrorCallback("加载数据失败:" + e.getMessage()));
+			}
+		}
+		else
+		{
+			return ajaxPrint(response, getErrorCallback("需要指定部门和校区..."));
+		}
+		
+		return null;
 	}
 	
 	public ServiceSchoolDepartment getServiceSchoolDepartment()

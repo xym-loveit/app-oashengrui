@@ -8,6 +8,8 @@ import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 
+import com.google.gson.annotations.Expose;
+
 import cn.trymore.core.model.ModelBase;
 
 /**
@@ -35,6 +37,7 @@ extends ModelBase
 	/**
 	 * 员工编号
 	 */
+	@Expose
 	private String empNo;
 	
 	/**
@@ -50,6 +53,7 @@ extends ModelBase
 	/**
 	 * 员工全名
 	 */
+	@Expose
 	private String empName;
 	
 	/**

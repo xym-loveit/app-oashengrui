@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+
+	<action-mappings>
+		
+		<action path="/app/personal/task"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="page.task.index" path="page.task.index" />
+			<forward name="page.task.launched" path="page.task.launched" />
+			<forward name="dialog.task.page" path="dialog.task.page" />
+		</action>
+		
+	</action-mappings>
+
+</struts-config>

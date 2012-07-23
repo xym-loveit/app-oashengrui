@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+       
+<tiles-definitions>
+	
+	<!-- 我的任务 -->
+	<definition name="page.task.index"  path="/WEB-INF/jsp/application/personal/myTask.jsp"/>
+	
+	<!-- 我发起的任务 -->
+	<definition name="page.task.launched"  path="/WEB-INF/jsp/application/personal/task/pageTaskLaunched.jsp"/>
+	
+	<!-- 任务详情页面 -->
+	<definition name="dialog.task.page"  path="/WEB-INF/jsp/application/personal/task/dialog/dialogTaskPage.jsp"/>
+	
+</tiles-definitions>
