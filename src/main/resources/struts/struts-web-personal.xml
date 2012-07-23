@@ -38,6 +38,7 @@
 				type="org.springframework.web.struts.DelegatingActionProxy">
 			<forward name="my.page.conference.index" path="my.page.conference.index" />
 			<forward name="person.page.conference.detail" path="person.page.conference.detail"/>
+			<forward name="my.page.conference.start" path="my.page.conference.start"/>
 		</action>
 	</action-mappings>
 
