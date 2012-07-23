@@ -100,7 +100,6 @@ ${tm:fileRestore(news['attachFiles'])}
 					<td>新闻级别：</td>
 					<td>
 						<select class="combox" name="newsLevel" id="entry_level" style="width:150px">
-							<option value="">所有</option>
 							<option value="0" ${news ne null && news.newsLevel eq 0 ? 'selected="selected"' : '' }>公司新闻</option>
 							<option value="1" ${news ne null && news.newsLevel eq 1 ? 'selected="selected"' : '' }>校区新闻</option>
 						</select>
@@ -125,7 +124,6 @@ ${tm:fileRestore(news['attachFiles'])}
 					<td>新闻类别：</td>
 					<td>
 						<select class="combox" name="typeDicid" id="news_type1" style="width:150px">
-							<option value="">所有</option>
 						  	<logic:present name="newsTypes">
 								<logic:iterate name="newsTypes" id="newsType">
 									<option value="${newsType.id}" ${news ne null && news.dictionary.id eq newsType.id? 'selected="selected"' : ''}>${newsType.name}</option>
