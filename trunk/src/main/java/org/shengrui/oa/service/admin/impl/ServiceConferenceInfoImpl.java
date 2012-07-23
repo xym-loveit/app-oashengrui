@@ -126,7 +126,7 @@ extends ServiceGenericImpl<ModelConference> implements ServiceConferenceInfo
 			throws ServiceException {
 		// TODO Auto-generated method stub
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelConference.class);
-		criteria.add(Restrictions.eq("summary", null));
+		criteria.add(Restrictions.isNull("summary"));
 		criteria.add(Restrictions.ne("status", "3"));
 		try {
 			List<ModelConference> list = this.daoConferenceInfo.getListByCriteria(criteria);

@@ -181,6 +181,8 @@ public class ConferenceAction extends BaseAdminAction {
 			else
 			{
 				// 新建
+				formInfo.setAttendances(request.getParameter("attendances")+","+ContextUtil.getCurrentUser().getFullName());
+				formInfo.setCount(Integer.valueOf(request.getParameter("count"))+1);
 				entity = formInfo;
 			}
 			
@@ -207,7 +209,7 @@ public class ConferenceAction extends BaseAdminAction {
 //				entity.setPostAuthorName(ContextUtil.getCurrentUser().getFullName());
 //			}
 
-			// 设置岗位附件
+			// 设置会议附件
 			this.handleFileAttachments(entity, request);
 			this.serviceConference.save(entity);
 			// 保存成功后, Dialog进行关闭
@@ -338,4 +340,49 @@ public class ConferenceAction extends BaseAdminAction {
 		}
 	}
 	
+	public ActionForward actionLoadActivateDialog(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	{
+		try
+		{
+			String id = request.getParameter("id");
+			
+			if (this.isObjectIdValid(id))
+			{
+				ModelConference confInfo =  this.serviceConference.get(id);
+				request.setAttribute("conference", confInfo);
+			}
+			return mapping.findForward("person.dialog.conference.summary");
+		}
+		catch (Exception e)
+		{
+			LOGGER.error("Exception raised when fetch the conference entity!", e);
+			return ajaxPrint(response, getErrorCallback("数据加载失败,原因:" + e.getMessage()));
+		}
+	}
+	
+	public ActionForward actionSubmitSummary(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	{
+		String id = request.getParameter("id");
+		ModelConference entity = null;
+		try {
+			entity = this.serviceConference.get(id);
+			if (entity != null)
+			{
+				// 设置会议附件
+				this.handleFileAttachments(entity, request);
+				entity.setStatus(ModelConference.ConferenceStatus.END.getText());
+				entity.setSummary(request.getParameter("summary"));
+				this.serviceConference.save(entity);
+				return ajaxPrint(response, 
+						getSuccessCallback("会议总结提交成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+			}else{
+				return ajaxPrint(response,getErrorCallback("无效的ID"));
+			}
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			return ajaxPrint(response,getErrorCallback("会议总结提交失败"));
+		}
+	}
 }
