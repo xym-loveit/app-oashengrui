@@ -105,17 +105,19 @@ ${tm:fileRestore(conference['attachFiles'])}
 			<table cellspacing="10" cellpadding="10" style="border-spacing:15; border-collapse:collapse;" border="1" id="tbljob">
 				<tr>
 					<td nowrap class="field">会议名称：</td>
-					<td colspan="5"><input name="conferenceName" type="text" class="required" value="${jobHire ne null ? jobHire.jobHireTitle : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
+					<td colspan="5"><input name="conferenceName" type="text" class="required" value="${conference ne null ? conference.conferenceName : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 					<td nowrap class="field">会议级别：</td>
 					<td style="padding: 5px;">
 						<c:choose>
 							<c:when test="${op eq null || op ne 'view'}">
 								<select class="combox" name="level" id="combox_level" style="width:120px">
 									<option value="">请选择会议级别</option>
+									<option value="公司级别会议">公司级别会议</option>
+									<option value="校区级别会议">校区级别会议</option>
 								</select>
 							</c:when>
 							<c:otherwise>
-								<input name="level" type="text"  value="" readonly />
+								<input name="level" type="text"  value="${conference.level }" readonly />
 							</c:otherwise>
 						</c:choose>
 					</td>
@@ -127,10 +129,13 @@ ${tm:fileRestore(conference['attachFiles'])}
 							<c:when test="${op eq null || op ne 'view'}">
 								<select class="combox" name="type" id="combox_type" defOPKey="请选择会议类型" defOPVal="" style="width:120px">
 									<option value="">请选择会议类型</option>
+									<option value="1">请选择会议类型</option>
+									<option value="2">请选择会议类型</option>
+									<option value="3">请选择会议类型</option>
 								</select>
 							</c:when>
 							<c:otherwise>
-								<input name="type" type="text"  value="" readonly />
+								<input name="type" type="text"  value="${conference.type }" readonly />
 							</c:otherwise>
 						</c:choose>
 					</td>
@@ -142,13 +147,13 @@ ${tm:fileRestore(conference['attachFiles'])}
 									<option value="">请选择校区</option>
 									<logic:present name="districts">
 										<logic:iterate name="districts" id="district">
-											<option value="${district.id}" ${jobHire ne null && jobHire.jobHireDistrict ne null && jobHire.jobHireDistrict.id eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
+											<option value="${district.id}" ${conference ne null && conference.district ne null && conference.district.id eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
 										</logic:iterate>
 									</logic:present>
 								</select>
 							</c:when>
 							<c:otherwise>
-								<input name="district.id" type="text"  value="${jobHire ne null && jobHire.jobHireDistrict ne null ? jobHire.jobHireDistrict.districtName : ''}" readonly />
+								<input name="district.id" type="text"  value="${conference ne null && conference.district ne null ? conference.district.districtName : ''}" readonly />
 							</c:otherwise>
 						</c:choose>
 					</td>
@@ -160,94 +165,124 @@ ${tm:fileRestore(conference['attachFiles'])}
 									<option value="">请选择部门</option>
 									<logic:present name="departments">
 										<logic:iterate name="departments" id="entity">
-											<option value="${entity.id}" ${jobHire ne null && jobHire.jobHireDepartment ne null && jobHire.jobHireDepartment.id eq entity.id ? 'selected="selected"' : ''}>${entity.depName}</option>
+											<option value="${entity.id}" ${conference ne null && conference.department ne null && conference.department.id eq entity.id ? 'selected="selected"' : ''}>${entity.depName}</option>
 										</logic:iterate>
 									</logic:present>
 								</select>
 							</c:when>
 							<c:otherwise>
-								<input name="department.id" type="text"  value="${jobHire ne null && jobHire.jobHireDepartment ne null ? jobHire.jobHireDepartment.depName : ''}" readonly />
+								<input name="department.id" type="text"  value="${conference ne null && conference.department ne null ? conference.department.depName : ''}" readonly />
 							</c:otherwise>
 						</c:choose>
 					</td>
 					<td nowrap class="field">会议地址：</td>
-					<td style="width: 120px; padding: 5px;"><input name="address" class="textInput required" value=""/></td>
+					<td style="width: 120px; padding: 5px;"><input name="address" class="textInput required" value="${conference ne null ? conference.address : '' }"/></td>
 				</tr>
 				<tr>
 					<td class="field">开始时间：</td>
-					<td colspan="2" style="width: 120px; padding: 5px;">
-					<input name="startDay" class="date textInput required" style="width:70px;float:left;margin:0" value=""/>
-					<select name="startHour">
-						<option value="08">08</option>
-						<option value="09">09</option>
-						<option value="10">10</option>
-						<option value="11">11</option>
-						<option value="12">12</option>
-						<option value="13">13</option>
-						<option value="14">14</option>
-						<option value="15">15</option>
-						<option value="16">16</option>
-						<option value="17">17</option>
-						<option value="18">18</option>
-						<option value="19">19</option>
-						<option value="20">20</option>
-						<option value="21">21</option>
-						<option value="22">22</option>
-					</select>-<select name="startMinute">
-					<option value="00">00</option>
-					<option value="10">10</option>
-					<option value="20">20</option>
-					<option value="30">30</option>
-					<option value="40">40</option>
-					<option value="50">50</option>
-					</select>
+					<td style=" padding: 5px;" colspan='3'>
+						<input name="startDay" class="date textInput required" style="width:70px;float:left;margin:0" value="<fmt:formatDate value="${conference.startDay}" type="date" pattern="yyyy-MM-dd"/>"/>
+						<c:choose>
+							<c:when test="${op eq null || op ne 'view'}">
+								<select name="startHour" style="margin-left:5px;float:none">
+									<option value="08" ${conference ne null && conference.startHour eq '08' ? 'selected="selected"':'' }>08</option>
+									<option value="09" ${conference ne null && conference.startHour eq '09' ? 'selected="selected"':'' }>09</option>
+									<option value="10" ${conference ne null && conference.startHour eq '10' ? 'selected="selected"':'' }>10</option>
+									<option value="11" ${conference ne null && conference.startHour eq '11' ? 'selected="selected"':'' }>11</option>
+									<option value="12" ${conference ne null && conference.startHour eq '12' ? 'selected="selected"':'' }>12</option>
+									<option value="13" ${conference ne null && conference.startHour eq '13' ? 'selected="selected"':'' }>13</option>
+									<option value="14" ${conference ne null && conference.startHour eq '14' ? 'selected="selected"':'' }>14</option>
+									<option value="15" ${conference ne null && conference.startHour eq '15' ? 'selected="selected"':'' }>15</option>
+									<option value="16" ${conference ne null && conference.startHour eq '16' ? 'selected="selected"':'' }>16</option>
+									<option value="17" ${conference ne null && conference.startHour eq '17' ? 'selected="selected"':'' }>17</option>
+									<option value="18" ${conference ne null && conference.startHour eq '18' ? 'selected="selected"':'' }>18</option>
+									<option value="19" ${conference ne null && conference.startHour eq '19' ? 'selected="selected"':'' }>19</option>
+									<option value="20" ${conference ne null && conference.startHour eq '20' ? 'selected="selected"':'' }>20</option>
+									<option value="21" ${conference ne null && conference.startHour eq '21' ? 'selected="selected"':'' }>21</option>
+									<option value="22" ${conference ne null && conference.startHour eq '22' ? 'selected="selected"':'' }>22</option>
+								</select>
+							</c:when>
+							<c:otherwise>
+								<input type="text" value="${conference.startHour}" style="width:50px;float;none;margin:0" readonly />
+							</c:otherwise>
+						</c:choose>
+					<strong>:</strong>
+						<c:choose>
+							<c:when test="${op eq null || op ne 'view'}">
+								<select name="startMinute" style="margin-left:5px;float:none">
+									<option value="00" ${conference ne null && conference.startMinute eq '00' ? 'selected="selected"':''}>00</option>
+									<option value="10" ${conference ne null && conference.startMinute eq '10' ? 'selected="selected"':''}>10</option>
+									<option value="20" ${conference ne null && conference.startMinute eq '20' ? 'selected="selected"':''}>20</option>
+									<option value="30" ${conference ne null && conference.startMinute eq '30' ? 'selected="selected"':''}>30</option>
+									<option value="40" ${conference ne null && conference.startMinute eq '40' ? 'selected="selected"':''}>40</option>
+									<option value="50" ${conference ne null && conference.startMinute eq '50' ? 'selected="selected"':''}>50</option>
+								</select>
+							</c:when>
+							<c:otherwise>
+								<input type="text" value="${conference.startMinute}" style="width:50px;float:none;margin:0" readonly />
+							</c:otherwise>
+						</c:choose>
 					</td>
 					<td class="field">结束时间：</td>
-					<td colspan="2" style="width: 120px; padding: 5px;">
-					<input name="endDay" class="date textInput required" style="width:70px;float:left;margin:0" value=""/>
-					<select name="endHour">
-						<option value="08">08</option>
-						<option value="09">09</option>
-						<option value="10">10</option>
-						<option value="11">11</option>
-						<option value="12">12</option>
-						<option value="13">13</option>
-						<option value="14">14</option>
-						<option value="15">15</option>
-						<option value="16">16</option>
-						<option value="17">17</option>
-						<option value="18">18</option>
-						<option value="19">19</option>
-						<option value="20">20</option>
-						<option value="21">21</option>
-						<option value="22">22</option>
-					</select>-<select name="endMinute">
-					<option value="00">00</option>
-					<option value="10">10</option>
-					<option value="20">20</option>
-					<option value="30">30</option>
-					<option value="40">40</option>
-					<option value="50">50</option>
-					</select>
+					<td style=" padding: 5px;" colspan="3">
+						<input name="endDay" class="date textInput required" style="width:70px;float:left;margin:0" value="<fmt:formatDate value="${conference.endDay}" type="date" pattern="yyyy-MM-dd"/>"/>
+						<c:choose>
+							<c:when test="${op eq null || op ne 'view'}">
+								<select name="endHour" style="margin-left:5px;float:none">
+									<option value="08" ${conference ne null && conference.endHour eq '08' ? 'selected="selected"':'' }>08</option>
+									<option value="09" ${conference ne null && conference.endHour eq '09' ? 'selected="selected"':'' }>09</option>
+									<option value="10" ${conference ne null && conference.endHour eq '10' ? 'selected="selected"':'' }>10</option>
+									<option value="11" ${conference ne null && conference.endHour eq '11' ? 'selected="selected"':'' }>11</option>
+									<option value="12" ${conference ne null && conference.endHour eq '12' ? 'selected="selected"':'' }>12</option>
+									<option value="13" ${conference ne null && conference.endHour eq '13' ? 'selected="selected"':'' }>13</option>
+									<option value="14" ${conference ne null && conference.endHour eq '14' ? 'selected="selected"':'' }>14</option>
+									<option value="15" ${conference ne null && conference.endHour eq '15' ? 'selected="selected"':'' }>15</option>
+									<option value="16" ${conference ne null && conference.endHour eq '16' ? 'selected="selected"':'' }>16</option>
+									<option value="17" ${conference ne null && conference.endHour eq '17' ? 'selected="selected"':'' }>17</option>
+									<option value="18" ${conference ne null && conference.endHour eq '18' ? 'selected="selected"':'' }>18</option>
+									<option value="19" ${conference ne null && conference.endHour eq '19' ? 'selected="selected"':'' }>19</option>
+									<option value="20" ${conference ne null && conference.endHour eq '20' ? 'selected="selected"':'' }>20</option>
+									<option value="21" ${conference ne null && conference.endHour eq '21' ? 'selected="selected"':'' }>21</option>
+									<option value="22" ${conference ne null && conference.endHour eq '22' ? 'selected="selected"':'' }>22</option>
+								</select>
+							</c:when>
+							<c:otherwise>
+								<input type="text" value="${conference.endHour}" style="width:50px;float:none;margin:0" readonly />
+							</c:otherwise>
+						</c:choose>
+					<strong>:</strong>
+						<c:choose>
+							<c:when test="${op eq null || op ne 'view'}">
+								<select name="endMinute" style="margin-left:5px;float:none">
+									<option value="00" ${conference ne null && conference.endMinute eq '00' ? 'selected="selected"':''}>00</option>
+									<option value="10" ${conference ne null && conference.endMinute eq '10' ? 'selected="selected"':''}>10</option>
+									<option value="20" ${conference ne null && conference.endMinute eq '20' ? 'selected="selected"':''}>20</option>
+									<option value="30" ${conference ne null && conference.endMinute eq '30' ? 'selected="selected"':''}>30</option>
+									<option value="40" ${conference ne null && conference.endMinute eq '40' ? 'selected="selected"':''}>40</option>
+									<option value="50" ${conference ne null && conference.endMinute eq '50' ? 'selected="selected"':''}>50</option>
+								</select>
+							</c:when>
+							<c:otherwise>
+								<input type="text" value="${conference.endMinute}" style="width:50px;float:none;margin:0" readonly />
+							</c:otherwise>
+						</c:choose>
 					</td>
-					<td colspan="2"></td>
 				</tr>
 				<tr>
 					<td class="field">参会人员：</td>
-					<td colspan="5"><input name="attendances" type="text"  class="required" value="${jobHire ne null ? jobHire.jobHireCount : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
+					<td colspan="5"><input name="attendances" type="text"  class="required" value="${conference ne null ? conference.attendances : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 					<td class="field">参会人数：</td>
-					<td><input type="text" name="count" value="" style="width:70px;float:left;margin:0" />人	</td>
+					<td><input type="text" name="count" value="${conference ne null ? conference.count : '' }" style="width:70px;float:left;margin:0" />人	</td>
 				</tr>
 				<tr>
 					<td class="field">联系人：</td>
-					<td colspan="2"><input name="contactor" type="text" value="${jobHire ne null ? jobHire.jobHireAddress : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''} /></td>
+					<td colspan="3"><input name="contactor" type="text" value="${conference ne null ? conference.contactor : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''} /></td>
 					<td class="field" style="vertical-align: top;">联系电话：</td>
-					<td colspan="2"><input name="phone" type="text" /></td>
-					<td colspan="2"></td>
+					<td colspan="3"><input name="phone" type="text" value="${conference ne null ? conference.phone : ''}" /></td>
 				</tr>
 				<tr>
 					<td class="field" style="vertical-align: top;">会议内容：</td>
-					<td colspan="7"><textarea name="content" rows="3" ${op ne null && op eq 'view' ? 'readonly' : ''}>${jobHire ne null ? jobHire.jobHireCondition : ''}</textarea></td>
+					<td colspan="7"><textarea name="content" rows="3" ${op ne null && op eq 'view' ? 'readonly' : ''}>${conference ne null ? conference.content : ''}</textarea></td>
 				</tr>
 				<tr>
 					<td class="field" style="vertical-align: top;">附件区：</td>
@@ -284,15 +319,14 @@ ${tm:fileRestore(conference['attachFiles'])}
 		</div>
 		<div class="formBar">
 			<ul>
-				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">发起会议</button></div></div></li>
+				<c:if test="${conference ne null && op ne null && op eq 'edit'}">
+					<li><div class="buttonActive"><div class="buttonContent"><button type="submit">提交并审核</button></div></div></li>
+				</c:if>
 				<li>
 					<div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div>
 				</li>
 			</ul>
 		</div>
-		<c:if test="${jobHire ne null}">
-			<input type="hidden" id="formAction" name="formAction" value="" />
-		</c:if>
-		<input type="hidden" name="id" value="${jobHire ne null ? jobHire.id : '-1'}" />
+		<input type="hidden" name="id" value="${conference ne null ? conference.id : '-1'}" />
 	</form>
 </div>

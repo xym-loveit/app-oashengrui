@@ -100,7 +100,7 @@
 						<td>${entity.sponsor.fullName }</td>
 						<td>${entity.contactor}</td>
 						<td>${entity.phone }</td>
-						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}&op=view" target="dialog" title="岗位详细" width="960" height="420">详细</a></td>
+						<td><a class="oplink" href="app/personal/conference.do?action=conferenceDetail&id=${entity.id}&op=view" target="dialog" title="岗位详细" width="960" height="420">详细</a></td>
 					</tr>
 				</logic:iterate>
 			</logic:present>
