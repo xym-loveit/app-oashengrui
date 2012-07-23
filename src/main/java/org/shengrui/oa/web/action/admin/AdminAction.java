@@ -254,7 +254,7 @@ extends BaseAdminAction
 			ModelNewsMag newsScanInfo = serviceNewsManage.getModelNewsMag(newsId);
 			
 			request.setAttribute("newsScanInfo", newsScanInfo);
-			request.setAttribute("op", request.getParameter("op"));
+			request.setAttribute("op","view");
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

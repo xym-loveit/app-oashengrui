@@ -39,7 +39,7 @@ $(function(){
 
 	//加载上传组件入口文件
 	KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
-		var ru = new RenderUploader('#jp_J_UploaderBtnNews', '#jp_J_UploaderQueueNews',{
+		var ru = new RenderUploader('#j_J_UploaderBtnNews', '#j_J_UploaderQueueNews',{
 			 //服务器端配置
 			serverConfig:{
 				//处理上传的服务器端脚本路径
@@ -175,9 +175,9 @@ ${tm:fileRestore(news['attachFiles'])}
 							<c:choose>
 								<c:when test="${op eq null || op ne 'view'}">
 									<!-- 上传按钮，组件配置请写在data-config内 -->
-									<a id="jp_J_UploaderBtnNews" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件 </a>
+									<a id="j_J_UploaderBtnNews" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件 </a>
 									<!-- 文件上传队列 -->
-									<ul id="jp_J_UploaderQueueNews"></ul>
+									<ul id="j_J_UploaderQueueNews"></ul>
 									<div id="J_Panel" class="event-panel"></div>
 									<input type="hidden" name="fileUrls" id="fileUrls" />
 									<input type="hidden" name="fileIds" id="fileIds" />
