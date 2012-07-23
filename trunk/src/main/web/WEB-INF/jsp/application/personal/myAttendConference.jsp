@@ -7,6 +7,7 @@
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
 <%@ taglib uri="/tags/trymore" prefix="tm"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 
@@ -30,23 +31,29 @@
 				<tr>
 					<td>
 						<label>会议类型：</label>
-						<select class="combox" name="jobHireDistrict.id" id="combox_district_jindex" style="width:120px" ref="combox_dept_jindex" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
-							<option value="">所有</option>
+						<select class="combox" name="type.id" id="combox_conference_type" style="width:120px">
+							<option value="-1">所有</option>
+							<logic:present name="conferenceType">
+								<logic:iterate name="conferenceType" id="type_item">
+									<option value="${type_item.id}" ${conferenceForm ne null && conferenceForm.type ne null && conferenceForm.type.id eq type_item.id ? 'selected="selected"' : ''}>${type_item.name}</option>
+								</logic:iterate>
+							</logic:present>
 						</select>
 					</td>
 					<td>
 						<label>会议状态：</label>
-						<select class="combox" name="isOpen" id="entry_status">
+						<select class="combox" name="status" id="entry_status">
 							<option value="">所有</option>
-							<option value="1" ${conference ne null && conference.status eq 1 ? 'selected="selected"' : ''}>招聘中</option>
-							<option value="0" ${conference ne null && hireJobForm.status eq 0 ? 'selected="selected"' : ''}>已关闭</option>
+							<option value="1" ${conferenceForm ne null && conferenceForm.status eq 1 ? 'selected="selected"' : ''}>已发起</option>
+							<option value="2" ${conferenceForm ne null && conferenceForm.status eq 0 ? 'selected="selected"' : ''}>已结束</option>
+							<option value="3" ${conferenceForm ne null && conferenceForm.status eq 0 ? 'selected="selected"' : ''}>已取消</option>
 						</select>
 					</td>
 					<td>
-						会议名称：<input type="text"  name="conferenceName" value="${conference ne null ? conference.conferenceName : ''}"/>
+						会议名称：<input type="text"  name="conferenceName" value="${conferenceForm ne null ? conferenceForm.conferenceName : ''}"/>
 					</td>
 					<td>
-						开会日期：<input type="text" name="startDay" class="date" /> - <input type="text" name="endDay" class="date" />
+						开会日期：<input type="text" name="startDay" class="date" value="${conferenceForm ne null ? conferenceForm.startDay:'' }" /> - <input type="text" name="endDay" class="date" value="${conferenceForm ne null ? conferenceForm.endDay:'' }" />
 					</td>
 				</tr>
 			</table>
@@ -64,7 +71,7 @@
 	<div class="panelBar">
 		<c:if test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.functionRights eq '__ALL' || tm:inRange(sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.functionRights, '_FUNCKEY_JOBAPPROVAL_SUBNODE', ',') || tm:inRange(sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.functionRights, '_FUNCKEY_JOBAPPROVAL_ROOT', ',')}">
 			<ul class="toolBar" style="float:right">
-				<li><a treeicon="icon-edit" class="icon" href="app/hrm/hire.do?action=hrmPageJobApprovalIndex" target="navTab" rel="hr_approval"><span class="icon-edit">我发起的会议</span></a></li>
+				<li><a treeicon="icon-edit" class="icon" href="app/personal/conference.do?action=myConferences" target="navTab" rel="myconference"><span class="icon-edit">我发起的会议</span></a></li>
 			</ul>
 		</c:if>
 		<ul class="toolBar">
@@ -91,12 +98,12 @@
 			<logic:present name="conferences">
 				<logic:iterate name="conferences" property="items" id="entity">
 					<tr target="sid" rel="${entity.id}">
-						<td>${entity.type}</td>
+						<td>${entity.type.name}</td>
 						<td>${entity.conferenceName}</td>
-						<td>${entity.startDay}</td>
-						<td>${entity.endDay}</td>
-						<td>${entity.status}</td>
-						<td></td>
+						<td><fmt:formatDate value="${entity.startDay}" type="date" pattern="yyyy-MM-dd"/> ${entity.startHour }:${entity.startMinute }</td>
+						<td><fmt:formatDate value="${entity.endDay}" type="date" pattern="yyyy-MM-dd"/> ${entity.endHour }:${entity.endMinute }</td>
+						<td><c:if test = "${entity.status == '1'}">已发起</c:if><c:if test = "${entity.status == '2'}">已结束</c:if><c:if test = "${entity.status == '3'}">已取消</c:if></td>
+						<td>${entity.result ne null ? entity.result : ''}</td>
 						<td>${entity.sponsor.fullName }</td>
 						<td>${entity.contactor}</td>
 						<td>${entity.phone }</td>

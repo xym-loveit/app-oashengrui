@@ -110,10 +110,10 @@ ${tm:fileRestore(conference['attachFiles'])}
 					<td style="padding: 5px;">
 						<c:choose>
 							<c:when test="${op eq null || op ne 'view'}">
-								<select class="combox" name="level" id="combox_level" style="width:120px">
+								<select class="combox" name="level" id="combox_level" style="width:120px" ref="combox_cof_type" refUrl="app/system/dictionary.do?action=actionLoadByTypeAndLevel&type=conference&level={value}">
 									<option value="">请选择会议级别</option>
-									<option value="公司级别会议">公司级别会议</option>
-									<option value="校区级别会议">校区级别会议</option>
+									<option value="公司级别会议" ${conference.level ne null && conference.level eq '公司级别会议' ? 'selected="selected"':'' }>公司级别会议</option>
+									<option value="校区级别会议" ${conference.level ne null && conference.level eq '校区级别会议' ? 'selected="selected"':'' }>校区级别会议</option>
 								</select>
 							</c:when>
 							<c:otherwise>
@@ -127,15 +127,16 @@ ${tm:fileRestore(conference['attachFiles'])}
 					<td style="padding: 5px;">
 						<c:choose>
 							<c:when test="${op eq null || op ne 'view'}">
-								<select class="combox" name="type" id="combox_type" defOPKey="请选择会议类型" defOPVal="" style="width:120px">
-									<option value="">请选择会议类型</option>
-									<option value="1">请选择会议类型</option>
-									<option value="2">请选择会议类型</option>
-									<option value="3">请选择会议类型</option>
+								<select class="combox" name="type.id" id="combox_cof_type" defOPKey="请选择会议类型" defOPVal="" style="width:120px">
+									<logic:present name="conferenceType">
+										<logic:iterate name="conferenceType" id="entity">
+											<option value="${entity.id}" ${conference ne null && conference.type ne null && conference.type.id eq entity.id ? 'selected="selected"' : ''}>${entity.name}</option>
+										</logic:iterate>
+									</logic:present>
 								</select>
 							</c:when>
 							<c:otherwise>
-								<input name="type" type="text"  value="${conference.type }" readonly />
+								<input type="text"  value="${conference.type.name }" readonly />
 							</c:otherwise>
 						</c:choose>
 					</td>
@@ -143,17 +144,17 @@ ${tm:fileRestore(conference['attachFiles'])}
 					<td style="padding: 5px;">
 						<c:choose>
 							<c:when test="${op eq null || op ne 'view'}">
-								<select class="combox" name="district.id" id="combox_district" style="width:120px" ref="combox_dept" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
+								<select class="combox" name="district.id" id="combox_district" style="width:120px">
 									<option value="">请选择校区</option>
 									<logic:present name="districts">
 										<logic:iterate name="districts" id="district">
-											<option value="${district.id}" ${conference ne null && conference.district ne null && conference.district.id eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
+											<option value="${district.id}" ${currentDistrictId ne null && currentDistrictId eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
 										</logic:iterate>
 									</logic:present>
 								</select>
 							</c:when>
 							<c:otherwise>
-								<input name="district.id" type="text"  value="${conference ne null && conference.district ne null ? conference.district.districtName : ''}" readonly />
+								<input type="text"  value="${conference ne null && conference.district ne null ? conference.district.districtName : ''}" readonly />
 							</c:otherwise>
 						</c:choose>
 					</td>
@@ -284,6 +285,12 @@ ${tm:fileRestore(conference['attachFiles'])}
 					<td class="field" style="vertical-align: top;">会议内容：</td>
 					<td colspan="7"><textarea name="content" rows="3" ${op ne null && op eq 'view' ? 'readonly' : ''}>${conference ne null ? conference.content : ''}</textarea></td>
 				</tr>
+				<c:if test="${conference ne null }">
+					<tr>
+						<td class="field" style="vertical-align: top;">会议总结：</td>
+						<td colspan="7"><textarea rows="3" ${op ne null && op eq 'view' ? 'readonly' : ''}>${conference ne null ? conference.summary : ''}</textarea></td>
+					</tr>
+				</c:if>
 				<tr>
 					<td class="field" style="vertical-align: top;">附件区：</td>
 					<td colspan="7" style="padding: 5px;">
@@ -319,14 +326,24 @@ ${tm:fileRestore(conference['attachFiles'])}
 		</div>
 		<div class="formBar">
 			<ul>
-				<c:if test="${conference ne null && op ne null && op eq 'edit'}">
-					<li><div class="buttonActive"><div class="buttonContent"><button type="submit">提交并审核</button></div></div></li>
-				</c:if>
+				<c:choose>
+					<c:when test="${op eq 'edit'}">
+						<li><div class="buttonActive"><div class="buttonContent"><button type="submit">会议调整</button></div></div></li>
+					</c:when>
+					<c:otherwise>
+						<c:choose>
+							<c:when test="${conference eq null }">
+								<li><div class="buttonActive"><div class="buttonContent"><button type="submit">会议发起</button></div></div></li>
+							</c:when>
+						</c:choose>
+					</c:otherwise>
+				</c:choose>
 				<li>
 					<div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div>
 				</li>
 			</ul>
 		</div>
 		<input type="hidden" name="id" value="${conference ne null ? conference.id : '-1'}" />
+		<input type="hidden" name="status" value="${conference ne null ? conference.status : '1' }" />
 	</form>
 </div>
