@@ -25,14 +25,16 @@
 
 <script>
 $(function(){
-<c:if test="${op eq null || op ne 'view'}">
 //加载上传组件入口文件
 KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
-	var ru = new RenderUploader('#jp_J_UploaderBtn', '#jp_J_UploaderQueue',{
+	var ru = new RenderUploader('#j_J_UploaderBtnNews', '#j_J_UploaderQueueNews',{
 		 //服务器端配置
 		serverConfig:{
 			//处理上传的服务器端脚本路径
-			action:"file-upload"
+			action:"file-upload",
+			data: {
+				"test" : "a"
+			}
 		},
 		// 文件域
 		name:"Filedata",
@@ -40,7 +42,7 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
 		urlsInputName:"fileUrls"
 		<c:if test="${newsScanInfo ne null && fn:length(newsScanInfo.attachFiles) gt 0}">
 		// 用于数据展现
-		,restoreHook:"#jp_J_UploaderRestore"
+		,restoreHook:"#jp_J_UploaderRestoreNews"
 		</c:if>
 	});
 	
@@ -64,12 +66,15 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
 		
 	});
 });
-</c:if>
 });
 </script>
-<script type="text/uploader-restore" id="jp_J_UploaderRestore">
+
+<!--- 生成需要展现文件的JSON -->
+<c:if test="${(op eq null || op ne 'view') && (news ne null && fn:length(news.attachFiles) gt 0)}">
+<script type="text/uploader-restore" id="jp_J_UploaderRestoreNews">
 ${tm:fileRestore(newsScanInfo['attachFiles'])}
 </script>
+</c:if>
 
 <body>
 	<div class="buttonActive">
@@ -114,19 +119,19 @@ ${tm:fileRestore(newsScanInfo['attachFiles'])}
 							<c:choose>
 								<c:when test="${op eq null || op ne 'view'}">
 									<!-- 上传按钮，组件配置请写在data-config内 -->
-									<a id="jp_J_UploaderBtn" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件 </a>
+									<a id="j_J_UploaderBtnNews" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件 </a>
 									<!-- 文件上传队列 -->
-									<ul id="jp_J_UploaderQueue"></ul>
+									<ul id="j_J_UploaderQueueNews"></ul>
 									<div id="J_Panel" class="event-panel"></div>
 									<input type="hidden" name="fileUrls" id="fileUrls" />
 									<input type="hidden" name="fileIds" id="fileIds" />
 								</c:when>
 								<c:otherwise>
 									<c:choose>
-										<c:when test="${newsfile ne null && fn:length(newsfile.attachFiles) gt 0}">
+										<c:when test="${newsScanInfo ne null && fn:length(newsScanInfo.attachFiles) gt 0}">
 											<ul>
-												<logic:iterate name="newsScanInfo" property="attachFiles" id="newsfile">
-													<li class="item_file"><a title="点击下载`${newsfile.fileName}`文件" href="uploads/${newsfile.filePath}" target="_blank">${newsfile.fileName}</a></li>
+												<logic:iterate name="newsScanInfo" property="attachFiles" id="file">
+													<li class="item_file"><a title="点击下载`${file.fileName}`文件" href="uploads/${file.filePath}" target="_blank">${file.fileName}</a></li>
 												</logic:iterate>
 											</ul>
 										</c:when>
