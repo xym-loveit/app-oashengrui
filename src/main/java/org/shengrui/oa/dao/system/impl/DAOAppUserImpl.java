@@ -78,4 +78,15 @@ extends DAOGenericImpl<ModelAppUser> implements DAOAppUser, UserDetailsService
 		return null;
 	}
 
+	@Override
+	public ModelAppUser getPasswordByUserName(String userName) throws DAOException
+	{
+		// TODO Auto-generated method stub
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelAppUser.class);
+		criteria.add(Restrictions.eq("username", userName));
+		@SuppressWarnings("unchecked")
+		List<ModelAppUser> list = getHibernateTemplate().findByCriteria(criteria);
+		return list != null && list.size() > 0 ? list.get(0) : null;
+	}
+
 }
