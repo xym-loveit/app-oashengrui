@@ -66,7 +66,9 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 			}
 		
 		}
-		criteria.addOrder(Order.desc("updateTime"));
+		criteria.addOrder(Order.desc("topIndex"))
+				.addOrder(Order.desc("updateTime"));
+				
 		return criteria;
 	}
 	
@@ -110,6 +112,7 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 			ModelNewsMag news, PagingBean pagingBean) throws ServiceException {
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelNewsMag.class);
 		criteria.add(Restrictions.eq("newsLevel", 0));
+		criteria.add(Restrictions.eq("status", 2));
 		criteria.addOrder(Order.desc("updateTime"));
 		return this.getAll(criteria, pagingBean);
 	}
@@ -119,6 +122,7 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 			PagingBean pagingBean) throws ServiceException {
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelNewsMag.class);
 		criteria.add(Restrictions.eq("newsLevel", 1));
+		criteria.add(Restrictions.eq("status", 2));
 		criteria.addOrder(Order.desc("updateTime"));
 		return this.getAll(criteria, pagingBean);
 	}
