@@ -13,6 +13,8 @@
 	
 	<definition name="my.page.conference.start"  path="/WEB-INF/jsp/application/personal/myStartConference.jsp"/>
 	
+	<definition name="person.dialog.conference.summary" path="/WEB-INF/jsp/application/personal/submitSummaryPage.jsp"/>
+	
 	<definition name="page.my.news"  path="/WEB-INF/jsp/application/personal/myNews.jsp"/>
 	
 	<definition name="page.my.doc"  path="/WEB-INF/jsp/application/personal/myDoc.jsp"/>
