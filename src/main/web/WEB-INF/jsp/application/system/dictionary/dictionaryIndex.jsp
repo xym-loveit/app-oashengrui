@@ -49,7 +49,7 @@
 							<option value="news" ${dictionary ne null && dictionary.type eq 'news' ? 'selected="selected"':''}>新闻类型设置</option>
 							<option value="task" ${dictionary ne null && dictionary.type eq 'task' ? 'selected="selected"' : ''}>任务委托类型设置</option>
 							<option value="docType" ${dictionary ne null && dictionary.type eq 'docType' ? 'selected="selected"' : ''}>文档类型设置</option>
-							<option value="meeting" ${dictionary ne null && dictionary.type eq 'meeting' ? 'selected="selected"' : ''}>会议类型设置</option>
+							<option value="conference" ${dictionary ne null && dictionary.type eq 'conference' ? 'selected="selected"' : ''}>会议类型设置</option>
 							<option value="teacher" ${dictionary ne null && dictionary.type eq 'teacher' ? 'selected="selected"' : ''}>教师星级设置</option>
 							<option value="counselor" ${dictionary ne null && dictionary.type eq 'counselor' ? 'selected="selected"' : ''}>咨询师星级设置</option>
 						</select>
@@ -83,7 +83,7 @@
 					</select>
 					</td>
 				</c:if>	
-				<c:if test="${dictionary ne null && dictionary.type == 'meeting' }">
+				<c:if test="${dictionary ne null && dictionary.type == 'conference' }">
 					<td>请选择会议级别:</td>
 					<td><select name="level">
 						<option value="公司级别会议">公司级别会议</option>
