@@ -173,7 +173,6 @@ public class ConferenceAction extends BaseAdminAction {
 
 			// 设置岗位附件
 			this.handleFileAttachments(entity, request);
-			
 			this.serviceConference.save(entity);
 			// 保存成功后, Dialog进行关闭
 			return ajaxPrint(response, 
