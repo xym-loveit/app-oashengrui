@@ -12,6 +12,7 @@ import org.shengrui.oa.service.system.ServiceAppDictionary;
 import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
+import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
@@ -103,5 +104,25 @@ extends ServiceGenericImpl<ModelAppDictionary> implements ServiceAppDictionary
 		criteria.addOrder(Order.desc("modifiedDate"));
 
 		return this.getAll(criteria, pagingBean);
+	}
+
+	@Override
+	public List<ModelAppDictionary> getByTypeAndLevel(String type, String level)
+			throws ServiceException {
+		// TODO Auto-generated method stub
+		DetachedCriteria criteria = DetachedCriteria
+		.forClass(ModelAppDictionary.class);
+		if(type != null && UtilString.isNotEmpty(type)){
+			criteria.add(Restrictions.eq("type", type));
+		}
+		if(level != null && UtilString.isNotEmpty(level)){
+			criteria.add(Restrictions.eq("level", level));
+		}
+		try {
+			return this.daoAppDict.getListByCriteria(criteria);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			throw new ServiceException(e);
+		}
 	}
 }

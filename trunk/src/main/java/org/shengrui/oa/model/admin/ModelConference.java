@@ -1,6 +1,8 @@
 package org.shengrui.oa.model.admin;
 
 import java.util.Date;
+
+import org.shengrui.oa.model.system.ModelAppDictionary;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
@@ -29,7 +31,7 @@ public class ModelConference extends ModelBase {
 	/**
 	 * 会议类型
 	 */
-	private String type;
+	private ModelAppDictionary type = new ModelAppDictionary();
 	
 	/**
 	 * 开始日期
@@ -126,28 +128,39 @@ public class ModelConference extends ModelBase {
 	 */
 	public static enum ConferenceStatus
 	{
-		TODO_ZONE(1, "started"),	// 待校区审核
-		TODO_HEAD(2, "processing"),	// 待总部审核
-		RETURNED(3, "end"),		// 审核退回
-		APPROVED(4, "cancel");		// 审核通过
+		START("1"),	// 已发起
+		END("2"),	// 已结束
+		CANCEL("3"),	// 已取消
+		PROCESSING("4");	// 进行中
 		
-		private Integer value;
 		private String text;
 		
-		ConferenceStatus (Integer value, String text)
+		ConferenceStatus (String text)
 		{
-			this.value = value;
 			this.text = text;
 		}
-		
-		public Integer getValue(){
-			return value;
-		}
+
 		
 		public String getText()
 		{
 			return this.text;
 		}
+	}
+	
+	private String result;
+	
+	/**
+	 * @return the result
+	 */
+	public String getResult() {
+		return result;
+	}
+
+	/**
+	 * @param result the result to set
+	 */
+	public void setResult(String result) {
+		this.result = result;
 	}
 
 	/**
@@ -195,14 +208,14 @@ public class ModelConference extends ModelBase {
 	/**
 	 * @return the type
 	 */
-	public String getType() {
+	public ModelAppDictionary getType() {
 		return type;
 	}
 
 	/**
 	 * @param type the type to set
 	 */
-	public void setType(String type) {
+	public void setType(ModelAppDictionary type) {
 		this.type = type;
 	}
 

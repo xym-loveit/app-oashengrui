@@ -1,6 +1,7 @@
 package org.shengrui.oa.service.admin.impl;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.admin.DAOConferenceInfo;
@@ -61,12 +62,12 @@ extends ServiceGenericImpl<ModelConference> implements ServiceConferenceInfo
 				criteria.createCriteria("department").add(Restrictions.eq("id", entity.getDepartment().getId()));
 			}
 			
-			if (UtilString.isNotEmpty(entity.getType()))
+			if (entity.getType() != null && UtilString.isNotEmpty(entity.getType().getId()))
 			{
-				criteria.add(Restrictions.eq("type", entity.getType()));
+				criteria.createCriteria("type").add(Restrictions.eq("id", entity.getType().getId()));
 			}
 			
-			if (entity.getStatus() != null)
+			if (entity.getStatus() != null && UtilString.isNotEmpty(entity.getStatus()))
 			{
 				criteria.add(Restrictions.eq("status", entity.getStatus()));
 			}
@@ -78,6 +79,14 @@ extends ServiceGenericImpl<ModelConference> implements ServiceConferenceInfo
 			if(entity.getEndDay()!=null)
 			{
 				criteria.add(Restrictions.le("endDay", entity.getEndDay()));
+			}
+			if(entity.getSponsor()!=null && UtilString.isNotEmpty(entity.getSponsor().getId()))
+			{
+				criteria.createCriteria("sponsor").add(Restrictions.eq("id", entity.getSponsor().getId()));
+				if(UtilString.isNotEmpty(entity.getSponsor().getFullName()))
+				{
+					criteria.add(Restrictions.like("attendances", entity.getSponsor().getFullName(), MatchMode.ANYWHERE));
+				}
 			}
 		}
 		

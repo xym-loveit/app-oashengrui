@@ -1,6 +1,7 @@
 package org.shengrui.oa.web.action.system;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -149,5 +150,36 @@ public class SysSettingDictionaryAction extends sysSettingBaseAction {
 			return ajaxPrint(response, "非法的ID");
 		}
 		
+	}
+	
+	public ActionForward actionLoadByTypeAndLevel(ActionMapping mapping,ActionForm form,HttpServletRequest request,HttpServletResponse response)
+	{
+		String type = request.getParameter("type");
+		String level = request.getParameter("level");
+		try {
+			List<ModelAppDictionary> list = this.serviceAppDictionary.getByTypeAndLevel(type, level);
+			if (list != null)
+			{
+				StringBuilder sb = new StringBuilder();
+				sb.append("[");
+				int loop = 1;
+				for(ModelAppDictionary entity : list){
+					sb.append("[\"").append(entity.getId()).append("\",").append("\"")
+					.append(entity.getName())
+					.append("\"]");
+					if(loop != list.size()){
+						sb.append(",");
+					}
+					loop++;
+				}
+				sb.append("]");
+				System.out.println(sb.toString());
+				return ajaxPrint(response, sb.toString());
+			}
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ajaxPrint(response,"[]");
 	}
 }

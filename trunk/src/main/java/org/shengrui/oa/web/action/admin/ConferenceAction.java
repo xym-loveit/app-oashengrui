@@ -1,5 +1,9 @@
 package org.shengrui.oa.web.action.admin;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -8,11 +12,12 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.admin.ModelConference;
-import org.shengrui.oa.model.system.ModelSchoolDistrict;
 import org.shengrui.oa.util.ContextUtil;
+import org.shengrui.oa.util.UtilDateTime;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.util.UtilBean;
+import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
@@ -28,23 +33,54 @@ public class ConferenceAction extends BaseAdminAction {
 	
 	/**
 	 * <b>[WebAction]</b> <br/>
-	 * 我的会议
+	 * 我参加的会议
+	 * @throws ParseException 
 	 */
 	public ActionForward myConferenceIndex(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) 
+			HttpServletRequest request, HttpServletResponse response) throws ParseException 
 	{
 		
 		try
 		{
 			ModelConference formInfo = (ModelConference) form;
-			
+			//formInfo.setSponsor(ContextUtil.getCurrentUser());
+			formInfo.getSponsor().setId(ContextUtil.getCurrentUser().getId());
+			formInfo.getSponsor().setFullName(ContextUtil.getCurrentUser().getFullName());
 			PagingBean pagingBean = this.getPagingBean(request);
 			PaginationSupport<ModelConference> conferences =
 					this.serviceConference.getPaginationByEntity(formInfo, pagingBean);
-			
+
+			Date now = new Date();
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			for(ModelConference entity : conferences.getItems()){
+				if("1".equals(entity.getStatus())){
+					String edatetime = format.format(entity.getEndDay())+" "+entity.getEndHour()+":"+entity.getEndMinute()+":00";
+					String sdatetime = format.format(entity.getStartDay())+" "+entity.getStartHour()+":"+entity.getStartMinute()+":00";
+					Date endDate = format.parse(edatetime);
+					Date startDate = format.parse(sdatetime);
+					String result = "";
+					if(now.before(startDate)){
+						result = UtilDateTime.getTimeBetweenDates(now, startDate);
+					}
+					if(now.after(startDate) && now.before(endDate)){
+						result = "会议进行中";
+					}
+					if(now.after(endDate)){ 
+						result = "会议时间已过";
+						if(entity.getSummary()==null || UtilString.isNotEmpty(entity.getSummary())){
+							result += "<br/><font color=\"red\"请进行会议总结</font>";
+						}
+					}
+					entity.setResult(result);
+				}else if("2".equals(entity.getStatus())){
+					entity.setResult("会议已取消");
+				}else if("3".equals(entity.getStatus())){
+					entity.setResult("会议时间已过");
+				}
+			}
 			request.setAttribute("conferences", conferences);
 			request.setAttribute("conferenceForm", formInfo);
-			
+			request.setAttribute("conferenceType", this.serviceAppDictionary.getByType("conference"));
 			// 获取所有校区, 用于搜索查询使用
 			//request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
 			
@@ -76,19 +112,17 @@ public class ConferenceAction extends BaseAdminAction {
 			if (this.isObjectIdValid(id))
 			{
 				ModelConference confInfo =  this.serviceConference.get(id);
-				if (confInfo != null && confInfo.getDistrict() != null)
-				{
-					ModelSchoolDistrict district = confInfo.getDistrict();
-					request.setAttribute("departments", 
-							this.getDepartmentByOrganization(district.getDistrictType().toString()));
-				}
-				
 				request.setAttribute("conference", confInfo);
 			}
-			
+
+			request.setAttribute("departments", 
+					this.getDepartmentByOrganization(String.valueOf(ContextUtil.getCurrentUser().getDistrict().getDistrictType())));
 			request.setAttribute("districts", this.getAllDistricts());
 			request.setAttribute("op", request.getParameter("op"));
-	
+			if(request.getParameter("op")!=null && "edit".equals(request.getParameter("op"))){
+				request.setAttribute("conferenceType", this.serviceAppDictionary.getByType("conference"));
+			}
+			request.setAttribute("currentDistrictId", ContextUtil.getCurrentUser().getDistrict().getId());
 			return mapping.findForward("person.page.conference.detail");
 		}
 		catch (Exception e)
@@ -183,6 +217,119 @@ public class ConferenceAction extends BaseAdminAction {
 			LOGGER.error("It failed to save the school department item entity!", e);
 			
 			return ajaxPrint(response, getErrorCallback("会议保存失败."));
+		}
+	}
+	
+	/**
+	 * <b>[WebAction]</b> <br/>
+	 * 我发起的会议
+	 * @throws ParseException 
+	 */
+	public ActionForward myConferences(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) throws ParseException 
+	{
+		
+		try
+		{
+			ModelConference formInfo = (ModelConference) form;
+			formInfo.getSponsor().setId(ContextUtil.getCurrentUser().getId());
+			PagingBean pagingBean = this.getPagingBean(request);
+			PaginationSupport<ModelConference> conferences =
+					this.serviceConference.getPaginationByEntity(formInfo, pagingBean);
+
+			Date now = new Date();
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			for(ModelConference entity : conferences.getItems()){
+				if("1".equals(entity.getStatus())){
+					String edatetime = format.format(entity.getEndDay())+" "+entity.getEndHour()+":"+entity.getEndMinute()+":00";
+					String sdatetime = format.format(entity.getStartDay())+" "+entity.getStartHour()+":"+entity.getStartMinute()+":00";
+					Date endDate = format.parse(edatetime);
+					Date startDate = format.parse(sdatetime);
+					String result = "";
+					if(now.before(startDate)){
+						result = UtilDateTime.getTimeBetweenDates(now, startDate);
+					}
+					if(now.after(startDate) && now.before(endDate)){
+						result = "会议进行中";
+					}
+					if(now.after(endDate)){ 
+						result = "会议时间已过";
+						if(entity.getSummary()==null || UtilString.isNotEmpty(entity.getSummary())){
+							result += "<br/><font color=\"red\"请进行会议总结</font>";
+						}
+					}
+					entity.setResult(result);
+				}else if("2".equals(entity.getStatus())){
+					entity.setResult("会议已取消");
+				}else if("3".equals(entity.getStatus())){
+					entity.setResult("会议时间已过");
+				}
+			}
+			request.setAttribute("conferences", conferences);
+			request.setAttribute("conferenceForm", formInfo);
+			request.setAttribute("conferenceType", this.serviceAppDictionary.getByType("conference"));
+			
+			// 获取所有校区, 用于搜索查询使用
+			//request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
+			
+			// 输出分页信息至客户端
+			outWritePagination(request, pagingBean, conferences);
+			
+		} 
+		catch (ServiceException e)
+		{
+			LOGGER.error("Exception raised when fetch all conferences.", e);
+		}
+		
+		return mapping.findForward("my.page.conference.start");
+	}
+	
+	public ActionForward actionCancelConference(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	{
+		String id = request.getParameter("id");
+		ModelConference entity = null;
+		try {
+			entity = this.serviceConference.get(id);
+			if (entity != null)
+			{
+				entity.setStatus(ModelConference.ConferenceStatus.START.getText());
+				this.serviceConference.save(entity);
+				return ajaxPrint(
+		                  response,
+		                  getSuccessCallback("会议取消成功.", CALLBACK_TYPE_CLOSE,
+		                        CURRENT_NAVTABID, null, false));
+			}else{
+				return ajaxPrint(response,getErrorCallback("无效的ID"));
+			}
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			return ajaxPrint(response,getErrorCallback("会议取消失败"));
+		}
+	}
+	
+	
+	public ActionForward actionActivateConference(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	{
+		String id = request.getParameter("id");
+		ModelConference entity = null;
+		try {
+			entity = this.serviceConference.get(id);
+			if (entity != null)
+			{
+				entity.setStatus(ModelConference.ConferenceStatus.START.getText());
+				this.serviceConference.save(entity);
+				return ajaxPrint(
+		                  response,
+		                  getSuccessCallback("会议取消成功.", CALLBACK_TYPE_CLOSE,
+		                        CURRENT_NAVTABID, null, false));
+			}else{
+				return ajaxPrint(response,getErrorCallback("无效的ID"));
+			}
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			return ajaxPrint(response,getErrorCallback("会议取消失败"));
 		}
 	}
 }
