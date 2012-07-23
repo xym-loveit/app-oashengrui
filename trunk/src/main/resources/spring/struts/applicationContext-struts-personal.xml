@@ -29,5 +29,6 @@
 		<property name="serviceAppDictionary" ref="serviceAppDictionary" />
 		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
 		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
+		<property name="serviceFileAttach" ref="serviceFileAttach" />
 	</bean>
 </beans>
