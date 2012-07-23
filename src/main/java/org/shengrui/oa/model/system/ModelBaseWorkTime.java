@@ -5,6 +5,7 @@ package org.shengrui.oa.model.system;
 
 import java.util.Date;
 
+
 import cn.trymore.core.model.ModelBase;
 
 /**

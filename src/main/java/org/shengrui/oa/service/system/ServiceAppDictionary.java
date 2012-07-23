@@ -44,4 +44,6 @@ extends ServiceGeneric<ModelAppDictionary>
 	 * @throws ServiceException
 	 */
 	PaginationSupport<ModelAppDictionary> getPaginationByCriteria(ModelAppDictionary entity,PagingBean pagingBean) throws ServiceException;
+	
+	List<ModelAppDictionary> getByTypeAndLevel(String type,String level) throws ServiceException;
 }
