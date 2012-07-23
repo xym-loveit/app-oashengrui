@@ -18,6 +18,12 @@
 	.opdisabled {text-decoration: line-through; color: #DDD; line-height: 21px;}
 </style>
 
+<script type="text/javascript">
+function callback_funcRemove() {
+	$('#conferenceSearchForm').submit();
+}
+</script>
+
 <form id="pagerForm" method="post" action="app/personal/conference.do?action=myConferenceIndex">
 	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
 	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
@@ -25,7 +31,7 @@
 
 <!-- SearchBar -->
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="app/personal/conference.do?action=myConferences" method="post" id="searchForm" rel="pagerForm">
+	<form onsubmit="return navTabSearch(this);" action="app/personal/conference.do?action=myConferences" method="post" id="conferenceSearchForm" rel="pagerForm">
 		<div class="searchBar">
 			<table class="searchContent">
 				<tr>
@@ -101,7 +107,7 @@
 		<tbody>
 			<logic:present name="conferences">
 				<logic:iterate name="conferences" property="items" id="entity">
-					<tr target="sid" rel="${entity.id}">
+					<tr target="sid" rel="${entity.id}"  id="conferencerow-${entity.id}">
 						<td>${entity.type.name}</td>
 						<td>${entity.conferenceName}</td>
 						<td><fmt:formatDate value="${entity.startDay}" type="date" pattern="yyyy-MM-dd"/> ${entity.startHour }:${entity.startMinute }</td>
@@ -126,10 +132,10 @@
 						<td>
 							<c:choose>
 								<c:when test="${entity.status eq 1}">
-									<a class="oplink" href="app/personal/conference.do?action=actionCancelConference&id=${entity.id}" target="ajaxTodo" title="取消会议" width="960" height="420">取消</a>
+									<a class="oplink" href="app/personal/conference.do?action=actionCancelConference&id=${entity.id}" target="ajaxTodo" title="取消会议" width="960" height="420" callback="callback_funcRemove()">取消</a>
 								</c:when>
 								<c:when test="${entity.status eq 3}">
-									<a class="oplink" href="app/personal/conference.do?action=actionActivateConference&id=${entity.id}" target="ajaxTodo" title="激活会议" width="960" height="420">激活</a>
+									<a class="oplink" href="app/personal/conference.do?action=actionActivateConference&id=${entity.id}" target="ajaxTodo" title="激活会议" width="960" height="420" callback="callback_funcRemove()">激活</a>
 								</c:when>
 								<c:otherwise>
 									<label class="opdisabled">取消</label>
