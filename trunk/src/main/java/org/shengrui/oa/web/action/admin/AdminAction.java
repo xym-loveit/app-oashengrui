@@ -196,7 +196,7 @@ extends BaseAdminAction
 				modelNewsMag.setUser(this.serviceAppUser.findByUserName((String) request.getSession().getAttribute("SPRING_SECURITY_LAST_USERNAME")));
 				modelNewsMag.setAuthorName((String) request.getSession().getAttribute("SPRING_SECURITY_LAST_USERNAME"));
 				modelNewsMag.setCreatetime(new Date());
-				modelNewsMag.setTopIndex(1);
+				modelNewsMag.setTopIndex(0);
 				modelNewsMag.setUpdateTime(new Date());
 			}
 
@@ -275,7 +275,7 @@ extends BaseAdminAction
 		{
 			ModelNewsMag newsFirst = this.serviceNewsManage.get(id);
 			newsFirst.setUpdateTime(new Date());
-			newsFirst.setTopIndex(0);
+			newsFirst.setTopIndex(1);
 			serviceNewsManage.save(newsFirst);
 		} catch (Exception e) {
 			LOGGER.error("Exception raised when open the archive index page.", e);
@@ -295,10 +295,11 @@ extends BaseAdminAction
 		String id = request.getParameter("id");
 		try {
 			ModelNewsMag cancelNewsFst = this.serviceNewsManage.get(id);
-			cancelNewsFst.setTopIndex(1);
+			cancelNewsFst.setTopIndex(0);
 			cancelNewsFst.setUpdateTime(cancelNewsFst.getCreatetime());
 			serviceNewsManage.save(cancelNewsFst);
 		} catch (Exception e) {
+			e.printStackTrace();
 			LOGGER.error("Exception raised when open the archive index page.", e);
 			return ajaxPrint(response, getErrorCallback("新闻置顶取消失败：" + e.getMessage()));
 		}

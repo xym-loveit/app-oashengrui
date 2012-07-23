@@ -96,7 +96,7 @@
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar" style="float:right">
-			<li><a treeicon="icon-adminnews" class="icon" href="app/admin.do?action=adminPageEntryIndex" target="navTab" rel="admin_entry"><span class="icon-adminnews">新闻发布与管理</span></a></li>
+			<li><a treeicon="icon-admin" class="icon" href="app/admin/news.do?action=adminPageEntryIndex" target="navTab" rel="admin_entry"><span class="icon-adminnews">新闻发布与管理</span></a></li>
 		</ul>
 		
 		<ul class="toolBar">
@@ -130,7 +130,7 @@
 				<logic:iterate name="newsInfo" property="items" id="newsInfo">
 						<tr target="sid" rel="${newsInfo.id }" id="newsInfo-${newsInfo.id}">
 							<td>${newsInfo.dictionary.name }</td>
-							<td>${newsInfo.newsSubject }</td>
+							<td><a class="icon" href="app/admin/news.do?action=actionNewsScan&id=${news.id }&op=view" target="dialog" rel="admin_entrycheck" width="900" height="650">${newsInfo.newsSubject}</a></td>
 							<td>
 								<c:choose>
 									<c:when test="${newsInfo.status eq null}">
@@ -165,19 +165,19 @@
 							</td>
 							<td>
 								<c:choose>
-									<c:when test="${newsInfo.topIndex eq 1 }">
+									<c:when test="${newsInfo.topIndex eq 0 }">
 										<a class="oplink" href="app/admin.do?action=adminOprEntryFirst&id=${newsInfo.id}" target="ajaxTodo" title="确定要对${newsInfo.newsSubject }置顶么?" callback="refresh()">置顶</a>
 								</c:when>
-								<c:when test="${newsInfo.topIndex eq 0 }">
-										<a class="oplink" href="app/admin.do?action=adminOprEntryRemoveFirst&id={sid}" target="ajaxTodo" title="确定要对${newsInfo.newsSubject }取消置顶么?" callback="refresh()">取消</a>
+								<c:when test="${newsInfo.topIndex eq 1 }">
+										<a class="oplink" href="app/admin.do?action=adminOprEntryRemoveFirst&id=${newsInfo.id }" target="ajaxTodo" title="确定要对${newsInfo.newsSubject }取消置顶么?" callback="refresh()">取消</a>
 								</c:when>
 								</c:choose>
 							</td>
 							<td>
-								<a class="oplink" href="app/admin.do?action=adminPageEntryDetail&id={sid}" target="dialog" width="900" height="500" title="新闻编辑" rel="dia_admin_entryedit-id">编辑</a>
+								<a class="oplink" href="app/admin.do?action=adminPageEntryDetail&id=${newsApprove.id }" target="dialog" width="900" height="500" title="新闻编辑" rel="dia_admin_entryedit-id">编辑</a>
 							</td>
 							<td>
-								<a class="oplink" href="app/admin.do?action=adminOprEntryRemove&id={sid}" target="ajaxTodo" title="确定要删除 ${newsInfo.newsSubject}吗?" callback="refresh()">删除</a>
+								<a class="oplink" href="app/admin.do?action=adminOprEntryRemove&id=${newsApprove.id }" target="ajaxTodo" title="确定要删除 ${newsInfo.newsSubject}吗?" callback="refresh()">删除</a>
 							</td>
 						</tr>
 					</logic:iterate>

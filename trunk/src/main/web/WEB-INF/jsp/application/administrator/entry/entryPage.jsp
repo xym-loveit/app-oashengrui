@@ -109,7 +109,7 @@ ${tm:fileRestore(news['attachFiles'])}
 						<c:choose>
 							<c:when test="${op ne 'opp'}">
 								<select class="combox" name="districtVisible" style="width:120px" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
-									<option value="-1">所有校区</option>
+									<option value="">所有校区</option>
 									<logic:present name="districts">
 										<logic:iterate name="districts" id="district">
 											<option value="${district.id}" ${news ne null && news.newsDistrictVisible ne null && news.newsDistrictVisible.id eq district.id? 'selected="selected"' : ''}>${district.districtName}</option>
@@ -136,7 +136,6 @@ ${tm:fileRestore(news['attachFiles'])}
 						<c:choose>
 							<c:when test="${op ne 'opp'}">
 								<select class="combox" name="districtPost" style="width:120px" ref="combox_department1" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
-									<option value="-1">所有校区</option>
 									<logic:present name="districts">
 										<logic:iterate name="districts" id="districtPublic">
 											<option value="${districtPublic.id}" ${news ne null && news.district.id eq districtPublic.id ? 'selected="selected"' : ''}>${districtPublic.districtName}</option>
@@ -151,7 +150,6 @@ ${tm:fileRestore(news['attachFiles'])}
 						<c:choose>
 							<c:when test="${op ne 'opp'}">
 								<select class="combox" name="depPost" id="combox_department1" style="width:120px" efOPKey="请选择部门" defOPVal="">
-									<option value="-1">所有部门</option>
 									<logic:present name="departments">
 										<logic:iterate name="departments" id="department">
 											<option value="${department.id}" ${news ne null && news.department ne null && news.department.id eq department.id ?'selected="selected"' : ''}>${department.depName}</option>
