@@ -115,10 +115,8 @@ public class ConferenceAction extends BaseAdminAction {
 				formInfo.getSponsor().setId(ContextUtil.getCurrentUser().getId());
 			}
 			boolean isCreation = !this.isObjectIdValid(formInfo.getId());
-			System.out.println(formInfo.getId()+"\t"+formInfo.getDepartment().getId()+"\t"+formInfo.getDistrict().getId()+"\t"+formInfo.getSponsor().getId());
 			if (!isCreation)
 			{
-				System.out.println("dddd");
 				// 更新
 				entity = this.serviceConference.get(formInfo.getId());
 				if (entity != null)
@@ -146,11 +144,8 @@ public class ConferenceAction extends BaseAdminAction {
 			}
 			else
 			{
-				System.out.println(formInfo.getId()+"\t"+formInfo.getDepartment().getId()+"\t"+formInfo.getDistrict().getId()+"\t"+formInfo.getSponsor().getId());
 				// 新建
 				entity = formInfo;
-				System.out.println(entity.getId()+"\t"+entity.getDepartment().getId()+"\t"+entity.getDistrict().getId()+"\t"+entity.getSponsor().getId());
-				
 			}
 			
 //			String districtId = request.getParameter("jobHireDistrictId");
@@ -176,12 +171,10 @@ public class ConferenceAction extends BaseAdminAction {
 //				entity.setPostAuthorName(ContextUtil.getCurrentUser().getFullName());
 //			}
 
-			this.serviceConference.save(entity);
-			System.out.println(formInfo.getId()+"\t"+formInfo.getDepartment().getId()+"\t"+formInfo.getDistrict().getId()+"\t"+formInfo.getSponsor().getId());
 			// 设置岗位附件
 			this.handleFileAttachments(entity, request);
 			
-			
+			this.serviceConference.save(entity);
 			// 保存成功后, Dialog进行关闭
 			return ajaxPrint(response, 
 					getSuccessCallback("会议保存成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
