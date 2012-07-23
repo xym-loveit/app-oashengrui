@@ -71,6 +71,7 @@
 	<div class="panelBar">
 		<c:if test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.functionRights eq '__ALL' || tm:inRange(sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.functionRights, '_FUNCKEY_JOBAPPROVAL_SUBNODE', ',') || tm:inRange(sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.functionRights, '_FUNCKEY_JOBAPPROVAL_ROOT', ',')}">
 			<ul class="toolBar" style="float:right">
+				<c:if test="${noSummary ne null && noSummary ne 0 }"><li><span>你有${noSummary }个发起的会议需要总结，请点击下表总结链接进行总结</span></li></c:if>
 				<li><a treeicon="icon-edit" class="icon" href="app/personal/conference.do?action=myConferenceIndex" target="navTab" rel="myconference"><span class="icon-edit">返回我参加的会议</span></a></li>
 			</ul>
 		</c:if>
@@ -125,10 +126,10 @@
 						<td>
 							<c:choose>
 								<c:when test="${entity.status eq 1}">
-									<a class="oplink" href="app/personal/conference.do?action=conferenceDetail&id=${entity.id}" target="ajaxTodo" title="取消会议" width="960" height="420">取消</a>
+									<a class="oplink" href="app/personal/conference.do?action=actionCancelConference&id=${entity.id}" target="ajaxTodo" title="取消会议" width="960" height="420">取消</a>
 								</c:when>
 								<c:when test="${entity.status eq 3}">
-									<a class="oplink" href="app/personal/conference.do?action=conferenceDetail&id=${entity.id}" target="ajaxTodo" title="激活会议" width="960" height="420">激活</a>
+									<a class="oplink" href="app/personal/conference.do?action=actionActivateConference&id=${entity.id}" target="ajaxTodo" title="激活会议" width="960" height="420">激活</a>
 								</c:when>
 								<c:otherwise>
 									<label class="opdisabled">取消</label>
@@ -140,7 +141,7 @@
 								<c:when test="${entity.summary eq null || entity.summary eq '' }">
 									<c:choose>
 										<c:when test="${entity.status ne 3 }">
-											<a class="oplink" href="app/personal/conference.do?action=conferenceDetail&id=${entity.id}&op=view" target="dialog" title="会议总结" width="960" height="420"><font color="red">总结</font></a>
+											<a class="oplink" href="app/personal/conference.do?action=actionLoadActivateDialog&id=${entity.id}" target="dialog" title="会议总结" width="800" height="350"><font color="red">总结</font></a>
 										</c:when>
 									</c:choose>
 								</c:when>
