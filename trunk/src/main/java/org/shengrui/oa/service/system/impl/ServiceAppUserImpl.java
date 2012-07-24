@@ -2,6 +2,7 @@ package org.shengrui.oa.service.system.impl;
 
 import java.util.List;
 
+import org.apache.poi.hssf.record.RecalcIdRecord;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
@@ -101,6 +102,14 @@ extends ServiceGenericImpl<ModelAppUser> implements ServiceAppUser
 			if (UtilString.isNotEmpty(entity.getFullName()))
 			{
 				criteria.add(Restrictions.like("fullName", entity.getFullName(), MatchMode.ANYWHERE));
+			}
+			if(entity.getDistrict() != null && UtilString.isNotEmpty(entity.getDistrict().getId()))
+			{
+				criteria.createCriteria("district").add(Restrictions.eq("id", entity.getDistrict().getId())) ;
+			}
+			if(entity.getDepartment() != null && UtilString.isNotEmpty(entity.getDepartment().getId()))
+			{
+				criteria.createCriteria("department").add(Restrictions.eq("id", entity.getDepartment().getId()));
 			}
 		}
 		
