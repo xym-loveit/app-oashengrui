@@ -337,31 +337,45 @@ public class sysSettingWorkAction extends sysSettingBaseAction {
         }
    }
 
+   /**
+    * 启动当前模板
+    * @param mapping
+    * @param form
+    * @param request
+    * @param response
+    * @return
+    */
    public ActionForward actionEnableWorkTemplate(ActionMapping mapping,
          ActionForm form, HttpServletRequest request,
          HttpServletResponse response) {
       try {
          String id = request.getParameter("templateId");
-
+         ModelWorkTemplate entity = (ModelWorkTemplate)form;
          if (this.isObjectIdValid(id)) {
-            if (this.serviceWorkTemplate.enableWorkTemplate(id) > 0) {
-               // 保存成功后, Dialog进行关闭
-               return ajaxPrint(
-                     response,
-                     getSuccessCallback("启动模板成功.", CALLBACK_TYPE_CLOSE,
-                           CURRENT_NAVTABID, null, false));
-            } else {
-               return ajaxPrint(response, getErrorCallback("启动模板失败."));
-            }
+        	 List<ModelWorkTemplate> list = this.serviceWorkTemplate.getListByCriteria(entity);
+        	 if(list!=null && list.size()>0){
+        		 int rows = this.serviceWorkTemplate.enableWorkTemplate(id);
+        		 System.out.println(rows);
+	            if ( rows > 0) {
+	               // 保存成功后, Dialog进行关闭
+	               return ajaxPrint(
+	                     response,
+	                     getSuccessCallbackAndReloadCurrent("启动模板成功."));
+	            } else {
+	               return ajaxPrint(response, getErrorCallback("启动模板失败."));
+	            }
+        	 }else{
+        		 return ajaxPrint(response, getErrorCallback("请先设置模板."));
+        	 }
          } else {
-            return ajaxPrint(response, AjaxResponse.RESPONSE_ERROR);
+            return ajaxPrint(response, getErrorCallback("启动模板失败."));
          }
 
       } catch (ServiceException e) {
          LOGGER.error(
                "It failed to save the base work content item entity!", e);
 
-         return ajaxPrint(response, getErrorCallback("工作安排保存失败."));
+         return ajaxPrint(response, getErrorCallback("启动模板失败."));
       }
    }
 
