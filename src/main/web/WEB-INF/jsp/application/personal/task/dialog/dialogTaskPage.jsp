@@ -215,15 +215,15 @@ ol.mp_list li.mp_error {
 				<table cellspacing="10" cellpadding="10" style="border-spacing: 12; width: 100%;">
 					<tr>
 						<td style="line-height: 25px;">任务名称：</td>
-						<td colspan="3"><input type="text" name="docName" style="width:97%;"  value="${formDoc ne null ? formDoc.docName : ''}"/></td>
+						<td colspan="3"><input type="text" name="taskName" class="required" style="width:97%;"  value="${formEntity ne null ? formEntity.taskName : ''}"/></td>
 						<td style="line-height: 25px;">任务类型：</td>
 						<td>
-							<select class="combox" id="combox_doc_type" name="type.id">
-								<logic:present name="docTypes">
-									<logic:iterate name="docTypes" id="entity">
-										<option value="${entity.id}" ${formDoc ne
-											null && formDoc.type ne
-											null && formDoc.type.id eq
+							<select class="combox" id="combox_doc_type" class="required" name="taskTypeId">
+								<logic:present name="taskTypes">
+									<logic:iterate name="taskTypes" id="entity">
+										<option value="${entity.id}" ${formEntity ne
+											null && formEntity.type ne
+											null && formEntity.type.id eq
 											entity.id ? 'selected="selected"' : ''}>${entity.value}</option>
 									</logic:iterate>
 								</logic:present>
@@ -232,20 +232,23 @@ ol.mp_list li.mp_error {
 					</tr>
 					<tr>
 						<td style="line-height: 25px;">任务负责人：</td>
-						<td><input type="text" name="docName" style=""  value="${formDoc ne null ? formDoc.docName : ''}"/></td>
+						<td>
+							<input type="hidden" name="charger.id" style=""  value="${formEntity ne null && formEntity.taskCharger ne null ? formEntity.taskCharger.id : ''}"/>
+							<input type="text" name="charger.fullName" class="required" style=""  value="${formEntity ne null && formEntity.taskCharger ne null ? formEntity.taskCharger.fullName : ''}" <c:choose><c:when test="${op ne null && op eq 'view'}">readonly</c:when> <c:otherwise>postField="fullName" suggestFields="fullName,districtName" suggestUrl="app/base.do?action=lookupEmployeeByName" lookupGroup="charger" </c:otherwise></c:choose>/>
+						</td>
 						<td style="line-height: 25px;">任务开始时间：</td>
-						<td><input type="text" name="docName" style=""  value="${formDoc ne null ? formDoc.docName : ''}"/></td>
-						<td style="line-height: 25px;">任务开始时间：</td>
-						<td><input type="text" name="docName" style=""  value="${formDoc ne null ? formDoc.docName : ''}"/></td>
+						<td><input type="text" name="taskPlannedStartDate" class="required" style=""  value="${formEntity ne null ? formEntity.docName : ''}"/></td>
+						<td style="line-height: 25px;">任务结束时间：</td>
+						<td><input type="text" name="taskPlannedEndDate" class="required" style=""  value="${formEntity ne null ? formEntity.docName : ''}"/></td>
 					</tr>
 					<tr>
 						<td style="line-height: 25px;vertical-align: top">任务参与人：</td>
-						<td colspan="5"><input id="task_participants" type="text" name="docName" style="width: 100%; display: none;"  value="${formDoc ne null ? formDoc.docName : ''}"/></td>
+						<td colspan="5"><input id="task_participants" type="text" name="participants" style="width: 100%; display: none;"  value="${formEntity ne null ? formEntity.docName : ''}"/></td>
 					</tr>
 					<tr>
 						<td style="line-height: 25px;vertical-align: top">任务描述：</td>
-						<td colspan="5"><textarea name="docUserNames" rows="5" cols="60"
-							style="width: 100%"  >${formDoc ne null ? formDoc.docUserNames : ''}</textarea></td>
+						<td colspan="5"><textarea name="taskDescription" rows="5" cols="60"
+							style="width: 100%"  >${formEntity ne null ? formEntity.docUserNames : ''}</textarea></td>
 					</tr>
 					<tr>
 						<td style="vertical-align: top;">附件区：</td>
@@ -267,11 +270,11 @@ ol.mp_list li.mp_error {
 		</div>
 		<div class="formBar">
 			<ul>
-				<logic:notPresent name="op">
+				<c:if test="${op eq null || op ne 'view'}">
 				<li>
 					<div class="buttonActive"><div class="buttonContent"><button type="submit">提交审核</button></div></div>
 				</li>
-				</logic:notPresent>
+				</c:if>
 				<li>
 					<div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
 				</li>
