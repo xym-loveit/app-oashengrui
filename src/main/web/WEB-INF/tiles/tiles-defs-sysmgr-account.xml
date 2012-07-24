@@ -9,4 +9,7 @@
 	<definition name="page.sys.mgr.account.index" 
 		path="/WEB-INF/jsp/application/system/account/accountIndex.jsp"/>
 	
+	<!-- 通讯录 -->
+		<definition name="personal.page.addressBook" 
+		path="/WEB-INF/jsp/application/system/account/addressBook.jsp"/>
 </tiles-definitions>

@@ -5,6 +5,7 @@
 	<form-beans>
 		<form-bean name="form.personal.doc.info" type="org.shengrui.oa.model.admin.ModelDoc"></form-bean>
 		<form-bean name="form.personal.conference.info" type="org.shengrui.oa.model.admin.ModelConference"></form-bean>
+		<form-bean name="form.personal.addressBook.info" type="org.shengrui.oa.model.system.ModelAppUser"></form-bean>
 	</form-beans>
 	
 	<action-mappings>
@@ -41,6 +42,16 @@
 			<forward name="my.page.conference.start" path="my.page.conference.start"/>
 			<forward name="person.dialog.conference.summary" path="person.dialog.conference.summary"/>
 		</action>
+		
+		<!-- 通讯录 -->
+		<action path="/app/personal/addressBook"
+				name="form.personal.addressBook.info"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="personal.page.addressBook" path="personal.page.addressBook"></forward>
+		</action>
+		
 	</action-mappings>
 
 </struts-config>
