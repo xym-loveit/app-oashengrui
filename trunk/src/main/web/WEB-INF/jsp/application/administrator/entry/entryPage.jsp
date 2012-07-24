@@ -37,6 +37,20 @@ $(function(){
 		return false;
 	});
 
+	$("#approval").unbind("click");
+	$("#approval").bind("click", function() { 
+		$("#formedit").val("4");
+		$("#formnews").submit();
+		return false;
+	});
+	
+	$("#save").unbind("click");
+	$("#save").bind("click", function() { 
+		$("#formedit").val("5");
+		$("#formnews").submit();
+		return false;
+	});
+	
 	//加载上传组件入口文件
 	KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
 		var ru = new RenderUploader('#j_J_UploaderBtnNews', '#j_J_UploaderQueueNews',{
@@ -221,6 +235,9 @@ ${tm:fileRestore(news['attachFiles'])}
 		</c:if>
 		<c:if test="${news eq null}">
 			<input type="hidden" id="formadd" name="formadd" value="" />
+		</c:if>
+		<c:if test="${news ne null}">
+			<input type="hidden" id="formedit" name="formedit" value="" />
 		</c:if>
 		<input type="hidden" name="id" value="${news ne null ? news.id : '-1'}" />
 	<!--  	<input type="hidden" name="status" value="${news.status}" />

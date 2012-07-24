@@ -130,7 +130,7 @@
 				<logic:iterate name="newsInfo" property="items" id="newsInfo">
 						<tr target="sid" rel="${newsInfo.id }" id="newsInfo-${newsInfo.id}">
 							<td>${newsInfo.dictionary.name }</td>
-							<td><a class="icon" href="app/admin/news.do?action=actionNewsScan&id=${news.id }&op=view" target="dialog" rel="admin_entrycheck" width="900" height="650">${newsInfo.newsSubject}</a></td>
+							<td><a class="icon" href="app/admin/news.do?action=actionNewsScan&id=${newsInfo.id }&op=view" target="dialog" rel="admin_entrycheck" width="900" height="650">${newsInfo.newsSubject}</a></td>
 							<td>
 								<c:choose>
 									<c:when test="${newsInfo.status eq null}">
@@ -174,10 +174,10 @@
 								</c:choose>
 							</td>
 							<td>
-								<a class="oplink" href="app/admin.do?action=adminPageEntryDetail&id=${newsApprove.id }" target="dialog" width="900" height="500" title="新闻编辑" rel="dia_admin_entryedit-id">编辑</a>
+								<a class="oplink" href="app/admin.do?action=adminPageEntryDetail&id=${newsInfo.id }" target="dialog" width="900" height="500" title="新闻编辑" rel="dia_admin_entryedit-id">编辑</a>
 							</td>
 							<td>
-								<a class="oplink" href="app/admin.do?action=adminOprEntryRemove&id=${newsApprove.id }" target="ajaxTodo" title="确定要删除 ${newsInfo.newsSubject}吗?" callback="refresh()">删除</a>
+								<a class="oplink" href="app/admin.do?action=adminOprEntryRemove&id=${newsInfo.id }" target="ajaxTodo" title="确定要删除 ${newsInfo.newsSubject}吗?" callback="refresh()">删除</a>
 							</td>
 						</tr>
 					</logic:iterate>

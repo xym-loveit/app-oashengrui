@@ -23,6 +23,11 @@
 			<logic:present name="news">
 				<logic:iterate name="news" property="items" id="news">
 					<tr id="companyNews" target="sid" rel="${news.id}" height="30">
+						<td style="color:blue;">
+							<c:choose>
+								<c:when test="${news.topIndex eq 1 }">[置顶]</c:when>
+							</c:choose>
+						</td>
 						<td>
 							<c:choose>
 								<c:when test="${news.newsLevel eq 0 }">公司新闻</c:when>
@@ -66,6 +71,11 @@
 			<logic:present name="newsdistrict">
 				<logic:iterate name="newsdistrict" property="items" id="newsdistrict">
 					<tr id="companyNews" target="sid" rel="${newsdistrict.id}" height="30">
+						<td style="color:blue;">
+							<c:choose>
+								<c:when test="${news.topIndex eq 1 }">[置顶]</c:when>
+							</c:choose>
+						</td>
 						<td>
 							<c:choose>
 								<c:when test="${newsdistrict.newsLevel eq 1 }">校区新闻</c:when>
