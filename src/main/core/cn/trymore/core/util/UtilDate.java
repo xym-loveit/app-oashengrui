@@ -37,6 +37,17 @@ public class UtilDate {
 		return getDefaultDateFormatter().format(new java.sql.Date(time.getTime()));
 	}
 	
+	public static Date toDate (String strDate) throws Exception
+	{
+		return toDate(strDate, "yyyy-MM-dd");
+	}
+	
+	public static Date toDate (String strDate, String pattern) throws Exception
+	{
+		SimpleDateFormat sdf=new SimpleDateFormat(pattern);
+		return sdf.parse(strDate); 
+	}
+	
 	public static Date getMonthTime(java.util.Date date){
 		Calendar cal = new GregorianCalendar();
 		cal.setTime(date);

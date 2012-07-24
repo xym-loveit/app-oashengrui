@@ -16,20 +16,24 @@
 	.dgreen {color: green;}
 	.opdisabled {text-decoration: line-through; color: #DDD; line-height: 21px;}
 </style>
+</style>
 
 <script type="text/javascript">
-
+	function reload_taskpage() {
+		// 重新加载当前的navTab
+		navTab.reload(navTab.getCurrentTabUrl(), {navTabId: navTab.getCurrentTabId()});
+	}
 </script>
 
 <!-- SearchBar -->
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="app/admin.do?action=adminPageEntryIndex" method="post">
+	<form onsubmit="return navTabSearch(this);" action="app/admin/task.do?action=pageTaskDelegateIndex" method="post">
 		<div class="searchBar">
 			<table class="searchContent">
 				<tr>
 					<td>
 						<label>任务类型：</label>
-						<select class="combox" name="type" id="my_tasktype">
+						<select class="combox" name="type" id="mylaunched_tasktype">
 							<option value="-1">所有</option>
 							<logic:present name="taskTypes">
 								<logic:iterate name="taskTypes" id="entity">
@@ -65,26 +69,23 @@
 
 <!-- Body -->	
 <div class="pageContent">
-	<div class="panelBar">
-		<ul class="toolBar" style="overflow:hidden">
-			<li style="float:right"><a treeicon="icon-records" class="icon" href="app/personal/task.do?action=pageTaskLaunched" target="navTab" rel="dmp_workplan"><span class="icon-records">我发起的任务</span></a></li>
-		</ul>
-	</div>
-	<table class="table" width="100%" layoutH="138">
+	<table class="table" width="100%" layoutH="115">
 		<thead>
 			<tr>
 				<th align="center">任务类型</th>
 				<th align="center">任务名称</th>
-				<th align="center">发起人</th>
-				<th align="center">负责/参与</th>
+				<th align="center">发责人</th>
+				<th align="center">负责人</th>
 				<th align="center">任务状态</th>
+				<th align="center">发布审批</th>
 				<th align="center">剩余时间</th>
 				<th align="center">开始时间</th>
 				<th align="center">结束时间</th>
 				<th align="center">实际完成时间</th>
-				<th align="center">完成申请</th>
-				<th align="center">延期申请</th>
+				<th align="center">审批</th>
 				<th align="center">详细</th>
+				<th align="center">编辑</th>
+				<th align="center">删除</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -93,16 +94,23 @@
 					<tr target="entry_id" rel="${entity.id}">
 						<td>${entity.taskType.name}</td>
 						<td>${entity.taskName}</td>
+						<td>${entity.taskOriginator.empName}</td>
 						<td>${entity.taskCharger.empName}</td>
-						<td>${entity.taskCharger.id eq sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.employee.id ? '负责' : '参与'}</td>
 						<td>
 							<c:choose>
 								<c:when test="${entity.taskStatus eq null}">未开始</c:when>
 								<c:when test="${entity.taskStatus eq 1}">进行中</c:when>
 								<c:when test="${entity.taskStatus eq 2}">已延期</c:when>
 								<c:when test="${entity.taskStatus eq 3}">已完成</c:when>
-								<c:when test="${entity.taskStatus eq 4}">待延期审批</c:when>
-								<c:when test="${entity.taskStatus eq 5}">待完成审批</c:when>
+							</c:choose>
+						</td>
+						<td>
+							<c:choose>
+								<c:when test="${entity.auditStatus eq null || entity.auditStatus eq 1}">待审核</c:when>
+								<c:when test="${entity.auditStatus eq 2}">已通过</c:when>
+								<c:when test="${entity.auditStatus eq 3}">不通过</c:when>
+								<c:when test="${entity.auditStatus eq 4}">已退回</c:when>
+								<c:otherwise>未知</c:otherwise>
 							</c:choose>
 						</td>
 						<td>
@@ -111,31 +119,23 @@
 								</c:when>
 							</c:choose>
 						</td>
-						<td><fmt:formatDate value="${entity.taskPlannedStartDate}" pattern="yyyy-MM-dd" /></td>
-						<td><fmt:formatDate value="${entity.taskPlannedEndDate}" pattern="yyyy-MM-dd" /></td>
+						<td><fmt:formatDate  value="${entity.taskPlannedStartDate}" pattern="yyyy-MM-dd" /></td>
+						<td><fmt:formatDate  value="${entity.taskPlannedEndDate}" pattern="yyyy-MM-dd" /></td>
 						<td><fmt:formatDate value="${entity.taskActualEndDate}" pattern="yyyy-MM-dd" /></td>
 						<td>
 							<c:choose>
-								<c:when test="${entity.taskStatus eq 3 || entity.taskStatus eq 5 || entity.taskStatus eq 4}">
-									<label class="opdisabled">[完成审请]</label>
-								</c:when>
-								<c:otherwise>
-									<a href="app/personal/task.do?action=dialogApplyPage&id=${entity.id}&type=1" target="dialog" title="任务‘${entity.taskName}’-完成审请" width="555" height="445" class="oplink" rel="my_taskacc-${entity.id}">[完成审请]</a>
-								</c:otherwise>
+								<c:when test="${entity.auditStatus eq null || entity.auditStatus eq 1}"><a href="app/admin/task.do?action=dialogTaskPage&id=${entity.id}&op=audit" target="dialog" title="任务审批" width="1080" height="380" class="oplink" rel="admin_taskapproval-${entity.id}">审批</a></c:when>
+								<c:otherwise><label class="opdisabled">审批</label></c:otherwise>
 							</c:choose>
 						</td>
 						<td>
-							<c:choose>
-								<c:when test="${entity.taskStatus eq 3 || entity.taskStatus eq 5 || entity.taskStatus eq 4}">
-									<label class="opdisabled">[延期申请]</label>
-								</c:when>
-								<c:otherwise>
-									<a href="app/personal/task.do?action=dialogApplyPage&id=${entity.id}&type=0" target="dialog" title="任务‘${entity.taskName}’-延期申请" width="555" height="445" class="oplink" rel="my_taskapos-${entity.id}">[延期申请]</a>
-								</c:otherwise>
-							</c:choose>
+							<a href="app/admin/task.do?action=dialogTaskPage&id=${entity.id}&op=view" target="dialog" title="任务‘${entity.taskName}’-查看" width="750" height="530" class="oplink" rel="admin_taskdetail-${entity.id}">详细</a>
 						</td>
 						<td>
-							<a href="app/personal/task.do?action=dialogTaskPage&id=${entity.id}&op=view" target="dialog" title="任务‘${entity.taskName}’-查看" width="750" height="530" class="oplink" rel="personal_taskedit-${edit.id}">详细</a>
+							<a href="app/admin/task.do?action=dialogTaskPage&id=${entity.id}" target="dialog" title="任务‘${entity.taskName}’-编辑" width="1080" height="380" class="oplink" rel="admin_taskedit-${edit.id}">编辑</a>
+						</td>
+						<td>
+							<a href="app/admin/task.do?action=actionRemoveTaskPlan&taskId=${entity.id}" target="ajaxToDo" title="确定要删除任务‘${entity.taskName}’吗?" width="900" height="500" class="oplink" callback="reload_taskpage()">删除</a>
 						</td>
 					</tr>
 				</logic:iterate>
@@ -158,6 +158,7 @@
 		
 		<div class="pagination" targetType="navTab" totalCount="${pagingBean ne null ? pagingBean.totalItems : 0}" numPerPage="${pagingBean ne null ? pagingBean.pageSize : 20}" pageNumShown="${pagingBean ne null ? pagingBean.pageNumShown : 10}" currentPage="${pagingBean ne null ? pagingBean.currentPage : 1}"></div>
 	</div>
+	
 		
 	</form>
 </div>

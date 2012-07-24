@@ -14,5 +14,17 @@
 			</bean>
 		</property>
 	</bean>
+	
+	<!-- Task Plan Track-->
+	<bean id="daoTaskPlanTrack" class="org.shengrui.oa.dao.admin.impl.DAOTaskPlanTrackImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceTaskPlanTrack" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.admin.impl.ServiceTaskPlanTrackImpl">
+				<constructor-arg index="0" ref="daoTaskPlanTrack"/>
+			</bean>
+		</property>
+	</bean>
 
 </beans>

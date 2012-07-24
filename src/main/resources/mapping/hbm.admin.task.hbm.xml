@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<hibernate-mapping >
-    <class name="org.shengrui.oa.model.admin.ModelTaskPlan" table="app_admin_task">
+<hibernate-mapping package="org.shengrui.oa.model.admin">
+    <class name="ModelTaskPlan" table="app_admin_task">
         <id name="id" type="java.lang.String">
             <column name="task_id" />
             <generator class="native" />
@@ -22,11 +22,17 @@
         <property name="taskDescription" type="java.lang.String">
             <column name="task_desc" />
         </property>
+        <property name="taskParticipantIds" type="java.lang.String">
+        	<column name="task_participant_ids" />
+        </property>
         <property name="taskStatus" type="java.lang.Integer">
             <column name="task_status" />
         </property>
         <property name="auditStatus" type="java.lang.Integer">
             <column name="approval_status" />
+        </property>
+        <property name="createTime" type="timestamp">
+        	  <column name="create_time" />
         </property>
         
         <many-to-one name="taskType" class="org.shengrui.oa.model.system.ModelAppDictionary" fetch="select">
@@ -51,6 +57,12 @@
         	cascade="save-update" lazy="true"> 
 	      <key column="task_id"/>  
 	      <many-to-many class="org.shengrui.oa.model.hrm.ModelHrmEmployee" column="emp_id" />
+	    </set>
+	    
+	    <set name="taskTracks" table="app_admin_task_tracks"
+        	cascade="save-update" lazy="true" inverse="true" order-by="task_auditTime desc"> 
+	      <key column="task_id"/>  
+	      <one-to-many class="ModelTaskPlanTrack" />
 	    </set>
 	    
     </class>
