@@ -162,6 +162,7 @@ extends BaseAdminAction
 	{
 		String formAction = request.getParameter("formAction");
 		String formadd = request.getParameter("formadd");
+		String formedit = request.getParameter("formedit");
 		try {
 			ModelNewsMag modelNewsMag = (ModelNewsMag) form;
 			ModelNewsMag entity = null;
@@ -169,7 +170,7 @@ extends BaseAdminAction
 			boolean isCreation = !this.isObjectIdValid(modelNewsMag.getId());
 			if(!isCreation){
 				entity = serviceNewsManage.getModelNewsMag(modelNewsMag.getId());
-				if(entity != null && formAction =="" && formadd == null){
+				if(entity != null && !formedit.equals("") && formadd == null){
 					String districtPost = request.getParameter("districtPost");
 					entity.setDistrict(this.serviceSchoolDistrict.get(districtPost));
 					String districtVisible = request.getParameter("districtVisible");
@@ -179,6 +180,12 @@ extends BaseAdminAction
 					String typeDicid = request.getParameter("typeDicid");
 					entity.setDictionary(this.serviceAppDictionary.get(typeDicid));
 					entity.setUpdateTime(new Date());
+					if(formedit.equals("4"))
+					{
+						entity.setStatus(1);
+					}else{
+						entity.setStatus(0);
+					}
 					// 用表单输入的值覆盖实体中的属性值
 					UtilBean.copyNotNullProperties(entity, modelNewsMag);
 					this.serviceNewsManage.save(entity);
