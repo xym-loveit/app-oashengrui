@@ -170,6 +170,7 @@
 				/WEB-INF/classes/struts/struts-web-personal.xml,
 				/WEB-INF/classes/struts/struts-web-personal-interview.xml,
 				/WEB-INF/classes/struts/struts-web-personal-application-job.xml,
+				/WEB-INF/classes/struts/struts-web-personal-application-approval.xml,
 				/WEB-INF/classes/struts/struts-web-personal-application-form.xml,
 				/WEB-INF/classes/struts/struts-web-personal-task.xml,
 				/WEB-INF/classes/struts/struts-web-system-dictionary.xml,

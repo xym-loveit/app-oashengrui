@@ -30,7 +30,7 @@
 				<li treeicon="icon-hrjobreg"><a href="app/personal/jobapplication.do?action=pageJobOnHiring" target="navTab" rel="personal_myjobform">我要应聘</a></li>
 				<li treeicon="icon-myinvite"><a href="app/personal/interview.do?action=pageMyInterviewToDo" target="navTab" rel="personal_myinterviews">我做伯乐</a></li>
 				<li treeicon="icon-myapply"><a href="app/personal/application_form.do?action=pageMyApplicationIndex" target="navTab" rel="myapply">我的申请</a></li>
-				<li treeicon="icon-myapproval"><a href="blank.jsp" target="navTab" rel="mytodo">待我审批</a></li>
+				<li treeicon="icon-myapproval"><a href="app/personal/approval.do?action=pageMyApproval" target="navTab" rel="mytodo">待我审批</a></li>
 			</ul>
 		</div>
 		
