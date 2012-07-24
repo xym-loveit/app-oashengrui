@@ -117,7 +117,7 @@ ${tm:fileRestore(conference['attachFiles'])}
 								</select>
 							</c:when>
 							<c:otherwise>
-								<input name="level" type="text"  value="${conference.level }" readonly />
+								<input type="text"  value="${conference.level }" readonly />
 							</c:otherwise>
 						</c:choose>
 					</td>
