@@ -184,21 +184,22 @@ CREATE TABLE IF NOT EXISTS `app_admin_news_file` (
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_task` (
-  `task_id` bigint(20) NOT NULL auto_increment,
+  `task_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `type_dicid` bigint(20) NOT NULL COMMENT '任务类型Id (来自系统字典)',
   `task_name` varchar(120) NOT NULL COMMENT '任务名称',
   `task_originator` bigint(20) NOT NULL COMMENT '任务发起人',
   `task_charger` bigint(20) NOT NULL COMMENT '任务负责人',
   `task_planStartDate` date NOT NULL COMMENT '任务计划开始时间',
   `task_planEndDate` date NOT NULL COMMENT '任务计划终止时间',
-  `task_actualFinishDate` date default NULL COMMENT '任务实际完成时间',
+  `task_actualFinishDate` date DEFAULT NULL COMMENT '任务实际完成时间',
   `task_desc` text COMMENT '任务描述',
-  `task_participant_ids` varchar(120) default NULL COMMENT '任务参与人ID列表',
-  `task_participant_names` varchar(250) default NULL COMMENT '任务参与人名称列表',
-  `task_status` tinyint(4) default NULL COMMENT '任务状态',
-  `approval_status` tinyint(4) default NULL COMMENT '审批状态',
-  PRIMARY KEY  (`task_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-任务委托' AUTO_INCREMENT=1 ;
+  `task_participant_ids` varchar(120) DEFAULT NULL COMMENT '任务参与人ID列表',
+  `task_participant_names` varchar(250) DEFAULT NULL COMMENT '任务参与人名称列表',
+  `task_status` tinyint(4) DEFAULT NULL COMMENT '任务状态',
+  `approval_status` tinyint(4) DEFAULT NULL COMMENT '审批状态',
+  `create_time` datetime NOT NULL COMMENT '申请时间',
+  PRIMARY KEY (`task_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='行政管理-任务委托' AUTO_INCREMENT=3 ;
 
 --
 -- 转存表中的数据 `app_admin_task`
@@ -214,7 +215,7 @@ CREATE TABLE IF NOT EXISTS `app_admin_task` (
 CREATE TABLE IF NOT EXISTS `app_admin_task_file` (
   `task_id` bigint(20) NOT NULL COMMENT '任务ID',
   `file_id` bigint(20) NOT NULL COMMENT '文件ID',
-  PRIMARY KEY  (`task_id`,`file_id`)
+  PRIMARY KEY (`task_id`,`file_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-任务委托文件关联表';
 
 --
@@ -229,8 +230,34 @@ CREATE TABLE IF NOT EXISTS `app_admin_task_file` (
 
 CREATE TABLE IF NOT EXISTS `app_admin_task_participants` (
   `task_id` bigint(20) NOT NULL,
-  `emp_id` bigint(20) NOT NULL
+  `emp_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`task_id`,`emp_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务参与人';
+
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `app_admin_task_tracks`
+--
+
+CREATE TABLE IF NOT EXISTS `app_admin_task_tracks` (
+  `track_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `task_id` bigint(20) NOT NULL COMMENT '任务ID',
+  `task_applyTime` date NOT NULL COMMENT '申请时间',
+  `task_applyType` tinyint(4) NOT NULL COMMENT '申请类型',
+  `task_applyFinalTime` date NOT NULL COMMENT '申请完成时间/延期时间',
+  `task_applyMeto` text COMMENT '申请描述',
+  `task_auditState` tinyint(4) DEFAULT NULL COMMENT '审批状态',
+  `task_auditFinalTime` date DEFAULT NULL COMMENT '审批确认完成/延期时间',
+  `task_auditMeto` text COMMENT '审批描述',
+  `task_auditTime` datetime DEFAULT NULL COMMENT '审批时间',
+  PRIMARY KEY (`track_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='任务委托审批记录' AUTO_INCREMENT=3 ;
+
+--
+-- 转存表中的数据 `app_admin_task_tracks`
+--
 
 -- --------------------------------------------------------
 
