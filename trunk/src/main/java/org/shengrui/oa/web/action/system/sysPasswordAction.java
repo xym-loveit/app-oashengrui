@@ -11,8 +11,6 @@ import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.service.system.ServiceAppUser;
 import org.shengrui.oa.web.action.BaseAppAction;
 
-import cn.trymore.core.exception.ServiceException;
-import cn.trymore.core.util.UtilCipher;
 import cn.trymore.core.util.UtilString;
 
 public class sysPasswordAction 

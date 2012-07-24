@@ -1,15 +1,16 @@
 package org.shengrui.oa.service.admin.impl;
 
+import org.hibernate.Hibernate;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.admin.DAOTaskPlan;
 import org.shengrui.oa.model.admin.ModelTaskPlan;
-import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.service.admin.ServiceTaskPlan;
 
-import cn.trymore.core.dao.DAOGeneric;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
+import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
@@ -31,23 +32,10 @@ extends ServiceGenericImpl<ModelTaskPlan> implements ServiceTaskPlan
 	 * 
 	 * @param dao
 	 */
-	public ServiceTaskPlanImpl(DAOGeneric<ModelTaskPlan> dao)
+	public ServiceTaskPlanImpl(DAOTaskPlan dao)
 	{
 		super(dao);
-		
-		this.dao = daoTaskPlan;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.shengrui.oa.service.admin.ServiceTaskPlan#getByUser(org.shengrui.oa.model.hrm.ModelHrmEmployee, cn.trymore.core.web.paging.PagingBean)
-	 */
-	@Override
-	public PaginationSupport<ModelTaskPlan> getByUser(
-			ModelHrmEmployee employee, PagingBean pagingBean)
-			throws ServiceException
-	{
-		return null;
+		this.daoTaskPlan = dao;
 	}
 	
 	/*
@@ -55,12 +43,25 @@ extends ServiceGenericImpl<ModelTaskPlan> implements ServiceTaskPlan
 	 * @see org.shengrui.oa.service.admin.ServiceTaskPlan#getPaginationByEntity(org.shengrui.oa.model.admin.ModelTaskPlan, cn.trymore.core.web.paging.PagingBean)
 	 */
 	@Override
-	public PaginationSupport<ModelTaskPlan> getPaginationByEntity(
-			ModelTaskPlan entity, PagingBean pagingBean)
+	public PaginationSupport<ModelTaskPlan> getPaginationByEntity(ModelTaskPlan entity, 
+			PagingBean pagingBean)
 			throws ServiceException
 	{
-		return this.getAll(this.getCriterias(entity), pagingBean);
+		return this.getPaginationByEntity(entity, null, null, pagingBean);
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.admin.ServiceTaskPlan#getByUser(org.shengrui.oa.model.hrm.ModelHrmEmployee, cn.trymore.core.web.paging.PagingBean)
+	 */
+	@Override
+	public PaginationSupport<ModelTaskPlan> getPaginationByEntity (ModelTaskPlan entity, String employeeId, 
+			Boolean filterByOriginator, PagingBean pagingBean)
+			throws ServiceException
+	{
+		return this.getAll(this.getCriterias(entity, employeeId, filterByOriginator), pagingBean);
+	}
+	
 	
 	/**
 	 * Obtains the criteria with the specified entity.
@@ -68,7 +69,7 @@ extends ServiceGenericImpl<ModelTaskPlan> implements ServiceTaskPlan
 	 * @param entity
 	 * @return
 	 */
-	private DetachedCriteria getCriterias (ModelTaskPlan entity)
+	private DetachedCriteria getCriterias (ModelTaskPlan entity, String empId, Boolean filterByOriginator)
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelTaskPlan.class);
 		
@@ -84,6 +85,38 @@ extends ServiceGenericImpl<ModelTaskPlan> implements ServiceTaskPlan
 				criteria.add(Restrictions.eq("auditStatus", entity.getAuditStatus()));
 			}
 			
+			if (entity.getTaskCharger() != null)
+			{
+				criteria.createCriteria("taskCharger").add(Restrictions.eq("id", entity.getTaskCharger().getId()));
+			}
+			
+			if (UtilString.isNotEmpty(entity.getTaskName()))
+			{
+				criteria.add(Restrictions.like("taskName", entity.getTaskName(), MatchMode.ANYWHERE));
+			}
+			
+			if (entity.getTaskType() != null && entity.getTaskType().getId() != null)
+			{
+				criteria.createCriteria("taskType").add(Restrictions.eq("id", entity.getTaskType().getId()));
+			}
+			else if (entity.getTaskTypeId() != null && entity.getTaskTypeId() > -1)
+			{
+				criteria.createCriteria("taskType").add(Restrictions.eq("id", entity.getTaskTypeId()));
+			}
+			
+			if (UtilString.isNotEmpty(empId))
+			{
+				if (filterByOriginator)
+				{
+					criteria.createCriteria("taskOriginator").add(Restrictions.eq("id", empId));
+				}
+				else
+				{
+					criteria.add(Restrictions.or(
+							Restrictions.sqlRestriction("task_charger = ?", empId, Hibernate.STRING), 
+							Restrictions.sqlRestriction("? in (`task_participant_ids`)", empId, Hibernate.STRING)));
+				}
+			}
 		}
 		
 		return criteria;

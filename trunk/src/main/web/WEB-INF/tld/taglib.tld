@@ -44,4 +44,16 @@
      </example>
 </function>
 
+<function>
+   <description>
+     date utility
+   </description>
+   <name>getIntervalDays</name>
+   <function-class>cn.trymore.core.jstl.JstlTagDate</function-class>
+   <function-signature>java.lang.Integer getIntervalDays(java.util.Date, java.util.Date)</function-signature>
+     <example>
+        name: ${ltag:getIntervalDays(start_date, end_date)}
+     </example>
+</function>
+
 </taglib>

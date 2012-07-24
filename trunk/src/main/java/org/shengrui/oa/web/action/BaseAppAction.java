@@ -572,6 +572,82 @@ extends BaseAction
 		return null;
 	}
 	
+	/**
+	 * 加载校结构图: 校区-部门, 部门-校区
+	 * 
+	 * @param request
+	 * @throws Exception
+	 */
+	protected void loadOrganizationTree (HttpServletRequest request) throws Exception
+	{
+		// 获取所有校区
+		request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
+		
+		// 获取按校区所有部门列表
+		Map<Integer, List<ModelSchoolDepartment>> departments = this.getAllDepartments(request, false);
+		
+		if (departments != null)
+		{
+			List<Object> depNames = this.serviceSchoolDepartment.getDistinctDepartmentNames();
+			if (depNames != null)
+			{
+				request.setAttribute("depNames", depNames);
+				
+				Map<Integer, Map<String, String>> depSetIds = new HashMap<Integer, Map<String, String>>();
+				
+				depSetIds.put(AppUtil.EAppSchoolType.HEADQUARTERS.getValue(), 
+						new HashMap<String, String>());
+				
+				depSetIds.put(AppUtil.EAppSchoolType.AREA_CAMPUS.getValue(), 
+						new HashMap<String, String>());
+				
+				depSetIds.put(AppUtil.EAppSchoolType.AREA_SLOT.getValue(), 
+						new HashMap<String, String>());
+				
+				// 总部部门
+				List<ModelSchoolDepartment> depMasters = departments.get(AppUtil.EAppSchoolType.HEADQUARTERS.getValue());
+				if (depMasters != null)
+				{
+					for (ModelSchoolDepartment dep : depMasters)
+					{
+						if (depNames.contains(dep.getDepName()))
+						{
+							depSetIds.get(AppUtil.EAppSchoolType.HEADQUARTERS.getValue()).put(dep.getDepName(), dep.getId());
+						}
+					}
+				}
+				
+				// 校区部门
+				List<ModelSchoolDepartment> depCampus = departments.get(AppUtil.EAppSchoolType.AREA_CAMPUS.getValue());
+				if (depCampus != null)
+				{
+					for (ModelSchoolDepartment dep : depCampus)
+					{
+						if (depNames.contains(dep.getDepName()))
+						{
+							depSetIds.get(AppUtil.EAppSchoolType.AREA_CAMPUS.getValue()).put(dep.getDepName(), dep.getId());
+						}
+					}
+				}
+				
+				// 片区部门
+				List<ModelSchoolDepartment> depSlot = departments.get(AppUtil.EAppSchoolType.AREA_SLOT.getValue());
+				if (depSlot != null)
+				{
+					for (ModelSchoolDepartment dep : depSlot)
+					{
+						if (depNames.contains(dep.getDepName()))
+						{
+							depSetIds.get(AppUtil.EAppSchoolType.AREA_SLOT.getValue()).put(dep.getDepName(), dep.getId());
+						}
+					}
+				}
+				
+				request.setAttribute("depSetIds", depSetIds);
+			}
+		}
+	}
+	
 	public ServiceSchoolDepartment getServiceSchoolDepartment()
 	{
 		return serviceSchoolDepartment;

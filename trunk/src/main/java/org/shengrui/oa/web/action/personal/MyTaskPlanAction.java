@@ -1,6 +1,6 @@
 package org.shengrui.oa.web.action.personal;
 
-import java.util.HashMap;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -13,15 +13,19 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.admin.ModelTaskPlan;
+import org.shengrui.oa.model.admin.ModelTaskPlanTrack;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
-import org.shengrui.oa.model.system.ModelSchoolDepartment;
+import org.shengrui.oa.model.system.ModelAppDictionary;
 import org.shengrui.oa.service.admin.ServiceTaskPlan;
-import org.shengrui.oa.util.AppUtil;
+import org.shengrui.oa.service.admin.ServiceTaskPlanTrack;
 import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.web.action.BaseAppAction;
 
-import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.util.UtilBean;
+import cn.trymore.core.util.UtilDate;
+import cn.trymore.core.util.UtilString;
+import cn.trymore.core.web.paging.PaginationSupport;
+import cn.trymore.core.web.paging.PagingBean;
 
 /**
  * WebAction: 我的任务
@@ -38,9 +42,19 @@ extends BaseAppAction
 	private static final Logger LOGGER = Logger.getLogger(MyTaskPlanAction.class);
 	
 	/**
+	 * The dictionary key for task plan type
+	 */
+	protected static final String DIC_KEY_TASK_TYPE = "task";
+	
+	/**
 	 * The service of task plan
 	 */
-	private ServiceTaskPlan serviceTaskPlan;
+	protected ServiceTaskPlan serviceTaskPlan;
+	
+	/**
+	 * The task plan track service
+	 */
+	protected ServiceTaskPlanTrack serviceTaskPlanTrack;
 	
 	/**
 	 * <b>[WebAction]</b> 
@@ -50,7 +64,29 @@ extends BaseAppAction
 	public ActionForward pageTaskIndex (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) 
 	{
-		return mapping.findForward("page.task.index");
+		try
+		{
+			ModelTaskPlan formEntity = (ModelTaskPlan) form;
+			
+			request.setAttribute("taskTypes", this.serviceAppDictionary.getByType(DIC_KEY_TASK_TYPE));
+				
+			PagingBean pagingBean = this.getPagingBean(request);
+			PaginationSupport<ModelTaskPlan> items =
+					this.serviceTaskPlan.getPaginationByEntity(formEntity, ContextUtil.getCurrentUser().getEmployee().getId(), false, pagingBean);
+			
+			request.setAttribute("dataList", items);
+			request.setAttribute("formEntity", formEntity);
+			
+			// 输出分页信息至客户端
+			outWritePagination(request, pagingBean, items);
+			
+			return mapping.findForward("page.task.index");
+		} 
+		catch (Exception e)
+		{
+			LOGGER.error("Exception raised when fetch all expense documents.", e);
+			return ajaxPrint(response, getErrorCallback("页面加载失败:" + e.getMessage()));
+		}
 	}
 	
 	/**
@@ -61,7 +97,29 @@ extends BaseAppAction
 	public ActionForward pageTaskLaunched (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) 
 	{
-		return mapping.findForward("page.task.launched");
+		try
+		{
+			ModelTaskPlan formEntity = (ModelTaskPlan) form;
+			
+			request.setAttribute("taskTypes", this.serviceAppDictionary.getByType(DIC_KEY_TASK_TYPE));
+				
+			PagingBean pagingBean = this.getPagingBean(request);
+			PaginationSupport<ModelTaskPlan> items =
+					this.serviceTaskPlan.getPaginationByEntity(formEntity, ContextUtil.getCurrentUser().getEmployee().getId(), true, pagingBean);
+			
+			request.setAttribute("dataList", items);
+			request.setAttribute("formEntity", formEntity);
+			
+			// 输出分页信息至客户端
+			outWritePagination(request, pagingBean, items);
+			
+			return mapping.findForward("page.task.launched");
+		} 
+		catch (Exception e)
+		{
+			LOGGER.error("Exception raised when fetch all expense documents.", e);
+			return ajaxPrint(response, getErrorCallback("页面加载失败:" + e.getMessage()));
+		}
 	}
 	
 	/**
@@ -75,80 +133,152 @@ extends BaseAppAction
 		
 		try
 		{
-			// 获取所有校区
-			request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
-			
-			// 获取按校区所有部门列表
-			Map<Integer, List<ModelSchoolDepartment>> departments = this.getAllDepartments(request, false);
-			
-			if (departments != null)
+			List<ModelAppDictionary> taskTypes = this.serviceAppDictionary.getByType(DIC_KEY_TASK_TYPE);
+			if (taskTypes != null && taskTypes.size() > 0)
 			{
-				List<Object> depNames = this.serviceSchoolDepartment.getDistinctDepartmentNames();
-				if (depNames != null)
+				request.setAttribute("taskTypes", taskTypes);
+				
+				String taskId = request.getParameter("id");
+				if (UtilString.isNotEmpty(taskId) && this.isObjectIdValid(taskId))
 				{
-					request.setAttribute("depNames", depNames);
 					
-					Map<Integer, Map<String, String>> depSetIds = new HashMap<Integer, Map<String, String>>();
-					
-					depSetIds.put(AppUtil.EAppSchoolType.HEADQUARTERS.getValue(), 
-							new HashMap<String, String>());
-					
-					depSetIds.put(AppUtil.EAppSchoolType.AREA_CAMPUS.getValue(), 
-							new HashMap<String, String>());
-					
-					depSetIds.put(AppUtil.EAppSchoolType.AREA_SLOT.getValue(), 
-							new HashMap<String, String>());
-					
-					// 总部部门
-					List<ModelSchoolDepartment> depMasters = departments.get(AppUtil.EAppSchoolType.HEADQUARTERS.getValue());
-					if (depMasters != null)
+					ModelTaskPlan taskPlan = this.serviceTaskPlan.get(taskId);
+					if (taskPlan != null)
 					{
-						for (ModelSchoolDepartment dep : depMasters)
-						{
-							if (depNames.contains(dep.getDepName()))
-							{
-								depSetIds.get(AppUtil.EAppSchoolType.HEADQUARTERS.getValue()).put(dep.getDepName(), dep.getId());
-							}
-						}
+						request.setAttribute("entity", taskPlan);
 					}
-					
-					// 校区部门
-					List<ModelSchoolDepartment> depCampus = departments.get(AppUtil.EAppSchoolType.AREA_CAMPUS.getValue());
-					if (depCampus != null)
+					else
 					{
-						for (ModelSchoolDepartment dep : depCampus)
-						{
-							if (depNames.contains(dep.getDepName()))
-							{
-								depSetIds.get(AppUtil.EAppSchoolType.AREA_CAMPUS.getValue()).put(dep.getDepName(), dep.getId());
-							}
-						}
+						return ajaxPrint(response, getErrorCallback("您指定的任务数据不存在..."));
 					}
-					
-					// 片区部门
-					List<ModelSchoolDepartment> depSlot = departments.get(AppUtil.EAppSchoolType.AREA_SLOT.getValue());
-					if (depSlot != null)
-					{
-						for (ModelSchoolDepartment dep : depSlot)
-						{
-							if (depNames.contains(dep.getDepName()))
-							{
-								depSetIds.get(AppUtil.EAppSchoolType.AREA_SLOT.getValue()).put(dep.getDepName(), dep.getId());
-							}
-						}
-					}
-					
-					request.setAttribute("depSetIds", depSetIds);
-					
 				}
+				
+				String operation = request.getParameter("op");
+				if (operation == null || !"view".equals(operation))
+				{
+					// 加载校结构图
+					this.loadOrganizationTree(request);
+				}
+				
+				request.setAttribute("op", operation);
+				
+				return mapping.findForward("dialog.task.page");
+			}
+			else
+			{
+				return ajaxPrint(response, getErrorCallback("您需要先在系统数据字典中设置添加任务委托类型..."));
 			}
 		} 
-		catch (ServiceException e)
+		catch (Exception e)
 		{
 			LOGGER.error("Exception raised when open dialog page for my task creation..", e);
+			return ajaxPrint(response, getErrorCallback("页面加载失败:" + e.getMessage()));
 		}
-		
-		return mapping.findForward("dialog.task.page");
+	}
+	
+	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
+	 * 任务审批页面 
+	 */
+	public ActionForward dialogAuditPage (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		try
+		{
+			String taskId = request.getParameter("taskId");
+			if (this.isObjectIdValid(taskId))
+			{
+				
+				ModelTaskPlan taskPlan = this.serviceTaskPlan.get(taskId);
+				if (taskPlan != null)
+				{
+					request.setAttribute("entity", taskPlan);
+					
+					ModelTaskPlanTrack currentTrackForm = this.serviceTaskPlanTrack.getCurrentTrack(taskId);
+					if (currentTrackForm != null)
+					{
+						request.setAttribute("trackForm", currentTrackForm);
+						request.setAttribute("auditType", request.getParameter("type"));
+						
+						return mapping.findForward("form.task.audit.page");
+					}
+					else
+					{
+						return ajaxPrint(response, getErrorCallback("当前不存在任何完成申请或延迟申请数据..."));
+					}
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("您指定的任务数据不存在..."));
+				}
+			}
+			else
+			{
+				return ajaxPrint(response, getErrorCallback("需要传入任务Id..."));
+			}
+		}
+		catch (Exception e)
+		{
+			LOGGER.error("Exception raised when open the audit dialog page..", e);
+			return ajaxPrint(response, getErrorCallback("页面加载失败:" + e.getMessage()));
+		}
+	}
+	
+	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
+	 * 任务申请页面 (完成申请/延迟申请)
+	 */
+	public ActionForward dialogApplyPage (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		try
+		{
+			String applyType = request.getParameter("type");
+			
+			if (UtilString.isNotEmpty(applyType))
+			{
+				if (Integer.valueOf(applyType).equals(ModelTaskPlanTrack.ETaskTrackType.APPLY_ACCOMPLISH.getValue()) ||
+						Integer.valueOf(applyType).equals(ModelTaskPlanTrack.ETaskTrackType.APPLY_POSTONE.getValue()))
+				{
+					String taskId = request.getParameter("id");
+					if (this.isObjectIdValid(taskId))
+					{
+						
+						ModelTaskPlan taskPlan = this.serviceTaskPlan.get(taskId);
+						if (taskPlan != null)
+						{
+							request.setAttribute("entity", taskPlan);
+							request.setAttribute("applyType", applyType);
+							
+							return mapping.findForward("form.task.apply.page");
+						}
+						else
+						{
+							return ajaxPrint(response, getErrorCallback("您指定的任务数据不存在..."));
+						}
+					}
+					else
+					{
+						return ajaxPrint(response, getErrorCallback("需要传入合法的任务Id..."));
+					}
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("未知的申请类型被传入..."));
+				}
+			}
+			else
+			{
+				return ajaxPrint(response, getErrorCallback("需要指定一种申请类型..."));
+			}
+		} 
+		catch (Exception e)
+		{
+			LOGGER.error("Exception raised when open dialog page for my task creation..", e);
+			return ajaxPrint(response, getErrorCallback("页面加载失败:" + e.getMessage()));
+		}
 	}
 	
 	/**
@@ -170,6 +300,7 @@ extends BaseAppAction
 				// 创建
 				entity = formEntity;
 				entity.setTaskOriginator(ContextUtil.getCurrentUser().getEmployee());
+				entity.setCreateTime(new Date());
 			}
 			else
 			{
@@ -189,48 +320,132 @@ extends BaseAppAction
 				}
 			}
 			
-			// 清楚任务参与人
-			if (entity.getTaskParticipants() == null)
+			// 检查任务委托类型是否合法
+			String taskTypeId = request.getParameter("taskTypeId");
+			if (this.isObjectIdValid(taskTypeId))
 			{
-				entity.setTaskParticipants(new HashSet<ModelHrmEmployee>());
-			}
-			else
-			{
-				entity.getTaskParticipants().clear();
-			}
-			
-			// 保存任务参与人
-			Map<String, List<String>> paramEmpIds = this.getAllRequestParameters(request, new String[] {"empid"});
-			if (paramEmpIds != null && paramEmpIds.size() > 0)
-			{
-				List<String> empIds = paramEmpIds.get("empid");
-				for (String empId : empIds)
+				ModelAppDictionary taskType = this.serviceAppDictionary.get(taskTypeId);
+				if (taskType != null)
 				{
-					ModelHrmEmployee employee = this.serviceHrmEmployee.get(empId);
-					if (employee != null)
+					
+					entity.setTaskType(taskType);
+					
+					String chargerId = request.getParameter("charger.id");
+					if (this.isObjectIdValid(chargerId))
 					{
-						entity.getTaskParticipants().add(employee);
+						ModelHrmEmployee charger = this.serviceHrmEmployee.get(chargerId);
+						if (charger != null)
+						{
+							
+							entity.setTaskCharger(charger);
+							
+							// 清除任务参与人
+							if (entity.getTaskParticipants() == null)
+							{
+								entity.setTaskParticipants(new HashSet<ModelHrmEmployee>());
+							}
+							else
+							{
+								entity.getTaskParticipants().clear();
+							}
+							
+							// 保存任务参与人
+							Map<String, List<String>> paramEmpIds = this.getAllRequestParameters(request, new String[] {"empid"});
+							if (paramEmpIds != null && paramEmpIds.size() > 0)
+							{
+								List<String> empIds = paramEmpIds.get("empid");
+								for (String empId : empIds)
+								{
+									ModelHrmEmployee employee = this.serviceHrmEmployee.get(empId);
+									if (employee != null)
+									{
+										entity.getTaskParticipants().add(employee);
+									}
+									else
+									{
+										LOGGER.warn("The employee does not exist with id:" + empId);
+									}
+								}
+							}
+							
+							// 附件关联保存
+							this.handleFileAttachments(entity, request);
+							
+							this.serviceTaskPlan.save(entity);
+							
+							// 保存成功后, Dialog进行关闭
+							return ajaxPrint(response, 
+									getSuccessCallback("任务保存成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+						}
+						else
+						{
+							return ajaxPrint(response, getErrorCallback("您指定的负责人不存在..."));
+						}
 					}
 					else
 					{
-						LOGGER.warn("The employee does not exist with id:" + empId);
+						return ajaxPrint(response, getErrorCallback("需要传入合法的负责人ID..."));
 					}
 				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("您指定的任务委托类型数据不存在..."));
+				}
 			}
-			
-			// 附件关联保存
-			this.handleFileAttachments(entity, request);
-			
-			this.serviceTaskPlan.save(entity);
-			
-			// 保存成功后, Dialog进行关闭
-			return ajaxPrint(response, 
-					getSuccessCallback("任务保存成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+			else
+			{
+				return ajaxPrint(response, getErrorCallback("需要传入合法的任务委托类型ID..."));
+			}
 		}
 		catch (Exception e)
 		{
+			LOGGER.error("Exception raised when saving task plan", e);
 			return ajaxPrint(response, getErrorCallback("任务保存失败:" + e.getMessage()));
 		}
+	}
+	
+	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
+	 * 任务审批记录
+	 */
+	public ActionForward dialogAuditRecords (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		try
+		{
+			String taskId = request.getParameter("taskId");
+			if (!this.isObjectIdValid(taskId))
+			{
+				return ajaxPrint(response, getErrorCallback("需要传入合法的任务ID..."));
+			}
+			
+			ModelTaskPlan taskPlan = this.serviceTaskPlan.get(taskId);
+			if (taskPlan == null)
+			{
+				return ajaxPrint(response, getErrorCallback("您当前进行任务申请的任务数据不存在..."));
+			}
+			
+			PagingBean pagingBean = this.getPagingBean(request);
+			PaginationSupport<ModelTaskPlanTrack> items =
+					this.serviceTaskPlanTrack.getPaginationByTaskId(taskId, pagingBean);
+			
+			request.setAttribute("dataList", items);
+			
+			// 输出分页信息至客户端
+			outWritePagination(request, pagingBean, items);
+			
+			request.setAttribute("taskPlan", taskPlan);
+			request.setAttribute("page_type", "audit_records");
+			
+			return mapping.findForward("data.task.audit.records");
+		}
+		catch (Exception e)
+		{
+			LOGGER.error("Exception raised when open the dialog page of audit records.", e);
+			return ajaxPrint(response, getErrorCallback("加载页面失败:" + e.getMessage()));
+		}
+		
 	}
 	
 	/**
@@ -270,6 +485,151 @@ extends BaseAppAction
 		}
 	}
 	
+	/**
+	 * <b>[WebAction]</b> <br/>
+	 * 任务申请保存
+	 */
+	public  ActionForward actionSaveTaskApply(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+	{
+		try
+		{
+			String taskId = request.getParameter("taskId");
+			if (!this.isObjectIdValid(taskId))
+			{
+				return ajaxPrint(response, getErrorCallback("需要传入合法的任务ID..."));
+			}
+			
+			ModelTaskPlan taskPlan = this.serviceTaskPlan.get(taskId);
+			if (taskPlan == null)
+			{
+				return ajaxPrint(response, getErrorCallback("您当前进行任务申请的任务数据不存在..."));
+			}
+			
+			ModelTaskPlanTrack taskTrack = new ModelTaskPlanTrack();
+			
+			Integer applyType = Integer.valueOf(request.getParameter("applyType"));
+			
+			taskTrack.setTaskApplyMeto(request.getParameter("meto"));
+			taskTrack.setTaskApplyDate(UtilDate.toDate(request.getParameter("applyDate")));
+			taskTrack.setTaskApplyFinalizedDate(UtilDate.toDate(request.getParameter("finalizedDate")));
+			taskTrack.setTaskApplyType(applyType);
+			taskTrack.setTask(taskPlan);
+			
+			if (ModelTaskPlanTrack.ETaskTrackType.APPLY_ACCOMPLISH.getValue().equals(applyType))
+			{
+				// 类型: 完成申请
+				taskPlan.setTaskStatus(ModelTaskPlan.ETaskStatus.DONE_APPROVING.getValue());
+			}
+			else if (ModelTaskPlanTrack.ETaskTrackType.APPLY_POSTONE.getValue().equals(applyType))
+			{
+				// 类型: 延迟申请
+				taskPlan.setTaskStatus(ModelTaskPlan.ETaskStatus.POSTPONED_APPROVING.getValue());
+			}
+			else
+			{
+				return ajaxPrint(response, getErrorCallback("未知的任务申请类型..."));
+			}
+			
+			this.serviceTaskPlanTrack.save(taskTrack);
+			
+			// 申请保存成功后, Dialog进行关闭
+			return ajaxPrint(response, 
+					getSuccessCallback("申请保存成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+
+		}
+		catch (Exception e)
+		{
+			LOGGER.error("Exception raised when saving task apply...", e);
+			return ajaxPrint(response, getErrorCallback("任务申请保存失败..."));
+		}
+	}
+	
+	/**
+	 * <b>[WebAction]</b> <br/>
+	 * 任务审批保存
+	 */
+	public  ActionForward actionSaveTaskApproval(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+	{
+		try
+		{
+			String taskId = request.getParameter("taskId");
+			if (!this.isObjectIdValid(taskId))
+			{
+				return ajaxPrint(response, getErrorCallback("需要传入合法的任务ID..."));
+			}
+			
+			ModelTaskPlan taskPlan = this.serviceTaskPlan.get(taskId);
+			if (taskPlan == null)
+			{
+				return ajaxPrint(response, getErrorCallback("您当前进行任务申请的任务数据不存在..."));
+			}
+			
+			String trackId = request.getParameter("trackId");
+			if (this.isObjectIdValid(trackId))
+			{
+				ModelTaskPlanTrack taskTrack = this.serviceTaskPlanTrack.get(trackId);
+				if (taskTrack == null)
+				{
+					return ajaxPrint(response, getErrorCallback("任务申请数据不存在..."));
+				}
+				else
+				{
+					taskTrack.setTaskAuditMeto(request.getParameter("auditMeto"));
+					
+					if (UtilString.isNotEmpty(request.getParameter("taskAuditFinalizedDate")))
+					{
+						taskTrack.setTaskAuditFinalizedDate(UtilDate.toDate(request.getParameter("taskAuditFinalizedDate")));
+					}
+					
+					taskTrack.setTaskAuditState(Integer.valueOf(request.getParameter("taskAuditState")));
+					taskTrack.setTaskAuditTime(new Date());
+					
+					String auditType = request.getParameter("auditType");
+					
+					if (ModelTaskPlanTrack.ETaskAuditState.PASS.getValue().equals(taskTrack.getTaskAuditState()))
+					{
+						// 审核通过
+						if (ModelTaskPlanTrack.ETaskTrackType.APPLY_ACCOMPLISH.getValue().equals(Integer.valueOf(auditType)))
+						{
+							// 完成申请
+							taskPlan.setTaskStatus(ModelTaskPlan.ETaskStatus.DONE.getValue());
+							taskPlan.setTaskActualEndDate(UtilDate.toDate(request.getParameter("taskAuditFinalizedDate")));
+						}
+						else if (ModelTaskPlanTrack.ETaskTrackType.APPLY_POSTONE.getValue().equals(Integer.valueOf(auditType)))
+						{
+							taskPlan.setTaskStatus(ModelTaskPlan.ETaskStatus.POSTPONED.getValue());
+							taskPlan.setTaskPlannedEndDate(UtilDate.toDate(request.getParameter("taskAuditFinalizedDate")));
+						}
+					}
+					else if (ModelTaskPlanTrack.ETaskAuditState.NOTPASS.getValue().equals(taskTrack.getTaskAuditState()))
+					{
+						// 审核未过
+						taskPlan.setTaskStatus(ModelTaskPlan.ETaskStatus.ONGOING.getValue());
+					}
+					
+					taskTrack.setTask(taskPlan);
+					
+					this.serviceTaskPlanTrack.save(taskTrack);
+					
+					// 保存成功后, Dialog进行关闭
+					return ajaxPrint(response, 
+							getSuccessCallback("审批成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+				}
+			}
+			else
+			{
+				return ajaxPrint(response, getErrorCallback("需传入合法的任务申请数据Id..."));
+			}
+		}
+		catch (Exception e)
+		{
+			LOGGER.error("Exception raised when saving task apply...", e);
+			return ajaxPrint(response, getErrorCallback("任务申请保存失败..."));
+		}
+	}
+	
 	public static Logger getLogger()
 	{
 		return LOGGER;
@@ -283,6 +643,16 @@ extends BaseAppAction
 	public ServiceTaskPlan getServiceTaskPlan()
 	{
 		return serviceTaskPlan;
+	}
+
+	public ServiceTaskPlanTrack getServiceTaskPlanTrack()
+	{
+		return serviceTaskPlanTrack;
+	}
+
+	public void setServiceTaskPlanTrack(ServiceTaskPlanTrack serviceTaskPlanTrack)
+	{
+		this.serviceTaskPlanTrack = serviceTaskPlanTrack;
 	}
 	
 }

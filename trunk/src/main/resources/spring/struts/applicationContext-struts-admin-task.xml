@@ -3,7 +3,7 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean name="/app/personal/task" class="org.shengrui.oa.web.action.personal.MyTaskPlanAction">
+	<bean name="/app/admin/task" class="org.shengrui.oa.web.action.admin.AdminTaskAction">
 		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
 		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
 		<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
@@ -11,6 +11,6 @@
 		<property name="serviceAppDictionary" ref="serviceAppDictionary" />
 		<property name="serviceFileAttach" ref="serviceFileAttach" />
 		<property name="serviceTaskPlanTrack" ref="serviceTaskPlanTrack" />
-	</bean>
+     </bean>
 	
 </beans>

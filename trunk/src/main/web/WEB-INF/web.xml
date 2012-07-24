@@ -157,6 +157,7 @@
 				/WEB-INF/classes/struts/struts-web-admin.xml,
 				/WEB-INF/classes/struts/struts-web-admin-news.xml,
 				/WEB-INF/classes/struts/struts-web-admin-doc.xml,
+				/WEB-INF/classes/struts/struts-web-admin-task.xml,
 				/WEB-INF/classes/struts/struts-web-base.xml,
 				/WEB-INF/classes/struts/struts-web-flow.xml,
 				/WEB-INF/classes/struts/struts-web-index.xml,
