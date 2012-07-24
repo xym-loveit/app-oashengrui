@@ -387,7 +387,6 @@ extends BaseHrmAction
 				{
 					// 审批状态为审批通过
 					entity.setStatus(ModelHrmJobHireInfo.EJobHireStatus.APPROVED.getValue());
-					entity.setIsOpen(ModelHrmJobHireInfo.EJobHireOpen.OPEN.getValue());
 				}
 				else if (ACTION_FORM_FLAG_RETURNED.equals(formAction))
 				{
