@@ -17,6 +17,13 @@
 	.opdisabled {text-decoration: line-through; color: #DDD; line-height: 21px;}
 </style>
 
+<script>
+	function reload_jobpage() {
+		// 重新加载当前的navTab
+		navTab.reload(navTab.getCurrentTabUrl(), {navTabId: navTab.getCurrentTabId()});
+	}
+</script>
+
 <form id="pagerForm" method="post" action="app/hrm/hire.do?action=hrmJobIndex">
 	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
 	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
@@ -116,18 +123,18 @@
 						<td>${entity.status eq 1 ? '待校区审批' : (entity.status eq 2 ? '待总部审批' : (entity.status eq 3 ? '审核退回' : (entity.status eq 4 ? '审核通过' : '未知')))}</td>
 						<td>
 							<c:choose>
-								<c:when test="${entity.status eq 0 || entity.status eq 2}">
-									——
-								</c:when>
-								<c:when test="${entity.status eq 1}">
+								<c:when test="${entity.status eq 4}">
 									${entity.isOpen eq 0 ? '已关闭' : '招聘中'}
 								</c:when>
+								<c:otherwise>
+									——
+								</c:otherwise>
 							</c:choose>
 						</td>
 						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}&op=view" target="dialog" title="岗位详细" width="960" height="420">详细</a></td>
 						<td>
 							<c:choose>
-								<c:when test="${entity.status eq 2}">
+								<c:when test="${entity.status eq 1 || entity.status eq 2}">
 									<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}&op=edit" target="dialog" title="编辑岗位" width="960" height="420">编辑</a>
 								</c:when>
 								<c:otherwise>
@@ -137,25 +144,23 @@
 						</td>
 						<td>
 							<c:choose>
-								<c:when test="${entity.status eq 0 || entity.status eq 2}">
-									<label class="opdisabled">关闭</label>
-								</c:when>
-								<c:when test="${entity.status eq 1}">
+								<c:when test="${entity.status eq 4}">
 									<c:choose>
 										<c:when test="${entity.isOpen eq 0}">
-											<a class="oplink" href="app/hrm/hire.do?action=actionJobOpenControl&jobId=${entity.id}&state=1" target="ajaxTodo" title="确定要开启该岗位应聘吗?">开启</a>
+											<a class="oplink" href="app/hrm/hire.do?action=actionJobOpenControl&jobId=${entity.id}&state=1" target="ajaxTodo" title="确定要开启该岗位应聘吗?" callback="reload_jobpage()">开启</a>
 										</c:when>
 										<c:when test="${entity.isOpen eq null || entity.isOpen eq 1}">
-											<a class="oplink" href="app/hrm/hire.do?action=actionJobOpenControl&jobId=${entity.id}&state=0" target="ajaxTodo" title="确定要关闭该岗位应聘吗?">关闭</a>
+											<a class="oplink" href="app/hrm/hire.do?action=actionJobOpenControl&jobId=${entity.id}&state=0" target="ajaxTodo" title="确定要关闭该岗位应聘吗?" callback="reload_jobpage()">关闭</a>
 										</c:when>
 									</c:choose>
 								</c:when>
+								<c:otherwise>
+									<label class="opdisabled">关闭</label>
+								</c:otherwise>
 							</c:choose>
 						</td>
 						<td>
 							<c:choose>
-								<c:when test="${entity.isOpen eq 0}">
-								</c:when>
 								<c:when test="${entity.status ne 4}">
 									<label class="opdisabled">入职安排</label>
 								</c:when>
@@ -166,8 +171,6 @@
 						</td>
 						<td>
 							<c:choose>
-								<c:when test="${entity.isOpen eq 0}">
-								</c:when>
 								<c:when test="${entity.status ne 4}">
 									<label class="opdisabled">招聘安排</label>
 								</c:when>

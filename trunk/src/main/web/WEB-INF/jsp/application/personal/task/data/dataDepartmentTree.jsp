@@ -14,10 +14,13 @@
 			$(this).bind("click", function(){
 				var depId = $(this).attr("depId");
 				var districtId = $(this).attr("districtId");
-				generic_ajax_op("app/base.do?action=actionLoadEmployeeByDepAndDistrict", "{'districtId':'" + districtId + "', 'depId':'" + depId + "'}", null, (function(rsp_msg){
+				generic_ajax_op("app/base.do?action=actionLoadEmployeeByDepAndDistrict", "{'districtId':'" + districtId + "', 'depId':'" + depId + "'}", (function(){
+					$("#background,#progressBar").show();
+				}), (function(rsp_msg){
 					if (rsp_msg) {
 						var json_obj = eval('(' + rsp_msg + ')');
 						$('#task_participants').manifest('add', json_obj);
+						$("#background,#progressBar").hide();
 					  };
 					}
 				));
@@ -27,21 +30,19 @@
 </script>
 
 <ul class="tree treeFolder">
-	<c:if test="${departments ne null}">
-		<c:forEach items="${departments}" var="entry">
-			<c:if test="${entry.key eq 0}">
-				<c:forEach items="${entry.value}" var="entity">
-					<li class="expand"><a id=""><c:out value="${entity.depName}" /></a>
-					   <ul>
-						<c:if test="${districts ne null}">
-							<c:forEach items="${districts}" var="district">
-								<li><a id="mtask_disentity_${district.id}" depId="${entity.id}" districtId="${district.id}" href="app/base.do?action=actionLoadEmployeeByDepAndDistrict&districtId=${district.id}&depId=${entity.id}" target="ajax"><c:out value="${district.districtName}" /></a></li>
-							</c:forEach>
+	<c:if test="${depNames ne null}">
+		<c:forEach items="${depNames}" var="entry">
+			<li class="expand"><a id=""><c:out value="${entry}" /></a>
+			   <ul>
+				<c:if test="${districts ne null}">
+					<c:forEach items="${districts}" var="district">
+						<c:if test="${depSetIds[district.districtType][entry] ne null}">
+						<li><a id="mtask_disentity_${district.id}" depId="${depSetIds[district.districtType][entry]}" districtId="${district.id}" href="app/base.do?action=actionLoadEmployeeByDepAndDistrict&districtId=${district.id}&depId=${depSetIds[district.districtType][entry]}" target="ajax"><c:out value="${district.districtName}" /></a></li>
 						</c:if>
-					   </ul>
-					</li>
-				</c:forEach>
-			</c:if>
+					</c:forEach>
+				</c:if>
+			   </ul>
+			</li>
 		</c:forEach>
 	</c:if>
 </ul>

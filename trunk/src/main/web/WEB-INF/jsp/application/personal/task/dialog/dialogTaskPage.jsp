@@ -184,7 +184,7 @@ ol.mp_list li.mp_error {
 			formatValue: function (data, $value, $item, $mpItem) {
 				return data.id;
 			},
-			valuesName: 'id'
+			valuesName: 'empid'
 		});
 		
 	});

@@ -192,10 +192,10 @@ CREATE TABLE IF NOT EXISTS `app_admin_task` (
   `task_planStartDate` date NOT NULL COMMENT '任务计划开始时间',
   `task_planEndDate` date NOT NULL COMMENT '任务计划终止时间',
   `task_actualFinishDate` date default NULL COMMENT '任务实际完成时间',
-  `task_desc` text NOT NULL COMMENT '任务描述',
+  `task_desc` text COMMENT '任务描述',
   `task_participant_ids` varchar(120) default NULL COMMENT '任务参与人ID列表',
   `task_participant_names` varchar(250) default NULL COMMENT '任务参与人名称列表',
-  `task_status` tinyint(4) NOT NULL COMMENT '任务状态',
+  `task_status` tinyint(4) default NULL COMMENT '任务状态',
   `approval_status` tinyint(4) default NULL COMMENT '审批状态',
   PRIMARY KEY  (`task_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-任务委托' AUTO_INCREMENT=1 ;
@@ -221,6 +221,16 @@ CREATE TABLE IF NOT EXISTS `app_admin_task_file` (
 -- 转存表中的数据 `app_admin_task_file`
 --
 
+-- --------------------------------------------------------
+
+--
+-- 資料表格式： `app_admin_task_participants`
+--
+
+CREATE TABLE IF NOT EXISTS `app_admin_task_participants` (
+  `task_id` bigint(20) NOT NULL,
+  `emp_id` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务参与人';
 
 -- --------------------------------------------------------
 

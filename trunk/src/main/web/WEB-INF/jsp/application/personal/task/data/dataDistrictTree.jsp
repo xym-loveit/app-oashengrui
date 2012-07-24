@@ -14,10 +14,13 @@
 			$(this).bind("click", function(){
 				var depId = $(this).attr("depId");
 				var districtId = $(this).attr("districtId");
-				generic_ajax_op("app/base.do?action=actionLoadEmployeeByDepAndDistrict", "{'districtId':'" + districtId + "', 'depId':'" + depId + "'}", null, (function(rsp_msg){
+				generic_ajax_op("app/base.do?action=actionLoadEmployeeByDepAndDistrict", "{'districtId':'" + districtId + "', 'depId':'" + depId + "'}", (function(){
+					$("#background,#progressBar").show();
+				}), (function(rsp_msg){
 					if (rsp_msg) {
 						var json_obj = eval('(' + rsp_msg + ')');
 						$('#task_participants').manifest('add', json_obj);
+						$("#background,#progressBar").hide();
 					  };
 					}
 				));

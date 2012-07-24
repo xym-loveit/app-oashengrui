@@ -594,27 +594,34 @@
 
         $item = $('<li class="mf_item" role="option" aria-selected="false" />');
         $remove = $('<a href="#" class="mf_remove" title="Remove" />');
-        $value = $('<input type="hidden" class="mf_value" />');
+		
+		// modified by Jeccy.Zhao on 2012/07/24
+		var ele_val = options.formatValue.call($input, value, $value, $item, $mpItem);
+		var ele_id = (options.valuesName || $input.attr('name')) + ele_val;
+		
+		if ($("#" + ele_id).size() == 0) {
+			$value = $('<input type="hidden" class="mf_value" id="' + ele_id + '" />');
+			
+			if (options.valuesName) {
+			  $value.attr('name', options.valuesName + '_' + ele_val);
+			}
+			// If no custom 'name' is set for the hidden input values, append
+			// '_values[]' to the input name as the default.
+			else {
+			  $value.attr('name', $input.attr('name') + '_values_' + ele_val);
+			}
 
-        if (options.valuesName) {
-          $value.attr('name', options.valuesName + '[]');
-        }
-        // If no custom 'name' is set for the hidden input values, append
-        // '_values[]' to the input name as the default.
-        else {
-          $value.attr('name', $input.attr('name') + '_values[]');
-        }
+			// Store the data with the item for easy access.
+			$item.data('manifest', value);
 
-        // Store the data with the item for easy access.
-        $item.data('manifest', value);
-
-        // Formatting callbacks support deferred responses to allow for ajax
-        // and other asynchronous requests.
-        $.when(options.formatDisplay.call($input, value, $item, $mpItem),
-               options.formatRemove.call($input, $remove, $item),
-               options.formatValue.call($input, value, $value, $item, $mpItem))
-         .then(buildItem);
-      }
+			// Formatting callbacks support deferred responses to allow for ajax
+			// and other asynchronous requests.
+			$.when(options.formatDisplay.call($input, value, $item, $mpItem),
+				   options.formatRemove.call($input, $remove, $item),
+				   options.formatValue.call($input, value, $value, $item, $mpItem))
+			 .then(buildItem);
+		}
+	}
 
       if (clearInputValue) {
         self._clearInputValue();
