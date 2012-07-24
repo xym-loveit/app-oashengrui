@@ -13,9 +13,8 @@
 	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
 	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
 </form>
-
-
-<div class="pageContent" style="float:left; width: 550px;margin-left:30px;margin-top:20px;">
+<div style="width:100%">
+<div class="pageContent" style="float:left; width: 45%;margin-left:30px;margin-top:20px;">
 	<h1><b>公司新闻</b></h1>
 	<hr style="margin-top:10px;"></hr>
 	<table class="searchContent" layoutH="138">
@@ -58,7 +57,7 @@
 		</div>
 </div>
 
-<div class="pageContent" style="float:left; width: 550px;margin-left:30px;margin-top:20px;">
+<div class="pageContent" style="float:left; width:45%;margin-left:30px;margin-top:20px;">
 	<h1><b>校区新闻</b></h1>
 	<hr style="margin-top:10px;"></hr>
 	<table class="searchContent" layoutH="138">
@@ -97,4 +96,5 @@
 			<div class="pagination" targetType="navTab" totalCount="${pagingBean ne null ? pagingBean.totalItems : 0}" numPerPage="${pagingBean ne null ? pagingBean.pageSize : 20}" pageNumShown="${pagingBean ne null ? pagingBean.pageNumShown : 10}" currentPage="${pagingBean ne null ? pagingBean.currentPage : 1}"></div>
 
 		</div>
+</div>
 </div>
