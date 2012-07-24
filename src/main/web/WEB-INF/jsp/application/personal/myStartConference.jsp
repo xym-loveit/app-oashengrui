@@ -142,20 +142,20 @@ function callback_funcRemove() {
 								</c:otherwise>
 							</c:choose>
 						</td>
-						<td>
-							<c:choose>
-								<c:when test="${entity.summary eq null || entity.summary eq '' }">
-									<c:choose>
-										<c:when test="${entity.status ne 3 }">
+						<c:choose>
+							<c:when test="${entity.summary eq null || entity.summary eq '' }">
+								<c:choose>
+									<c:when test="${entity.status ne 3 }">
+										 <td style='color: red'>
 											<a class="oplink" href="app/personal/conference.do?action=actionLoadActivateDialog&id=${entity.id}" target="dialog" title="会议总结" width="800" height="350"><font color="red">总结</font></a>
-										</c:when>
-									</c:choose>
-								</c:when>
-								<c:otherwise>
-									<label class="opdisabled">总结</label>
-								</c:otherwise>
-							</c:choose>
-						</td>
+										</td>
+									</c:when>
+								</c:choose>
+							</c:when>
+							<c:otherwise>
+								<td><label class="opdisabled">总结</label></td>
+							</c:otherwise>
+						</c:choose>
 					</tr>
 				</logic:iterate>
 			</logic:present>

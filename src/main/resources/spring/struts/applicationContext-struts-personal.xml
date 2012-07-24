@@ -24,11 +24,12 @@
 	</bean>
 	
 	
-	<bean name="/app/personal/conference" class="org.shengrui.oa.web.action.admin.ConferenceAction">
+	<bean name="/app/personal/conference" class="org.shengrui.oa.web.action.personal.MyConferenceAction">
 		<property name="serviceConference" ref="serviceConference" />
 		<property name="serviceAppDictionary" ref="serviceAppDictionary" />
 		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
 		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
+		<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
 		<property name="serviceFileAttach" ref="serviceFileAttach" />
 	</bean>
 	

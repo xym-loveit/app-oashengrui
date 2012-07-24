@@ -20,6 +20,7 @@ import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
+import org.shengrui.oa.service.admin.ServiceConferenceInfo;
 import org.shengrui.oa.service.hrm.ServiceHrmEmployee;
 import org.shengrui.oa.service.news.ServiceNewsManage;
 import org.shengrui.oa.service.system.ServiceAppDictionary;
@@ -51,6 +52,7 @@ import cn.trymore.oa.service.system.ServiceFileAttach;
 public class BaseAppAction
 extends BaseAction
 {
+	protected ServiceConferenceInfo serviceConference;
 	/**
 	 * The LOGGER
 	 */
@@ -655,6 +657,20 @@ extends BaseAction
 
 	public void setServiceAppDictionary(ServiceAppDictionary serviceAppDictionary) {
 		this.serviceAppDictionary = serviceAppDictionary;
+	}
+
+	/**
+	 * @return the serviceConference
+	 */
+	public ServiceConferenceInfo getServiceConference() {
+		return serviceConference;
+	}
+
+	/**
+	 * @param serviceConference the serviceConference to set
+	 */
+	public void setServiceConference(ServiceConferenceInfo serviceConference) {
+		this.serviceConference = serviceConference;
 	}
 	
 }
