@@ -3,6 +3,9 @@ package org.shengrui.oa.web.action.admin;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +15,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.admin.ModelConference;
+import org.shengrui.oa.model.system.ModelSchoolDepartment;
+import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.util.UtilDateTime;
 
@@ -119,7 +124,73 @@ public class ConferenceAction extends BaseAdminAction {
 
 			request.setAttribute("departments", 
 					this.getDepartmentByOrganization(String.valueOf(ContextUtil.getCurrentUser().getDistrict().getDistrictType())));
-			request.setAttribute("districts", this.getAllDistricts());
+			// 获取所有校区
+			request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
+			
+			// 获取按校区所有部门列表
+			Map<Integer, List<ModelSchoolDepartment>> departments = this.getAllDepartments(request, false);
+			
+			if (departments != null)
+			{
+				List<Object> depNames = this.serviceSchoolDepartment.getDistinctDepartmentNames();
+				if (depNames != null)
+				{
+					request.setAttribute("depNames", depNames);
+					
+					Map<Integer, Map<String, String>> depSetIds = new HashMap<Integer, Map<String, String>>();
+					
+					depSetIds.put(AppUtil.EAppSchoolType.HEADQUARTERS.getValue(), 
+							new HashMap<String, String>());
+					
+					depSetIds.put(AppUtil.EAppSchoolType.AREA_CAMPUS.getValue(), 
+							new HashMap<String, String>());
+					
+					depSetIds.put(AppUtil.EAppSchoolType.AREA_SLOT.getValue(), 
+							new HashMap<String, String>());
+					
+					// 总部部门
+					List<ModelSchoolDepartment> depMasters = departments.get(AppUtil.EAppSchoolType.HEADQUARTERS.getValue());
+					if (depMasters != null)
+					{
+						for (ModelSchoolDepartment dep : depMasters)
+						{
+							if (depNames.contains(dep.getDepName()))
+							{
+								depSetIds.get(AppUtil.EAppSchoolType.HEADQUARTERS.getValue()).put(dep.getDepName(), dep.getId());
+							}
+						}
+					}
+					
+					// 校区部门
+					List<ModelSchoolDepartment> depCampus = departments.get(AppUtil.EAppSchoolType.AREA_CAMPUS.getValue());
+					if (depCampus != null)
+					{
+						for (ModelSchoolDepartment dep : depCampus)
+						{
+							if (depNames.contains(dep.getDepName()))
+							{
+								depSetIds.get(AppUtil.EAppSchoolType.AREA_CAMPUS.getValue()).put(dep.getDepName(), dep.getId());
+							}
+						}
+					}
+					
+					// 片区部门
+					List<ModelSchoolDepartment> depSlot = departments.get(AppUtil.EAppSchoolType.AREA_SLOT.getValue());
+					if (depSlot != null)
+					{
+						for (ModelSchoolDepartment dep : depSlot)
+						{
+							if (depNames.contains(dep.getDepName()))
+							{
+								depSetIds.get(AppUtil.EAppSchoolType.AREA_SLOT.getValue()).put(dep.getDepName(), dep.getId());
+							}
+						}
+					}
+					
+					request.setAttribute("depSetIds", depSetIds);
+					
+				}
+			}
 			request.setAttribute("op", request.getParameter("op"));
 			if(request.getParameter("op")!=null && "edit".equals(request.getParameter("op"))){
 				request.setAttribute("conferenceType", this.serviceAppDictionary.getByType("conference"));

@@ -75,7 +75,7 @@
 			</ul>
 		</c:if>
 		<ul class="toolBar">
-			<li><a class="add" href="app/personal/conference.do?action=conferenceDetail" target="dialog" title="发起会议" width="960" height="420" rel="dia_hr_entryadd"><span>添加</span></a></li>
+			<li><a class="add" href="app/personal/conference.do?action=conferenceDetail" target="dialog" title="发起会议" width="1150" height="420" rel="dia_hr_entryadd"><span>添加</span></a></li>
 			<li class="line">line</li>
 		</ul>
 	</div>
