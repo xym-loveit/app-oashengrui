@@ -36,6 +36,10 @@
 		options = {fresh:true};
 		$.pdialog.open(url, "sys_chPlanSet", "工作安排",options);
 	}
+	
+	function refreshCurrentPage(data){
+		$('#formWorkTemplate').submit();
+	}
 </script>
 
 <!-- SearchBar -->
@@ -78,7 +82,7 @@
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a class="icon" href="demo/common/dwz-team.xls" target="dwzExport" targetType="navTab" title="确定要启用该模板吗?"><span>启用该模板</span></a></li>
+			<li><a class="icon" href="app/system/work/template.do?action=actionEnableWorkTemplate&templateId=${formWorkTemplate ne null ? formWorkTemplate.templateId :-1}" target="ajaxTodo"  title="确定要启用该模板吗?" callback="refreshCurrentPage()"><span>启用该模板</span></a></li>
 		</ul>
 	</div>
 	<table class="table" width="100%">
