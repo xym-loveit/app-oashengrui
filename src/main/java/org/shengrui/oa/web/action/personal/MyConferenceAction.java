@@ -294,7 +294,7 @@ extends BaseAppAction
 						ModelHrmEmployee employee = this.serviceHrmEmployee.get(empId);
 						if (employee != null)
 						{
-							attendances+=","+employee.getFullName();
+							attendances+=","+employee.getEmpName();
 						}
 						else
 						{
