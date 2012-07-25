@@ -199,7 +199,14 @@ extends BaseAdminAction
 				modelNewsMag.setDistrict(this.serviceSchoolDistrict.get(request.getParameter("districtPost")));
 				modelNewsMag.setNewsDistrictVisible(this.serviceSchoolDistrict.get(request.getParameter("districtVisible")));
 				modelNewsMag.setDepartment(this.serviceSchoolDepartment.get(request.getParameter("depPost")));
-				modelNewsMag.setDictionary(this.serviceAppDictionary.get(request.getParameter("typeDicid")));
+				if (request.getParameter("typeDicid") == null)
+				{
+					return ajaxPrint(response, getErrorCallback("新闻类型不存在，请先在数字字典里配置新闻类型，再添加新闻！"));
+				}
+				else
+				{
+					modelNewsMag.setDictionary(this.serviceAppDictionary.get(request.getParameter("typeDicid")));
+				}
 				modelNewsMag.setUser(this.serviceAppUser.findByUserName((String) request.getSession().getAttribute("SPRING_SECURITY_LAST_USERNAME")));
 				modelNewsMag.setAuthorName((String) request.getSession().getAttribute("SPRING_SECURITY_LAST_USERNAME"));
 				modelNewsMag.setCreatetime(new Date());
