@@ -95,18 +95,21 @@
 	<bean id="logAdvice" class="cn.trymore.core.log.LogAdvice">
 		<property name="serviceSystemLog" ref="serviceSystemLog" />
 	</bean>
+	<bean id="timeHandler" class="cn.trymore.core.log.TimeHandler">
+		<property name="serviceSystemLog" ref="serviceSystemLog" />
+	</bean>
 	
 	<!--  Base Transaction Proxy -->
 	<bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
 		<property name="beanNames"> 
-			<value>action*</value> 
+			<value>/login</value> 
 		</property>
 		<property name="proxyTargetClass">
 		 	<value>true</value>
 		</property>
 		<property name="interceptorNames">
 			<list>
-				<value>logAdvice</value>
+				<value>timeHandler</value>
 				<!--
 				<value>methodCachePointCut</value>
 				<value>methodCachePointCutAdvice</value>
