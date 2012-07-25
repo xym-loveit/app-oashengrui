@@ -11,14 +11,23 @@
         <property name="userName" type="java.lang.String">
             <column name="user_name" not-null="true" />
         </property>
-        <property name="userId" type="java.lang.Integer">
-            <column name="user_id" />
-        </property>
         <property name="createtime" type="timestamp">
             <column name="createtime" />
         </property>
         <property name="exeOperation" type="java.lang.String">
             <column name="operation" />
         </property>
+        <property name="detail" type="java.lang.String">
+            <column name="detail" />
+        </property>
+        <property name="ip" type="java.lang.String">
+            <column name="ip" />
+        </property>
+        <property name="cost" type="java.lang.String">
+            <column name="cost" />
+        </property>
+        <many-to-one name="user" class="org.shengrui.oa.model.system.ModelAppUser">
+            <column name="user_id" />
+        </many-to-one>
 	</class>
 </hibernate-mapping>

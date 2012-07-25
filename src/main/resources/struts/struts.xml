@@ -27,6 +27,7 @@
 				/WEB-INF/tiles/tiles-defs-personal-task.xml,
 				/WEB-INF/tiles/tiles-defs-sysmgr-dictionary.xml,
 				/WEB-INF/tiles/tiles-defs-sysmgr-account.xml,
+				/WEB-INF/tiles/tiles-defs-sysmgr-log.xml,
 				/WEB-INF/tiles/tiles-defs-sysmgr-menu.xml,
 				/WEB-INF/tiles/tiles-defs-sysmgr-roles.xml,
 				/WEB-INF/tiles/tiles-defs-sysmgr-password.xml,
