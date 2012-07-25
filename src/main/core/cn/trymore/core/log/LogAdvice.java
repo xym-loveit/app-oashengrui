@@ -77,13 +77,14 @@ public class LogAdvice implements MethodBeforeAdvice
 								ModelSystemLog systemLog = new ModelSystemLog();
 								systemLog.setCreatetime(new Date());
 								systemLog.setExeOperation(description);
-								systemLog.setUserId(1);
+								systemLog.getUser().setId("1");
 								systemLog.setUserName("test");
 								
 								this.serviceSystemLog.save(systemLog);
 							} 
 							catch (Exception e)
 							{
+								e.printStackTrace();
 								LOGGER.error(e.getMessage());
 							}
 						}

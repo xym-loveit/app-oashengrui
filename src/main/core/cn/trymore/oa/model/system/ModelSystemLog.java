@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.shengrui.oa.model.system.ModelAppUser;
 
 import cn.trymore.core.model.ModelBase;
 
@@ -22,12 +23,71 @@ extends ModelBase
 	
 	protected String userName;
 	
-	protected Integer userId;
+	protected ModelAppUser user = new ModelAppUser();
 	
 	protected Date createtime;
 	
 	protected String exeOperation;
 
+	protected String detail;
+	
+	protected String ip;
+	
+	protected String cost;
+	
+	/**
+	 * 用于过滤条件
+	 */
+	protected String startTime;
+	
+	protected String endTime;
+	
+	protected String districtId;
+	/**
+	 * @return the districtId
+	 */
+	public String getDistrictId() {
+		return districtId;
+	}
+
+	/**
+	 * @param districtId the districtId to set
+	 */
+	public void setDistrictId(String districtId) {
+		this.districtId = districtId;
+	}
+
+	public ModelAppUser getUser() {
+		return user;
+	}
+
+	public void setUser(ModelAppUser user) {
+		this.user = user;
+	}
+
+	public String getDetail() {
+		return detail;
+	}
+
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public String getCost() {
+		return cost;
+	}
+
+	public void setCost(String cost) {
+		this.cost = cost;
+	}
 
 	/**
 	 * Default Empty Constructor for class SystemLog
@@ -35,25 +95,6 @@ extends ModelBase
 	public ModelSystemLog () 
 	{
 		super();
-	}
-	
-
-	/**
-	 * 用户ID	 * @return Long
-	 * @hibernate.property column="userId" type="java.lang.Long" length="19" not-null="true" unique="false"
-	 */
-	public Integer getUserId() 
-	{
-		return this.userId;
-	}
-	
-	/**
-	 * Set the userId
-	 * @spring.validator type="required"
-	 */	
-	public void setUserId(Integer aValue) 
-	{
-		this.userId = aValue;
 	}	
 
 	/**
@@ -116,7 +157,7 @@ extends ModelBase
 		
 		return new EqualsBuilder()
 				.append(this.userName, rhs.userName)
-				.append(this.userId, rhs.userId)
+				.append(this.user, rhs.user)
 				.append(this.createtime, rhs.createtime)
 				.append(this.exeOperation, rhs.exeOperation)
 				.isEquals();
@@ -129,10 +170,38 @@ extends ModelBase
 	{
 		return new ToStringBuilder(this)
 				.append("userName", this.userName) 
-				.append("userId", this.userId) 
+				.append("user", this.user) 
 				.append("createtime", this.createtime) 
 				.append("exeOperation", this.exeOperation) 
 				.toString();
+	}
+
+	/**
+	 * @return the startTime
+	 */
+	public String getStartTime() {
+		return startTime;
+	}
+
+	/**
+	 * @param startTime the startTime to set
+	 */
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
+	/**
+	 * @return the endTime
+	 */
+	public String getEndTime() {
+		return endTime;
+	}
+
+	/**
+	 * @param endTime the endTime to set
+	 */
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
 	}
 
 }

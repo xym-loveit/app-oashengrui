@@ -21,4 +21,5 @@ import java.lang.annotation.Target;
 public @interface LogAnnotation
 {
 	 String description();
+	 String type();
 }
