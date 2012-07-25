@@ -114,6 +114,7 @@ extends BaseAppAction
 	 * <b>[WebAction]</b> <br/>
 	 * 发起新会议dialog页面
 	 */
+	@SuppressWarnings("unused")
 	public ActionForward conferenceDetail(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) 
