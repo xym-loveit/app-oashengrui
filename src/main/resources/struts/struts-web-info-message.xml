@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	
+	<form-beans>
+		<form-bean name="form.info.shortMsg" type="org.shengrui.oa.model.info.ModelShortMessage"></form-bean>
+	</form-beans>
+	
+	<action-mappings>
+		<!-- Home Action -->
+		<action path="/app/message"
+				name="form.info.shortMsg"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="page.info.msg.index" path="page.info.msg.index" />
+			<forward name="dialog.info.msg.page" path="dialog.info.msg.page" />
+		</action>
+		
+	</action-mappings>
+
+</struts-config>

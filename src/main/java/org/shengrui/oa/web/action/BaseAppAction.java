@@ -22,6 +22,8 @@ import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 import org.shengrui.oa.service.admin.ServiceConferenceInfo;
 import org.shengrui.oa.service.hrm.ServiceHrmEmployee;
+import org.shengrui.oa.service.info.ServiceInMessage;
+import org.shengrui.oa.service.info.ServiceShortMessage;
 import org.shengrui.oa.service.news.ServiceNewsManage;
 import org.shengrui.oa.service.system.ServiceAppDictionary;
 import org.shengrui.oa.service.system.ServiceAppUser;
@@ -103,6 +105,17 @@ extends BaseAction
 	protected ServiceNewsManage serviceNewsManage;
 	
 	protected ServiceAppDictionary serviceAppDictionary;
+	
+	/**
+	 * The repository of short message
+	 */
+	protected ServiceShortMessage serviceShortMessage;
+	
+	/**
+	 * The repository of message in
+	 */
+	protected ServiceInMessage serviceInMessage;
+	
 	/**
 	 * 获取所有校区
 	 * 
@@ -747,6 +760,26 @@ extends BaseAction
 	 */
 	public void setServiceConference(ServiceConferenceInfo serviceConference) {
 		this.serviceConference = serviceConference;
+	}
+
+	public ServiceShortMessage getServiceShortMessage()
+	{
+		return serviceShortMessage;
+	}
+
+	public void setServiceShortMessage(ServiceShortMessage serviceShortMessage)
+	{
+		this.serviceShortMessage = serviceShortMessage;
+	}
+	
+	public ServiceInMessage getServiceInMessage()
+	{
+		return serviceInMessage;
+	}
+
+	public void setServiceInMessage(ServiceInMessage serviceInMessage)
+	{
+		this.serviceInMessage = serviceInMessage;
 	}
 	
 }
