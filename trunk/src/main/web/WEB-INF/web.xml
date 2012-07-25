@@ -161,6 +161,7 @@
 				/WEB-INF/classes/struts/struts-web-base.xml,
 				/WEB-INF/classes/struts/struts-web-flow.xml,
 				/WEB-INF/classes/struts/struts-web-index.xml,
+				/WEB-INF/classes/struts/struts-web-info-message.xml,
 				/WEB-INF/classes/struts/struts-web-hrm-archive.xml,
 				/WEB-INF/classes/struts/struts-web-hrm-develop.xml,
 				/WEB-INF/classes/struts/struts-web-hrm-employee.xml,
@@ -181,7 +182,6 @@
 				/WEB-INF/classes/struts/struts-web-system-role.xml,
 				/WEB-INF/classes/struts/struts-web-system-password.xml,
 				/WEB-INF/classes/struts/struts-web-system-school.xml,
-				/WEB-INF/classes/struts/struts-web-personal-news.xml,
 				/WEB-INF/classes/struts/struts-web-system-work.xml
 			</param-value>
 		</init-param>

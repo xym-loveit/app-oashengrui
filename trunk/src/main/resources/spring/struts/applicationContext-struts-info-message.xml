@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<!-- 短消息管理 -->
+	<bean name="/admin/message" class="org.shengrui.oa.web.action.info.InfoMessageAction">
+		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
+		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
+		<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
+		<property name="serviceInMessage" ref="serviceInMessage" />
+		<property name="serviceShortMessage" ref="serviceShortMessage" />
+	</bean>
+	
+</beans>

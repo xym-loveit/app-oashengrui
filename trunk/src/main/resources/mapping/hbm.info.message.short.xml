@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.shengrui.oa.model.info">
+    <class name="ModelShortMessage" table="app_message_entity">
+        <id name="id" type="java.lang.String">
+            <column name="msg_id" />
+            <generator class="native" />
+        </id>
+        <property name="subject" type="java.lang.String">
+            <column name="msg_subject" />
+        </property>
+        <property name="content" type="java.lang.String">
+            <column name="msg_content"/>
+        </property>
+        <property name="senderId" type="java.lang.Long">
+            <column name="sender_id" />
+        </property>
+        <property name="sender" type="java.lang.String">
+            <column name="sender_name" />
+        </property>
+        <property name="msgType" type="java.lang.Integer">
+            <column name="msg_type" />
+        </property>
+        <property name="sendTime" type="timestamp">
+            <column name="send_time" />
+        </property>
+	</class>
+</hibernate-mapping>

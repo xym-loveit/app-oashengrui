@@ -14,6 +14,7 @@
 				/WEB-INF/tiles/tiles-defs-admin-task.xml,
 				/WEB-INF/tiles/tiles-defs-flow.xml,
 				/WEB-INF/tiles/tiles-defs-index.xml,
+				/WEB-INF/tiles/tiles-defs-info-message.xml,
 				/WEB-INF/tiles/tiles-defs-personal.xml,
 				/WEB-INF/tiles/tiles-defs-hrm.xml,
 				/WEB-INF/tiles/tiles-defs-finan.xml,
