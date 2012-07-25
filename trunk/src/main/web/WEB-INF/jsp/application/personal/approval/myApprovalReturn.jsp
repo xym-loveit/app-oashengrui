@@ -8,21 +8,49 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
 
+<!-- SearchBar -->
+<div class="pageHeader">
+	<form onsubmit="return navTabSearch(this);" action="app/admin/news.do?action=adminPageEntryIndex" method="post">
+		<div class="searchBar">
+			<table class="searchContent">
+				<tr>
+					<td>
+						<label>审批类型：</label>
+						<select class="combox" name="type" id="news_type">
+							<option value="-1">所有类型</option>
+							<logic:present name="newsTypes">
+								<logic:iterate name="newsTypes" id="newsType">
+									<option value="${newsType.id}" ${formNews ne null && formNews.dictionary.id eq newsType.id? 'selected="selected"' : ''}>${newsType.name}</option>
+								</logic:iterate>
+							</logic:present>
+						</select>
+					</td>
+					<td>
+						申请人：<input type="text" name="newsSubject" value="${formNews ne null ? formNews.newsSubject : ''}" />
+					</td>
+					<td><div class="buttonActive"><div class="buttonContent"><button type="submit">检索</button></div></div></td>
+				</tr>
+			</table>
+					
+		</div>
+	</form>
+</div>
+
 <!-- Body -->	
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar" style="float:right">
-			<li><a treeicon="icon-edit" class="icon" href="app/personal/approval.do?action=pageMyApprovalRecord" target="navTab" rel="admin_entrycheck"><span class="icon-edit">审批记录</span></a></li>
+			<li><a treeicon="icon-edit" class="icon" href="app/personal/approval.do?action=pageMyApproval" target="navTab" rel="admin_entrycheck"><span class="icon-edit">返回待我审批列表</span></a></li>
 		</ul>
 	</div>
-	<table class="table" width="100%" layoutH="75">
+	<table class="table" width="100%" layoutH="115">
 		<thead>
 			<tr>
 				<th align="center">审批类型</th>
 				<th align="center">申请内容描述</th>
 				<th align="center">申请人姓名</th>
 				<th align="center">申请时间</th>
-				<th align="center" class="thover">审批</th>
+				<th align="center" class="thover">详细</th>
 			</tr>
 		</thead>
 		<tbody>

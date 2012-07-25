@@ -11,6 +11,7 @@
 				parameter="action"
 				type="org.springframework.web.struts.DelegatingActionProxy">
 			<forward name="page.my.approval.index" path="page.my.approval.index" />
+			<forward name="page.my.approvalReturn.index" path="page.my.approvalReturn.index" />
 		</action>
 		
 	</action-mappings>

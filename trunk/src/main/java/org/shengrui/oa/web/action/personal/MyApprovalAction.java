@@ -32,10 +32,10 @@ extends BaseAppAction
 	 * 审批记录
 	 * 
 	 * */
-	public ActionForward pageMyHistoryApproval(ActionMapping mapping,ActionForm form,
+	public ActionForward pageMyApprovalRecord(ActionMapping mapping,ActionForm form,
 			HttpServletRequest request,HttpServletResponse response
 	){
-		return mapping.findForward("page.my.approval.index");
+		return mapping.findForward("page.my.approvalReturn.index");
 	}
 	
 }
