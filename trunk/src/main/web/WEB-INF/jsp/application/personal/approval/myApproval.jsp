@@ -8,6 +8,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
 
+<form id="pagerForm" method="post" action="app/personal/approval.do?action=pageMyApproval">
+	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
+	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
+</form>
 <!-- Body -->	
 <div class="pageContent">
 	<div class="panelBar">
@@ -26,6 +30,23 @@
 			</tr>
 		</thead>
 		<tbody>
+			<logic:present name="news">
+				<logic:iterate id="news" name="news" property="items">
+					<tr>
+						<td>
+							<c:choose>
+								<c:when test="${news.status eq 1 }">新闻发布审批</c:when>
+							</c:choose>
+						</td>
+						<td>
+							[${news.dictionary.name}] &nbsp&nbsp&nbsp “${news.newsSubject}” &nbsp&nbsp&nbsp<c:choose><c:when test="${news.status eq 1 }">新闻发布审批</c:when></c:choose>
+						</td>
+						<td>${news.user.fullName}</td>
+						<td><c:if test="${news.updateTime ne null}"><fmt:formatDate value="${news.updateTime}" pattern="yyyy-MM-dd hh:mm:ss" /></c:if></td>
+						<td><a class="oplink" href="app/admin.do?action=adminPageEntryDetail&id=${news.id }&op=view" target="dialog" width="900" height="500" title="新闻审批" rel="dia_admin_entryapproval-id">审批</a></td>
+					</tr>
+				</logic:iterate>
+			</logic:present>
 		</tbody>
 	</table>
 			<div class="panelBar">

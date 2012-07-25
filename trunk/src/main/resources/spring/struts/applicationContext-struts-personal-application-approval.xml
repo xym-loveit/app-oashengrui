@@ -5,7 +5,9 @@
 	
 	<!-- 待我审批 -->
 	<bean name="/app/personal/approval" class="org.shengrui.oa.web.action.personal.MyApprovalAction">
-		
+		<property name="serviceNewsManage" ref="serviceNewsManage" />
+		<property name="serviceFileAttach" ref="serviceFileAttach" />
+		<property name="serviceAppDictionary" ref="serviceAppDictionary" />
 	</bean>
 	
 </beans>
