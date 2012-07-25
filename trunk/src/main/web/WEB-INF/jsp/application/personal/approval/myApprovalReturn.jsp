@@ -120,7 +120,7 @@
 					</td>
 					<td>${finanInfo.employee.empName }</td>
 					<td><c:if test="${finanInfo.applyDate ne null}"><fmt:formatDate value="${finanInfo.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
-					<td><a class="oplink" href="app/finan/contract.do?action=diaglogFinaContractPage&id=${finanInfo.id}&op=view" target="dialog" title="查看‘${finanInfo.employee.empName}’合同申请单-${finanInfo.formNo}" width="1150" height="640" >详细</a></td>
+					<td><a class="oplink" href="app/finan/expense.do?action=diaglogFinaExpensePage&id=${finanInfo.id}&op=view" target="dialog" title="查看‘${finanInfo.employee.empName}’合同申请单-${finanInfo.formNo}" width="1150" height="640" >详细</a></td>
 					</tr>
 				</logic:iterate>
 			</logic:present>
@@ -144,7 +144,7 @@
 					</td>
 					<td>${contractInfo.employee.empName }</td>
 					<td><c:if test="${contractInfo.applyDate ne null}"><fmt:formatDate value="${contractInfo.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
-					<td><a class="oplink" href="app/finan/contract.do?action=diaglogFinaContractPage&id=${finanInfo.id}&op=view" target="dialog" title="查看‘${finanInfo.employee.empName}’合同申请单-${finanInfo.formNo}" width="1150" height="640" rel="dia_fincontract_view_${entity.id}">详细</a></td>
+					<td><a class="oplink" href="app/finan/contract.do?action=diaglogFinaContractPage&id=${contractInfo.id}&op=view" target="dialog" title="查看‘${contractInfo.employee.empName}’合同申请单-${contractInfo.formNo}" width="1150" height="640" >详细</a></td>
 					</tr>
 				</logic:iterate>
 			</logic:present>
