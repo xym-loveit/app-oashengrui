@@ -14,6 +14,7 @@
 <div class="headerNav">
 		<a href="#" class="ltxt">晟睿教育内部管理系统</a>
 		<ul class="nav">
+			<li style="background: none;">用户名：${SPRING_SECURITY_LAST_USERNAME }</li>
 			<li style="background: none;"><a href="app/personal/addressBook.do?action=addressBookInfo" target="navTab">通讯录</a></li>
 			
 			<li style="background: none;"><a href="app/index.do?action=index">首页</a></li>

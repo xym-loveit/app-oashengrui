@@ -12,6 +12,31 @@
 		
 		<!-- 待我审批 -->
 		<action path="/app/personal/approval"
+				name="form.admin.news"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="page.my.approval.index" path="page.my.approval.index" />
+			<forward name="page.my.approvalReturn.index" path="page.my.approvalReturn.index" />
+		</action>
+				<action path="/app/personal/approval"
+				name="form.admin.task"		
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="page.my.approval.index" path="page.my.approval.index" />
+			<forward name="page.my.approvalReturn.index" path="page.my.approvalReturn.index" />
+		</action>
+		<action path="/app/personal/approval"
+				name="form.admin.finan"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="page.my.approval.index" path="page.my.approval.index" />
+			<forward name="page.my.approvalReturn.index" path="page.my.approvalReturn.index" />
+		</action>
+		<action path="/app/personal/approval"
+				name="form.admin.contract"
 				scope="request"
 				parameter="action"
 				type="org.springframework.web.struts.DelegatingActionProxy">
