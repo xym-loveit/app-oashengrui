@@ -217,6 +217,8 @@ ol.mp_list li.mp_error {
 			},
 			valuesName: 'empid'
 		});
+		
+		//$('#conferene_attendances').manifest("add",
 	});
 	
 </script>
