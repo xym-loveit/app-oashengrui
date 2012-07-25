@@ -90,4 +90,8 @@
 	<definition name="hrm.data.employee.develop.records"  
 		path="/WEB-INF/jsp/application/hrm/develop/data/dataDevelopRecords.jsp"/>
 	
+	<!-- 员工简历 -->
+	<definition name="hrm.page.employee.resume"  
+		path="/WEB-INF/jsp/application/hrm/employee/pageEmployeeResume.jsp"/>
+	
 </tiles-definitions>

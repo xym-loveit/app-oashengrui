@@ -79,7 +79,7 @@ extends BaseAppAction
 			{
 				// 封装内部推荐及内部应聘Map
 				Map<String, Map<String, Boolean>> applicationMap = new HashMap<String, Map<String,Boolean>>();
-				applicationMap.put(ModelHrmResume.EResumeSource.APPLY_INNER.toString(), 
+				applicationMap.put(ModelHrmResume.EResumeSource.APPLY_INNER.getValue().toString(), 
 						new HashMap<String, Boolean>());
 				
 				// Q: 不可以进行重复推荐?

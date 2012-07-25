@@ -166,9 +166,28 @@ extends BaseHrmAction
 			}
 		}
 		
-		
 		// 输出请求参数至页面.
 		this.getRequestQueryString(request, null, true);
+		
+		// 内部应聘, 获取员工简历信息...
+		String source = request.getParameter("source");
+		if (UtilString.isNotEmpty(source) && 
+				ModelHrmResume.EResumeSource.APPLY_INNER.getValue().toString().equals(source))
+		{
+			if (ContextUtil.getCurrentUser().getEmployee() != null)
+			{
+				try
+				{
+					request.setAttribute("resume", this.serviceHrmResume.get(
+							ContextUtil.getCurrentUser().getEmployee().getResume().getId()));
+				} 
+				catch (ServiceException e)
+				{
+					LOGGER.error("Exception raised when openning page of job application.", e);
+					return ajaxPrint(response, getErrorCallback("应聘页面打开失败:" + e.getMessage()));
+				}
+			}
+		}
 		
 		return mapping.findForward("hrm.page.job.resume.detail");
 	}
@@ -722,6 +741,8 @@ extends BaseHrmAction
 				if (jobHireInfo != null)
 				{
 					ModelHrmResume formResume = (ModelHrmResume) form;
+					ModelHrmResume entity = null;
+					
 					String source = request.getParameter("source");
 					
 					if (source == null || !UtilString.isNumeric(source))
@@ -729,15 +750,26 @@ extends BaseHrmAction
 						return ajaxPrint(response, getErrorCallback("未知的简历来源!"));
 					}
 					
-					formResume.setSource(Integer.parseInt(source));
+					String resumeId = request.getParameter("resumeId");
+					if (UtilString.isNotEmpty(resumeId) && this.isObjectIdValid(resumeId))
+					{
+						entity = this.serviceHrmResume.get(resumeId);
+						UtilBean.copyNotNullProperties(entity, formResume);
+					}
+					else
+					{
+						entity = formResume;
+					}
+					
+					entity.setSource(Integer.parseInt(source));
 					
 					// 设置简历附件...
-					this.handleFileAttachments(formResume, request);
+					this.handleFileAttachments(entity, request);
 					
-					this.serviceHrmResume.save(formResume);
+					this.serviceHrmResume.save(entity);
 					
 					ModelHrmJobHireIssue jobHireIssue = new ModelHrmJobHireIssue();
-					jobHireIssue.setResume(formResume);
+					jobHireIssue.setResume(entity);
 					jobHireIssue.setJobHire(jobHireInfo);
 					jobHireIssue.setCurrentStatus(ModelHrmJobHireIssue.EJobHireIssueStatus.TOPLAN.getValue());
 					jobHireIssue.setApplyDateTime(new Date());

@@ -11,6 +11,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.hrm.ModelHrmEmployeeRoadMap;
+import org.shengrui.oa.model.hrm.ModelHrmResume;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.util.UtilString;
@@ -172,6 +173,31 @@ extends BaseHrmAction
 	
 	/**
 	 * <b>[WebAction]</b> <br/>
+	 * 员工添加
+	 */
+	public ActionForward actionEmployeeAdd(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) 
+	{
+		try
+		{
+			ModelHrmResume formResume = (ModelHrmResume) form;
+			ModelHrmEmployee employee = new ModelHrmEmployee();
+			employee.setResume(formResume);
+			
+			
+			
+		}
+		catch (Exception e)
+		{
+			
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * <b>[WebAction]</b> <br/>
 	 * 员工档案删除
 	 */
 	public ActionForward actionEmployeeDelete(ActionMapping mapping,
@@ -208,6 +234,16 @@ extends BaseHrmAction
 			LOGGER.error("Exception raised when delete employee document.", e);
 			return ajaxPrint(response, getErrorCallback("员工档案删除失败:" + e.getMessage()));
 		}
+	}
+	
+	/**
+	 * <b>[WebAction]</b> <br/>
+	 * 员工添加弹框窗口
+	 */
+	public ActionForward dialogHrmEmployeeAdd(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		return mapping.findForward("hrm.page.employee.resume");
 	}
 	
 	/**
