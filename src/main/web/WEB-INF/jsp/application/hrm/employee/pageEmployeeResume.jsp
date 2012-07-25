@@ -157,7 +157,7 @@ ${tm:fileRestore(resume['attachFiles'])}
 </c:if>
 
 <div class="pageContent">
-	<form method="post" action="app/hrm/employee/resume.do?action=actionEmployeeAdd" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<form method="post" action="app/hrm/employee/data.do?action=actionEmployeeAdd" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent" layoutH="${cat ne null ? 98 : 56}">
 			<table width="100%" cellspacing="15" cellpadding="10" style="border-spacing:15; border-collapse:collapse;" border="1" id="tblresume">
 				<tr>
@@ -220,7 +220,8 @@ ${tm:fileRestore(resume['attachFiles'])}
 				<tr>
 					<td class="field" align="right">所在校区：</td>
 					<td style="padding: 5px;">
-						<select class="combox required" name="employeeDistrict.id" id="combox_district_eindex" style="width:108px" >
+						<select class="combox required" name="employeeDistrict.id" id="combox_district" style="width:150px" ref="combox_dept" refUrl="app/base.do?action=actionLoadDepartmentByOrg&districtId={value}">
+							<option value="">请选择校区</option>
 							<logic:present name="districts">
 								<logic:iterate name="districts" id="district">
 									<option value="${district.id}" ${employee ne null && employee.employeeDistrict ne null && employee.employeeDistrict.id eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
@@ -230,22 +231,19 @@ ${tm:fileRestore(resume['attachFiles'])}
 					</td>
 					<td class="field" align="right">所在部门：</td>
 					<td style="padding: 5px;">
-						<select class="combox required" name="employeeDepartment.id" id="combox_dept_eindex" style="width:108px" >
+						<select class="combox required" name="employeeDepartment.id" id="combox_dept" defOPKey="请选择部门" defOPVal="" style="width:150px" ref="combox_position" refUrl="app/base.do?action=actionLoadPositionByDepartment&depId={value}">
+							<option value="">请选择部门</option>
 							<logic:present name="departments">
-								<logic:iterate name="departments" id="department">
-									<option value="${department.id}" ${employee ne null && entity.employeeDepartment ne null && employee.employeeDepartment.id eq department.id ? 'selected="selected"' : ''}>${department.depName}</option>
+								<logic:iterate name="departments" id="entity">
+									<option value="${entity.id}" ${employee ne null && entity.employeeDepartment ne null && employee.employeeDepartment.id eq department.id ? 'selected="selected"' : ''}>${entity.depName}</option>
 								</logic:iterate>
 							</logic:present>
 						</select>
 					</td>
 					<td class="field" align="right">所在岗位：</td>
 					<td style="padding: 5px;">
-						<select class="combox required" name="employeePosition.id" id="combox_pos_eindex" style="width:108px" >
-							<logic:present name="positions">
-								<logic:iterate name="positions" id="position">
-									<option value="${position.id}" ${employee ne null && employee.employeePosition ne null && employee.employeePosition.id eq position.id ? 'selected="selected"' : ''}>${position.positionName}</option>
-								</logic:iterate>
-							</logic:present>
+						<select class="combox required" name="employeePosition.id" id="combox_position" defOPKey="请选择岗位" defOPVal="" style="width:150px">
+							<option value="">请选择岗位</option>
 						</select>
 					</td>
 				</tr>
@@ -274,6 +272,8 @@ ${tm:fileRestore(resume['attachFiles'])}
 					
 					<td class="field">身份证号：</td>
 					<td colspan="3"><input name="identityNo" type="text"  style="" value="${resume ne null ? resume.identityNo : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
+					<td class="field">入职时间：</td>
+					<td colspan=""><input class="date required" name="onboardDate" type="text" style="" value="${employee ne null ? employee.onboardDate : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 				</tr>
 				<tr>
 					<td class="field">居住地址：</td>

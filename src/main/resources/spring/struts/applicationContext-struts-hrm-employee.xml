@@ -15,7 +15,7 @@
 	</bean>
 	
 	<!-- 员工添加 -->	
-	<bean name="/app/hrm/employee/resume" class="org.shengrui.oa.web.action.hrm.HrmEmployeeAction">
+	<bean name="/app/hrm/employee/data" class="org.shengrui.oa.web.action.hrm.HrmEmployeeAction">
 		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
 		<property name="serviceSchoolDepartmentPosition" ref="serviceSchoolDepartmentPosition" />
 		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
@@ -23,6 +23,7 @@
 		<property name="serviceHrmEmployeeRoadMap" ref="serviceHrmEmployeeRoadMap" />
 		<property name="serviceAppUser" ref="serviceAppUser" />
 		<property name="serviceFileAttach" ref="serviceFileAttach" />
+		<property name="serviceHrmResume" ref="serviceHrmResume" />
 	</bean>
 	
 </beans>

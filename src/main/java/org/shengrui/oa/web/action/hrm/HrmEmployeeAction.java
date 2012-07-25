@@ -1,5 +1,6 @@
 package org.shengrui.oa.web.action.hrm;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,8 +13,11 @@ import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.hrm.ModelHrmEmployeeRoadMap;
 import org.shengrui.oa.model.hrm.ModelHrmResume;
+import org.shengrui.oa.model.system.ModelAppUser;
+import org.shengrui.oa.util.ContextUtil;
 
 import cn.trymore.core.exception.ServiceException;
+import cn.trymore.core.util.UtilDate;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
@@ -182,18 +186,73 @@ extends BaseHrmAction
 		try
 		{
 			ModelHrmResume formResume = (ModelHrmResume) form;
+			this.serviceHrmResume.save(formResume);
+			
 			ModelHrmEmployee employee = new ModelHrmEmployee();
 			employee.setResume(formResume);
+			employee.setEmpName(formResume.getFullName());
+			employee.setShortNo(request.getParameter("shortNo"));
+			employee.setOfficePhone(request.getParameter("officePhone"));
+			employee.setUrgentContact(request.getParameter("urgentContact"));
+			employee.setOnboardStatus(ModelHrmEmployee.EOnBoardStatus.ONREGULAR.getValue());
+			employee.setOnboardDate(UtilDate.toDate(request.getParameter("onboardDate")));
+			employee.setPhoneNo(formResume.getMobilePhone());
+			employee.setBirthdate(formResume.getBirthday());
 			
+			employee.setEmployeeDepartment(
+					this.serviceSchoolDepartment.get(request.getParameter("employeeDepartment.id")));
 			
+			employee.setEmployeeDistrict(
+					this.serviceSchoolDistrict.get(request.getParameter("employeeDistrict.id")));
 			
+			employee.setEmployeePosition(
+					this.serviceSchoolDepartmentPosition.get(request.getParameter("employeePosition.id")));
+			
+			// 生成员工号编号
+			int amount = this.serviceHrmEmployee.getEmployeeAmoutByDistrictIdAndDepId(
+					employee.getEmployeeDistrict().getId(), employee.getEmployeeDepartment().getId());
+			employee.setEmpNo(this.generateEmployeeNo(
+					employee.getEmployeeDistrict(), employee.getEmployeeDepartment(), amount));
+			
+			employee.setEntryDateTime(new Date());
+			employee.setEntryId(ContextUtil.getCurrentUserId());
+			
+			// 生成员工入职履历
+			ModelHrmEmployeeRoadMap employeeRoadMap = new ModelHrmEmployeeRoadMap();
+			employeeRoadMap.setEmployee(employee);
+			employeeRoadMap.setOrginalDepartment(employee.getEmployeeDepartment());
+			employeeRoadMap.setOrginalDepartmentPosition(employee.getEmployeePosition());
+			employeeRoadMap.setOrginalDistrict(employee.getEmployeeDistrict());
+			employeeRoadMap.setDate(employee.getOnboardDate());
+			employeeRoadMap.setType(ModelHrmEmployeeRoadMap.ERoadMapType.ONBOARD.getValue());
+			employee.getRoadMaps().add(employeeRoadMap);
+			
+			this.serviceHrmEmployee.save(employee);
+			
+			// 将员工ID更新到简历的emp_id字段
+			formResume.setEmployeeId(Integer.parseInt(employee.getId()));
+			this.serviceHrmResume.save(formResume);
+			
+			// 生成员工对应的用户数据
+			ModelAppUser user = new ModelAppUser();
+			user.setEmployee(employee);
+			user.setUsername(employee.getEmpNo());
+			user.setPassword(UtilString.encryptSha256(employee.getEmpNo()));
+			user.setFullName(employee.getEmpName());
+			user.setStatus(ModelAppUser.EUserStatus.ACTIVATED.getValue());
+			user.setDistrict(employee.getEmployeeDistrict());
+			user.setPosition(employee.getEmployeePosition());
+			user.setDepartment(employee.getEmployeeDepartment());
+			this.serviceAppUser.save(user);
+			
+			return ajaxPrint(response, 
+					getSuccessCallback("员工档案建立成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 		}
 		catch (Exception e)
 		{
-			
+			LOGGER.error("Exception raised when saving employee data", e);
+			return ajaxPrint(response, getErrorCallback("员工数据保存失败:" + e.getMessage()));
 		}
-		
-		return null;
 	}
 	
 	/**
@@ -243,6 +302,16 @@ extends BaseHrmAction
 	public ActionForward dialogHrmEmployeeAdd(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) 
 	{
+		// 获取所有校区
+		try
+		{
+			request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
+		} 
+		catch (ServiceException e)
+		{
+			return ajaxPrint(response, getErrorCallback("需要在系统设置中配置校区及对应的部门和岗位数据..."));
+		}
+					
 		return mapping.findForward("hrm.page.employee.resume");
 	}
 	
