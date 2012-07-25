@@ -24,7 +24,7 @@
 <logic:present name="rootMenus">
 	<ul class="tree treeFolder" layoutH="8">
 		<logic:iterate name="rootMenus" id="root" indexId="idx">
-			<li treeicon="${root.menuIcon}" class="expand"><a id="mtlink_${root.id}" <logic:notPresent name='lookup'>class='tparam' param="_var_menuid" paramRel="${root.id}" href="app/system/menu/func.do?action=actionLoadMenuFuncList&menuId=${root.id}" target="ajax" rel="ajBoxMenuFunc" callback="menu_activated(${root.id});"</logic:notPresent> <logic:present name='lookup'>href="javascript:void(0);" onclick="$.bringBack({menuKey:'${root.menuKey}', menuTitle:'${root.menuTitle}'})"</logic:present>><span>${root.menuTitle}</span></a>
+			<li treeicon="${root.menuIcon}"><a id="mtlink_${root.id}" <logic:notPresent name='lookup'>class='tparam' param="_var_menuid" paramRel="${root.id}" href="app/system/menu/func.do?action=actionLoadMenuFuncList&menuId=${root.id}" target="ajax" rel="ajBoxMenuFunc" callback="menu_activated(${root.id});"</logic:notPresent> <logic:present name='lookup'>href="javascript:void(0);" onclick="$.bringBack({menuKey:'${root.menuKey}', menuTitle:'${root.menuTitle}'})"</logic:present>><span>${root.menuTitle}</span></a>
 				<logic:notEmpty name="root" property="menuChildren">
 					<ul>
 						<logic:iterate name="root" property="menuChildren" id="child">
@@ -32,7 +32,7 @@
 								<logic:notEmpty name="child" property="menuChildren">
 									<ul>
 										<logic:iterate name="child" property="menuChildren" id="node">
-											<li treeicon="${node.menuIcon}" class="expand"><a id="mtlink_${node.id}" <logic:notPresent name='lookup'>class='tparam' param="_var_menuid" paramRel="${node.id}" href="app/system/menu/func.do?action=actionLoadMenuFuncList&menuId=${node.id}" callback="menu_activated(${node.id});" target="ajax" rel="ajBoxMenuFunc"</logic:notPresent> <logic:present name='lookup'>href="javascript:void(0);" onclick="$.bringBack({menuKey:'${node.menuKey}', menuTitle:'${node.menuTitle}'})"</logic:present>><span>${node.menuTitle}</span></a>
+											<li treeicon="${node.menuIcon}"><a id="mtlink_${node.id}" <logic:notPresent name='lookup'>class='tparam' param="_var_menuid" paramRel="${node.id}" href="app/system/menu/func.do?action=actionLoadMenuFuncList&menuId=${node.id}" callback="menu_activated(${node.id});" target="ajax" rel="ajBoxMenuFunc"</logic:notPresent> <logic:present name='lookup'>href="javascript:void(0);" onclick="$.bringBack({menuKey:'${node.menuKey}', menuTitle:'${node.menuTitle}'})"</logic:present>><span>${node.menuTitle}</span></a>
 										</logic:iterate>
 									</ul>
 								</logic:notEmpty>
