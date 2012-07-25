@@ -6,7 +6,6 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.admin.DAOTaskPlan;
 import org.shengrui.oa.model.admin.ModelTaskPlan;
-import org.shengrui.oa.model.news.ModelNewsMag.newsLevel;
 import org.shengrui.oa.service.admin.ServiceTaskPlan;
 
 import cn.trymore.core.exception.ServiceException;

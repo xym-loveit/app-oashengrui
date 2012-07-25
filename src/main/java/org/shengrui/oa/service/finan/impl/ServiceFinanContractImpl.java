@@ -8,7 +8,6 @@ import org.hibernate.criterion.Restrictions;
 
 import org.shengrui.oa.dao.finan.DAOFinanContract;
 import org.shengrui.oa.model.finan.ModelFinanContract;
-import org.shengrui.oa.model.news.ModelNewsMag.newsLevel;
 import org.shengrui.oa.service.finan.ServiceFinanContract;
 
 import cn.trymore.core.exception.ServiceException;
