@@ -40,6 +40,7 @@ extends BaseAppAction
 		return mapping.findForward("index");
 	}
 	
+	@SuppressWarnings("unused")
 	public ActionForward addressBookInfo (ActionMapping mapping,ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	{
