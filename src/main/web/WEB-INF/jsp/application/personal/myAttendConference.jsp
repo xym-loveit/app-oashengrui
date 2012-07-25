@@ -74,10 +74,6 @@
 				<li><a treeicon="icon-edit" class="icon" href="app/personal/conference.do?action=myConferences" target="navTab" rel="myconference"><span class="icon-edit">我发起的会议</span></a></li>
 			</ul>
 		</c:if>
-		<ul class="toolBar">
-			<li><a class="add" href="app/personal/conference.do?action=conferenceDetail" target="dialog" title="发起会议" width="1150" height="420" rel="dia_hr_entryadd"><span>添加</span></a></li>
-			<li class="line">line</li>
-		</ul>
 	</div>
 	<table class="table" width="100%" layoutH="138">
 		<thead>
