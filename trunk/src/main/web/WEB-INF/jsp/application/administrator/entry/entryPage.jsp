@@ -22,7 +22,7 @@ $(function(){
 		$("#formAction").val("1");
 		$("#formnews").submit();
 	});
-	
+	<c:if test="${news eq null}">
 	$("#approval").unbind("click");
 	$("#approval").bind("click", function() { 
 		$("#formadd").val("2");
@@ -36,7 +36,8 @@ $(function(){
 		$("#formnews").submit();
 		return false;
 	});
-
+	</c:if>
+	<c:if test="${news ne null}">
 	$("#approval").unbind("click");
 	$("#approval").bind("click", function() { 
 		$("#formedit").val("4");
@@ -50,7 +51,7 @@ $(function(){
 		$("#formnews").submit();
 		return false;
 	});
-	
+	</c:if>
 	//加载上传组件入口文件
 	KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
 		var ru = new RenderUploader('#j_J_UploaderBtnNews', '#j_J_UploaderQueueNews',{
