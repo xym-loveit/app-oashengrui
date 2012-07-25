@@ -50,4 +50,12 @@ extends ServiceGeneric<ModelNewsMag>
 	PaginationSupport<ModelNewsMag> getDistrictNews(ModelNewsMag news,
 			PagingBean pagingBean)throws ServiceException;
 	
+	/**
+	 * 查询新闻状态为等待审批的新闻记录
+	 * @author pyc
+	 * */
+	PaginationSupport<ModelNewsMag> getNewsRec(ModelNewsMag news,
+			PagingBean pagingBean)throws ServiceException;
+	
+	
 }
