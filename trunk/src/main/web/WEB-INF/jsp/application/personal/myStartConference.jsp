@@ -16,6 +16,13 @@
 	.opr {margin: 3px 2px;}
 	.dispose {text-decoration: line-through; color: red;}
 	.opdisabled {text-decoration: line-through; color: #DDD; line-height: 21px;}
+	#conferenceRow td div{
+      display: block;
+      height:auto;
+      line-height: 21px;
+      overflow: hidden;
+      white-space: nowrap;
+   }
 </style>
 
 <script type="text/javascript">
@@ -107,7 +114,7 @@ function callback_funcRemove() {
 		<tbody>
 			<logic:present name="conferences">
 				<logic:iterate name="conferences" property="items" id="entity">
-					<tr target="sid" rel="${entity.id}"  id="conferencerow-${entity.id}">
+					<tr target="sid" rel="${entity.id}"  id="conferenceRow">
 						<td>${entity.type.name}</td>
 						<td>${entity.conferenceName}</td>
 						<td><fmt:formatDate value="${entity.startDay}" type="date" pattern="yyyy-MM-dd"/> ${entity.startHour }:${entity.startMinute }</td>
@@ -118,7 +125,7 @@ function callback_funcRemove() {
 						<td>${entity.contactor}</td>
 						<td>${entity.phone }</td>
 						<td>
-							<a class="oplink" href="app/personal/conference.do?action=conferenceDetail&id=${entity.id}&op=view" target="dialog" title="会议详细" width="1150" height="420">详细</a></td>
+							<a class="oplink" href="app/personal/conference.do?action=conferenceDetail&id=${entity.id}&op=view" target="dialog" title="会议详细" width="1150" height="450">详细</a></td>
 						<td>
 							<c:choose>
 								<c:when test="${entity.status eq 1}">
