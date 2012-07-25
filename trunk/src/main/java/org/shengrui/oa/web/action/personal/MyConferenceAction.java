@@ -3,7 +3,6 @@ package org.shengrui.oa.web.action.personal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,6 +126,30 @@ extends BaseAppAction
 			if (this.isObjectIdValid(id))
 			{
 				ModelConference confInfo =  this.serviceConference.get(id);
+				
+				String attendance_ids = confInfo.getAttendances();
+				String attendance_name_show = "[";
+				if(attendance_ids!=null && UtilString.isNotEmpty(attendance_ids)){
+					if(attendance_ids.contains(",")){
+						String[] ids = attendance_ids.split(",");
+						for(String eid : ids){
+							ModelHrmEmployee employee = this.serviceHrmEmployee.get(eid);
+							if (employee != null)
+							{
+								attendance_name_show+="{\"id\":\""+employee.getId()+"\",\"empname\":\""+employee.getFullName()+"\"}";
+							}
+							else
+							{
+								LOGGER.warn("The employee does not exist with id:" + eid);
+							}
+						}
+					}else{
+						ModelHrmEmployee employee = this.serviceHrmEmployee.get(attendance_ids);
+						attendance_name_show+="{\"id\":\""+employee.getId()+"\",\"empname\":\""+employee.getFullName()+"\"}";
+					}
+				}
+				attendance_name_show +="]";
+				
 				request.setAttribute("conference", confInfo);
 			}
 
