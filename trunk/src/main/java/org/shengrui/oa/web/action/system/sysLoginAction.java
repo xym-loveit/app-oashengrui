@@ -24,6 +24,7 @@ import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 import org.springframework.util.StringUtils;
 
+import cn.trymore.core.log.LogAnnotation;
 import cn.trymore.core.util.UtilApp;
 import cn.trymore.core.util.UtilString;
 
@@ -82,6 +83,7 @@ extends BaseAppAction
 	 * <br/>
 	 * User logon.
 	 */
+	@LogAnnotation(description="用户通过身份验证进入系统",type="登录")
 	public ActionForward actionLogon (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) 
 	{

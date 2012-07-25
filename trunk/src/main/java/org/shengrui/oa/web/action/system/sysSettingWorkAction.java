@@ -498,7 +498,7 @@ public class sysSettingWorkAction extends sysSettingBaseAction {
     * <b>[WebAction]</b> <br/>
     * 工作内容设置-工作内容删除
     */
-   @LogAnnotation(description = "删除基础工作内容")
+   @LogAnnotation(description = "删除基础工作内容",type="系统设置")
    public ActionForward actionRemoveBaseWorkContent(ActionMapping mapping,
          ActionForm form, HttpServletRequest request,
          HttpServletResponse response) {

@@ -80,15 +80,15 @@ extends BaseAppAction
 						}
 						if(now.after(endDate)){ 
 							result = "会议时间已过";
-							if(entity.getSummary()==null || UtilString.isNotEmpty(entity.getSummary())){
-								result += "<br/><font color=\"red\"请进行会议总结</font>";
-							}
+//							if(entity.getSummary()==null || !UtilString.isNotEmpty(entity.getSummary())){
+//								result += "<br/><font color=\"red\"请进行会议总结</font>";
+//							}
 						}
 						entity.setResult(result);
 					}else if("2".equals(entity.getStatus())){
-						entity.setResult("会议已取消");
-					}else if("3".equals(entity.getStatus())){
 						entity.setResult("会议时间已过");
+					}else if("3".equals(entity.getStatus())){
+						entity.setResult("会议已取消");
 					}
 				}
 			}
@@ -380,15 +380,15 @@ extends BaseAppAction
 						}
 						if(now.after(endDate)){ 
 							result = "会议时间已过";
-							if(entity.getSummary()==null || UtilString.isNotEmpty(entity.getSummary())){
-								result += "<br/><font color=\"red\"请进行会议总结</font>";
+							if(entity.getSummary()==null || !UtilString.isNotEmpty(entity.getSummary())){
+								result += "<br/><font color=\"red\">请进行会议总结</font>";
 							}
 						}
 						entity.setResult(result);
 					}else if("2".equals(entity.getStatus())){
-						entity.setResult("会议已取消");
-					}else if("3".equals(entity.getStatus())){
 						entity.setResult("会议时间已过");
+					}else if("3".equals(entity.getStatus())){
+						entity.setResult("会议已取消");
 					}
 				}
 			}
