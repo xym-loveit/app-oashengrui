@@ -177,6 +177,7 @@
 				/WEB-INF/classes/struts/struts-web-personal-task.xml,
 				/WEB-INF/classes/struts/struts-web-system-dictionary.xml,
 				/WEB-INF/classes/struts/struts-web-system-account.xml,
+				/WEB-INF/classes/struts/struts-web-system-log.xml,
 				/WEB-INF/classes/struts/struts-web-system-login.xml,
 				/WEB-INF/classes/struts/struts-web-system-menu.xml,
 				/WEB-INF/classes/struts/struts-web-system-role.xml,
