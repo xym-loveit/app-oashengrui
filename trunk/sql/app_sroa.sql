@@ -929,6 +929,48 @@ INSERT INTO `app_menu` (`menu_id`, `menu_title`, `menu_icon`, `menu_url`, `menu_
 -- --------------------------------------------------------
 
 --
+-- 資料表格式： `app_message_entity`
+--
+
+CREATE TABLE IF NOT EXISTS `app_message_entity` (
+  `msg_id` bigint(20) NOT NULL auto_increment,
+  `msg_subject` varchar(150) NOT NULL COMMENT '消息标题',
+  `msg_content` text NOT NULL COMMENT '消息内容',
+  `sender_id` bigint(20) NOT NULL COMMENT '发送者ID',
+  `sender_name` varchar(120) NOT NULL COMMENT '发送者姓名',
+  `msg_type` tinyint(4) default NULL COMMENT '消息类型',
+  `send_time` date NOT NULL COMMENT '发送时间',
+  PRIMARY KEY  (`msg_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='短消息' AUTO_INCREMENT=1 ;
+
+--
+-- 列出以下資料庫的數據： `app_message_entity`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- 資料表格式： `app_message_in`
+--
+
+CREATE TABLE IF NOT EXISTS `app_message_in` (
+  `receive_id` bigint(20) NOT NULL auto_increment,
+  `msg_id` bigint(20) NOT NULL COMMENT '短消息ID',
+  `user_id` bigint(20) NOT NULL COMMENT '接收用户ID',
+  `user_name` int(11) NOT NULL COMMENT '接收用户姓名',
+  `flag_read` tinyint(4) NOT NULL default '0' COMMENT '阅读标记, 1=已读, 0=未读',
+  `flag_del` tinyint(4) NOT NULL default '0' COMMENT '删除标记, 1=已删, 0=未删',
+  `receiv_time` datetime NOT NULL COMMENT '接收时间',
+  PRIMARY KEY  (`receive_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='收件箱' AUTO_INCREMENT=1 ;
+
+--
+-- 列出以下資料庫的數據： `app_message_in`
+--
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `app_process_definition`
 --
 
