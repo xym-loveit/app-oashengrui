@@ -202,7 +202,7 @@ extends sysSettingBaseAction
 	 * <br/>
 	 * 学校设置-职位岗位配置-职位删除
 	 */
-	@LogAnnotation(description="删除职位")
+	@LogAnnotation(description="删除职位",type="系统设置")
 	public ActionForward actionRemovePoset (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) 
 	{
@@ -372,7 +372,7 @@ extends sysSettingBaseAction
 	 * <br/>
 	 * 学校设置-校区配置删除
 	 */
-	@LogAnnotation(description="删除校区")
+	@LogAnnotation(description="删除校区",type="系统设置")
 	public ActionForward actionRemoveDistrict (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) 
 	{

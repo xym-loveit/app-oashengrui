@@ -188,7 +188,7 @@ extends sysSettingBaseAction
     * <br/>
     * 工作安排基础设置-工作时间删除
     */
-   @LogAnnotation(description="删除基础工作内容")
+   @LogAnnotation(description="删除基础工作内容",type="系统设置")
    public ActionForward actionRemoveBaseWorkTime (ActionMapping mapping, ActionForm form,
          HttpServletRequest request, HttpServletResponse response) 
    {

@@ -47,6 +47,7 @@ import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.action.BaseAction;
 import cn.trymore.oa.model.system.ModelFileAttach;
 import cn.trymore.oa.service.system.ServiceFileAttach;
+import cn.trymore.oa.service.system.ServiceSystemLog;
 
 /**
  * The base application action.
@@ -57,6 +58,21 @@ import cn.trymore.oa.service.system.ServiceFileAttach;
 public class BaseAppAction
 extends BaseAction
 {
+	protected ServiceSystemLog serviceSystemLog;
+	/**
+	 * @return the serviceSystemLog
+	 */
+	public ServiceSystemLog getServiceSystemLog() {
+		return serviceSystemLog;
+	}
+
+	/**
+	 * @param serviceSystemLog the serviceSystemLog to set
+	 */
+	public void setServiceSystemLog(ServiceSystemLog serviceSystemLog) {
+		this.serviceSystemLog = serviceSystemLog;
+	}
+
 	protected ServiceConferenceInfo serviceConference;
 	/**
 	 * The LOGGER

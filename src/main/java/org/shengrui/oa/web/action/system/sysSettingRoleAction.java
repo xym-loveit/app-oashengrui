@@ -43,7 +43,7 @@ extends sysSettingBaseAction
 	 * <br/>
 	 * 权限组配置-列表展现
 	 */
-	@LogAnnotation(description="进入权限组配置页面")
+	@LogAnnotation(description="进入权限组配置页面",type="系统设置")
 	public ActionForward pageRoleIndex (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) 
 	{
@@ -175,7 +175,7 @@ extends sysSettingBaseAction
 	 * <br/>
 	 * 菜单设置-删除角色
 	 */
-	@LogAnnotation(description="删除权限组")
+	@LogAnnotation(description="删除权限组",type="系统设置")
 	public ActionForward actionRemoveRole (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) 
 	{
