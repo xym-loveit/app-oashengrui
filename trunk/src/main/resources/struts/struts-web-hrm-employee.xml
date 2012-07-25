@@ -19,6 +19,15 @@
 			<forward name="hrm.page.employee.doc.roadmap" path="hrm.page.employee.doc.roadmap" />
 		</action>
 		
+		<!-- 员工添加-->
+		<action path="/app/hrm/employee/resume"
+				name="form.hrm.resume"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="hrm.page.employee.resume" path="hrm.page.employee.resume" />
+		</action>
+		
 	</action-mappings>
 
 </struts-config>

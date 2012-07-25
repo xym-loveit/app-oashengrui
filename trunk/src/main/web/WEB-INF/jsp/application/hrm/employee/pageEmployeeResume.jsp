@@ -68,7 +68,7 @@
 		//加载上传组件入口文件
 		KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
 			
-			var ru = new RenderUploader('#rp_J_UploaderBtn', '#rp_J_UploaderQueue',{
+			var ru = new RenderUploader('#rpa_J_UploaderBtn', '#rpa_J_UploaderQueue',{
 				 //服务器端配置
 				serverConfig:{
 					//处理上传的服务器端脚本路径
@@ -80,7 +80,7 @@
 				urlsInputName:"fileUrls"
 				<c:if test="${resume ne null && fn:length(resume.attachFiles) gt 0}">
 				// 用于数据展现
-				,restoreHook:"#rp_J_UploaderRestore"
+				,restoreHook:"#rpa_J_UploaderRestore"
 				</c:if>
 			});
 			
@@ -108,7 +108,6 @@
 		</c:if>
 	});
 	
-	<c:if test="${op eq null || op ne 'view'}">
 	var settings = {
 		flash_url : "resources/js/swfupload/swfupload.swf",
 		upload_url: "<%=basePath%>file-upload?noattach",
@@ -127,7 +126,7 @@
 		button_image_url: "<%=basePath%>resources/js/swfupload/upload.png",
 		button_width: "130",
 		button_height: "24",
-		button_placeholder_id: "spanButtonPlaceHolder",
+		button_placeholder_id: "r_spanButtonPlaceHolder",
 		button_text: '<span class="button">头像上传</span>',
 		button_text_style: '.button { text-align: center; font-weight: bold; font-family:"Lucida Grande",Verdana,Arial,"Bitstream Vera Sans",sans-serif; }',
 		button_height: "24",
@@ -147,19 +146,18 @@
 	};
 
 	swfu = new SWFUpload(settings);
-	</c:if>
 	
 </script>
 
 <!--- 生成需要展现文件的JSON -->
 <c:if test="${(op eq null || op ne 'view') && (resume ne null && fn:length(resume.attachFiles) gt 0)}">
-<script type="text/uploader-restore" id="rp_J_UploaderRestore">
+<script type="text/uploader-restore" id="rpa_J_UploaderRestore">
 ${tm:fileRestore(resume['attachFiles'])}
 </script>
 </c:if>
 
 <div class="pageContent">
-	<form method="post" action="${cat ne null ? 'app/hrm/hire/resume.do?action=actionEmployeeResumeSave' : 'app/hrm/hire/resume.do?action=actionJobApply'}" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<form method="post" action="app/hrm/employee/resume.do?action=actionEmployeeAdd" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent" layoutH="${cat ne null ? 98 : 56}">
 			<table width="100%" cellspacing="15" cellpadding="10" style="border-spacing:15; border-collapse:collapse;" border="1" id="tblresume">
 				<tr>
@@ -174,7 +172,7 @@ ${tm:fileRestore(resume['attachFiles'])}
 							<option value="2" ${resume ne null && resume.sex eq 2 ? 'selected="selected"' : ''}>女</option>
 						</select>
 					</td>
-					<td cospan="2" rowspan="13" valign="top" align="center" style="padding: 5px;">
+					<td cospan="2" rowspan="15" valign="top" align="center" style="padding: 5px;">
 						<div id="pwrap">
 							<c:choose>
 								<c:when test="${op eq null || op ne 'view'}">
@@ -198,13 +196,13 @@ ${tm:fileRestore(resume['attachFiles'])}
 												<span class="legend">传输序列</span>
 											</div>
 											<div id="divStatus" style="padding:5px;font-size:9pt;display:none;">0 个文件已经上传</div>
-											<span id="spanButtonPlaceHolder"></span><input id="btnCancel" class="button" type="button" value="取消上传" onclick="swfu.cancelQueue();" disabled="disabled" style="display:none" /></dd>
+											<span id="r_spanButtonPlaceHolder"></span><input id="btnCancel" class="button" type="button" value="取消上传" onclick="swfu.cancelQueue();" disabled="disabled" style="display:none" /></dd>
 									</dl>
 								</c:when>
 								<c:otherwise>
 									<span id="emp_photo">
 										<c:choose>
-											<c:when test="${resume ne null && resume.photo ne ''}">
+											<c:when test="${resume ne null && resume.photo ne null}">
 												<img src="uploads/${resume.photo}" width="110px" />
 												<input type="hidden" name="photo" id="photo_val" value="${resume.photo}"/>
 											</c:when>
@@ -220,10 +218,40 @@ ${tm:fileRestore(resume['attachFiles'])}
 					</td>
 				</tr>
 				<tr>
+					<td class="field" align="right">所在校区：</td>
+					<td style="padding: 5px;">
+						<select class="combox required" name="employeeDistrict.id" id="combox_district_eindex" style="width:108px" >
+							<logic:present name="districts">
+								<logic:iterate name="districts" id="district">
+									<option value="${district.id}" ${employee ne null && employee.employeeDistrict ne null && employee.employeeDistrict.id eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
+								</logic:iterate>
+							</logic:present>
+						</select>
+					</td>
+					<td class="field" align="right">所在部门：</td>
+					<td style="padding: 5px;">
+						<select class="combox required" name="employeeDepartment.id" id="combox_dept_eindex" style="width:108px" >
+							<logic:present name="departments">
+								<logic:iterate name="departments" id="department">
+									<option value="${department.id}" ${employee ne null && entity.employeeDepartment ne null && employee.employeeDepartment.id eq department.id ? 'selected="selected"' : ''}>${department.depName}</option>
+								</logic:iterate>
+							</logic:present>
+						</select>
+					</td>
+					<td class="field" align="right">所在岗位：</td>
+					<td style="padding: 5px;">
+						<select class="combox required" name="employeePosition.id" id="combox_pos_eindex" style="width:108px" >
+							<logic:present name="positions">
+								<logic:iterate name="positions" id="position">
+									<option value="${position.id}" ${employee ne null && employee.employeePosition ne null && employee.employeePosition.id eq position.id ? 'selected="selected"' : ''}>${position.positionName}</option>
+								</logic:iterate>
+							</logic:present>
+						</select>
+					</td>
+				</tr>
+				<tr>
 					<td class="field">出生日期：</td>
 					<td><input name="birthday" class="${op ne null && op eq 'view' ? '' : 'date'} textInput" yearstart="-80" yearend="0" style="" value="<c:if test='${resume ne null && resume.birthday ne null}'><fmt:formatDate value='${resume.birthday}' pattern='yyyy-MM-dd'/></c:if>" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
-					<td class="field">联系电话：</td>
-					<td><input class="required" name="mobilePhone" type="text" style="" value="${resume ne null ? resume.mobilePhone : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 					<td class="field">婚姻状况：</td>
 					<td style="padding: 5px;">
 						<select class="combox" name="marriage" style="width:60px">
@@ -231,18 +259,21 @@ ${tm:fileRestore(resume['attachFiles'])}
 							<option value="2" ${resume ne null && resume.marriage eq 2 ? 'selected="selected"' : ''}>已婚</option>
 						</select>
 					</td>
+					<td class="field" align="right">办公电话：</td>
+					<td><input name="officePhone" type="text"  value="${employee ne null ? employee.officePhone : ''}" /></td>
 				</tr>
-				<c:if test="${empId ne null}">
 				<tr>
+					<td class="field">联系电话：</td>
+					<td><input class="required" name="mobilePhone" type="text" style="" value="${resume ne null ? resume.mobilePhone : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 					<td class="field">短号：</td>
 					<td><input class="" name="shortNo" type="text" style="" value="${employee ne null ? employee.shortNo : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 					<td class="field">紧急联系人：</td>
-					<td colspan="3"><input class="" name="urgentContact" type="text" style="" value="${employee ne null ? employee.urgentContact : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
+					<td colspan=""><input class="" name="urgentContact" type="text" style="" value="${employee ne null ? employee.urgentContact : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 				</tr>
-				</c:if>
 				<tr>
+					
 					<td class="field">身份证号：</td>
-					<td colspan="5"><input name="identityNo" type="text"  style="" value="${resume ne null ? resume.identityNo : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
+					<td colspan="3"><input name="identityNo" type="text"  style="" value="${resume ne null ? resume.identityNo : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 				</tr>
 				<tr>
 					<td class="field">居住地址：</td>
@@ -338,9 +369,9 @@ ${tm:fileRestore(resume['attachFiles'])}
 							<c:choose>
 								<c:when test="${op eq null || op ne 'view'}">
 									<!-- 上传按钮，组件配置请写在data-config内 -->
-									<a id="rp_J_UploaderBtn" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件 </a>
+									<a id="rpa_J_UploaderBtn" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件 </a>
 									<!-- 文件上传队列 -->
-									<ul id="rp_J_UploaderQueue"></ul>
+									<ul id="rpa_J_UploaderQueue"></ul>
 									<div id="J_Panel" class="event-panel"></div>
 									<input type="hidden" name="fileUrls" id="fileUrls" />
 									<input type="hidden" name="fileIds" id="fileIds" />
@@ -365,16 +396,8 @@ ${tm:fileRestore(resume['attachFiles'])}
 		</div>
 		<div class="formBar">
 			<ul>
-				<c:if test="${op eq null || op ne 'view'}">
-					<li>
-						<div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div>
-					</li>
-				</c:if>
-				<c:if test="${cat eq null}">
-				<li>
-					<div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div>
-				</li>
-				</c:if>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">添加</button></div></div></li>
+				<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
 			</ul>
 		</div>
 		<input type="hidden" name="source" value="${source ne null ? source : '0'}" />

@@ -124,7 +124,7 @@
 						<td>
 							<c:choose>
 								<c:when test="${entity.status eq 4}">
-									${entity.isOpen eq 0 ? '已关闭' : '招聘中'}
+									${entity.isOpen eq null || entity.isOpen eq 0 ? '已关闭' : '招聘中'}
 								</c:when>
 								<c:otherwise>
 									——
@@ -146,10 +146,10 @@
 							<c:choose>
 								<c:when test="${entity.status eq 4}">
 									<c:choose>
-										<c:when test="${entity.isOpen eq 0}">
+										<c:when test="${entity.isOpen eq null || entity.isOpen eq 0}">
 											<a class="oplink" href="app/hrm/hire.do?action=actionJobOpenControl&jobId=${entity.id}&state=1" target="ajaxTodo" title="确定要开启该岗位应聘吗?" callback="reload_jobpage()">开启</a>
 										</c:when>
-										<c:when test="${entity.isOpen eq null || entity.isOpen eq 1}">
+										<c:when test="${entity.isOpen eq 1}">
 											<a class="oplink" href="app/hrm/hire.do?action=actionJobOpenControl&jobId=${entity.id}&state=0" target="ajaxTodo" title="确定要关闭该岗位应聘吗?" callback="reload_jobpage()">关闭</a>
 										</c:when>
 									</c:choose>
