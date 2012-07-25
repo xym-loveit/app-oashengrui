@@ -8,6 +8,7 @@ import org.hibernate.criterion.Restrictions;
 
 import org.shengrui.oa.dao.finan.DAOFinanContract;
 import org.shengrui.oa.model.finan.ModelFinanContract;
+import org.shengrui.oa.model.news.ModelNewsMag.newsLevel;
 import org.shengrui.oa.service.finan.ServiceFinanContract;
 
 import cn.trymore.core.exception.ServiceException;
@@ -121,6 +122,25 @@ extends ServiceGenericImpl<ModelFinanContract> implements ServiceFinanContract
 	public void setDaoFinanContract(DAOFinanContract daoFinanContract)
 	{
 		this.daoFinanContract = daoFinanContract;
+	}
+
+	@Override
+	public PaginationSupport<ModelFinanContract> finanContract(
+			ModelFinanContract entity, PagingBean pagingBean)
+			throws ServiceException {
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanContract.class);
+		criteria.add(Restrictions.isNull("auditState"));
+		
+		return this.getAll(criteria, pagingBean);
+	}
+
+	@Override
+	public PaginationSupport<ModelFinanContract> finanContractRec(
+			ModelFinanContract entity, PagingBean pagingBean)
+			throws ServiceException {
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanContract.class);
+		criteria.add(Restrictions.in("auditState", new Integer[]{2,3,4}));
+		return this.getAll(criteria, pagingBean);
 	}
 
 }

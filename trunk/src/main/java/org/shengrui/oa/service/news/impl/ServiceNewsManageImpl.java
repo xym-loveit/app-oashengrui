@@ -137,4 +137,13 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 		return this.getAll(criteria, pagingBean);
 	}
 
+	@Override
+	public PaginationSupport<ModelNewsMag> getNewsApprovalRec(
+			ModelNewsMag news, PagingBean pagingBean) throws ServiceException {
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelNewsMag.class);
+		criteria.add(Restrictions.in("status",new Integer[]{2,3}));
+//				.add(Restrictions.eq("status", 3));
+		return this.getAll(criteria, pagingBean);
+	}
+
 }

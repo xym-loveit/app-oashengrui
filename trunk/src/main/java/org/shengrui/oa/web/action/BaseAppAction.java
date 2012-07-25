@@ -21,6 +21,9 @@ import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 import org.shengrui.oa.service.admin.ServiceConferenceInfo;
+import org.shengrui.oa.service.admin.ServiceTaskPlan;
+import org.shengrui.oa.service.finan.ServiceFinanContract;
+import org.shengrui.oa.service.finan.ServiceFinanExpense;
 import org.shengrui.oa.service.hrm.ServiceHrmEmployee;
 import org.shengrui.oa.service.info.ServiceInMessage;
 import org.shengrui.oa.service.info.ServiceShortMessage;
@@ -105,6 +108,12 @@ extends BaseAction
 	protected ServiceNewsManage serviceNewsManage;
 	
 	protected ServiceAppDictionary serviceAppDictionary;
+	
+	protected ServiceTaskPlan serviceTaskPlan;
+	
+	protected ServiceFinanExpense serviceFinanExpense;
+	
+	protected ServiceFinanContract serviceFinanContract;
 	
 	/**
 	 * The repository of short message
@@ -760,6 +769,30 @@ extends BaseAction
 	 */
 	public void setServiceConference(ServiceConferenceInfo serviceConference) {
 		this.serviceConference = serviceConference;
+	}
+
+	public ServiceTaskPlan getServiceTaskPlan() {
+		return serviceTaskPlan;
+	}
+
+	public void setServiceTaskPlan(ServiceTaskPlan serviceTaskPlan) {
+		this.serviceTaskPlan = serviceTaskPlan;
+	}
+
+	public ServiceFinanExpense getServiceFinanExpense() {
+		return serviceFinanExpense;
+	}
+
+	public void setServiceFinanExpense(ServiceFinanExpense serviceFinanExpense) {
+		this.serviceFinanExpense = serviceFinanExpense;
+	}
+
+	public ServiceFinanContract getServiceFinanContract() {
+		return serviceFinanContract;
+	}
+
+	public void setServiceFinanContract(ServiceFinanContract serviceFinanContract) {
+		this.serviceFinanContract = serviceFinanContract;
 	}
 
 	public ServiceShortMessage getServiceShortMessage()

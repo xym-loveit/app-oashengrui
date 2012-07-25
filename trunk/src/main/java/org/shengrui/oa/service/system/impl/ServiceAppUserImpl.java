@@ -103,14 +103,6 @@ extends ServiceGenericImpl<ModelAppUser> implements ServiceAppUser
 			{
 				criteria.add(Restrictions.like("fullName", entity.getFullName(), MatchMode.ANYWHERE));
 			}
-			if(entity.getDistrict() != null && UtilString.isNotEmpty(entity.getDistrict().getId()))
-			{
-				criteria.createCriteria("district").add(Restrictions.eq("id", entity.getDistrict().getId())) ;
-			}
-			if(entity.getDepartment() != null && UtilString.isNotEmpty(entity.getDepartment().getId()))
-			{
-				criteria.createCriteria("department").add(Restrictions.eq("id", entity.getDepartment().getId()));
-			}
 		}
 		
 		return criteria;
