@@ -8,5 +8,7 @@
 	<!-- 待我审批-->
 	<definition name="page.my.approval.index"
 		path="/WEB-INF/jsp/application/personal/approval/myApproval.jsp"/>
-	
+	<!--审批记录-->
+	<definition name="page.my.approvalReturn.index"
+		path="/WEB-INF/jsp/application/personal/approval/myApprovalReturn.jsp"/>
 </tiles-definitions>
