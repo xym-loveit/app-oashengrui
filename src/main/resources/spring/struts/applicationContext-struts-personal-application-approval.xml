@@ -8,6 +8,9 @@
 		<property name="serviceNewsManage" ref="serviceNewsManage" />
 		<property name="serviceFileAttach" ref="serviceFileAttach" />
 		<property name="serviceAppDictionary" ref="serviceAppDictionary" />
+		<property name="serviceTaskPlan" ref="serviceTaskPlan" />
+		<property name="serviceFinanExpense" ref="serviceFinanExpense" />
+		<property name="serviceFinanContract" ref="serviceFinanContract" />
 	</bean>
 	
 </beans>

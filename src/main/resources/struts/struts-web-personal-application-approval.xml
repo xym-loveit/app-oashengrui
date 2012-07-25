@@ -4,6 +4,9 @@
 <struts-config>
 	<form-beans>
 		<form-bean name="form.admin.news" type="org.shengrui.oa.model.news.ModelNewsMag"></form-bean>
+		<form-bean name="form.admin.task" type="org.shengrui.oa.model.news.ModelTaskPlan"></form-bean>
+		<form-bean name="form.admin.finan" type="org.shengrui.oa.model.news.ModelFinanExpense"></form-bean>
+		<form-bean name="form.admin.contract" type="org.shengrui.oa.model.news.ModelFinanContract"></form-bean>
     </form-beans>
 	<action-mappings>
 		

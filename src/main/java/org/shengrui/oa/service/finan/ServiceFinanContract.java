@@ -37,5 +37,19 @@ extends ServiceGeneric<ModelFinanContract>
 	 */
 	PaginationSupport<ModelFinanContract> getFinanContractInfoPagination (ModelFinanContract entity, 
 			PagingBean pagingBean) throws ServiceException;
-
+	
+	/**
+	 * 查询未审批过的合同
+	 * @author pyc
+	 * */
+	PaginationSupport<ModelFinanContract> finanContract (ModelFinanContract entity, 
+			PagingBean pagingBean) throws ServiceException;
+	
+	/**
+	 * 
+	 * 查询已审批过的合同
+	 * @author pyc
+	 * */
+	PaginationSupport<ModelFinanContract> finanContractRec (ModelFinanContract entity, 
+			PagingBean pagingBean) throws ServiceException;
 }

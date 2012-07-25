@@ -125,4 +125,22 @@ extends ServiceGenericImpl<ModelFinanExpense> implements ServiceFinanExpense
 		this.daoFinanExpense = daoFinanExpense;
 	}
 
+	@Override
+	public PaginationSupport<ModelFinanExpense> getfinanApproval(
+			ModelFinanExpense entity, PagingBean pagingBean)
+			throws ServiceException {
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanExpense.class);
+		criteria.add(Restrictions.isNull("auditState"));
+		return this.getAll(criteria, pagingBean);
+	}
+
+	@Override
+	public PaginationSupport<ModelFinanExpense> getfinanApprovalRec(
+			ModelFinanExpense entity, PagingBean pagingBean)
+			throws ServiceException {
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanExpense.class);
+		criteria.add(Restrictions.in("auditState", new Integer[]{2,3,4}));
+		return this.getAll(criteria, pagingBean);
+	}
+
 }

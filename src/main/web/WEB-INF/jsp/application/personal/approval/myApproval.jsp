@@ -34,16 +34,59 @@
 				<logic:iterate id="news" name="news" property="items">
 					<tr>
 						<td>
-							<c:choose>
-								<c:when test="${news.status eq 1 }">新闻发布审批</c:when>
-							</c:choose>
+							新闻发布审批
 						</td>
 						<td>
-							[${news.dictionary.name}] &nbsp&nbsp&nbsp “${news.newsSubject}” &nbsp&nbsp&nbsp<c:choose><c:when test="${news.status eq 1 }">新闻发布审批</c:when></c:choose>
+							[${news.dictionary.name}] &nbsp&nbsp&nbsp “${news.newsSubject}” &nbsp&nbsp&nbsp 新闻发布审批
 						</td>
 						<td>${news.user.fullName}</td>
-						<td><c:if test="${news.updateTime ne null}"><fmt:formatDate value="${news.updateTime}" pattern="yyyy-MM-dd hh:mm:ss" /></c:if></td>
+						<td><c:if test="${news.updateTime ne null}"><fmt:formatDate value="${news.updateTime}" pattern="yyyy-MM-dd" /></c:if></td>
 						<td><a class="oplink" href="app/admin.do?action=adminPageEntryDetail&id=${news.id }&op=view" target="dialog" width="900" height="500" title="新闻审批" rel="dia_admin_entryapproval-id">审批</a></td>
+					</tr>
+				</logic:iterate>
+			</logic:present>
+			<logic:present name="task">
+				<logic:iterate id="task" name="task" property="items">
+					<tr>
+					<td>
+						任务委托审批
+					</td>
+					<td>
+						[${task.taskType.name }] &nbsp&nbsp&nbsp “${task.taskName}” &nbsp&nbsp&nbsp 任务委托发布审批
+					</td>
+					<td>${task.taskOriginator.empName }</td>
+					<td><c:if test="${task.createTime ne null}"><fmt:formatDate value="${task.createTime}" pattern="yyyy-MM-dd" /></c:if></td>
+					<td><a href="app/admin/task.do?action=dialogTaskPage&id=${task.id}&op=audit" target="dialog" title="任务审批" width="1080" height="380" class="oplink">审批</a></td>
+					</tr>
+				</logic:iterate>
+			</logic:present>
+			<logic:present name="finan">
+				<logic:iterate id="finan" name="finan" property="items">
+					<tr>
+					<td>
+						费用支出申请审批
+					</td>
+					<td>
+						${finan.employee.empName } &nbsp&nbsp&nbsp <label style="color:red;">${finan.empDistrict.districtName}</label>&nbsp&nbsp&nbsp <label style="color:red;">${finan.applyAmt }</label>
+					</td>
+					<td>${finan.employee.empName }</td>
+					<td><c:if test="${finan.applyDate ne null}"><fmt:formatDate value="${finan.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
+					<td><a class="oplink" href="app/finan/expense.do?action=diaglogFinaExpensePage&id=${finan.id}&op=view" target="dialog" title="‘${finan.employee.empName}’费用申请单-${finan.formNo}审批" width="1150" height="640">审批</a></td>
+					</tr>
+				</logic:iterate>
+			</logic:present>
+			<logic:present name="contract">
+				<logic:iterate id="contract" name="contract" property="items">
+					<tr>
+					<td>
+						合同申请审批
+					</td>
+					<td>
+						[${contract.employee.empName }] &nbsp&nbsp&nbsp ${contract.empDistrict.districtName} &nbsp&nbsp&nbsp ${contract.applyFormType.processTypeName}
+					</td>
+					<td>${contract.employee.empName }</td>
+					<td><c:if test="${contract.applyDate ne null}"><fmt:formatDate value="${contract.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
+					<td><a class="oplink" href="app/finan/contract.do?action=diaglogFinaContractPage&id=${contract.id}&op=view" target="dialog" title="查看‘${contract.employee.empName}’合同申请单-${contract.formNo}" width="1150" height="640">审批</a></td>
 					</tr>
 				</logic:iterate>
 			</logic:present>

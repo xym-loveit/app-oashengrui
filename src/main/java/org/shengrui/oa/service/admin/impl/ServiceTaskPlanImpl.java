@@ -6,6 +6,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.admin.DAOTaskPlan;
 import org.shengrui.oa.model.admin.ModelTaskPlan;
+import org.shengrui.oa.model.news.ModelNewsMag.newsLevel;
 import org.shengrui.oa.service.admin.ServiceTaskPlan;
 
 import cn.trymore.core.exception.ServiceException;
@@ -130,5 +131,23 @@ extends ServiceGenericImpl<ModelTaskPlan> implements ServiceTaskPlan
 	public DAOTaskPlan getDaoTaskPlan()
 	{
 		return daoTaskPlan;
+	}
+
+	@Override
+	public PaginationSupport<ModelTaskPlan> getTaskPlanApproval(
+			ModelTaskPlan entity, PagingBean pagingBean)
+			throws ServiceException {
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelTaskPlan.class);
+		criteria.add(Restrictions.isNull("auditStatus"));
+		return this.getAll(criteria, pagingBean);
+	}
+
+	@Override
+	public PaginationSupport<ModelTaskPlan> getTaskPlanApprovalRec(
+			ModelTaskPlan entity, PagingBean pagingBean)
+			throws ServiceException {
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelTaskPlan.class);
+		criteria.add(Restrictions.in("auditStatus", new Integer[]{2,3,4}));
+		return this.getAll(criteria, pagingBean);
 	}
 }
