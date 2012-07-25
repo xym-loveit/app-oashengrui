@@ -73,14 +73,4 @@ extends ServiceGenericImpl<ModelSchoolDepartment> implements ServiceSchoolDepart
 		this.daoSchoolDepartment = daoSchoolDepartment;
 	}
 
-	@Override
-	public ModelSchoolDepartment getDepartment(String id)
-			throws ServiceException {
-		try {
-			return this.daoSchoolDepartment.getDepartment(id);
-		} catch (DAOException e) {
-			throw new ServiceException (e);
-		}
-	}
-
 }
