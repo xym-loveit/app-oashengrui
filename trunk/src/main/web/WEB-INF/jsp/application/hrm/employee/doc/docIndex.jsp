@@ -83,7 +83,7 @@
 	<div class="pageContent">
 		<div class="panelBar">
 			<ul class="toolBar">
-				<li><a class="add" href="app/hrm/employee/resume.do?action=dialogHrmEmployeeAdd" target="dialog" title="添加新员工信息" width="930" height="500" rel="dia_hr_empadd"><span>添加新员工</span></a></li>
+				<li><a class="add" href="app/hrm/employee/data.do?action=dialogHrmEmployeeAdd" target="dialog" title="添加新员工信息" width="1080" height="500" rel="dia_hr_empadd"><span>添加新员工</span></a></li>
 				<li class="line">line</li>
 				<li><a class="icon" href="javascript:void(0);" onclick="alert('员工导入功能待实现...');" title="导入员工信息" width="930" height="500" rel="dia_hr_entryadd"><span>导入员工信息</span></a></li>
 			</ul>

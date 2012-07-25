@@ -20,7 +20,7 @@
 		</action>
 		
 		<!-- 员工添加-->
-		<action path="/app/hrm/employee/resume"
+		<action path="/app/hrm/employee/data"
 				name="form.hrm.resume"
 				scope="request"
 				parameter="action"
