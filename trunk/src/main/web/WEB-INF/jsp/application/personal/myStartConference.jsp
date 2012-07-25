@@ -118,11 +118,11 @@ function callback_funcRemove() {
 						<td>${entity.contactor}</td>
 						<td>${entity.phone }</td>
 						<td>
-							<a class="oplink" href="app/personal/conference.do?action=conferenceDetail&id=${entity.id}&op=view" target="dialog" title="会议详细" width="960" height="420">详细</a></td>
+							<a class="oplink" href="app/personal/conference.do?action=conferenceDetail&id=${entity.id}&op=view" target="dialog" title="会议详细" width="1150" height="420">详细</a></td>
 						<td>
 							<c:choose>
 								<c:when test="${entity.status eq 1}">
-									<a class="oplink" href="app/personal/conference.do?action=conferenceDetail&id=${entity.id}&op=edit" target="dialog" title="调整会议" width="960" height="420">调整</a>
+									<a class="oplink" href="app/personal/conference.do?action=conferenceDetail&id=${entity.id}&op=edit" target="dialog" title="调整会议" width="1150" height="500">调整</a>
 								</c:when>
 								<c:otherwise>
 									<label class="opdisabled">调整</label>
@@ -146,8 +146,8 @@ function callback_funcRemove() {
 							<c:when test="${entity.summary eq null || entity.summary eq '' }">
 								<c:choose>
 									<c:when test="${entity.status ne 3 }">
-										 <td style='color: red'>
-											<a class="oplink" href="app/personal/conference.do?action=actionLoadActivateDialog&id=${entity.id}" target="dialog" title="会议总结" width="800" height="350"><font color="red">总结</font></a>
+										 <td>
+											<a style='color: red' class="oplink" href="app/personal/conference.do?action=actionLoadActivateDialog&id=${entity.id}" target="dialog" title="会议总结" width="800" height="350">总结</a>
 										</td>
 									</c:when>
 								</c:choose>

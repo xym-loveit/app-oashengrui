@@ -178,7 +178,7 @@ ol.mp_list li.mp_error {
 				name:"Filedata",
 				//用于放服务器端返回的url的隐藏域
 				urlsInputName:"fileUrls"
-				<c:if test="${jobHire ne null && fn:length(jobHire.attachFiles) gt 0}">
+				<c:if test="${conference ne null && fn:length(conference.attachFiles) gt 0}">
 				// 用于数据展现
 				,restoreHook:"#jp_J_UploaderRestore"
 				</c:if>
