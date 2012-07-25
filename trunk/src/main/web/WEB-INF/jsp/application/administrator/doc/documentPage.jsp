@@ -152,7 +152,7 @@
 	<tr>
 		<td>上传中心：</td>
 		<td><select class="combox" id="combox_doc_district"
-			name="district.id" style="width: 108px;">
+			name="district.id" style="width: 108px;" ref="combox_doc_dep" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
 			<logic:present name="districts">
 				<logic:iterate name="districts" id="entity">
 					<option value="${entity.id}" ${formDoc ne
@@ -165,6 +165,7 @@
 		<td>上传部门：</td>
 		<td><select class="combox" id="combox_doc_dep" name="department.id"
 			style="width: 108px;">
+			<option value="">请选择部门</option>
 			<logic:present name="deps">
 				<logic:iterate name="deps" id="entity">
 					<option value="${entity.id}" ${formDoc ne
