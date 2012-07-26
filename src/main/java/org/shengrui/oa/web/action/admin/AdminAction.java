@@ -510,6 +510,7 @@ extends BaseAdminAction
 						model.getWorkContent().setId(entity.getWorkContent().getId());
 						model.getWorkTime().setId(entity.getWorkTime().getId());
 						model.getWorkType().setId(entity.getWorkType().getId());
+						model.setDistrictId(entity.getDistrictId());
 						list.add(model);
 					}
 					try {
@@ -573,10 +574,10 @@ extends BaseAdminAction
 //		List<ModelBaseWorkTime> workTimes = this.serviceBaseWorkTime
 //        .getDayWorkTimeByDistrictIdAndTemplateId(districtId,
 //              enabledTemplate.getTemplateId());
-		List<ModelBaseWorkContent> workContents = this.serviceBaseWorkContent
-        .getAll();
+//		List<ModelBaseWorkContent> workContents = this.serviceBaseWorkContent
+//        .getAll();
 //		request.setAttribute("workTimes", workTimes);
-		request.setAttribute("workContents", workContents);
+//		request.setAttribute("workContents", workContents);
 		return mapping.findForward("admin.page.staff.work.arrange.dialog");
 	}
 	
@@ -607,7 +608,7 @@ extends BaseAdminAction
 	}
 	
 	/**
-	 * 根据日期和工作时间加载已经安排工作的员工
+	 * 根据日期,工作时间,校区加载已经安排工作的员工
 	 * @param mapping
 	 * @param form
 	 * @param request
@@ -619,22 +620,39 @@ extends BaseAdminAction
 		try {
 			List<ModelAdminWorkArrange> list = this.serviceAdminWorkArrange.queryByCriteria(formWorkArrange);
 			int loop = 1;
-			StringBuffer sb = new StringBuffer();
-			sb.append("[");
+			String staffNames = "";
+			String staffIds = "";
 			for(ModelAdminWorkArrange entity : list){
-				sb.append("[\"id\",\"").append(entity.getStaff().getId()).append("\",\"staffName\",\"").append(entity.getStaffName()).append("\"]");
+				staffNames+=entity.getStaffName();
+				staffIds+=entity.getStaff().getId();
 				if(loop!=list.size()){
-					sb.append(",");
+					staffNames+=",";
+					staffIds+=",";
 				}
 				loop++;
 			}
-			sb.append("]");
-			System.out.println(sb.toString());
-			return ajaxPrint(response,sb.toString());
+			request.setAttribute("staffNames", staffNames);
+			request.setAttribute("staffIds", staffIds);
+			//return ajaxPrint(response,sb.toString());
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
-			return ajaxPrint(response,"[]");
+			//return ajaxPrint(response,"[]");
 		}
+		return mapping.findForward("admin.page.staff.work.arrange.staffnames");
+	}
+	
+	public ActionForward actionLoadWorkContent(ActionMapping mapping,ActionForm form,HttpServletRequest request,HttpServletResponse response)
+	{
+		ModelBaseWorkContent entity = new ModelBaseWorkContent();
+		entity.getBaseWorkDistrict().setId(request.getParameter("districtId"));
+		try {
+			List<ModelBaseWorkContent> workContents = this.serviceBaseWorkContent.getListByCriteria(entity);
+			request.setAttribute("workContents", workContents);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return mapping.findForward("admin.page.staff.work.arrange.workcontent");
 	}
 	
 	/**

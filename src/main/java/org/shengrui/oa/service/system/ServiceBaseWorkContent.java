@@ -3,6 +3,8 @@
  */
 package org.shengrui.oa.service.system;
 
+import java.util.List;
+
 import org.shengrui.oa.model.system.ModelBaseWorkContent;
 
 import cn.trymore.core.exception.ServiceException;
@@ -31,4 +33,6 @@ public interface ServiceBaseWorkContent extends ServiceGeneric<ModelBaseWorkCont
 	 */
 	PaginationSupport<ModelBaseWorkContent> getPaginationByEntity (ModelBaseWorkContent entity, 
 			PagingBean pagingBean) throws ServiceException;
+	
+	public List<ModelBaseWorkContent> getListByCriteria(ModelBaseWorkContent entity) throws ServiceException;
 }
