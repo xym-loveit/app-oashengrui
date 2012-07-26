@@ -7,7 +7,7 @@
 	
 	<!-- Home Index -->
 	<definition name="index.page" extends="base.layout">
-		<put name="title"     value="晟睿教育内部管理系统" />
+		<put name="title"     value="晟睿教育协同办公系统" />
 		<put name="body"    value="/WEB-INF/jsp/index.jsp"/>
 	</definition>
 	
