@@ -61,6 +61,9 @@
 <!-- Body -->	
 <div class="pageContent">
 	<div class="panelBar">
+		<ul class="toolBar" style="float:right">
+			<li><a treeicon="icon-edit" class="icon" href="app/personal/task.do?action=pageTaskIndex" target="navTab" rel="myplan"><span class="icon-edit">我的任务</span></a></li>
+		</ul>
 		<ul class="toolBar">
 			<li><a class="add" href="app/personal/task.do?action=dialogTaskPage" target="dialog" title="新建任务" width="1080" height="380" rel="dia_my_taskadd"><span>新建任务</span></a></li>
 		</ul>
@@ -124,7 +127,7 @@
 							</c:choose>
 						</td>
 						<td>
-							<a href="app/personal/task.do?action=dialogTaskPage&id=${entity.id}" target="dialog" title="任务‘${entity.taskName}’-编辑" width="600" height="220" class="oplink" rel="personal_taskedit-${edit.id}">编辑</a>
+							<a href="app/personal/task.do?action=dialogTaskPage&id=${entity.id}" target="dialog" title="任务‘${entity.taskName}’-编辑" width="1080" height="380" class="oplink" rel="personal_taskedit-${edit.id}">编辑</a>
 						</td>
 					</tr>
 				</logic:iterate>
