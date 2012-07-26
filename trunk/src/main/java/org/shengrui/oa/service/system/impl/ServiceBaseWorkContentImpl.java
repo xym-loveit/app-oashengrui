@@ -1,5 +1,7 @@
 package org.shengrui.oa.service.system.impl;
 
+import java.util.List;
+
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -7,6 +9,7 @@ import org.shengrui.oa.dao.system.DAOBaseWorkContent;
 import org.shengrui.oa.model.system.ModelBaseWorkContent;
 import org.shengrui.oa.service.system.ServiceBaseWorkContent;
 
+import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
 import cn.trymore.core.web.paging.PaginationSupport;
@@ -62,4 +65,24 @@ public class ServiceBaseWorkContentImpl extends ServiceGenericImpl<ModelBaseWork
       
       return this.getAll(criteria, pagingBean);
    }
+
+	@Override
+	public List<ModelBaseWorkContent> getListByCriteria(
+			ModelBaseWorkContent entity) throws ServiceException {
+		// TODO Auto-generated method stub
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelBaseWorkContent.class);
+	      if (entity != null)
+	      {
+	         if (entity.getBaseWorkDistrict() != null && entity.getBaseWorkDistrict().getId()!=null && !"".equals(entity.getBaseWorkDistrict().getId()))
+	         {
+	            criteria.createCriteria("baseWorkDistrict").add(Restrictions.eq("id", entity.getBaseWorkDistrict().getId()));
+	         }
+	      }
+		try {
+			return this.daoBaseWorkContent.getListByCriteria(criteria);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			throw new ServiceException(e);
+		}
+	}
 }
