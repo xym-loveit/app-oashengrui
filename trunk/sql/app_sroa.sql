@@ -1640,6 +1640,7 @@ CREATE TABLE `app_admin_conference` (
   `sponsor` bigint(20) DEFAULT NULL COMMENT '发起者',
   `summary` text,
   `conference_type` char(1) DEFAULT NULL,
+  `attendances_ids` varchar(200) DEFAULT NULL COMMENT '参会人员ID',
   PRIMARY KEY (`conference_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='会议表';
 
