@@ -31,9 +31,9 @@
     	});
     });
     
-    function bindDistricId(){
-    	var relUrl = "app/system/work/base/time.do?action=actionLoadWorkTimeByDistrict&districtId={value}";
-    	$("#dialog_arrangedStaffNames").attr("relUrl",relUrl+"&workDate="+$("#workDate").val());
+    function getArrangedStaffs(){
+    	var relUrl = "app/admin.do?action=actionLoadArrangedStaffs&districtId="+$("#districtId").val()+"&workTime.id="+$('#dialog_bindWorkTime').val()+"&workDate="+$('#workDateInput').val();
+    	$("#staffNames").loadUrl(relUrl,{},function(){});
     }
 </script>
 
@@ -44,14 +44,14 @@
 			    
 				<tr>
 					<td>工作日期：</td>
-					<td colspan="2"><input type="text" id="workDate" name="workDate" class="date textInput required" style="width:140px;float:left;" onchange="bindDistricId()" /><a class="inputDateButton" href="#">选择</a></td>
+					<td colspan="2"><input type="text" id="workDateInput" name="workDate" class="date textInput required" style="width:140px;float:left;"/><a class="inputDateButton" href="#">选择</a></td>
 					<td></td>
 					<td></td>
 				</tr>
 				<tr>
 					<td>工作中心：</td>
 					<td colspan="2">
-						<select class="combox" id="districtId"  ref="dialog_arrangedStaffNames" refUrl="app/system/work/base/time.do?action=actionLoadWorkTimeByDistrict&districtId={value}" onchange="bindDistricId()">
+						<select class="combox" id="districtId"  ref="dialog_bindWorkTime" refUrl="app/system/work/base/time.do?action=actionLoadWorkTimeByDistrict&districtId={value}">
 						   <option value="-1">请选择</option>
 							<logic:present name="districts">
 								<logic:iterate name="districts" id="district">
@@ -66,18 +66,15 @@
 			    <tr>
     			    <td>工作时间：</td>
 	    				<td colspan="2">
-	    					<select class="combox" name="workTime.id" id="dialog_arrangedStaffNames" style="width:140px"  ref="dialog_workTimeBranch" refUrl="app/system/work/base/time.do?action=actionLoadWorkTimeByDistrict&districtId={value}" lookupGroup="staff">
+	    					<select class="combox" name="workTime.id" id="dialog_bindWorkTime" style="width:140px" onchange="getArrangedStaffs()">
 								<option value="">请选择</option>
 							</select>
 						</td>
 					<td></td>
 					<td></td>
 			    </tr>
-				<tr>
-					<!-- >td>工作人员:</td>
-					<td colspan="4"><textarea name="staffNames" id="dialog_arrangedStaffNames" value="staff.staffName" rows="3" style="width:100%"}></textarea>
-					</td-->
-					<div id="staffNames"><%@ include file="../data/staffNames.jsp" %></div>
+				<tr id="staffNames">
+					<%@ include file="../data/staffNames.jsp" %>
 				</tr>
 				<tr>
 					<td colspan="5"><input type="radio" name="options" value="remove" />不安排工作</td>

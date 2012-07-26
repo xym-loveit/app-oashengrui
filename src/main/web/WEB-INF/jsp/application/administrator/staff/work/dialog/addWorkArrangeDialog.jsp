@@ -30,6 +30,10 @@
     		}
     	});
     });
+    function getWorkContentById(){
+    	var relUrl = "app/admin.do?action=actionLoadWorkContent&districtId="+$("#districtId").val();
+    	$("#work_content").loadUrl(relUrl,{},function(){});
+    }
 </script>
 
 <div class="pageContent">
@@ -57,7 +61,7 @@
 				<tr>
 					<td>工作中心：</td>
 					<td>
-						<select class="combox" id="districtId"  ref="dialog_workTimeBranch" refUrl="app/system/work/base/time.do?action=actionLoadWorkTimeByDistrict&districtId={value}">
+						<select class="combox" name="districtId" id="districtId"  ref="dialog_workTimeBranch" refUrl="app/system/work/base/time.do?action=actionLoadWorkTimeByDistrict&districtId={value}" onchange="getWorkContentById()">
 						   <option value="-1">请选择</option>
 							<logic:present name="districts">
 								<logic:iterate name="districts" id="district">
@@ -76,18 +80,8 @@
 						</td>
 			    </tr>
 			    
-			    <tr>
-					<td style="vertical-align: top;">工作内容：</td>
-					<td colspan="5">
-						<select class="combox" name="workContent.id"  id="workCntId">
-							<option value="-1">请选择</option>
-	                     <c:if test="${workContents ne null}">
-	                    	<c:forEach items="${workContents}" var="workContent">
-	                    		 <option value='<c:out value="${workContent.id}"/>'><c:out value="${workContent.itemValue}" /></option>
-	                     	</c:forEach>
-	                     </c:if>
-	                  </select>
-					</td>
+			    <tr id="work_content">
+					<%@ include file="../data/workContent.jsp" %>
 				</tr>
 			    
 				<tr>
