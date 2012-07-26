@@ -14,6 +14,7 @@ import org.shengrui.oa.service.admin.ServiceAdminWorkArrange;
 import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
+import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
@@ -85,6 +86,9 @@ extends ServiceGenericImpl<ModelAdminWorkArrange> implements ServiceAdminWorkArr
 			}
 			if(entity.getWorkTime()!=null && entity.getWorkTime().getId()!=null && !"".equals(entity.getWorkTime().getId())){
 				criteria.createCriteria("workTime").add(Restrictions.eq("id", entity.getWorkTime().getId()));
+			}
+			if(entity.getDistrictId()!=null && UtilString.isNotEmpty(entity.getDistrictId())){
+				criteria.createCriteria("staff").createCriteria("district").add(Restrictions.eq("id", entity.getDistrictId()));
 			}
 			
 		}
