@@ -6,58 +6,64 @@
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn"%>
 
-<style>
-	.noborder {border-left: none; border-right: none; border-top: none;}
-</style>
-
-<script type="text/javascript">
-	function dep_refresh () {
-		//$("#ajBoxMenuTree").loadUrl("app/flow.do?action=actionLoadProcessRootType&typeSlug=${typeSlug}", {}, function(){
-			if ($("#_var_ftypeid", $(navTab.getCurrentPanel())).size() > 0) {
-				$("#_var_ftypeid", $(navTab.getCurrentPanel())).remove();
-			}
-		//});
-		
-		//$("#ajBoxMenuFunc").loadUrl("app/flow.do?action=actionLoadDepartmentPosition", {}, function(){
-		//});
-	}
-	
-	function callback_funcRemove(id) {
-		if (id == undefined && $("tr.selected", "#ajBoxMenuFunc").size() > 0) {
-			id = $("tr.selected", "#ajBoxMenuFunc").attr("rel");
-		}
-		if ($("#mfunc-" + id).size() > 0) {
-			$("#mfunc-" + id).fadeOut("slow");
-		}
-	}
-</script>
-
-<div class="pageContent bor" style="float:left; width: 220px;">
-	<div class="toggleCollapse noborder">
-		<h2>${typeSlug eq 'finance' ? '财务' : ( typeSlug eq 'hrm' ? '人资' : '')}审批类型</h2>
-	</div>
-	<div class="panelBar">
-		<ul class="toolBar">
-			<li><a class="refresh" href="app/flow/${typeSlug}.do?action=actionLoadProcessRootType&typeSlug=${typeSlug}" target="ajax" rel="ajBoxFlowTree_finance" title="刷新" rel="dia_admin_entryadd" callback="dep_refresh()"><span>刷新</span></a></li>
-		</ul>
-	</div>
-	
-	<div id="ajBoxFlowTree_hrm">
-		<%@ include file="../public/data/dataFlowTypeTree.jsp" %>
-	</div>
+<!-- SearchBar -->
+<div class="pageHeader">
+	<form onsubmit="return navTabSearch(this);" action="app/admin.do?action=adminPageEntryIndex" method="post">
+		<div class="searchBar">
+			<table class="searchContent">
+				<tr>
+					<td>
+						<label>发送人：</label>
+						<input type="text" />
+					</td>
+					<td>
+						<label>阅读状态：</label>
+						<select class="combox" name="status" id="task_status">
+							<option value="">所有</option>
+							<option value="1">已阅读</option>
+							<option value="2">未阅读</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<div class="subBar">
+				<ul>
+					<li><div class="buttonActive"><div class="buttonContent"><button type="submit">检索</button></div></div></li>
+				</ul>
+			</div>
+		</div>
+	</form>
 </div>
 
-<div class="pageContent bol" style="margin-left: 230px;">
-	<div class="toggleCollapse noborder">
-		<h2>职位审批流程配置</h2>
-	</div>
+<!-- Body -->	
+<div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a class="refresh uvar" href="app/flow/${typeSlug}.do?action=actionLoadProcessTypes&rootTypeId={_var_ftypeid}" warn="请从左侧选择审批类型!" target="ajax" rel="ajBoxMenuFunc" title="刷新" rel="dia_admin_entryadd"><span>刷新</span></a></li>
+			<li><a class="add" href="app/message.do?action=dialogMessagePage" target="dialog" title="发送短消息" width="1080" height="380" rel="dia_my_taskadd"><span>发送短消息</span></a></li>
+			<li class="line">line</li>
+			<li><a class="icon" href="app/message.do?action=pageMessageSentIndex" target="navTab" rel="nav_msg_sent"><span>我发送的消息</span></a></li>
 		</ul>
 	</div>
-	<div id="ajBoxFlowType_hrm">
-		<%@ include file="data/dataFlowPosetList.jsp" %>
+	
+	<%@ include file="data/dataMessageList.jsp" %>
+	
+	<!-- Pagination -->
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
+				<option value="20" ${pagingBean ne null && pagingBean.pageSize eq 20 ? 'selected="selected"' : ''}>20</option>
+				<option value="50" ${pagingBean ne null && pagingBean.pageSize eq 50 ? 'selected="selected"' : ''}>50</option>
+				<option value="100" ${pagingBean ne null && pagingBean.pageSize eq 100 ? 'selected="selected"' : ''}>100</option>
+				<option value="200" ${pagingBean ne null && pagingBean.pageSize eq 200 ? 'selected="selected"' : ''}>200</option>
+			</select>
+			<span>条，共${pagingBean ne null ? pagingBean.totalItems : 0}条</span>
+		</div>
+		
+		<div class="pagination" targetType="navTab" totalCount="${pagingBean ne null ? pagingBean.totalItems : 0}" numPerPage="${pagingBean ne null ? pagingBean.pageSize : 20}" pageNumShown="${pagingBean ne null ? pagingBean.pageNumShown : 10}" currentPage="${pagingBean ne null ? pagingBean.currentPage : 1}"></div>
+
 	</div>
+		
 </div>

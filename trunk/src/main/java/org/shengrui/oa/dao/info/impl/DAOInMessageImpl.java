@@ -5,7 +5,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.info.DAOInMessage;
 import org.shengrui.oa.model.info.ModelInMessage;
-import org.shengrui.oa.model.info.ModelShortMessage;
 
 import cn.trymore.core.dao.impl.DAOGenericImpl;
 import cn.trymore.core.exception.DAOException;
@@ -29,8 +28,8 @@ extends DAOGenericImpl<ModelInMessage> implements DAOInMessage
 	public PaginationSupport<ModelInMessage> getPaginationByUser(String userId,
 			PagingBean pagingBean) throws DAOException
 	{
-		DetachedCriteria criteria = DetachedCriteria.forClass(ModelShortMessage.class);
-		criteria.add(Restrictions.eq("userId", userId));
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelInMessage.class);
+		criteria.add(Restrictions.eq("userId", Long.valueOf(userId)));
 		criteria.addOrder(Order.desc("receiveTime"));
 		return this.findPageByCriteria(criteria, pagingBean);
 	}

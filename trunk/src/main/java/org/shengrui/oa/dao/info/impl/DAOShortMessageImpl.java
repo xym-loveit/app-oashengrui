@@ -30,7 +30,7 @@ extends DAOGenericImpl<ModelShortMessage> implements DAOShortMessage
 			String senderId, PagingBean pagingBean) throws DAOException
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelShortMessage.class);
-		criteria.add(Restrictions.eq("senderId", senderId));
+		criteria.add(Restrictions.eq("senderId", Long.valueOf(senderId)));
 		criteria.addOrder(Order.desc("sendTime"));
 		return this.findPageByCriteria(criteria, pagingBean);
 	}

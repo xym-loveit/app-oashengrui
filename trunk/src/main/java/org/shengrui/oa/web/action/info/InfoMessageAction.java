@@ -128,6 +128,20 @@ extends BaseAppAction
 			{
 				return ajaxPrint(response, getErrorCallback("您传入的消息Id不合法..."));
 			}
+			
+			request.setAttribute("msgId", msgId);
+		}
+		else
+		{
+			try
+			{
+				this.loadOrganizationTree(request);
+			}
+			catch (Exception e)
+			{
+				LOGGER.error("Exception raised when open the dialog page of message..", e);
+				return ajaxPrint(response, getErrorCallback("页面加载失败: " + e.getMessage()));
+			}
 		}
 		
 		return mapping.findForward("dialog.info.msg.page");
