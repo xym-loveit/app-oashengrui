@@ -16,14 +16,14 @@
 	.opdisabled {text-decoration: line-through; color: #DDD; line-height: 21px;}
 </style>
 
-<form id="pagerForm" method="post" action="app/system/log.do?action=actionLoadLogPage"">
+<form id="pagerForm" method="post" action="app/system/log.do?action=actionLoadLogPage">
 	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
 	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
 </form>
 
 <!-- SearchBar -->
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="app/system/log.do?action=actionLoadLogPage"" method="post" id="searchForm" rel="pagerForm">
+	<form onsubmit="return navTabSearch(this);" action="app/system/log.do?action=actionLoadLogPage" method="post" id="searchForm" rel="pagerForm">
 		<div class="searchBar">
 			<table class="searchContent">
 				<tr>
@@ -37,7 +37,7 @@
 					<td>
 						<label>所属校区：</label>
 						<select class="combox" name="districtId" id="combox_district_jindex" style="width:120px">
-							<option value="-1">所有校区</option>
+							<option value="">所有校区</option>
 							<logic:present name="districts">
 								<logic:iterate name="districts" id="district">
 									<option value="${district.id}" ${logInfo ne null && logInfo.districtId ne null && logInfo.districtId eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
