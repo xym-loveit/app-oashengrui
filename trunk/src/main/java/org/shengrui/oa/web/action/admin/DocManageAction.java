@@ -1,6 +1,9 @@
 package org.shengrui.oa.web.action.admin;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -134,7 +137,20 @@ extends BaseAdminAction
 			String id=request.getParameter("id");
 			if (this.isObjectIdValid(id))
 			{
-				request.setAttribute("formDoc", this.getServiceDocManage().get(id));
+				ModelDoc doc = this.getServiceDocManage().get(id);
+				Set<ModelFileAttach> files = doc.getAttachFiles();
+				if(files!=null){
+					System.out.println("附件个数:"+files.size());
+					Iterator<ModelFileAttach> it = files.iterator();
+					while(it.hasNext()){
+						ModelFileAttach file = it.next();
+						System.out.println(file.getFilePath()+"\t"+file.getFileName());
+					}
+				}else{
+					System.out.println("没有附件");
+				}
+				
+				request.setAttribute("formDoc", doc);
 				request.setAttribute("op", "op");
 			}
 
@@ -147,6 +163,7 @@ extends BaseAdminAction
 		} 
 		catch (ServiceException e)
 		{
+			e.printStackTrace();
 			LOGGER.error("Exception raised when fetch all doc manages.", e);
 		}
 		
@@ -169,7 +186,15 @@ extends BaseAdminAction
 			String id=request.getParameter("id");
 			if (this.isObjectIdValid(id))
 			{
-				request.setAttribute("formDoc", this.getServiceDocManage().get(id));
+				//request.setAttribute("formDoc", this.getServiceDocManage().get(id));
+				ModelDoc doc = this.getServiceDocManage().get(id);
+				ModelFileAttach file = doc.getFile();
+				Set<ModelFileAttach> files = new HashSet<ModelFileAttach>();
+				if(file!=null){
+					files.add(file);
+				}
+				doc.setAttachFiles(files);
+				request.setAttribute("formDoc", doc);
 				request.setAttribute("op", "op");
 			}
 
@@ -374,7 +399,25 @@ extends BaseAdminAction
 					formDoc.setDocVisiableRange(range);
 					formDoc.setDistrict(district);
 					formDoc.setCreateTime(new Date());
-					
+					//在数据上传的FileUploadServlet中传过来的session值，用完销毁掉。
+					String fileIds=(String)request.getSession().getAttribute("fileIds");
+					if(fileIds==null)
+					{
+						return ajaxPrint(response, getErrorCallback("上传文档不能为空，请添加文件!"));
+					}
+					else
+					{
+						String []ids=fileIds.split(",");
+						if(ids.length>=2)
+						{
+							request.getSession().removeAttribute("fileIds");
+							return ajaxPrint(response, getErrorCallback("一个文档只能上传一个附件，请重新上传!", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+						}else{
+							ModelFileAttach file=this.getServiceFileAttach().get(fileIds);
+							formDoc.setFile(file);
+						}
+					}
+					request.getSession().removeAttribute("fileIds");
 					entity=this.getServiceDocManage().get(formDoc.getId());
 					if(formDoc.equals(entity)){
 						return ajaxPrint(response, getErrorCallback("您没有做任何修改!"));
