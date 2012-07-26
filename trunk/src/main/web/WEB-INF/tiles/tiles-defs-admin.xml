@@ -38,6 +38,14 @@
 	
 	<definition name="admin.dialog.staff.work.arrange.adjust"
 		path="/WEB-INF/jsp/application/administrator/staff/work/dialog/adjustWorkArrangeDialog.jsp"/>
+		
+	<!-- 调整工作安排中员工姓名 -->
+	<definition name="admin.page.staff.work.arrange.staffnames"
+		path="/WEB-INF/jsp/application/administrator/staff/work/data/staffNames.jsp"/>
+	
+	<!-- 添加工作安排中工作内容 -->
+	<definition name="admin.page.staff.work.arrange.workcontent"
+		path="/WEB-INF/jsp/application/administrator/staff/work/data/workContent.jsp"/>
 	
 	<definition name="admin.dialog.staff.work.arrange.import"
 		path="/WEB-INF/jsp/application/administrator/staff/work/dialog/importWorkArrangeDialog.jsp"/>
