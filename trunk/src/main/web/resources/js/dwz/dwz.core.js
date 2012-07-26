@@ -174,7 +174,7 @@ var DWZ = {
 					if (DWZ._set.accessDeniedPattern && DWZ._set.accessDeniedPattern != "") {
 						var isAccessDenied = response.indexOf(DWZ._set.accessDeniedPattern) > -1;
 						if (isAccessDenied) {
-							alertMsg.error(json.message || DWZ._set.accessDeniedMessage, {okCall:function(){
+							alertMsg.error(DWZ._set.accessDeniedMessage || json.message, {okCall:function(){
 								navTab.closeCurrentTab();
 							}});							
 							return;
