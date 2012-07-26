@@ -9,6 +9,6 @@
 
 	<td>工作人员:</td>
 	<td colspan="4">
-		<textarea name="staffNames" id="dialog_arrangedStaffNames" value="${staffNames ne null ? staffNames:''} " rows="3" style="width:100%"}></textarea>
+		<textarea name="staffNames" id="dialog_arrangedStaffNames" rows="3" style="width:100%">${staffNames ne null ? staffNames:''} </textarea>
 		<input type="hidden" name="staffIds" id="staffIds" value="${staffIds ne null ? staffIds:''}" />
 	</td>
