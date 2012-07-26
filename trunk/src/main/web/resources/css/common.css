@@ -487,6 +487,24 @@ span.diaFuncMicon {
 	background: url("../images/menus/settings/errands.png") no-repeat left center;
 }
 
+.icon-msgwrite, 
+.panelBar .toolBar a.icon span.icon-msgwrite, 
+.tabsPage .tabsPageHeader li span.icon-msgwrite {
+	background: url("../images/icons/write.png") no-repeat left center;
+}
+
+.icon-msgsent, 
+.panelBar .toolBar a.icon span.icon-msgsent, 
+.tabsPage .tabsPageHeader li span.icon-msgsent {
+	background: url("../images/icons/send.gif") no-repeat left center;
+}
+
+.icon-msgrecv, 
+.panelBar .toolBar a.icon span.icon-msgrecv, 
+.tabsPage .tabsPageHeader li span.icon-msgrecv {
+	background: url("../images/icons/receive.gif") no-repeat left center;
+}
+
 table.datalst{
 	border: #CCC 1px solid;
 	border-collapse: collapse; 

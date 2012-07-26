@@ -1,6 +1,7 @@
 package org.shengrui.oa.dao.info;
 
 import org.shengrui.oa.model.info.ModelInMessage;
+import org.shengrui.oa.model.info.ModelShortMessage;
 
 import cn.trymore.core.dao.DAOGeneric;
 import cn.trymore.core.exception.DAOException;
@@ -26,6 +27,6 @@ extends DAOGeneric<ModelInMessage>
 	 * @throws DAOException
 	 */
 	PaginationSupport<ModelInMessage> getPaginationByUser (String userId, 
-			PagingBean pagingBean) throws DAOException;
+			ModelShortMessage entity, String readFlag, PagingBean pagingBean) throws DAOException;
 	
 }

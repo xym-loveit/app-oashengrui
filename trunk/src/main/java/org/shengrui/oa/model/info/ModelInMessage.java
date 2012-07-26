@@ -57,12 +57,12 @@ extends ModelBase
 	/**
 	 * 删除标志
 	 */
-	private Integer delFlag = FLAG_UNDEL;
+	private Integer delFlag;
 	
 	/**
 	 * 阅读标志
 	 */
-	private Integer readFlag = FLAG_UNREAD;
+	private Integer readFlag;
 	
 	/**
 	 * 接收时间

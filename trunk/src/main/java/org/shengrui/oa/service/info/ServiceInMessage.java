@@ -1,6 +1,7 @@
 package org.shengrui.oa.service.info;
 
 import org.shengrui.oa.model.info.ModelInMessage;
+import org.shengrui.oa.model.info.ModelShortMessage;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.ServiceGeneric;
@@ -25,5 +26,5 @@ extends ServiceGeneric<ModelInMessage>
 	 * @throws ServiceException
 	 */
 	PaginationSupport<ModelInMessage> getPaginationByUser (String userId, 
-			PagingBean pagingBean) throws ServiceException;
+			ModelShortMessage entity, String readFlag, PagingBean pagingBean) throws ServiceException;
 }

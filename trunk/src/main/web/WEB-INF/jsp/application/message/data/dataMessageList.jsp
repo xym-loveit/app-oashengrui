@@ -16,24 +16,50 @@
 <table class="table" width="100%" layoutH="75">
 	<thead>
 		<tr>
+			<th align="center">序号</th>
+			<c:if test="${mailSent eq null}">
+			<th align="center">类型</th>
 			<th align="center">发送人</th>
+			</c:if>
 			<th align="center">发送标题</th>
 			<th align="center">发送时间</th>
-			<th align="center">阅读标志</th>
+			<c:if test="${mailSent eq null}"><th align="center">状态</th></c:if>
 			<th align="center">操作</th>
 		</tr>
 	</thead>
 	<tbody>
 		<logic:present name="dataList">
-			<logic:iterate name="dataList" property="items" id="entity">
-				<tr>
-					<td>${entity.shortMessage.sender}</td>
-					<td>${entity.shortMessage.subject}</td>
-					<td><fmt:formatDate value="${entity.shortMessage.sendTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-					<td></td>
-					<td>阅读</td>
-				</tr>
-			</logic:iterate>
+			<c:choose>
+				<c:when test="${mailSent eq null}">
+					<logic:iterate name="dataList" property="items" id="entity" indexId="idx">
+						<tr>
+							<td>${idx+1}</td>
+							<td style="color:#008000">
+								<c:choose>
+									<c:when test="${entity.shortMessage.msgType eq 1}">个人信息</c:when>
+									<c:when test="${entity.shortMessage.msgType eq 2}">系统消息</c:when>
+									<c:otherwise>未知</c:otherwise>
+								</c:choose>
+							</td>
+							<td>${entity.shortMessage.sender}</td>
+							<td>${entity.shortMessage.subject}</td>
+							<td><fmt:formatDate value="${entity.shortMessage.sendTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							<td><img style="padding:3px;" src="resources/images/icons/${entity.readFlag eq 1 ? 'email_open.png' : 'email.png'}" /></td>
+							<td><a target="dialog" href="app/message.do?action=dialogMessagePage&msgId=${entity.shortMessage.id}&msgInId=${entity.id}" title="查看消息" rel="msg_read_${entity.id}"><img src="resources/images/icons/update.gif" style="padding: 3px;"/></a></td>
+						</tr>
+					</logic:iterate>
+				</c:when>
+				<c:otherwise>
+					<logic:iterate name="dataList" property="items" id="entity" indexId="idx">
+						<tr>
+							<td>${idx+1}</td>
+							<td>${entity.subject}</td>
+							<td><fmt:formatDate value="${entity.sendTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							<td><a target="dialog" href="app/message.do?action=dialogMessagePage&msgId=${entity.id}" title="查看消息" rel="msg_read_${entity.id}"><img src="resources/images/icons/update.gif" style="padding: 3px;"/></a></td>
+						</tr>
+					</logic:iterate>
+				</c:otherwise>
+			</c:choose>
 		</logic:present>
 	</tbody>
 </table>
