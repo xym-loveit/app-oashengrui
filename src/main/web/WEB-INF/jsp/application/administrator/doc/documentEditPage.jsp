@@ -5,7 +5,9 @@
 <%@ taglib uri="/tags/struts-logic" prefix="logic"%>
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <script>
 	/**
@@ -50,6 +52,10 @@
 				name:"Filedata",
 				//用于放服务器端返回的url的隐藏域
 				urlsInputName:"fileUrls"
+				<c:if test="${formDoc ne null && fn:length(formDoc.attachFiles) gt 0}">
+				// 用于数据展现
+				,restoreHook:"#jp_J_UploaderRestore"
+				</c:if>
 			});
 			
 			ru.on('init', function (ev) {
@@ -76,6 +82,11 @@
 	});
 	
 </script>
+<c:if test="${(op eq null || op ne 'view') && (formDoc ne null && fn:length(formDoc.attachFiles) gt 0)}">
+	<script type="text/uploader-restore" id="jp_J_UploaderRestore">
+		${tm:fileRestore(formDoc['attachFiles'])}
+	</script>
+</c:if>
 <div class="pageContent">
 <form method="post" action="app/admin/doc.do?action=adminPageDocumentEdit"
 	class="pageForm required-validate"
