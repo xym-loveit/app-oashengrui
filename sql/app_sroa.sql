@@ -321,6 +321,7 @@ CREATE TABLE IF NOT EXISTS `app_admin_workarrange` (
   `staff_id` bigint(20) NOT NULL COMMENT '员工ID',
   `work_type` int(5) default NULL COMMENT '上班类型',
   `work_content` bigint(20) default NULL COMMENT '工作内容',
+  `district_id` bigint(20) DEFAULT NULL COMMENT '员工所在校区',
   PRIMARY KEY  (`work_id`),
   KEY `PK_user` (`staff_id`),
   KEY `PK_type` (`work_type`)
@@ -330,15 +331,15 @@ CREATE TABLE IF NOT EXISTS `app_admin_workarrange` (
 -- 转存表中的数据 `app_admin_workarrange`
 --
 
-INSERT INTO `app_admin_workarrange` (`work_id`, `work_date`, `work_time`, `staff_name`, `staff_id`, `work_type`, `work_content`) VALUES
-(3, '2012-07-26', 4, '罗家驹', 6, 1, 4),
-(4, '2012-07-30', 4, '罗家驹', 6, 1, 4),
-(5, '2012-07-30', 4, '李四', 8, 1, 4),
-(6, '2012-07-30', 4, '张三', 7, 1, 4),
-(7, '2012-07-30', 6, '张三', 7, 1, 4),
-(8, '2012-07-30', 6, '李四', 8, 1, 4),
-(9, '2012-07-31', 4, '张三', 7, 1, 4),
-(10, '2012-08-01', 4, '李四', 8, 1, 4);
+INSERT INTO `app_admin_workarrange` (`work_id`, `work_date`, `work_time`, `staff_name`, `staff_id`, `work_type`, `work_content`, `district_id`) VALUES
+(3, '2012-07-26', 4, '罗家驹', 6, 1, 4, 1),
+(4, '2012-07-30', 4, '罗家驹', 6, 1, 4, 1),
+(5, '2012-07-30', 4, '李四', 8, 1, 4, 1),
+(6, '2012-07-30', 4, '张三', 7, 1, 4, 1),
+(7, '2012-07-30', 6, '张三', 7, 1, 4, 1),
+(8, '2012-07-30', 6, '李四', 8, 1, 4, 1),
+(9, '2012-07-31', 4, '张三', 7, 1, 4, 1),
+(10, '2012-08-01', 4, '李四', 8, 1, 4, 1);
 
 -- --------------------------------------------------------
 
