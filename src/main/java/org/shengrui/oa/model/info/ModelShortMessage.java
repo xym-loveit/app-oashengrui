@@ -43,6 +43,37 @@ extends ModelBase
 	 */
 	private Date sendTime;
 	
+	
+	/**
+	 * The enumeration of message type
+	 * 
+	 * @author Jeccy.Zhao
+	 *
+	 */
+	public static enum EMessageType
+	{
+		TYPE_PERSONAL(1, "type_personal"),		// 个人信息
+		TYPE_SYSTEM(2, "type_system");			// 系统消息
+		
+		private Integer value;
+		private String text;
+		
+		EMessageType (Integer value, String text)
+		{
+			this.value = value;
+			this.text = text;
+		}
+		
+		public Integer getValue(){
+			return value;
+		}
+		
+		public String getText()
+		{
+			return this.text;
+		}
+	}
+	
 	public String getSubject()
 	{
 		return subject;

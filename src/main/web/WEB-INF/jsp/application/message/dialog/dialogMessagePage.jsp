@@ -131,6 +131,7 @@ ol.mp_list li.mp_error {
 <script>
 	
 	$(function(){
+		<logic:notPresent name="msgId">
 		$('#task_participants').manifest({
 			// Use each location's full name as the display text.
 			formatDisplay: function (data, $item, $mpItem) {
@@ -145,20 +146,22 @@ ol.mp_list li.mp_error {
 			</logic:present>
 			valuesName: 'empid'
 		});
+		</logic:notPresent>
 	});
 	
 </script>
 
 <div class="pageContent">
-	<form id="formRoleFunc" method="post" action="app/system/role.do?action=actionSaveRole" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<form id="formMsgForm" method="post" action="app/message.do?action=actionSendShortMessage" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent" layoutH="56">
+			
 			<logic:notPresent name="msgId">
 			<div style="float: right; width: 300px;">
 				<div class="accordion">
 					<div class="accordionHeader">
 						<h2><span>icon</span>按校区</h2>
 					</div>
-					<div class="accordionContent">
+					<div class="accordionContent" style="height: 240px">
 						<%@ include file="../data/dataDistrictTree.jsp"%>
 					</div>
 					<div class="accordionHeader">
@@ -175,31 +178,34 @@ ol.mp_list li.mp_error {
 				<table cellspacing="10" cellpadding="10" style="border-spacing: 12; width: 100%;">
 					<tr>
 						<td style="line-height: 25px;">消息标题：</td>
-						<td><input type="text" name="taskName" class="required" style="width:97%;"  value="${entity ne null ? entity.taskName : ''}"/></td>
+						<td><input type="text" name="subject" class="required" style="width:100%;"  value="${entity ne null ? entity.subject : ''}" ${entity ne null ? 'readonly' : ''}/></td>
 					</tr>
+					<logic:notPresent name="msgId">
 					<tr>
 						<td style="line-height: 25px;">收件人：</td>
 						<td><input id="task_participants" type="text" name="participants" style="width: 100%; display: none;" /></td>
 					</tr>
+					</logic:notPresent>
 					<tr>
-						<td style="line-height: 25px;vertical-align: top">任务描述：</td>
-						<td><textarea name="taskDescription" rows="5" cols="60"
-							style="width: 100%"  >${entity ne null ? entity.taskDescription : ''}</textarea></td>
+						<td style="line-height: 25px;vertical-align: top">消息内容：</td>
+						<td><textarea name="content" class="required" rows="5" cols="60"
+							style="width: 100%" ${entity ne null ? 'readonly' : ''}>${entity ne null ? entity.content : ''}</textarea></td>
 					</tr>
 				</table>
-			<div>
+			</div>
 		</div>
 		<div class="formBar">
 			<ul>
-				<logic:notPresent name="view">
-				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+				<logic:notPresent name="msgId">
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">发送</button></div></div></li>
 				</logic:notPresent>
 				<li>
-					<div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
+					<div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div>
 				</li>
 			</ul>
 		</div>
-		<input type="hidden" name="id" value="${role ne null ? role.id : '-1'}" />
+		<input type="hidden" name="id" value="${entity ne null ? entity.id : '-1'}" />
+		<input type="hidden" name="msgType" value="${msgType ne null ? msgType : (entity ne null ? entity.msgType : 1)}" />
 	</form>
 <div>
 		

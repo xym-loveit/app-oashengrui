@@ -8,22 +8,35 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn"%>
 
+<form id="pagerForm" method="post" action="app/message.do?action=pageMessageReceivedIndex">
+	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
+	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
+</form>
+
 <!-- SearchBar -->
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="app/admin.do?action=adminPageEntryIndex" method="post">
+	<form onsubmit="return navTabSearch(this);" action="app/message.do?action=pageMessageReceivedIndex" method="post" id="searchForm" rel="pagerForm">
 		<div class="searchBar">
 			<table class="searchContent">
 				<tr>
 					<td>
 						<label>发送人：</label>
-						<input type="text" />
+						<input type="text" name="sender" value="${formEntity ne null ? formEntity.sender : ''}"/>
 					</td>
 					<td>
-						<label>阅读状态：</label>
-						<select class="combox" name="status" id="task_status">
-							<option value="">所有</option>
-							<option value="1">已阅读</option>
-							<option value="2">未阅读</option>
+						<label>类型：</label>
+						<select class="combox" name="msgType">
+							<option value="-1">所有</option>
+							<option value="1" ${formEntity ne null && formEntity.msgType eq 1 ? 'selected="selected"' : ''}>个人信息</option>
+							<option value="2" ${formEntity ne null && formEntity.msgType eq 2 ? 'selected="selected"' : ''}>系统消息</option>
+						</select>
+					</td>
+					<td>
+						<label>状态：</label>
+						<select class="combox" name="readFlag">
+							<option value="-1">所有</option>
+							<option value="1" ${readFlag ne null && readFlag eq 1 ? 'selected="selected"' : ''}>已阅读</option>
+							<option value="0" ${readFlag ne null && readFlag eq 0 ? 'selected="selected"' : ''}>未阅读</option>
 						</select>
 					</td>
 				</tr>
@@ -41,9 +54,11 @@
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a class="add" href="app/message.do?action=dialogMessagePage" target="dialog" title="发送短消息" width="780" height="350" rel="dia_my_taskadd"><span>发送短消息</span></a></li>
+			<li><a treeicon="icon-msgwrite" class="icon" href="app/message.do?action=dialogMessagePage" target="dialog" title="发送信息" width="880" height="400" rel="dia_my_taskadd"><span class="icon-msgwrite">发送短消息</span></a></li>
 			<li class="line">line</li>
-			<li><a class="icon" href="app/message.do?action=pageMessageSentIndex" target="navTab" rel="nav_msg_sent"><span>我发送的消息</span></a></li>
+			<li><a treeicon="icon-msgsent" class="icon" href="app/message.do?action=pageMessageSentIndex" target="navTab" rel="nav_msg"><span class="icon-msgsent">已发信息</span></a></li>
+			<li class="line">line</li>
+			<li><a treeicon="icon-msgrecv" class="icon" href="app/message.do?action=pageMessageReceivedIndex" target="navTab" rel="nav_msg"><span class="icon-msgrecv">已收信息</span></a></li>
 		</ul>
 	</div>
 	

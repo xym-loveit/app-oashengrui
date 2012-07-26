@@ -1,13 +1,18 @@
 package org.shengrui.oa.dao.info.impl;
 
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.info.DAOInMessage;
 import org.shengrui.oa.model.info.ModelInMessage;
+import org.shengrui.oa.model.info.ModelShortMessage;
 
 import cn.trymore.core.dao.impl.DAOGenericImpl;
 import cn.trymore.core.exception.DAOException;
+import cn.trymore.core.hibernate.HibernateUtils;
+import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
@@ -26,10 +31,38 @@ extends DAOGenericImpl<ModelInMessage> implements DAOInMessage
 	 */
 	@Override
 	public PaginationSupport<ModelInMessage> getPaginationByUser(String userId,
-			PagingBean pagingBean) throws DAOException
+			ModelShortMessage entity, String readFlag, PagingBean pagingBean) throws DAOException
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelInMessage.class);
+		
 		criteria.add(Restrictions.eq("userId", Long.valueOf(userId)));
+		criteria.add(Restrictions.ne("delFlag", ModelInMessage.FLAG_DEL));
+		
+		if (UtilString.isNotEmpty(readFlag) && Integer.valueOf(readFlag) > -1)
+		{
+			criteria.add(Restrictions.eq("readFlag", Integer.valueOf(readFlag)));
+		}
+		
+		if (entity != null)
+		{
+			Criterion criterion = null;
+			
+			if (entity.getMsgType() != null && entity.getMsgType() > -1)
+			{
+				criterion = HibernateUtils.QBC_AND(criterion, Restrictions.eq("msgType", entity.getMsgType()));
+			}
+			
+			if (UtilString.isNotEmpty(entity.getSender()))
+			{
+				criterion = HibernateUtils.QBC_AND(criterion, Restrictions.like("sender", entity.getSender(), MatchMode.ANYWHERE));
+			}
+			
+			if (criterion != null)
+			{
+				criteria.createCriteria("shortMessage").add(criterion);
+			}
+		}
+		
 		criteria.addOrder(Order.desc("receiveTime"));
 		return this.findPageByCriteria(criteria, pagingBean);
 	}

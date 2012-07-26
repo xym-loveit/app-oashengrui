@@ -45,11 +45,19 @@ extends BaseAppAction
 	{
 		try
 		{
+			ModelShortMessage formEntity = (ModelShortMessage) form;
+			
 			PagingBean pagingBean = this.getPagingBean(request);
 			PaginationSupport<ModelInMessage> inMsgs = 
-					this.serviceInMessage.getPaginationByUser(ContextUtil.getCurrentUser().getEmployee().getId(), pagingBean);
+					this.serviceInMessage.getPaginationByUser(
+							ContextUtil.getCurrentUser().getEmployee().getId(), 
+							formEntity,
+							request.getParameter("readFlag"),
+							pagingBean);
 			
 			request.setAttribute("dataList", inMsgs);
+			request.setAttribute("formEntity", formEntity);
+			request.setAttribute("readFlag", request.getParameter("readFlag"));
 			
 			// 输出分页信息至客户端
 			outWritePagination(request, pagingBean, inMsgs);
@@ -82,6 +90,8 @@ extends BaseAppAction
 			// 输出分页信息至客户端
 			outWritePagination(request, pagingBean, sentMsgs);
 			
+			request.setAttribute("mailSent", "true");
+			
 			return mapping.findForward("page.info.msg.index");
 		}
 		catch (Exception e)
@@ -111,6 +121,30 @@ extends BaseAppAction
 					ModelShortMessage entity = this.serviceShortMessage.get(msgId);
 					if (entity != null)
 					{
+						String msgInId = request.getParameter("msgInId");
+						if (UtilString.isNotEmpty(msgInId))
+						{
+							if (this.isObjectIdValid(msgInId))
+							{
+								ModelInMessage msgIn = this.serviceInMessage.get(msgInId);
+								if (msgIn == null)
+								{
+									return ajaxPrint(response, getErrorCallback("消息不存在或者已删除..."));
+								}
+								else
+								{
+									if (msgIn.getReadFlag().equals(ModelInMessage.FLAG_UNREAD))
+									{
+										msgIn.setReadFlag(ModelInMessage.FLAG_READ);
+										this.serviceInMessage.save(msgIn);
+									}
+								}
+							}
+							else
+							{
+								return ajaxPrint(response, getErrorCallback("需传入合法的接收消息Id..."));
+							}
+						}
 						request.setAttribute("entity", entity);
 					}
 					else
@@ -135,6 +169,9 @@ extends BaseAppAction
 		{
 			try
 			{
+				// 设置为个人消息发送
+				request.setAttribute("msgType", ModelShortMessage.EMessageType.TYPE_PERSONAL.getValue());
+				
 				this.loadOrganizationTree(request);
 			}
 			catch (Exception e)
@@ -160,13 +197,15 @@ extends BaseAppAction
 		{
 			String msgContent = request.getParameter("content");
 			String msgSubject = request.getParameter("subject");
+			String msgType = request.getParameter("msgType");
 			
 			ModelShortMessage msgShort = new ModelShortMessage();
 			msgShort.setSendTime(new Date());
-			msgShort.setSender(ContextUtil.getCurrentUser().getEmployee().getFullName());
+			msgShort.setSender(ContextUtil.getCurrentUser().getEmployee().getEmpName());
 			msgShort.setSenderId(Long.valueOf(ContextUtil.getCurrentUser().getEmployee().getId()));
 			msgShort.setContent(msgContent);
 			msgShort.setSubject(msgSubject);
+			msgShort.setMsgType(Integer.valueOf(msgType));
 			this.serviceShortMessage.save(msgShort);
 			
 			Map<String, List<String>> paramReceiverIds = this.getAllRequestParameters(
@@ -182,7 +221,7 @@ extends BaseAppAction
 					{
 						ModelInMessage msgIn = new ModelInMessage();
 						msgIn.setUserId(Long.valueOf(empId));
-						msgIn.setUserFullName(employee.getFullName());
+						msgIn.setUserFullName(employee.getEmpName());
 						msgIn.setReceiveTime(new Date());
 						msgIn.setShortMessage(msgShort);
 						msgIn.setReadFlag(ModelInMessage.FLAG_UNREAD);

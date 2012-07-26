@@ -2,6 +2,7 @@ package org.shengrui.oa.service.info.impl;
 
 import org.shengrui.oa.dao.info.DAOInMessage;
 import org.shengrui.oa.model.info.ModelInMessage;
+import org.shengrui.oa.model.info.ModelShortMessage;
 import org.shengrui.oa.service.info.ServiceInMessage;
 
 import cn.trymore.core.exception.ServiceException;
@@ -31,12 +32,12 @@ extends ServiceGenericImpl<ModelInMessage> implements ServiceInMessage
 	 * @see org.shengrui.oa.service.info.ServiceInMessage#getPaginationByUser(java.lang.String, cn.trymore.core.web.paging.PagingBean)
 	 */
 	@Override
-	public PaginationSupport<ModelInMessage> getPaginationByUser(String userId,
-			PagingBean pagingBean) throws ServiceException
+	public PaginationSupport<ModelInMessage> getPaginationByUser(String userId, 
+			ModelShortMessage entity, String readFlag, PagingBean pagingBean) throws ServiceException
 	{
 		try 
 		{
-			return this.daoInMessage.getPaginationByUser(userId, pagingBean);
+			return this.daoInMessage.getPaginationByUser(userId, entity, readFlag, pagingBean);
 		}
 		catch (Exception e)
 		{
