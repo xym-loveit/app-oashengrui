@@ -7,6 +7,8 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import cn.trymore.core.web.filter.SecurityInterceptorFilter;
+
 /**
  * The application utilities
  * 
@@ -49,7 +51,9 @@ implements ApplicationContextAware
 	 */
 	public static void reloadSecurityDataSource()
 	{
-		
+		SecurityInterceptorFilter securityInterceptorFilter = 
+			(SecurityInterceptorFilter)getBean("securityInterceptorFilter");
+		securityInterceptorFilter.loadDataSource();
 	}
 	
 	/**
