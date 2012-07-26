@@ -15,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.log.LogAnnotation;
+import cn.trymore.core.util.UtilApp;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
@@ -274,6 +275,9 @@ extends sysSettingBaseAction
 			}
 			
 			this.serviceAppRole.save(entity);
+			
+			// 重新加载权限数据池
+			UtilApp.reloadSecurityDataSource();
 			
 			return ajaxPrint(response, 
 					getSuccessCallback("权限组保存成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
