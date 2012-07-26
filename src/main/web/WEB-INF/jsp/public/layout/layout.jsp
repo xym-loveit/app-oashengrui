@@ -128,6 +128,8 @@
 			});
 			
 		});
+		
+		
 	</script>
 	
   </head>
@@ -150,7 +152,14 @@
 		<div id="container">
 			<div id="navTab" class="tabsPage">
 				<div align="right">
-					<label style="color:blue;">${FULLNAME },欢迎您登录使用本系统,今天是&nbsp&nbsp&nbsp<%=currentDate %></label>
+					<div id="time" style="color:blue;">
+					<label></label>
+						<script>
+							document.getElementById('time').innerHTML=
+								new Date().toLocaleString()+' 星期'+'日一二三四五六'.charAt(new Date().getDay());
+							setInterval("document.getElementById('time').innerHTML='${FULLNAME }，欢迎您登录使用本系统，今天是' + new Date().toLocaleString()+' 星期'+'日一二三四五六'.charAt(new Date().getDay());",1000);
+						</script>
+					</div>
 				</div>
 				<div class="tabsPageHeader">
 					<div class="tabsPageHeaderContent"><!-- 显示左右控制时添加 class="tabsPageHeaderMargin" -->
