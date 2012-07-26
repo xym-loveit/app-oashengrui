@@ -41,7 +41,7 @@
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a class="add" href="app/message.do?action=dialogMessagePage" target="dialog" title="发送短消息" width="1080" height="380" rel="dia_my_taskadd"><span>发送短消息</span></a></li>
+			<li><a class="add" href="app/message.do?action=dialogMessagePage" target="dialog" title="发送短消息" width="780" height="350" rel="dia_my_taskadd"><span>发送短消息</span></a></li>
 			<li class="line">line</li>
 			<li><a class="icon" href="app/message.do?action=pageMessageSentIndex" target="navTab" rel="nav_msg_sent"><span>我发送的消息</span></a></li>
 		</ul>
