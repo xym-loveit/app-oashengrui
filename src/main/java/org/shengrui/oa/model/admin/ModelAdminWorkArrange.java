@@ -57,6 +57,25 @@ extends ModelBase {
 	@Expose
 	protected ModelBaseWorkContent workContent = new ModelBaseWorkContent();
 
+	/**
+	 * 用于过滤（临时变量）
+	 */
+	protected String districtId;
+	
+	/**
+	 * @return the districtId
+	 */
+	public String getDistrictId() {
+		return districtId;
+	}
+
+	/**
+	 * @param districtId the districtId to set
+	 */
+	public void setDistrictId(String districtId) {
+		this.districtId = districtId;
+	}
+
 	public Date getWorkDate() {
 		return workDate;
 	}
