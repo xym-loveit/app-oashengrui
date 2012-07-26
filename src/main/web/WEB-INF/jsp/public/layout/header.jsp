@@ -12,7 +12,7 @@
 </style>
 
 <div class="headerNav">
-		<a href="#" class="ltxt"><label style="font-size:24px;">晟睿教育内部管理系统</label></a>
+		<a href="#" class="ltxt"><label style="font-size:24px;">晟睿教育协同办公系统</label></a>
 		<ul class="nav">
 			<li style="background: none;"><label style="color:white">用户名：${SPRING_SECURITY_LAST_USERNAME }</label></li>
 			<li style="background: none;"><a href="app/personal/addressBook.do?action=addressBookInfo" target="navTab">通讯录</a></li>

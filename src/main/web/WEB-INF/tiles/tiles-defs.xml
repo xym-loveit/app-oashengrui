@@ -6,7 +6,7 @@
 	
 	<!-- 后台模板 -->
 	<definition name="base.layout" path="/WEB-INF/jsp/public/layout/layout.jsp">
-		<put name="title"     value="晟睿教育内部管理系统" />
+		<put name="title"     value="晟睿教育协同办公系统" />
 		<put name="tld"		  value="/WEB-INF/jsp/public/inc_tld.jsp" />
 		<put name="path"	  value="/WEB-INF/jsp/public/inc_path.jsp"/>
 		<put name="header"    value="/WEB-INF/jsp/public/layout/header.jsp"/>

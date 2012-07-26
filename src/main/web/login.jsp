@@ -25,7 +25,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
-	<title>晟睿教育内部管理系统</title>
+	<title>晟睿教育协同办公系统</title>
 	<link rel="shortcut icon" href="resources/images/favicon.ico" type="image/x-icon"/>
 	
 	<link href="resources/themes/default/style.css" rel="stylesheet" type="text/css" media="screen"/>
