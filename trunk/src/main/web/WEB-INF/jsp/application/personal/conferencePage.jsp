@@ -217,8 +217,11 @@ ol.mp_list li.mp_error {
 			},
 			valuesName: 'empid'
 		});
-		
-		//$('#conferene_attendances').manifest("add",
+		<c:if test="${conference ne null && attendance_name_show ne null}">
+		json =${attendance_name_show} ;
+		$('#conferene_attendances').manifest("add",
+				json);
+		</c:if>
 	});
 	
 </script>
@@ -229,7 +232,7 @@ ol.mp_list li.mp_error {
 ${tm:fileRestore(conference['attachFiles'])}
 </script>
 </c:if>
-
+${attendance_name_show ne null ? attendance_name_show:'no persions'}
 <div class="pageContent">
 	<form method="post" action="app/personal/conference.do?action=actionConferenceSave" id="formjob" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent" layoutH="56">
@@ -420,7 +423,7 @@ ${tm:fileRestore(conference['attachFiles'])}
 					</tr>
 					<tr>
 						<td class="field">参会人员：</td>
-						<td colspan="5"><input id="conferene_attendances" name="attendances" type="text" style="width: 90%; display: none;"  value="${conference ne null ? conference.attendances : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
+						<td colspan="5"><input id="conferene_attendances" name="attendances" type="text" style="width: 90%; display: none;"  value="" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 						<td class="field">参会人数：</td>
 						<td><input id="attendances_count" type="text" name="count" value="${conference ne null ? conference.count : '' }" style="width:70px;float:left;margin:0" />人	</td>
 					</tr>

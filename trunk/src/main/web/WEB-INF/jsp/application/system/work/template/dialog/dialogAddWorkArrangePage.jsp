@@ -137,8 +137,8 @@ function dep_activated(id) {
 districtId = "-1";
 templateId = "-1";
 function content_refresh () {
-    $("#ajBoxDepPos").loadUrl("app/system/work/template.do?action=pageWorkTemplateIndex&district.id="+districtId+"&templateId="+templateId, {}, function(){
-       $.pdialog.closeCurrent();
+    $("#sysmgr_work_template").loadUrl("app/system/work/template.do?action=pageWorkTemplateIndex&district.id="+districtId+"&templateId="+templateId, {}, function(){
+       //$.pdialog.closeCurrent();
     });
 }
 $(function(){
