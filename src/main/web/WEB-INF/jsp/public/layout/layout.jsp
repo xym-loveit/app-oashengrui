@@ -1,3 +1,4 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@ page pageEncoding="UTF-8"%>
 
 <%@ taglib uri="/tags/struts-tiles" prefix="tiles"%>
@@ -6,8 +7,15 @@
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<%@ page import="java.util.*,java.text.*" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<% 
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 ,时间：HH:mm:ss");
+		String currentDate=sdf.format(date);
+%>
 
 <html>
   <head>
@@ -141,6 +149,9 @@
 		<!-- body content -->
 		<div id="container">
 			<div id="navTab" class="tabsPage">
+				<div align="right">
+					<label style="color:blue;">${FULLNAME },欢迎您登录使用本系统,今天是&nbsp&nbsp&nbsp<%=currentDate %></label>
+				</div>
 				<div class="tabsPageHeader">
 					<div class="tabsPageHeaderContent"><!-- 显示左右控制时添加 class="tabsPageHeaderMargin" -->
 						<ul class="navTab-tab">

@@ -141,6 +141,8 @@ extends BaseAppAction
 									
 									SecurityContextHolder.setContext(securityContext);
 									request.getSession().setAttribute("SPRING_SECURITY_LAST_USERNAME", userName);
+									request.getSession().setAttribute("POSITION", user.getPosition().getPositionName());
+									request.getSession().setAttribute("FULLNAME", user.getFullName());
 									
 									String rememberMe = request.getParameter("_spring_security_remember_me");
 									if (rememberMe != null && "on".equalsIgnoreCase(rememberMe))
