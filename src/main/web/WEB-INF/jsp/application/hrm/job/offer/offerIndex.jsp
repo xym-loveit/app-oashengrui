@@ -105,7 +105,7 @@
 							</td>
 							<td class="${entity.currentStatus eq 3 ? 'ongoing' : (entity.currentStatus eq 4 ? 'finished' : '')}">${entity.currentStatus eq 0 ? '待处理' : (entity.currentStatus eq 1 ? '待安排' : (entity.currentStatus eq 2 ? '已安排' : ( entity.currentStatus eq 3 ? '面试中' : (entity.currentStatus eq 4 ? '已结束' : ''))))}</td>
 							<td>${entity.finalResult ne null ? (entity.finalResult eq 1 ? '录用' : (entity.finalResult eq 2 ? '淘汰' : (entity.finalResult eq 3 ? '未面试' : '未知'))) : '---'}</td>
-							<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobResume&resumeId=${entity.id}&op=view" target="dialog" title="简历信息‘${entity.resume.fullName}’" width="900" height="500" rel="hrm_resumeview_${entity.id}" mask="true" rel="hrm_resumedetail_${entity.id}">简历信息</a></td>
+							<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobResume&resumeId=${entity.resume.id}&op=view" target="dialog" title="简历信息‘${entity.resume.fullName}’" width="900" height="500" rel="hrm_resumeview_${entity.id}" mask="true" rel="hrm_resumedetail_${entity.id}">简历信息</a></td>
 							<td><a class="oplink" href="app/hrm/hire/interview.do?action=hrmPageJobOfferInterviewIndex&issueId=${entity.id}" target="dialog" title="面试记录‘${entity.resume.fullName}’" mask="true" rel="hrm_interviewdetail_${entity.id}">面试记录</a></td>
 							<td>
 								<c:choose>

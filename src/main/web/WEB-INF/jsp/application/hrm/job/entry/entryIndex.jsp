@@ -66,7 +66,7 @@
 							<td><input type="checkbox" name="c1" value="${entity.id}" /></td>
 							<td>${entity.jobHireIssue.resume.fullName}</td>
 							<td>${entity.jobHireIssue.resume.mobilePhone}</td>
-							<td>${entity.jobHireIssue.resume.source eq 0 ? '手工输入' : (entity.resume.source eq 1 ? '内部申请' : (entity.resume.source eq 2 ? '内部推荐' : entity.resume.source eq 3 ? '外部申请' : ''))}</td>
+							<td>${entity.jobHireIssue.resume.source eq 0 ? '手工输入' : (entity.jobHireIssue.resume.source eq 1 ? '内部申请' : (entity.jobHireIssue.resume.source eq 2 ? '内部推荐' : entity.jobHireIssue.resume.source eq 3 ? '外部申请' : ''))}</td>
 							<td><fmt:formatDate  value="${entity.jobHireIssue.applyDateTime}" pattern="yyyy-MM-dd" /></td>
 							<td class="${entity.currentStatus eq 2 ? 'finished' : ''}">${entity.currentStatus eq 1 ? '待安排' : (entity.currentStatus eq 2 ? '已安排' : '未知')}</td>
 							<td>${entity.finalStatus ne null ? (entity.finalStatus eq 0 ? '待入职' : (entity.finalStatus eq 1 ? '已入职' : '未到岗')) : '---'}</td>
