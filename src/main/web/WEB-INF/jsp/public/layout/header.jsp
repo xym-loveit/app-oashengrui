@@ -12,15 +12,15 @@
 </style>
 
 <div class="headerNav">
-		<a href="#" class="ltxt">晟睿教育内部管理系统</a>
+		<a href="#" class="ltxt"><label style="font-size:24px;">晟睿教育内部管理系统</label></a>
 		<ul class="nav">
-			<li style="background: none;"><label style="color:gray">用户名：${SPRING_SECURITY_LAST_USERNAME }</label></li>
+			<li style="background: none;"><label style="color:white">用户名：${SPRING_SECURITY_LAST_USERNAME }</label></li>
 			<li style="background: none;"><a href="app/personal/addressBook.do?action=addressBookInfo" target="navTab">通讯录</a></li>
 			<li style="background: none;"><a href="app/index.do?action=index">首页</a></li>
 			<li><a href="j_logout.do">退出</a></li>
 		</ul>
 		<ul class="themeList" id="themeList">
-			<li style="background: none;"><label style="color:gray">职位：${POSITION }</label></li>
+			<li style="background: none;"><label style="color:white">职位：${POSITION }</label></li>
 			<li style="background: none;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</li>
 			<li theme="default"><div class="selected">蓝色</div></li>
 			<li theme="azure"><div>天蓝</div></li>
