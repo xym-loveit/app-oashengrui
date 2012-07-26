@@ -45,6 +45,7 @@ extends BaseAppAction
 			request.setAttribute("op", request.getParameter("op"));
 			// 输出分页信息至客户端
 			outWritePagination(request, pagingBean, news);
+			outWritePagination(request, pagingBean, newsdistrict);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
