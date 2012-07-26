@@ -25,6 +25,7 @@ import org.shengrui.oa.service.admin.ServiceTaskPlan;
 import org.shengrui.oa.service.finan.ServiceFinanContract;
 import org.shengrui.oa.service.finan.ServiceFinanExpense;
 import org.shengrui.oa.service.hrm.ServiceHrmEmployee;
+import org.shengrui.oa.service.hrm.ServiceHrmJobHireInfo;
 import org.shengrui.oa.service.info.ServiceInMessage;
 import org.shengrui.oa.service.info.ServiceShortMessage;
 import org.shengrui.oa.service.news.ServiceNewsManage;
@@ -830,5 +831,4 @@ extends BaseAction
 	{
 		this.serviceInMessage = serviceInMessage;
 	}
-	
 }

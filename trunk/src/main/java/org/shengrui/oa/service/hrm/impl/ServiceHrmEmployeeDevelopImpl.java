@@ -8,6 +8,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import org.shengrui.oa.dao.hrm.DAOHrmEmployeeDevelop;
+import org.shengrui.oa.model.finan.ModelFinanContract;
 import org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop;
 import org.shengrui.oa.service.hrm.ServiceHrmEmployeeDevelop;
 
@@ -140,5 +141,24 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 	public DAOHrmEmployeeDevelop getdaoHrmEmployeeDevelop()
 	{
 		return daoHrmEmployeeDevelop;
+	}
+
+	@Override
+	public PaginationSupport<ModelHrmEmployeeDevelop> finanContract(
+			ModelHrmEmployeeDevelop entity, PagingBean pagingBean)
+			throws ServiceException {
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanContract.class);
+		criteria.add(Restrictions.isNull("auditState"));
+		
+		return this.getAll(criteria, pagingBean);
+	}
+
+	@Override
+	public PaginationSupport<ModelHrmEmployeeDevelop> finanContractRec(
+			ModelHrmEmployeeDevelop entity, PagingBean pagingBean)
+			throws ServiceException {
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanContract.class);
+		criteria.add(Restrictions.in("auditState", new Integer[]{2,3,4}));
+		return this.getAll(criteria, pagingBean);
 	}
 }

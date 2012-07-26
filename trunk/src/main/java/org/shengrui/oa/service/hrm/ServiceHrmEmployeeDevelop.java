@@ -36,4 +36,18 @@ extends ServiceGeneric<ModelHrmEmployeeDevelop>
 	PaginationSupport<ModelHrmEmployeeDevelop> getEmployeeDevelopInfoPagination (ModelHrmEmployeeDevelop entity, 
 			PagingBean pagingBen) throws ServiceException;
 
+	/**
+	 * 查询未审批过的人资申请
+	 * @author cqx
+	 * */
+	PaginationSupport<ModelHrmEmployeeDevelop> finanContract (ModelHrmEmployeeDevelop entity, 
+			PagingBean pagingBean) throws ServiceException;
+	
+	/**
+	 * 
+	 * 查询已审批过的人资申请
+	 * @author cqx
+	 * */
+	PaginationSupport<ModelHrmEmployeeDevelop> finanContractRec (ModelHrmEmployeeDevelop entity, 
+			PagingBean pagingBean) throws ServiceException;
 }

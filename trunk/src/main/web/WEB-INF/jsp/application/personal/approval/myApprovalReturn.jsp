@@ -76,6 +76,25 @@
 					</tr>
 				</logic:iterate>
 			</logic:present>
+			<logic:present name="hireJobsInfo">
+				<logic:iterate id="hireJobsInfo" name="hireJobsInfo" property="items">
+					<tr>
+					<c:choose>
+								<c:when test="${hireJobsInfo.status eq 2 }">
+						<td>
+							岗位发布审批通过
+							
+						</td>
+						<td>
+							[${hireJobsInfo.jobHireDistrict ne null ? hireJobsInfo.jobHireDistrict.districtName : ''}  ${hireJobsInfo.jobHireDepartment ne null ? hireJobsInfo.jobHireDepartment.depName : ''}] 
+							&nbsp&nbsp “${hireJobsInfo.jobHireTitle}”&nbsp&nbsp招聘
+						</td>
+						<td>${hireJobsInfo.postAuthorName}</td>
+						<td><c:if test="${hireJobsInfo.postDate ne null}"><fmt:formatDate value="${hireJobsInfo.postDate}" pattern="yyyy-MM-dd"/></c:if></td>
+						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${hireJobsInfo.id}&op=view" target="dialog" title="岗位详细" width="960" height="420">详细</a></td></c:when></c:choose>
+					</tr>
+				</logic:iterate>
+			</logic:present>
 			<logic:present name="taskInfo">
 				<logic:iterate id="taskInfo" name="taskInfo" property="items">
 					<tr>
@@ -145,6 +164,84 @@
 					<td>${contractInfo.employee.empName }</td>
 					<td><c:if test="${contractInfo.applyDate ne null}"><fmt:formatDate value="${contractInfo.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
 					<td><a class="oplink" href="app/finan/contract.do?action=diaglogFinaContractPage&id=${contractInfo.id}&op=view" target="dialog" title="查看‘${contractInfo.employee.empName}’合同申请单-${contractInfo.formNo}" width="1150" height="640" >详细</a></td>
+					</tr>
+				</logic:iterate>
+			</logic:present>
+			<logic:present name="dataList">
+				<logic:iterate id="type" name="dataList" property="items">
+					<tr>
+					<c:choose>
+								<c:when test="${type.applyFormType.id eq 5 && type.auditState ne 1}">
+					<td>
+						晋升申请审批
+					</td>
+					<td>
+						${type.employee.empName} &nbsp&nbsp <label style="color:red;">${type.fromDistrict.districtName }_${type.fromDepartment.depName }_${type.fromPosition.positionName }</label>
+						&nbsp&nbsp 晋升 &nbsp&nbsp<label style="color:red;">${type.toDistrict.districtName }_${type.toDepartment.depName }_${type.toPosition.positionName }</label> &nbsp&nbsp申请
+					</td>
+					<td>${type.employee.empName }</td>
+					<td><c:if test="${type.applyDate ne null}"><fmt:formatDate value="${type.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
+<td>
+						<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">详细</a></td>
+					</td></c:when></c:choose>
+					</tr>
+				</logic:iterate>
+			</logic:present>
+			<logic:present name="dataList">
+				<logic:iterate id="type" name="dataList" property="items">
+					<tr>
+					<c:choose>
+								<c:when test="${type.applyFormType.id eq 3 && type.auditState ne 1}">
+					<td>
+						转正申请审批
+					</td>
+					<td>
+						${type.employee.empName} &nbsp&nbsp<label style="color:red;">${type.fromDistrict.districtName }_${type.fromDepartment.depName }_${type.fromPosition.positionName }</label>&nbsp&nbsp转正申请
+					</td>
+					<td>${type.employee.empName }</td>
+					<td><c:if test="${type.applyDate ne null}"><fmt:formatDate value="${type.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
+					<td>
+						<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">详细</a></td>
+					</td></c:when></c:choose>
+					</tr>
+				</logic:iterate>
+			</logic:present>
+			<logic:present name="dataList">
+				<logic:iterate id="type" name="dataList" property="items">
+					<tr>
+					<c:choose>
+								<c:when test="${type.applyFormType.id eq 6 && type.auditState ne 1}">
+					<td>
+						离职申请审批
+					</td>
+					<td>
+						${type.employee.empName} &nbsp&nbsp<label style="color:red;">${type.fromDistrict.districtName }_${type.fromDepartment.depName }_${type.fromPosition.positionName }</label>&nbsp&nbsp离职申请
+					</td>
+					<td>${type.employee.empName }</td>
+					<td><c:if test="${type.applyDate ne null}"><fmt:formatDate value="${type.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
+					<td>
+						<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">详细</a></td>
+					</td></c:when></c:choose>
+					</tr>
+				</logic:iterate>
+			</logic:present>
+			<logic:present name="dataList">
+				<logic:iterate id="type" name="dataList" property="items">
+					<tr>
+					<c:choose>
+								<c:when test="${type.applyFormType.id eq 4 && type.auditState ne 1}">
+					<td>
+						调动申请审批
+					</td>
+					<td>
+						${type.employee.empName}&nbsp&nbsp<label style="color:red;">${type.fromDistrict.districtName }_${type.fromDepartment.depName }_${type.fromPosition.positionName }</label>&nbsp&nbsp调动 &nbsp&nbsp
+						<label style="color:red;">${type.toDistrict.districtName }_${type.toDepartment.depName }_${type.toPosition.positionName }</label>&nbsp&nbsp申请
+					</td>
+					<td>${type.employee.empName }</td>
+					<td><c:if test="${type.applyDate ne null}"><fmt:formatDate value="${type.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
+					<td>
+						<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">详细</a></td>
+					</td></c:when></c:choose>
 					</tr>
 				</logic:iterate>
 			</logic:present>
