@@ -9,7 +9,11 @@ import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.admin.ModelTaskPlan;
 import org.shengrui.oa.model.finan.ModelFinanContract;
 import org.shengrui.oa.model.finan.ModelFinanExpense;
+import org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop;
+import org.shengrui.oa.model.hrm.ModelHrmJobHireInfo;
 import org.shengrui.oa.model.news.ModelNewsMag;
+import org.shengrui.oa.service.hrm.ServiceHrmEmployeeDevelop;
+import org.shengrui.oa.service.hrm.ServiceHrmJobHireInfo;
 import org.shengrui.oa.web.action.BaseAppAction;
 
 import cn.trymore.core.exception.ServiceException;
@@ -26,6 +30,9 @@ public class MyApprovalAction
 extends BaseAppAction
 {
 
+	protected ServiceHrmJobHireInfo serviceHrmJobHireInfo;
+	protected ServiceHrmEmployeeDevelop serviceHrmEmployeeDevelop;
+	
 	/**
 	 * 待我审批
 	 * 
@@ -37,6 +44,9 @@ extends BaseAppAction
 		ModelTaskPlan taskInfo = (ModelTaskPlan) form;
 		ModelFinanExpense finanInfo = (ModelFinanExpense) form;
 		ModelFinanContract contractInfo = (ModelFinanContract) form;
+		ModelHrmJobHireInfo formJobHireInfo = (ModelHrmJobHireInfo) form;
+		ModelHrmEmployeeDevelop formEmployee = (ModelHrmEmployeeDevelop) form;
+		
 		PagingBean pagingBean = this.getPagingBean(request);
 		try {
 			//新闻发布审批
@@ -55,6 +65,15 @@ extends BaseAppAction
 			PaginationSupport<ModelFinanContract> contract = 
 				this.serviceFinanContract.finanContract(contractInfo, pagingBean);
 			request.setAttribute("contract", contract);
+			//岗位发布审批
+			PaginationSupport<ModelHrmJobHireInfo> hireJobs = 
+				this.serviceHrmJobHireInfo.getPaginationByEntity(formJobHireInfo, pagingBean);
+			request.setAttribute("hireJobs", hireJobs);
+//			request.setAttribute("hireJobForm", formJobHireInfo);
+			//晋升申请审批
+			PaginationSupport<ModelHrmEmployeeDevelop> items =
+				this.serviceHrmEmployeeDevelop.getEmployeeDevelopInfoPagination(formEmployee, pagingBean);
+		    request.setAttribute("dataList", items);
 			
 			request.setAttribute("op", request.getParameter("op"));
 		} catch (ServiceException e) {
@@ -75,6 +94,9 @@ extends BaseAppAction
 		ModelTaskPlan taskRec = (ModelTaskPlan) form;
 		ModelFinanExpense finanRec = (ModelFinanExpense) form;
 		ModelFinanContract contractRec = (ModelFinanContract) form;
+		ModelHrmJobHireInfo formJobHireInfo = (ModelHrmJobHireInfo) form;
+		ModelHrmEmployeeDevelop formEmployee = (ModelHrmEmployeeDevelop) form;
+		
 		PagingBean pagingBean = this.getPagingBean(request);
 		try {
 			//新闻发布审批
@@ -93,12 +115,39 @@ extends BaseAppAction
 			PaginationSupport<ModelFinanContract> contractInfo = 
 				this.serviceFinanContract.finanContractRec(contractRec, pagingBean);
 			request.setAttribute("contractInfo", contractInfo);
+			//岗位发布审批
+			PaginationSupport<ModelHrmJobHireInfo> hireJobsInfo = 
+				this.serviceHrmJobHireInfo.getPaginationByEntity(formJobHireInfo, pagingBean);
+			request.setAttribute("hireJobsInfo", hireJobsInfo);
+			request.setAttribute("hireJobFormInfo", formJobHireInfo);
+			//晋升申请审批
+			PaginationSupport<ModelHrmEmployeeDevelop> items =
+				this.serviceHrmEmployeeDevelop.getEmployeeDevelopInfoPagination(formEmployee, pagingBean);
+		    request.setAttribute("dataList", items);
+		    
 			request.setAttribute("op", request.getParameter("op"));
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return mapping.findForward("page.my.approvalReturn.index");
+	}
+
+	public ServiceHrmJobHireInfo getServiceHrmJobHireInfo() {
+		return serviceHrmJobHireInfo;
+	}
+
+	public void setServiceHrmJobHireInfo(ServiceHrmJobHireInfo serviceHrmJobHireInfo) {
+		this.serviceHrmJobHireInfo = serviceHrmJobHireInfo;
+	}
+
+	public ServiceHrmEmployeeDevelop getServiceHrmEmployeeDevelop() {
+		return serviceHrmEmployeeDevelop;
+	}
+
+	public void setServiceHrmEmployeeDevelop(
+			ServiceHrmEmployeeDevelop serviceHrmEmployeeDevelop) {
+		this.serviceHrmEmployeeDevelop = serviceHrmEmployeeDevelop;
 	}
 	
 }

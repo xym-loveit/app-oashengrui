@@ -18,6 +18,8 @@ extends ModelBase
 	
 	private static final long serialVersionUID = 8044837347696639463L;
 
+	private String id;
+	
 	/**
 	 *  流程分类名称
 	 */
@@ -125,5 +127,13 @@ extends ModelBase
 	public void setProcessDefinitions(Set<ModelProcessDefinition> processDefinitions)
 	{
 		this.processDefinitions = processDefinitions;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 }
