@@ -32,7 +32,6 @@
     });
     
     function bindDistricId(){
-    	alert($("#workDate").val());
     	var relUrl = "app/system/work/base/time.do?action=actionLoadWorkTimeByDistrict&districtId={value}";
     	$("#dialog_arrangedStaffNames").attr("relUrl",relUrl+"&workDate="+$("#workDate").val());
     }
@@ -75,9 +74,10 @@
 					<td></td>
 			    </tr>
 				<tr>
-					<td>工作人员:</td>
+					<!-- >td>工作人员:</td>
 					<td colspan="4"><textarea name="staffNames" id="dialog_arrangedStaffNames" value="staff.staffName" rows="3" style="width:100%"}></textarea>
-					</td>
+					</td-->
+					<div id="staffNames"><%@ include file="../data/staffNames.jsp" %></div>
 				</tr>
 				<tr>
 					<td colspan="5"><input type="radio" name="options" value="remove" />不安排工作</td>
