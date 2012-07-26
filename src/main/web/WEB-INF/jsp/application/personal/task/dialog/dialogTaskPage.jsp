@@ -283,18 +283,34 @@ ${tm:fileRestore(entity['attachFiles'])}
 					</tr>
 					<tr>
 						<td style="vertical-align: top;">附件区：</td>
-						<td colspan="7">
-							<!-- Uploader Demo-->
-							<div>
-								<!-- 上传按钮，组件配置请写在data-config内 -->
-								<a id="J_UploaderTaskBtn" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件 </a>
-								<!-- 文件上传队列 -->
-								<ul id="J_UploaderTaskQueue"></ul>
-								<div id="J_Panel" class="event-panel"></div>
-								<input type="hidden" name="fileUrls" id="fileUrls" />
-								<input type="hidden" name="fileIds" id="fileIds" />
-							</div>
-						</td>
+					<td colspan="7">
+						<div>
+							<c:choose>
+								<c:when test="${op eq null || op ne 'view'}">
+									<!-- 上传按钮，组件配置请写在data-config内 -->
+									<a id="J_UploaderTaskBtn" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件 </a>
+									<!-- 文件上传队列 -->
+									<ul id="J_UploaderTaskQueue"></ul>
+									<div id="J_Panel" class="event-panel"></div>
+									<input type="hidden" name="fileUrls" id="fileUrls" />
+									<input type="hidden" name="fileIds" id="fileIds" />
+								</c:when>
+								<c:otherwise>
+									<c:choose>
+										<c:when test="${entity ne null && fn:length(entity.attachFiles) gt 0}">
+											<ul>
+												<logic:iterate name="entity" property="attachFiles" id="file">
+													<li class="item_file"><a title="点击下载`${file.fileName}`文件" href="uploads/${file.filePath}" target="_blank">${file.fileName}</a></li>
+												</logic:iterate>
+											</ul>
+										</c:when>
+										<c:otherwise>暂未上传任何附件..</c:otherwise>
+									</c:choose>
+								</c:otherwise>
+							</c:choose>
+						</div>
+						<!--<a class="oplink" href="app/hrm.do?action=hrmPageJobDetail&id=1" target="dialog" title="上传附件">上传附件</a>-->
+					</td>
 					</tr>
 				</table>
 			</div>
