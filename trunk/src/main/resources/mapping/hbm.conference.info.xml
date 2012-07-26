@@ -38,6 +38,9 @@
         <property name="attendances" type="java.lang.String">
             <column name="attendances" />
         </property>
+        <property name="attendanceIds" type="java.lang.String">
+            <column name="attendances_ids" />
+        </property>
         <property name="count" type="java.lang.Integer">
             <column name="count" />
         </property>
