@@ -68,6 +68,7 @@ public class ModelConference extends ModelBase {
 	 */
 	private String attendances;
 	
+	private String attendanceIds;
 	/**
 	 * 与会人数
 	 */
@@ -315,6 +316,20 @@ public class ModelConference extends ModelBase {
 	 */
 	public void setAttendances(String attendances) {
 		this.attendances = attendances;
+	}
+
+	/**
+	 * @return the attendanceIds
+	 */
+	public String getAttendanceIds() {
+		return attendanceIds;
+	}
+
+	/**
+	 * @param attendanceIds the attendanceIds to set
+	 */
+	public void setAttendanceIds(String attendanceIds) {
+		this.attendanceIds = attendanceIds;
 	}
 
 	/**

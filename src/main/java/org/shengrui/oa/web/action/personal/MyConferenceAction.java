@@ -114,7 +114,6 @@ extends BaseAppAction
 	 * <b>[WebAction]</b> <br/>
 	 * 发起新会议dialog页面
 	 */
-	@SuppressWarnings("unused")
 	public ActionForward conferenceDetail(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) 
@@ -128,21 +127,26 @@ extends BaseAppAction
 			{
 				ModelConference confInfo =  this.serviceConference.get(id);
 				
-				String attendance_ids = confInfo.getAttendances();
+				String attendance_ids = confInfo.getAttendanceIds();
 				String attendance_name_show = "[";
 				if(attendance_ids!=null && UtilString.isNotEmpty(attendance_ids)){
 					if(attendance_ids.contains(",")){
 						String[] ids = attendance_ids.split(",");
+						int loop = 1;
 						for(String eid : ids){
 							ModelHrmEmployee employee = this.serviceHrmEmployee.get(eid);
 							if (employee != null)
 							{
-								attendance_name_show+="{\"id\":\""+employee.getId()+"\",\"empname\":\""+employee.getFullName()+"\"}";
+								attendance_name_show+="{\"id\":\""+employee.getId()+"\",\"empName\":\""+employee.getEmpName()+"\",\"empNo\":\""+employee.getEmpNo()+"\"}";
 							}
 							else
 							{
 								LOGGER.warn("The employee does not exist with id:" + eid);
 							}
+							if(loop < ids.length && employee!=null){
+								attendance_name_show += ",";
+							}
+							loop ++;
 						}
 					}else{
 						ModelHrmEmployee employee = this.serviceHrmEmployee.get(attendance_ids);
@@ -150,7 +154,7 @@ extends BaseAppAction
 					}
 				}
 				attendance_name_show +="]";
-				
+				request.setAttribute("attendance_name_show", attendance_name_show);
 				request.setAttribute("conference", confInfo);
 			}
 
@@ -257,14 +261,44 @@ extends BaseAppAction
 			if (!isCreation)
 			{
 				// 更新
+				String attendances = ContextUtil.getCurrentUser().getFullName();
+				String attendanceIds = ContextUtil.getCurrentUser().getId();
+				// 保存任务参与人
+				Map<String, List<String>> paramEmpIds = this.getAllRequestParameters(request, new String[] {"empid"});
+				if (paramEmpIds != null && paramEmpIds.size() > 0)
+				{
+					List<String> empIds = paramEmpIds.get("empid");
+					for (String empId : empIds)
+					{
+						ModelHrmEmployee employee = this.serviceHrmEmployee.get(empId);
+						if (employee != null)
+						{
+							attendances+=","+employee.getEmpName();
+							attendanceIds+=","+employee.getId();
+						}
+						else
+						{
+							LOGGER.warn("The employee does not exist with id:" + empId);
+						}
+					}
+				}
+				formInfo.setAttendances(attendances);
+				formInfo.setAttendanceIds(attendanceIds);
 				entity = this.serviceConference.get(formInfo.getId());
 				if (entity != null)
 				{
 					// 用表单输入的值覆盖实体中的属性值
 					try
 					{
+						if(formInfo.getStartDay() == null || formInfo.getEndDay() == null)
+						{
+							return ajaxPrint(response, getErrorCallback("会议时间不能为空"));
+						}
 						UtilBean.copyNotNullProperties(entity, formInfo);
-						
+						if(entity.getStartDay() == null || entity.getEndDay() == null){
+							entity.setStartDay(formInfo.getStartDay());
+							entity.setEndDay(formInfo.getEndDay());
+						}
 						// Ensures the end date not null after properties copy.
 						if (entity.getContactor() == null)
 						{
@@ -285,6 +319,7 @@ extends BaseAppAction
 			{
 				// 新建
 				String attendances = ContextUtil.getCurrentUser().getFullName();
+				String attendanceIds = ContextUtil.getCurrentUser().getId();
 				// 保存任务参与人
 				Map<String, List<String>> paramEmpIds = this.getAllRequestParameters(request, new String[] {"empid"});
 				if (paramEmpIds != null && paramEmpIds.size() > 0)
@@ -296,6 +331,7 @@ extends BaseAppAction
 						if (employee != null)
 						{
 							attendances+=","+employee.getEmpName();
+							attendanceIds+=","+employee.getId();
 						}
 						else
 						{
@@ -304,32 +340,10 @@ extends BaseAppAction
 					}
 				}
 				formInfo.setAttendances(attendances);
+				formInfo.setAttendanceIds(attendanceIds);
 				formInfo.setCount(Integer.valueOf(request.getParameter("count"))+1);
 				entity = formInfo;
 			}
-			
-//			String districtId = request.getParameter("jobHireDistrictId");
-//			if (this.isObjectIdValid(districtId) && (entity.getDistrict() == null || 
-//					!districtId.equals(entity.getDistrict().getId())))
-//			{
-//				entity.setDistrict(this.serviceSchoolDistrict.get(districtId));
-//			}
-//			
-//			String depId = request.getParameter("jobHireDepartmentId");
-//			if (this.isObjectIdValid(depId) && (entity.getDepartment() == null || 
-//					!depId.equals(entity.getDepartment().getId())))
-//			{
-//				entity.setDepartment(this.serviceSchoolDepartment.get(depId));
-//			}
-			
-			// 设置审批状态
-			//this.applyApprovalStatus(entity, isCreation, request);
-			
-//			entity.setPostDate(new Date());
-//			if (ContextUtil.getCurrentUser() != null)
-//			{
-//				entity.setPostAuthorName(ContextUtil.getCurrentUser().getFullName());
-//			}
 
 			// 设置会议附件
 			this.handleFileAttachments(entity, request);
