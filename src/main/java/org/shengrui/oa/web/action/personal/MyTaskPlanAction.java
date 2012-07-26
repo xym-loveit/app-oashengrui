@@ -66,6 +66,11 @@ extends BaseAppAction
 	{
 		try
 		{
+			if (ContextUtil.getCurrentUser().getEmployee() == null)
+			{
+				return ajaxPrint(response, getErrorCallback("您必须具备员工身份才能访问我的任务..."));
+			}
+			
 			ModelTaskPlan formEntity = (ModelTaskPlan) form;
 			
 			request.setAttribute("taskTypes", this.serviceAppDictionary.getByType(DIC_KEY_TASK_TYPE));
