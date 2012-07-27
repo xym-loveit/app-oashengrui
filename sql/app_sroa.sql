@@ -1043,6 +1043,8 @@ CREATE TABLE IF NOT EXISTS `app_message_entity` (
   PRIMARY KEY  (`msg_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='短消息' AUTO_INCREMENT=1 ;
 
+ALTER TABLE `app_message_entity` ADD INDEX ( `sender_id` ) 
+
 --
 -- 转存表中的数据 `app_message_entity`
 --
@@ -1064,6 +1066,8 @@ CREATE TABLE IF NOT EXISTS `app_message_in` (
   `receiv_time` datetime NOT NULL COMMENT '接收时间',
   PRIMARY KEY  (`receive_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='收件箱' AUTO_INCREMENT=1 ;
+
+ALTER TABLE `app_message_in` ADD INDEX ( `user_id` ) 
 
 --
 -- 转存表中的数据 `app_message_in`
