@@ -27,7 +27,7 @@
 
 <!-- SearchBar -->
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="/app/admin/attendance.do?action=adminPageStaffAttendance" method="post">
+	<form onsubmit="return navTabSearch(this);" action="app/admin/attendance.do?action=adminPageStaffAttendance" method="post">
 		<div class="searchBar">
 			<table class="searchContent">
 				<tr>
@@ -38,23 +38,23 @@
 						<label>上班状态：</label>
 						<select class="combox" name="workType" id="workType">
 							<option value="">所有</option>
-							<option value="1">在岗</option>
-							<option value="2">出差</option>
-							<option value="0">请假</option>
+							<option value="1" ${formStaffAttendance ne null && formStaffAttendance.workType eq '1' ? 'selected="selected"':'' }>在岗</option>
+							<option value="2" ${formStaffAttendance ne null && formStaffAttendance.workType eq '2' ? 'selected="selected"':'' }>出差</option>
+							<option value="0" ${formStaffAttendance ne null && formStaffAttendance.workType eq '0' ? 'selected="selected"':'' }>请假</option>
 						</select>
 					</td>
 					<td>
 						<label>考勤结果：</label>
 						<select class="combox" name="attendanceResult" id="attendanceResult">
 							<option value="">所有</option>
-							<option value="1">按时</option>
-							<option value="2">迟到</option>
-							<option value="3">早退</option>
-							<option value="4">旷工</option>
+							<option value="1" ${formStaffAttendance ne null && formStaffAttendance.attendanceResult eq '1' ? 'selected="selected"':'' }>按时</option>
+							<option value="2" ${formStaffAttendance ne null && formStaffAttendance.attendanceResult eq '2' ? 'selected="selected"':'' }>迟到</option>
+							<option value="3" ${formStaffAttendance ne null && formStaffAttendance.attendanceResult eq '3' ? 'selected="selected"':'' }>早退</option>
+							<option value="4" ${formStaffAttendance ne null && formStaffAttendance.attendanceResult eq '4' ? 'selected="selected"':'' }>旷工</option>
 						</select>
 					</td>
 					<td>
-						上班时间：<input type="text" class="date" /> - <input type="text" class="date" />
+						上班时间：<input type="text" class="date textInput" name="startWorkDate">${formStaffAttendance.startWorkDate}</input> - <input name="endWorkDate" type="text" class="date textInput" value="${formStaffAttendance ne null ? formStaffAttendance.endWorkDate : ''}" />
 					</td>
 				</tr>
 			</table>
