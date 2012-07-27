@@ -29,6 +29,7 @@
 			<forward name="admin.dialog.staff.work.arrange.adjust" path="admin.dialog.staff.work.arrange.adjust"/>
 			<forward name="admin.page.staff.work.arrange.staffnames" path="admin.page.staff.work.arrange.staffnames"/>
 			<forward name="admin.page.staff.work.arrange.workcontent" path="admin.page.staff.work.arrange.workcontent"/>
+			<forward name="admin.page.staff.work.arrange.worktime" path="admin.page.staff.work.arrange.worktime"/>
 			<forward name="admin.dialog.staff.work.arrange.import" path="admin.dialog.staff.work.arrange.import"/>
 			
 			<!-- 员工考勤-->
