@@ -1,7 +1,7 @@
 <%@ page pageEncoding="UTF-8"%>
 Copyright © 2012 杭州池墨科技技术有限公司
 
-<div style="float:right; margin-right: 15px;">
+<div style="float:left; margin-left: 0;">
 	<div id="time" style="color:blue;">
 		<label></label>
 		<script>

@@ -29,4 +29,13 @@ extends DAOGeneric<ModelInMessage>
 	PaginationSupport<ModelInMessage> getPaginationByUser (String userId, 
 			ModelShortMessage entity, String readFlag, PagingBean pagingBean) throws DAOException;
 	
+	/**
+	 * 根据用户ID获取未读短信数量
+	 * 
+	 * @param userId
+	 * @return
+	 * @throws DAOException
+	 */
+	int getUnreadMessageCountByUser (String userId) throws DAOException;
+	
 }
