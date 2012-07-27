@@ -13,7 +13,12 @@
 	<div class="panelBar">
 		<c:if test="${op eq null || op ne 'history'}">
 			<ul class="toolBar" style="float:right">
-				<li><a treeicon="icon-records" class="icon" href="app/personal/jobapplication.do?action=pageMyHistoryJobApplication" target="navTab" rel="dmy_jobapplication"><span class="icon-records">我的历史应聘</span></a></li>
+				<li><a treeicon="icon-records" class="icon" href="app/personal/jobapplication.do?action=pageMyHistoryJobApplication&op=history" target="navTab" rel="dmy_jobapplication"><span class="icon-records">我的历史应聘</span></a></li>
+			</ul>
+		</c:if>
+		<c:if test="${op eq 'history' }">
+			<ul class="toolBar" style="float:right">
+				<li><a treeicon="icon-records" class="icon" href="app/personal/jobapplication.do?action=pageJobOnHiring" target="navTab" rel="personal_myjobform"><span class="icon-records">返回当前招聘</span></a></li>
 			</ul>
 		</c:if>
 	</div>
