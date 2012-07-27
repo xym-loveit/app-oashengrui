@@ -134,11 +134,15 @@
 			
 			// 设置10秒钟监听短消息
 			setInterval(function(){
-				generic_ajax_op("app/message.do?action=actionObtainMyUnreadMessageNum&_="+Date.parse(new Date()), null, null, (function(rsp_msg) {
+				generic_ajax_op("app/message.do?action=actionObtainMyUnreadMessageNum&_="+Date.parse(new Date()), "{'skip_evt': 'true'}", (function(){
+					return null;
+				}), (function(rsp_msg) {
 					if ($("#message_content a[rel='nav_msg']").size() > 0 && $("#message_content a[rel='nav_msg']").text() == rsp_msg) {
 						return;
 					} else {
-						$("#message").remove();
+						// $.messager.close();
+						$("#messager_box").remove();
+						// $("#floatdiv").remove();
 						if (rsp_msg != "0") {
 							$.messager.show('<font style="color:#093">温馨提醒</font>', '<font style="font-size:9pt;font-weight:normal;">您有<a href="javascript:void(0);" id="msg_num" style="color:red;" rel="nav_msg" title="我的短消息">' + rsp_msg +'</a>条新短消息..</font>',0);
 						}
@@ -151,7 +155,7 @@
 						}));
 					}
 				}))
-			}, 5000);
+			}, 15000);
 			
 		});
 		
