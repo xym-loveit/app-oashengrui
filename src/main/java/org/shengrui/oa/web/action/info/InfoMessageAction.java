@@ -256,10 +256,10 @@ extends BaseAppAction
 	{
 		try
 		{
-			String inMsgId = request.getParameter("inMsgId");
-			if (this.isObjectIdValid(inMsgId))
+			String msgInId = request.getParameter("msgInId");
+			if (this.isObjectIdValid(msgInId))
 			{
-				ModelInMessage inMsg = this.serviceInMessage.get(inMsgId);
+				ModelInMessage inMsg = this.serviceInMessage.get(msgInId);
 				if (inMsg != null)
 				{
 					inMsg.setDelFlag(ModelInMessage.FLAG_DEL);
@@ -271,7 +271,7 @@ extends BaseAppAction
 				}
 				else
 				{
-					return ajaxPrint(response, getErrorCallback("消息(id:" + inMsgId + ")数据不存在..."));
+					return ajaxPrint(response, getErrorCallback("消息(id:" + msgInId + ")数据不存在..."));
 				}
 			}
 			else

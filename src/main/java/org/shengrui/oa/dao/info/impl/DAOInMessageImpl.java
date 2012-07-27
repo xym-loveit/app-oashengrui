@@ -77,7 +77,8 @@ extends DAOGenericImpl<ModelInMessage> implements DAOInMessage
 	public int getUnreadMessageCountByUser (String userId) throws DAOException
 	{
 		String sql = "SELECT COUNT(*) FROM app_message_in WHERE user_id = " + 
-						userId + " AND flag_read = " + ModelInMessage.FLAG_UNREAD;
+						userId + " AND flag_del = " + ModelInMessage.FLAG_UNDEL + 
+						" AND flag_read = " + ModelInMessage.FLAG_UNREAD;
 		
 		List<Object> msgCount = this.findListByNativeSQL(sql);
 		
