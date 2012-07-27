@@ -353,6 +353,16 @@ extends ModelBase implements UserDetails
 		return this.status.shortValue() == 1;
 	}
 	
+	/**
+	 * Returns true if user id equals id of super user.
+	 * 
+	 * @return
+	 */
+	public boolean isSuerUser ()
+	{
+		return this.id.equals(String.valueOf(SUPER_USER));
+	}
+	
 	public String getUsername()
 	{
 		return username;

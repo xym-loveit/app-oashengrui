@@ -7417,7 +7417,7 @@ jQuery.extend({
 				globalEventContext.trigger( "ajaxComplete", [ jqXHR, s ] );
 				// Handle the global AJAX counter
 				if ( !( --jQuery.active ) ) {
-					if (callbackContext && callbackContext.data && callbackContext.data.indexOf("skip_evt") == -1) {
+					if (callbackContext.data == undefined || callbackContext.data == "" || callbackContext.data.indexOf("skip_evt") == -1) {
 						jQuery.event.trigger( "ajaxStop" );
 					}
 				}
@@ -7489,7 +7489,7 @@ jQuery.extend({
 		// Watch for a new set of requests
 		if ( fireGlobals && jQuery.active++ === 0 ) {
 			// modified by Jeccy.Zhao on 2012/07/27
-			if (s.data && s.data.indexOf("skip_evt") == -1) {
+			if (s.data == undefined || s.data == "" || s.data.indexOf("skip_evt") == -1) {
 				jQuery.event.trigger( "ajaxStart" );
 			}
 		}
