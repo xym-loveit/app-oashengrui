@@ -109,6 +109,44 @@ public class ModelStaffAttendance extends ModelBase {
 	 */
 	@Expose
 	protected String attendanceResult;
+	
+	/**
+	 * 用于查询的临时变量
+	 */
+	protected String startWorkDate;
+	/**
+	 * 用于查询的临时变量
+	 */
+	protected String endWorkDate;
+
+
+	/**
+	 * @return the startWorkDate
+	 */
+	public String getStartWorkDate() {
+		return startWorkDate;
+	}
+
+	/**
+	 * @param startWorkDate the startWorkDate to set
+	 */
+	public void setStartWorkDate(String startWorkDate) {
+		this.startWorkDate = startWorkDate;
+	}
+
+	/**
+	 * @return the endWorkeDate
+	 */
+	public String getEndWorkDate() {
+		return endWorkDate;
+	}
+
+	/**
+	 * @param endWorkeDate the endWorkeDate to set
+	 */
+	public void setEndWorkeDate(String endWorkDate) {
+		this.endWorkDate = endWorkDate;
+	}
 
 	public Date getWorkDate() {
 		return workDate;
