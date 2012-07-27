@@ -23,7 +23,7 @@
 <div class="pageContent">
 	<form method="post" action="app/admin.do?action=adminUpdateWorkArrange" id="formjob" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent" layoutH="56">
-			<table cellspacing="10" cellpadding="10" style="border-spacing:12">
+			<table cellspacing="10" cellpadding="10" style="border-spacing:12" border="0">
 				<tr>
 					<td>工作日期：</td>
 					<td><input name="workDate" class="date textInput required" style="width:140px;float:left;" value='<logic:present name="workArrange"><fmt:formatDate value="${workArrange.workDate}" pattern="yyyy-MM-dd" /></logic:present>'"/></td>
@@ -81,5 +81,6 @@
 			</ul>
 		</div>
 		<input type="hidden" name="id" value="${workArrange ne null ? workArrange.id : '-1'}" />
+		<input type="hidden" name="districtId" value="${workArrange ne null ? workArrange.districtId : '-1'}" />
 	</form>
 </div>
