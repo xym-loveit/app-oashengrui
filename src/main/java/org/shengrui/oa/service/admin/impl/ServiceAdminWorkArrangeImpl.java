@@ -148,7 +148,7 @@ extends ServiceGenericImpl<ModelAdminWorkArrange> implements ServiceAdminWorkArr
 			throws ServiceException {
 		// TODO Auto-generated method stub
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		String sql = "delete from app_admin_workarrange where work_date = '"+format.format(criteria.getWorkDate())+"' and work_time='"+criteria.getWorkTime()+"' and district_id='"+criteria.getDistrictId()+"'";
+		String sql = "delete from app_admin_workarrange where work_date = '"+format.format(criteria.getWorkDate())+"' and work_time='"+criteria.getWorkTime().getId()+"' and district_id='"+criteria.getDistrictId()+"'";
 		try {
 			this.daoWorkArrange.execUpdateByNativeSQL(sql);
 		} catch (DAOException e) {
@@ -162,8 +162,8 @@ extends ServiceGenericImpl<ModelAdminWorkArrange> implements ServiceAdminWorkArr
 			throws ServiceException {
 		// TODO Auto-generated method stub
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		String sql ="update app_admin_workarrage set work_date='"+format.format(criteria.getWorkDate())+"',work_time='"+criteria.getWorkTime().getId()+"'"
-					+ " where work_date='"+day+"'";
+		String sql ="update app_admin_workarrange set work_date='"+day+"',work_time='"+criteria.getWorkTime().getId()+"'"
+					+ " where work_date='"+format.format(criteria.getWorkDate())+"' and district_id="+criteria.getDistrictId();
 		try {
 			this.daoWorkArrange.execUpdateByNativeSQL(sql);
 		} catch (DAOException e) {
