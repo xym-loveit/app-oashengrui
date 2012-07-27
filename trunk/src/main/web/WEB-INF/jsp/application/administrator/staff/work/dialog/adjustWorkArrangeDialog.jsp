@@ -35,10 +35,19 @@
     	var relUrl = "app/admin.do?action=actionLoadArrangedStaffs&districtId="+$("#districtId").val()+"&workTime.id="+$('#dialog_bindWorkTime').val()+"&workDate="+$('#workDateInput').val();
     	$("#staffNames").loadUrl(relUrl,{},function(){});
     }
+    
+    function loadWorkTime(){
+    	var relUrl = "app/admin.do?action=actionLoadWorkTime&districtId="+$("#districtId").val();
+    	$("#newWorkTime").loadUrl(relUrl,{},function(){});
+    }
+    
+    function removeRequire(){
+    	$('#new_work_date').removeClass("required");
+    }
 </script>
 
 <div class="pageContent">
-	<form method="post" action="app/admin.do?action=adminAddStaffWorkArrange" id="formjob" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<form method="post" action="app/admin.do?action=actionAdjustWorkArrange" id="formjob" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent" layoutH="56">
 			<table cellspacing="10" cellpadding="10" style="border-spacing:12">
 			    
@@ -51,7 +60,7 @@
 				<tr>
 					<td>工作中心：</td>
 					<td colspan="2">
-						<select class="combox" id="districtId"  ref="dialog_bindWorkTime" refUrl="app/system/work/base/time.do?action=actionLoadWorkTimeByDistrict&districtId={value}">
+						<select class="combox" name="districtId" id="districtId"  ref="dialog_bindWorkTime" refUrl="app/system/work/base/time.do?action=actionLoadWorkTimeByDistrict&districtId={value}">
 						   <option value="-1">请选择</option>
 							<logic:present name="districts">
 								<logic:iterate name="districts" id="district">
@@ -77,33 +86,22 @@
 					<%@ include file="../data/staffNames.jsp" %>
 				</tr>
 				<tr>
-					<td colspan="5"><input type="radio" name="options" value="remove" />不安排工作</td>
+					<td colspan="5"><input type="radio" name="operations" value="remove" onclick="removeRequire()" />不安排工作</td>
 				</tr>
 				<tr>
-					<td><input type="radio" name="options" value="adjust" />调整到</td>
+					<td><input type="radio" name="operations" value="adjust" onclick="loadWorkTime()" />调整到</td>
 					<td>工作日期:</td>
-					<td><input name="newWorkDate" class="date textInput required" style="width:140px;float:left;" /></td>
+					<td><input name="newWorkDate" id="new_work_date" class="date textInput required" style="width:140px;float:left;" /></td>
 					<td>工作时间:</td>
-					<td>
-	    				<select class="combox" name="newWorkTime" id="dialog_arrangedStaffNames" style="width:140px">
-							<option value="">请选择</option>
-						</select>
+					<td id="newWorkTime">
+	    				<%@ include file="../data/workTime.jsp" %>
 					</td>
 				</tr>
 			</table>
 		</div>
 		<div class="formBar">
 			<ul>
-				<c:if test="${op eq null || op ne 'view'}">
-					<c:choose>
-						<c:when test="${workArrange ne null}">
-							<li><div class="buttonActive"><div class="buttonContent"><button id="btnapproval" type="submit">提交修改</button></div></div></li>
-						</c:when>
-						<c:otherwise>
-							<li><div class="buttonActive"><div class="buttonContent"><button type="submit">添加工作安排</button></div></div></li>
-						</c:otherwise>
-					</c:choose>
-				</c:if>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">工作安排调整</button></div></div></li>
 				<li>
 					<div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div>
 				</li>
