@@ -846,9 +846,8 @@ extends BaseAdminAction
 			HttpServletRequest request, HttpServletResponse response) throws WebException 
 	{
 		try
-		{
+		{	
 			ModelStaffAttendance formStaffAttendance = (ModelStaffAttendance) form;
-
 			PagingBean pagingBean = this.getPagingBean(request);
 			PaginationSupport<ModelStaffAttendance> staffAttendances =
 				this.serviceStaffAttendance.getPaginationByEntity(formStaffAttendance, pagingBean);
