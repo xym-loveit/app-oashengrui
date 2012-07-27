@@ -2,9 +2,9 @@
 -- version 3.3.3
 -- http://www.phpmyadmin.net
 --
--- 主机: localhost
--- 生成日期: 2012 年 07 月 26 日 15:09
--- 服务器版本: 5.0.51
+-- 主機: localhost
+-- 建立日期: Jul 27, 2012, 04:56 PM
+-- 伺服器版本: 5.0.91
 -- PHP 版本: 5.2.13
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
@@ -16,13 +16,13 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 /*!40101 SET NAMES utf8 */;
 
 --
--- 数据库: `app_sroa`
+-- 資料庫: `app_sroa`
 --
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_admin_attendance`
+-- 資料表格式： `app_admin_attendance`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_attendance` (
@@ -46,14 +46,14 @@ CREATE TABLE IF NOT EXISTS `app_admin_attendance` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-员工考勤' AUTO_INCREMENT=1 ;
 
 --
--- 转存表中的数据 `app_admin_attendance`
+-- 列出以下資料庫的數據： `app_admin_attendance`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_admin_conference`
+-- 資料表格式： `app_admin_conference`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_conference` (
@@ -83,14 +83,14 @@ CREATE TABLE IF NOT EXISTS `app_admin_conference` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='会议表' AUTO_INCREMENT=1 ;
 
 --
--- 转存表中的数据 `app_admin_conference`
+-- 列出以下資料庫的數據： `app_admin_conference`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_admin_doc`
+-- 資料表格式： `app_admin_doc`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_doc` (
@@ -114,17 +114,17 @@ CREATE TABLE IF NOT EXISTS `app_admin_doc` (
   KEY `PK_author` (`author_id`),
   KEY `PK_dcoType` (`type_dicid`),
   KEY `PK_file` (`file_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='行政管理-文档' AUTO_INCREMENT=20 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-文档' AUTO_INCREMENT=1 ;
 
 --
--- 转存表中的数据 `app_admin_doc`
+-- 列出以下資料庫的數據： `app_admin_doc`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_admin_doc_level`
+-- 資料表格式： `app_admin_doc_level`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_doc_level` (
@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `app_admin_doc_level` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='文档级别' AUTO_INCREMENT=5 ;
 
 --
--- 转存表中的数据 `app_admin_doc_level`
+-- 列出以下資料庫的數據： `app_admin_doc_level`
 --
 
 INSERT INTO `app_admin_doc_level` (`id`, `level_name`) VALUES
@@ -146,7 +146,7 @@ INSERT INTO `app_admin_doc_level` (`id`, `level_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_admin_doc_visiable_range`
+-- 資料表格式： `app_admin_doc_visiable_range`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_doc_visiable_range` (
@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `app_admin_doc_visiable_range` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='文档范围' AUTO_INCREMENT=5 ;
 
 --
--- 转存表中的数据 `app_admin_doc_visiable_range`
+-- 列出以下資料庫的數據： `app_admin_doc_visiable_range`
 --
 
 INSERT INTO `app_admin_doc_visiable_range` (`id`, `visiable_name`) VALUES
@@ -168,7 +168,7 @@ INSERT INTO `app_admin_doc_visiable_range` (`id`, `visiable_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_admin_news`
+-- 資料表格式： `app_admin_news`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_news` (
@@ -191,14 +191,14 @@ CREATE TABLE IF NOT EXISTS `app_admin_news` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-新闻' AUTO_INCREMENT=1 ;
 
 --
--- 转存表中的数据 `app_admin_news`
+-- 列出以下資料庫的數據： `app_admin_news`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_admin_news_file`
+-- 資料表格式： `app_admin_news_file`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_news_file` (
@@ -208,14 +208,14 @@ CREATE TABLE IF NOT EXISTS `app_admin_news_file` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-新闻文件关联表';
 
 --
--- 转存表中的数据 `app_admin_news_file`
+-- 列出以下資料庫的數據： `app_admin_news_file`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_admin_task`
+-- 資料表格式： `app_admin_task`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_task` (
@@ -237,7 +237,7 @@ CREATE TABLE IF NOT EXISTS `app_admin_task` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='行政管理-任务委托' AUTO_INCREMENT=4 ;
 
 --
--- 转存表中的数据 `app_admin_task`
+-- 列出以下資料庫的數據： `app_admin_task`
 --
 
 INSERT INTO `app_admin_task` (`task_id`, `type_dicid`, `task_name`, `task_originator`, `task_charger`, `task_planStartDate`, `task_planEndDate`, `task_actualFinishDate`, `task_desc`, `task_participant_ids`, `task_participant_names`, `task_status`, `approval_status`, `create_time`) VALUES
@@ -246,7 +246,7 @@ INSERT INTO `app_admin_task` (`task_id`, `type_dicid`, `task_name`, `task_origin
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_admin_task_file`
+-- 資料表格式： `app_admin_task_file`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_task_file` (
@@ -256,14 +256,14 @@ CREATE TABLE IF NOT EXISTS `app_admin_task_file` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-任务委托文件关联表';
 
 --
--- 转存表中的数据 `app_admin_task_file`
+-- 列出以下資料庫的數據： `app_admin_task_file`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_admin_task_participants`
+-- 資料表格式： `app_admin_task_participants`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_task_participants` (
@@ -273,7 +273,7 @@ CREATE TABLE IF NOT EXISTS `app_admin_task_participants` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务参与人';
 
 --
--- 转存表中的数据 `app_admin_task_participants`
+-- 列出以下資料庫的數據： `app_admin_task_participants`
 --
 
 INSERT INTO `app_admin_task_participants` (`task_id`, `emp_id`) VALUES
@@ -283,7 +283,7 @@ INSERT INTO `app_admin_task_participants` (`task_id`, `emp_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_admin_task_tracks`
+-- 資料表格式： `app_admin_task_tracks`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_task_tracks` (
@@ -301,7 +301,7 @@ CREATE TABLE IF NOT EXISTS `app_admin_task_tracks` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='任务委托审批记录' AUTO_INCREMENT=4 ;
 
 --
--- 转存表中的数据 `app_admin_task_tracks`
+-- 列出以下資料庫的數據： `app_admin_task_tracks`
 --
 
 INSERT INTO `app_admin_task_tracks` (`track_id`, `task_id`, `task_applyTime`, `task_applyType`, `task_applyFinalTime`, `task_applyMeto`, `task_auditState`, `task_auditFinalTime`, `task_auditMeto`, `task_auditTime`) VALUES
@@ -310,7 +310,7 @@ INSERT INTO `app_admin_task_tracks` (`track_id`, `task_id`, `task_applyTime`, `t
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_admin_workarrange`
+-- 資料表格式： `app_admin_workarrange`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_workarrange` (
@@ -321,14 +321,14 @@ CREATE TABLE IF NOT EXISTS `app_admin_workarrange` (
   `staff_id` bigint(20) NOT NULL COMMENT '员工ID',
   `work_type` int(5) default NULL COMMENT '上班类型',
   `work_content` bigint(20) default NULL COMMENT '工作内容',
-  `district_id` bigint(20) DEFAULT NULL COMMENT '员工所在校区',
+  `district_id` bigint(20) default NULL COMMENT '员工所在校区',
   PRIMARY KEY  (`work_id`),
   KEY `PK_user` (`staff_id`),
   KEY `PK_type` (`work_type`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='行政管理-工作安排' AUTO_INCREMENT=11 ;
 
 --
--- 转存表中的数据 `app_admin_workarrange`
+-- 列出以下資料庫的數據： `app_admin_workarrange`
 --
 
 INSERT INTO `app_admin_workarrange` (`work_id`, `work_date`, `work_time`, `staff_name`, `staff_id`, `work_type`, `work_content`, `district_id`) VALUES
@@ -344,7 +344,7 @@ INSERT INTO `app_admin_workarrange` (`work_id`, `work_date`, `work_time`, `staff
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_admin_worktype`
+-- 資料表格式： `app_admin_worktype`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_worktype` (
@@ -354,7 +354,7 @@ CREATE TABLE IF NOT EXISTS `app_admin_worktype` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- 转存表中的数据 `app_admin_worktype`
+-- 列出以下資料庫的數據： `app_admin_worktype`
 --
 
 INSERT INTO `app_admin_worktype` (`id`, `type`) VALUES
@@ -366,7 +366,7 @@ INSERT INTO `app_admin_worktype` (`id`, `type`) VALUES
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_conference_file`
+-- 資料表格式： `app_conference_file`
 --
 
 CREATE TABLE IF NOT EXISTS `app_conference_file` (
@@ -376,14 +376,14 @@ CREATE TABLE IF NOT EXISTS `app_conference_file` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='会议文件';
 
 --
--- 转存表中的数据 `app_conference_file`
+-- 列出以下資料庫的數據： `app_conference_file`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_file_attach`
+-- 資料表格式： `app_file_attach`
 --
 
 CREATE TABLE IF NOT EXISTS `app_file_attach` (
@@ -402,14 +402,14 @@ CREATE TABLE IF NOT EXISTS `app_file_attach` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='附件' AUTO_INCREMENT=2 ;
 
 --
--- 转存表中的数据 `app_file_attach`
+-- 列出以下資料庫的數據： `app_file_attach`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_finan_contract`
+-- 資料表格式： `app_finan_contract`
 --
 
 CREATE TABLE IF NOT EXISTS `app_finan_contract` (
@@ -435,7 +435,7 @@ CREATE TABLE IF NOT EXISTS `app_finan_contract` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='合同申请' AUTO_INCREMENT=3 ;
 
 --
--- 转存表中的数据 `app_finan_contract`
+-- 列出以下資料庫的數據： `app_finan_contract`
 --
 
 INSERT INTO `app_finan_contract` (`contract_id`, `apply_form_no`, `apply_form_type`, `emp_id`, `emp_district`, `emp_dep`, `emp_phone_no`, `apply_date`, `comments`, `apply_amt`, `contract_no`, `contract_parties`, `contract_parties_contact`, `pay_method`, `audit_state`, `entry_id`, `entry_datetime`) VALUES
@@ -444,7 +444,7 @@ INSERT INTO `app_finan_contract` (`contract_id`, `apply_form_no`, `apply_form_ty
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_finan_expense`
+-- 資料表格式： `app_finan_expense`
 --
 
 CREATE TABLE IF NOT EXISTS `app_finan_expense` (
@@ -477,7 +477,7 @@ CREATE TABLE IF NOT EXISTS `app_finan_expense` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- 转存表中的数据 `app_finan_expense`
+-- 列出以下資料庫的數據： `app_finan_expense`
 --
 
 INSERT INTO `app_finan_expense` (`expense_id`, `apply_form_no`, `apply_form_type`, `apply_date`, `comments`, `emp_id`, `emp_district`, `emp_dep`, `emp_phone_no`, `apply_amt`, `payer`, `contract_no`, `attach_count`, `audit_advance`, `asset_no`, `amt_receiver`, `amt_receiver_contact`, `pay_method`, `bank`, `account_name`, `account_no`, `status`, `audit_state`, `entry_id`, `entry_datetime`) VALUES
@@ -487,7 +487,7 @@ INSERT INTO `app_finan_expense` (`expense_id`, `apply_form_no`, `apply_form_type
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_function`
+-- 資料表格式： `app_function`
 --
 
 CREATE TABLE IF NOT EXISTS `app_function` (
@@ -500,22 +500,38 @@ CREATE TABLE IF NOT EXISTS `app_function` (
   PRIMARY KEY  (`func_id`),
   UNIQUE KEY `func_key` (`func_key`),
   KEY `menu_id` (`menu_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能表' AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能表' AUTO_INCREMENT=21 ;
 
 --
--- 转存表中的数据 `app_function`
+-- 列出以下資料庫的數據： `app_function`
 --
 
 INSERT INTO `app_function` (`func_id`, `func_key`, `func_name`, `func_icon`, `func_desc`, `menu_id`) VALUES
 (1, '_FUNCKEY_myplan_edit', '编辑任务', 'icon-btnedit', '', 4),
 (2, '_FUNCKEY_myplan_del', '删除任务', 'icon-btndel', '', 4),
 (3, '_FUNCKEY_fina_apply', '费用支出申请', '', '', 7),
-(4, '_FUNCKEY_fina_form_view', '费用申请查看', '', '', 7);
+(4, '_FUNCKEY_fina_form_view', '费用申请查看', '', '', 7),
+(5, '_FUNCKEY_HRM_JOBHIRE_JOB_VIEW', '岗位管理-岗位查看', '', '查看岗位详细信息..', 48),
+(6, '_FUNCKEY_HRM_JOBHIRE_JOB_POST', '岗位管理-岗位发布', '', '需先具备`岗位查看`的权限, 才能进行岗位发布操作.', 48),
+(7, '_FUNCKEY_HRM_JOBHIRE_JOB_EDIT', '岗位管理-岗位编辑', '', '需先具备`岗位查看`的权限, 才能进行岗位编辑操作.', 48),
+(8, '_FUNCKEY_HRM_JOBHIRE_JOB_OPENCTRL', '岗位管理-应聘控制', '', '应聘控制包含, `应聘开启`和`应聘关闭`操作.', 48),
+(9, '_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY', '入职安排-页面查看', '', '对通过面试的人员进行入职安排操作.', 48),
+(10, '_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_RESUME_VIEW', '入职安排-简历查看', '', '入职安排页面中查看应聘者简历信息.', 48),
+(11, '_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_INTERVIEW_VIEW', '入职安排-面试查看', '', '入职安排页面中查看应聘者面试记录信息.', 48),
+(12, '_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_ARRANGE', '入职安排-入职安排', '', '主要是对入职校区、部门、时间等信息的安排.', 48),
+(13, '_FUNCKEY_HRM_JOBHIRE_JOB_APPROVAL', '岗位管理-岗位审批', '', '对发布的岗位进行审批操作.', 48),
+(14, '_FUNCKEY_HRM_JOBHIRE_JOB_OFFER', '招聘安排-页面查看', '', '主要对应聘者进行面试安排等操作.', 48),
+(15, '_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_RESUME_VIEW', '招聘安排-简历查看', '', '招聘安排页面中查看应聘者简历信息.', 48),
+(16, '_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_VIEW', '招聘安排-面试查看', '', '招聘安排页面中查看应聘者面试记录信息.', 48),
+(17, '_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ENTILE', '招聘安排-员工录用', '', '面试过后, 进行员工录用状态转换操作.', 48),
+(18, '_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ELIMINATE', '招聘安排-员工淘汰', '', '面试过后, 进行员工淘汰状态转换操作.', 48),
+(19, '_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_ABSENCE', '招聘安排-员工未到', '', '面试过后, 进行员工淘汰状态转换操作.', 48),
+(20, '_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_ARRANGE', '招聘安排-招聘安排', '', '应聘者面试安排操作', 48);
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_function_url`
+-- 資料表格式： `app_function_url`
 --
 
 CREATE TABLE IF NOT EXISTS `app_function_url` (
@@ -524,22 +540,45 @@ CREATE TABLE IF NOT EXISTS `app_function_url` (
   `url_path` varchar(120) NOT NULL COMMENT '功能链接',
   PRIMARY KEY  (`url_id`),
   KEY `func_id` (`func_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能URL' AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能URL' AUTO_INCREMENT=56 ;
 
 --
--- 转存表中的数据 `app_function_url`
+-- 列出以下資料庫的數據： `app_function_url`
 --
 
 INSERT INTO `app_function_url` (`url_id`, `func_id`, `url_path`) VALUES
 (3, 1, 'aefew'),
 (4, 2, 'sdewr'),
 (5, 3, 'app/finan/financial.do?action=FinanExpenseDetail'),
-(6, 4, 'app/finan/financial.do?action=FinanExpenseDetail&id=7&op=view');
+(6, 4, 'app/finan/financial.do?action=FinanExpenseDetail&id=7&op=view'),
+(21, 5, 'app/hrm/hire.do?action=hrmPageJobDetail'),
+(24, 8, 'app/hrm/hire.do?action=actionJobOpenControl'),
+(25, 10, 'app/hrm/hire.do?action=hrmPageJobResume'),
+(26, 11, 'app/hrm/hire/interview.do?action=hrmPageJobOfferInterviewIndex'),
+(28, 9, 'app/hrm/hire.do?action=hrmPageJobEntryIndex'),
+(30, 12, 'app/hrm/hire.do?action=actionJobEntrySave'),
+(31, 12, 'app/hrm/hire.do?action=hrmPageJobEntryDetail'),
+(32, 13, 'app/hrm/hire.do?action=hrmPageJobApprovalIndex'),
+(33, 6, 'app/hrm/hire.do?action=actionJobSave'),
+(34, 6, 'app/hrm/hire.do?action=hrmPageJobDetail'),
+(35, 7, 'app/hrm/hire.do?action=hrmPageJobDetail'),
+(36, 7, 'app/hrm/hire.do?action=actionJobSave'),
+(38, 14, 'app/hrm/hire.do?action=hrmPageJobOfferIndex'),
+(39, 15, 'app/hrm/hire.do?action=hrmPageJobResume'),
+(40, 16, 'app/hrm/hire/interview.do?action=hrmPageJobOfferInterviewIndex'),
+(47, 19, 'app/hrm/hire.do?action=actionJobIssueFinalize'),
+(48, 19, 'app/hrm/hire.do?action=dialogJobOfferFinalizePage'),
+(49, 17, 'app/hrm/hire.do?action=dialogJobOfferFinalizePage'),
+(50, 17, 'app/hrm/hire.do?action=actionJobIssueFinalize'),
+(51, 18, 'app/hrm/hire.do?action=actionJobIssueFinalize'),
+(52, 18, 'app/hrm/hire.do?action=dialogJobOfferFinalizePage'),
+(54, 20, 'app/hrm/hire.do?action=hrmPageJobOfferInterviewPlan'),
+(55, 20, 'app/hrm/hire/interview.do?action=actionJobInterviewPlanSave');
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_global_type`
+-- 資料表格式： `app_global_type`
 --
 
 CREATE TABLE IF NOT EXISTS `app_global_type` (
@@ -552,14 +591,14 @@ CREATE TABLE IF NOT EXISTS `app_global_type` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='总分类表  用于显示树层次结构的分类 可以允许任何层次结构' AUTO_INCREMENT=1 ;
 
 --
--- 转存表中的数据 `app_global_type`
+-- 列出以下資料庫的數據： `app_global_type`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_hrm_archive`
+-- 資料表格式： `app_hrm_archive`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_archive` (
@@ -574,14 +613,14 @@ CREATE TABLE IF NOT EXISTS `app_hrm_archive` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='公司人才库' AUTO_INCREMENT=4 ;
 
 --
--- 转存表中的数据 `app_hrm_archive`
+-- 列出以下資料庫的數據： `app_hrm_archive`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_hrm_employee`
+-- 資料表格式： `app_hrm_employee`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_employee` (
@@ -613,7 +652,7 @@ CREATE TABLE IF NOT EXISTS `app_hrm_employee` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='员工档案表' AUTO_INCREMENT=15 ;
 
 --
--- 转存表中的数据 `app_hrm_employee`
+-- 列出以下資料庫的數據： `app_hrm_employee`
 --
 
 INSERT INTO `app_hrm_employee` (`emp_id`, `emp_no`, `dep_id`, `district_id`, `emp_name`, `position_id`, `birthdate`, `phone_no`, `short_no`, `office_phone`, `urgency_contacts`, `positive_due_date`, `contract_end_date`, `onboard_status`, `teacher_star`, `consult_star`, `teach_class`, `teach_subject`, `resume_id`, `status`, `onboard_date`, `entry_id`, `entry_datetime`) VALUES
@@ -630,7 +669,7 @@ INSERT INTO `app_hrm_employee` (`emp_id`, `emp_no`, `dep_id`, `district_id`, `em
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_hrm_employee_develop`
+-- 資料表格式： `app_hrm_employee_develop`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_employee_develop` (
@@ -656,14 +695,14 @@ CREATE TABLE IF NOT EXISTS `app_hrm_employee_develop` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='人资申请' AUTO_INCREMENT=3 ;
 
 --
--- 转存表中的数据 `app_hrm_employee_develop`
+-- 列出以下資料庫的數據： `app_hrm_employee_develop`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_hrm_employee_profile`
+-- 資料表格式： `app_hrm_employee_profile`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_employee_profile` (
@@ -675,14 +714,14 @@ CREATE TABLE IF NOT EXISTS `app_hrm_employee_profile` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='员工基本信息表' AUTO_INCREMENT=1 ;
 
 --
--- 转存表中的数据 `app_hrm_employee_profile`
+-- 列出以下資料庫的數據： `app_hrm_employee_profile`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_hrm_employee_roadmap`
+-- 資料表格式： `app_hrm_employee_roadmap`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_employee_roadmap` (
@@ -700,7 +739,7 @@ CREATE TABLE IF NOT EXISTS `app_hrm_employee_roadmap` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='员工历程' AUTO_INCREMENT=14 ;
 
 --
--- 转存表中的数据 `app_hrm_employee_roadmap`
+-- 列出以下資料庫的數據： `app_hrm_employee_roadmap`
 --
 
 INSERT INTO `app_hrm_employee_roadmap` (`roadmap_id`, `emp_id`, `orginal_depid`, `orginal_districtid`, `orginal_positionid`, `dst_depid`, `dst_districtid`, `dst_positionid`, `type`, `date`) VALUES
@@ -721,7 +760,7 @@ INSERT INTO `app_hrm_employee_roadmap` (`roadmap_id`, `emp_id`, `orginal_depid`,
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_hrm_hire_entries`
+-- 資料表格式： `app_hrm_hire_entries`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_hire_entries` (
@@ -740,7 +779,7 @@ CREATE TABLE IF NOT EXISTS `app_hrm_hire_entries` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='员工入职安排表' AUTO_INCREMENT=11 ;
 
 --
--- 转存表中的数据 `app_hrm_hire_entries`
+-- 列出以下資料庫的數據： `app_hrm_hire_entries`
 --
 
 INSERT INTO `app_hrm_hire_entries` (`entry_id`, `issue_id`, `district_id`, `dep_id`, `position_id`, `charger_id`, `plan_date`, `act_date`, `inspect_status`, `cstatus`, `fstatus`) VALUES
@@ -750,7 +789,7 @@ INSERT INTO `app_hrm_hire_entries` (`entry_id`, `issue_id`, `district_id`, `dep_
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_hrm_hire_interviews`
+-- 資料表格式： `app_hrm_hire_interviews`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_hire_interviews` (
@@ -767,7 +806,7 @@ CREATE TABLE IF NOT EXISTS `app_hrm_hire_interviews` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='招聘面试' AUTO_INCREMENT=15 ;
 
 --
--- 转存表中的数据 `app_hrm_hire_interviews`
+-- 列出以下資料庫的數據： `app_hrm_hire_interviews`
 --
 
 INSERT INTO `app_hrm_hire_interviews` (`hw_id`, `hissue_id`, `interview_address`, `interview_date`, `interviewer_id`, `meto`, `session_sn`, `state`, `comments`) VALUES
@@ -776,7 +815,7 @@ INSERT INTO `app_hrm_hire_interviews` (`hw_id`, `hissue_id`, `interview_address`
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_hrm_hire_interviews_file`
+-- 資料表格式： `app_hrm_hire_interviews_file`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_hire_interviews_file` (
@@ -786,14 +825,14 @@ CREATE TABLE IF NOT EXISTS `app_hrm_hire_interviews_file` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='面试附件';
 
 --
--- 转存表中的数据 `app_hrm_hire_interviews_file`
+-- 列出以下資料庫的數據： `app_hrm_hire_interviews_file`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_hrm_hire_issue`
+-- 資料表格式： `app_hrm_hire_issue`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_hire_issue` (
@@ -808,7 +847,7 @@ CREATE TABLE IF NOT EXISTS `app_hrm_hire_issue` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='当前招聘' AUTO_INCREMENT=22 ;
 
 --
--- 转存表中的数据 `app_hrm_hire_issue`
+-- 列出以下資料庫的數據： `app_hrm_hire_issue`
 --
 
 INSERT INTO `app_hrm_hire_issue` (`hissue_id`, `resume_id`, `hjob_id`, `current_status`, `final_result`, `user_id`, `apply_time`) VALUES
@@ -818,7 +857,7 @@ INSERT INTO `app_hrm_hire_issue` (`hissue_id`, `resume_id`, `hjob_id`, `current_
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_hrm_hire_job`
+-- 資料表格式： `app_hrm_hire_job`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_hire_job` (
@@ -848,7 +887,7 @@ CREATE TABLE IF NOT EXISTS `app_hrm_hire_job` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='招聘岗位发布' AUTO_INCREMENT=6 ;
 
 --
--- 转存表中的数据 `app_hrm_hire_job`
+-- 列出以下資料庫的數據： `app_hrm_hire_job`
 --
 
 INSERT INTO `app_hrm_hire_job` (`hjob_id`, `job_title`, `hjob_districtid`, `hjob_depid`, `hjob_range`, `hjob_visible_districtid`, `end_date`, `hjob_count`, `hjob_condition`, `hjob_address`, `hjob_responsibility`, `hjob_salary`, `reg_fullname`, `reg_date`, `modify_fullname`, `modify_date`, `check_fullname`, `check_opinion`, `check_date`, `status`, `memo`, `isopen`) VALUES
@@ -858,7 +897,7 @@ INSERT INTO `app_hrm_hire_job` (`hjob_id`, `job_title`, `hjob_districtid`, `hjob
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_hrm_hire_job_file`
+-- 資料表格式： `app_hrm_hire_job_file`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_hire_job_file` (
@@ -868,14 +907,14 @@ CREATE TABLE IF NOT EXISTS `app_hrm_hire_job_file` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='招聘岗位附件';
 
 --
--- 转存表中的数据 `app_hrm_hire_job_file`
+-- 列出以下資料庫的數據： `app_hrm_hire_job_file`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_hrm_resume`
+-- 資料表格式： `app_hrm_resume`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_resume` (
@@ -919,7 +958,7 @@ CREATE TABLE IF NOT EXISTS `app_hrm_resume` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='简历管理' AUTO_INCREMENT=30 ;
 
 --
--- 转存表中的数据 `app_hrm_resume`
+-- 列出以下資料庫的數據： `app_hrm_resume`
 --
 
 INSERT INTO `app_hrm_resume` (`resume_id`, `emp_id`, `fullname`, `age`, `birthday`, `address`, `marriage`, `zip`, `sex`, `phone`, `mobile`, `email`, `hobby`, `religion`, `party`, `nationality`, `race`, `birthPlace`, `eduCollege`, `eduDegree`, `eduMajor`, `teacher_major`, `teacher_cert`, `startWorkDate`, `idNo`, `photo`, `status`, `memo`, `registor`, `regTime`, `workCase`, `trainCase`, `projectCase`, `en_level`, `cn_level`, `source`) VALUES
@@ -937,7 +976,7 @@ INSERT INTO `app_hrm_resume` (`resume_id`, `emp_id`, `fullname`, `age`, `birthda
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_hrm_resume_file`
+-- 資料表格式： `app_hrm_resume_file`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_resume_file` (
@@ -947,14 +986,14 @@ CREATE TABLE IF NOT EXISTS `app_hrm_resume_file` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='简历附件';
 
 --
--- 转存表中的数据 `app_hrm_resume_file`
+-- 列出以下資料庫的數據： `app_hrm_resume_file`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_menu`
+-- 資料表格式： `app_menu`
 --
 
 CREATE TABLE IF NOT EXISTS `app_menu` (
@@ -972,7 +1011,7 @@ CREATE TABLE IF NOT EXISTS `app_menu` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统菜单' AUTO_INCREMENT=52 ;
 
 --
--- 转存表中的数据 `app_menu`
+-- 列出以下資料庫的數據： `app_menu`
 --
 
 INSERT INTO `app_menu` (`menu_id`, `menu_title`, `menu_icon`, `menu_url`, `menu_key`, `menu_desc`, `menu_parent`, `menu_order`) VALUES
@@ -1029,7 +1068,7 @@ INSERT INTO `app_menu` (`menu_id`, `menu_title`, `menu_icon`, `menu_url`, `menu_
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_message_entity`
+-- 資料表格式： `app_message_entity`
 --
 
 CREATE TABLE IF NOT EXISTS `app_message_entity` (
@@ -1040,20 +1079,25 @@ CREATE TABLE IF NOT EXISTS `app_message_entity` (
   `sender_name` varchar(120) NOT NULL COMMENT '发送者姓名',
   `msg_type` tinyint(4) default NULL COMMENT '消息类型',
   `send_time` datetime NOT NULL COMMENT '发送时间',
-  PRIMARY KEY  (`msg_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='短消息' AUTO_INCREMENT=1 ;
-
-ALTER TABLE `app_message_entity` ADD INDEX ( `sender_id` ) 
+  PRIMARY KEY  (`msg_id`),
+  KEY `sender_id` (`sender_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='短消息' AUTO_INCREMENT=6 ;
 
 --
--- 转存表中的数据 `app_message_entity`
+-- 列出以下資料庫的數據： `app_message_entity`
 --
 
+INSERT INTO `app_message_entity` (`msg_id`, `msg_subject`, `msg_content`, `sender_id`, `sender_name`, `msg_type`, `send_time`) VALUES
+(1, 'tesat', 'ttesta', 6, '罗家驹', 1, '2012-07-27 09:44:54'),
+(2, 'tesat', 'noimno', 6, '罗家驹', 1, '2012-07-27 10:13:44'),
+(3, '测试下....', 'test', 6, '罗家驹', 1, '2012-07-27 10:34:06'),
+(4, '消息测试', 'acae', 6, '罗家驹', 1, '2012-07-27 10:34:20'),
+(5, 'test', 'fawefwae', 6, '罗家驹', 1, '2012-07-27 12:34:48');
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_message_in`
+-- 資料表格式： `app_message_in`
 --
 
 CREATE TABLE IF NOT EXISTS `app_message_in` (
@@ -1064,20 +1108,30 @@ CREATE TABLE IF NOT EXISTS `app_message_in` (
   `flag_read` tinyint(4) NOT NULL default '0' COMMENT '阅读标记, 1=已读, 0=未读',
   `flag_del` tinyint(4) NOT NULL default '0' COMMENT '删除标记, 1=已删, 0=未删',
   `receiv_time` datetime NOT NULL COMMENT '接收时间',
-  PRIMARY KEY  (`receive_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='收件箱' AUTO_INCREMENT=1 ;
-
-ALTER TABLE `app_message_in` ADD INDEX ( `user_id` ) 
+  PRIMARY KEY  (`receive_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='收件箱' AUTO_INCREMENT=11 ;
 
 --
--- 转存表中的数据 `app_message_in`
+-- 列出以下資料庫的數據： `app_message_in`
 --
 
+INSERT INTO `app_message_in` (`receive_id`, `msg_id`, `user_id`, `user_name`, `flag_read`, `flag_del`, `receiv_time`) VALUES
+(1, 1, 6, '罗家驹', 1, 0, '2012-07-27 09:44:55'),
+(2, 2, 6, '罗家驹', 1, 1, '2012-07-27 10:13:44'),
+(3, 3, 14, '教师1', 0, 0, '2012-07-27 10:34:06'),
+(4, 3, 6, '罗家驹', 0, 1, '2012-07-27 10:34:06'),
+(5, 3, 7, '张三', 0, 0, '2012-07-27 10:34:07'),
+(6, 4, 14, '教师1', 0, 0, '2012-07-27 10:34:21'),
+(7, 4, 6, '罗家驹', 1, 0, '2012-07-27 10:34:21'),
+(8, 4, 7, '张三', 0, 0, '2012-07-27 10:34:21'),
+(9, 4, 8, '李四', 0, 0, '2012-07-27 10:34:21'),
+(10, 5, 6, '罗家驹', 1, 0, '2012-07-27 12:34:48');
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_process_definition`
+-- 資料表格式： `app_process_definition`
 --
 
 CREATE TABLE IF NOT EXISTS `app_process_definition` (
@@ -1093,7 +1147,7 @@ CREATE TABLE IF NOT EXISTS `app_process_definition` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程定义' AUTO_INCREMENT=19 ;
 
 --
--- 转存表中的数据 `app_process_definition`
+-- 列出以下資料庫的數據： `app_process_definition`
 --
 
 INSERT INTO `app_process_definition` (`def_id`, `type_id`, `def_name`, `def_description`, `filter_poset`, `def_trigger`, `createtime`) VALUES
@@ -1119,7 +1173,7 @@ INSERT INTO `app_process_definition` (`def_id`, `type_id`, `def_name`, `def_desc
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_process_form`
+-- 資料表格式： `app_process_form`
 --
 
 CREATE TABLE IF NOT EXISTS `app_process_form` (
@@ -1159,7 +1213,7 @@ CREATE TABLE IF NOT EXISTS `app_process_form` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程表单, 存储保存在运行中的流程表单数据' AUTO_INCREMENT=8 ;
 
 --
--- 转存表中的数据 `app_process_form`
+-- 列出以下資料庫的數據： `app_process_form`
 --
 
 INSERT INTO `app_process_form` (`form_id`, `form_no`, `type_id`, `task_name`, `task_from`, `task_next`, `seq_sn`, `task_type`, `to_rolenames`, `to_distnames`, `to_depnames`, `to_posnames`, `to_usernames`, `audit_rolenames`, `audit_distnames`, `audit_depnames`, `audit_usernames`, `audit_posnames`, `to_userids`, `to_roleids`, `to_distids`, `to_depids`, `to_posids`, `audit_userids`, `audit_roleids`, `audit_distids`, `audit_depids`, `audit_posids`, `audit_date`, `audit_state`, `audit_comments`) VALUES
@@ -1171,7 +1225,7 @@ INSERT INTO `app_process_form` (`form_id`, `form_no`, `type_id`, `task_name`, `t
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_process_history`
+-- 資料表格式： `app_process_history`
 --
 
 CREATE TABLE IF NOT EXISTS `app_process_history` (
@@ -1211,7 +1265,7 @@ CREATE TABLE IF NOT EXISTS `app_process_history` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程表单, 存储保存在运行中的流程表单数据' AUTO_INCREMENT=3 ;
 
 --
--- 转存表中的数据 `app_process_history`
+-- 列出以下資料庫的數據： `app_process_history`
 --
 
 INSERT INTO `app_process_history` (`history_id`, `form_no`, `type_id`, `task_name`, `task_from`, `task_next`, `task_type`, `seq_sn`, `to_rolenames`, `to_distnames`, `to_depnames`, `to_posnames`, `to_usernames`, `audit_rolenames`, `audit_distnames`, `audit_depnames`, `audit_usernames`, `audit_posnames`, `to_userids`, `to_roleids`, `to_distids`, `to_depids`, `to_posids`, `audit_userids`, `audit_roleids`, `audit_distids`, `audit_depids`, `audit_posids`, `audit_date`, `audit_state`, `audit_comments`) VALUES
@@ -1220,7 +1274,7 @@ INSERT INTO `app_process_history` (`history_id`, `form_no`, `type_id`, `task_nam
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_process_task`
+-- 資料表格式： `app_process_task`
 --
 
 CREATE TABLE IF NOT EXISTS `app_process_task` (
@@ -1244,7 +1298,7 @@ CREATE TABLE IF NOT EXISTS `app_process_task` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程任务设置' AUTO_INCREMENT=38 ;
 
 --
--- 转存表中的数据 `app_process_task`
+-- 列出以下資料庫的數據： `app_process_task`
 --
 
 INSERT INTO `app_process_task` (`task_id`, `def_id`, `task_name`, `task_from`, `task_next`, `seq_sn`, `to_rolenames`, `to_depnames`, `to_posnames`, `to_usernames`, `to_userids`, `to_roleids`, `to_depids`, `to_posids`, `comments`, `task_type`) VALUES
@@ -1277,7 +1331,7 @@ INSERT INTO `app_process_task` (`task_id`, `def_id`, `task_name`, `task_from`, `
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_process_type`
+-- 資料表格式： `app_process_type`
 --
 
 CREATE TABLE IF NOT EXISTS `app_process_type` (
@@ -1291,7 +1345,7 @@ CREATE TABLE IF NOT EXISTS `app_process_type` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程分类' AUTO_INCREMENT=10 ;
 
 --
--- 转存表中的数据 `app_process_type`
+-- 列出以下資料庫的數據： `app_process_type`
 --
 
 INSERT INTO `app_process_type` (`type_id`, `type_name`, `type_key`, `type_desc`, `type_slug`, `type_parent`) VALUES
@@ -1308,7 +1362,7 @@ INSERT INTO `app_process_type` (`type_id`, `type_name`, `type_key`, `type_desc`,
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_role`
+-- 資料表格式： `app_role`
 --
 
 CREATE TABLE IF NOT EXISTS `app_role` (
@@ -1325,18 +1379,18 @@ CREATE TABLE IF NOT EXISTS `app_role` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='角色表' AUTO_INCREMENT=7 ;
 
 --
--- 转存表中的数据 `app_role`
+-- 列出以下資料庫的數據： `app_role`
 --
 
 INSERT INTO `app_role` (`role_id`, `role_name`, `role_key`, `role_desc`, `role_status`, `role_rights`, `role_type`, `role_edit`) VALUES
 (1, '超级管理员', 'ROLE_SUPER', NULL, 1, '__ALL', 0, 0),
-(5, '校长', 'ROLE_MASTER', 'teset', 1, '__ALL', 1, 1),
+(5, '校长', 'ROLE_MASTER', 'teset', 1, '_FUNCKEY_myplan_del,_FUNCKEY_myplan_edit,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_ARRANGE,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_RESUME_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_INTERVIEW_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY,_FUNCKEY_HRM_JOBHIRE_JOB_POST,_FUNCKEY_HRM_JOBHIRE_JOB_APPROVAL,_FUNCKEY_HRM_JOBHIRE_JOB_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_EDIT,_FUNCKEY_HRM_JOBHIRE_JOB_OPENCTRL,_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ENTILE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_ABSENCE,_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ELIMINATE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_ARRANGE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_RESUME_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER', 1, 1),
 (6, '人资主管', 'ROLE_HR_MASTER', '', 1, '_FUNCKEY_myplan_edit,_FUNCKEY_myplan_del', 0, 1);
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_role_func`
+-- 資料表格式： `app_role_func`
 --
 
 CREATE TABLE IF NOT EXISTS `app_role_func` (
@@ -1348,20 +1402,35 @@ CREATE TABLE IF NOT EXISTS `app_role_func` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色权限表';
 
 --
--- 转存表中的数据 `app_role_func`
+-- 列出以下資料庫的數據： `app_role_func`
 --
 
 INSERT INTO `app_role_func` (`role_id`, `func_id`) VALUES
 (5, 1),
-(5, 3),
-(5, 4),
+(5, 2),
+(5, 5),
+(5, 6),
+(5, 7),
+(5, 8),
+(5, 9),
+(5, 10),
+(5, 11),
+(5, 12),
+(5, 13),
+(5, 14),
+(5, 15),
+(5, 16),
+(5, 17),
+(5, 18),
+(5, 19),
+(5, 20),
 (6, 1),
 (6, 2);
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_role_menu`
+-- 資料表格式： `app_role_menu`
 --
 
 CREATE TABLE IF NOT EXISTS `app_role_menu` (
@@ -1371,15 +1440,26 @@ CREATE TABLE IF NOT EXISTS `app_role_menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色菜单';
 
 --
--- 转存表中的数据 `app_role_menu`
+-- 列出以下資料庫的數據： `app_role_menu`
 --
 
 INSERT INTO `app_role_menu` (`role_id`, `menu_id`) VALUES
 (5, 3),
 (5, 4),
 (5, 5),
-(5, 6),
-(5, 7),
+(5, 8),
+(5, 32),
+(5, 33),
+(5, 34),
+(5, 35),
+(5, 36),
+(5, 37),
+(5, 38),
+(5, 45),
+(5, 46),
+(5, 47),
+(5, 48),
+(5, 49),
 (6, 3),
 (6, 4),
 (6, 8),
@@ -1403,7 +1483,7 @@ INSERT INTO `app_role_menu` (`role_id`, `menu_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_school_department`
+-- 資料表格式： `app_school_department`
 --
 
 CREATE TABLE IF NOT EXISTS `app_school_department` (
@@ -1418,7 +1498,7 @@ CREATE TABLE IF NOT EXISTS `app_school_department` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='学校部门设置' AUTO_INCREMENT=22 ;
 
 --
--- 转存表中的数据 `app_school_department`
+-- 列出以下資料庫的數據： `app_school_department`
 --
 
 INSERT INTO `app_school_department` (`dep_id`, `dep_no`, `dep_name`, `dep_desc`, `dep_eqlevel`, `dep_eqid`, `dep_orgtype`) VALUES
@@ -1433,7 +1513,7 @@ INSERT INTO `app_school_department` (`dep_id`, `dep_no`, `dep_name`, `dep_desc`,
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_school_department_position`
+-- 資料表格式： `app_school_department_position`
 --
 
 CREATE TABLE IF NOT EXISTS `app_school_department_position` (
@@ -1448,7 +1528,7 @@ CREATE TABLE IF NOT EXISTS `app_school_department_position` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='部门岗位' AUTO_INCREMENT=13 ;
 
 --
--- 转存表中的数据 `app_school_department_position`
+-- 列出以下資料庫的數據： `app_school_department_position`
 --
 
 INSERT INTO `app_school_department_position` (`pos_id`, `pos_name`, `pos_desc`, `pos_leadership`, `dep_id`, `pos_roleRights`) VALUES
@@ -1463,7 +1543,7 @@ INSERT INTO `app_school_department_position` (`pos_id`, `pos_name`, `pos_desc`, 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_school_department_position_role`
+-- 資料表格式： `app_school_department_position_role`
 --
 
 CREATE TABLE IF NOT EXISTS `app_school_department_position_role` (
@@ -1473,7 +1553,7 @@ CREATE TABLE IF NOT EXISTS `app_school_department_position_role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='部门岗位权限';
 
 --
--- 转存表中的数据 `app_school_department_position_role`
+-- 列出以下資料庫的數據： `app_school_department_position_role`
 --
 
 INSERT INTO `app_school_department_position_role` (`pos_id`, `role_id`) VALUES
@@ -1488,7 +1568,7 @@ INSERT INTO `app_school_department_position_role` (`pos_id`, `role_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_school_district`
+-- 資料表格式： `app_school_district`
 --
 
 CREATE TABLE IF NOT EXISTS `app_school_district` (
@@ -1505,7 +1585,7 @@ CREATE TABLE IF NOT EXISTS `app_school_district` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='校区设置' AUTO_INCREMENT=5 ;
 
 --
--- 转存表中的数据 `app_school_district`
+-- 列出以下資料庫的數據： `app_school_district`
 --
 
 INSERT INTO `app_school_district` (`district_id`, `district_no`, `district_name`, `district_type`, `district_address`, `district_phone`, `district_parent`) VALUES
@@ -1516,7 +1596,7 @@ INSERT INTO `app_school_district` (`district_id`, `district_no`, `district_name`
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_school_posets`
+-- 資料表格式： `app_school_posets`
 --
 
 CREATE TABLE IF NOT EXISTS `app_school_posets` (
@@ -1527,7 +1607,7 @@ CREATE TABLE IF NOT EXISTS `app_school_posets` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='职位岗位' AUTO_INCREMENT=5 ;
 
 --
--- 转存表中的数据 `app_school_posets`
+-- 列出以下資料庫的數據： `app_school_posets`
 --
 
 INSERT INTO `app_school_posets` (`poset_id`, `poset_name`) VALUES
@@ -1539,7 +1619,7 @@ INSERT INTO `app_school_posets` (`poset_id`, `poset_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_school_posets_terms`
+-- 資料表格式： `app_school_posets_terms`
 --
 
 CREATE TABLE IF NOT EXISTS `app_school_posets_terms` (
@@ -1549,7 +1629,7 @@ CREATE TABLE IF NOT EXISTS `app_school_posets_terms` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='职位与岗位关系表';
 
 --
--- 转存表中的数据 `app_school_posets_terms`
+-- 列出以下資料庫的數據： `app_school_posets_terms`
 --
 
 INSERT INTO `app_school_posets_terms` (`poset_id`, `pos_id`) VALUES
@@ -1564,7 +1644,7 @@ INSERT INTO `app_school_posets_terms` (`poset_id`, `pos_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_system_config`
+-- 資料表格式： `app_system_config`
 --
 
 CREATE TABLE IF NOT EXISTS `app_system_config` (
@@ -1579,14 +1659,14 @@ CREATE TABLE IF NOT EXISTS `app_system_config` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统配置,用于系统的全局配置' AUTO_INCREMENT=1 ;
 
 --
--- 转存表中的数据 `app_system_config`
+-- 列出以下資料庫的數據： `app_system_config`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_system_dictionary`
+-- 資料表格式： `app_system_dictionary`
 --
 
 CREATE TABLE IF NOT EXISTS `app_system_dictionary` (
@@ -1603,7 +1683,7 @@ CREATE TABLE IF NOT EXISTS `app_system_dictionary` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
 --
--- 转存表中的数据 `app_system_dictionary`
+-- 列出以下資料庫的數據： `app_system_dictionary`
 --
 
 INSERT INTO `app_system_dictionary` (`id`, `name`, `value`, `type`, `level`, `sequence`, `extra_value`, `creation_date`, `modified_date`) VALUES
@@ -1629,7 +1709,7 @@ INSERT INTO `app_system_dictionary` (`id`, `name`, `value`, `type`, `level`, `se
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_system_log`
+-- 資料表格式： `app_system_log`
 --
 
 CREATE TABLE IF NOT EXISTS `app_system_log` (
@@ -1642,10 +1722,10 @@ CREATE TABLE IF NOT EXISTS `app_system_log` (
   `ip` varchar(128) default NULL COMMENT '登录IP',
   `cost` bigint(20) default NULL COMMENT '操作耗时',
   PRIMARY KEY  (`log_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统日志' AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统日志' AUTO_INCREMENT=15 ;
 
 --
--- 转存表中的数据 `app_system_log`
+-- 列出以下資料庫的數據： `app_system_log`
 --
 
 INSERT INTO `app_system_log` (`log_id`, `user_name`, `user_id`, `createtime`, `operation`, `detail`, `ip`, `cost`) VALUES
@@ -1656,12 +1736,18 @@ INSERT INTO `app_system_log` (`log_id`, `user_name`, `user_id`, `createtime`, `o
 (5, '管理员', 1, '2012-07-26 14:08:47', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 40),
 (6, '教师1', 14, '2012-07-26 14:09:41', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 78),
 (7, '管理员', 1, '2012-07-26 14:10:13', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 60),
-(8, '管理员', 1, '2012-07-26 14:56:08', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 79);
+(8, '管理员', 1, '2012-07-26 14:56:08', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 79),
+(9, '管理员', 1, '2012-07-27 09:28:51', '登录', '用户通过身份验证进入系统', '127.0.0.1', 656),
+(10, '管理员', 1, '2012-07-27 09:28:51', '登录', '用户通过身份验证进入系统', '127.0.0.1', 203),
+(11, '管理员', 1, '2012-07-27 12:27:15', '登录', '用户通过身份验证进入系统', '127.0.0.1', 297),
+(12, '管理员', 1, '2012-07-27 12:27:15', '登录', '用户通过身份验证进入系统', '127.0.0.1', 1266),
+(13, '管理员', 1, '2012-07-27 14:34:01', '登录', '用户通过身份验证进入系统', '127.0.0.1', 875),
+(14, '教师1', 14, '2012-07-27 15:53:29', '登录', '用户通过身份验证进入系统', '127.0.0.1', 828);
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_system_work_content`
+-- 資料表格式： `app_system_work_content`
 --
 
 CREATE TABLE IF NOT EXISTS `app_system_work_content` (
@@ -1675,7 +1761,7 @@ CREATE TABLE IF NOT EXISTS `app_system_work_content` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统工作内容设置' AUTO_INCREMENT=11 ;
 
 --
--- 转存表中的数据 `app_system_work_content`
+-- 列出以下資料庫的數據： `app_system_work_content`
 --
 
 INSERT INTO `app_system_work_content` (`cnt_id`, `item_name`, `item_value`, `meto`, `district_id`, `update_time`) VALUES
@@ -1690,7 +1776,7 @@ INSERT INTO `app_system_work_content` (`cnt_id`, `item_name`, `item_value`, `met
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_system_work_template`
+-- 資料表格式： `app_system_work_template`
 --
 
 CREATE TABLE IF NOT EXISTS `app_system_work_template` (
@@ -1707,7 +1793,7 @@ CREATE TABLE IF NOT EXISTS `app_system_work_template` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='工作模板设置' AUTO_INCREMENT=12 ;
 
 --
--- 转存表中的数据 `app_system_work_template`
+-- 列出以下資料庫的數據： `app_system_work_template`
 --
 
 INSERT INTO `app_system_work_template` (`work_tpl_id`, `work_day`, `worktm_id`, `district_id`, `staff_id`, `staff_name`, `enable`, `template_id`, `workcnt_id`) VALUES
@@ -1726,7 +1812,7 @@ INSERT INTO `app_system_work_template` (`work_tpl_id`, `work_day`, `worktm_id`, 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_system_work_time`
+-- 資料表格式： `app_system_work_time`
 --
 
 CREATE TABLE IF NOT EXISTS `app_system_work_time` (
@@ -1743,7 +1829,7 @@ CREATE TABLE IF NOT EXISTS `app_system_work_time` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='工作时间设置' AUTO_INCREMENT=10 ;
 
 --
--- 转存表中的数据 `app_system_work_time`
+-- 列出以下資料庫的數據： `app_system_work_time`
 --
 
 INSERT INTO `app_system_work_time` (`worktm_id`, `item_name`, `work_stime`, `work_etime`, `meto`, `adjust_days`, `template_id`, `district_id`, `update_time`) VALUES
@@ -1757,7 +1843,7 @@ INSERT INTO `app_system_work_time` (`worktm_id`, `item_name`, `work_stime`, `wor
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_user`
+-- 資料表格式： `app_user`
 --
 
 CREATE TABLE IF NOT EXISTS `app_user` (
@@ -1784,11 +1870,11 @@ CREATE TABLE IF NOT EXISTS `app_user` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='app_user\r\n用户表' AUTO_INCREMENT=15 ;
 
 --
--- 转存表中的数据 `app_user`
+-- 列出以下資料庫的數據： `app_user`
 --
 
 INSERT INTO `app_user` (`user_id`, `username`, `password`, `fullname`, `email`, `dep_id`, `pos_id`, `district_id`, `emp_id`, `phone`, `mobile`, `fax`, `address`, `zip`, `photo`, `status`, `logon_lastip`, `logon_lastime`) VALUES
-(1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', '管理员', 'csx@jee-soft.cn', NULL, NULL, 1, 6, NULL, NULL, NULL, NULL, NULL, NULL, 1, '0:0:0:0:0:0:0:1', '2012-07-26 14:56:08'),
+(1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', '管理员', 'csx@jee-soft.cn', NULL, NULL, 1, 6, NULL, NULL, NULL, NULL, NULL, NULL, 1, '127.0.0.1', '2012-07-27 14:34:01'),
 (6, '00001001', 'ro+N+ETeTFw+SYrc4TnIzXuXWwO93mUJgr0ArrsNPfk=', '罗家驹', NULL, 15, 6, 1, 6, NULL, NULL, NULL, NULL, NULL, NULL, 1, '0:0:0:0:0:0:0:1', '2012-07-26 13:49:37'),
 (7, '00002001', '/4xWL9bhPAve03Tu5HeR7T0U6Qsmy6eYjLtZM4aAcFs=', '张三', NULL, 16, 7, 1, 7, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL),
 (8, '00003001', 'mxA4ujFL57JAzeke5W87Cujn+35uwD+aKrCuNK4f+6A=', '李四', NULL, 17, 8, 1, 8, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL),
@@ -1797,12 +1883,12 @@ INSERT INTO `app_user` (`user_id`, `username`, `password`, `fullname`, `email`, 
 (11, '00012001', 'Rtpi2nASXrbWpy+VYEXnKk+GOId4gKDOBDSVbxCXE6Q=', '钱七', NULL, 19, 10, 3, 11, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL),
 (12, '00013001', 'UTjsp+zTkqLY9j2s69wKMq/uOaDLKqxuer5KlRd6Vsg=', '孙八', NULL, 20, 11, 3, 12, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL),
 (13, '00014001', 'OUr8Kdc/PqTomMcE3GMTQdLnNH6u5TwEGWa3vRekjd0=', '周九', NULL, 21, 12, 3, 13, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL),
-(14, '00002002', 'VH4xR+A+M04zzSSzxg3T2osRhsB1+1gJYxVjJ38uk4E=', '教师1', NULL, 16, 7, 1, 14, NULL, NULL, NULL, NULL, NULL, NULL, 1, '0:0:0:0:0:0:0:1', '2012-07-26 14:09:41');
+(14, '00002002', 'VH4xR+A+M04zzSSzxg3T2osRhsB1+1gJYxVjJ38uk4E=', '教师1', NULL, 16, 7, 1, 14, NULL, NULL, NULL, NULL, NULL, NULL, 1, '127.0.0.1', '2012-07-27 15:53:28');
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app_user_role`
+-- 資料表格式： `app_user_role`
 --
 
 CREATE TABLE IF NOT EXISTS `app_user_role` (
@@ -1812,16 +1898,16 @@ CREATE TABLE IF NOT EXISTS `app_user_role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户权限表';
 
 --
--- 转存表中的数据 `app_user_role`
+-- 列出以下資料庫的數據： `app_user_role`
 --
 
 
 --
--- 限制导出的表
+-- 備份資料表限制
 --
 
 --
--- 限制表 `app_admin_doc`
+-- 資料表限制 `app_admin_doc`
 --
 ALTER TABLE `app_admin_doc`
   ADD CONSTRAINT `PK_file` FOREIGN KEY (`file_id`) REFERENCES `app_file_attach` (`file_id`),
@@ -1833,19 +1919,19 @@ ALTER TABLE `app_admin_doc`
   ADD CONSTRAINT `PK_range` FOREIGN KEY (`doc_VisiableRange_id`) REFERENCES `app_admin_doc_visiable_range` (`id`);
 
 --
--- 限制表 `app_hrm_resume_file`
+-- 資料表限制 `app_hrm_resume_file`
 --
 ALTER TABLE `app_hrm_resume_file`
   ADD CONSTRAINT `app_hrm_resume_file_ibfk_1` FOREIGN KEY (`file_id`) REFERENCES `app_file_attach` (`file_id`);
 
 --
--- 限制表 `app_process_definition`
+-- 資料表限制 `app_process_definition`
 --
 ALTER TABLE `app_process_definition`
   ADD CONSTRAINT `app_process_definition_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `app_process_type` (`type_id`);
 
 --
--- 限制表 `app_role_func`
+-- 資料表限制 `app_role_func`
 --
 ALTER TABLE `app_role_func`
   ADD CONSTRAINT `app_role_func_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `app_role` (`role_id`),
