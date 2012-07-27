@@ -232,7 +232,7 @@ ol.mp_list li.mp_error {
 ${tm:fileRestore(conference['attachFiles'])}
 </script>
 </c:if>
-${attendance_name_show ne null ? attendance_name_show:'no persions'}
+<!--  ${attendance_name_show ne null ? attendance_name_show:'no persions'} -->
 <div class="pageContent">
 	<form method="post" action="app/personal/conference.do?action=actionConferenceSave" id="formjob" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent" layoutH="56">
@@ -296,7 +296,7 @@ ${attendance_name_show ne null ? attendance_name_show:'no persions'}
 						<td style="padding: 5px;">
 							<c:choose>
 								<c:when test="${op eq null || op ne 'view'}">
-									<select class="combox" name="district.id" id="combox_district" style="width:120px">
+									<select class="combox" name="district.id" id="combox_district" style="width:120px" ref="combox_dept" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
 										<option value="">请选择校区</option>
 										<logic:present name="districts">
 											<logic:iterate name="districts" id="district">
@@ -315,7 +315,7 @@ ${attendance_name_show ne null ? attendance_name_show:'no persions'}
 							<c:choose>
 								<c:when test="${op eq null || op ne 'view'}">
 									<select class="combox" name="department.id" id="combox_dept" defOPKey="请选择部门" defOPVal="" style="width:120px">
-										<option value="">请选择部门</option>
+										
 										<logic:present name="select_departments">
 											<logic:iterate name="select_departments" id="entity">
 												<option value="${entity.id}" ${conference ne null && conference.department ne null && conference.department.id eq entity.id ? 'selected="selected"' : ''}>${entity.depName}</option>
