@@ -285,6 +285,28 @@ extends BaseAppAction
 		}
 	}
 	
+	/**
+	 * <b>[WebAction]</b> <br/>
+	 * 获取未读短消息数
+	 */
+	public ActionForward actionObtainMyUnreadMessageNum(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) 
+	{
+		try
+		{
+			int msgCount = this.serviceInMessage.getUnreadMessageCountByUser(
+				ContextUtil.getCurrentUser().getEmployee().getId());
+			
+			return ajaxPrint(response, String.valueOf(msgCount));
+		}
+		catch (Exception e)
+		{
+			LOGGER.error("Exception raised when getting unread message count.", e);
+			return ajaxPrint(response, "0");
+		}
+	}
+	
 	public static Logger getLogger()
 	{
 		return LOGGER;

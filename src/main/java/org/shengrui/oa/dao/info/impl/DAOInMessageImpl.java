@@ -1,5 +1,7 @@
 package org.shengrui.oa.dao.info.impl;
 
+import java.util.List;
+
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
@@ -66,5 +68,20 @@ extends DAOGenericImpl<ModelInMessage> implements DAOInMessage
 		criteria.addOrder(Order.desc("receiveTime"));
 		return this.findPageByCriteria(criteria, pagingBean);
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.dao.info.DAOInMessage#getUnreadMessageCountByUser(java.lang.String)
+	 */
+	@Override
+	public int getUnreadMessageCountByUser (String userId) throws DAOException
+	{
+		String sql = "SELECT COUNT(*) FROM app_message_in WHERE user_id = " + 
+						userId + " AND flag_read = " + ModelInMessage.FLAG_UNREAD;
+		
+		List<Object> msgCount = this.findListByNativeSQL(sql);
+		
+		return msgCount != null && msgCount.size() > 0 ? Integer.valueOf(msgCount.get(0).toString()) : 0;
+		
+	}
 }

@@ -87,6 +87,9 @@
 	<script type="text/javascript" src="resources/js/swfupload/swfupload.queue.js"></script>
 	<script type="text/javascript" src="resources/js/swfupload/fileprogress.js"></script>
 	<script type="text/javascript" src="resources/js/swfupload/handlers.js"></script>
+	
+	<script type="text/javascript" src="resources/js/jquery/jmessager/jquery.messager.js"></script>
+	<script type="text/javascript" src="resources/js/jquery/jmessager/jquery.floatDiv.js"></script>
 
 	<!--[if lt IE 7]>  
 	<script type="text/javascript" src="resources/js/pngfix/DD_belatedPNG_0.0.8a.js"></script>  
@@ -102,7 +105,9 @@
 			(request.getServerPort() == 80 ? "" : (":"+request.getServerPort())) +path+"/";  
 	%>
 	<script type="text/javascript">
+		
 		var APP_BASE_PATH = "<%=basePath%>";
+		
 		$(function(){
 			DWZ.init("resources/js/dwz/dwz.frag.xml", {
 				loginUrl:"loginDialog.jsp", loginTitle:"登录",	// 弹出登录对话框
@@ -127,8 +132,28 @@
 				}]
 			});
 			
+			// 设置10秒钟监听短消息
+			setInterval(function(){
+				generic_ajax_op("app/message.do?action=actionObtainMyUnreadMessageNum&_="+Date.parse(new Date()), null, null, (function(rsp_msg) {
+					if ($("#message_content a[rel='nav_msg']").size() > 0 && $("#message_content a[rel='nav_msg']").text() == rsp_msg) {
+						return;
+					} else {
+						$("#message").remove();
+						if (rsp_msg != "0") {
+							$.messager.show('<font style="color:#093">温馨提醒</font>', '<font style="font-size:9pt;font-weight:normal;">您有<a href="javascript:void(0);" id="msg_num" style="color:red;" rel="nav_msg" title="我的短消息">' + rsp_msg +'</a>条新短消息..</font>',0);
+						}
+						
+						$("#msg_num").unbind("click");
+						$("#msg_num").bind("click", (function(){
+							navTab.openTab("nav_msg", 
+								"app/message.do?action=pageMessageReceivedIndex&readFlag=0", {title: "我的短消息", fresh:true, icon: "icon-default icon", data:{}}
+							);
+						}));
+					}
+				}))
+			}, 5000);
+			
 		});
-		
 		
 	</script>
 	

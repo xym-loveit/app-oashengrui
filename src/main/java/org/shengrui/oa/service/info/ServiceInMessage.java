@@ -27,4 +27,13 @@ extends ServiceGeneric<ModelInMessage>
 	 */
 	PaginationSupport<ModelInMessage> getPaginationByUser (String userId, 
 			ModelShortMessage entity, String readFlag, PagingBean pagingBean) throws ServiceException;
+	
+	/**
+	 * 根据用户ID获取未读短信数
+	 * 
+	 * @param userId
+	 * @return
+	 * @throws ServiceException
+	 */
+	int getUnreadMessageCountByUser (String userId) throws ServiceException;
 }

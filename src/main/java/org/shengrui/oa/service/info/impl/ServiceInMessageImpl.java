@@ -45,6 +45,23 @@ extends ServiceGenericImpl<ModelInMessage> implements ServiceInMessage
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.info.ServiceInMessage#getUnreadMessageCountByUser(java.lang.String)
+	 */
+	@Override
+	public int getUnreadMessageCountByUser (String userId) throws ServiceException
+	{
+		try 
+		{
+			return this.daoInMessage.getUnreadMessageCountByUser(userId);
+		}
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
+	}
+	
 	public void setDaoInMessage(DAOInMessage daoInMessage)
 	{
 		this.daoInMessage = daoInMessage;

@@ -15,7 +15,7 @@
 	<a href="#" class="ltxt"><label style="font-size:24px;">晟睿教育协同办公系统</label></a>
 	<ul class="nav">
 		<li style="background: none;"><label style="color:white">用户名：${SPRING_SECURITY_LAST_USERNAME }</label></li>
-		<li style="background: none;"><a href="app/message.do?action=pageMessageReceivedIndex" target="navTab" rel="nav_msg">短消息</a></li>
+		<li style="background: none;"><a href="app/message.do?action=pageMessageReceivedIndex" target="navTab" rel="nav_msg" title="我的短消息">短消息</a></li>
 		<li style="background: none;"><a href="app/personal/addressBook.do?action=addressBookInfo" target="navTab">通讯录</a></li>
 		<li style="background: none;"><a href="app/index.do?action=index">首页</a></li>
 		<li><a href="j_logout.do">退出</a></li>
