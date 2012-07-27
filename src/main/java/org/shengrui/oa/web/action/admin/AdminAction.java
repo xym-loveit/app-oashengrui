@@ -379,8 +379,6 @@ extends BaseAdminAction
 			request.setAttribute("workArranges", workArranges);
 			request.setAttribute("formWorkArrange", formWorkArrange);
 			
-			//System.out.println("进入员工考勤管理->工作安排"+workArranges.getItems().get(0).getWorkDate());
-			
 			// 输出分页信息至客户端
 			outWritePagination(request, pagingBean, workArranges);
 			
@@ -417,8 +415,9 @@ extends BaseAdminAction
 				List<ModelBaseWorkTime> workTimes = this.serviceBaseWorkTime
 		        .getDayWorkTimeByDistrictIdAndTemplateId(workArrange.getWorkTime().getBaseTimeDistrict().getId(),
 		              enabledTemplate.getTemplateId());
-				List<ModelBaseWorkContent> workContents = this.serviceBaseWorkContent
-		        .getAll();
+				ModelBaseWorkContent entity = new ModelBaseWorkContent();
+				entity.getBaseWorkDistrict().setId(workArrange.getDistrictId());
+				List<ModelBaseWorkContent> workContents = this.serviceBaseWorkContent.getListByCriteria(entity);
 				request.setAttribute("workTimes", workTimes);
 				request.setAttribute("workContents", workContents);
 				return mapping.findForward("admin.dialog.staff.work.arrange.edit");
@@ -570,14 +569,6 @@ extends BaseAdminAction
 		request.setAttribute("workTypes", this.getServiceAdminWorkType().getAllWorkTypes());
 		List<ModelSchoolDistrict> districts=this.serviceSchoolDistrict.getAll();//.getAllDistricts();
         request.setAttribute("districts", districts);
-//		ModelWorkTemplate enabledTemplate = this.serviceWorkTemplate.getEnabledWorkTemplate(districtId);
-//		List<ModelBaseWorkTime> workTimes = this.serviceBaseWorkTime
-//        .getDayWorkTimeByDistrictIdAndTemplateId(districtId,
-//              enabledTemplate.getTemplateId());
-//		List<ModelBaseWorkContent> workContents = this.serviceBaseWorkContent
-//        .getAll();
-//		request.setAttribute("workTimes", workTimes);
-//		request.setAttribute("workContents", workContents);
 		return mapping.findForward("admin.page.staff.work.arrange.dialog");
 	}
 	
@@ -641,6 +632,14 @@ extends BaseAdminAction
 		return mapping.findForward("admin.page.staff.work.arrange.staffnames");
 	}
 	
+	/**
+	 * 根据校区加载工作内容
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	public ActionForward actionLoadWorkContent(ActionMapping mapping,ActionForm form,HttpServletRequest request,HttpServletResponse response)
 	{
 		ModelBaseWorkContent entity = new ModelBaseWorkContent();
@@ -655,6 +654,29 @@ extends BaseAdminAction
 		return mapping.findForward("admin.page.staff.work.arrange.workcontent");
 	}
 	
+	/**
+	 * 根据校区加载工作时间
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ActionForward actionLoadWorkTime(ActionMapping mapping,ActionForm form,HttpServletRequest request,HttpServletResponse response)
+	{
+		try {
+			ModelWorkTemplate enabledTemplate = this.serviceWorkTemplate.getEnabledWorkTemplate(request.getParameter("districtId"));
+			String templateId = "-1";
+			if(enabledTemplate!=null && enabledTemplate.getTemplateId()!=null)
+			templateId = enabledTemplate.getTemplateId();
+			List<ModelBaseWorkTime> workTimes = this.serviceBaseWorkTime.getDayWorkTimeByDistrictIdAndTemplateId(request.getParameter("districtId"), templateId);
+			request.setAttribute("workTimes", workTimes);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return mapping.findForward("admin.page.staff.work.arrange.worktime");
+	}
 	/**
 	 * 跳转到调整工作dialog
 	 * @param mapping
@@ -833,8 +855,6 @@ extends BaseAdminAction
 		
 			request.setAttribute("staffAttendances", staffAttendances);
 			request.setAttribute("formStaffAttendance", formStaffAttendance);
-		
-			//System.out.println("进入员工考勤管理->工作安排"+staffAttendances.getItems().get(0).getWorkDate());
 		
 			// 输出分页信息至客户端
 			outWritePagination(request, pagingBean, staffAttendances);
