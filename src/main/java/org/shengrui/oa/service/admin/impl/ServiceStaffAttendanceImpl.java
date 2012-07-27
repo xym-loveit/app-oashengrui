@@ -10,6 +10,7 @@ import org.shengrui.oa.service.admin.ServiceStaffAttendance;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
+import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
@@ -71,9 +72,15 @@ public class ServiceStaffAttendanceImpl extends ServiceGenericImpl<ModelStaffAtt
 			{
 				criteria.add(Restrictions.eq("workDate", entity.getWorkDate()));
 			}
+			if(entity.getStartWorkDate()!=null && UtilString.isNotEmpty(entity.getStartWorkDate()))
+			{
+				criteria.add(Restrictions.ge("workDate", entity.getStartWorkDate()));
+			}
+			if(entity.getEndWorkDate()!=null && UtilString.isNotEmpty(entity.getEndWorkDate()))
+			{
+				criteria.add(Restrictions.le("workDate", entity.getEndWorkDate()));
+			}
 		}
-		System.out.println("entity:"+entity.getStaffName()+"\t"+entity.getWorkDate()+"\t"+entity.getWorkType());
-		
 		criteria.addOrder(Order.desc("workTime"));
 		
 		return criteria;
