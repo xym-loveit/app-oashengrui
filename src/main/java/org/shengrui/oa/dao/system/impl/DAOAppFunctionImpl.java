@@ -3,6 +3,7 @@ package org.shengrui.oa.dao.system.impl;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.system.DAOAppFunction;
 import org.shengrui.oa.model.system.ModelAppFunction;
@@ -47,7 +48,7 @@ extends DAOGenericImpl<ModelAppFunction> implements DAOAppFunction
 		{
 			DetachedCriteria criteria = DetachedCriteria.forClass(ModelAppFunction.class);
 			criteria.createCriteria("menu").add(Restrictions.eq("id", menuId));
-			
+			criteria.addOrder(Order.asc("funcName"));
 			return this.getListByCriteria(criteria);
 		}
 		return null;

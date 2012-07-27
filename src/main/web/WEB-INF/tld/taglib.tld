@@ -56,4 +56,16 @@
      </example>
 </function>
 
+<function>
+   <description>
+     security access control
+   </description>
+   <name>ifGranted</name>
+   <function-class>cn.trymore.core.jstl.JstlTagSecurity</function-class>
+   <function-signature>java.lang.Boolean ifGranted(java.lang.String)</function-signature>
+     <example>
+        name: ${ltag:ifGranted('_FUNC_KEY_MYTASK')}
+     </example>
+</function>
+
 </taglib>

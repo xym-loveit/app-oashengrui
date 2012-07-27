@@ -21,9 +21,9 @@
 		<logic:present name="menuFuncs">
 			<logic:iterate name="menuFuncs" id="entity">
 				<tr target="funcid" rel="${entity.id}" id="mfunc-${entity.id}">
-					<td>${entity.funcName}</td>
-					<td>${entity.funcKey}</td>
-					<td>${entity.funcDesc}</td>
+					<td style="text-align:left">${entity.funcName}</td>
+					<td style="text-align:left">${entity.funcKey}</td>
+					<td style="text-align:left">${entity.funcDesc}</td>
 					<td>
 						<a href="app/system/menu/func.do?action=dialogMenuFuncPage&funcId=${entity.id}" class="oplink" target="dialog" title="菜单功能编辑" width="504" height="389" rel="sys_menufuncedit-${entity.id}">编辑</a>
 					</td>

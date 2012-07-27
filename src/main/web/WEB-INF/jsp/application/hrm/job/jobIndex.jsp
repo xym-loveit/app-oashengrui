@@ -88,8 +88,10 @@
 			</ul>
 		</c:if>
 		<ul class="toolBar">
+			<c:if test="${tm:ifGranted('__ALL,_FUNCKEY_HRM_JOBHIRE_JOB_POST,_FUNCKEY_JOBAPPROVAL_SUBNODE,_FUNCKEY_JOBAPPROVAL_ROOT')}">
 			<li><a class="add" href="app/hrm/hire.do?action=hrmPageJobDetail" target="dialog" title="岗位发布" width="960" height="420" rel="dia_hr_entryadd"><span>添加</span></a></li>
 			<li class="line">line</li>
+			</c:if>
 		</ul>
 	</div>
 	<table class="table" width="100%" layoutH="138">
@@ -131,52 +133,75 @@
 								</c:otherwise>
 							</c:choose>
 						</td>
-						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}&op=view" target="dialog" title="岗位详细" width="960" height="420">详细</a></td>
 						<td>
 							<c:choose>
-								<c:when test="${entity.status eq 1 || entity.status eq 2}">
-									<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}&op=edit" target="dialog" title="编辑岗位" width="960" height="420">编辑</a>
+								<c:when test="${tm:ifGranted('_FUNCKEY_HRM_JOBHIRE_JOB_VIEW')}">
+									<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}&op=view" target="dialog" title="岗位详细" width="960" height="420">详细</a>
 								</c:when>
-								<c:otherwise>
-									<label class="opdisabled">编辑</label>
-								</c:otherwise>
+								<c:otherwise><label class="opdisabled" title="您没有权限查看岗位详细数据">详细</label></c:otherwise>
 							</c:choose>
 						</td>
 						<td>
 							<c:choose>
-								<c:when test="${entity.status eq 4}">
+								<c:when test="${tm:ifGranted('_FUNCKEY_HRM_JOBHIRE_JOB_EDIT')}">
 									<c:choose>
-										<c:when test="${entity.isOpen eq null || entity.isOpen eq 0}">
-											<a class="oplink" href="app/hrm/hire.do?action=actionJobOpenControl&jobId=${entity.id}&state=1" target="ajaxTodo" title="确定要开启该岗位应聘吗?" callback="reload_jobpage()">开启</a>
+										<c:when test="${entity.status eq 1 || entity.status eq 2}">
+											<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}&op=edit" target="dialog" title="编辑岗位" width="960" height="420">编辑</a>
 										</c:when>
-										<c:when test="${entity.isOpen eq 1}">
-											<a class="oplink" href="app/hrm/hire.do?action=actionJobOpenControl&jobId=${entity.id}&state=0" target="ajaxTodo" title="确定要关闭该岗位应聘吗?" callback="reload_jobpage()">关闭</a>
-										</c:when>
+										<c:otherwise><label class="opdisabled">编辑</label></c:otherwise>
 									</c:choose>
 								</c:when>
-								<c:otherwise>
-									<label class="opdisabled">关闭</label>
-								</c:otherwise>
+								<c:otherwise><label class="opdisabled" title="您没有权限编辑岗位详细数据">编辑</label></c:otherwise>
 							</c:choose>
 						</td>
 						<td>
 							<c:choose>
-								<c:when test="${entity.status ne 4}">
-									<label class="opdisabled">入职安排</label>
+								<c:when test="${tm:ifGranted('_FUNCKEY_HRM_JOBHIRE_JOB_EDIT')}">
+									<c:choose>
+										<c:when test="${entity.status eq 4}">
+											<c:choose>
+												<c:when test="${entity.isOpen eq null || entity.isOpen eq 0}">
+													<a class="oplink" href="app/hrm/hire.do?action=actionJobOpenControl&jobId=${entity.id}&state=1" target="ajaxTodo" title="确定要开启该岗位应聘吗?" callback="reload_jobpage()">开启</a>
+												</c:when>
+												<c:when test="${entity.isOpen eq 1}">
+													<a class="oplink" href="app/hrm/hire.do?action=actionJobOpenControl&jobId=${entity.id}&state=0" target="ajaxTodo" title="确定要关闭该岗位应聘吗?" callback="reload_jobpage()">关闭</a>
+												</c:when>
+											</c:choose>
+										</c:when>
+										<c:otherwise><label class="opdisabled">关闭</label></c:otherwise>
+									</c:choose>
 								</c:when>
-								<c:otherwise>
-									<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobEntryIndex&jobId=${entity.id}" target="navTab" title="入职安排-'${entity.jobHireTitle}'" rel="hrm_jobplan_entry${entity.id}">入职安排</a>
-								</c:otherwise>
+								<c:otherwise><label class="opdisabled" title="您没有权限对岗位应聘进行控制">---</label></c:otherwise>
 							</c:choose>
 						</td>
 						<td>
 							<c:choose>
-								<c:when test="${entity.status ne 4}">
-									<label class="opdisabled">招聘安排</label>
+								<c:when test="${tm:ifGranted('_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY')}">
+									<c:choose>
+										<c:when test="${entity.status ne 4}">
+											<label class="opdisabled">入职安排</label>
+										</c:when>
+										<c:otherwise>
+											<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobEntryIndex&jobId=${entity.id}" target="navTab" title="入职安排-'${entity.jobHireTitle}'" rel="hrm_jobplan_entry${entity.id}">入职安排</a>
+										</c:otherwise>
+									</c:choose>
 								</c:when>
-								<c:otherwise>
-									<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobOfferIndex&jobId=${entity.id}" target="navTab" title="招聘安排-'${entity.jobHireTitle}'" rel="hrm_jobpln_hire_${entity.id}">招聘安排</a>
-								</c:otherwise>
+								<c:otherwise><label class="opdisabled" title="您没有权限进行入职安排操作">入职安排</label></c:otherwise>
+							</c:choose>
+						</td>
+						<td>
+							<c:choose>
+								<c:when test="${tm:ifGranted('_FUNCKEY_HRM_JOBHIRE_JOB_OFFER')}">
+									<c:choose>
+										<c:when test="${entity.status ne 4}">
+											<label class="opdisabled">招聘安排</label>
+										</c:when>
+										<c:otherwise>
+											<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobOfferIndex&jobId=${entity.id}" target="navTab" title="招聘安排-'${entity.jobHireTitle}'" rel="hrm_jobpln_hire_${entity.id}">招聘安排</a>
+										</c:otherwise>
+									</c:choose>
+								</c:when>
+								<c:otherwise><label class="opdisabled" title="您没有权限进行招聘安排操作">招聘安排</label></c:otherwise>
 							</c:choose>
 						</td>
 					</tr>
