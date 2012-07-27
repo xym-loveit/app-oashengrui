@@ -37,21 +37,21 @@
 		'height' :60
 	};
 	this.title = '信息提示';
-	this.time = 4000;
+	this.time = 0;
 	this.anims = {
-		'type' :'slide',
+		'type' :'default',
 		'speed' :600
 	};
 	this.timer1 = null;
 	this.inits = function(title, text) {
 
-		if ($("#message").is("div")) {
+		if ($("#messager_box").is("div")) {
 			return;
 		}
 
 		$(document.body)
 				.prepend(
-						'<div id="message" style="border:#b9c9ef 1px solid;z-index:100;width:'
+						'<div id="messager_box" style="border:#b9c9ef 1px solid;z-index:100;width:'
 								+ this.layer.width
 								+ 'px;height:'
 								+ this.layer.height
@@ -67,7 +67,8 @@
 		$("#message_close").click( function() {
 			setTimeout('this.close()', 1);
 		});
-		$("#message").hover( function() {
+		
+		$("#messager_box").hover( function() {
 			clearTimeout(timer1);
 			timer1 = null;
 		}, function() {
@@ -78,14 +79,14 @@
 		//$(window).scroll(//处理定位
 		//		function() {
 		//			var bottomHeight =  "-"+document.documentElement.scrollTop;
-		//			$("#message").css("bottom", bottomHeight + "px");
+		//			$("#messager_box").css("bottom", bottomHeight + "px");
 		//		});
-		$("#message").floatdiv("rightbottom");//利用floatdiv插件解决定位问题
+		$("#messager_box").floatdiv("rightbottom");//利用floatdiv插件解决定位问题
 
 	};
 
 	this.show = function(title, text, time) {
-		if ($("#message").is("div")) {
+		if ($("#messager_box").is("div")) {
 			return;
 		}
 		if (title == 0 || !title)
@@ -95,34 +96,37 @@
 			this.time = time;
 		switch (this.anims.type) {
 		case 'slide':
-			$("#message").slideDown(this.anims.speed);
+			$("#messager_box").slideUp(this.anims.speed);
 			break;
 		case 'fade':
-			$("#message").fadeIn(this.anims.speed);
+			$("#messager_box").fadeIn(this.anims.speed);
 			break;
 		case 'show':
-			$("#message").show(this.anims.speed);
+			$("#messager_box").show(this.anims.speed);
 			break;
 		default:
-			$("#message").slideDown(this.anims.speed);
+			$("#messager_box").slideDown(this.anims.speed);
 			break;
 		}
 		var bottomHeight =  "-"+document.documentElement.scrollTop;
-		$("#message").css("bottom", bottomHeight + "px");
+		$("#messager_box").css("bottom", bottomHeight + "px");
 		
+		/*
 		if ($.browser.is == 'chrome') {
 			setTimeout( function() {
-				$("#message").remove();
+				$("#messager_box").remove();
 				this.inits(title, text);
-				$("#message").css("display", "block");
+				$("#messager_box").css("display", "block");
 			}, this.anims.speed - (this.anims.speed / 5));
 		}
-		this.rmmessage(this.time);
+		*/
+		
+		// this.rmmessage(this.time);
 	};
 
 	this.lays = function(width, height) {
 
-		if ($("#message").is("div")) {
+		if ($("#messager_box").is("div")) {
 			return;
 		}
 		if (width != 0 && width)
@@ -132,7 +136,7 @@
 	}
 
 	this.anim = function(type, speed) {
-		if ($("#message").is("div")) {
+		if ($("#messager_box").is("div")) {
 			return;
 		}
 		if (type != 0 && type)
@@ -162,20 +166,19 @@
 	this.close = function() {
 		switch (this.anims.type) {
 		case 'slide':
-			$("#message").slideUp(this.anims.speed);
+			$("#messager_box").slideDown(this.anims.speed);
 			break;
 		case 'fade':
-			$("#message").fadeOut(this.anims.speed);
+			$("#messager_box").fadeOut(this.anims.speed);
 			break;
 		case 'show':
-			$("#message").hide(this.anims.speed);
+			$("#messager_box").hide(this.anims.speed);
 			break;
 		default:
-			$("#message").slideUp(this.anims.speed);
+			$("#messager_box").slideUp(this.anims.speed);
 			break;
 		}
-		;
-		setTimeout('$("#message").remove();', this.anims.speed);
+		setTimeout('$("#messager_box").remove();', this.anims.speed);
 		this.original();
 	}
 
@@ -187,7 +190,7 @@
 		this.title = '信息提示';
 		this.time = 4000;
 		this.anims = {
-			'type' :'slide',
+			'type' :'default',
 			'speed' :600
 		};
 	};

@@ -82,7 +82,7 @@
 <!-- Body -->	
 <div class="pageContent">
 	<div class="panelBar">
-		<c:if test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.functionRights eq '__ALL' || tm:inRange(sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.functionRights, '_FUNCKEY_JOBAPPROVAL_SUBNODE', ',') || tm:inRange(sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.functionRights, '_FUNCKEY_JOBAPPROVAL_ROOT', ',')}">
+		<c:if test="${tm:ifGranted('__ALL,_FUNCKEY_JOBAPPROVAL_SUBNODE,_FUNCKEY_JOBAPPROVAL_ROOT')}">
 			<ul class="toolBar" style="float:right">
 				<li><a treeicon="icon-edit" class="icon" href="app/hrm/hire.do?action=hrmPageJobApprovalIndex" target="navTab" rel="hr_approval"><span class="icon-edit">待我审批</span></a></li>
 			</ul>
