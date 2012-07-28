@@ -117,6 +117,11 @@ extends ModelBase
 	private String photo;
 	
 	/**
+	 * 删除标记
+	 */
+	private Integer delFlag = 0;
+	
+	/**
 	 * The enumeration of resume source
 	 * 
 	 * @author Jeccy.Zhao
@@ -346,6 +351,16 @@ extends ModelBase
 	public void setPhoto(String photo)
 	{
 		this.photo = photo;
+	}
+
+	public Integer getDelFlag()
+	{
+		return delFlag;
+	}
+
+	public void setDelFlag(Integer delFlag)
+	{
+		this.delFlag = delFlag;
 	}
 	
 }

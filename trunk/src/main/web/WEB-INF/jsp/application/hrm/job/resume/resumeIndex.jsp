@@ -13,6 +13,12 @@
 	.dispose {text-decoration: line-through; color: red;}
 </style>
 
+<script>
+	function reload() {
+		navTab.reload();
+	}
+</script>
+
 <form id="pagerForm" method="post" action="app/hrm/archive.do?action=hrmJobResumeIndex">
 	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
 	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
@@ -163,7 +169,7 @@
 						<td>${entity.jobHireInfo ne null && entity.jobHireInfo.jobHireDistrict ne null ? entity.jobHireInfo.jobHireDistrict.districtName : '---'}</td>
 						<td>${entity.jobHireInfo ne null && entity.jobHireInfo.jobHireDepartment ne null ? entity.jobHireInfo.jobHireDepartment.depName : '---'}</td>
 						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobResume&resumeId=${entity.resume.id}&op=view" target="dialog" title="简历信息‘${entity.resume.fullName}’" width="900" height="500" rel="hrm_resumeview_${entity.id}" mask="true" rel="hrm_resumedetail_${entity.id}">简历信息</a></td>
-						<td><a class="oplink" href="app/hrm.do?action=hrmPageJobDetail&id=1" target="ajaxTodo" title="确定要删除吗?" callback="hello">删除</a></td>
+						<td><a class="oplink" href="app/hrm/archive.do?action=actionResumeRemove&id=${entity.id}&resumeId=${entity.resume.id}" target="ajaxTodo" title="确定要删除简历`${entiyt.resume.fullName}`吗?" callback="reload()">删除</a></td>
 					</tr>
 				</logic:iterate>
 			</logic:present>
