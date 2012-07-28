@@ -221,6 +221,7 @@ span.diaFuncMicon {
 
 .icon-hrjobreg,
 .tabsPage .tabsPageHeader li span.icon-hrjobreg,
+.panelBar .toolBar a.icon span.icon-hrjobreg,
 .tree div.icon-hrjobreg {
 	background: url("../images/menus/hr/job_reg.gif") no-repeat left center;
 }
