@@ -54,7 +54,7 @@
 						</select>
 					</td>
 					<td>
-						上班时间：<input type="text" class="date textInput" name="startWorkDate">${formStaffAttendance.startWorkDate}</input> - <input name="endWorkDate" type="text" class="date textInput" value="${formStaffAttendance ne null ? formStaffAttendance.endWorkDate : ''}" />
+						上班时间：<input type="text" class="date textInput" name="filterStart" value="${formStaffAttendance.filterStart}" /> - <input name="filterEnd" type="text" class="date textInput" value="${formStaffAttendance ne null ? formStaffAttendance.filterEnd : ''}" />
 					</td>
 				</tr>
 			</table>
@@ -105,10 +105,10 @@
 					<td>${entity.staffBehalfName ne null ? entity.staffBehalfName : "-"}</td>
 					<td>${entity.attendanceResult}</td>
 					<td></td>
-					<td><a href="app/admin.do?action=adminPageStaffAttendanceOnPunch&id=2" class="oplink" target="dialog" title="员工考勤-打卡" width="550" height="250" rel="admin_dutypunch-2">打卡</a></td>
-				    <td><a href="app/admin.do?action=adminPageStaffAttendanceOnTravel&id=2" class="oplink" target="dialog" title="员工考勤-出差安排" width="350" height="220" rel="admin_dutytravel-2">出差安排</a></td>
-					<td><a href="app/admin.do?action=adminPageStaffAttendanceOnLeave&id=2" class="oplink" target="dialog" title="员工考勤-请假" width="550" height="320" rel="admin_dutyleave-2">请假</a></td>
-					<td><a href="app/admin.do?action=adminPageStaffAttendanceOnAbsence&id=2" class="oplink" target="dialog" title="员工考勤-旷工" width="550" height="300" rel="admin_dutyabsence-2">旷工</a></td>
+					<td><a href="app/admin/attendance.do?action=adminPageStaffAttendanceOnPunch&id=${entity.id}" class="oplink" target="dialog" title="员工考勤-打卡" width="550" height="250">打卡</a></td>
+				    <td><a href="app/admin/attendance.do?action=adminPageStaffAttendanceOnTravel&id=${entity.id}" class="oplink" target="dialog" title="员工考勤-出差安排" width="350" height="220" rel="admin_dutytravel-2">出差安排</a></td>
+					<td><a href="app/admin/attendance.do?action=adminPageStaffAttendanceOnLeave&id=${entity.id}" class="oplink" target="dialog" title="员工考勤-请假" width="550" height="320" rel="admin_dutyleave-2">请假</a></td>
+					<td><a href="app/admin/attendance.do?action=adminPageStaffAttendanceOnAbsence&id=${entity.id}" class="oplink" target="dialog" title="员工考勤-旷工" width="550" height="300" rel="admin_dutyabsence-2">旷工</a></td>
 				</tr>
 			</logic:iterate>
 		  </logic:present>
