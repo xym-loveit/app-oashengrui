@@ -172,7 +172,8 @@ ol.mp_list li.mp_error {
 				 //服务器端配置
 				serverConfig:{
 					//处理上传的服务器端脚本路径
-					action:"file-upload"
+					action:"file-upload",
+					data:{file_type:"conference_attach"}
 				},
 				// 文件域
 				name:"Filedata",
@@ -185,6 +186,43 @@ ol.mp_list li.mp_error {
 			});
 			
 			ru.on('init', function (ev) {
+				//上传组件实例
+				var uploader = ev.uploader;
+				//上传按钮实例
+				var button = uploader.get('button');
+				
+				uploader.on('success', function (ev) {
+					var feedback = ev.result;
+					var file_id = feedback.data.id;
+					if (file_id) {
+						$("#fileIds").val($("#fileIds").val() == "" ? file_id : ($("#fileIds").val() + "," + file_id));
+					}
+				});
+				
+				uploader.on('error', function (ev) {
+					alert("文件上传失败:" + ev.result.message);
+				});
+				
+			});
+			
+			var ru_1 = new RenderUploader('#jp_J_UploaderBtn_1', '#jp_J_UploaderQueue_1',{
+				 //服务器端配置
+				serverConfig:{
+					//处理上传的服务器端脚本路径
+					action:"file-upload",
+					data:{file_type:"conference_process"}
+				},
+				// 文件域
+				name:"Filedata",
+				//用于放服务器端返回的url的隐藏域
+				urlsInputName:"fileUrls_1"
+				<c:if test="${conference ne null && fn:length(conference.attachFiles) gt 0}">
+				// 用于数据展现
+				,restoreHook:"#jp_J_UploaderRestore_1"
+				</c:if>
+			});
+			
+			ru_1.on('init', function (ev) {
 				//上传组件实例
 				var uploader = ev.uploader;
 				//上传按钮实例
@@ -229,7 +267,11 @@ ol.mp_list li.mp_error {
 <!--- 生成需要展现文件的JSON -->
 <c:if test="${(op eq null || op ne 'view') && (conference ne null && fn:length(conference.attachFiles) gt 0)}">
 <script type="text/uploader-restore" id="jp_J_UploaderRestore">
-${tm:fileRestore(conference['attachFiles'])}
+${tm:fileRestoreByType(conference['attachFiles'],"conference_attach")}
+</script>
+
+<script type="text/uploader-restore" id="jp_J_UploaderRestore_1">
+${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 </script>
 </c:if>
 <!--  ${attendance_name_show ne null ? attendance_name_show:'no persions'} -->
@@ -444,6 +486,55 @@ ${tm:fileRestore(conference['attachFiles'])}
 						</tr>
 					</c:if>
 					<tr>
+						<td class="field" style="vertical-align: top;">会议议程：</td>
+						<td colspan="7" style="padding: 5px;">
+							<div>
+								<c:choose>
+									<c:when test="${op eq null || op ne 'view'}">
+										<!-- 上传按钮，组件配置请写在data-config内 -->
+										<a id="jp_J_UploaderBtn_1" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件 </a>
+										<!-- 文件上传队列 -->
+										<ul id="jp_J_UploaderQueue_1"></ul>
+										<div id="J_Panel" class="event-panel"></div>
+										<input type="hidden" name="fileUrls_1" id="fileUrls_1" />
+									</c:when>
+									<c:otherwise>
+										<c:choose>
+											<c:when test="${conference ne null && fn:length(conference.attachFiles) gt 0}">
+												<ul>
+													<logic:iterate name="conference" property="attachFiles" id="file">
+														<c:if test="${file.fileType eq 'conference_process' }">
+															<li class="item_file"><a title="点击下载`${file.fileName}`文件" href="uploads/${file.filePath}" target="_blank">${file.fileName}</a></li>
+														</c:if>
+													</logic:iterate>
+												</ul>
+											</c:when>
+											<c:otherwise>暂未上传任何附件..</c:otherwise>
+										</c:choose>
+									</c:otherwise>
+								</c:choose>
+							</div>
+							<!--<a class="oplink" href="app/hrm.do?action=hrmPageJobDetail&id=1" target="dialog" title="上传附件">上传附件</a>-->
+						</td>
+					</tr>
+					<c:if test="${op ne null && op eq 'view'  && (conference ne null && conference.summary ne null) }">
+					<tr>
+						<td class="field" style="vertical-align: top;">会议记录：</td>
+						<td colspan="7" style="padding: 5px;">
+							<div>
+								<ul>
+									<logic:iterate name="conference" property="attachFiles" id="file">
+										<c:if test="${file.fileType eq 'conference_summary' }">
+											<li class="item_file"><a title="点击下载`${file.fileName}`文件" href="uploads/${file.filePath}" target="_blank">${file.fileName}</a></li>
+										</c:if>
+									</logic:iterate>
+								</ul>
+							</div>
+							<!--<a class="oplink" href="app/hrm.do?action=hrmPageJobDetail&id=1" target="dialog" title="上传附件">上传附件</a>-->
+						</td>
+					</tr>
+					</c:if>
+					<tr>
 						<td class="field" style="vertical-align: top;">附件区：</td>
 						<td colspan="7" style="padding: 5px;">
 							<div>
@@ -462,7 +553,9 @@ ${tm:fileRestore(conference['attachFiles'])}
 											<c:when test="${conference ne null && fn:length(conference.attachFiles) gt 0}">
 												<ul>
 													<logic:iterate name="conference" property="attachFiles" id="file">
-														<li class="item_file"><a title="点击下载`${file.fileName}`文件" href="uploads/${file.filePath}" target="_blank">${file.fileName}</a></li>
+														<c:if test="${file.fileType eq 'conference_attach' }">
+															<li class="item_file"><a title="点击下载`${file.fileName}`文件" href="uploads/${file.filePath}" target="_blank">${file.fileName}</a></li>
+														</c:if>
 													</logic:iterate>
 												</ul>
 											</c:when>

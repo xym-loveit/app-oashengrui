@@ -154,7 +154,7 @@ function callback_funcRemove() {
 								<c:choose>
 									<c:when test="${entity.status ne 3 }">
 										 <td>
-											<a style='color: red' class="oplink" href="app/personal/conference.do?action=actionLoadActivateDialog&id=${entity.id}" target="dialog" title="会议总结" width="800" height="350">总结</a>
+											<a style='color: red' class="oplink" href="app/personal/conference.do?action=actionLoadSubmitSummaryDialog&id=${entity.id}" target="dialog" title="会议总结" width="800" height="350">总结</a>
 										</td>
 									</c:when>
 								</c:choose>

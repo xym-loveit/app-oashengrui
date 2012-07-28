@@ -55,7 +55,8 @@
 				 //服务器端配置
 				serverConfig:{
 					//处理上传的服务器端脚本路径
-					action:"file-upload"
+					action:"file-upload",
+					data:{file_type:"conference_summary"}
 				},
 				// 文件域
 				name:"Filedata",
@@ -92,19 +93,12 @@
 	
 </script>
 
-<!--- 生成需要展现文件的JSON -->
-<c:if test="${(op eq null || op ne 'view') && (conference ne null && fn:length(conference.attachFiles) gt 0)}">
-<script type="text/uploader-restore" id="jp_J_UploaderRestore">
-${tm:fileRestore(conference['attachFiles'])}
-</script>
-</c:if>
-
 <div class="pageContent">
 	<form method="post" action="app/personal/conference.do?action=actionSubmitSummary" id="formjob" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent">
 			<table cellspacing="10" cellpadding="10" style="border-spacing:15; border-collapse:collapse;" border="1" id="tbljob">
 				<tr>
-					<td class="field" style="vertical-align: top;">附件区：</td>
+					<td class="field" style="vertical-align: top;">会议记录：</td>
 					<td style="padding: 5px;">
 						<div>
 							<c:choose>
@@ -117,18 +111,6 @@ ${tm:fileRestore(conference['attachFiles'])}
 									<input type="hidden" name="fileUrls" id="fileUrls" />
 									<input type="hidden" name="fileIds" id="fileIds" />
 								</c:when>
-								<c:otherwise>
-									<c:choose>
-										<c:when test="${conference ne null && fn:length(conference.attachFiles) gt 0}">
-											<ul>
-												<logic:iterate name="conference" property="attachFiles" id="file">
-													<li class="item_file"><a title="点击下载`${file.fileName}`文件" href="uploads/${file.filePath}" target="_blank">${file.fileName}</a></li>
-												</logic:iterate>
-											</ul>
-										</c:when>
-										<c:otherwise>暂未上传任何附件..</c:otherwise>
-									</c:choose>
-								</c:otherwise>
 							</c:choose>
 						</div>
 						<!--<a class="oplink" href="app/hrm.do?action=hrmPageJobDetail&id=1" target="dialog" title="上传附件">上传附件</a>-->
