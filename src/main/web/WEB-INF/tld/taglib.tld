@@ -46,6 +46,18 @@
 
 <function>
    <description>
+     render json for file restore by file type
+   </description>
+   <name>fileRestoreByType</name>
+   <function-class>cn.trymore.core.jstl.JstlTagFileRestore</function-class>
+   <function-signature>java.lang.String fileRestoreByType(java.util.Set,java.lang.String)</function-signature>
+     <example>
+        name: ${ltag:fileRestoreByType(obj_list,'')}
+     </example>
+</function>
+
+<function>
+   <description>
      date utility
    </description>
    <name>getIntervalDays</name>
