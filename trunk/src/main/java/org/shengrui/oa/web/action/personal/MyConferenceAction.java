@@ -347,6 +347,7 @@ extends BaseAppAction
 
 			// 设置会议附件
 			this.handleFileAttachments(entity, request);
+			this.handleFileAttachments(entity, request, "fileUrls_1");
 			this.serviceConference.save(entity);
 			// 保存成功后, Dialog进行关闭
 			return ajaxPrint(response, 
@@ -476,7 +477,7 @@ extends BaseAppAction
 		}
 	}
 	
-	public ActionForward actionLoadActivateDialog(ActionMapping mapping, ActionForm form,
+	public ActionForward actionLoadSubmitSummaryDialog(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	{
 		try
@@ -507,7 +508,7 @@ extends BaseAppAction
 			if (entity != null)
 			{
 				// 设置会议附件
-				this.handleFileAttachments(entity, request);
+				this.handleFileAttachments(entity, request,"fileUrls");
 				entity.setStatus(ModelConference.ConferenceStatus.END.getText());
 				entity.setSummary(request.getParameter("summary"));
 				this.serviceConference.save(entity);
