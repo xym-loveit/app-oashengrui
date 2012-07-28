@@ -431,6 +431,7 @@ extends BaseAction
 					
 					builder.append("\"id\":\"" + employee.getId() + "\",");
 					builder.append("\"fullName\":\"" + employee.getEmpName() + "\",");
+					builder.append("\"empName\":\"" + employee.getEmpName() + "\",");
 					
 					if (employee.getEmployeeDepartment() != null)
 					{

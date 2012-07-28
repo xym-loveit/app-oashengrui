@@ -90,6 +90,12 @@
 	
 	<script type="text/javascript" src="resources/js/jquery/jmessager/jquery.messager.js"></script>
 	<script type="text/javascript" src="resources/js/jquery/jmessager/jquery.floatDiv.js"></script>
+	
+	<link href="resources/js/jquery/jmainfest/jquery.manifest.css" rel="stylesheet" type="text/css" media="screen"/>
+	
+	<script src="resources/js/jquery/jmainfest/jquery.ui.widget.min.js" type="text/javascript"></script>
+	<script src="resources/js/jquery/jmainfest/jquery.marcopolo.js" type="text/javascript"></script>
+	<script src="resources/js/jquery/jmainfest/jquery.manifest.js" type="text/javascript"></script>
 
 	<!--[if lt IE 7]>  
 	<script type="text/javascript" src="resources/js/pngfix/DD_belatedPNG_0.0.8a.js"></script>  

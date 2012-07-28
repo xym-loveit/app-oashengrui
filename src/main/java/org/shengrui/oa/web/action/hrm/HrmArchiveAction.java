@@ -72,4 +72,49 @@ extends BaseHrmAction
 		request.setAttribute("op", request.getParameter("op"));
 		return mapping.findForward("hrm.page.job.resume.detail");
 	}
+	
+	/**
+	 * <b>[WebAction]</b> <br/>
+	 * 简历删除
+	 */
+	public ActionForward actionResumeRemove(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) 
+	{
+		String archiveId = request.getParameter("id");
+		if (this.isObjectIdValid(archiveId))
+		{
+			try
+			{
+				ModelHrmArchive archive = this.serviceHrmArchive.get(archiveId);
+				if (archive != null)
+				{
+					this.serviceHrmArchive.remove(archive);
+					
+					if (archive.getResume() != null)
+					{
+						archive.getResume().setDelFlag(1);
+						this.serviceHrmResume.save(archive.getResume());
+					}
+					
+					// 操作成功后, Dialog进行关闭
+					return ajaxPrint(response, 
+							getSuccessCallback("简历信息删除成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("人才信息(id:" + archiveId + ")不存在..."));
+				}
+			}
+			catch (Exception e)
+			{
+				LOGGER.error("Exception raised when removing resume...", e);
+				return ajaxPrint(response, getErrorCallback("删除失败:" + e.getMessage()));
+			}
+		}
+		else
+		{
+			return ajaxPrint(response, getErrorCallback("需要传入合法的人才信息ID参数..."));
+		}
+	}
 }
