@@ -14,6 +14,30 @@ import cn.trymore.core.util.UtilString;
 public class JstlTagSecurity
 {
 	/**
+	 * Returns true if the specified menu key granted on
+	 * the current user which polled out from session.
+	 * 
+	 * @param menuKey
+	 *          the menu key
+	 * @return
+	 */
+	public static boolean ifMenuGranted (String menuKey)
+	{
+		ModelAppUser user = ContextUtil.getCurrentUser();
+		if (user != null)
+		{
+			// 管理员角色
+			if (user.isSuerUser())
+			{
+				return true;
+			}
+			
+			return user.getMenuKeys() != null && user.getMenuKeys().contains(menuKey);
+		}
+		return false;
+	}
+	
+	/**
 	 * Returns true if the specified function key granted on
 	 * the current user which polled out from session.
 	 * 

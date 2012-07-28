@@ -147,6 +147,11 @@ extends ModelBase implements UserDetails
 	protected Set<ModelAppRole> roles;
 	
 	/**
+	 * 用户拥有的菜单项
+	 */
+	protected Set<String> menuKeys = new HashSet<String>();
+	
+	/**
 	 * 初始化标志
 	 */
 	private boolean isInitialized = false;
@@ -277,6 +282,18 @@ extends ModelBase implements UserDetails
 								}
 							}
 						}
+						
+						// 获取拥有的菜单项
+						if (role.getMenus() != null)
+						{
+							for (ModelAppMenu menu : role.getMenus())
+							{
+								if (!menuKeys.contains(menu.getMenuKey()))
+								{
+									menuKeys.add(menu.getMenuKey());
+								}
+							}
+						}
 					}
 				}
 				isInitialized = true;
@@ -360,7 +377,8 @@ extends ModelBase implements UserDetails
 	 */
 	public boolean isSuerUser ()
 	{
-		return this.id.equals(String.valueOf(SUPER_USER));
+		return this.id.equals(String.valueOf(SUPER_USER)) || 
+				this.getFunctionRights().indexOf(ModelAppRole.SUPER_RIGHTS) > -1;
 	}
 	
 	public String getUsername()
@@ -562,5 +580,9 @@ extends ModelBase implements UserDetails
 	{
 		this.isInitialized = isInitialized;
 	}
-
+	
+	public Set<String> getMenuKeys()
+	{
+		return this.menuKeys;
+	}
 }

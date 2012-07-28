@@ -162,6 +162,28 @@ extends ModelBase implements GrantedAuthority
 		return null;
 	}
 	
+	/**
+	 * 返回菜单Key列表
+	 * 
+	 * @return
+	 */
+	public Set<String> getMenuKeys ()
+	{
+		if (menus != null && menus.size() > 0)
+		{
+			Set<String> menuKeys = new HashSet<String>();
+			for (ModelAppMenu menu : menus)
+			{
+				if (!menuKeys.contains(menu.getMenuKey()))
+				{
+					menuKeys.add(menu.getMenuKey());
+				}
+			}
+			return menuKeys;
+		}
+		return null;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)

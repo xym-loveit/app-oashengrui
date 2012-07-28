@@ -71,6 +71,8 @@ extends OncePerRequestFilter
 			}
 		}
 		
+		requestURI = "/" + requestURI;
+		
 		boolean isCommonRole = false;
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		for (int i = 0, size = auth.getAuthorities().length; i < size; i++)
@@ -145,10 +147,24 @@ extends OncePerRequestFilter
 		for (GrantedAuthority localGrantedAuthority : auth.getAuthorities())
 		{
 			Set<String> localSet = this.roleUrlsMap.get(localGrantedAuthority.getAuthority());
+			
+			if (localSet != null)
+			{
+				for (String authUrl : localSet)
+				{
+					if (url.indexOf(authUrl) > -1)
+					{
+						return true;
+					}
+				}
+			}
+			
+			/*
 			if (localSet != null && (localSet.contains(url) || localSet.contains("/" + url)))
 			{
 				return true;
 			}
+			*/
 		}
 		
 		return false;

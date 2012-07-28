@@ -137,7 +137,7 @@ var navTab = {
 		return iOpenIndex;
 	},
 	_getLeft: function(){
-		return this._tabBox.position().left;
+		return this._tabBox.length > 0 ? this._tabBox.position().left : 0;
 	},
 	_getScrollBarW: function(){
 		return this.componentBox.width()-55;
