@@ -47,12 +47,16 @@
 	<definition name="admin.page.staff.work.arrange.workcontent"
 		path="/WEB-INF/jsp/application/administrator/staff/work/data/workContent.jsp"/>
 	
-	<!-- 添加工作安排中工作内容 -->
+	<!-- 添加工作安排中工作时间 -->
 	<definition name="admin.page.staff.work.arrange.worktime"
 		path="/WEB-INF/jsp/application/administrator/staff/work/data/workTime.jsp"/>
 	
 	<definition name="admin.dialog.staff.work.arrange.import"
 		path="/WEB-INF/jsp/application/administrator/staff/work/dialog/importWorkArrangeDialog.jsp"/>
+	<!-- 查看工作安排 -->	
+	<definition name="admin.page.staff.work.arrange.view"
+		path="/WEB-INF/jsp/application/administrator/staff/work/viewWorkArrange.jsp"/>
+		
 	
 	<!-- 员工考勤管理 - 员工考勤 -->
 	<definition name="admin.page.staff.attendance" 
