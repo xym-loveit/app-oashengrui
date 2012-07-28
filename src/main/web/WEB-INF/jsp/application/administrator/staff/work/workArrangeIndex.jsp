@@ -83,7 +83,7 @@ function callback_funcRemove(id) {
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar" style="float:right">
-			<li><a treeicon="icon-edit" class="icon" href="app/admin.do?action=adminPageStaffWorkArrange" target="navTab" rel="admin_staffWorkView"><span class="icon-edit">工作安排查看</span></a></li>
+			<li><a treeicon="icon-edit" class="icon" href="app/admin.do?action=actionViewWorkArrangePage" target="navTab" rel="admin_workArrange"><span class="icon-edit">工作安排查看</span></a></li>
 		</ul>
 	
 		<ul class="toolBar">
