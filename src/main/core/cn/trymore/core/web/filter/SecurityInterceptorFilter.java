@@ -60,6 +60,10 @@ extends OncePerRequestFilter
 			{
 				requestURI = requestURI + "?" + request.getQueryString().substring(0, request.getQueryString().indexOf("&_"));
 			}
+			else
+			{
+				requestURI = requestURI + "?" + request.getQueryString();
+			}
 		}
 		
 		if (StringUtils.hasLength(contextPath))
@@ -151,7 +155,7 @@ extends OncePerRequestFilter
 			if (localSet != null)
 			{
 				for (String authUrl : localSet)
-				{
+				{	
 					if (url.indexOf(authUrl) > -1)
 					{
 						return true;
