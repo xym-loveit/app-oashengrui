@@ -15,63 +15,63 @@
             </column>
         </many-to-one-->
         <property name="workDate" type="java.util.Date">
-            <column name="work_date" length="0" not-null="true">
+            <column name="work_date">
             </column>
         </property>
         <property name="workTime" type="java.lang.String">
-            <column name="work_time" length="64" not-null="true">
+            <column name="work_time">
             </column>
         </property>
         <property name="offtimeShour" type="java.lang.String">
-            <column name="offtime_shour" length="64" not-null="true">
+            <column name="offtime_shour">
             </column>
         </property>
         <property name="offtimeEhour" type="java.lang.String">
-            <column name="offtime_ehour" length="64" not-null="true">
+            <column name="offtime_ehour">
             </column>
         </property>
         <property name="offtimeSmin" type="java.lang.String">
-            <column name="offtime_smin" length="64" not-null="true">
+            <column name="offtime_smin">
             </column>
         </property>
         <property name="offtimeEmin" type="java.lang.String">
-            <column name="offtime_emin" length="64" not-null="true">
+            <column name="offtime_emin">
             </column>
         </property>
         <property name="staffId" type="java.lang.String">
-            <column name="staff_id" length="64" not-null="true">
+            <column name="staff_id">
             </column>
         </property>
         <property name="staffName" type="java.lang.String">
-            <column name="staff_name" length="64" not-null="true">
+            <column name="staff_name">
             </column>
         </property>
         <property name="workType" type="java.lang.String">
-            <column name="work_type" length="64" not-null="true">
+            <column name="work_type">
             </column>
         </property>
         <property name="workStatus" type="java.lang.String">
-            <column name="work_status" length="64" not-null="true">
+            <column name="work_status">
             </column>
         </property>
         <property name="leaveType" type="java.lang.String">
-            <column name="leave_type" length="64" not-null="true">
+            <column name="leave_type">
             </column>
         </property>
         <property name="staffBehalfName" type="java.lang.String">
-            <column name="staff_behalf_name" length="64" not-null="true">
+            <column name="staff_behalf_name">
             </column>
         </property>
         <property name="staffBehalfId" type="java.lang.String">
-            <column name="staff_behalf_id" length="64" not-null="true">
+            <column name="staff_behalf_id">
             </column>
         </property>
         <property name="meto" type="java.lang.String">
-            <column name="meto" length="64" not-null="true">
+            <column name="meto">
             </column>
         </property>
         <property name="attendanceResult" type="java.lang.String">
-            <column name="attendance_result" length="64" not-null="true">
+            <column name="attendance_result">
             </column>
         </property>
         
