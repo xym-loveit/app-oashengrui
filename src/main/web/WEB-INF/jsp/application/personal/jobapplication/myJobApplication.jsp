@@ -18,7 +18,7 @@
 		</c:if>
 		<c:if test="${op eq 'history' }">
 			<ul class="toolBar" style="float:right">
-				<li><a treeicon="icon-records" class="icon" href="app/personal/jobapplication.do?action=pageJobOnHiring" target="navTab" rel="personal_myjobform"><span class="icon-records">返回当前招聘</span></a></li>
+				<li><a treeicon="icon-hrjobreg" class="icon" href="app/personal/jobapplication.do?action=pageJobOnHiring" target="navTab" rel="_menu_mod_personal_jobreg"><span class="icon-hrjobreg">返回当前招聘</span></a></li>
 			</ul>
 		</c:if>
 	</div>
