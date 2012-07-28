@@ -31,7 +31,7 @@ function callback_funcRemove() {
 }
 </script>
 
-<form id="pagerForm" method="post" action="app/personal/conference.do?action=myConferenceIndex">
+<form id="pagerForm" method="post" action="app/personal/conference.do?action=myConferences">
 	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
 	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
 </form>
