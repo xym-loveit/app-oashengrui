@@ -15,7 +15,7 @@
 	a.oplink  {color: blue; text-decoration: underline;}
 </style>
 
-<form id="pagerForm" method="post" action="app/admin.do?action=adminPageStaffAttendance">
+<form id="pagerForm" method="post" action="app/admin/attendance.do?action=adminPageStaffAttendance">
 	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
 	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
 </form>
