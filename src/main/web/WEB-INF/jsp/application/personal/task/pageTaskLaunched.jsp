@@ -62,7 +62,7 @@
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar" style="float:right">
-			<li><a treeicon="icon-edit" class="icon" href="app/personal/task.do?action=pageTaskIndex" target="navTab" rel="myplan"><span class="icon-edit">我的任务</span></a></li>
+			<li><a treeicon="icon-myplan" class="icon" href="app/personal/task.do?action=pageTaskIndex" target="navTab" rel="_menu_mod_personal_mytask"><span class="icon-myplan">我的任务</span></a></li>
 		</ul>
 		<ul class="toolBar">
 			<li><a class="add" href="app/personal/task.do?action=dialogTaskPage" target="dialog" title="新建任务" width="1080" height="380" rel="dia_my_taskadd"><span>新建任务</span></a></li>

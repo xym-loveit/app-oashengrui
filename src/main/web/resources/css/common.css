@@ -161,7 +161,8 @@ span.diaFuncMicon {
 
 .icon-myplan,
 .tree div.icon-myplan,
-.tabsPage .tabsPageHeader li span.icon-myplan {
+.tabsPage .tabsPageHeader li span.icon-myplan,
+.panelBar .toolBar a.icon span.icon-myplan  {
 	background: url("../images/menus/monitor/myplan.png") no-repeat left center;
 }
 
