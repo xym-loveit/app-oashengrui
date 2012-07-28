@@ -160,7 +160,7 @@ ${tm:fileRestore(entity['attachFiles'])}
 					</tr>
 					<tr>
 						<td style="line-height: 25px;vertical-align: top">任务参与人：</td>
-						<td colspan="5"><input id="task_participants" type="text" name="participants" style="width: 100%;" /></td>
+						<td colspan="5"><input id="task_participants" type="text" name="participants" style="width: 100%;${op ne null && op eq 'view' ? 'display:none': ''}" /></td>
 					</tr>
 					<tr>
 						<td style="line-height: 25px;vertical-align: top">任务描述：</td>
