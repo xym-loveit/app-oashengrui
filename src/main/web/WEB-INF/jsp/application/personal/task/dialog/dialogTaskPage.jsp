@@ -10,11 +10,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="/tags/trymore" prefix="tm"%>
 
-<link href="resources/js/jquery/jmainfest/jquery.manifest.css" rel="stylesheet" type="text/css" media="screen"/>
-<script src="resources/js/jquery/jmainfest/jquery.ui.widget.min.js" type="text/javascript"></script>
-<script src="resources/js/jquery/jmainfest/jquery.marcopolo.js" type="text/javascript"></script>
-<script src="resources/js/jquery/jmainfest/jquery.manifest.js" type="text/javascript"></script>
-
 <script>
 	
 	$(function(){
