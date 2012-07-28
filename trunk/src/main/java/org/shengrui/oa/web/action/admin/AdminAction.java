@@ -4,7 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -836,6 +838,161 @@ extends BaseAdminAction
 		}
 	}
 	
+	
+	public ActionForward actionViewWorkArrangeByWeek(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) throws WebException 
+	{
+		int currentWeek = Integer.parseInt(request.getParameter("currentWeek")!=null?request.getParameter("currentWeek"):"0");
+		String districtId = request.getParameter("districtId");
+		if(!this.isObjectIdValid(districtId)){
+			return ajaxPrint(response,"请先选择校区");
+		}
+		Date currentDay = new Date();
+		//几周后的今天
+		Date viewWeek = UtilDateTime.addDays(currentDay, currentWeek*7);
+		String viewWeekBeginDay = UtilDateTime.currentWeekBeginDate(viewWeek);
+		String viewWeekEndDay = UtilDateTime.currentWeekEndDate(viewWeek);
+		try {
+			List<ModelAdminWorkArrange> list = this.serviceAdminWorkArrange.queryByWeek(UtilDateTime.toDateByPattern(viewWeekBeginDay), UtilDateTime.toDateByPattern(viewWeekEndDay), districtId);
+			if(list != null && list.size()> 0){
+				Date[] weekDays = { null, null,null, null, null, null, null, null };
+				Map<String,Integer> weekDay = new HashMap<String,Integer>();// 一周日期
+				for(int i=1;i<=7;i++){
+					Date weekDayDateStr = UtilDateTime.addDays(UtilDateTime.toDateByPattern(viewWeekBeginDay), i-1);
+					weekDay.put(UtilDateTime.formatDate2Str(weekDayDateStr),i);
+					weekDays[i] = weekDayDateStr;
+				}
+		        String[] zam = { "", "", "", "", "", "", "", "" };//一周中每天白天工作人员 
+		        String[] zpm = { "", "", "", "", "", "", "", "" };//一周中每天晚上工作人员
+				for(ModelAdminWorkArrange entity : list){
+					String workDate = UtilDateTime.formatDate2Str(entity.getWorkDate());
+					if(weekDay.containsKey(workDate)){
+						int index = weekDay.get(workDate);
+						if ("AM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime()))){
+							if(!"1".equals(entity.getWorkType().getId())){
+				               zam[index] += "<font color=\"yellow\">"+entity.getStaffName() + "</font>,";
+							}else{
+								zam[index] += entity.getStaffName() + ",";
+							}
+						}
+			            else if ("PM".equals(checkWorkTime(entity.getWorkTime().getWorkEtime())))
+			            	if(!"1".equals(entity.getWorkType().getId())){
+			            		zpm[index] += "<font color=\"yellow\">"+entity.getStaffName() + "</font>,";
+			            	}else{
+			            		zpm[index] += entity.getStaffName() + ",";
+			            	}
+					}
+				}
+
+		        for(int i=1;i<8;i++){
+		        	if(!"".equals(zam[i])&&zam[i].endsWith(",")){
+		        		zam[i] = zam[i].substring(0, zam[i].length()-1);
+		        	}
+		        	if(!"".equals(zpm[i])&&zpm[i].endsWith(",")){
+		        		zpm[i] = zpm[i].substring(0, zpm[i].length()-1);
+		        	}
+		        }
+		        request.setAttribute("staffOnAM", zam);
+		        request.setAttribute("staffOnPM", zpm);
+		        request.setAttribute("districtId", districtId);
+		        request.setAttribute("viewWeekBeginDay", viewWeekBeginDay);
+		        request.setAttribute("viewWeekEndDay", viewWeekEndDay);
+		        List<ModelSchoolDistrict> districts = this.getAllDistricts();
+		        request.setAttribute("districts", districts);
+		        request.setAttribute("previewWeek", String.valueOf(currentWeek-1));
+		        request.setAttribute("nextWeek", String.valueOf(currentWeek+1));
+		        request.setAttribute("weekDays", weekDays);
+		        List<ModelBaseWorkTime> dayWorkTimes = this.serviceBaseWorkTime
+	               .getDayWorkTimeByDistrictIdAndTemplateId(districtId, this.serviceWorkTemplate.getEnabledWorkTemplate(districtId).getTemplateId());
+	         String startWorkTimePM = "";
+	         String endWorkTimePM = "";
+	         String startWorkTimeWeekAM = "";
+	         String endWorkTimeWeekAM = "";
+	         String startWorkTimeWeekendAM = "";
+	         String endWorkTimeWeekendAM = "";
+	         int loop1 = 1;
+	         int loop2 = 1;
+	         int loop3 = 1;
+	         for (ModelBaseWorkTime entity : dayWorkTimes) {
+	            if ("PM".equals(checkWorkTime(entity.getWorkStime()))) { // 工作时间在晚上
+	               if (loop1 == 1) {
+	                  startWorkTimePM = entity.getWorkStime();
+	                  endWorkTimePM = entity.getWorkEtime();
+	                  loop1++;
+	               } else {
+	                  if (startWorkTimePM.compareTo(entity.getWorkStime()) > 0) {
+	                     startWorkTimePM = entity.getWorkStime();
+	                  }
+	                  if (endWorkTimePM.compareTo(entity.getWorkEtime()) < 0) {
+	                     endWorkTimePM = entity.getWorkEtime();
+	                  }
+	               }
+	            } else { // 工作时间在白天
+	               if (entity.getAdjustDays().contains("周六")
+	                     || entity.getAdjustDays().contains("周日")) {
+	                  if (loop2 == 1) {
+	                     startWorkTimeWeekendAM = entity.getWorkStime();
+	                     endWorkTimeWeekendAM = entity.getWorkEtime();
+	                     loop2++;
+	                  } else {
+	                     if (startWorkTimeWeekendAM.compareTo(entity
+	                           .getWorkStime()) > 0) {
+	                        startWorkTimeWeekendAM = entity.getWorkStime();
+	                     }
+	                     if (endWorkTimeWeekendAM.compareTo(entity
+	                           .getWorkEtime()) < 0) {
+	                        endWorkTimeWeekendAM = entity.getWorkEtime();
+	                     }
+	                  }
+	               }
+	               if (entity.getAdjustDays().contains("周一")
+	                     || entity.getAdjustDays().contains("周二")
+	                     || entity.getAdjustDays().contains("周三")
+	                     || entity.getAdjustDays().contains("周四")
+	                     || entity.getAdjustDays().contains("周五")) {
+	                  if (loop3 == 1) {
+	                     startWorkTimeWeekAM = entity.getWorkStime();
+	                     endWorkTimeWeekAM = entity.getWorkEtime();
+	                     loop3++;
+	                  } else {
+	                     if (startWorkTimeWeekAM.compareTo(entity
+	                           .getWorkStime()) > 0) {
+	                        startWorkTimeWeekAM = entity.getWorkStime();
+	                     }
+	                     if (endWorkTimeWeekAM.compareTo(entity
+	                           .getWorkEtime()) < 0) {
+	                        endWorkTimeWeekAM = entity.getWorkEtime();
+	                     }
+	                  }
+	               }
+	            }
+	         }
+	         request.setAttribute("startWorkTimePM", startWorkTimePM);
+	         request.setAttribute("endWorkTimePM", endWorkTimePM);
+	         request.setAttribute("startWorkTimeWeekAM", startWorkTimeWeekAM);
+	         request.setAttribute("endWorkTimeWeekAM", endWorkTimeWeekAM);
+	         request.setAttribute("startWorkTimeWeekendAM",
+	               startWorkTimeWeekendAM);
+	         request.setAttribute("endWorkTimeWeekendAM", endWorkTimeWeekendAM);
+			}else{
+				return ajaxPrint(response,"这周没有工作安排");
+			}
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return mapping.findForward("admin.page.staff.work.arrange.view");
+	}
+	
+	public ActionForward actionViewWorkArrangePage(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	{
+
+        List<ModelSchoolDistrict> districts = this.getAllDistricts();
+        request.setAttribute("districts", districts);
+		return mapping.findForward("admin.page.staff.work.arrange.view");
+	}
+	
 	/**
 	 * <b>[WebAction]</b> 
 	 * <br/>
@@ -848,12 +1005,12 @@ extends BaseAdminAction
 		try
 		{	
 			ModelStaffAttendance formStaffAttendance = (ModelStaffAttendance) form;
+			request.setAttribute("formStaffAttendance", formStaffAttendance);
 			PagingBean pagingBean = this.getPagingBean(request);
 			PaginationSupport<ModelStaffAttendance> staffAttendances =
 				this.serviceStaffAttendance.getPaginationByEntity(formStaffAttendance, pagingBean);
-		
+
 			request.setAttribute("staffAttendances", staffAttendances);
-			request.setAttribute("formStaffAttendance", formStaffAttendance);
 		
 			// 输出分页信息至客户端
 			outWritePagination(request, pagingBean, staffAttendances);
@@ -878,10 +1035,12 @@ extends BaseAdminAction
 		String id = request.getParameter("id");
 		if(this.isObjectIdValid(id)){
 			try {
-				ModelStaffAttendance staffAttendance = this.serviceStaffAttendance.get(id);
+				if(this.getServiceStaffAttendance()==null)System.out.println("注入失败");
+				ModelStaffAttendance staffAttendance = this.getServiceStaffAttendance().getById(id);
 				request.setAttribute("staffAttendance", staffAttendance);
 			} catch (ServiceException e) {
 				// TODO Auto-generated catch block
+				e.printStackTrace();
 				return ajaxPrint(response,"请求数据失败");
 			}
 		}else{
@@ -904,14 +1063,11 @@ extends BaseAdminAction
 		String id = request.getParameter("id");
 		if(this.isObjectIdValid(id)){
 			try {
-				ModelStaffAttendance staffAttendance = (ModelStaffAttendance)form;
 				ModelStaffAttendance entity = this.serviceStaffAttendance.get(id);
-				if (entity != null) {
-		               // 用表单输入的值覆盖实体中的属性值
-		            BeanUtils.copyProperties(staffAttendance, entity);
-		        } else {
-		            return ajaxPrint(response, AjaxResponse.RESPONSE_ERROR);
-		        }
+				entity.setOfftimeShour(request.getParameter("puchSHour"));
+				entity.setOfftimeSmin(request.getParameter("puchSMinute"));
+				entity.setOfftimeEhour(request.getParameter("puchEHour"));
+				entity.setOfftimeEmin(request.getParameter("puchEMinute"));
 				this.serviceStaffAttendance.save(entity);
 			    // 保存成功后, Dialog进行关闭
 			    return ajaxPrint(response, 
@@ -1126,4 +1282,17 @@ extends BaseAdminAction
 		return mapping.findForward("admin.page.document.detail");
 	}
     
+
+	   public String checkWorkTime(String time) {
+	      if (time == null || "".equals(time))
+	         return "";
+	      String hour = time.substring(0, time.indexOf(":"));
+	      if (hour != null && !"".equals(hour)) {
+	         if (Integer.parseInt(hour) < 18)
+	            return "AM";
+	         else
+	            return "PM";
+	      }
+	      return "";
+	   }
 }

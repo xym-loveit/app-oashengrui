@@ -802,6 +802,30 @@ public class UtilDateTime {
 		mth.set(mth.get(Calendar.YEAR),mth.get(Calendar.MONTH), mth.get(Calendar.DAY_OF_MONTH)-(mth.get(Calendar.DAY_OF_WEEK)+6)%7+7);
 		return (new SimpleDateFormat("yyyy-MM-dd").format(mth.getTime()));
 	}
+	
+	/**
+	 * ate所在周的周一日期
+	 * @param date
+	 * @return
+	 */
+	public static String currentWeekBeginDate(Date date){
+		Calendar mth = Calendar.getInstance();
+		mth.setTime(date);
+		mth.set(mth.get(Calendar.YEAR),mth.get(Calendar.MONTH), mth.get(Calendar.DAY_OF_MONTH)-(mth.get(Calendar.DAY_OF_WEEK)+6)%7+1);
+		return (new SimpleDateFormat("yyyy-MM-dd").format(mth.getTime()));
+	}
+	/**
+	 * date所在周的周末日期
+	 * @param date
+	 * @return
+	 */
+	public static String currentWeekEndDate(Date date){
+		Calendar mth = Calendar.getInstance();
+		mth.setTime(date);
+		mth.set(mth.get(Calendar.YEAR),mth.get(Calendar.MONTH), mth.get(Calendar.DAY_OF_MONTH)-(mth.get(Calendar.DAY_OF_WEEK)+6)%7+7);
+		return (new SimpleDateFormat("yyyy-MM-dd").format(mth.getTime()));
+	}
+	
     /**
      * 
      * @param start1
@@ -956,4 +980,16 @@ public class UtilDateTime {
 	   System.out.println(""+day+"天"+hour+"小时"+min+"分"+s+"秒");
 	   return ""+day+"天"+hour+"小时"+min+"分"+s+"秒";
    }
+   
+   public static Date addDays(Date date,int days){
+	   Calendar calendar= Calendar.getInstance();
+	   calendar.setTime(date);
+	   calendar.add(Calendar.DATE, days);
+	   return calendar.getTime();
+   }
+   
+   public static String formatDate2Str(Date date){
+	   return (new SimpleDateFormat("yyyy-MM-dd").format(date));
+   }
+   
 }
