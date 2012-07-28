@@ -8,6 +8,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <table class="table" width="100%" layoutH="${recordPage eq null ? 142 : 148}">
 	<thead>
@@ -71,10 +72,20 @@
 					<td>
 						<c:choose>
 							<c:when test="${PAGE_TYPE eq 'FE'}">
-								<a class="oplink" href="app/finan/expense.do?action=diaglogFinaExpensePage&id=${entity.id}&op=view" target="dialog" title="查看‘${entity.employee.empName}’费用申请单-${entity.formNo}" width="1150" height="640" rel="dia_finexp_view_${entity.id}">详细</a></td>
+								<c:choose>
+									<c:when test="${tm:ifGranted('_FUNCKEY_FINAN_EXPENSE_RECORD_VIEW')}">
+										<a class="oplink" href="app/finan/expense.do?action=diaglogFinaExpensePage&id=${entity.id}&op=view" target="dialog" title="查看‘${entity.employee.empName}’费用申请单-${entity.formNo}" width="1150" height="640" rel="dia_finexp_view_${entity.id}">详细</a>
+									</c:when>
+									<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+								</c:choose>
 							</c:when>
 							<c:when test="${PAGE_TYPE eq 'FC'}">
-								<a class="oplink" href="app/finan/contract.do?action=diaglogFinaContractPage&id=${entity.id}&op=view" target="dialog" title="查看‘${entity.employee.empName}’合同申请单-${entity.formNo}" width="1150" height="640" rel="dia_fincontract_view_${entity.id}">详细</a></td>
+								<c:choose>
+									<c:when test="${tm:ifGranted('_FUNCKEY_FINAN_CONTRACT_RECORD_VIEW')}">
+										<a class="oplink" href="app/finan/contract.do?action=diaglogFinaContractPage&id=${entity.id}&op=view" target="dialog" title="查看‘${entity.employee.empName}’合同申请单-${entity.formNo}" width="1150" height="640" rel="dia_fincontract_view_${entity.id}">详细</a>
+									</c:when>
+									<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+								</c:choose>
 							</c:when>	
 						</c:choose>
 					</td>

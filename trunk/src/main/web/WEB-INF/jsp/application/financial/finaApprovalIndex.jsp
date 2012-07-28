@@ -8,6 +8,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <style>
 	label {width: auto;}
@@ -82,10 +83,14 @@
 				<li>
 					<c:choose>
 						<c:when test="${PAGE_TYPE eq 'FE'}">
-							<a class="add" href="app/finan/expense.do?action=diaglogFinaExpensePage" target="dialog" title="财务申请" width="1150" height="500" rel="dia_finexp_add"><span>财务申请</span></a>
+							<c:if test="${tm:ifGranted('_FUNCKEY_FINAN_EXPENSE_APPLY')}">
+								<a class="add" href="app/finan/expense.do?action=diaglogFinaExpensePage" target="dialog" title="财务申请" width="1150" height="500" rel="dia_finexp_add"><span>财务申请</span></a>
+							</c:if>
 						</c:when>
 						<c:when test="${PAGE_TYPE eq 'FC'}">
-							<a class="add" href="app/finan/contract.do?action=diaglogFinaContractPage" target="dialog" title="合同申请" width="1150" height="500" rel="dia_fincta_add"><span>合同申请</span></a>
+							<c:if test="${tm:ifGranted('_FUNCKEY_FINAN_CONTRACT_APPLY')}">
+								<a class="add" href="app/finan/contract.do?action=diaglogFinaContractPage" target="dialog" title="合同申请" width="1150" height="500" rel="dia_fincta_add"><span>合同申请</span></a>
+							</c:if>
 						</c:when>	
 					</c:choose>
 				</li>

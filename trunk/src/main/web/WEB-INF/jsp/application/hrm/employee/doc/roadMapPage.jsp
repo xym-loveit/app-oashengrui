@@ -8,6 +8,7 @@
 <%@ taglib uri="/tags/trymore" prefix="tm"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <style>
 	.item_file {
@@ -248,13 +249,15 @@
 			</table>
 		</div>
 		<c:if test="${op eq null || op ne 'view'}">
-			<div class="formBar">
-				<ul>
-					<li>
-						<div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div>
-					</li>
-				</ul>
-			</div>
+			<c:if test="${tm:ifGranted('_FUNCKEY_HRM_EMPLOYEE_UPDATE')}">
+				<div class="formBar">
+					<ul>
+						<li>
+							<div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div>
+						</li>
+					</ul>
+				</div>
+			</c:if>
 		</c:if>
 		<input type="hidden" name="source" value="${source ne null ? source : '0'}" />
 		<input type="hidden" name="jobId" value="${jobId ne null ? jobId : '0'}" />

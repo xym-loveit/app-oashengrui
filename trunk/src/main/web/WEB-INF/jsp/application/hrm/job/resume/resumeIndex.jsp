@@ -6,6 +6,7 @@
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <style>
 	label {width: auto;}
@@ -168,8 +169,21 @@
 						<td>${entity.jobHireInfo ne null ? entity.jobHireInfo.jobHireTitle : '---'}</td>
 						<td>${entity.jobHireInfo ne null && entity.jobHireInfo.jobHireDistrict ne null ? entity.jobHireInfo.jobHireDistrict.districtName : '---'}</td>
 						<td>${entity.jobHireInfo ne null && entity.jobHireInfo.jobHireDepartment ne null ? entity.jobHireInfo.jobHireDepartment.depName : '---'}</td>
-						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobResume&resumeId=${entity.resume.id}&op=view" target="dialog" title="简历信息‘${entity.resume.fullName}’" width="900" height="500" rel="hrm_resumeview_${entity.id}" mask="true" rel="hrm_resumedetail_${entity.id}">简历信息</a></td>
-						<td><a class="oplink" href="app/hrm/archive.do?action=actionResumeRemove&id=${entity.id}&resumeId=${entity.resume.id}" target="ajaxTodo" title="确定要删除简历`${entiyt.resume.fullName}`吗?" callback="reload()">删除</a></td>
+						<td>
+							<c:choose>
+								<c:when test="${tm:ifGranted('_FUNCKEY_HRM_ARCHIVE_RESUME_VIEW')}">
+									<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobResume&resumeId=${entity.resume.id}&op=view" target="dialog" title="简历信息‘${entity.resume.fullName}’" width="900" height="500" rel="hrm_resumeview_${entity.id}" mask="true" rel="hrm_resumedetail_${entity.id}">简历信息</a></td>
+								</c:when>
+								<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+							</c:choose>
+						<td>
+							<c:choose>
+								<c:when test="${tm:ifGranted('_FUNCKEY_HRM_ARCHIVE_RESUME_REMOVE')}">
+									<a class="oplink" href="app/hrm/archive.do?action=actionResumeRemove&id=${entity.id}&resumeId=${entity.resume.id}" target="ajaxTodo" title="确定要删除简历`${entiyt.resume.fullName}`吗?" callback="reload()">删除</a>
+								</c:when>
+								<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+							</c:choose>
+						</td>
 					</tr>
 				</logic:iterate>
 			</logic:present>
