@@ -72,6 +72,44 @@ public class JstlTagFileRestore
 		return builder.toString();
 	}
 	
+	 /**
+	  * 
+	  * @param fileAttachs
+	  * @param type
+	  * @return
+	  */
+	public static String fileRestoreByType(Set<ModelFileAttach> fileAttachs,String type)
+	{
+		System.out.println(type);
+		if(type==null || "".equals(type))type="others";
+		StringBuilder builder = new StringBuilder();
+		builder.append("[");
+		
+		if (fileAttachs != null)
+		{
+			for (ModelFileAttach fileAttach : fileAttachs)
+			{
+				if(type.equalsIgnoreCase(fileAttach.getFileType())){
+					String jsonText = buildJsonByFile (fileAttach);
+					if (jsonText != null)
+					{
+						builder.append(jsonText);
+						builder.append(",");
+					}
+				}
+			}
+		}
+		
+		if (builder.toString().endsWith(","))
+		{
+			builder.deleteCharAt(builder.toString().length() - 1);
+		}
+		
+		builder.append("]");
+		System.out.println(builder.toString());
+		return builder.toString();
+	}
+	
 	/**
 	 * Builds JSON text with the specified file model.
 	 * 
