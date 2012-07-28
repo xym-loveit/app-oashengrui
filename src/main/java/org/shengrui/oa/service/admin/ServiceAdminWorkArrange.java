@@ -1,5 +1,6 @@
 package org.shengrui.oa.service.admin;
 
+import java.util.Date;
 import java.util.List;
 
 import org.shengrui.oa.model.admin.ModelAdminWorkArrange;
@@ -73,4 +74,14 @@ extends ServiceGeneric<ModelAdminWorkArrange>
 	 * @throws ServiceException
 	 */
 	public void batchCopyByDay(String day,String date,String districtId) throws ServiceException;
+	
+	/**
+	 * 按周查询工作内容情况
+	 * @param startDay
+	 * @param endDay
+	 * @param districtId
+	 * @return
+	 * @throws ServiceException
+	 */
+	public List<ModelAdminWorkArrange> queryByWeek(Date startDay, Date endDay, String districtId) throws ServiceException;
 }

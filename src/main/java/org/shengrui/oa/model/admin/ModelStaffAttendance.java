@@ -113,39 +113,39 @@ public class ModelStaffAttendance extends ModelBase {
 	/**
 	 * 用于查询的临时变量
 	 */
-	protected String startWorkDate;
+	protected String filterStart;
 	/**
 	 * 用于查询的临时变量
 	 */
-	protected String endWorkDate;
+	protected String filterEnd;
 
 
 	/**
-	 * @return the startWorkDate
+	 * @return the filterStart
 	 */
-	public String getStartWorkDate() {
-		return startWorkDate;
+	public String getFilterStart() {
+		return filterStart;
 	}
 
 	/**
-	 * @param startWorkDate the startWorkDate to set
+	 * @param filterStart the filterStart to set
 	 */
-	public void setStartWorkDate(String startWorkDate) {
-		this.startWorkDate = startWorkDate;
+	public void setFilterStart(String filterStart) {
+		this.filterStart = filterStart;
 	}
 
 	/**
-	 * @return the endWorkeDate
+	 * @return the filterEnd
 	 */
-	public String getEndWorkDate() {
-		return endWorkDate;
+	public String getFilterEnd() {
+		return filterEnd;
 	}
 
 	/**
-	 * @param endWorkeDate the endWorkeDate to set
+	 * @param filterEnd the filterEnd to set
 	 */
-	public void setEndWorkeDate(String endWorkDate) {
-		this.endWorkDate = endWorkDate;
+	public void setFilterEnd(String filterEnd) {
+		this.filterEnd = filterEnd;
 	}
 
 	public Date getWorkDate() {

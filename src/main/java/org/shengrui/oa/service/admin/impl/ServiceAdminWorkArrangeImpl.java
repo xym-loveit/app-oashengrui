@@ -1,6 +1,7 @@
 package org.shengrui.oa.service.admin.impl;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
@@ -179,6 +180,31 @@ extends ServiceGenericImpl<ModelAdminWorkArrange> implements ServiceAdminWorkArr
 					+ " select '"+date+"',worktm_id,staff_name,staff_id,'1',workcnt_id,district_id from app_system_work_template where enable='1' and district_id="+districtId+" and work_day='"+day+"'";
 		try {
 			this.daoWorkArrange.execUpdateByNativeSQL(sql);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			throw new ServiceException(e);
+		}
+	}
+
+	@Override
+	public List<ModelAdminWorkArrange> queryByWeek(Date startDay,
+			Date endDay, String districtId) throws ServiceException {
+		// TODO Auto-generated method stub
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelAdminWorkArrange.class);
+		if (startDay != null )
+		{
+			criteria.add(Restrictions.ge("workDate", startDay));
+		}
+			
+		if (endDay != null)
+		{
+			criteria.add(Restrictions.le("workDate", endDay));
+		}
+		if(districtId!=null && UtilString.isNotEmpty(districtId)){
+			criteria.add(Restrictions.eq("districtId", districtId));
+		}
+		try {
+			return this.daoWorkArrange.getListByCriteria(criteria);
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			throw new ServiceException(e);

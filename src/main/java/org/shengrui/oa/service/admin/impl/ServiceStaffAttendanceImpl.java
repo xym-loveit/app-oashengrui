@@ -72,16 +72,16 @@ public class ServiceStaffAttendanceImpl extends ServiceGenericImpl<ModelStaffAtt
 			{
 				criteria.add(Restrictions.eq("workDate", entity.getWorkDate()));
 			}
-			if(entity.getStartWorkDate()!=null && UtilString.isNotEmpty(entity.getStartWorkDate()))
+			if(entity.getFilterStart()!=null && UtilString.isNotEmpty(entity.getFilterStart()))
 			{
-				criteria.add(Restrictions.ge("workDate", entity.getStartWorkDate()));
+				criteria.add(Restrictions.ge("workDate", entity.getFilterStart()));
 			}
-			if(entity.getEndWorkDate()!=null && UtilString.isNotEmpty(entity.getEndWorkDate()))
+			if(entity.getFilterEnd()!=null && UtilString.isNotEmpty(entity.getFilterStart()))
 			{
-				criteria.add(Restrictions.le("workDate", entity.getEndWorkDate()));
+				criteria.add(Restrictions.le("workDate", entity.getFilterEnd()));
 			}
 		}
-		criteria.addOrder(Order.desc("workTime"));
+		criteria.addOrder(Order.desc("workDate"));
 		
 		return criteria;
 	}
