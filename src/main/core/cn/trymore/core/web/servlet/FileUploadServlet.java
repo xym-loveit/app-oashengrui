@@ -119,11 +119,19 @@ extends HttpServlet
 			ServletFileUpload servletFileUpload = new ServletFileUpload(diskFileItemFactory);
 			List<FileItem> fileList = (List<FileItem>) servletFileUpload.parseRequest(request);
 			Iterator<FileItem> itor = fileList.iterator();
-			
+			Iterator<FileItem> itor1 = fileList.iterator();
+			String file_type = "";
+			while(itor1.hasNext()){
+				FileItem item = itor1.next();
+				if(item.isFormField() && "file_type".equals(item.getFieldName())){
+					file_type = item.getString();
+				}
+			}
 			FileItem fileItem;
 			while (itor.hasNext())
 			{
 				fileItem = itor.next();
+				
 				if (fileItem.getContentType() == null)
 				{
 					continue;
@@ -157,7 +165,7 @@ extends HttpServlet
 					fileAttach.setFileExt(fileName.substring(fileName.lastIndexOf(".") + 1));
 					fileAttach.setCreatetime(new Date());
 					fileAttach.setDelFlag(ModelFileAttach.FLAG_NOT_DEL);
-					fileAttach.setFileType(this.fileCat);
+					fileAttach.setFileType(!"".equals(file_type)?file_type:this.fileCat);
 					
 					ModelAppUser user = ContextUtil.getCurrentUser();
 					if (user != null)
@@ -186,7 +194,6 @@ extends HttpServlet
 						fileIds=fileIds+","+fileAttach.getId();
 					}
 				}
-				
 				response.setContentType("text/html;charset=UTF-8");
 				PrintWriter writer = response.getWriter();
 				writer.println("{\"status\": 1, \"data\":{\"id\":" + (fileAttach != null ? fileAttach.getId() : "\"\"") + ", \"url\":\"" + newFileName + "\"}}");
