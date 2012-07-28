@@ -514,6 +514,39 @@ extends BaseAction
 		}
 	}
 	
+	protected void handleFileAttachments (ModelBase entity, HttpServletRequest request,String urlParam)
+	{
+		String fileUrls = request.getParameter(urlParam);
+		if (UtilString.isNotEmpty(fileUrls))
+		{
+			if (entity.getAttachFiles() == null)
+			{
+				entity.setAttachFiles(new HashSet<ModelFileAttach>());
+			}
+			
+			String[] urls = fileUrls.split(",");
+			for (String url : urls)
+			{
+				if (UtilString.isNotEmpty(url))
+				{
+					try
+					{
+						ModelFileAttach fileEntity = this.serviceFileAttach.getByPath(url);
+						if (fileEntity != null)
+						{
+							entity.getAttachFiles().add(fileEntity);
+						}
+					}
+					catch (Exception e)
+					{
+						LOGGER.error("Exception raised when saving file: " + url);
+					}
+				}
+			}
+		}
+	}
+	
+	
 	/**
 	 * Generates the employee no with the specified school district and department.
 	 * 
