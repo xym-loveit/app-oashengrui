@@ -8,6 +8,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <style>
 	#tblexp td.banner {line-height: ${op eq null || op ne 'view' ? '35px' : '25px'};font-size: 18px; font-weight: bold; text-align: center; margin: 0;}
@@ -111,7 +112,9 @@
 		<div class="formBar">
 			<ul>
 				<c:if test="${op eq null || op ne 'view'}">
-				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">提交申请</button></div></div></li>
+					<c:if test="${tm:ifGranted('_FUNCKEY_FINAN_CONTRACT_APPROVE')}">
+						<li><div class="buttonActive"><div class="buttonContent"><button type="submit">提交申请</button></div></div></li>
+					</c:if>
 				</c:if>
 				<li>
 					<div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div>

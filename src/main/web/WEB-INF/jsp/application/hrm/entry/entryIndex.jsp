@@ -8,6 +8,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <style>
 	label {width: auto;}
@@ -108,38 +109,52 @@
 							<td>${entity.inspectStatus ne null ? (entity.inspectStatus eq 0 ? '考察中' : (entity.inspectStatus eq 1 ? '考察通过' : '考察不通过')) : '---'}</td>
 							<td>
 								<c:choose>
-									<c:when test="${entity.finalStatus eq 0}">
-										<a class="oplink" href="app/hrm/entry.do?action=dialogEntryBoardPage&entryId=${entity.id}" target="dialog" title="入职操作" width="600" height="240" rel="hrm_entryin_${entity.id}" mask="true" rel="hrm_resumedetail_${entity.id}">入职</a>
+									<c:when test="${tm:ifGranted('_FUNCKEY_HRM_ENTRY_OP_ONBOARD')}">
+										<c:choose>
+											<c:when test="${entity.finalStatus eq 0}">
+												<a class="oplink" href="app/hrm/entry.do?action=dialogEntryBoardPage&entryId=${entity.id}" target="dialog" title="入职操作" width="600" height="240" rel="hrm_entryin_${entity.id}" mask="true" rel="hrm_resumedetail_${entity.id}">入职</a>
+											</c:when>
+											<c:otherwise>
+												<label class="opdisabled">入职</label>
+											</c:otherwise>
+										</c:choose>
 									</c:when>
-									<c:otherwise>
-										<label class="opdisabled">入职</label>
-									</c:otherwise>
-								</c:choose>
+								<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+							</c:choose>
 							</td>
 							<td>
 								<c:choose>
-									<c:when test="${entity.finalStatus eq 0}">
-										<a class="oplink" href="app/hrm/entry.do?action=dialogEntryFinalize&entryId=${entity.id}&op=board&state=2" target="dialog" title="未到处理" mask="true" rel="hrm_entryabsence_${entity.id}" width="300" height="200">未到</a>
+									<c:when test="${tm:ifGranted('_FUNCKEY_HRM_ENTRY_OP_ABSENCE')}">
+										<c:choose>
+											<c:when test="${entity.finalStatus eq 0}">
+												<a class="oplink" href="app/hrm/entry.do?action=dialogEntryFinalize&entryId=${entity.id}&op=board&state=2" target="dialog" title="未到处理" mask="true" rel="hrm_entryabsence_${entity.id}" width="300" height="200">未到</a>
+											</c:when>
+											<c:otherwise>
+												<label class="opdisabled">未到</label>
+											</c:otherwise>
+										</c:choose>
 									</c:when>
-									<c:otherwise>
-										<label class="opdisabled">未到</label>
-									</c:otherwise>
-								</c:choose>
+								<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+							</c:choose>
 							</td>
 							<td>
 								<c:choose>
-									<c:when test="${entity.inspectStatus eq 0}">
-										<a class="oplink" href="app/hrm/entry.do?action=actionEntrySave&entryId=${entity.id}&op=qualified&state=1&empId=${entity.jobHireIssue.resume.employeeId}" target="ajaxToDo" title="您确定‘${entity.jobHireIssue.resume.fullName}’考察期已经结束并且通过考察吗?" mask="true" rel="hrm_entryqua_${entity.id}">通过</a>
-										&nbsp;&nbsp;
-										<a class="oplink" href="app/hrm/entry.do?action=dialogEntryFinalize&entryId=${entity.id}&op=qualified&state=2&empId=${entity.jobHireIssue.resume.employeeId}" target="dialog" title="面试记录‘${entity.jobHireIssue.resume.fullName}’" mask="true" rel="hrm_entryqua_${entity.id}" width="300" height="150">未通过</a></td>
+									<c:when test="${tm:ifGranted('_FUNCKEY_HRM_ENTRY_OP_QUALIFY')}">
+										<c:choose>
+											<c:when test="${entity.inspectStatus eq 0}">
+												<a class="oplink" href="app/hrm/entry.do?action=actionEntrySave&entryId=${entity.id}&op=qualified&state=1&empId=${entity.jobHireIssue.resume.employeeId}" target="ajaxToDo" title="您确定‘${entity.jobHireIssue.resume.fullName}’考察期已经结束并且通过考察吗?" mask="true" rel="hrm_entryqua_${entity.id}">通过</a>
+												&nbsp;&nbsp;
+												<a class="oplink" href="app/hrm/entry.do?action=dialogEntryFinalize&entryId=${entity.id}&op=qualified&state=2&empId=${entity.jobHireIssue.resume.employeeId}" target="dialog" title="面试记录‘${entity.jobHireIssue.resume.fullName}’" mask="true" rel="hrm_entryqua_${entity.id}" width="300" height="150">未通过</a></td>
+											</c:when>
+											<c:otherwise>
+												<label class="opdisabled">通过</label>
+												&nbsp;&nbsp;
+												<label class="opdisabled">未通过</label>
+											</c:otherwise>
+										</c:choose>
 									</c:when>
-									<c:otherwise>
-										<label class="opdisabled">通过</label>
-										&nbsp;&nbsp;
-										<label class="opdisabled">未通过</label>
-									</c:otherwise>
-								</c:choose>
-								
+								<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+							</c:choose>
 						</tr>
 					</logic:iterate>
 				</logic:present>

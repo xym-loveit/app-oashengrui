@@ -8,6 +8,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <style>
 	.color_block {width: 16px; height: 16px;}
@@ -20,6 +21,7 @@
 </style>
 
 <script>
+	<c:if test="${(CATKEY eq 'contract' && tm:ifGranted('_FUNCKEY_FINAN_CONTRACT_APPROVE')) || (CATKEY eq 'expense' && tm:ifGranted('_FUNCKEY_FINAN_EXPENSE_APPROVE'))}">
 	$(function(){
 		$("a[id^=auditPost]").unbind("click");
 		$("a[id^=auditPost]").click(function(){
@@ -48,6 +50,7 @@
 			}
 		});
 	});
+	</c:if>
 </script>
 
 <div>
@@ -111,19 +114,21 @@
 								<td style="padding:0 5px;">
 									<c:choose>
 										<c:when test="${entity.auditState eq 1}">
-											<table style="padding:5px 0; width:100%;" cellpadding="0" cellspacing="0" id="auditForm${entity.id}">
-												<tr>
-													<td width="90%"><textarea style="width: 99%; height: 40px;"></textarea></td>
-													<td rowspan="2"><a class="button" id="auditPost${entity.id}" href="javascript:void(0);" style="margin-left:10px;"><span>审核提交</span></a></td>
-												</tr>
-												<tr>
-													<td align="right">
-														<input type="radio" name="auditState${entity.id}" id="auditState${entity.id}_2" value="2" />通过 
-														<input type="radio" name="auditState${entity.id}" id="auditState${entity.id}_3" value="3" />不通过 
-														<input type="radio" name="auditState${entity.id}" id="auditState${entity.id}_4" value="4" />退回 
-													</td>
-												</tr>
-											</table>
+											<c:if test="${(CATKEY eq 'contract' && tm:ifGranted('_FUNCKEY_FINAN_CONTRACT_APPROVE')) || (CATKEY eq 'expense' && tm:ifGranted('_FUNCKEY_FINAN_EXPENSE_APPROVE'))}">
+												<table style="padding:5px 0; width:100%;" cellpadding="0" cellspacing="0" id="auditForm${entity.id}">
+													<tr>
+														<td width="90%"><textarea style="width: 99%; height: 40px;"></textarea></td>
+														<td rowspan="2"><a class="button" id="auditPost${entity.id}" href="javascript:void(0);" style="margin-left:10px;"><span>审核提交</span></a></td>
+													</tr>
+													<tr>
+														<td align="right">
+															<input type="radio" name="auditState${entity.id}" id="auditState${entity.id}_2" value="2" />通过 
+															<input type="radio" name="auditState${entity.id}" id="auditState${entity.id}_3" value="3" />不通过 
+															<input type="radio" name="auditState${entity.id}" id="auditState${entity.id}_4" value="4" />退回 
+														</td>
+													</tr>
+												</table>
+											</c:if>
 										</c:when>
 										<c:otherwise>${entity.auditState ne null ? entity.auditIdea : ''}</c:otherwise>
 									</c:choose>

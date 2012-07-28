@@ -8,6 +8,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <style>
 	label {width: auto;}
@@ -83,8 +84,10 @@
 	<div class="pageContent">
 		<div class="panelBar">
 			<ul class="toolBar">
-				<li><a class="add" href="app/hrm/employee/data.do?action=dialogHrmEmployeeAdd" target="dialog" title="添加新员工信息" width="1080" height="500" rel="dia_hr_empadd"><span>添加新员工</span></a></li>
-				<li class="line">line</li>
+				<c:if test="${tm:ifGranted('_FUNCKEY_HRM_EMPLOYEE_ADD')}">
+					<li><a class="add" href="app/hrm/employee/data.do?action=dialogHrmEmployeeAdd" target="dialog" title="添加新员工信息" width="1080" height="500" rel="dia_hr_empadd"><span>添加新员工</span></a></li>
+					<li class="line">line</li>
+				</c:if>
 				<li><a class="icon" href="javascript:void(0);" onclick="alert('员工导入功能待实现...');" title="导入员工信息" width="930" height="500" rel="dia_hr_entryadd"><span>导入员工信息</span></a></li>
 			</ul>
 		</div>
@@ -154,8 +157,22 @@
 									</c:when>
 								</c:choose>
 							</td>
-							<td><a class="oplink" href="app/hrm/employee.do?action=actionEmployeeDelete&id=${entity.id}" target="ajaxTodo" title="确定要删除吗?">删除</a></td>
-							<td><a class="oplink" href="app/hrm/employee.do?action=hrmEmployeeDocDetail&id=${entity.id}&op=view" target="dialog" title="查看${entity.empName}详细信息" width="930" height="500" rel="hrm_emp_profile_${entity.id}">详细</a></td>
+							<td>
+								<c:choose>
+									<c:when test="${tm:ifGranted('_FUNCKEY_HRM_EMPLOYEE_REMOVE')}">
+										<a class="oplink" href="app/hrm/employee.do?action=actionEmployeeDelete&id=${entity.id}" target="ajaxTodo" title="确定要删除吗?">删除</a>
+									</c:when>
+									<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+								</c:choose>
+							</td>
+							<td>
+								<c:choose>
+									<c:when test="${tm:ifGranted('_FUNCKEY_HRM_EMPLOYEE_VIEW')}">
+										<a class="oplink" href="app/hrm/employee.do?action=hrmEmployeeDocDetail&id=${entity.id}&op=view" target="dialog" title="查看${entity.empName}详细信息" width="930" height="500" rel="hrm_emp_profile_${entity.id}">详细</a>
+									</c:when>
+									<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+								</c:choose>
+							</td>
 						</tr>
 					</logic:iterate>
 				</logic:present>

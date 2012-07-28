@@ -366,9 +366,11 @@ ${tm:fileRestore(resume['attachFiles'])}
 		<div class="formBar">
 			<ul>
 				<c:if test="${op eq null || op ne 'view'}">
-					<li>
-						<div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div>
-					</li>
+					<c:if test="${cat eq null || (cat ne null && tm:ifGranted('_FUNCKEY_HRM_EMPLOYEE_UPDATE'))}">
+						<li>
+							<div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div>
+						</li>
+					</c:if>
 				</c:if>
 				<c:if test="${cat eq null}">
 				<li>
