@@ -60,6 +60,7 @@
 				<beans:value>/index.jsp</beans:value>
 				<beans:value>/app/index.do</beans:value>
 				<beans:value>/app/base.do</beans:value>
+				<beans:value>/app/message.do</beans:value>
 				<beans:value>/file-upload</beans:value>
 				<beans:value>/file-download</beans:value>
 			</beans:set>

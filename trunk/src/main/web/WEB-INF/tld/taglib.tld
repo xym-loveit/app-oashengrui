@@ -68,4 +68,16 @@
      </example>
 </function>
 
+<function>
+   <description>
+     security access control against menu item
+   </description>
+   <name>ifMenuGranted</name>
+   <function-class>cn.trymore.core.jstl.JstlTagSecurity</function-class>
+   <function-signature>java.lang.Boolean ifMenuGranted(java.lang.String)</function-signature>
+     <example>
+        name: ${ltag:ifMenuGranted('_FUNC_KEY_MYTASK')}
+     </example>
+</function>
+
 </taglib>

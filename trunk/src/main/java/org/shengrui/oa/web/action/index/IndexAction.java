@@ -36,7 +36,9 @@ extends BaseAppAction
 	public ActionForward index (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) 
 	{
-
+		// loads all configured menus, aims to present the left menu items.
+		this.getRootMenus(request);
+		
 		return mapping.findForward("index");
 	}
 	
