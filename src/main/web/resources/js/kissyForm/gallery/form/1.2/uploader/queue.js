@@ -303,6 +303,15 @@ KISSY.add('gallery/form/1.2/uploader/queue', function (S, Node, Base) {
             S.mix(file, data);
             files[index] = file;
             self.set('files', files);
+			
+			// added by Jeccy.Zhao on 2012/07/29, only for temporary solution.
+			if (data.sUrl && jQuery("#queue-file-"+ file.id).size() > 0) {
+				if (jQuery("#queue-file-"+ file.id).find("a[href='uploads/_sUrl_']").size() > 0) {
+					var href = jQuery("#queue-file-"+ file.id).find("a[href='uploads/_sUrl_']").attr("href");
+					jQuery("#queue-file-"+ file.id).find("a[href='uploads/_sUrl_']").attr("href", href.replaceAll("_sUrl_", data.sUrl));
+				}
+			}
+			
             self.fire(Queue.event.UPDATE_FILE,{index : index, file : file});
             return file;
         },
