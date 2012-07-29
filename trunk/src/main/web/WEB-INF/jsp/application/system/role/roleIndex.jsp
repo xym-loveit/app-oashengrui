@@ -6,6 +6,7 @@
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <script type="text/javascript">
 	function callback_roleRemove(id) {
@@ -58,7 +59,9 @@
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
+			<c:if test="${tm:ifGranted('_FUNCKEY_SYSTEM_ROLE_ADD')}">
 			<li><a class="add" href="app/system/role.do?action=dialogRolePage" target="dialog" title="添加新权限组" mask="true" width="504" height="348" rel="dia_sys_roleadd"><span>添加新权限组</span></a></li>
+			</c:if>
 		</ul>
 	</div>
 	<table class="table" width="100%" layoutH="138">
@@ -84,26 +87,41 @@
 						<td>${role.roleKey}</td>
 						<td>${role.roleDesc}</td>
 						<td>
-							<a href="app/system/role.do?action=dialogRolePage&roleId=${role.id}&view" target="dialog" title="权限组详细" class="oplink" width="504" height="348" rel="sysmgr_roleview_${idx}">详细</a>
-						</td>
-						<td>
 							<c:choose>
-								<c:when test="${role.roleEditable == 1}">
-									<a href="app/system/role.do?action=dialogRolePage&roleId=${role.id}" target="dialog" title="权限组编辑" class="oplink" width="504" height="348" rel="sysmgr_roleedit_${idx}">编辑</a>
+								<c:when test="${tm:ifGranted('_FUNCKEY_SYSTEM_ROLE_VIEW')}">
+									<a href="app/system/role.do?action=dialogRolePage&roleId=${role.id}&view" target="dialog" title="权限组详细" class="oplink" width="504" height="348" rel="sysmgr_roleview_${idx}">详细</a>
 								</c:when>
-								<c:otherwise>
-									<label style="color:#ddd;text-decoration: line-through; line-height: 21px;" title="不能进行编辑操作">编辑</label>
-								</c:otherwise>
+								<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
 							</c:choose>
 						</td>
 						<td>
 							<c:choose>
-								<c:when test="${role.roleEditable == 1}">
-									<a href="app/system/role.do?action=actionRemoveRole&roleId=${role.id}" target="ajaxTodo" title="确定删除该权限组吗？" class="oplink" callback="callback_roleRemove(${role.id})">删除</a>
+								<c:when test="${tm:ifGranted('_FUNCKEY_SYSTEM_ROLE_EDIT')}">
+									<c:choose>
+										<c:when test="${role.roleEditable == 1}">
+											<a href="app/system/role.do?action=dialogRolePage&roleId=${role.id}" target="dialog" title="权限组编辑" class="oplink" width="504" height="348" rel="sysmgr_roleedit_${idx}">编辑</a>
+										</c:when>
+										<c:otherwise>
+											<label style="color:#ddd;text-decoration: line-through; line-height: 21px;" title="不能进行编辑操作">编辑</label>
+										</c:otherwise>
+									</c:choose>
 								</c:when>
-								<c:otherwise>
-									<label style="color:#ddd;text-decoration: line-through; line-height: 21px;" title="不能进行删除操作">删除</label>
-								</c:otherwise>
+								<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+							</c:choose>
+						</td>
+						<td>
+							<c:choose>
+								<c:when test="${tm:ifGranted('_FUNCKEY_SYSTEM_ROLE_REMOVE')}">
+									<c:choose>
+										<c:when test="${role.roleEditable == 1}">
+											<a href="app/system/role.do?action=actionRemoveRole&roleId=${role.id}" target="ajaxTodo" title="确定删除该权限组吗？" class="oplink" callback="callback_roleRemove(${role.id})">删除</a>
+										</c:when>
+										<c:otherwise>
+											<label style="color:#ddd;text-decoration: line-through; line-height: 21px;" title="不能进行删除操作">删除</label>
+										</c:otherwise>
+									</c:choose>
+								</c:when>
+								<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
 							</c:choose>
 						</td>
 					</tr>
