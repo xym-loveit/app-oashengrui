@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2012 年 07 月 29 日 04:32
+-- 生成日期: 2012 年 07 月 29 日 22:23
 -- 服务器版本: 5.5.17
 -- PHP 版本: 5.3.8
 
@@ -500,15 +500,13 @@ CREATE TABLE IF NOT EXISTS `app_function` (
   PRIMARY KEY (`func_id`),
   UNIQUE KEY `func_key` (`func_key`),
   KEY `menu_id` (`menu_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能表' AUTO_INCREMENT=40 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能表' AUTO_INCREMENT=96 ;
 
 --
 -- 转存表中的数据 `app_function`
 --
 
 INSERT INTO `app_function` (`func_id`, `func_key`, `func_name`, `func_icon`, `func_desc`, `menu_id`) VALUES
-(1, '_FUNCKEY_myplan_edit', '编辑任务', 'icon-btnedit', '', 4),
-(2, '_FUNCKEY_myplan_del', '删除任务', 'icon-btndel', '', 4),
 (5, '_FUNCKEY_HRM_JOBHIRE_JOB_VIEW', '岗位管理-岗位查看', '', '查看岗位详细信息..', 48),
 (6, '_FUNCKEY_HRM_JOBHIRE_JOB_POST', '岗位管理-岗位发布', '', '需先具备`岗位查看`的权限, 才能进行岗位发布操作.', 48),
 (7, '_FUNCKEY_HRM_JOBHIRE_JOB_EDIT', '岗位管理-岗位编辑', '', '需先具备`岗位查看`的权限, 才能进行岗位编辑操作.', 48),
@@ -543,7 +541,63 @@ INSERT INTO `app_function` (`func_id`, `func_key`, `func_name`, `func_icon`, `fu
 (36, '_FUNCKEY_FINAN_CONTRACT_VIEW', '合同申请查看', '', '查看合同申请单数据', 30),
 (37, '_FUNCKEY_FINAN_CONTRACT_APPROVE', '合同申请审核', '', '审核提交上来的费用支出', 30),
 (38, '_FUNCKEY_FINAN_EXPENSE_RECORD_VIEW', '审批记录查看', '', '查看费用审批记录数据.', 28),
-(39, '_FUNCKEY_FINAN_CONTRACT_RECORD_VIEW', '审批记录查看', '', '查看费用审批记录数据.', 31);
+(39, '_FUNCKEY_FINAN_CONTRACT_RECORD_VIEW', '审批记录查看', '', '查看费用审批记录数据.', 31),
+(40, '_FUNCKEY_SYSTEM_MENU_ADD', '菜单项添加', '', '添加新的菜单项...', 16),
+(41, '_FUNCKEY_SYSTEM_MENU_EDIT', '菜单项编辑', '', '编辑菜单项', 16),
+(42, '_FUNCKEY_SYSTEM_MENU_REFRESH', '菜单项刷新', '', '刷新左侧菜单项树状结构.', 16),
+(43, '_FUNCKEY_SYSTEM_MENU_FUNC_ADD', '功能项添加', '', '添加菜单对应的功能项.', 16),
+(44, '_FUNCKEY_SYSTEM_MENU_FUNC_EDIT', '功能项编辑', '', '编辑菜单对应的功能项.', 16),
+(45, '_FUNCKEY_SYSTEM_MENU_FUNC_REFRESH', '功能项刷新', '', '刷新选中菜单拥有的功能项.', 16),
+(46, '_FUNCKEY_SYSTEM_MENU_FUNC_REMOVE', '功能项删除', '', '删除菜单某功能项', 16),
+(47, '_FUNCKEY_SYSTEM_ROLE_VIEW', '权限组查看', '', '查看权限组详细信息', 15),
+(48, '_FUNCKEY_SYSTEM_ROLE_ADD', '权限组添加', '', '添加新的权限组', 15),
+(49, '_FUNCKEY_SYSTEM_ROLE_EDIT', '权限组编辑', '', '编辑权限组信息.', 15),
+(50, '_FUNCKEY_SYSTEM_ROLE_REMOVE', '权限组删除', '', '删除权限组', 15),
+(51, '_FUNCKEY_FLOW_HRM_TYPE_REFRESH', '审批类型刷新', '', '刷新左侧人资审批类型树状结构', 20),
+(52, '_FUNCKEY_FLOW_HRM_PROCESS_REFRESH', '审批流程刷新', '', '根据审批类型刷新审批流程数据', 20),
+(53, '_FUNCKEY_FLOW_HRM_PROCESS_CONFIGURE', '审批流程配置', '', '人资审批流程配置, 包括流程数据加载、节点添加及删除等操作.', 20),
+(54, '_FUNCKEY_FLOW_HRM_PROCESS_REMOVE', '审批流程删除', '', '审批流程删除..', 20),
+(55, '_FUNCKEY_FLOW_FINAN_TYPE_REFRESH', '审批类型刷新', '', '财务审批类型刷新,主要体现在左侧的树状结构.', 21),
+(56, '_FUNCKEY_FLOW_FINAN_PROC_TYPE_REFRESH', '申请类别刷新', '', '根据审批类型获取申请类别数据.', 21),
+(57, '_FUNCKEY_FLOW_FINAN_PROC_TYPE_ADD', '申请类别添加', '', '添加申请类别', 21),
+(58, '_FUNCKEY_FLOW_FINAN_PROC_TYPE_EDIT', '申请类别编辑', '', '编辑申请类别.', 21),
+(59, '_FUNCKEY_FLOW_FINAN_PROC_APPROVE', '审批流程配置', '', '对审批申请类型进行流程配置.', 21),
+(60, '_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_ADD', '校区添加', '', '添加新校区.', 22),
+(61, '_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_EDIT', '校区编辑', '', '校区数据编辑.', 22),
+(62, '_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_REMOVE', '校区删除', '', '校区数据删除.', 22),
+(63, '_FUNCKEY_SYSTEM_SCHOOL_POSET_ADD', '职位添加', '', '添加新职位信息.', 24),
+(64, '_FUNCKEY_SYSTEM_SCHOOL_POSET_REMOVE', '职位删除', '', '删除职位信息.', 24),
+(65, '_FUNCKEY_SYSTEM_SCHOOL_POSET_EDIT', '职位编辑', '', '编辑职位信息', 24),
+(66, '_FUNCKEY_SYSTEM_SCHOOL_DEP_ADD', '部门添加', '', '新增部门数据', 23),
+(67, '_FUNCKEY_SYSTEM_SCHOOL_DEP_REFRESH', '部门刷新', '', '刷新左侧部门树状结构', 23),
+(68, '_FUNCKEY_SYSTEM_SCHOOL_DEP_REMOVE', '部门删除', '', '删除部门数据.', 23),
+(69, '_FUNCKEY_SYSTEM_SCHOOL_DEP_EDIT', '部门编辑', '', '编辑部门数据.', 23),
+(70, '_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_REFRESH', '岗位刷新', '', '根据选择的部门刷新对应的岗位数据.', 23),
+(71, '_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_REMOVE', '岗位删除', '', '删除岗位数据', 23),
+(72, '_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_ADD', '岗位添加', '', '添加岗位信息.', 23),
+(73, '_FUNCKEY_PERSONAL_JOBAPPLY_HISTORY', '我的历史应聘', '', '访问我的历史应聘数据', 35),
+(74, '_FUNCKEY_PERSONAL_INTERVIEW_HISTORY', '我的历史面试', '', '访问我的历史面试数据', 36),
+(75, '_FUNCKEY_PERSONAL_INTERVIEW_COMMIT', '提交面试意见', '', '提交面试意见.', 36),
+(76, '_FUNCKEY_PERSONAL_INTERVIEW_JOBVIEW', '查看岗位信息', '', '查看岗位详细信息.', 36),
+(77, '_FUNCKEY_PERSONAL_INTERVIEW_RESUMEVIEW', '查看简历信息', '', '查看简历详细信息.', 36),
+(78, '_FUNCKEY_PERSONAL_TASK_VIEW', '任务详情查看', '', '查看任务详细信息.', 4),
+(79, '_FUNCKEY_PERSONAL_TASK_MYVIEW', '查看我发起的任务', '', '查看我发起的任务', 4),
+(80, '_FUNCKEY_PERSONAL_TASK_ADD', '任务新建', '', '新建任务', 4),
+(81, '_FUNCKEY_PERSONAL_TASK_EDIT', '任务编辑', '', '编辑发起的任务.', 4),
+(82, '_FUNCKEY_PERSONAL_TASK_APPROVES_VIEW', '任务审批记录查看', '', '查看任务审批记录详情.', 4),
+(83, '_FUNCKEY_PERSONAL_TASK_POSTPONE', '任务延期申请', '', '提交任务延期申请单', 4),
+(84, '_FUNCKEY_PERSONAL_TASK_ACCOMPLISH', '任务完成申请', '', '提交任务完成申请单.', 4),
+(85, '_FUNCKEY_PERSONAL_TASK_POSTPONE_APPROVE', '任务延期审批', '', '审批任务延期申请单.', 4),
+(86, '_FUNCKEY_PERSONAL_TASK_ACCOMPLISH_APPROVE', '任务完成审批', '', '审批提交的任务完成申请单.', 4),
+(87, '_FUNCKEY_PERSONAL_INTERVIEW_RECORDS_VIEW', '查看面试记录', '', '查看面试记录.', 36),
+(88, '_FUNCKEY_PERSONAL_JOBAPPLY_JOB_VIEW', '查看岗位信息', '', '查看发布的岗位信息', 35),
+(89, '_FUNCKEY_PERSONAL_JOBAPPLY_RESUME_VIEW', '查看简历信息', '', '查看推荐或应聘的简历信息', 35),
+(90, '_FUNCKEY_PERSONAL_JOBAPPLY_JOB_APPLY', '岗位应聘', '', '个人提交岗位应聘信息.', 35),
+(91, '_FUNCKEY_PERSONAL_JOBAPPLY_JOB_RECOMMEND', '岗位推荐', '', '推荐他人应聘岗位', 35),
+(92, '_FUNCKEY_ADMIN_TASK_VIEW', '任务信息查看', '', '查看任务信息', 40),
+(93, '_FUNCKEY_ADMIN_TASK_EDIT', '任务信息编辑', '', '编辑任务信息', 40),
+(94, '_FUNCKEY_ADMIN_TASK_REMOVE', '任务信息删除', '', '删除任务信息', 40),
+(95, '_FUNCKEY_ADMIN_TASK_APPROVE', '任务信息审批', '', '审批提交的任务信息', 40);
 
 -- --------------------------------------------------------
 
@@ -553,19 +607,17 @@ INSERT INTO `app_function` (`func_id`, `func_key`, `func_name`, `func_icon`, `fu
 
 CREATE TABLE IF NOT EXISTS `app_function_url` (
   `url_id` int(11) NOT NULL AUTO_INCREMENT,
-  `func_id` int(11) NOT NULL,
+  `func_id` int(11) DEFAULT NULL,
   `url_path` varchar(120) NOT NULL COMMENT '功能链接',
   PRIMARY KEY (`url_id`),
   KEY `func_id` (`func_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能URL' AUTO_INCREMENT=107 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能URL' AUTO_INCREMENT=236 ;
 
 --
 -- 转存表中的数据 `app_function_url`
 --
 
 INSERT INTO `app_function_url` (`url_id`, `func_id`, `url_path`) VALUES
-(3, 1, 'aefew'),
-(4, 2, 'sdewr'),
 (21, 5, 'app/hrm/hire.do?action=hrmPageJobDetail'),
 (24, 8, 'app/hrm/hire.do?action=actionJobOpenControl'),
 (25, 10, 'app/hrm/hire.do?action=hrmPageJobResume'),
@@ -618,7 +670,98 @@ INSERT INTO `app_function_url` (`url_id`, `func_id`, `url_path`) VALUES
 (103, 38, 'app/finan/expense.do?action=diaglogFinaExpensePage'),
 (104, 38, 'app/finan/expense.do?action=loadFinaExpenseRecords'),
 (105, 39, 'app/finan/contract.do?action=diaglogFinaContractPage'),
-(106, 39, 'app/finan/contract.do?action=loadFinaContractRecords');
+(106, 39, 'app/finan/contract.do?action=loadFinaContractRecords'),
+(107, 40, 'app/system/menu/item.do?action=actionSaveMenuItem'),
+(108, 40, 'app/system/menu/item.do?action=dialogMenuItemPage'),
+(109, 41, 'app/system/menu/item.do?action=dialogMenuItemPage'),
+(110, 41, 'app/system/menu/item.do?action=actionSaveMenuItem'),
+(111, 42, 'app/system/menu/item.do?action=actionLoadMenuItemTree'),
+(112, 43, 'app/system/menu/func.do?action=dialogMenuFuncPage'),
+(113, 43, 'app/system/menu/func.do?action=actionSaveMenuFunc'),
+(114, 44, 'app/system/menu/func.do?action=dialogMenuFuncPage'),
+(115, 44, 'app/system/menu/func.do?action=actionSaveMenuFunc'),
+(116, 45, 'app/system/menu/func.do?action=actionLoadMenuFuncList'),
+(117, 46, 'app/system/menu/func.do?action=actionRemoveMenuFunc'),
+(118, 47, 'app/system/role.do?action=dialogRolePage'),
+(119, 47, 'app/system/role.do?action=actionLoadAppFuncs'),
+(120, 48, 'app/system/role.do?action=dialogRolePage'),
+(121, 48, 'app/system/role.do?action=actionSaveRole'),
+(122, 49, 'app/system/role.do?action=actionSaveRole'),
+(123, 49, 'app/system/role.do?action=dialogRolePage'),
+(124, 50, 'app/system/role.do?action=actionRemoveRole'),
+(126, 52, 'app/flow/hrm.do?action=actionLoadProcessPosets'),
+(127, 51, 'app/flow/hrm.do?action=actionLoadProcessRootType'),
+(132, 53, 'app/flow/hrm.do?action=dialogFlowTaskConfigurationPage'),
+(133, 53, 'app/flow/hrm.do?action=actionRemoveProcessTask'),
+(134, 53, 'app/flow/hrm.do?action=actionSaveProcessTask'),
+(135, 53, 'app/flow/hrm.do?action=pageFlowPosetConfigure'),
+(136, 53, 'app/flow/hrm.do?action=actionLoadProcessTypes'),
+(137, 53, 'app/flow.do?action=actionLoadProcessRootType'),
+(138, 54, 'app/flow/hrm.do?action=actionRemoveProcessTask'),
+(139, 55, 'app/flow.do?action=actionLoadProcessRootType'),
+(140, 56, 'app/flow/finance.do?action=actionLoadProcessTypes'),
+(141, 57, 'app/flow.do?action=dialogFlowTypePage'),
+(142, 57, 'app/flow.do?action=actionSaveProcessType'),
+(144, 58, 'app/flow/finance.do?action=dialogFlowTypePage'),
+(145, 58, 'app/flow.do?action=actionSaveProcessType'),
+(151, 59, 'app/flow/finance.do?action=dialogFlowDefConditionPage'),
+(152, 59, 'app/flow/finance.do?action=actionRemoveProcessTask'),
+(153, 59, 'app/flow/finance.do?action=dialogFlowTaskConfigurationPage'),
+(154, 59, 'app/flow/finance.do?action=pageFlowConfigure'),
+(155, 59, 'app/flow/finance.do?action=actionLoadProcessTasks'),
+(156, 59, 'app/flow/finance.do?action=actionSaveProcessTask'),
+(157, 60, 'app/system/school/district.do?action=dialogSchoolDistrictPage'),
+(158, 60, 'app/system/school/district.do?action=actionSaveDistrict'),
+(159, 61, 'app/system/school/district.do?action=dialogSchoolDistrictPage'),
+(160, 61, 'app/system/school/district.do?action=actionSaveDistrict'),
+(161, 62, 'app/system/school/district.do?action=actionRemoveDistrict'),
+(162, 63, 'app/system/school/poset.do?action=actionSavePoset'),
+(163, 63, 'app/system/school/poset.do?action=dialogSchoolPosetPage'),
+(164, 64, 'app/system/school/poset.do?action=actionRemovePoset'),
+(165, 65, 'app/system/school/poset.do?action=dialogSchoolPosetPage'),
+(166, 65, 'app/system/school/poset.do?action=actionSavePoset'),
+(167, 66, 'app/system/school/department.do?action=dialogSchoolDepartmentPage'),
+(168, 66, 'app/system/school/department.do?action=actionSaveDepartment'),
+(169, 67, 'app/system/school/department.do?action=actionLoadDepartmentTree'),
+(170, 68, 'app/system/school/department.do?action=actionRemoveDepartment'),
+(171, 69, 'app/system/school/department.do?action=dialogSchoolDepartmentPage'),
+(172, 70, 'app/system/school/department/position.do?action=actionLoadDepartmentPosition'),
+(173, 71, 'app/system/school/department/position.do?action=actionRemoveDepartmentPosition'),
+(174, 72, 'app/system/school/department/position.do?action=actionSaveDepartmentPosition'),
+(175, 72, 'app/system/school/department/position.do?action=dialogSchoolDepartmentPositionPage'),
+(178, 73, 'app/hrm/hire.do?action=hrmPageJobResume'),
+(179, 73, 'app/personal/jobapplication.do?action=pageMyHistoryJobApplication'),
+(180, 73, 'app/hrm/hire.do?action=hrmPageJobDetail'),
+(186, 76, 'app/hrm/hire.do?action=hrmPageJobDetail'),
+(187, 77, 'app/hrm/hire.do?action=hrmPageJobResume'),
+(188, 75, 'app/personal/interview.do?action=dialogInterviewCommentPage'),
+(189, 75, 'app/personal/interview.do?action=actionDoComment'),
+(196, 79, 'app/personal/task.do?action=pageTaskLaunched'),
+(206, 84, 'app/personal/task.do?action=dialogApplyPage'),
+(207, 84, 'app/personal/task.do?action=actionSaveTaskApply'),
+(208, 83, 'app/personal/task.do?action=dialogApplyPage'),
+(209, 83, 'app/personal/task.do?action=actionSaveTaskApply'),
+(210, 80, 'app/personal/task.do?action=dialogTaskPage'),
+(211, 80, 'app/personal/task.do?action=actionSaveTaskPlan'),
+(212, 82, 'app/personal/task.do?action=dialogAuditRecords'),
+(213, 78, 'app/personal/task.do?action=dialogTaskPage'),
+(214, 81, 'app/personal/task.do?action=dialogTaskPage'),
+(215, 81, 'app/personal/task.do?action=actionSaveTaskPlan'),
+(216, 85, 'app/personal/task.do?action=actionSaveTaskApproval'),
+(217, 85, 'app/personal/task.do?action=dialogAuditPage'),
+(218, 86, 'app/personal/task.do?action=actionSaveTaskApproval'),
+(219, 86, 'app/personal/task.do?action=dialogAuditPage'),
+(223, 74, 'app/personal/interview.do?action=pageMyInterviewHistory'),
+(224, 87, 'app/hrm/hire/interview.do?action=hrmPageJobOfferInterviewIndex'),
+(225, 88, 'app/hrm/hire.do?action=hrmPageJobDetail'),
+(226, 89, 'app/hrm/hire.do?action=hrmPageJobResume'),
+(228, 91, 'app/hrm/hire.do?action=hrmPageJobResume'),
+(229, 90, 'app/hrm/hire.do?action=hrmPageJobResume'),
+(231, 93, 'app/admin/task.do?action=dialogTaskPage'),
+(232, 92, 'app/admin/task.do?action=dialogTaskPage'),
+(233, 94, 'app/admin/task.do?action=actionRemoveTaskPlan'),
+(234, 95, 'app/admin/task.do?action=dialogTaskPage'),
+(235, 95, 'app/personal/task.do?action=actionSaveTaskPlan');
 
 -- --------------------------------------------------------
 
@@ -1422,7 +1565,7 @@ INSERT INTO `app_role` (`role_id`, `role_name`, `role_key`, `role_desc`, `role_s
 
 CREATE TABLE IF NOT EXISTS `app_role_func` (
   `role_id` int(11) NOT NULL,
-  `func_id` int(11) NOT NULL,
+  `func_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`role_id`,`func_id`),
   KEY `role_id` (`role_id`),
   KEY `app_role_func_ibfk_2` (`func_id`)
@@ -1433,8 +1576,6 @@ CREATE TABLE IF NOT EXISTS `app_role_func` (
 --
 
 INSERT INTO `app_role_func` (`role_id`, `func_id`) VALUES
-(5, 1),
-(5, 2),
 (5, 5),
 (5, 6),
 (5, 7),
@@ -1451,8 +1592,6 @@ INSERT INTO `app_role_func` (`role_id`, `func_id`) VALUES
 (5, 18),
 (5, 19),
 (5, 20),
-(6, 1),
-(6, 2),
 (6, 5),
 (6, 6),
 (6, 7),
@@ -1762,7 +1901,7 @@ CREATE TABLE IF NOT EXISTS `app_system_log` (
   `ip` varchar(128) DEFAULT NULL COMMENT '登录IP',
   `cost` bigint(20) DEFAULT NULL COMMENT '操作耗时',
   PRIMARY KEY (`log_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统日志' AUTO_INCREMENT=36 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统日志' AUTO_INCREMENT=39 ;
 
 --
 -- 转存表中的数据 `app_system_log`
@@ -1803,7 +1942,10 @@ INSERT INTO `app_system_log` (`log_id`, `user_name`, `user_id`, `createtime`, `o
 (32, '管理员', 1, '2012-07-28 22:42:16', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 94),
 (33, '管理员', 1, '2012-07-29 00:48:10', '登录', '用户通过身份验证进入系统', '127.0.0.1', 83),
 (34, '管理员', 1, '2012-07-29 02:34:00', '登录', '用户通过身份验证进入系统', '127.0.0.1', 233),
-(35, '管理员', 1, '2012-07-29 03:26:13', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 63);
+(35, '管理员', 1, '2012-07-29 03:26:13', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 63),
+(36, '管理员', 1, '2012-07-29 16:53:32', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 240),
+(37, '管理员', 1, '2012-07-29 21:42:54', '登录', '用户通过身份验证进入系统', '127.0.0.1', 70),
+(38, '管理员', 1, '2012-07-29 21:52:26', '登录', '用户通过身份验证进入系统', '127.0.0.1', 261);
 
 -- --------------------------------------------------------
 
@@ -1935,7 +2077,7 @@ CREATE TABLE IF NOT EXISTS `app_user` (
 --
 
 INSERT INTO `app_user` (`user_id`, `username`, `password`, `fullname`, `email`, `dep_id`, `pos_id`, `district_id`, `emp_id`, `phone`, `mobile`, `fax`, `address`, `zip`, `photo`, `status`, `logon_lastip`, `logon_lastime`) VALUES
-(1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', '管理员', 'csx@jee-soft.cn', NULL, NULL, 1, 6, NULL, NULL, NULL, NULL, NULL, NULL, 1, '0:0:0:0:0:0:0:1', '2012-07-29 03:26:13'),
+(1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', '管理员', 'csx@jee-soft.cn', NULL, NULL, 1, 6, NULL, NULL, NULL, NULL, NULL, NULL, 1, '127.0.0.1', '2012-07-29 21:52:26'),
 (6, '00001001', 'ro+N+ETeTFw+SYrc4TnIzXuXWwO93mUJgr0ArrsNPfk=', '罗家驹', NULL, 15, 6, 1, 6, NULL, NULL, NULL, NULL, NULL, NULL, 1, '0:0:0:0:0:0:0:1', '2012-07-26 13:49:37'),
 (7, '00002001', '/4xWL9bhPAve03Tu5HeR7T0U6Qsmy6eYjLtZM4aAcFs=', '张三', NULL, 16, 7, 1, 7, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL),
 (8, '00003001', 'mxA4ujFL57JAzeke5W87Cujn+35uwD+aKrCuNK4f+6A=', '李四', NULL, 17, 8, 1, 8, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL),
@@ -1975,6 +2117,12 @@ ALTER TABLE `app_admin_doc`
   ADD CONSTRAINT `PK_range` FOREIGN KEY (`doc_VisiableRange_id`) REFERENCES `app_admin_doc_visiable_range` (`id`);
 
 --
+-- 限制表 `app_function_url`
+--
+ALTER TABLE `app_function_url`
+  ADD CONSTRAINT `app_function_url_ibfk_2` FOREIGN KEY (`func_id`) REFERENCES `app_function` (`func_id`) ON DELETE CASCADE;
+
+--
 -- 限制表 `app_hrm_resume_file`
 --
 ALTER TABLE `app_hrm_resume_file`
@@ -1990,8 +2138,8 @@ ALTER TABLE `app_process_definition`
 -- 限制表 `app_role_func`
 --
 ALTER TABLE `app_role_func`
-  ADD CONSTRAINT `app_role_func_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `app_role` (`role_id`),
-  ADD CONSTRAINT `app_role_func_ibfk_2` FOREIGN KEY (`func_id`) REFERENCES `app_function` (`func_id`);
+  ADD CONSTRAINT `app_role_func_ibfk_3` FOREIGN KEY (`func_id`) REFERENCES `app_function` (`func_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `app_role_func_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `app_role` (`role_id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
