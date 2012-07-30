@@ -27,7 +27,7 @@
 							<li><a id="ftentity_${typeSlug}_${entity.id}" class='tparam' param="_var_ftypeid" paramRel="${entity.id}" href="app/flow/${typeSlug}.do?action=actionLoadProcessTypes&rootTypeId=${entity.id}" callback="ftype_activated(${entity.id});" target="ajax" rel="ajBoxFlowType_${typeSlug}"><c:out value="${entity.processTypeName}" /></a></li>
 						</c:when>
 						<c:when test="${typeSlug eq 'hrm'}">
-							<li><a id="ftentity_${typeSlug}_${entity.id}" class='tparam' param="_var_ftypeid" paramRel="${entity.id}" href="app/flow/${typeSlug}.do?action=actionLoadProcessPosets&rootTypeId=${entity.id}" callback="ftype_activated(${entity.id});" target="ajax" rel="ajBoxFlowType_${typeSlug}"><c:out value="${entity.processTypeName}" /></a></li>
+							<li><a id="ftentity_${typeSlug}_${entity.id}" class='tparam' param="_var_htypeid" paramRel="${entity.id}" href="app/flow/${typeSlug}.do?action=actionLoadProcessPosets&rootTypeId=${entity.id}" callback="ftype_activated(${entity.id});" target="ajax" rel="ajBoxFlowType_${typeSlug}"><c:out value="${entity.processTypeName}" /></a></li>
 						</c:when>
 					</c:choose>
 				</c:forEach>
