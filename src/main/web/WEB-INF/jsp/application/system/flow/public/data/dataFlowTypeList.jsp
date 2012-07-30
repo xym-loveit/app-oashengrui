@@ -7,6 +7,7 @@
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <table class="table" width="100%" layoutH="8">
 	<thead>
@@ -36,13 +37,28 @@
 						</c:choose>
 					</td>
 					<td>
-						<a href="app/flow/${typeSlug}.do?action=pageFlowConfigure&procTypeId=${entity.id}" class="oplink" target="navTab" title="流程`${entity.processTypeName}`配置" width="400" height="245" rel="sys_flowEdit-${entity.id}">流程配置</a>
+						<c:choose>
+							<c:when test="${(typeSlug eq 'hrm' && tm:ifGranted('_FUNCKEY_FLOW_HRM_PROCESS_CONFIGURE')) || (typeSlug eq 'finance' && tm:ifGranted('_FUNCKEY_FLOW_FINAN_PROC_APPROVE'))}">
+								<a href="app/flow/${typeSlug}.do?action=pageFlowConfigure&procTypeId=${entity.id}" class="oplink" target="navTab" title="流程`${entity.processTypeName}`配置" width="400" height="245" rel="sys_flowEdit-${entity.id}">流程配置</a>
+							</c:when>
+							<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+						</c:choose>
 					</td>
 					<td>
-						<a href="app/flow/${typeSlug}.do?action=dialogFlowTypePage&rootTypeId=${entity.processTypeParent.id}&id=${entity.id}" class="oplink" target="dialog" title="审批类型`${entity.processTypeName}`编辑" width="400" height="245" rel="sys_flowEdit-${entity.id}">编辑</a>
+						<c:choose>
+							<c:when test="${(typeSlug eq 'finance' && tm:ifGranted('_FUNCKEY_FLOW_FINAN_PROC_TYPE_EDIT'))}">
+								<a href="app/flow/${typeSlug}.do?action=dialogFlowTypePage&rootTypeId=${entity.processTypeParent.id}&id=${entity.id}" class="oplink" target="dialog" title="审批类型`${entity.processTypeName}`编辑" width="400" height="245" rel="sys_flowEdit-${entity.id}">编辑</a>
+							</c:when>
+							<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+						</c:choose>
 					</td>
 					<td>
-						<a href="app/system/school/department/position.do?action=actionRemoveDepartmentPosition&posId=${entity.id}" class="oplink" target="ajaxTodo" title="确定要删除该审批类型吗?" rel="sys_flowDel-${entity.id}" callback="callback_funcRemove(${entity.id})">删除</a>
+						<c:choose>
+							<c:when test="${(typeSlug eq 'finance' && tm:ifGranted('_FUNCKEY_FLOW_FINAN_PROC_TYPE_REMOVE'))}">
+								<a href="app/system/school/department/position.do?action=actionRemoveDepartmentPosition&posId=${entity.id}" class="oplink" target="ajaxTodo" title="确定要删除该审批类型吗?" rel="sys_flowDel-${entity.id}" callback="callback_funcRemove(${entity.id})">删除</a>
+							</c:when>
+							<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+						</c:choose>
 					</td>
 				</tr>
 			</logic:iterate>

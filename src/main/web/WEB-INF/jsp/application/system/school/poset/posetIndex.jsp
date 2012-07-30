@@ -6,6 +6,7 @@
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <script type="text/javascript">
 	function callback_posetRemove(id) {
@@ -45,7 +46,9 @@
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
+			<c:if test="${tm:ifGranted('_FUNCKEY_SYSTEM_SCHOOL_POSET_ADD')}">
 			<li><a class="add" href="app/system/school/poset.do?action=dialogSchoolPosetPage" target="dialog" title="添加新职位" mask="true" width="550" height="322" rel="dia_sys_school_posetadd"><span>添加新职位</span></a></li>
+			</c:if>
 		</ul>
 	</div>
 	

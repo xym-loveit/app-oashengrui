@@ -6,6 +6,7 @@
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <style>
 	.noborder {border-left: none; border-right: none; border-top: none;}
@@ -39,7 +40,9 @@
 	</div>
 	<div class="panelBar">
 		<ul class="toolBar">
+			<c:if test="${(typeSlug eq 'hrm' && tm:ifGranted('_FUNCKEY_FLOW_HRM_TYPE_REFRESH')) || (typeSlug eq 'finance' && tm:ifGranted('_FUNCKEY_FLOW_FINAN_TYPE_REFRESH'))}">
 			<li><a class="refresh" href="app/flow/${typeSlug}.do?action=actionLoadProcessRootType&typeSlug=${typeSlug}" target="ajax" rel="ajBoxFlowTree_finance" title="刷新" rel="dia_admin_entryadd" callback="dep_refresh()"><span>刷新</span></a></li>
+			</c:if>
 		</ul>
 	</div>
 	
@@ -54,7 +57,9 @@
 	</div>
 	<div class="panelBar">
 		<ul class="toolBar">
+			<c:if test="${tm:ifGranted('_FUNCKEY_FLOW_HRM_PROCESS_REFRESH')}">
 			<li><a class="refresh uvar" href="app/flow/${typeSlug}.do?action=actionLoadProcessTypes&rootTypeId={_var_ftypeid}" warn="请从左侧选择审批类型!" target="ajax" rel="ajBoxMenuFunc" title="刷新" rel="dia_admin_entryadd"><span>刷新</span></a></li>
+			</c:if>
 		</ul>
 	</div>
 	<div id="ajBoxFlowType_hrm">

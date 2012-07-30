@@ -6,6 +6,7 @@
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <style>
 	.noborder {border-left: none; border-right: none; border-top: none;}
@@ -39,7 +40,9 @@
 	</div>
 	<div class="panelBar">
 		<ul class="toolBar">
+			<c:if test="${(typeSlug eq 'hrm' && tm:ifGranted('_FUNCKEY_FLOW_HRM_TYPE_REFRESH')) || (typeSlug eq 'finance' && tm:ifGranted('_FUNCKEY_FLOW_FINAN_TYPE_REFRESH'))}">
 			<li><a class="refresh" href="app/flow.do?action=actionLoadProcessRootType&typeSlug=${typeSlug}" target="ajax" rel="ajBoxFlowTree_finance" title="刷新" rel="dia_admin_entryadd" callback="dep_refresh()"><span>刷新</span></a></li>
+			</c:if>
 		</ul>
 	</div>
 	
@@ -54,13 +57,17 @@
 	</div>
 	<div class="panelBar">
 		<ul class="toolBar">
+			<c:if test="${tm:ifGranted('_FUNCKEY_FLOW_FINAN_PROC_TYPE_REFRESH')}">
 			<li><a class="refresh uvar" href="app/flow.do?action=actionLoadProcessTypes&rootTypeId={_var_ftypeid}" warn="请从左侧选择审批类型!" target="ajax" rel="ajBoxMenuFunc" title="刷新" rel="dia_admin_entryadd"><span>刷新</span></a></li>
 			<li class="line">line</li>
+			</c:if>
+			<c:if test="${tm:ifGranted('_FUNCKEY_FLOW_FINAN_PROC_TYPE_ADD')}">
 			<li><a class="add" href="app/flow.do?action=dialogFlowTypePage&rootTypeId={_var_ftypeid}" mask="true" warn="请从左侧选择审批类型!" target="dialog" title="添加申请类别" width="400" height="245" rel="dia_flowtype_add_${typeSlug}"><span>添加申请类别</span></a></li>
 			<li class="line">line</li>
-			<li><a class="delete" href="app/flow.do?action=actionRemoveDepartmentPosition&typeId={typeId}" target="ajaxTodo" warn="请选择需要修改的申请类别" title="确定要删除该申请类别吗?" callback="callback_funcRemove()"><span>删除</span></a></li>
-			<li class="line">line</li>
+			</c:if>
+			<c:if test="${tm:ifGranted('_FUNCKEY_FLOW_FINAN_PROC_TYPE_EDIT')}">
 			<li><a class="edit" href="app/flow.do?action=dialogFlowTypePage&rootTypeId={_var_ftypeid}&typeId={typeId}" target="dialog" warn="请选择需要修改的申请类别" title="修改申请类别" width="504" height="335" rel="dia_flowtype_edit_${typeSlug}"><span>修改</span></a></li>
+			</c:if>
 		</ul>
 	</div>
 	<div id="ajBoxFlowType_finance">
