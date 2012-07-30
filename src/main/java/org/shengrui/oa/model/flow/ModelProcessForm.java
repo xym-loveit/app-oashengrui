@@ -174,6 +174,7 @@ extends ModelBase
 	 */
 	public static enum EProcessFormStatus
 	{
+		IGNORED(0, "ignored"),							// 审核忽略 (可能是无法触及到的节点.)
 		ONAPPROVING(1, "onapproving"),					// 审核中
 		APPROVED (2, "approved"),						// 审核通过
 		NOTPASSED(3, "notpass"),						// 审核未通过

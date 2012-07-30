@@ -13,6 +13,7 @@
 <style>
 	.color_block {width: 16px; height: 16px;}
 	.audit  {background-color: #DDDDDD} /* 审核未到达 */
+	.audit0 {background-color: #688}	/* 审核忽略 */
 	.audit1 {background-color: #FF7300} /* 审核中 */
 	.audit2 {background-color: #9FEA7B} /* 审核通过 */
 	.audit3 {background-color: #DA251C} /* 审核未通过 */
@@ -66,7 +67,7 @@
 						<logic:iterate name="entity" property="processHistory" id="entity">
 							<tr>
 								<td width="15%" class="audit${entity.auditState}" style="line-height: 35px;">
-									${entity.toDepartmentNames}-${entity.toPositionNames}
+									${entity.toDepartmentNames}-${entity.toPositionNames ne null ? entity.toPositionNames : '未知'}
 									<c:choose>
 										<c:when test="${entity.taskType eq 1 || entity.taskType eq 2}">(校区)</c:when>
 										<c:when test="${entity.taskType eq 3 || entity.taskType eq 4}">(总部)</c:when>
@@ -91,7 +92,7 @@
 												</tr>
 											</table>
 										</c:when>
-										<c:otherwise>${entity.auditState ne null ? entity.auditIdea : ''}</c:otherwise>
+										<c:otherwise>${entity.auditState ne null ? (entity.auditState eq 0 ? '由于无法触及该节点,略过该流程...' : entity.auditIdea) : ''}</c:otherwise>
 									</c:choose>
 								</td>
 							</tr>
@@ -103,7 +104,7 @@
 						<logic:iterate name="entity" property="applyForm" id="entity">
 							<tr>
 								<td width="15%" class="audit${entity.auditState}" style="line-height: 35px;">
-									${entity.toDepartmentNames}-${entity.toPositionNames}
+									${entity.toDepartmentNames}-${entity.toPositionNames ne null ? entity.toPositionNames : '未知'}
 									<c:choose>
 										<c:when test="${entity.taskType eq 1 || entity.taskType eq 2}">(校区)</c:when>
 										<c:when test="${entity.taskType eq 3 || entity.taskType eq 4}">(总部)</c:when>
@@ -130,7 +131,7 @@
 												</table>
 											</c:if>
 										</c:when>
-										<c:otherwise>${entity.auditState ne null ? entity.auditIdea : ''}</c:otherwise>
+										<c:otherwise>${entity.auditState ne null ? (entity.auditState eq 0 ? '由于无法触及该节点,流程略过...' : entity.auditIdea) : ''}</c:otherwise>
 									</c:choose>
 								</td>
 							</tr>
@@ -160,6 +161,10 @@
 				<li style="float:left; line-height: 14px; margin-right:8px;">
 					<label class='color_block audit' style='float:left; width:16px; height:16px; padding:0; display: inline-block;'></label>
 					<span class='text' style="padding:0 2px;">还未触及的环节</span>
+				</li>
+				<li style="float:left; line-height: 14px; margin-right:8px;">
+					<label class='color_block audit0' style='float:left; width:16px; height:16px; padding:0; display: inline-block;'></label>
+					<span class='text' style="padding:0 2px;">被略过的环节</span>
 				</li>
 			</ul>
 			<b class="clear"></b>
