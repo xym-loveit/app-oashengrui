@@ -334,16 +334,21 @@ extends BaseHrmAction
 					request.setAttribute("employee", employeeInfo);
 					Set<ModelHrmEmployeeRoadMap> roadMap = employeeInfo.getRoadMaps();
 					request.setAttribute("roadmap", roadMap);
+
+					request.setAttribute("districts", 
+							this.serviceSchoolDistrict.getAll());
+					
+					request.setAttribute("departments", 
+							this.getDepartmentByOrganization(employeeInfo.getEmployeeDistrict().getId()));
+					
+					request.setAttribute("positions", 
+							this.getPositionByDepartment(employeeInfo.getEmployeeDepartment().getId()));
 				}
 			}
 			else
 			{
 				return ajaxPrint(response, getErrorCallback("需要传入员工ID参数."));
 			}
-			request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
-			request.setAttribute("departments", this.serviceSchoolDepartment.getAll());
-			request.setAttribute("positions", this.serviceSchoolDepartmentPosition.getAll());
-			
 		} 
 		catch (ServiceException e)
 		{
