@@ -526,3 +526,10 @@ table.datalst th{
 table.datalst td{
 	line-height: 20px;
 }
+
+label.opdisabled {
+	width: auto;
+	text-decoration: line-through; 
+	color: #DDD; 
+	line-height: 21px;
+}
