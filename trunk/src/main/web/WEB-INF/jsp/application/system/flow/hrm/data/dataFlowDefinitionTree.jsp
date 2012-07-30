@@ -21,7 +21,7 @@
 					<c:when test="${fn:length(processType.processDefinitions) gt 1}">
 						<logic:iterate name="processType" property="processDefinitions" id="entity">
 							<li><a id="fdefEntity_${typeSlug}_${entity.id}" class='tparam' param="_var_fdefid" paramRel="${entity.id}" href="app/flow/${typeSlug}.do?action=actionLoadProcessTasks&procDefId=${entity.id}" target="ajax" rel="ajBoxFlowConf_${processType.id}">
-							${entity.filterPoset.posetName} - ${entity.condition eq 'x == 0' ? '校区内' : (entity.condition eq 'x == 1' ? '跨校区' : '未知')}</a></li>
+							${entity.filterPoset.posetName} ${entity.condition eq null ? '' : (entity.condition eq 'x == 0' ? '- 校区内' : (entity.condition eq 'x == 1' ? '- 跨校区' : '- 未知'))}</a></li>
 						</logic:iterate>
 					</c:when>
 				</c:choose>

@@ -16,7 +16,7 @@
 			<th align="center">职位名称</th>
 			<th align="center">流程状态</th>
 			<th align="center">流程配置</th>
-			<th align="center">删除</th>
+			<th align="center">配置清空</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -42,7 +42,7 @@
 					<td>
 						<c:choose>
 							<c:when test="${tm:ifGranted('_FUNCKEY_FLOW_HRM_PROCESS_REMOVE')}">
-								<a href="app/system/school/department/position.do?action=actionRemoveDepartmentPosition&posId=${entity.id}" class="oplink" target="ajaxTodo" title="确定要删除该审批类型吗?" rel="sys_flowDel-${entity.id}" callback="callback_funcRemove(${entity.id})">删除</a>
+								<a href="app/flow/hrm.do?action=actionFlowCleanup&procTypeId=${rootTypeId}&posetId=${entity.id}" class="oplink" target="ajaxTodo" title="确定要删除该审批类型吗?" rel="sys_flowDel-${entity.id}" callback="callback_funcRemove(${entity.id})">配置清空</a>
 							</c:when>
 							<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
 						</c:choose>
