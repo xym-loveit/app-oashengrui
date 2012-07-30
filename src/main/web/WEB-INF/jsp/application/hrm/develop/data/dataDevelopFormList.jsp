@@ -79,7 +79,12 @@
 						</c:choose>
 					</td>
 					<td>
-						<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${entity.id}&op=view" target="dialog" title="查看‘${entity.employee.empName}’人资申请单-${entity.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${entity.id}">详细</a></td>
+						<c:choose>
+							<c:when test="${tm:ifGranted('_FUNCKEY_HRM_DEVELOP_VIEWAPPROVALS')}">
+								<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${entity.id}&op=view" target="dialog" title="查看‘${entity.employee.empName}’人资申请单-${entity.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${entity.id}">详细</a></td>
+							</c:when>
+							<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+						</c:choose>
 					</td>
 					<c:if test="${!isOnApproval}">
 					<td align="center">

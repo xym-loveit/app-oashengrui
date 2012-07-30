@@ -8,6 +8,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <style>
 	.color_block {width: 16px; height: 16px;}
@@ -20,6 +21,7 @@
 </style>
 
 <script>
+	<c:if test="${tm:ifGranted('_FUNCKEY_HRM_DEVELOP_APPROVE')}">
 	$(function(){
 		$("a[id^=auditPost]").unbind("click");
 		$("a[id^=auditPost]").click(function(){
@@ -48,6 +50,7 @@
 			}
 		});
 	});
+	</c:if>
 </script>
 
 <div>
@@ -111,6 +114,7 @@
 								<td style="padding:0 5px;">
 									<c:choose>
 										<c:when test="${entity.auditState eq 1}">
+											<c:if test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.positionId eq entity.toPositionIds && tm:ifGranted('_FUNCKEY_HRM_DEVELOP_APPROVE')}">
 											<table style="padding:5px 0; width:100%;" cellpadding="0" cellspacing="0" id="auditForm${entity.id}">
 												<tr>
 													<td width="90%"><textarea style="width: 99%; height: 40px;"></textarea></td>
@@ -124,6 +128,7 @@
 													</td>
 												</tr>
 											</table>
+											</c:if>
 										</c:when>
 										<c:otherwise>${entity.auditState ne null ? entity.auditIdea : ''}</c:otherwise>
 									</c:choose>

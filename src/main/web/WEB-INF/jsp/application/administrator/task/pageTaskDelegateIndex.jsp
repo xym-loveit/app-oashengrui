@@ -124,18 +124,40 @@
 						<td><fmt:formatDate value="${entity.taskActualEndDate}" pattern="yyyy-MM-dd" /></td>
 						<td>
 							<c:choose>
-								<c:when test="${entity.auditStatus eq null || entity.auditStatus eq 1}"><a href="app/admin/task.do?action=dialogTaskPage&id=${entity.id}&op=audit" target="dialog" title="任务审批" width="1080" height="380" class="oplink" rel="admin_taskapproval-${entity.id}">审批</a></c:when>
-								<c:otherwise><label class="opdisabled">审批</label></c:otherwise>
+								<c:when test="${tm:ifGranted('_FUNCKEY_ADMIN_TASK_APPROVE')}">
+									<c:choose>
+										<c:when test="${entity.auditStatus eq null || entity.auditStatus eq 1}">
+											<a href="app/admin/task.do?action=dialogTaskPage&id=${entity.id}&op=audit" target="dialog" title="任务审批" width="1080" height="380" class="oplink" rel="admin_taskapproval-${entity.id}">审批</a>
+										</c:when>
+										<c:otherwise><label class="opdisabled">审批</label></c:otherwise>
+									</c:choose>
+								</c:when>
+								<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
 							</c:choose>
 						</td>
 						<td>
-							<a href="app/admin/task.do?action=dialogTaskPage&id=${entity.id}&op=view" target="dialog" title="任务‘${entity.taskName}’-查看" width="750" height="530" class="oplink" rel="admin_taskdetail-${entity.id}">详细</a>
+							<c:choose>
+								<c:when test="${tm:ifGranted('_FUNCKEY_ADMIN_TASK_VIEW')}">
+									<a href="app/admin/task.do?action=dialogTaskPage&id=${entity.id}&op=view" target="dialog" title="任务‘${entity.taskName}’-查看" width="750" height="530" class="oplink" rel="admin_taskdetail-${entity.id}">详细</a>
+								</c:when>
+								<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+							</c:choose>
 						</td>
 						<td>
-							<a href="app/admin/task.do?action=dialogTaskPage&id=${entity.id}" target="dialog" title="任务‘${entity.taskName}’-编辑" width="1080" height="380" class="oplink" rel="admin_taskedit-${edit.id}">编辑</a>
+							<c:choose>
+								<c:when test="${tm:ifGranted('_FUNCKEY_ADMIN_TASK_EDIT')}">
+									<a href="app/admin/task.do?action=dialogTaskPage&id=${entity.id}" target="dialog" title="任务‘${entity.taskName}’-编辑" width="1080" height="380" class="oplink" rel="admin_taskedit-${edit.id}">编辑</a>
+								</c:when>
+								<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+							</c:choose>
 						</td>
 						<td>
-							<a href="app/admin/task.do?action=actionRemoveTaskPlan&taskId=${entity.id}" target="ajaxToDo" title="确定要删除任务‘${entity.taskName}’吗?" width="900" height="500" class="oplink" callback="reload_taskpage()">删除</a>
+							<c:choose>
+								<c:when test="${tm:ifGranted('_FUNCKEY_ADMIN_TASK_REMOVE')}">
+									<a href="app/admin/task.do?action=actionRemoveTaskPlan&taskId=${entity.id}" target="ajaxToDo" title="确定要删除任务‘${entity.taskName}’吗?" width="900" height="500" class="oplink" callback="reload_taskpage()">删除</a>
+								</c:when>
+								<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+							</c:choose>
 						</td>
 					</tr>
 				</logic:iterate>

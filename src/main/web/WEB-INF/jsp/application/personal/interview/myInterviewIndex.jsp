@@ -7,13 +7,16 @@
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn"%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <!-- Body -->	
 <div class="pageContent">
 	<div class="panelBar">
 		<c:if test="${op eq null || op ne 'history'}">
 			<ul class="toolBar" style="float:right">
+				<c:if test="${tm:ifGranted('_FUNCKEY_PERSONAL_INTERVIEW_HISTORY')}">
 				<li><a treeicon="icon-records" class="icon" href="app/personal/interview.do?action=pageMyInterviewHistory" target="navTab" rel="dmy_interview"><span class="icon-records">我的历史面试</span></a></li>
+				</c:if>
 			</ul>
 		</c:if>
 	</div>
