@@ -121,9 +121,19 @@ implements ServiceWorkFlow
 			Set<ModelProcessTask> tasks = def.getProcessTasks();
 			if (tasks != null && tasks.size() > 0)
 			{
+				boolean isFirstStep = true;
 				for (ModelProcessTask task : tasks)
 				{
-					ModelProcessForm form = this.convertTaskToForm(task, processTypeId, formNo, employee);
+					ModelProcessForm form = this.convertTaskToForm(task, processTypeId, formNo, employee, isFirstStep);
+					
+					if (ModelProcessForm.EProcessFormStatus.IGNORED.getValue().equals(form.getAuditState()))
+					{
+						isFirstStep = true;
+					}
+					else
+					{
+						isFirstStep = false;
+					}
 					
 					if (form != null)
 					{
@@ -311,10 +321,12 @@ implements ServiceWorkFlow
 	 *          the application form no
 	 * @param employee
 	 *          the employee entity.
+	 * @param isFistStep
+	 *          the flag for first step
 	 * @return entity of process form
 	 */
 	private ModelProcessForm convertTaskToForm (ModelProcessTask task, 
-			String processTypeId, String formNo, ModelHrmEmployee employee) throws ServiceException
+			String processTypeId, String formNo, ModelHrmEmployee employee, boolean isFistStep) throws ServiceException
 	{
 		if (task != null)
 		{
@@ -335,6 +347,11 @@ implements ServiceWorkFlow
 					{
 						form.setToPositionIds(matchedPosition.getLeft());
 						form.setToPositionNames(matchedPosition.getRight());
+					}
+					else
+					{
+						// 节点无法触及, 直接忽略.
+						form.setAuditState(ModelProcessForm.EProcessFormStatus.IGNORED.getValue());
 					}
 				}
 			}
@@ -380,7 +397,7 @@ implements ServiceWorkFlow
 			form.setSortCode(task.getSortCode());
 			
 			// Sets the first task node status be approving. 
-			if (task.getSortCode().equals(1))
+			if (form.getAuditState() == null && isFistStep)
 			{
 				form.setAuditState(ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue());
 			}
