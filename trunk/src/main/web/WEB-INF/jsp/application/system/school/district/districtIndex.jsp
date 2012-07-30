@@ -6,6 +6,7 @@
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <script type="text/javascript">
 	function callback_roleRemove(id) {
@@ -45,7 +46,9 @@
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
+			<c:if test="${tm:ifGranted('_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_ADD')}">
 			<li><a class="add" href="app/system/school/district.do?action=dialogSchoolDistrictPage" target="dialog" title="添加校区" mask="true" width="504" height="348" rel="dia_sys_school_districtadd"><span>添加校区</span></a></li>
+			</c:if>
 		</ul>
 	</div>
 	<table class="table" width="100%" layoutH="138">
@@ -74,10 +77,20 @@
 						<td>${district.districtAddress}</td>
 						<td>${district.districtPhone}</td>
 						<td>
-							<a href="app/system/school/district.do?action=dialogSchoolDistrictPage&districtId=${district.id}" target="dialog" title="校区编辑" class="oplink" width="504" height="348" rel="sysmgr_roleedit_${idx}">编辑</a>
+							<c:choose>
+								<c:when test="${tm:ifGranted('_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_EDIT')}">
+									<a href="app/system/school/district.do?action=dialogSchoolDistrictPage&districtId=${district.id}" target="dialog" title="校区编辑" class="oplink" width="504" height="348" rel="sysmgr_roleedit_${idx}">编辑</a>
+								</c:when>
+								<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+							</c:choose>
 						</td>
 						<td>
-							<a href="app/system/school/district.do?action=actionRemoveDistrict&districtId=${district.id}" target="ajaxTodo" title="确定删除该校区吗？" class="oplink" callback="callback_roleRemove(${district.id})">删除</a>
+							<c:choose>
+								<c:when test="${tm:ifGranted('_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_REMOVE')}">
+									<a href="app/system/school/district.do?action=actionRemoveDistrict&districtId=${district.id}" target="ajaxTodo" title="确定删除该校区吗？" class="oplink" callback="callback_roleRemove(${district.id})">删除</a>
+								</c:when>
+								<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+							</c:choose>
 						</td>
 					</tr>
 				</logic:iterate>

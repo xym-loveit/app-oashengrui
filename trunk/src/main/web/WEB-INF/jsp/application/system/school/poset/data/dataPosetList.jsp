@@ -6,6 +6,7 @@
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <table class="table" width="100%" layoutH="142">
 	<thead>
@@ -31,10 +32,20 @@
 						</logic:present>
 					</td>
 					<td>
-						<a href="app/system/school/poset.do?action=dialogSchoolPosetPage&posetId=${entity.id}" target="dialog" title="职位编辑" class="oplink" width="550" height="322" rel="sysmgr_posetedit_${idx}">编辑</a>
+						<c:choose>
+							<c:when test="${tm:ifGranted('_FUNCKEY_SYSTEM_SCHOOL_POSET_EDIT')}">
+								<a href="app/system/school/poset.do?action=dialogSchoolPosetPage&posetId=${entity.id}" target="dialog" title="职位编辑" class="oplink" width="550" height="322" rel="sysmgr_posetedit_${idx}">编辑</a>
+							</c:when>
+							<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+						</c:choose>
 					</td>
 					<td>
-						<a href="app/system/school/poset.do?action=actionRemovePoset&posetId=${entity.id}" target="ajaxTodo" title="确定删除该职位吗？" class="oplink" callback="callback_posetRemove(${entity.id})">删除</a>
+						<c:choose>
+							<c:when test="${tm:ifGranted('_FUNCKEY_SYSTEM_SCHOOL_POSET_REMOVE')}">
+								<a href="app/system/school/poset.do?action=actionRemovePoset&posetId=${entity.id}" target="ajaxTodo" title="确定删除该职位吗？" class="oplink" callback="callback_posetRemove(${entity.id})">删除</a>
+							</c:when>
+							<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+						</c:choose>
 					</td>
 				</tr>
 			</logic:iterate>
