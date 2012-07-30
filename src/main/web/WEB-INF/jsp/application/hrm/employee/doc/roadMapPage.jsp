@@ -57,7 +57,7 @@
 				<tr>
 					<td class="field" align="right">所在校区：</td>
 					<td style="padding: 5px;">
-						<select class="combox required" name="employeeDistrict.id" id="combox_district_eindex" style="width:108px" >
+						<select class="combox required" name="employeeDistrict.id" id="combox_district_eindex" style="width:108px" ref="combox_dept_eindex" refUrl="app/base.do?action=actionLoadDepartmentByOrg&districtId={value}">
 							<logic:present name="districts">
 								<logic:iterate name="districts" id="district">
 									<option value="${district.id}" ${employee ne null && employee.employeeDistrict ne null && employee.employeeDistrict.id eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
@@ -67,7 +67,7 @@
 					</td>
 					<td class="field" align="right">所在部门：</td>
 					<td style="padding: 5px;">
-						<select class="combox required" name="employeeDepartment.id" id="combox_dept_eindex" style="width:108px" >
+						<select class="combox required" name="employeeDepartment.id" id="combox_dept_eindex" defOPKey="请选择部门" defOPVal="" style="width:108px" ref="combox_pos_eindex" refUrl="app/base.do?action=actionLoadPositionByDepartment&depId={value}">
 							<logic:present name="departments">
 								<logic:iterate name="departments" id="department">
 									<option value="${department.id}" ${employee ne null && entity.employeeDepartment ne null && employee.employeeDepartment.id eq department.id ? 'selected="selected"' : ''}>${department.depName}</option>
@@ -77,7 +77,7 @@
 					</td>
 					<td class="field" align="right">所在岗位：</td>
 					<td style="padding: 5px;">
-						<select class="combox required" name="employeePosition.id" id="combox_pos_eindex" style="width:108px" >
+						<select class="combox required" name="employeePosition.id" id="combox_pos_eindex" defOPKey="请选择岗位" defOPVal="" style="width:108px" >
 							<logic:present name="positions">
 								<logic:iterate name="positions" id="position">
 									<option value="${position.id}" ${employee ne null && employee.employeePosition ne null && employee.employeePosition.id eq position.id ? 'selected="selected"' : ''}>${position.positionName}</option>
