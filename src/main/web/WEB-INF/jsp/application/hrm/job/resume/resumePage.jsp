@@ -160,7 +160,7 @@ ${tm:fileRestore(resume['attachFiles'])}
 
 <div class="pageContent">
 	<form method="post" action="${cat ne null ? 'app/hrm/hire/resume.do?action=actionEmployeeResumeSave' : 'app/hrm/hire/resume.do?action=actionJobApply'}" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
-		<div class="pageFormContent" layoutH="${cat ne null ? 98 : 56}">
+		<div class="pageFormContent" layoutH="${cat ne null ? 105 : 56}">
 			<table width="100%" cellspacing="15" cellpadding="10" style="border-spacing:15; border-collapse:collapse;" border="1" id="tblresume">
 				<tr>
 					<td nowrap class="field" style="width: 80px;" >姓名：</td>
