@@ -65,7 +65,9 @@
 			<li><a treeicon="icon-myplan" class="icon" href="app/personal/task.do?action=pageTaskIndex" target="navTab" rel="_menu_mod_personal_mytask"><span class="icon-myplan">我的任务</span></a></li>
 		</ul>
 		<ul class="toolBar">
+			<c:if test="${tm:ifGranted('_FUNCKEY_PERSONAL_TASK_ADD')}">
 			<li><a class="add" href="app/personal/task.do?action=dialogTaskPage" target="dialog" title="新建任务" width="1080" height="380" rel="dia_my_taskadd"><span>新建任务</span></a></li>
+			</c:if>
 		</ul>
 	</div>
 	<table class="table" width="100%" layoutH="138">
@@ -121,13 +123,39 @@
 						<td><fmt:formatDate value="${entity.taskActualEndDate}" pattern="yyyy-MM-dd" /></td>
 						<td>
 							<c:choose>
-								<c:when test="${entity.taskStatus eq 4}"><a href="app/personal/task.do?action=dialogAuditPage&taskId=${entity.id}&type=0" target="dialog" title="任务‘${entity.taskName}’-延期审批" width="555" height="445" class="oplink" rel="admin_taskapproval-1">[延期审批]</a></c:when>
-								<c:when test="${entity.taskStatus eq 5}"><a href="app/personal/task.do?action=dialogAuditPage&taskId=${entity.id}&type=1" target="dialog" title="任务‘${entity.taskName}’-完成审批" width="555" height="445" class="oplink" rel="admin_taskapproval-1">[完成审批]</a></c:when>
-								<c:otherwise><a href="app/personal/task.do?action=dialogAuditRecords&taskId=${entity.id}" target="dialog" title="任务‘${entity.taskName}’-审批记录" width="900" height="300" class="oplink" rel="admin_taskauditrecords-${entity.id}">[审批记录]</a></c:otherwise>
+								<c:when test="${entity.taskStatus eq 4}">
+									<c:choose>
+										<c:when test="${tm:ifGranted('_FUNCKEY_PERSONAL_TASK_ACCOMPLISH_APPROVE')}">
+											<a href="app/personal/task.do?action=dialogAuditPage&taskId=${entity.id}&type=0" target="dialog" title="任务‘${entity.taskName}’-延期审批" width="555" height="445" class="oplink" rel="admin_taskapproval-1">[延期审批]</a>	
+										</c:when>
+										<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+									</c:choose>
+								</c:when>
+								<c:when test="${entity.taskStatus eq 5}">
+									<c:choose>
+										<c:when test="${tm:ifGranted('_FUNCKEY_PERSONAL_TASK_POSTPONE_APPROVE')}">
+											<a href="app/personal/task.do?action=dialogAuditPage&taskId=${entity.id}&type=1" target="dialog" title="任务‘${entity.taskName}’-完成审批" width="555" height="445" class="oplink" rel="admin_taskapproval-1">[完成审批]</a>
+										</c:when>
+										<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+									</c:choose>
+								</c:when>
+								<c:otherwise>
+									<c:choose>
+										<c:when test="${tm:ifGranted('_FUNCKEY_PERSONAL_TASK_APPROVES_VIEW')}">
+											<a href="app/personal/task.do?action=dialogAuditRecords&taskId=${entity.id}" target="dialog" title="任务‘${entity.taskName}’-审批记录" width="900" height="300" class="oplink" rel="admin_taskauditrecords-${entity.id}">[审批记录]</a>
+										</c:when>
+										<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+									</c:choose>
+								</c:otherwise>
 							</c:choose>
 						</td>
 						<td>
-							<a href="app/personal/task.do?action=dialogTaskPage&id=${entity.id}" target="dialog" title="任务‘${entity.taskName}’-编辑" width="1080" height="380" class="oplink" rel="personal_taskedit-${edit.id}">编辑</a>
+							<c:choose>
+								<c:when test="${tm:ifGranted('_FUNCKEY_PERSONAL_TASK_EDIT')}">
+									<a href="app/personal/task.do?action=dialogTaskPage&id=${entity.id}" target="dialog" title="任务‘${entity.taskName}’-编辑" width="1080" height="380" class="oplink" rel="personal_taskedit-${edit.id}">编辑</a>
+								</c:when>
+								<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+							</c:choose>
 						</td>
 					</tr>
 				</logic:iterate>

@@ -8,6 +8,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <style>
 	.opdisabled {text-decoration: line-through; color: #DDD; line-height: 21px;}
@@ -54,19 +55,36 @@
 							<td>${entity.jobHireAddress}</td>
 							<td>${entity.jobHireRange eq 1 ? '内外兼招' : (entity.jobHireRange eq 2 ? '外部招聘' : ( entity.jobHireRange eq 3 ? '内部招聘' : '未知'))}</td>
 							<td><fmt:formatDate value="${entity.jobHireEndDate}" pattern="yyyy-MM-dd" /></td>
-							<td class="thover"><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}&op=view" target="dialog" title="岗位详细" width="930" height="400">岗位详细</a></td>
 							<td class="thover">
 								<c:choose>
-									<c:when test="${myJobApplications['1'][entity.id]}">
-										<label class="opdisabled" title="我已经应聘过了.">应聘</label>
+									<c:when test="${tm:ifGranted('_FUNCKEY_PERSONAL_JOBAPPLY_JOB_VIEW')}">
+										<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}&op=view" target="dialog" title="岗位详细" width="930" height="400">岗位详细</a>
 									</c:when>
-									<c:otherwise>
-										<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobResume&jobId=${entity.id}&source=1" target="dialog" title="我要应聘" width="830" height="460">应聘</a>
-									</c:otherwise>
+									<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
 								</c:choose>
 							</td>
 							<td class="thover">
-								<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobResume&jobId=${entity.id}&source=2" target="dialog" title="我要推荐" width="830" height="460">推荐</a>
+								<c:choose>
+									<c:when test="${tm:ifGranted('_FUNCKEY_PERSONAL_JOBAPPLY_JOB_APPLY')}">
+										<c:choose>
+											<c:when test="${myJobApplications['1'][entity.id]}">
+												<label class="opdisabled" title="我已经应聘过了.">应聘</label>
+											</c:when>
+											<c:otherwise>
+												<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobResume&jobId=${entity.id}&source=1" target="dialog" title="我要应聘" width="830" height="460">应聘</a>
+											</c:otherwise>
+										</c:choose>
+									</c:when>
+									<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+								</c:choose>
+							</td>
+							<td class="thover">
+								<c:choose>
+									<c:when test="${tm:ifGranted('_FUNCKEY_PERSONAL_JOBAPPLY_JOB_RECOMMEND')}">
+										<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobResume&jobId=${entity.id}&source=2" target="dialog" title="我要推荐" width="830" height="460">推荐</a>
+									</c:when>
+									<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+								</c:choose>
 							</td>
 						</tr>
 					</logic:iterate>
@@ -84,8 +102,22 @@
 							<td class="thover">${entity.resume.fullName}</td>
 							<td class="thover">${entity.resume.source eq 0 ? '手工输入' : (entity.resume.source eq 1 ? '内部申请' : (entity.resume.source eq 2 ? '内部推荐' : entity.resume.source eq 3 ? '外部申请' : ''))}</td>
 							<td class="thover">${entity.finalResult ne null ? (entity.finalResult eq 1 ? '录用' : (entity.finalResult eq 2 ? '淘汰' : (entity.finalResult eq 3 ? '未面试' : '未知'))) : '暂无'}</td>
-							<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.jobHire.id}&op=view" target="dialog" title="岗位详细" width="930" height="400">岗位详细</a></td>
-							<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobResume&resumeId=${entity.resume.id}&op=view" target="dialog" title="简历信息‘${entity.resume.fullName}’" width="900" height="500" rel="myinterview_resumeview_${entity.resume.id}" mask="true" rel="hrm_resumedetail_${entity.resume.id}">简历信息</a></td>
+							<td>
+								<c:choose>
+									<c:when test="${tm:ifGranted('_FUNCKEY_PERSONAL_JOBAPPLY_JOB_VIEW')}">
+										<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.jobHire.id}&op=view" target="dialog" title="岗位详细" width="930" height="400">岗位详细</a>
+									</c:when>
+									<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+								</c:choose>
+							</td>
+							<td>
+								<c:choose>
+									<c:when test="${tm:ifGranted('_FUNCKEY_PERSONAL_JOBAPPLY_RESUME_VIEW')}">
+										<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobResume&resumeId=${entity.resume.id}&op=view" target="dialog" title="简历信息‘${entity.resume.fullName}’" width="900" height="500" rel="myinterview_resumeview_${entity.resume.id}" mask="true" rel="hrm_resumedetail_${entity.resume.id}">简历信息</a>
+									</c:when>
+									<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+								</c:choose>
+							</td>
 						</tr>
 					</logic:iterate>
 				</c:otherwise>

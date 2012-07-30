@@ -114,7 +114,7 @@
 								<td style="padding:0 5px;">
 									<c:choose>
 										<c:when test="${entity.auditState eq 1}">
-											<c:if test="${(CATKEY eq 'contract' && tm:ifGranted('_FUNCKEY_FINAN_CONTRACT_APPROVE')) || (CATKEY eq 'expense' && tm:ifGranted('_FUNCKEY_FINAN_EXPENSE_APPROVE'))}">
+											<c:if test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.positionId eq entity.toPositionIds && ((CATKEY eq 'contract' && tm:ifGranted('_FUNCKEY_FINAN_CONTRACT_APPROVE')) || (CATKEY eq 'expense' && tm:ifGranted('_FUNCKEY_FINAN_EXPENSE_APPROVE')))}">
 												<table style="padding:5px 0; width:100%;" cellpadding="0" cellspacing="0" id="auditForm${entity.id}">
 													<tr>
 														<td width="90%"><textarea style="width: 99%; height: 40px;"></textarea></td>

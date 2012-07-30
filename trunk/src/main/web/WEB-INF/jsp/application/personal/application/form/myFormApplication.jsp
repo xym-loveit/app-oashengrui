@@ -7,11 +7,12 @@
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn"%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <!-- Body -->	
 <div class="pageContent">
 	<div class="panelBar">
-		<c:if test="${op eq null || op ne 'history'}">
+		<c:if test="${tm:ifGranted('_FUNCKEY_PERSONAL_APPLICATION_POST')}">
 			<ul class="toolBar" style="float:right">
 				<li><a treeicon="icon-records" class="icon" href="app/personal/application_form.do?action=dialogApplicationFormPage" target="dialog" rel="dmy_formapplication" width="1000" height="485"><span class="icon-records">我要申请</span></a></li>
 			</ul>

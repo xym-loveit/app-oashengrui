@@ -156,6 +156,16 @@ extends ModelBase implements UserDetails
 	 */
 	private boolean isInitialized = false;
 	
+	
+	/**
+	 * 职位ID 
+	 * 
+	 * 由于存入Session中的实体无法再进行惰性加载获取关联对象的数据,
+	 * 因此这里用于初始化时进行赋值, 主要用于流程审批过程中的控制. 
+	 */
+	private String positionId;
+	
+	
 	/**
 	 * The enumeration of user status
 	 * 
@@ -248,6 +258,19 @@ extends ModelBase implements UserDetails
 	 */
 	public void initMenuRights()
 	{
+		if (!isInitialized)
+		{
+			if (this.getEmployee() != null)
+			{
+				this.position = this.employee.getEmployeePosition();
+			}
+			
+			if (this.position != null)
+			{
+				this.positionId = this.position.getId(); 
+			}
+		}
+		
 		// 进行合并权限的处理
 		if (this.id.equals(SUPER_USER.toString()))
 		{
@@ -584,5 +607,10 @@ extends ModelBase implements UserDetails
 	public Set<String> getMenuKeys()
 	{
 		return this.menuKeys;
+	}
+
+	public String getPositionId()
+	{
+		return positionId;
 	}
 }
