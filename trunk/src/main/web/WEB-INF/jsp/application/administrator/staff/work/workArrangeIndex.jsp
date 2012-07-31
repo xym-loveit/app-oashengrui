@@ -82,20 +82,31 @@ function callback_funcRemove(id) {
 <!-- Body -->	
 <div class="pageContent">
 	<div class="panelBar">
-		<ul class="toolBar" style="float:right">
-			<li><a treeicon="icon-edit" class="icon" href="app/admin.do?action=actionViewWorkArrangePage" target="navTab" rel="admin_workArrange"><span class="icon-edit">工作安排查看</span></a></li>
-		</ul>
-	
+		<c:choose>
+			<c:when test="${tm:ifGranted('_FUNCKEY_ADMIN_VIEW_WORK_ARRANGE') }">
+				<ul class="toolBar" style="float:right">
+					<li><a treeicon="icon-edit" class="icon" href="app/admin.do?action=actionViewWorkArrangePage" target="navTab" rel="admin_workArrange"><span class="icon-edit">工作安排查看</span></a></li>
+				</ul>
+			</c:when>
+		</c:choose>
 		<ul class="toolBar">
-			<li><a class="add" href="app/admin.do?action=dialogStaffWorkArrange&districtId=1" target="dialog" title="添加工作安排" width="400" height="400"><span>添加工作安排</span></a></li>
-			<li class="line">line</li>
-			<li><a class="add" href="app/admin.do?action=actionImportDataFromTemplateDialog" target="dialog" title="批量工作安排" width="500" height="200"><span>加载模板批量加载安排</span></a></li>
-			<li class="line">line</li>
-			<li><a class="edit" href="app/admin.do?action=actionAdjustWorkArrangeDialog" target="dialog" title="工作安排调整" width="600" height="400"><span>工作安排调整</span></a></li>
-			<!--
-			<li class="line">line</li>
-			<li><a class="icon" href="demo/common/dwz-team.xls" target="dwzExport" targetType="navTab" title="实要导出这些记录吗?"><span>导出EXCEL</span></a></li>
-			-->
+			<c:choose>
+				<c:when test="${tm:ifGranted('_FUNCKEY_ADMIN_ADD_WORK_ARRANGE') }">
+					<li><a class="add" href="app/admin.do?action=dialogStaffWorkArrange&districtId=1" target="dialog" title="添加工作安排" width="400" height="400"><span>添加工作安排</span></a></li>
+					<li class="line">line</li>
+				</c:when>
+			</c:choose>
+			<c:choose>
+				<c:when test="${tm:ifGranted('_FUNCKEY_ADMIN_IMPORT_WORK_ARRANGE') }">
+					<li><a class="add" href="app/admin.do?action=actionImportDataFromTemplateDialog" target="dialog" title="批量工作安排" width="500" height="200"><span>加载模板批量加载安排</span></a></li>
+					<li class="line">line</li>
+				</c:when>
+			</c:choose>
+			<c:choose>
+				<c:when test="${tm:ifGranted('_FUNCKEY_ADMIN_ADJUST_WORK_ARRANGE') }">
+					<li><a class="edit" href="app/admin.do?action=actionAdjustWorkArrangeDialog" target="dialog" title="工作安排调整" width="600" height="400"><span>工作安排调整</span></a></li>
+				</c:when>
+			</c:choose>
 		</ul>
 	</div>
 	<table class="table" width="100%" layoutH="138">
@@ -119,8 +130,22 @@ function callback_funcRemove(id) {
 				<td>${entity.staff.fullName}</td>
 				<td <c:if test="${entity.workType.id==3 }">style="background-color:yellow;"</c:if>>${entity.workType.type}</td>
 				<td>${entity.workContent.itemName}</td>
-				<td><a href="app/admin.do?action=adminEditStaffWorkArrangeDialog&id=${entity.id}" class="oplink" target="dialog" title="员工工作安排编辑" width="600" height="350" rel="admin_staffWorkEdit-1">编辑</a></td>
-				<td><a href="app/admin.do?action=adminDeleteWorkArrange&id=${entity.id}" class="oplink" target="ajaxToDo" title="确定要删除该员工的工作安排吗?"rel="admin_staffWorkRemove-1" callback="callback_funcRemove(${entity.id})">删除</a></td>
+				<td>
+					<c:choose>
+						<c:when test="${tm:ifGranted('_FUNCKEY_ADMIN_ADJUST_WORK_ARRANGE') }">
+							<a href="app/admin.do?action=adminEditStaffWorkArrangeDialog&id=${entity.id}" class="oplink" target="dialog" title="员工工作安排编辑" width="600" height="350" rel="admin_staffWorkEdit-1">编辑</a>
+						</c:when>
+						<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">编辑</label></c:otherwise>
+					</c:choose>
+				</td>
+				<td>
+					<c:choose>
+						<c:when test="${tm:ifGranted('_FUNCKEY_ADMIN_REMOVE_WORK_ARRANGE') }">
+							<a href="app/admin.do?action=adminDeleteWorkArrange&id=${entity.id}" class="oplink" target="ajaxToDo" title="确定要删除该员工的工作安排吗?"rel="admin_staffWorkRemove-1" callback="callback_funcRemove(${entity.id})">删除</a>
+						</c:when>
+						<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">删除</label></c:otherwise>
+					</c:choose>
+				</td>
 			</tr>
 			</logic:iterate>
 		  </logic:present>

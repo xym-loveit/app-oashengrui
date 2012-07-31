@@ -85,12 +85,14 @@ function callback_funcRemove() {
 		<c:if test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.functionRights eq '__ALL' || tm:inRange(sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.functionRights, '_FUNCKEY_JOBAPPROVAL_SUBNODE', ',') || tm:inRange(sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.functionRights, '_FUNCKEY_JOBAPPROVAL_ROOT', ',')}">
 			<ul class="toolBar" style="float:right">
 				<c:if test="${noSummary ne null && noSummary ne 0 }"><li><span>你有${noSummary }个发起的会议需要总结，请点击下表总结链接进行总结</span></li></c:if>
-				<li><a treeicon="icon-edit" class="icon" href="app/personal/conference.do?action=myConferenceIndex" target="navTab" rel="myconference"><span class="icon-edit">返回我参加的会议</span></a></li>
+				<li><a treeicon="icon-edit" class="icon" href="app/personal/conference.do?action=myConferenceIndex" target="navTab" rel="_menu_mod_personal_conference"><span class="icon-edit">返回我参加的会议</span></a></li>
 			</ul>
 		</c:if>
 		<ul class="toolBar">
+		<c:if test="${tm:ifGranted('_FUNCKEY_PERSONAL_CONFERENCE_INITIAL_CONFERENCE') }">
 			<li><a class="add" href="app/personal/conference.do?action=conferenceDetail" target="dialog" title="发起会议" width="1150" height="420" rel="dia_hr_entryadd"><span>会议发起</span></a></li>
 			<li class="line">line</li>
+		</c:if>
 		</ul>
 	</div>
 	<table class="table" width="100%" layoutH="138">
@@ -125,44 +127,71 @@ function callback_funcRemove() {
 						<td>${entity.contactor}</td>
 						<td>${entity.phone }</td>
 						<td>
-							<a class="oplink" href="app/personal/conference.do?action=conferenceDetail&id=${entity.id}&op=view" target="dialog" title="会议详细" width="1150" height="450">详细</a></td>
-						<td>
 							<c:choose>
-								<c:when test="${entity.status eq 1}">
-									<a class="oplink" href="app/personal/conference.do?action=conferenceDetail&id=${entity.id}&op=edit" target="dialog" title="调整会议" width="1150" height="500">调整</a>
+								<c:when test="${tm:ifGranted('_FUNCKEY_HRM_JOBHIRE_JOB_VIEW')}">
+									<a class="oplink" href="app/personal/conference.do?action=conferenceDetail&id=${entity.id}&op=view" target="dialog" title="会议详细" width="1150" height="450">详细</a>
 								</c:when>
-								<c:otherwise>
-									<label class="opdisabled">调整</label>
-								</c:otherwise>
+								<c:otherwise><label class="opdisabled" title="您没有权限查看会议详细数据">详细</label></c:otherwise>
 							</c:choose>
 						</td>
 						<td>
 							<c:choose>
 								<c:when test="${entity.status eq 1}">
-									<a class="oplink" href="app/personal/conference.do?action=actionCancelConference&id=${entity.id}" target="ajaxTodo" title="取消会议" width="960" height="420" callback="callback_funcRemove()">取消</a>
+									<c:choose>
+										<c:when test="${tm:ifGranted('_FUNCKEY_PERSONAL_CONFERENCE_ADJUST_CONFERENCE')}">
+											<a class="oplink" href="app/personal/conference.do?action=conferenceDetail&id=${entity.id}&op=edit" target="dialog" title="调整会议" width="1150" height="500">调整</a>
+										</c:when>
+										<c:otherwise><label class="opdisabled" title="您没有权限调整会议">调整</label></c:otherwise>
+									</c:choose>
+								</c:when>
+								<c:otherwise><label class="opdisabled">调整</label></c:otherwise>
+							</c:choose>
+						</td>
+						<td>
+							<c:choose>
+								<c:when test="${entity.status eq 1}">
+									<c:choose>
+										<c:when test="${tm:ifGranted('_FUNCKEY_PERSONAL_CONFERENCE_CANCEL_CONFERENCE')}">
+											<a class="oplink" href="app/personal/conference.do?action=actionCancelConference&id=${entity.id}" target="ajaxTodo" title="取消会议" width="960" height="420" callback="callback_funcRemove()">取消</a>
+										</c:when>
+										<c:otherwise><label class="opdisabled" title="您没有权限取消会议">取消</label></c:otherwise>
+									</c:choose>
 								</c:when>
 								<c:when test="${entity.status eq 3}">
-									<a class="oplink" href="app/personal/conference.do?action=actionActivateConference&id=${entity.id}" target="ajaxTodo" title="激活会议" width="960" height="420" callback="callback_funcRemove()">激活</a>
+									<c:choose>
+										<c:when test="${tm:ifGranted('_FUNCKEY_PERSONAL_CONFERENCE_ACTIVATE_CONFERENCE')}">
+											<a class="oplink" href="app/personal/conference.do?action=actionActivateConference&id=${entity.id}" target="ajaxTodo" title="激活会议" width="960" height="420" callback="callback_funcRemove()">激活</a>
+										</c:when>
+										<c:otherwise><label class="opdisabled" title="您没有权限激活会议">激活</label></c:otherwise>
+									</c:choose>
 								</c:when>
 								<c:otherwise>
 									<label class="opdisabled">取消</label>
 								</c:otherwise>
 							</c:choose>
 						</td>
-						<c:choose>
-							<c:when test="${entity.summary eq null || entity.summary eq '' }">
-								<c:choose>
-									<c:when test="${entity.status ne 3 }">
-										 <td>
-											<a style='color: red' class="oplink" href="app/personal/conference.do?action=actionLoadSubmitSummaryDialog&id=${entity.id}" target="dialog" title="会议总结" width="800" height="350">总结</a>
-										</td>
-									</c:when>
-								</c:choose>
-							</c:when>
-							<c:otherwise>
-								<td><label class="opdisabled">总结</label></td>
-							</c:otherwise>
-						</c:choose>
+						<td>
+							<c:choose>
+								<c:when test="${entity.summary eq null || entity.summary eq '' }">
+									<c:choose>
+										<c:when test="${entity.status ne 3 }">
+											<c:choose>
+												<c:when test="${tm:ifGranted('_FUNCKEY_PERSONAL_CONFERENCE_SUMMARY_CONFERENCE')}">
+													<a style='color: red' class="oplink" href="app/personal/conference.do?action=actionLoadSubmitSummaryDialog&id=${entity.id}" target="dialog" title="会议总结" width="800" height="350">总结</a>
+												</c:when>
+												<c:otherwise><label class="opdisabled" title="您没有权限进行会议总结">总结</label></c:otherwise>
+											</c:choose>
+										</c:when>
+										<c:otherwise>
+											<label class="opdisabled">总结</label>
+										</c:otherwise>
+									</c:choose>
+								</c:when>
+								<c:otherwise>
+									<label class="opdisabled">总结</label>
+								</c:otherwise>
+							</c:choose>
+						</td>
 					</tr>
 				</logic:iterate>
 			</logic:present>

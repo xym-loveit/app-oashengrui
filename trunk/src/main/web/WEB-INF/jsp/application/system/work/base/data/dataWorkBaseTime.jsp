@@ -5,6 +5,7 @@
 <%@ taglib uri="/tags/struts-logic" prefix="logic"%>
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script type="text/javascript">
 	function dep_refresh(refresh) {
@@ -54,10 +55,14 @@
 				warn="请从左侧选择部门!" target="ajax" rel="ajBoxDepPos" title="刷新"
 				rel="dia_admin_entryadd"><span>刷新</span></a></li>
 			<li class="line">line</li>
-			<li><a class="add"
-				href="app/system/work/base/time.do?action=dialogAddWorkTime&districtId={_var_districtId}"
-				mask="true" warn="请从左侧选择部门!" target="dialog" title="添加新工作时间"
-				width="504" height="335" rel="dia_admin_entryadd"><span>添加新工作时间</span></a></li>
+			<c:choose>
+				<c:when test="${tm:ifGranted('_FUNCKEY_SYSTEM_ADD_WORK_TIME')}">
+					<li><a class="add"
+					href="app/system/work/base/time.do?action=dialogAddWorkTime&districtId={_var_districtId}"
+					mask="true" warn="请从左侧选择部门!" target="dialog" title="添加新工作时间"
+					width="504" height="335" rel="dia_admin_entryadd"><span>添加新工作时间</span></a></li>
+				</c:when>
+			</c:choose>
 		</ul>
 	</div>
 	<table class="table" width="100%" layoutH="100">
@@ -81,15 +86,29 @@
 						<td>${entity.meto}</td>
 						<td>${entity.updateTime}</td>
 						<td>${entity.adjustDays}</td>
-						<td><a
-							href="app/system/work/base/time.do?action=dialogBaseWorkTimePage&workTmId=${entity.id}"
-							class="oplink" target="dialog" title="工作时间编辑" width="504"
-							height="335" rel="sys_dePosSet-${entity.id}">编辑</a></td>
-						<td><a
-							href="app/system/work/base/time.do?action=actionRemoveBaseWorkTime&workTmId=${entity.id}"
-							class="oplink" target="ajaxTodo" title="工作时间删除" width="550"
-							height="335" title="确定要删除该岗位吗?" rel="sys_dePosDel-${entity.id}"
-							callback="callback_funcRemove(${entity.id})">删除</a></td>
+						<td>
+							<c:choose>
+								<c:when test="${tm:ifGranted('_FUNCKEY_SYSTEM_EDIT_WORK_TIME')}">
+									<a
+									href="app/system/work/base/time.do?action=dialogBaseWorkTimePage&workTmId=${entity.id}"
+									class="oplink" target="dialog" title="工作时间编辑" width="504"
+									height="335" rel="sys_dePosSet-${entity.id}">编辑</a>
+								</c:when>
+								<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">编辑</label></c:otherwise>
+							</c:choose>
+						</td>
+						<td>
+							<c:choose>
+								<c:when test="${tm:ifGranted('_FUNCKEY_SYSTEM_EDIT_WORK_TIME')}">
+									<a
+										href="app/system/work/base/time.do?action=actionRemoveBaseWorkTime&workTmId=${entity.id}"
+										class="oplink" target="ajaxTodo" title="工作时间删除" width="550"
+										height="335" title="确定要删除该岗位吗?" rel="sys_dePosDel-${entity.id}"
+										callback="callback_funcRemove(${entity.id})">删除</a>
+								</c:when>
+								<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">删除</label></c:otherwise>
+							</c:choose>
+						</td>
 					</tr>
 				</logic:iterate>
 			</logic:present>
