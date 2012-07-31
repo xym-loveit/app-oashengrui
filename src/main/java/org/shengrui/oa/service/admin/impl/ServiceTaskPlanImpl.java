@@ -75,7 +75,7 @@ extends ServiceGenericImpl<ModelTaskPlan> implements ServiceTaskPlan
 		
 		if (entity != null)
 		{
-			if (entity.getTaskStatus() != null)
+			if (entity.getTaskStatus() != null && entity.getTaskStatus() > -1)
 			{
 				criteria.add(Restrictions.eq("taskStatus", entity.getTaskStatus()));
 			}
@@ -101,7 +101,7 @@ extends ServiceGenericImpl<ModelTaskPlan> implements ServiceTaskPlan
 			}
 			else if (entity.getTaskTypeId() != null && entity.getTaskTypeId() > -1)
 			{
-				criteria.createCriteria("taskType").add(Restrictions.eq("id", entity.getTaskTypeId()));
+				criteria.createCriteria("taskType").add(Restrictions.eq("id", entity.getTaskTypeId().toString()));
 			}
 			
 			if (UtilString.isNotEmpty(empId))
