@@ -55,7 +55,7 @@
 		</ul>
 	</div>
 	-->
-	<table class="table" width="100%" layoutH="138">
+	<table class="table" width="100%" layoutH="115">
 		<thead>
 			<tr>
 				<th align="center">账号</th>
