@@ -2,10 +2,10 @@
 -- version 3.3.3
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Jul 30, 2012 at 03:19 PM
--- Server version: 5.0.91
--- PHP Version: 5.2.13
+-- 主机: localhost
+-- 生成日期: 2012 年 07 月 31 日 10:49
+-- 服务器版本: 5.0.51
+-- PHP 版本: 5.2.13
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
@@ -16,13 +16,13 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `app_sroa`
+-- 数据库: `app_sroa`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_admin_attendance`
+-- 表的结构 `app_admin_attendance`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_attendance` (
@@ -46,14 +46,14 @@ CREATE TABLE IF NOT EXISTS `app_admin_attendance` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-员工考勤' AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `app_admin_attendance`
+-- 转存表中的数据 `app_admin_attendance`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_admin_conference`
+-- 表的结构 `app_admin_conference`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_conference` (
@@ -83,14 +83,14 @@ CREATE TABLE IF NOT EXISTS `app_admin_conference` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='会议表' AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `app_admin_conference`
+-- 转存表中的数据 `app_admin_conference`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_admin_doc`
+-- 表的结构 `app_admin_doc`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_doc` (
@@ -117,14 +117,14 @@ CREATE TABLE IF NOT EXISTS `app_admin_doc` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-文档' AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `app_admin_doc`
+-- 转存表中的数据 `app_admin_doc`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_admin_doc_level`
+-- 表的结构 `app_admin_doc_level`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_doc_level` (
@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `app_admin_doc_level` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='文档级别' AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `app_admin_doc_level`
+-- 转存表中的数据 `app_admin_doc_level`
 --
 
 INSERT INTO `app_admin_doc_level` (`id`, `level_name`) VALUES
@@ -146,7 +146,7 @@ INSERT INTO `app_admin_doc_level` (`id`, `level_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_admin_doc_visiable_range`
+-- 表的结构 `app_admin_doc_visiable_range`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_doc_visiable_range` (
@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `app_admin_doc_visiable_range` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='文档范围' AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `app_admin_doc_visiable_range`
+-- 转存表中的数据 `app_admin_doc_visiable_range`
 --
 
 INSERT INTO `app_admin_doc_visiable_range` (`id`, `visiable_name`) VALUES
@@ -168,7 +168,7 @@ INSERT INTO `app_admin_doc_visiable_range` (`id`, `visiable_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_admin_news`
+-- 表的结构 `app_admin_news`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_news` (
@@ -191,14 +191,14 @@ CREATE TABLE IF NOT EXISTS `app_admin_news` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-新闻' AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `app_admin_news`
+-- 转存表中的数据 `app_admin_news`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_admin_news_file`
+-- 表的结构 `app_admin_news_file`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_news_file` (
@@ -208,14 +208,14 @@ CREATE TABLE IF NOT EXISTS `app_admin_news_file` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-新闻文件关联表';
 
 --
--- Dumping data for table `app_admin_news_file`
+-- 转存表中的数据 `app_admin_news_file`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_admin_task`
+-- 表的结构 `app_admin_task`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_task` (
@@ -237,7 +237,7 @@ CREATE TABLE IF NOT EXISTS `app_admin_task` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='行政管理-任务委托' AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `app_admin_task`
+-- 转存表中的数据 `app_admin_task`
 --
 
 INSERT INTO `app_admin_task` (`task_id`, `type_dicid`, `task_name`, `task_originator`, `task_charger`, `task_planStartDate`, `task_planEndDate`, `task_actualFinishDate`, `task_desc`, `task_participant_ids`, `task_participant_names`, `task_status`, `approval_status`, `create_time`) VALUES
@@ -246,7 +246,7 @@ INSERT INTO `app_admin_task` (`task_id`, `type_dicid`, `task_name`, `task_origin
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_admin_task_file`
+-- 表的结构 `app_admin_task_file`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_task_file` (
@@ -256,14 +256,14 @@ CREATE TABLE IF NOT EXISTS `app_admin_task_file` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-任务委托文件关联表';
 
 --
--- Dumping data for table `app_admin_task_file`
+-- 转存表中的数据 `app_admin_task_file`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_admin_task_participants`
+-- 表的结构 `app_admin_task_participants`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_task_participants` (
@@ -273,7 +273,7 @@ CREATE TABLE IF NOT EXISTS `app_admin_task_participants` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务参与人';
 
 --
--- Dumping data for table `app_admin_task_participants`
+-- 转存表中的数据 `app_admin_task_participants`
 --
 
 INSERT INTO `app_admin_task_participants` (`task_id`, `emp_id`) VALUES
@@ -283,7 +283,7 @@ INSERT INTO `app_admin_task_participants` (`task_id`, `emp_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_admin_task_tracks`
+-- 表的结构 `app_admin_task_tracks`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_task_tracks` (
@@ -301,7 +301,7 @@ CREATE TABLE IF NOT EXISTS `app_admin_task_tracks` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='任务委托审批记录' AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `app_admin_task_tracks`
+-- 转存表中的数据 `app_admin_task_tracks`
 --
 
 INSERT INTO `app_admin_task_tracks` (`track_id`, `task_id`, `task_applyTime`, `task_applyType`, `task_applyFinalTime`, `task_applyMeto`, `task_auditState`, `task_auditFinalTime`, `task_auditMeto`, `task_auditTime`) VALUES
@@ -310,7 +310,7 @@ INSERT INTO `app_admin_task_tracks` (`track_id`, `task_id`, `task_applyTime`, `t
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_admin_workarrange`
+-- 表的结构 `app_admin_workarrange`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_workarrange` (
@@ -328,7 +328,7 @@ CREATE TABLE IF NOT EXISTS `app_admin_workarrange` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='行政管理-工作安排' AUTO_INCREMENT=11 ;
 
 --
--- Dumping data for table `app_admin_workarrange`
+-- 转存表中的数据 `app_admin_workarrange`
 --
 
 INSERT INTO `app_admin_workarrange` (`work_id`, `work_date`, `work_time`, `staff_name`, `staff_id`, `work_type`, `work_content`, `district_id`) VALUES
@@ -344,7 +344,7 @@ INSERT INTO `app_admin_workarrange` (`work_id`, `work_date`, `work_time`, `staff
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_admin_worktype`
+-- 表的结构 `app_admin_worktype`
 --
 
 CREATE TABLE IF NOT EXISTS `app_admin_worktype` (
@@ -354,7 +354,7 @@ CREATE TABLE IF NOT EXISTS `app_admin_worktype` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `app_admin_worktype`
+-- 转存表中的数据 `app_admin_worktype`
 --
 
 INSERT INTO `app_admin_worktype` (`id`, `type`) VALUES
@@ -366,7 +366,7 @@ INSERT INTO `app_admin_worktype` (`id`, `type`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_conference_file`
+-- 表的结构 `app_conference_file`
 --
 
 CREATE TABLE IF NOT EXISTS `app_conference_file` (
@@ -376,14 +376,14 @@ CREATE TABLE IF NOT EXISTS `app_conference_file` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='会议文件';
 
 --
--- Dumping data for table `app_conference_file`
+-- 转存表中的数据 `app_conference_file`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_file_attach`
+-- 表的结构 `app_file_attach`
 --
 
 CREATE TABLE IF NOT EXISTS `app_file_attach` (
@@ -402,7 +402,7 @@ CREATE TABLE IF NOT EXISTS `app_file_attach` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='附件' AUTO_INCREMENT=34 ;
 
 --
--- Dumping data for table `app_file_attach`
+-- 转存表中的数据 `app_file_attach`
 --
 
 INSERT INTO `app_file_attach` (`file_id`, `file_name`, `file_path`, `createtime`, `file_ext`, `file_type`, `note`, `creator`, `creator_id`, `file_bytes`, `del_flag`) VALUES
@@ -443,7 +443,7 @@ INSERT INTO `app_file_attach` (`file_id`, `file_name`, `file_path`, `createtime`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_finan_contract`
+-- 表的结构 `app_finan_contract`
 --
 
 CREATE TABLE IF NOT EXISTS `app_finan_contract` (
@@ -469,7 +469,7 @@ CREATE TABLE IF NOT EXISTS `app_finan_contract` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='合同申请' AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `app_finan_contract`
+-- 转存表中的数据 `app_finan_contract`
 --
 
 INSERT INTO `app_finan_contract` (`contract_id`, `apply_form_no`, `apply_form_type`, `emp_id`, `emp_district`, `emp_dep`, `emp_phone_no`, `apply_date`, `comments`, `apply_amt`, `contract_no`, `contract_parties`, `contract_parties_contact`, `pay_method`, `audit_state`, `entry_id`, `entry_datetime`) VALUES
@@ -478,7 +478,7 @@ INSERT INTO `app_finan_contract` (`contract_id`, `apply_form_no`, `apply_form_ty
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_finan_expense`
+-- 表的结构 `app_finan_expense`
 --
 
 CREATE TABLE IF NOT EXISTS `app_finan_expense` (
@@ -511,7 +511,7 @@ CREATE TABLE IF NOT EXISTS `app_finan_expense` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
--- Dumping data for table `app_finan_expense`
+-- 转存表中的数据 `app_finan_expense`
 --
 
 INSERT INTO `app_finan_expense` (`expense_id`, `apply_form_no`, `apply_form_type`, `apply_date`, `comments`, `emp_id`, `emp_district`, `emp_dep`, `emp_phone_no`, `apply_amt`, `payer`, `contract_no`, `attach_count`, `audit_advance`, `asset_no`, `amt_receiver`, `amt_receiver_contact`, `pay_method`, `bank`, `account_name`, `account_no`, `status`, `audit_state`, `entry_id`, `entry_datetime`) VALUES
@@ -525,7 +525,7 @@ INSERT INTO `app_finan_expense` (`expense_id`, `apply_form_no`, `apply_form_type
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_function`
+-- 表的结构 `app_function`
 --
 
 CREATE TABLE IF NOT EXISTS `app_function` (
@@ -538,10 +538,10 @@ CREATE TABLE IF NOT EXISTS `app_function` (
   PRIMARY KEY  (`func_id`),
   UNIQUE KEY `func_key` (`func_key`),
   KEY `menu_id` (`menu_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能表' AUTO_INCREMENT=102 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能表' AUTO_INCREMENT=108 ;
 
 --
--- Dumping data for table `app_function`
+-- 转存表中的数据 `app_function`
 --
 
 INSERT INTO `app_function` (`func_id`, `func_key`, `func_name`, `func_icon`, `func_desc`, `menu_id`) VALUES
@@ -641,12 +641,18 @@ INSERT INTO `app_function` (`func_id`, `func_key`, `func_name`, `func_icon`, `fu
 (98, '_FUNCKEY_PERSONAL_APPLICATION_VIEW', '申请单查看', '', '查看申请单详细数据.', 37),
 (99, '_FUNCKEY_PERSONAL_APPLICATION_POST', '申请单提交', '', '填写申请单数据并提交审核.', 37),
 (100, '_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_EDIT', '岗位编辑', '', '编辑部门岗位', 23),
-(101, '_FUNCKEY_FLOW_FINAN_PROC_TYPE_REMOVE', '申请类别删除', '', '删除申请类别数据. (功能链接待添加...)', 21);
+(101, '_FUNCKEY_FLOW_FINAN_PROC_TYPE_REMOVE', '申请类别删除', '', '删除申请类别数据. (功能链接待添加...)', 21),
+(102, '_FUNCKEY_ADMIN_NEWS_ADD', '发布新闻', '', '发布新闻', 39),
+(103, '_FUNCKEY_ADMIN_NEWS_EDIT', '编辑新闻', '', '修改新闻', 39),
+(104, '_FUNCKEY_ADMIN_NEWS_DELETE', '删除新闻', '', '删除新闻', 39),
+(105, '_FUNCKEY_ADMIN_NEWS_APPROVE', '新闻管理与审批', '', '审批新闻', 39),
+(106, '_FUNCKEY_ADMIN_NEWS_TOP', '新闻置顶', '', '新闻置顶', 39),
+(107, '_FUNCKEY_ADMIN_NEWS_APPROVING', '新闻审批', '', '', 39);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_function_url`
+-- 表的结构 `app_function_url`
 --
 
 CREATE TABLE IF NOT EXISTS `app_function_url` (
@@ -655,10 +661,10 @@ CREATE TABLE IF NOT EXISTS `app_function_url` (
   `url_path` varchar(120) NOT NULL COMMENT '功能链接',
   PRIMARY KEY  (`url_id`),
   KEY `func_id` (`func_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能URL' AUTO_INCREMENT=248 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能URL' AUTO_INCREMENT=256 ;
 
 --
--- Dumping data for table `app_function_url`
+-- 转存表中的数据 `app_function_url`
 --
 
 INSERT INTO `app_function_url` (`url_id`, `func_id`, `url_path`) VALUES
@@ -814,12 +820,18 @@ INSERT INTO `app_function_url` (`url_id`, `func_id`, `url_path`) VALUES
 (244, 100, 'app/system/school/department/position.do?action=actionSaveDepartmentPosition'),
 (245, 100, 'app/system/menu/func.do?action=dialogMenuFuncPage'),
 (246, 101, 'TO BE ADDED HERE...'),
-(247, 54, 'app/flow/hrm.do?action=actionRemoveProcessTask');
+(247, 54, 'app/flow/hrm.do?action=actionRemoveProcessTask'),
+(248, 102, 'app/admin.do?action=adminPageEntryDetail'),
+(251, 105, 'app/admin/news.do?action=adminPageEntryApprovalIndex'),
+(252, 104, 'app/admin.do?action=adminOprEntryRemove'),
+(253, 103, 'app/admin.do?action=adminPageEntryDetail'),
+(254, 106, 'app/admin.do?action=adminOprEntryFirst'),
+(255, 107, 'app/admin.do?action=adminPageEntryDetail');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_global_type`
+-- 表的结构 `app_global_type`
 --
 
 CREATE TABLE IF NOT EXISTS `app_global_type` (
@@ -832,14 +844,14 @@ CREATE TABLE IF NOT EXISTS `app_global_type` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='总分类表  用于显示树层次结构的分类 可以允许任何层次结构' AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `app_global_type`
+-- 转存表中的数据 `app_global_type`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_hrm_archive`
+-- 表的结构 `app_hrm_archive`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_archive` (
@@ -854,7 +866,7 @@ CREATE TABLE IF NOT EXISTS `app_hrm_archive` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='公司人才库' AUTO_INCREMENT=6 ;
 
 --
--- Dumping data for table `app_hrm_archive`
+-- 转存表中的数据 `app_hrm_archive`
 --
 
 INSERT INTO `app_hrm_archive` (`archive_id`, `resume_id`, `job_id`, `archive_source`, `archive_star`) VALUES
@@ -863,7 +875,7 @@ INSERT INTO `app_hrm_archive` (`archive_id`, `resume_id`, `job_id`, `archive_sou
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_hrm_employee`
+-- 表的结构 `app_hrm_employee`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_employee` (
@@ -892,10 +904,10 @@ CREATE TABLE IF NOT EXISTS `app_hrm_employee` (
   `entry_datetime` datetime default NULL COMMENT '录入日期',
   PRIMARY KEY  (`emp_id`),
   UNIQUE KEY `emp_no` (`emp_no`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='员工档案表' AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='员工档案表' AUTO_INCREMENT=18 ;
 
 --
--- Dumping data for table `app_hrm_employee`
+-- 转存表中的数据 `app_hrm_employee`
 --
 
 INSERT INTO `app_hrm_employee` (`emp_id`, `emp_no`, `dep_id`, `district_id`, `emp_name`, `position_id`, `birthdate`, `phone_no`, `short_no`, `office_phone`, `urgency_contacts`, `positive_due_date`, `contract_end_date`, `onboard_status`, `teacher_star`, `consult_star`, `teach_class`, `teach_subject`, `resume_id`, `status`, `onboard_date`, `entry_id`, `entry_datetime`) VALUES
@@ -907,12 +919,15 @@ INSERT INTO `app_hrm_employee` (`emp_id`, `emp_no`, `dep_id`, `district_id`, `em
 (11, '00012001', 19, 3, '钱七', 10, NULL, '1234512', '', '', '', NULL, NULL, 2, NULL, NULL, NULL, NULL, 25, NULL, '2012-07-26', 1, '2012-07-26 13:07:55'),
 (12, '00013001', 20, 3, '孙八', 11, NULL, '123212312', '', '', '', NULL, NULL, 2, NULL, NULL, NULL, NULL, 26, NULL, '2012-07-26', 1, '2012-07-26 13:11:12'),
 (13, '00014001', 21, 3, '周九', 12, NULL, '12312132', '', '', '', NULL, NULL, 2, NULL, NULL, NULL, NULL, 27, NULL, '2012-07-26', 1, '2012-07-26 13:11:44'),
-(14, '00002002', 16, 1, '教师1', 7, NULL, '28056121', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, 29, NULL, '2012-07-26', 1, '2012-07-26 14:07:49');
+(14, '00002002', 16, 1, '教师1', 7, NULL, '28056121', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, 29, NULL, '2012-07-26', 1, '2012-07-26 14:07:49'),
+(15, '00001002', 15, 1, 'test2', 26, NULL, '121321321', '', '', '', NULL, NULL, 2, NULL, NULL, NULL, NULL, 33, NULL, '2012-07-31', 1, '2012-07-31 09:53:30'),
+(16, '00006001', 24, 1, 'test3', 22, NULL, '112312321', '', '', '', NULL, NULL, 2, NULL, NULL, NULL, NULL, 34, NULL, '2012-07-31', 1, '2012-07-31 09:54:33'),
+(17, '00006002', 24, 1, 'test4', 23, NULL, '12312312', '', '', '', NULL, NULL, 2, NULL, NULL, NULL, NULL, 35, NULL, '2012-07-31', 1, '2012-07-31 09:54:54');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_hrm_employee_develop`
+-- 表的结构 `app_hrm_employee_develop`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_employee_develop` (
@@ -938,14 +953,14 @@ CREATE TABLE IF NOT EXISTS `app_hrm_employee_develop` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='人资申请' AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `app_hrm_employee_develop`
+-- 转存表中的数据 `app_hrm_employee_develop`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_hrm_employee_profile`
+-- 表的结构 `app_hrm_employee_profile`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_employee_profile` (
@@ -957,14 +972,14 @@ CREATE TABLE IF NOT EXISTS `app_hrm_employee_profile` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='员工基本信息表' AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `app_hrm_employee_profile`
+-- 转存表中的数据 `app_hrm_employee_profile`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_hrm_employee_roadmap`
+-- 表的结构 `app_hrm_employee_roadmap`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_employee_roadmap` (
@@ -979,10 +994,10 @@ CREATE TABLE IF NOT EXISTS `app_hrm_employee_roadmap` (
   `type` tinyint(4) NOT NULL COMMENT '类型',
   `date` datetime NOT NULL COMMENT '发生时间',
   PRIMARY KEY  (`roadmap_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='员工历程' AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='员工历程' AUTO_INCREMENT=17 ;
 
 --
--- Dumping data for table `app_hrm_employee_roadmap`
+-- 转存表中的数据 `app_hrm_employee_roadmap`
 --
 
 INSERT INTO `app_hrm_employee_roadmap` (`roadmap_id`, `emp_id`, `orginal_depid`, `orginal_districtid`, `orginal_positionid`, `dst_depid`, `dst_districtid`, `dst_positionid`, `type`, `date`) VALUES
@@ -998,12 +1013,15 @@ INSERT INTO `app_hrm_employee_roadmap` (`roadmap_id`, `emp_id`, `orginal_depid`,
 (10, 11, 19, 3, 10, NULL, NULL, NULL, 1, '2012-07-26 00:00:00'),
 (11, 12, 20, 3, 11, NULL, NULL, NULL, 1, '2012-07-26 00:00:00'),
 (12, 13, 21, 3, 12, NULL, NULL, NULL, 1, '2012-07-26 00:00:00'),
-(13, 14, 16, 1, 7, NULL, NULL, NULL, 1, '2012-07-26 14:07:49');
+(13, 14, 16, 1, 7, NULL, NULL, NULL, 1, '2012-07-26 14:07:49'),
+(14, 15, 15, 1, 26, NULL, NULL, NULL, 1, '2012-07-31 00:00:00'),
+(15, 16, 24, 1, 22, NULL, NULL, NULL, 1, '2012-07-31 00:00:00'),
+(16, 17, 24, 1, 23, NULL, NULL, NULL, 1, '2012-07-31 00:00:00');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_hrm_hire_entries`
+-- 表的结构 `app_hrm_hire_entries`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_hire_entries` (
@@ -1022,7 +1040,7 @@ CREATE TABLE IF NOT EXISTS `app_hrm_hire_entries` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='员工入职安排表' AUTO_INCREMENT=11 ;
 
 --
--- Dumping data for table `app_hrm_hire_entries`
+-- 转存表中的数据 `app_hrm_hire_entries`
 --
 
 INSERT INTO `app_hrm_hire_entries` (`entry_id`, `issue_id`, `district_id`, `dep_id`, `position_id`, `charger_id`, `plan_date`, `act_date`, `inspect_status`, `cstatus`, `fstatus`) VALUES
@@ -1032,7 +1050,7 @@ INSERT INTO `app_hrm_hire_entries` (`entry_id`, `issue_id`, `district_id`, `dep_
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_hrm_hire_interviews`
+-- 表的结构 `app_hrm_hire_interviews`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_hire_interviews` (
@@ -1049,7 +1067,7 @@ CREATE TABLE IF NOT EXISTS `app_hrm_hire_interviews` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='招聘面试' AUTO_INCREMENT=15 ;
 
 --
--- Dumping data for table `app_hrm_hire_interviews`
+-- 转存表中的数据 `app_hrm_hire_interviews`
 --
 
 INSERT INTO `app_hrm_hire_interviews` (`hw_id`, `hissue_id`, `interview_address`, `interview_date`, `interviewer_id`, `meto`, `session_sn`, `state`, `comments`) VALUES
@@ -1058,7 +1076,7 @@ INSERT INTO `app_hrm_hire_interviews` (`hw_id`, `hissue_id`, `interview_address`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_hrm_hire_interviews_file`
+-- 表的结构 `app_hrm_hire_interviews_file`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_hire_interviews_file` (
@@ -1068,14 +1086,14 @@ CREATE TABLE IF NOT EXISTS `app_hrm_hire_interviews_file` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='面试附件';
 
 --
--- Dumping data for table `app_hrm_hire_interviews_file`
+-- 转存表中的数据 `app_hrm_hire_interviews_file`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_hrm_hire_issue`
+-- 表的结构 `app_hrm_hire_issue`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_hire_issue` (
@@ -1090,7 +1108,7 @@ CREATE TABLE IF NOT EXISTS `app_hrm_hire_issue` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='当前招聘' AUTO_INCREMENT=25 ;
 
 --
--- Dumping data for table `app_hrm_hire_issue`
+-- 转存表中的数据 `app_hrm_hire_issue`
 --
 
 INSERT INTO `app_hrm_hire_issue` (`hissue_id`, `resume_id`, `hjob_id`, `current_status`, `final_result`, `user_id`, `apply_time`) VALUES
@@ -1101,7 +1119,7 @@ INSERT INTO `app_hrm_hire_issue` (`hissue_id`, `resume_id`, `hjob_id`, `current_
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_hrm_hire_job`
+-- 表的结构 `app_hrm_hire_job`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_hire_job` (
@@ -1131,7 +1149,7 @@ CREATE TABLE IF NOT EXISTS `app_hrm_hire_job` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='招聘岗位发布' AUTO_INCREMENT=7 ;
 
 --
--- Dumping data for table `app_hrm_hire_job`
+-- 转存表中的数据 `app_hrm_hire_job`
 --
 
 INSERT INTO `app_hrm_hire_job` (`hjob_id`, `job_title`, `hjob_districtid`, `hjob_depid`, `hjob_range`, `hjob_visible_districtid`, `end_date`, `hjob_count`, `hjob_condition`, `hjob_address`, `hjob_responsibility`, `hjob_salary`, `reg_fullname`, `reg_date`, `modify_fullname`, `modify_date`, `check_fullname`, `check_opinion`, `check_date`, `status`, `memo`, `isopen`) VALUES
@@ -1142,7 +1160,7 @@ INSERT INTO `app_hrm_hire_job` (`hjob_id`, `job_title`, `hjob_districtid`, `hjob
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_hrm_hire_job_file`
+-- 表的结构 `app_hrm_hire_job_file`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_hire_job_file` (
@@ -1152,7 +1170,7 @@ CREATE TABLE IF NOT EXISTS `app_hrm_hire_job_file` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='招聘岗位附件';
 
 --
--- Dumping data for table `app_hrm_hire_job_file`
+-- 转存表中的数据 `app_hrm_hire_job_file`
 --
 
 INSERT INTO `app_hrm_hire_job_file` (`hjob_id`, `file_id`) VALUES
@@ -1161,7 +1179,7 @@ INSERT INTO `app_hrm_hire_job_file` (`hjob_id`, `file_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_hrm_resume`
+-- 表的结构 `app_hrm_resume`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_resume` (
@@ -1202,10 +1220,10 @@ CREATE TABLE IF NOT EXISTS `app_hrm_resume` (
   `cn_level` tinyint(4) default NULL COMMENT '普通话等级 1=一级甲等, 2=一级乙等, 3=二级甲等, 4=二级乙等, 5=三级甲等, 6=三级乙等, 7=无',
   `source` tinyint(4) default NULL COMMENT '简历来源',
   PRIMARY KEY  (`resume_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='简历管理' AUTO_INCREMENT=33 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='简历管理' AUTO_INCREMENT=36 ;
 
 --
--- Dumping data for table `app_hrm_resume`
+-- 转存表中的数据 `app_hrm_resume`
 --
 
 INSERT INTO `app_hrm_resume` (`resume_id`, `emp_id`, `fullname`, `age`, `birthday`, `address`, `marriage`, `zip`, `sex`, `phone`, `mobile`, `email`, `hobby`, `religion`, `party`, `nationality`, `race`, `birthPlace`, `eduCollege`, `eduDegree`, `eduMajor`, `teacher_major`, `teacher_cert`, `startWorkDate`, `idNo`, `photo`, `status`, `memo`, `registor`, `regTime`, `workCase`, `trainCase`, `projectCase`, `en_level`, `cn_level`, `source`) VALUES
@@ -1219,12 +1237,15 @@ INSERT INTO `app_hrm_resume` (`resume_id`, `emp_id`, `fullname`, `age`, `birthda
 (27, 13, '周九', NULL, NULL, '', 1, NULL, 1, NULL, '12312132', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0),
 (28, NULL, '林立', NULL, NULL, '', 1, NULL, 1, NULL, '28056121', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 2),
 (29, 14, '教师1', NULL, NULL, '', 1, NULL, 1, NULL, '28056121', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0),
-(32, NULL, 'test', NULL, NULL, '', 1, NULL, 1, NULL, '12421', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0);
+(32, NULL, 'test', NULL, NULL, '', 1, NULL, 1, NULL, '12421', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0),
+(33, 15, 'test2', NULL, NULL, '', 1, NULL, 1, NULL, '121321321', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0),
+(34, 16, 'test3', NULL, NULL, '', 1, NULL, 1, NULL, '112312321', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0),
+(35, 17, 'test4', NULL, NULL, '', 1, NULL, 1, NULL, '12312312', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_hrm_resume_file`
+-- 表的结构 `app_hrm_resume_file`
 --
 
 CREATE TABLE IF NOT EXISTS `app_hrm_resume_file` (
@@ -1234,14 +1255,14 @@ CREATE TABLE IF NOT EXISTS `app_hrm_resume_file` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='简历附件';
 
 --
--- Dumping data for table `app_hrm_resume_file`
+-- 转存表中的数据 `app_hrm_resume_file`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_menu`
+-- 表的结构 `app_menu`
 --
 
 CREATE TABLE IF NOT EXISTS `app_menu` (
@@ -1259,7 +1280,7 @@ CREATE TABLE IF NOT EXISTS `app_menu` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统菜单' AUTO_INCREMENT=52 ;
 
 --
--- Dumping data for table `app_menu`
+-- 转存表中的数据 `app_menu`
 --
 
 INSERT INTO `app_menu` (`menu_id`, `menu_title`, `menu_icon`, `menu_url`, `menu_key`, `menu_desc`, `menu_parent`, `menu_order`) VALUES
@@ -1316,7 +1337,7 @@ INSERT INTO `app_menu` (`menu_id`, `menu_title`, `menu_icon`, `menu_url`, `menu_
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_message_entity`
+-- 表的结构 `app_message_entity`
 --
 
 CREATE TABLE IF NOT EXISTS `app_message_entity` (
@@ -1332,7 +1353,7 @@ CREATE TABLE IF NOT EXISTS `app_message_entity` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='短消息' AUTO_INCREMENT=6 ;
 
 --
--- Dumping data for table `app_message_entity`
+-- 转存表中的数据 `app_message_entity`
 --
 
 INSERT INTO `app_message_entity` (`msg_id`, `msg_subject`, `msg_content`, `sender_id`, `sender_name`, `msg_type`, `send_time`) VALUES
@@ -1345,7 +1366,7 @@ INSERT INTO `app_message_entity` (`msg_id`, `msg_subject`, `msg_content`, `sende
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_message_in`
+-- 表的结构 `app_message_in`
 --
 
 CREATE TABLE IF NOT EXISTS `app_message_in` (
@@ -1361,7 +1382,7 @@ CREATE TABLE IF NOT EXISTS `app_message_in` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='收件箱' AUTO_INCREMENT=11 ;
 
 --
--- Dumping data for table `app_message_in`
+-- 转存表中的数据 `app_message_in`
 --
 
 INSERT INTO `app_message_in` (`receive_id`, `msg_id`, `user_id`, `user_name`, `flag_read`, `flag_del`, `receiv_time`) VALUES
@@ -1379,7 +1400,7 @@ INSERT INTO `app_message_in` (`receive_id`, `msg_id`, `user_id`, `user_name`, `f
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_process_definition`
+-- 表的结构 `app_process_definition`
 --
 
 CREATE TABLE IF NOT EXISTS `app_process_definition` (
@@ -1395,7 +1416,7 @@ CREATE TABLE IF NOT EXISTS `app_process_definition` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程定义' AUTO_INCREMENT=19 ;
 
 --
--- Dumping data for table `app_process_definition`
+-- 转存表中的数据 `app_process_definition`
 --
 
 INSERT INTO `app_process_definition` (`def_id`, `type_id`, `def_name`, `def_description`, `filter_poset`, `def_trigger`, `createtime`) VALUES
@@ -1421,7 +1442,7 @@ INSERT INTO `app_process_definition` (`def_id`, `type_id`, `def_name`, `def_desc
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_process_form`
+-- 表的结构 `app_process_form`
 --
 
 CREATE TABLE IF NOT EXISTS `app_process_form` (
@@ -1461,7 +1482,7 @@ CREATE TABLE IF NOT EXISTS `app_process_form` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程表单, 存储保存在运行中的流程表单数据' AUTO_INCREMENT=20 ;
 
 --
--- Dumping data for table `app_process_form`
+-- 转存表中的数据 `app_process_form`
 --
 
 INSERT INTO `app_process_form` (`form_id`, `form_no`, `type_id`, `task_name`, `task_from`, `task_next`, `seq_sn`, `task_type`, `to_rolenames`, `to_distnames`, `to_depnames`, `to_posnames`, `to_usernames`, `audit_rolenames`, `audit_distnames`, `audit_depnames`, `audit_usernames`, `audit_posnames`, `to_userids`, `to_roleids`, `to_distids`, `to_depids`, `to_posids`, `audit_userids`, `audit_roleids`, `audit_distids`, `audit_depids`, `audit_posids`, `audit_date`, `audit_state`, `audit_comments`) VALUES
@@ -1485,7 +1506,7 @@ INSERT INTO `app_process_form` (`form_id`, `form_no`, `type_id`, `task_name`, `t
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_process_history`
+-- 表的结构 `app_process_history`
 --
 
 CREATE TABLE IF NOT EXISTS `app_process_history` (
@@ -1525,7 +1546,7 @@ CREATE TABLE IF NOT EXISTS `app_process_history` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程表单, 存储保存在运行中的流程表单数据' AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `app_process_history`
+-- 转存表中的数据 `app_process_history`
 --
 
 INSERT INTO `app_process_history` (`history_id`, `form_no`, `type_id`, `task_name`, `task_from`, `task_next`, `task_type`, `seq_sn`, `to_rolenames`, `to_distnames`, `to_depnames`, `to_posnames`, `to_usernames`, `audit_rolenames`, `audit_distnames`, `audit_depnames`, `audit_usernames`, `audit_posnames`, `to_userids`, `to_roleids`, `to_distids`, `to_depids`, `to_posids`, `audit_userids`, `audit_roleids`, `audit_distids`, `audit_depids`, `audit_posids`, `audit_date`, `audit_state`, `audit_comments`) VALUES
@@ -1535,7 +1556,7 @@ INSERT INTO `app_process_history` (`history_id`, `form_no`, `type_id`, `task_nam
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_process_task`
+-- 表的结构 `app_process_task`
 --
 
 CREATE TABLE IF NOT EXISTS `app_process_task` (
@@ -1559,7 +1580,7 @@ CREATE TABLE IF NOT EXISTS `app_process_task` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程任务设置' AUTO_INCREMENT=38 ;
 
 --
--- Dumping data for table `app_process_task`
+-- 转存表中的数据 `app_process_task`
 --
 
 INSERT INTO `app_process_task` (`task_id`, `def_id`, `task_name`, `task_from`, `task_next`, `seq_sn`, `to_rolenames`, `to_depnames`, `to_posnames`, `to_usernames`, `to_userids`, `to_roleids`, `to_depids`, `to_posids`, `comments`, `task_type`) VALUES
@@ -1592,7 +1613,7 @@ INSERT INTO `app_process_task` (`task_id`, `def_id`, `task_name`, `task_from`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_process_type`
+-- 表的结构 `app_process_type`
 --
 
 CREATE TABLE IF NOT EXISTS `app_process_type` (
@@ -1606,7 +1627,7 @@ CREATE TABLE IF NOT EXISTS `app_process_type` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程分类' AUTO_INCREMENT=10 ;
 
 --
--- Dumping data for table `app_process_type`
+-- 转存表中的数据 `app_process_type`
 --
 
 INSERT INTO `app_process_type` (`type_id`, `type_name`, `type_key`, `type_desc`, `type_slug`, `type_parent`) VALUES
@@ -1623,7 +1644,7 @@ INSERT INTO `app_process_type` (`type_id`, `type_name`, `type_key`, `type_desc`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_role`
+-- 表的结构 `app_role`
 --
 
 CREATE TABLE IF NOT EXISTS `app_role` (
@@ -1637,21 +1658,26 @@ CREATE TABLE IF NOT EXISTS `app_role` (
   `role_edit` tinyint(4) NOT NULL default '1' COMMENT '角色是否可以进行修改, 1=可以, 0=不可以',
   PRIMARY KEY  (`role_id`),
   UNIQUE KEY `role_key` (`role_key`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='角色表' AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='角色表' AUTO_INCREMENT=15 ;
 
 --
--- Dumping data for table `app_role`
+-- 转存表中的数据 `app_role`
 --
 
 INSERT INTO `app_role` (`role_id`, `role_name`, `role_key`, `role_desc`, `role_status`, `role_rights`, `role_type`, `role_edit`) VALUES
-(1, '超级管理员', 'ROLE_SUPER', NULL, 1, '__ALL', 0, 0),
-(5, '校长', 'ROLE_MASTER', 'teset', 1, '_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_ARRANGE,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_RESUME_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_INTERVIEW_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY,_FUNCKEY_HRM_JOBHIRE_JOB_POST,_FUNCKEY_HRM_JOBHIRE_JOB_APPROVAL,_FUNCKEY_HRM_JOBHIRE_JOB_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_EDIT,_FUNCKEY_HRM_JOBHIRE_JOB_OPENCTRL,_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ENTILE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_ABSENCE,_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ELIMINATE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_ARRANGE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_RESUME_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER,_FUNCKEY_FINAN_EXPENSE_APPROVE,_FUNCKEY_FINAN_EXPENSE_VIEW,_FUNCKEY_FINAN_EXPENSE_APPLY,_FUNCKEY_FINAN_EXPENSE_RECORD_VIEW,_FUNCKEY_FINAN_CONTRACT_APPROVE,_FUNCKEY_FINAN_CONTRACT_APPLY,_FUNCKEY_FINAN_CONTRACT_VIEW,_FUNCKEY_FINAN_CONTRACT_RECORD_VIEW,_FUNCKEY_FLOW_HRM_PROCESS_REMOVE,_FUNCKEY_FLOW_HRM_PROCESS_REFRESH,_FUNCKEY_FLOW_HRM_PROCESS_CONFIGURE,_FUNCKEY_FLOW_HRM_TYPE_REFRESH,_FUNCKEY_FLOW_FINAN_PROC_APPROVE,_FUNCKEY_FLOW_FINAN_TYPE_REFRESH,_FUNCKEY_FLOW_FINAN_PROC_TYPE_REFRESH,_FUNCKEY_FLOW_FINAN_PROC_TYPE_ADD,_FUNCKEY_FLOW_FINAN_PROC_TYPE_EDIT', 1, 1),
-(6, '人资主管', 'ROLE_HR_MASTER', '', 1, '_FUNCKEY_myplan_del,_FUNCKEY_myplan_edit,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_ARRANGE,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_RESUME_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_INTERVIEW_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY,_FUNCKEY_HRM_JOBHIRE_JOB_POST,_FUNCKEY_HRM_JOBHIRE_JOB_APPROVAL,_FUNCKEY_HRM_JOBHIRE_JOB_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_EDIT,_FUNCKEY_HRM_JOBHIRE_JOB_OPENCTRL,_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ENTILE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_ABSENCE,_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ELIMINATE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_ARRANGE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_RESUME_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER', 0, 1);
+(7, '普通员工（总部）', 'ROLE_EMPLOYEE_HEADOFFICE', '', 1, '_FUNCKEY_PERSONAL_TASK_ACCOMPLISH,_FUNCKEY_PERSONAL_TASK_APPROVES_VIEW,_FUNCKEY_PERSONAL_TASK_POSTPONE,_FUNCKEY_PERSONAL_TASK_VIEW,_FUNCKEY_PERSONAL_TASK_MYVIEW,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_APPLY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_RECOMMEND,_FUNCKEY_PERSONAL_JOBAPPLY_HISTORY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_VIEW,_FUNCKEY_PERSONAL_JOBAPPLY_RESUME_VIEW,_FUNCKEY_PERSONAL_APPLICATION_POST,_FUNCKEY_PERSONAL_APPLICATION_VIEW', 0, 1),
+(8, '普通员工(校区)', 'ROLE_EMPLOYEE_SCHOOL', '普通员工(校区)', 1, '_FUNCKEY_PERSONAL_TASK_ACCOMPLISH,_FUNCKEY_PERSONAL_TASK_POSTPONE,_FUNCKEY_PERSONAL_TASK_VIEW,_FUNCKEY_PERSONAL_TASK_MYVIEW', 1, 1),
+(9, '管理员', 'ROLE_ADMIN', '', 1, '_FUNCKEY_PERSONAL_TASK_ACCOMPLISH_APPROVE,_FUNCKEY_PERSONAL_TASK_ACCOMPLISH,_FUNCKEY_PERSONAL_TASK_APPROVES_VIEW,_FUNCKEY_PERSONAL_TASK_POSTPONE_APPROVE,_FUNCKEY_PERSONAL_TASK_POSTPONE,_FUNCKEY_PERSONAL_TASK_ADD,_FUNCKEY_PERSONAL_TASK_EDIT,_FUNCKEY_PERSONAL_TASK_VIEW,_FUNCKEY_PERSONAL_TASK_MYVIEW,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_APPLY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_RECOMMEND,_FUNCKEY_PERSONAL_JOBAPPLY_HISTORY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_VIEW,_FUNCKEY_PERSONAL_JOBAPPLY_RESUME_VIEW,_FUNCKEY_PERSONAL_INTERVIEW_HISTORY,_FUNCKEY_PERSONAL_INTERVIEW_COMMIT,_FUNCKEY_PERSONAL_INTERVIEW_JOBVIEW,_FUNCKEY_PERSONAL_INTERVIEW_RESUMEVIEW,_FUNCKEY_PERSONAL_INTERVIEW_RECORDS_VIEW,_FUNCKEY_PERSONAL_APPLICATION_POST,_FUNCKEY_PERSONAL_APPLICATION_VIEW,_FUNCKEY_ADMIN_NEWS_DELETE,_FUNCKEY_ADMIN_NEWS_ADD,_FUNCKEY_ADMIN_NEWS_APPROVING,_FUNCKEY_ADMIN_NEWS_APPROVE,_FUNCKEY_ADMIN_NEWS_TOP,_FUNCKEY_ADMIN_NEWS_EDIT,_FUNCKEY_ADMIN_TASK_REMOVE,_FUNCKEY_ADMIN_TASK_APPROVE,_FUNCKEY_ADMIN_TASK_VIEW,_FUNCKEY_ADMIN_TASK_EDIT,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_ARRANGE,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_RESUME_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_INTERVIEW_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY,_FUNCKEY_HRM_JOBHIRE_JOB_POST,_FUNCKEY_HRM_JOBHIRE_JOB_APPROVAL,_FUNCKEY_HRM_JOBHIRE_JOB_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_EDIT,_FUNCKEY_HRM_JOBHIRE_JOB_OPENCTRL,_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ENTILE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_ABSENCE,_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ELIMINATE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_ARRANGE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_RESUME_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER,_FUNCKEY_HRM_ARCHIVE_RESUME_REMOVE,_FUNCKEY_HRM_ARCHIVE_RESUME_VIEW,_FUNCKEY_HRM_ENTRY_OP_ONBOARD,_FUNCKEY_HRM_ENTRY_OP_ABSENCE,_FUNCKEY_HRM_ENTRY_OP_QUALIFY,_FUNCKEY_HRM_EMPLOYEE_REMOVE,_FUNCKEY_HRM_EMPLOYEE_UPDATE,_FUNCKEY_HRM_EMPLOYEE_VIEW,_FUNCKEY_HRM_EMPLOYEE_ADD,_FUNCKEY_HRM_DEVELOP_VIEWDATA,_FUNCKEY_HRM_DEVELOP_FINALIZE,_FUNCKEY_HRM_DEVELOP_VIEWAPPROVALS,_FUNCKEY_HRM_DEVELOP_APPROVE,_FUNCKEY_FINAN_EXPENSE_APPROVE,_FUNCKEY_FINAN_EXPENSE_VIEW,_FUNCKEY_FINAN_EXPENSE_APPLY,_FUNCKEY_FINAN_EXPENSE_RECORD_VIEW,_FUNCKEY_FINAN_CONTRACT_APPROVE,_FUNCKEY_FINAN_CONTRACT_APPLY,_FUNCKEY_FINAN_CONTRACT_VIEW,_FUNCKEY_FINAN_CONTRACT_RECORD_VIEW,_FUNCKEY_FLOW_HRM_PROCESS_REMOVE,_FUNCKEY_FLOW_HRM_PROCESS_REFRESH,_FUNCKEY_FLOW_HRM_PROCESS_CONFIGURE,_FUNCKEY_FLOW_HRM_TYPE_REFRESH,_FUNCKEY_FLOW_FINAN_PROC_APPROVE,_FUNCKEY_FLOW_FINAN_TYPE_REFRESH,_FUNCKEY_FLOW_FINAN_PROC_TYPE_REMOVE,_FUNCKEY_FLOW_FINAN_PROC_TYPE_REFRESH,_FUNCKEY_FLOW_FINAN_PROC_TYPE_ADD,_FUNCKEY_FLOW_FINAN_PROC_TYPE_EDIT,_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_REMOVE,_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_ADD,_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_EDIT,_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_REMOVE,_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_REFRESH,_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_ADD,_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_EDIT,_FUNCKEY_SYSTEM_SCHOOL_DEP_REMOVE,_FUNCKEY_SYSTEM_SCHOOL_DEP_REFRESH,_FUNCKEY_SYSTEM_SCHOOL_DEP_ADD,_FUNCKEY_SYSTEM_SCHOOL_DEP_EDIT,_FUNCKEY_SYSTEM_SCHOOL_POSET_REMOVE,_FUNCKEY_SYSTEM_SCHOOL_POSET_ADD,_FUNCKEY_SYSTEM_SCHOOL_POSET_EDIT,_FUNCKEY_SYSTEM_ROLE_REMOVE,_FUNCKEY_SYSTEM_ROLE_VIEW,_FUNCKEY_SYSTEM_ROLE_ADD,_FUNCKEY_SYSTEM_ROLE_EDIT,_FUNCKEY_SYSTEM_MENU_FUNC_REMOVE,_FUNCKEY_SYSTEM_MENU_FUNC_REFRESH,_FUNCKEY_SYSTEM_MENU_FUNC_ADD,_FUNCKEY_SYSTEM_MENU_FUNC_EDIT,_FUNCKEY_SYSTEM_MENU_REFRESH,_FUNCKEY_SYSTEM_MENU_ADD,_FUNCKEY_SYSTEM_MENU_EDIT', 0, 1),
+(10, '行政管理权限', 'ROLE_ADMINISTRATIVE_MANAGE', '', 1, '_FUNCKEY_PERSONAL_TASK_ACCOMPLISH_APPROVE,_FUNCKEY_PERSONAL_TASK_ACCOMPLISH,_FUNCKEY_PERSONAL_TASK_APPROVES_VIEW,_FUNCKEY_PERSONAL_TASK_POSTPONE_APPROVE,_FUNCKEY_PERSONAL_TASK_POSTPONE,_FUNCKEY_PERSONAL_TASK_ADD,_FUNCKEY_PERSONAL_TASK_EDIT,_FUNCKEY_PERSONAL_TASK_VIEW,_FUNCKEY_PERSONAL_TASK_MYVIEW,_FUNCKEY_ADMIN_NEWS_DELETE,_FUNCKEY_ADMIN_NEWS_ADD,_FUNCKEY_ADMIN_NEWS_APPROVING,_FUNCKEY_ADMIN_NEWS_APPROVE,_FUNCKEY_ADMIN_NEWS_TOP,_FUNCKEY_ADMIN_NEWS_EDIT,_FUNCKEY_ADMIN_TASK_REMOVE,_FUNCKEY_ADMIN_TASK_APPROVE,_FUNCKEY_ADMIN_TASK_VIEW,_FUNCKEY_ADMIN_TASK_EDIT', 0, 1),
+(11, '人资管理权限', 'ROLE_HR_MANAGE', '', 1, '_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_ARRANGE,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_RESUME_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_INTERVIEW_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY,_FUNCKEY_HRM_JOBHIRE_JOB_POST,_FUNCKEY_HRM_JOBHIRE_JOB_APPROVAL,_FUNCKEY_HRM_JOBHIRE_JOB_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_EDIT,_FUNCKEY_HRM_JOBHIRE_JOB_OPENCTRL,_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ENTILE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_ABSENCE,_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ELIMINATE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_ARRANGE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_RESUME_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER,_FUNCKEY_HRM_ARCHIVE_RESUME_REMOVE,_FUNCKEY_HRM_ARCHIVE_RESUME_VIEW,_FUNCKEY_HRM_ENTRY_OP_ONBOARD,_FUNCKEY_HRM_ENTRY_OP_ABSENCE,_FUNCKEY_HRM_ENTRY_OP_QUALIFY,_FUNCKEY_HRM_EMPLOYEE_REMOVE,_FUNCKEY_HRM_EMPLOYEE_UPDATE,_FUNCKEY_HRM_EMPLOYEE_VIEW,_FUNCKEY_HRM_EMPLOYEE_ADD,_FUNCKEY_HRM_DEVELOP_VIEWDATA,_FUNCKEY_HRM_DEVELOP_FINALIZE,_FUNCKEY_HRM_DEVELOP_VIEWAPPROVALS,_FUNCKEY_HRM_DEVELOP_APPROVE', 0, 1),
+(12, '财务管理权限', 'ROLE_FINANCIAL_MANAGE', '', 1, '_FUNCKEY_FINAN_EXPENSE_APPROVE,_FUNCKEY_FINAN_EXPENSE_VIEW,_FUNCKEY_FINAN_EXPENSE_APPLY,_FUNCKEY_FINAN_EXPENSE_RECORD_VIEW,_FUNCKEY_FINAN_CONTRACT_APPROVE,_FUNCKEY_FINAN_CONTRACT_APPLY,_FUNCKEY_FINAN_CONTRACT_VIEW,_FUNCKEY_FINAN_CONTRACT_RECORD_VIEW', 0, 1),
+(13, '系统管理权限', 'ROLE_SYSTEM_MANAGE', '', 1, '_FUNCKEY_FLOW_HRM_PROCESS_REMOVE,_FUNCKEY_FLOW_HRM_PROCESS_REFRESH,_FUNCKEY_FLOW_HRM_PROCESS_CONFIGURE,_FUNCKEY_FLOW_HRM_TYPE_REFRESH,_FUNCKEY_FLOW_FINAN_PROC_APPROVE,_FUNCKEY_FLOW_FINAN_TYPE_REFRESH,_FUNCKEY_FLOW_FINAN_PROC_TYPE_REMOVE,_FUNCKEY_FLOW_FINAN_PROC_TYPE_REFRESH,_FUNCKEY_FLOW_FINAN_PROC_TYPE_ADD,_FUNCKEY_FLOW_FINAN_PROC_TYPE_EDIT,_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_REMOVE,_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_ADD,_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_EDIT,_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_REMOVE,_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_REFRESH,_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_ADD,_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_EDIT,_FUNCKEY_SYSTEM_SCHOOL_DEP_REMOVE,_FUNCKEY_SYSTEM_SCHOOL_DEP_REFRESH,_FUNCKEY_SYSTEM_SCHOOL_DEP_ADD,_FUNCKEY_SYSTEM_SCHOOL_DEP_EDIT,_FUNCKEY_SYSTEM_SCHOOL_POSET_REMOVE,_FUNCKEY_SYSTEM_SCHOOL_POSET_ADD,_FUNCKEY_SYSTEM_SCHOOL_POSET_EDIT,_FUNCKEY_SYSTEM_ROLE_REMOVE,_FUNCKEY_SYSTEM_ROLE_VIEW,_FUNCKEY_SYSTEM_ROLE_ADD,_FUNCKEY_SYSTEM_ROLE_EDIT,_FUNCKEY_SYSTEM_MENU_FUNC_REMOVE,_FUNCKEY_SYSTEM_MENU_FUNC_REFRESH,_FUNCKEY_SYSTEM_MENU_FUNC_ADD,_FUNCKEY_SYSTEM_MENU_FUNC_EDIT,_FUNCKEY_SYSTEM_MENU_REFRESH,_FUNCKEY_SYSTEM_MENU_ADD,_FUNCKEY_SYSTEM_MENU_EDIT', 0, 1),
+(14, '校区管理员', 'ROLE_SCHOOL_ADMIN', '', 1, '_FUNCKEY_PERSONAL_TASK_ACCOMPLISH_APPROVE,_FUNCKEY_PERSONAL_TASK_ACCOMPLISH,_FUNCKEY_PERSONAL_TASK_APPROVES_VIEW,_FUNCKEY_PERSONAL_TASK_POSTPONE_APPROVE,_FUNCKEY_PERSONAL_TASK_POSTPONE,_FUNCKEY_PERSONAL_TASK_ADD,_FUNCKEY_PERSONAL_TASK_EDIT,_FUNCKEY_PERSONAL_TASK_VIEW,_FUNCKEY_PERSONAL_TASK_MYVIEW,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_APPLY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_RECOMMEND,_FUNCKEY_PERSONAL_JOBAPPLY_HISTORY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_VIEW,_FUNCKEY_PERSONAL_JOBAPPLY_RESUME_VIEW,_FUNCKEY_PERSONAL_INTERVIEW_HISTORY,_FUNCKEY_PERSONAL_INTERVIEW_COMMIT,_FUNCKEY_PERSONAL_INTERVIEW_JOBVIEW,_FUNCKEY_PERSONAL_INTERVIEW_RESUMEVIEW,_FUNCKEY_PERSONAL_INTERVIEW_RECORDS_VIEW,_FUNCKEY_PERSONAL_APPLICATION_POST,_FUNCKEY_PERSONAL_APPLICATION_VIEW,_FUNCKEY_ADMIN_NEWS_DELETE,_FUNCKEY_ADMIN_NEWS_ADD,_FUNCKEY_ADMIN_NEWS_APPROVING,_FUNCKEY_ADMIN_NEWS_APPROVE,_FUNCKEY_ADMIN_NEWS_TOP,_FUNCKEY_ADMIN_NEWS_EDIT,_FUNCKEY_ADMIN_TASK_REMOVE,_FUNCKEY_ADMIN_TASK_APPROVE,_FUNCKEY_ADMIN_TASK_VIEW,_FUNCKEY_ADMIN_TASK_EDIT,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_ARRANGE,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_RESUME_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_INTERVIEW_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY,_FUNCKEY_HRM_JOBHIRE_JOB_POST,_FUNCKEY_HRM_JOBHIRE_JOB_APPROVAL,_FUNCKEY_HRM_JOBHIRE_JOB_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_EDIT,_FUNCKEY_HRM_JOBHIRE_JOB_OPENCTRL,_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ENTILE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_ABSENCE,_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ELIMINATE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_ARRANGE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_RESUME_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER,_FUNCKEY_HRM_ARCHIVE_RESUME_REMOVE,_FUNCKEY_HRM_ARCHIVE_RESUME_VIEW,_FUNCKEY_HRM_ENTRY_OP_ONBOARD,_FUNCKEY_HRM_ENTRY_OP_ABSENCE,_FUNCKEY_HRM_ENTRY_OP_QUALIFY,_FUNCKEY_HRM_EMPLOYEE_REMOVE,_FUNCKEY_HRM_EMPLOYEE_UPDATE,_FUNCKEY_HRM_EMPLOYEE_VIEW,_FUNCKEY_HRM_EMPLOYEE_ADD,_FUNCKEY_HRM_DEVELOP_VIEWDATA,_FUNCKEY_HRM_DEVELOP_FINALIZE,_FUNCKEY_HRM_DEVELOP_VIEWAPPROVALS,_FUNCKEY_HRM_DEVELOP_APPROVE,_FUNCKEY_FINAN_EXPENSE_APPROVE,_FUNCKEY_FINAN_EXPENSE_VIEW,_FUNCKEY_FINAN_EXPENSE_APPLY,_FUNCKEY_FINAN_EXPENSE_RECORD_VIEW,_FUNCKEY_FINAN_CONTRACT_APPROVE,_FUNCKEY_FINAN_CONTRACT_APPLY,_FUNCKEY_FINAN_CONTRACT_VIEW,_FUNCKEY_FINAN_CONTRACT_RECORD_VIEW,_FUNCKEY_FLOW_HRM_PROCESS_REMOVE,_FUNCKEY_FLOW_HRM_PROCESS_REFRESH,_FUNCKEY_FLOW_HRM_PROCESS_CONFIGURE,_FUNCKEY_FLOW_HRM_TYPE_REFRESH,_FUNCKEY_FLOW_FINAN_PROC_APPROVE,_FUNCKEY_FLOW_FINAN_TYPE_REFRESH,_FUNCKEY_FLOW_FINAN_PROC_TYPE_REMOVE,_FUNCKEY_FLOW_FINAN_PROC_TYPE_REFRESH,_FUNCKEY_FLOW_FINAN_PROC_TYPE_ADD,_FUNCKEY_FLOW_FINAN_PROC_TYPE_EDIT', 1, 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_role_func`
+-- 表的结构 `app_role_func`
 --
 
 CREATE TABLE IF NOT EXISTS `app_role_func` (
@@ -1663,64 +1689,303 @@ CREATE TABLE IF NOT EXISTS `app_role_func` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色权限表';
 
 --
--- Dumping data for table `app_role_func`
+-- 转存表中的数据 `app_role_func`
 --
 
 INSERT INTO `app_role_func` (`role_id`, `func_id`) VALUES
-(5, 5),
-(5, 6),
-(5, 7),
-(5, 8),
-(5, 9),
-(5, 10),
-(5, 11),
-(5, 12),
-(5, 13),
-(5, 14),
-(5, 15),
-(5, 16),
-(5, 17),
-(5, 18),
-(5, 19),
-(5, 20),
-(5, 32),
-(5, 33),
-(5, 34),
-(5, 35),
-(5, 36),
-(5, 37),
-(5, 38),
-(5, 39),
-(5, 51),
-(5, 52),
-(5, 53),
-(5, 54),
-(5, 55),
-(5, 56),
-(5, 57),
-(5, 58),
-(5, 59),
-(6, 5),
-(6, 6),
-(6, 7),
-(6, 8),
-(6, 9),
-(6, 10),
-(6, 11),
-(6, 12),
-(6, 13),
-(6, 14),
-(6, 15),
-(6, 16),
-(6, 17),
-(6, 18),
-(6, 19),
-(6, 20);
+(7, 73),
+(7, 78),
+(7, 79),
+(7, 82),
+(7, 83),
+(7, 84),
+(7, 88),
+(7, 89),
+(7, 90),
+(7, 91),
+(7, 98),
+(7, 99),
+(8, 78),
+(8, 79),
+(8, 83),
+(8, 84),
+(9, 5),
+(9, 6),
+(9, 7),
+(9, 8),
+(9, 9),
+(9, 10),
+(9, 11),
+(9, 12),
+(9, 13),
+(9, 14),
+(9, 15),
+(9, 16),
+(9, 17),
+(9, 18),
+(9, 19),
+(9, 20),
+(9, 21),
+(9, 22),
+(9, 23),
+(9, 24),
+(9, 25),
+(9, 26),
+(9, 27),
+(9, 28),
+(9, 29),
+(9, 30),
+(9, 31),
+(9, 32),
+(9, 33),
+(9, 34),
+(9, 35),
+(9, 36),
+(9, 37),
+(9, 38),
+(9, 39),
+(9, 40),
+(9, 41),
+(9, 42),
+(9, 43),
+(9, 44),
+(9, 45),
+(9, 46),
+(9, 47),
+(9, 48),
+(9, 49),
+(9, 50),
+(9, 51),
+(9, 52),
+(9, 53),
+(9, 54),
+(9, 55),
+(9, 56),
+(9, 57),
+(9, 58),
+(9, 59),
+(9, 60),
+(9, 61),
+(9, 62),
+(9, 63),
+(9, 64),
+(9, 65),
+(9, 66),
+(9, 67),
+(9, 68),
+(9, 69),
+(9, 70),
+(9, 71),
+(9, 72),
+(9, 73),
+(9, 74),
+(9, 75),
+(9, 76),
+(9, 77),
+(9, 78),
+(9, 79),
+(9, 80),
+(9, 81),
+(9, 82),
+(9, 83),
+(9, 84),
+(9, 85),
+(9, 86),
+(9, 87),
+(9, 88),
+(9, 89),
+(9, 90),
+(9, 91),
+(9, 92),
+(9, 93),
+(9, 94),
+(9, 95),
+(9, 96),
+(9, 97),
+(9, 98),
+(9, 99),
+(9, 100),
+(9, 101),
+(9, 102),
+(9, 103),
+(9, 104),
+(9, 105),
+(9, 106),
+(9, 107),
+(10, 78),
+(10, 79),
+(10, 80),
+(10, 81),
+(10, 82),
+(10, 83),
+(10, 84),
+(10, 85),
+(10, 86),
+(10, 92),
+(10, 93),
+(10, 94),
+(10, 95),
+(10, 102),
+(10, 103),
+(10, 104),
+(10, 105),
+(10, 106),
+(10, 107),
+(11, 5),
+(11, 6),
+(11, 7),
+(11, 8),
+(11, 9),
+(11, 10),
+(11, 11),
+(11, 12),
+(11, 13),
+(11, 14),
+(11, 15),
+(11, 16),
+(11, 17),
+(11, 18),
+(11, 19),
+(11, 20),
+(11, 21),
+(11, 22),
+(11, 23),
+(11, 24),
+(11, 25),
+(11, 26),
+(11, 27),
+(11, 28),
+(11, 29),
+(11, 30),
+(11, 31),
+(11, 96),
+(11, 97),
+(12, 32),
+(12, 33),
+(12, 34),
+(12, 35),
+(12, 36),
+(12, 37),
+(12, 38),
+(12, 39),
+(13, 40),
+(13, 41),
+(13, 42),
+(13, 43),
+(13, 44),
+(13, 45),
+(13, 46),
+(13, 47),
+(13, 48),
+(13, 49),
+(13, 50),
+(13, 51),
+(13, 52),
+(13, 53),
+(13, 54),
+(13, 55),
+(13, 56),
+(13, 57),
+(13, 58),
+(13, 59),
+(13, 60),
+(13, 61),
+(13, 62),
+(13, 63),
+(13, 64),
+(13, 65),
+(13, 66),
+(13, 67),
+(13, 68),
+(13, 69),
+(13, 70),
+(13, 71),
+(13, 72),
+(13, 100),
+(13, 101),
+(14, 5),
+(14, 6),
+(14, 7),
+(14, 8),
+(14, 9),
+(14, 10),
+(14, 11),
+(14, 12),
+(14, 13),
+(14, 14),
+(14, 15),
+(14, 16),
+(14, 17),
+(14, 18),
+(14, 19),
+(14, 20),
+(14, 21),
+(14, 22),
+(14, 23),
+(14, 24),
+(14, 25),
+(14, 26),
+(14, 27),
+(14, 28),
+(14, 29),
+(14, 30),
+(14, 31),
+(14, 32),
+(14, 33),
+(14, 34),
+(14, 35),
+(14, 36),
+(14, 37),
+(14, 38),
+(14, 39),
+(14, 51),
+(14, 52),
+(14, 53),
+(14, 54),
+(14, 55),
+(14, 56),
+(14, 57),
+(14, 58),
+(14, 59),
+(14, 73),
+(14, 74),
+(14, 75),
+(14, 76),
+(14, 77),
+(14, 78),
+(14, 79),
+(14, 80),
+(14, 81),
+(14, 82),
+(14, 83),
+(14, 84),
+(14, 85),
+(14, 86),
+(14, 87),
+(14, 88),
+(14, 89),
+(14, 90),
+(14, 91),
+(14, 92),
+(14, 93),
+(14, 94),
+(14, 95),
+(14, 96),
+(14, 97),
+(14, 98),
+(14, 99),
+(14, 101),
+(14, 102),
+(14, 103),
+(14, 104),
+(14, 105),
+(14, 106),
+(14, 107);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_role_menu`
+-- 表的结构 `app_role_menu`
 --
 
 CREATE TABLE IF NOT EXISTS `app_role_menu` (
@@ -1730,63 +1995,163 @@ CREATE TABLE IF NOT EXISTS `app_role_menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色菜单';
 
 --
--- Dumping data for table `app_role_menu`
+-- 转存表中的数据 `app_role_menu`
 --
 
 INSERT INTO `app_role_menu` (`role_id`, `menu_id`) VALUES
-(5, 3),
-(5, 5),
-(5, 6),
-(5, 7),
-(5, 8),
-(5, 10),
-(5, 12),
-(5, 13),
-(5, 14),
-(5, 18),
-(5, 19),
-(5, 20),
-(5, 21),
-(5, 22),
-(5, 23),
-(5, 24),
-(5, 28),
-(5, 29),
-(5, 30),
-(5, 31),
-(5, 45),
-(5, 46),
-(5, 48),
-(5, 49),
-(5, 50),
-(5, 51),
-(6, 3),
-(6, 4),
-(6, 8),
-(6, 9),
-(6, 10),
-(6, 12),
-(6, 18),
-(6, 19),
-(6, 25),
-(6, 32),
-(6, 33),
-(6, 34),
-(6, 35),
-(6, 36),
-(6, 37),
-(6, 38),
-(6, 45),
-(6, 46),
-(6, 48),
-(6, 49),
-(6, 50),
-(6, 51);
+(7, 3),
+(7, 4),
+(7, 9),
+(7, 25),
+(7, 32),
+(7, 33),
+(7, 34),
+(7, 35),
+(7, 37),
+(8, 3),
+(8, 4),
+(8, 32),
+(8, 33),
+(8, 34),
+(9, 3),
+(9, 4),
+(9, 5),
+(9, 6),
+(9, 7),
+(9, 8),
+(9, 9),
+(9, 10),
+(9, 11),
+(9, 12),
+(9, 13),
+(9, 14),
+(9, 15),
+(9, 16),
+(9, 17),
+(9, 18),
+(9, 19),
+(9, 20),
+(9, 21),
+(9, 22),
+(9, 23),
+(9, 24),
+(9, 25),
+(9, 26),
+(9, 27),
+(9, 28),
+(9, 29),
+(9, 30),
+(9, 31),
+(9, 32),
+(9, 33),
+(9, 34),
+(9, 35),
+(9, 36),
+(9, 37),
+(9, 38),
+(9, 39),
+(9, 40),
+(9, 41),
+(9, 42),
+(9, 43),
+(9, 44),
+(9, 45),
+(9, 46),
+(9, 47),
+(9, 48),
+(9, 49),
+(9, 50),
+(9, 51),
+(10, 3),
+(10, 4),
+(10, 17),
+(10, 32),
+(10, 38),
+(10, 39),
+(10, 40),
+(10, 41),
+(10, 42),
+(10, 43),
+(10, 44),
+(11, 8),
+(11, 45),
+(11, 46),
+(11, 47),
+(11, 48),
+(11, 49),
+(11, 50),
+(11, 51),
+(12, 5),
+(12, 6),
+(12, 7),
+(12, 28),
+(12, 29),
+(12, 30),
+(12, 31),
+(13, 9),
+(13, 10),
+(13, 11),
+(13, 12),
+(13, 13),
+(13, 14),
+(13, 15),
+(13, 16),
+(13, 18),
+(13, 19),
+(13, 20),
+(13, 21),
+(13, 22),
+(13, 23),
+(13, 24),
+(13, 25),
+(13, 26),
+(13, 27),
+(14, 3),
+(14, 4),
+(14, 5),
+(14, 6),
+(14, 7),
+(14, 8),
+(14, 9),
+(14, 10),
+(14, 11),
+(14, 12),
+(14, 13),
+(14, 17),
+(14, 18),
+(14, 19),
+(14, 20),
+(14, 21),
+(14, 25),
+(14, 28),
+(14, 29),
+(14, 30),
+(14, 31),
+(14, 32),
+(14, 33),
+(14, 34),
+(14, 35),
+(14, 36),
+(14, 37),
+(14, 38),
+(14, 39),
+(14, 40),
+(14, 41),
+(14, 42),
+(14, 43),
+(14, 44),
+(14, 45),
+(14, 46),
+(14, 47),
+(14, 48),
+(14, 49),
+(14, 50),
+(14, 51);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_school_department`
+-- 表的结构 `app_school_department`
 --
 
 CREATE TABLE IF NOT EXISTS `app_school_department` (
@@ -1798,25 +2163,28 @@ CREATE TABLE IF NOT EXISTS `app_school_department` (
   `dep_eqid` bigint(20) default NULL COMMENT '对口部门',
   `dep_orgtype` tinyint(4) NOT NULL COMMENT '部门结构类型 0=总部, 1=校区, 2=片区',
   PRIMARY KEY  (`dep_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='学校部门设置' AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='学校部门设置' AUTO_INCREMENT=25 ;
 
 --
--- Dumping data for table `app_school_department`
+-- 转存表中的数据 `app_school_department`
 --
 
 INSERT INTO `app_school_department` (`dep_id`, `dep_no`, `dep_name`, `dep_desc`, `dep_eqlevel`, `dep_eqid`, `dep_orgtype`) VALUES
 (15, '1', '总经办', '', 0, NULL, 0),
-(16, '2', '教务部', '', 0, 15, 0),
-(17, '3', '人资部', '', 0, 15, 0),
+(16, '2', '市场部', '', 0, 15, 0),
+(17, '3', '财务部', '', 0, 15, 0),
 (18, '1', '总监室', '', 0, 15, 1),
-(19, '2', '教务部', '', 0, 16, 1),
-(20, '3', '人资部', '', 0, 17, 1),
-(21, '4', '市场部', '', 0, NULL, 1);
+(19, '5', '教务部', '', 0, 23, 1),
+(20, '6', '行政部', '', 0, 24, 1),
+(21, '2', '市场部', '', 0, 16, 1),
+(22, '4', '运营部', '', 0, 15, 0),
+(23, '5', '教务部', '', 0, 15, 0),
+(24, '6', '行政部', '', 0, 15, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_school_department_position`
+-- 表的结构 `app_school_department_position`
 --
 
 CREATE TABLE IF NOT EXISTS `app_school_department_position` (
@@ -1828,25 +2196,33 @@ CREATE TABLE IF NOT EXISTS `app_school_department_position` (
   `pos_roleRights` varchar(500) default NULL COMMENT '岗位角色权限',
   PRIMARY KEY  (`pos_id`),
   KEY `dep_id` (`dep_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='部门岗位' AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='部门岗位' AUTO_INCREMENT=28 ;
 
 --
--- Dumping data for table `app_school_department_position`
+-- 转存表中的数据 `app_school_department_position`
 --
 
 INSERT INTO `app_school_department_position` (`pos_id`, `pos_name`, `pos_desc`, `pos_leadership`, `dep_id`, `pos_roleRights`) VALUES
-(6, '总经理', '', 0, 15, 'ROLE_SUPER'),
-(7, '教务部主管', '', 0, 16, 'ROLE_HR_MASTER'),
-(8, '人资部主管', '', 0, 17, 'ROLE_SUPER'),
-(9, '校长', '', 0, 18, 'ROLE_MASTER'),
-(10, '教务部主管', '', 0, 19, 'ROLE_MASTER'),
-(11, '人资部主管', '', 0, 20, 'ROLE_MASTER'),
-(12, '市场部主管', '', 0, 21, 'ROLE_MASTER');
+(13, '副总经理', '', 0, 15, 'ROLE_ADMIN'),
+(14, '市场总监', '', 0, 16, 'ROLE_ADMIN'),
+(15, '市场专员', '', 1, 16, 'ROLE_EMPLOYEE_HEADOFFICE'),
+(16, '财务总监', '', 0, 17, 'ROLE_FINANCIAL_MANAGE'),
+(17, '财务专员', '', 1, 17, 'ROLE_EMPLOYEE_HEADOFFICE'),
+(18, '运营总监', '', 0, 22, 'ROLE_ADMIN'),
+(19, '运营专员', '', 1, 22, 'ROLE_EMPLOYEE_HEADOFFICE'),
+(20, '教务总监', '', 0, 23, 'ROLE_ADMIN'),
+(21, '教务专员', '', 1, 23, 'ROLE_EMPLOYEE_HEADOFFICE'),
+(22, '行政总监', '', 0, 24, 'ROLE_ADMINISTRATIVE_MANAGE'),
+(23, '行政专员', '', 1, 24, 'ROLE_EMPLOYEE_HEADOFFICE'),
+(24, '财务', '', 0, 20, ''),
+(25, '行政专员', '', 1, 20, 'ROLE_EMPLOYEE_SCHOOL'),
+(26, '总经理', '', 0, 15, 'ROLE_ADMIN'),
+(27, '校长', '', 0, 18, 'ROLE_SCHOOL_ADMIN');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_school_department_position_role`
+-- 表的结构 `app_school_department_position_role`
 --
 
 CREATE TABLE IF NOT EXISTS `app_school_department_position_role` (
@@ -1856,21 +2232,29 @@ CREATE TABLE IF NOT EXISTS `app_school_department_position_role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='部门岗位权限';
 
 --
--- Dumping data for table `app_school_department_position_role`
+-- 转存表中的数据 `app_school_department_position_role`
 --
 
 INSERT INTO `app_school_department_position_role` (`pos_id`, `role_id`) VALUES
-(6, 1),
-(7, 6),
-(8, 1),
-(9, 5),
-(11, 5),
-(12, 5);
+(13, 9),
+(14, 9),
+(15, 7),
+(16, 12),
+(17, 7),
+(18, 9),
+(19, 7),
+(20, 9),
+(21, 7),
+(22, 10),
+(23, 7),
+(25, 8),
+(26, 9),
+(27, 14);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_school_district`
+-- 表的结构 `app_school_district`
 --
 
 CREATE TABLE IF NOT EXISTS `app_school_district` (
@@ -1884,21 +2268,25 @@ CREATE TABLE IF NOT EXISTS `app_school_district` (
   PRIMARY KEY  (`district_id`),
   UNIQUE KEY `district_no` (`district_no`),
   KEY `district_parent` (`district_parent`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='校区设置' AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='校区设置' AUTO_INCREMENT=9 ;
 
 --
--- Dumping data for table `app_school_district`
+-- 转存表中的数据 `app_school_district`
 --
 
 INSERT INTO `app_school_district` (`district_id`, `district_no`, `district_name`, `district_type`, `district_address`, `district_phone`, `district_parent`) VALUES
 (1, '0000', '杭州总部', 0, '', '', NULL),
-(3, '0001', '萧山校区', 1, '', '', 1),
-(4, '0002', '德清校区', 1, '德清', '', 1);
+(3, '0001', '绍兴解放路校区', 1, '', '', 1),
+(4, '0002', '绍兴迪荡校区', 1, '德清', '', 1),
+(5, '0003', '柯桥校区', 1, '', '', 1),
+(6, '0004', '嘉兴校区', 1, '', '', 1),
+(7, '0005', '湖州校区', 1, '', '', 1),
+(8, '0006', '萧山校区', 1, '', '', 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_school_posets`
+-- 表的结构 `app_school_posets`
 --
 
 CREATE TABLE IF NOT EXISTS `app_school_posets` (
@@ -1906,22 +2294,19 @@ CREATE TABLE IF NOT EXISTS `app_school_posets` (
   `poset_name` varchar(64) NOT NULL COMMENT '职位岗位名称',
   PRIMARY KEY  (`poset_id`),
   UNIQUE KEY `poset_name` (`poset_name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='职位岗位' AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='职位岗位' AUTO_INCREMENT=9 ;
 
 --
--- Dumping data for table `app_school_posets`
+-- 转存表中的数据 `app_school_posets`
 --
 
 INSERT INTO `app_school_posets` (`poset_id`, `poset_name`) VALUES
-(1, '总经理'),
-(2, '总部主管'),
-(4, '校区主管'),
-(3, '校区校长');
+(8, '总部主管职位');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_school_posets_terms`
+-- 表的结构 `app_school_posets_terms`
 --
 
 CREATE TABLE IF NOT EXISTS `app_school_posets_terms` (
@@ -1931,22 +2316,20 @@ CREATE TABLE IF NOT EXISTS `app_school_posets_terms` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='职位与岗位关系表';
 
 --
--- Dumping data for table `app_school_posets_terms`
+-- 转存表中的数据 `app_school_posets_terms`
 --
 
 INSERT INTO `app_school_posets_terms` (`poset_id`, `pos_id`) VALUES
-(1, 6),
-(2, 7),
-(2, 8),
-(3, 9),
-(4, 10),
-(4, 11),
-(4, 12);
+(8, 14),
+(8, 16),
+(8, 18),
+(8, 20),
+(8, 22);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_system_config`
+-- 表的结构 `app_system_config`
 --
 
 CREATE TABLE IF NOT EXISTS `app_system_config` (
@@ -1961,14 +2344,14 @@ CREATE TABLE IF NOT EXISTS `app_system_config` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统配置,用于系统的全局配置' AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `app_system_config`
+-- 转存表中的数据 `app_system_config`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_system_dictionary`
+-- 表的结构 `app_system_dictionary`
 --
 
 CREATE TABLE IF NOT EXISTS `app_system_dictionary` (
@@ -1985,7 +2368,7 @@ CREATE TABLE IF NOT EXISTS `app_system_dictionary` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
 --
--- Dumping data for table `app_system_dictionary`
+-- 转存表中的数据 `app_system_dictionary`
 --
 
 INSERT INTO `app_system_dictionary` (`id`, `name`, `value`, `type`, `level`, `sequence`, `extra_value`, `creation_date`, `modified_date`) VALUES
@@ -2011,7 +2394,7 @@ INSERT INTO `app_system_dictionary` (`id`, `name`, `value`, `type`, `level`, `se
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_system_log`
+-- 表的结构 `app_system_log`
 --
 
 CREATE TABLE IF NOT EXISTS `app_system_log` (
@@ -2024,10 +2407,10 @@ CREATE TABLE IF NOT EXISTS `app_system_log` (
   `ip` varchar(128) default NULL COMMENT '登录IP',
   `cost` bigint(20) default NULL COMMENT '操作耗时',
   PRIMARY KEY  (`log_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统日志' AUTO_INCREMENT=44 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统日志' AUTO_INCREMENT=49 ;
 
 --
--- Dumping data for table `app_system_log`
+-- 转存表中的数据 `app_system_log`
 --
 
 INSERT INTO `app_system_log` (`log_id`, `user_name`, `user_id`, `createtime`, `operation`, `detail`, `ip`, `cost`) VALUES
@@ -2073,12 +2456,17 @@ INSERT INTO `app_system_log` (`log_id`, `user_name`, `user_id`, `createtime`, `o
 (40, '管理员', 1, '2012-07-30 12:16:04', '登录', '用户通过身份验证进入系统', '127.0.0.1', 156),
 (41, '赵六', 10, '2012-07-30 12:22:10', '登录', '用户通过身份验证进入系统', '127.0.0.1', 6328),
 (42, '赵六', 10, '2012-07-30 12:25:20', '登录', '用户通过身份验证进入系统', '127.0.0.1', 47),
-(43, '管理员', 1, '2012-07-30 14:19:35', '登录', '用户通过身份验证进入系统', '127.0.0.1', 704);
+(43, '管理员', 1, '2012-07-30 14:19:35', '登录', '用户通过身份验证进入系统', '127.0.0.1', 704),
+(44, '管理员', 1, '2012-07-31 02:46:11', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 247),
+(45, 'test4', 17, '2012-07-31 09:55:36', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 68),
+(46, 'test2', 15, '2012-07-31 09:59:32', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 57),
+(47, '管理员', 1, '2012-07-31 10:36:16', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 48),
+(48, '管理员', 1, '2012-07-31 10:37:08', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 45);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_system_work_content`
+-- 表的结构 `app_system_work_content`
 --
 
 CREATE TABLE IF NOT EXISTS `app_system_work_content` (
@@ -2092,7 +2480,7 @@ CREATE TABLE IF NOT EXISTS `app_system_work_content` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统工作内容设置' AUTO_INCREMENT=11 ;
 
 --
--- Dumping data for table `app_system_work_content`
+-- 转存表中的数据 `app_system_work_content`
 --
 
 INSERT INTO `app_system_work_content` (`cnt_id`, `item_name`, `item_value`, `meto`, `district_id`, `update_time`) VALUES
@@ -2107,7 +2495,7 @@ INSERT INTO `app_system_work_content` (`cnt_id`, `item_name`, `item_value`, `met
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_system_work_template`
+-- 表的结构 `app_system_work_template`
 --
 
 CREATE TABLE IF NOT EXISTS `app_system_work_template` (
@@ -2124,7 +2512,7 @@ CREATE TABLE IF NOT EXISTS `app_system_work_template` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='工作模板设置' AUTO_INCREMENT=12 ;
 
 --
--- Dumping data for table `app_system_work_template`
+-- 转存表中的数据 `app_system_work_template`
 --
 
 INSERT INTO `app_system_work_template` (`work_tpl_id`, `work_day`, `worktm_id`, `district_id`, `staff_id`, `staff_name`, `enable`, `template_id`, `workcnt_id`) VALUES
@@ -2143,7 +2531,7 @@ INSERT INTO `app_system_work_template` (`work_tpl_id`, `work_day`, `worktm_id`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_system_work_time`
+-- 表的结构 `app_system_work_time`
 --
 
 CREATE TABLE IF NOT EXISTS `app_system_work_time` (
@@ -2160,7 +2548,7 @@ CREATE TABLE IF NOT EXISTS `app_system_work_time` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='工作时间设置' AUTO_INCREMENT=10 ;
 
 --
--- Dumping data for table `app_system_work_time`
+-- 转存表中的数据 `app_system_work_time`
 --
 
 INSERT INTO `app_system_work_time` (`worktm_id`, `item_name`, `work_stime`, `work_etime`, `meto`, `adjust_days`, `template_id`, `district_id`, `update_time`) VALUES
@@ -2174,7 +2562,7 @@ INSERT INTO `app_system_work_time` (`worktm_id`, `item_name`, `work_stime`, `wor
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_user`
+-- 表的结构 `app_user`
 --
 
 CREATE TABLE IF NOT EXISTS `app_user` (
@@ -2198,14 +2586,14 @@ CREATE TABLE IF NOT EXISTS `app_user` (
   `logon_lastime` datetime default NULL COMMENT '最后登录时间',
   PRIMARY KEY  (`user_id`),
   KEY `FK_AU_R_DPT` (`dep_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='app_user\r\n用户表' AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='app_user\r\n用户表' AUTO_INCREMENT=18 ;
 
 --
--- Dumping data for table `app_user`
+-- 转存表中的数据 `app_user`
 --
 
 INSERT INTO `app_user` (`user_id`, `username`, `password`, `fullname`, `email`, `dep_id`, `pos_id`, `district_id`, `emp_id`, `phone`, `mobile`, `fax`, `address`, `zip`, `photo`, `status`, `logon_lastip`, `logon_lastime`) VALUES
-(1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', '管理员', 'csx@jee-soft.cn', NULL, 6, 1, 6, NULL, NULL, NULL, NULL, NULL, NULL, 1, '127.0.0.1', '2012-07-30 14:19:35'),
+(1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', '管理员', 'csx@jee-soft.cn', NULL, NULL, 1, 6, NULL, NULL, NULL, NULL, NULL, NULL, 1, '0:0:0:0:0:0:0:1', '2012-07-31 10:37:08'),
 (6, '00001001', 'ro+N+ETeTFw+SYrc4TnIzXuXWwO93mUJgr0ArrsNPfk=', '罗家驹', NULL, 15, 6, 1, 6, NULL, NULL, NULL, NULL, NULL, NULL, 1, '0:0:0:0:0:0:0:1', '2012-07-26 13:49:37'),
 (7, '00002001', '/4xWL9bhPAve03Tu5HeR7T0U6Qsmy6eYjLtZM4aAcFs=', '张三', NULL, 16, 7, 1, 7, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL),
 (8, '00003001', 'mxA4ujFL57JAzeke5W87Cujn+35uwD+aKrCuNK4f+6A=', '李四', NULL, 17, 8, 1, 8, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL),
@@ -2214,12 +2602,15 @@ INSERT INTO `app_user` (`user_id`, `username`, `password`, `fullname`, `email`, 
 (11, '00012001', 'Rtpi2nASXrbWpy+VYEXnKk+GOId4gKDOBDSVbxCXE6Q=', '钱七', NULL, 19, 10, 3, 11, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL),
 (12, '00013001', 'UTjsp+zTkqLY9j2s69wKMq/uOaDLKqxuer5KlRd6Vsg=', '孙八', NULL, 20, 11, 3, 12, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL),
 (13, '00014001', 'OUr8Kdc/PqTomMcE3GMTQdLnNH6u5TwEGWa3vRekjd0=', '周九', NULL, 21, 12, 3, 13, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL),
-(14, '00002002', 'VH4xR+A+M04zzSSzxg3T2osRhsB1+1gJYxVjJ38uk4E=', '教师1', NULL, 16, 7, 1, 14, NULL, NULL, NULL, NULL, NULL, NULL, 1, '0:0:0:0:0:0:0:1', '2012-07-28 11:40:30');
+(14, '00002002', 'VH4xR+A+M04zzSSzxg3T2osRhsB1+1gJYxVjJ38uk4E=', '教师1', NULL, 16, 7, 1, 14, NULL, NULL, NULL, NULL, NULL, NULL, 1, '0:0:0:0:0:0:0:1', '2012-07-28 11:40:30'),
+(15, '00001002', 'YtwP6mUL0cqp45wC4yCgaYVYKkKWE4LUtMn1mqljowc=', 'test2', NULL, 15, 26, 1, 15, NULL, NULL, NULL, NULL, NULL, NULL, 1, '0:0:0:0:0:0:0:1', '2012-07-31 09:59:32'),
+(16, '00006001', 'AdR3o6rcgoyXwyqu2QCIn/IbWgsYIfDIbybGB7ESK+k=', 'test3', NULL, 24, 22, 1, 16, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+(17, '00006002', 'gfbTaJlUYHQ1K6VFo1nJ+W4jxm7NEPtO9Kl3H4xm070=', 'test4', NULL, 24, 23, 1, 17, NULL, NULL, NULL, NULL, NULL, NULL, 1, '0:0:0:0:0:0:0:1', '2012-07-31 09:55:36');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `app_user_role`
+-- 表的结构 `app_user_role`
 --
 
 CREATE TABLE IF NOT EXISTS `app_user_role` (
@@ -2229,16 +2620,16 @@ CREATE TABLE IF NOT EXISTS `app_user_role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户权限表';
 
 --
--- Dumping data for table `app_user_role`
+-- 转存表中的数据 `app_user_role`
 --
 
 
 --
--- Constraints for dumped tables
+-- 限制导出的表
 --
 
 --
--- Constraints for table `app_admin_doc`
+-- 限制表 `app_admin_doc`
 --
 ALTER TABLE `app_admin_doc`
   ADD CONSTRAINT `PK_author` FOREIGN KEY (`author_id`) REFERENCES `app_user` (`user_id`),
@@ -2250,25 +2641,25 @@ ALTER TABLE `app_admin_doc`
   ADD CONSTRAINT `PK_range` FOREIGN KEY (`doc_VisiableRange_id`) REFERENCES `app_admin_doc_visiable_range` (`id`);
 
 --
--- Constraints for table `app_function_url`
+-- 限制表 `app_function_url`
 --
 ALTER TABLE `app_function_url`
   ADD CONSTRAINT `app_function_url_ibfk_2` FOREIGN KEY (`func_id`) REFERENCES `app_function` (`func_id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `app_hrm_resume_file`
+-- 限制表 `app_hrm_resume_file`
 --
 ALTER TABLE `app_hrm_resume_file`
   ADD CONSTRAINT `app_hrm_resume_file_ibfk_1` FOREIGN KEY (`file_id`) REFERENCES `app_file_attach` (`file_id`);
 
 --
--- Constraints for table `app_process_definition`
+-- 限制表 `app_process_definition`
 --
 ALTER TABLE `app_process_definition`
   ADD CONSTRAINT `app_process_definition_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `app_process_type` (`type_id`);
 
 --
--- Constraints for table `app_role_func`
+-- 限制表 `app_role_func`
 --
 ALTER TABLE `app_role_func`
   ADD CONSTRAINT `app_role_func_ibfk_3` FOREIGN KEY (`func_id`) REFERENCES `app_function` (`func_id`) ON DELETE CASCADE,
