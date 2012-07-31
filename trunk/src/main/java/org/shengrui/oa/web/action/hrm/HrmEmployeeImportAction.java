@@ -20,7 +20,6 @@ import cn.trymore.core.util.UtilDate;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.util.excel.ExcelRowData;
 import cn.trymore.core.util.excel.PoiExcelParser;
-import cn.trymore.oa.model.system.ModelFileAttach;
 
 
 
@@ -48,7 +47,6 @@ extends BaseHrmAction
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response)
 	{
-//		ModelFileAttach modelFileAttach = (ModelFileAttach) form;
 		String path = request.getParameter("fileUrls");
 		PoiExcelParser poiExcelParser = new PoiExcelParser("D:\\ProgramExamples\\Workspaces\\Eclipse\\app-oaShengRui\\src\\main\\web\\uploads\\"+path);
 		List<ExcelRowData> excelRowData = poiExcelParser.getRowData(0);
