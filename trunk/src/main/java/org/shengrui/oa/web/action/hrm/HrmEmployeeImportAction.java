@@ -68,12 +68,18 @@ extends BaseHrmAction
 				resume.setFullName(excelRowData.get(i).getRowData().get(1));
 				employee.setEmployeeDistrict(this.serviceSchoolDistrict.getDistrictByName(excelRowData.get(i).getRowData().get(2)));
 				employee.setEmployeeDepartment(this.serviceSchoolDepartment.getDepartmentByName(excelRowData.get(i).getRowData().get(3)));
-				employee.setEmployeePosition(this.serviceSchoolDepartmentPosition.getPositionByName(excelRowData.get(i).getRowData().get(4)));
+				if(!excelRowData.get(i).getRowData().get(4).equals("null"))
+				{
+					employee.setEmployeePosition(this.serviceSchoolDepartmentPosition.getPositionByName(excelRowData.get(i).getRowData().get(4)));
+				}
 				if(!excelRowData.get(i).getRowData().get(5).equals( "null"))
 				{
 					employee.setOfficePhone(excelRowData.get(i).getRowData().get(5));
 				}
-				employee.setStatus(excelRowData.get(i).getRowData().get(6));
+				if(!excelRowData.get(i).getRowData().get(6).equals("null"))
+				{
+					employee.setStatus(excelRowData.get(i).getRowData().get(6));
+				}
 				if(!excelRowData.get(i).getRowData().get(7).equals( "null"))
 				{
 					employee.setOnboardDate(UtilDate.toDate(excelRowData.get(i).getRowData().get(7)));
@@ -113,9 +119,18 @@ extends BaseHrmAction
 						resume.setSex(2);
 					}
 				}
-				resume.setAge(Integer.parseInt(excelRowData.get(i).getRowData().get(13)));
-				employee.setBirthdate(UtilDate.toDate(excelRowData.get(i).getRowData().get(14)));
-				employee.setPhoneNo(excelRowData.get(i).getRowData().get(15));
+				if(!excelRowData.get(i).getRowData().get(13).equals("null"))
+				{
+					resume.setAge(Integer.parseInt(excelRowData.get(i).getRowData().get(13)));
+				}
+				if(!excelRowData.get(i).getRowData().get(14).equals("null"))
+				{
+					employee.setBirthdate(UtilDate.toDate(excelRowData.get(i).getRowData().get(14)));
+				}
+				if(!excelRowData.get(i).getRowData().get(15).equals("null"))
+				{
+					employee.setPhoneNo(excelRowData.get(i).getRowData().get(15));
+				}
 				resume.setMobilePhone(excelRowData.get(i).getRowData().get(15));
 				if(!excelRowData.get(i).getRowData().get(16).equals( "null"))
 				{
