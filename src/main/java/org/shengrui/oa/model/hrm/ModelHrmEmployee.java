@@ -147,6 +147,11 @@ extends ModelBase
 	private Date onboardDate;
 	
 	/**
+	 * 银行账号
+	 * 
+	 * */
+	private String bankNo;
+	/**
 	 * 临时变量...
 	 */
 	@Deprecated
@@ -395,6 +400,14 @@ extends ModelBase
 	public void setUrgentContact(String urgentContact)
 	{
 		this.urgentContact = urgentContact;
+	}
+
+	public String getBankNo() {
+		return bankNo;
+	}
+
+	public void setBankNo(String bankNo) {
+		this.bankNo = bankNo;
 	}
 	
 	

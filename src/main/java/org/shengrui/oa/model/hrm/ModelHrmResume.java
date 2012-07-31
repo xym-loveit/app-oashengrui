@@ -2,6 +2,7 @@ package org.shengrui.oa.model.hrm;
 
 import java.util.Date;
 
+
 import cn.trymore.core.model.ModelBase;
 
 /**
@@ -115,6 +116,12 @@ extends ModelBase
 	 * 头像
 	 */
 	private String photo;
+	
+	/**
+	 * 年龄
+	 * 
+	 * */
+	private Integer age;
 	
 	/**
 	 * 删除标记
@@ -361,6 +368,14 @@ extends ModelBase
 	public void setDelFlag(Integer delFlag)
 	{
 		this.delFlag = delFlag;
+	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
 	}
 	
 }

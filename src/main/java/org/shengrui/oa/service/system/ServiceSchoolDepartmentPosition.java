@@ -24,4 +24,10 @@ extends ServiceGeneric<ModelSchoolDepartmentPosition>
 	 * @throws ServiceException
 	 */
 	List<ModelSchoolDepartmentPosition> getPositionByDepartmentId(String departmentId) throws ServiceException;
+	/**
+	 * 根据岗位名称获取岗位信息
+	 * @author pyc
+	 * 
+	 * */
+	ModelSchoolDepartmentPosition getPositionByName(String positionName) throws ServiceException;
 }
