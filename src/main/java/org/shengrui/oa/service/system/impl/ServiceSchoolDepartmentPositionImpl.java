@@ -5,9 +5,7 @@ import java.util.List;
 import org.shengrui.oa.dao.system.DAOSchoolDepartmentPosition;
 import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.service.system.ServiceSchoolDepartmentPosition;
-import org.springframework.aop.ThrowsAdvice;
 
-import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
 
@@ -46,7 +44,25 @@ extends ServiceGenericImpl<ModelSchoolDepartmentPosition> implements ServiceScho
 			throw new ServiceException(e);
 		}
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.system.ServiceSchoolDepartmentPosition#getPositionByName(java.lang.String)
+	 */
+	@Override
+	public ModelSchoolDepartmentPosition getPositionByName(String positionName)
+			throws ServiceException 
+	{
+		try 
+		{
+			return daoSchoolDepartmentPosition.getPositionByName(positionName);
+		} 
+		catch (Exception e) 
+		{
+			throw new ServiceException(e);
+		}
+	}
+	
 	public DAOSchoolDepartmentPosition getDaoSchoolDepartmentPosition()
 	{
 		return daoSchoolDepartmentPosition;
@@ -56,15 +72,5 @@ extends ServiceGenericImpl<ModelSchoolDepartmentPosition> implements ServiceScho
 			DAOSchoolDepartmentPosition daoSchoolDepartmentPosition)
 	{
 		this.daoSchoolDepartmentPosition = daoSchoolDepartmentPosition;
-	}
-
-	@Override
-	public ModelSchoolDepartmentPosition getPositionByName(String positionName)
-			throws ServiceException {
-		try {
-			return daoSchoolDepartmentPosition.getPositionByName(positionName);
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
 	}
 }
