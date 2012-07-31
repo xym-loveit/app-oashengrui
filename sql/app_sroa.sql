@@ -665,7 +665,7 @@ INSERT INTO `app_function` (`func_id`, `func_key`, `func_name`, `func_icon`, `fu
 (123,'_FUNCKEY_SYSTEM_DELETE_WORK_TIME','删除工作时间','','删除工作时间',19),
 (124,'_FUNCKEY_SYSTEM_EDIT_WORK_TIME','编辑工作时间','','编辑工作时间',19),
 (125,'_FUNCKEY_SYSTEM_TEMPLATE_WORK_ADD','安排模板里的工作','','给每套模板安排工作',18),
-(126,'_FUNCKEY_SYSTEM_TEMPLATE_ACTIVATE','启动模板','','启动模板',18);
+(126,'_FUNCKEY_SYSTEM_TEMPLATE_ACTIVATE','启动模板','','启动模板',18),
 (127, '_FUNCKEY_ADMIN_NEWS_ADD', '发布新闻', '', '发布新闻', 39),
 (128, '_FUNCKEY_ADMIN_NEWS_EDIT', '编辑新闻', '', '修改新闻', 39),
 (129, '_FUNCKEY_ADMIN_NEWS_DELETE', '删除新闻', '', '删除新闻', 39),
@@ -871,7 +871,7 @@ INSERT INTO `app_function_url` (`url_id`, `func_id`, `url_path`) VALUES
 (280, 105, 'app/personal/conference.do?action=conferenceDetail'),
 (281, 115, 'app/system/dictionary.do?action=actionSaveDictionary'),
 (282, 120, 'app/system/work/base.do?action=actionSaveBaseWorkContent'),
-(283, 120, 'app/system/work/base.do?action=dialogAddWorkContent');
+(283, 120, 'app/system/work/base.do?action=dialogAddWorkContent'),
 (284, 127, 'app/admin.do?action=adminPageEntryDetail'),
 (285, 128, 'app/admin/news.do?action=adminPageEntryApprovalIndex'),
 (286, 129, 'app/admin.do?action=adminOprEntryRemove'),
