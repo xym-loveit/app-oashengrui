@@ -7,6 +7,7 @@
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <style>
 	label {width: auto;}
@@ -100,10 +101,18 @@
 		</ul>
 		
 		<ul class="toolBar">
-			<li><a class="delete" href="app/admin.do?action=adminOprEntryRemove&id={sid}" target="ajaxTodo" title="确定要删除吗?" callback="callback_funcRemove()"><span>删除</span></a></li>
+		<c:choose>
+			<c:when test="${tm:ifGranted('_FUNCKE_ADMIN_NEWS_DELETE') }">
+				<li><a class="delete" href="app/admin.do?action=adminOprEntryRemove&id={sid}" target="ajaxTodo" title="确定要删除吗?" callback="callback_funcRemove()"><span>删除</span></a></li>
+			</c:when>
+			<c:otherwise>
+				<label class="opdisabled" title="您没有权限进行该操作">---</label>
+			</c:otherwise>
+		</c:choose>
 			<li class="line">line</li>
-			<li><a class="edit" href="app/admin.do?action=adminPageEntryDetail&id={sid}" target="dialog" title="修改新闻" width="900" height="500"><span>修改</span></a></li>
-			
+			<c:if test="${tm:ifGranted('_FUNCKEY_ADMIN_NEWS_EDIT') }">
+				<li><a class="edit" href="app/admin.do?action=adminPageEntryDetail&id={sid}" target="dialog" title="修改新闻" width="900" height="500"><span>修改</span></a></li>
+			</c:if>
 			<!--
 			<li><a class="add" href="app/admin.do?action=adminPageEntryDetail" target="dialog" title="添加新闻" width="900" height="500"><span>添加</span></a></li>
 			<li class="line">line</li>
@@ -161,9 +170,12 @@
 							<td>${newsInfo.district.districtName} / ${newsInfo.department.depName}</td>
 							<td><c:if test="${newsInfo.updateTime ne null}"><fmt:formatDate value="${newsInfo.updateTime}" pattern="yyyy-MM-dd hh:mm:ss" /></c:if></td>
 							<td>
+							<c:if test="${tm:ifGranted('_FUNCKEY_ADMIN_NEWS_APPROVING') }">
 								<a class="oplink" href="app/admin.do?action=adminPageEntryDetail&id=${newsInfo.id }&op=view" target="dialog" width="900" height="500" title="新闻审批" rel="dia_admin_entryapproval-id">审批</a>
+							</c:if>
 							</td>
 							<td>
+							<c:if test="${tm:ifGranted('_FUNCKEY_ADMIN_NEWS_TOP') }">
 								<c:choose>
 									<c:when test="${newsInfo.topIndex eq 0 }">
 										<a class="oplink" href="app/admin.do?action=adminOprEntryFirst&id=${newsInfo.id}" target="ajaxTodo" title="确定要对${newsInfo.newsSubject }置顶么?" callback="refresh()">置顶</a>
@@ -172,12 +184,22 @@
 										<a class="oplink" href="app/admin.do?action=adminOprEntryRemoveFirst&id=${newsInfo.id }" target="ajaxTodo" title="确定要对${newsInfo.newsSubject }取消置顶么?" callback="refresh()">取消</a>
 								</c:when>
 								</c:choose>
+							</c:if>
 							</td>
 							<td>
+							<c:if test="${tm:ifGranted('_FUNCKEY_ADMIN_NEWS_EDIT') }">
 								<a class="oplink" href="app/admin.do?action=adminPageEntryDetail&id=${newsInfo.id }" target="dialog" width="900" height="500" title="新闻编辑" rel="dia_admin_entryedit-id">编辑</a>
+							</c:if>
 							</td>
 							<td>
-								<a class="oplink" href="app/admin.do?action=adminOprEntryRemove&id=${newsInfo.id }" target="ajaxTodo" title="确定要删除 ${newsInfo.newsSubject}吗?" callback="refresh()">删除</a>
+							<c:choose>
+								<c:when test="${tm:ifGranted('_FUNCKE_ADMIN_NEWS_DELETE') }">
+									<a class="oplink" href="app/admin.do?action=adminOprEntryRemove&id=${newsInfo.id }" target="ajaxTodo" title="确定要删除 ${newsInfo.newsSubject}吗?" callback="refresh()">删除</a>
+								</c:when>
+								<c:otherwise>
+									<label class="opdisabled" title="您没有权限进行该操作">---</label>
+								</c:otherwise>
+							</c:choose>
 							</td>
 						</tr>
 					</logic:iterate>
