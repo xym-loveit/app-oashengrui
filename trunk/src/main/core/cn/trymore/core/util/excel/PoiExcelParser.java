@@ -560,6 +560,7 @@ public class PoiExcelParser extends AbstractExcelParser {
 				rowDataList.add(exRowData);
 			}
 			this.close();
+			return rowDataList;
 		} 
 		catch (Exception e) 
 		{
