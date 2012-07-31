@@ -5,6 +5,7 @@
 	<form-beans>
 		<form-bean name="form.hrm.employee" type="org.shengrui.oa.model.hrm.ModelHrmEmployee"></form-bean>
 		<form-bean name="form.hrm.resume" type="org.shengrui.oa.model.hrm.ModelHrmResume"></form-bean>
+		<form-bean name="form.hrm.upload" type="cn.trymore.oa.model.system.ModelFileAttach"></form-bean>
 	</form-beans>
 	<action-mappings>
 	
@@ -28,6 +29,14 @@
 			<forward name="hrm.page.employee.resume" path="hrm.page.employee.resume" />
 		</action>
 		
+		<!-- 导入员工信息 -->
+		<action path="/app/hrm/employee/import"
+				name="form.hrm.upload"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="employee.page.import" path="employee.page.import" />
+		</action>
 	</action-mappings>
 
 </struts-config>
