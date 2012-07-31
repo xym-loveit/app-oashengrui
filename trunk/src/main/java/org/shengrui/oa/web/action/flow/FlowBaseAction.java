@@ -776,6 +776,45 @@ extends BaseAppAction
 	}
 	
 	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
+	 * 移除工作流定义
+	 */
+	public ActionForward actionRemoveProcessDefinition (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		String procDefId = request.getParameter("procDefId");
+		if (this.isObjectIdValid(procDefId))
+		{
+			try
+			{
+				ModelProcessDefinition procDef = this.serviceProcessDefinition.get(procDefId);
+				if (procDef != null)
+				{
+					this.serviceProcessDefinition.remove(procDef);
+					
+					// 删除成功后, Dialog进行关闭
+					return ajaxPrint(response, 
+							getSuccessCallback("流程定义删除成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("流程定义(id:" + procDefId +")数据不能存在..."));
+				}
+			}
+			catch (Exception e)
+			{
+				LOGGER.error("Exception raised when removing process definition..", e);
+				return ajaxPrint(response, getErrorCallback("流程定义删除失败:" + e.getMessage()));
+			}
+		}
+		else
+		{
+			return ajaxPrint(response, getErrorCallback("需要传入合法的流程定义ID..."));
+		}
+	}
+	
+	/**
 	 * 保存流程定义
 	 * 
 	 * @param processTypeId

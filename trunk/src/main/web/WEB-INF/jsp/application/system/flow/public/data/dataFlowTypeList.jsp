@@ -25,7 +25,7 @@
 	<tbody>
 		<logic:present name="types">
 			<logic:iterate name="types" id="entity" indexId="idx">
-				<tr target="typeId" rel="${entity.id}" id="mfunc-${entity.id}">
+				<tr target="_var_ftypeid_sub" rel="${entity.id}" id="mfunc-${entity.id}">
 					<td>${idx+1}</td>
 					<td>${entity.processTypeName}</td>
 					<td>${entity.processTypeKey}</td>

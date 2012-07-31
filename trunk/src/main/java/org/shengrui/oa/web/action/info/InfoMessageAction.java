@@ -295,8 +295,17 @@ extends BaseAppAction
 	{
 		try
 		{
-			int msgCount = this.serviceInMessage.getUnreadMessageCountByUser(
-				ContextUtil.getCurrentUser().getEmployee().getId());
+			int msgCount = 0;
+			
+			if (ContextUtil.getCurrentUser().getEmployee() != null)
+			{
+				msgCount = this.serviceInMessage.getUnreadMessageCountByUser(
+						ContextUtil.getCurrentUser().getEmployee().getId());
+			}
+			else
+			{
+				LOGGER.error("Only employee can obtain my unread message number.");
+			}
 			
 			return ajaxPrint(response, String.valueOf(msgCount));
 		}

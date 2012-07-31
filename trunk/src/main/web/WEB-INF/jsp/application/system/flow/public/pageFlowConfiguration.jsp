@@ -8,6 +8,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
+<script>
+	function refresh_navTab() {
+		navTab.reload();
+	}
+</script>
+
 <div class="pageContent bor" style="float:left; width: 250px;">
 	<div class="toggleCollapse noborder">
 		<h2>流程类型-${processType.processTypeName}</h2>
@@ -20,7 +26,7 @@
 			<li class="line">line</li>
 			<li><a class="edit" href="app/flow/${typeSlug}.do?action=dialogFlowDefConditionPage&procTypeId=${processType.id}&procDefId={_var_fdefid}" warn="请从下方选择需要进行修改的流程定义." mask="true" target="dialog" title="修改触发条件" width="400" height="245" rel="dia_flowdef_edit_${processType.id}"><span>修改</span></a></li>
 			<li class="line">line</li>
-			<li><a class="delete" href="app/flow/${typeSlug}.do?action=dialogFlowDefConditionPage&procTypeId=${processType.id}" mask="true" target="dialog" title="删除触发条件" width="400" height="245" rel="dia_flowdef_del_${processType.id}"><span>删除</span></a></li>
+			<li><a class="delete" href="app/flow/${typeSlug}.do?action=actionRemoveProcessDefinition&procDefId={${typeSlug eq 'hrm' ? '_var_fdefid' : '_var_fdefid'}}" target="ajaxToDo" warn="请选择需要删改的流程定义" title="删除触发条件" width="400" height="245" rel="dia_flowdef_del_${processType.id}" callback="refresh_navTab()"><span>删除</span></a></li>
 		</ul>
 	</div>
 	

@@ -66,7 +66,7 @@
 			<li class="line">line</li>
 			</c:if>
 			<c:if test="${tm:ifGranted('_FUNCKEY_FLOW_FINAN_PROC_TYPE_EDIT')}">
-			<li><a class="edit" href="app/flow.do?action=dialogFlowTypePage&rootTypeId={_var_ftypeid}&typeId={typeId}" target="dialog" warn="请选择需要修改的申请类别" title="修改申请类别" width="504" height="335" rel="dia_flowtype_edit_${typeSlug}"><span>修改</span></a></li>
+			<li><a class="edit" href="app/flow.do?action=dialogFlowTypePage&rootTypeId={_var_ftypeid}&id={_var_ftypeid_sub}" target="dialog" warn="请选择需要修改的申请类别" title="修改申请类别" width="504" height="335" rel="dia_flowtype_edit_${typeSlug}"><span>修改</span></a></li>
 			</c:if>
 		</ul>
 	</div>
