@@ -126,7 +126,7 @@ implements ServiceWorkFlow
 				{
 					ModelProcessForm form = this.convertTaskToForm(task, processTypeId, formNo, employee, isFirstStep);
 					
-					if (ModelProcessForm.EProcessFormStatus.IGNORED.getValue().equals(form.getAuditState()))
+					if (isFirstStep && ModelProcessForm.EProcessFormStatus.IGNORED.getValue().equals(form.getAuditState()))
 					{
 						isFirstStep = true;
 					}
@@ -237,22 +237,33 @@ implements ServiceWorkFlow
 		{
 			ModelProcessForm previousForm = this.serviceProcessForm.getPreviousProcessForm(procFormId);
 			
-			if (previousForm == null)
+			while (true)
 			{
-				// 当前为第一个流程节点, 回退代表结束.
-				this.completeTask(procForm, ModelProcessForm.EProcessFormStatus.RETURNED.getValue(), comments);
-				
-				// 结束流程
-				this.doEndProcess(procForm.getApplyFormNo());
-			}
-			else
-			{
-				// 回退到上一个节点, 并重置当前节点状态.
-				this.completeTask(procForm, null, ModelProcessForm.EProcessFormStatus.RETURNED.getValue(), comments);
-				
-				// 重置前一个审批流程节点为待审批状态
-				previousForm.setAuditState(ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue());
-				this.serviceProcessForm.save(previousForm);
+				if (previousForm == null)
+				{
+					// 当前为第一个流程节点, 回退代表结束.
+					this.completeTask(procForm, ModelProcessForm.EProcessFormStatus.RETURNED.getValue(), comments);
+					
+					// 结束流程
+					this.doEndProcess(procForm.getApplyFormNo());
+				}
+				else
+				{
+					if (this.isProcessIgnored(previousForm))
+					{
+						previousForm = this.serviceProcessForm.getPreviousProcessForm(previousForm.getId());
+						continue;
+					}
+					else
+					{
+						// 回退到上一个节点, 并重置当前节点状态.
+						this.completeTask(procForm, null, ModelProcessForm.EProcessFormStatus.RETURNED.getValue(), comments);
+						
+						// 重置前一个审批流程节点为待审批状态
+						previousForm.setAuditState(ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue());
+						this.serviceProcessForm.save(previousForm);
+					}
+				}
 			}
 		}
 		
@@ -275,15 +286,31 @@ implements ServiceWorkFlow
 			
 			// 查找下一个流程节点
 			ModelProcessForm nextForm = this.serviceProcessForm.getNextProcessForm(procFormId);
-			if (nextForm != null)
+			while (true)
 			{
-				nextForm.setAuditState(ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue());
-				this.serviceProcessForm.save(nextForm);
-			}
-			else
-			{
-				// 当前已经是最后一个节点了, 移除ProcessForm表中的记录
-				this.doEndProcess(procForm.getApplyFormNo());
+				if (nextForm != null)
+				{
+					if (this.isProcessIgnored(nextForm))
+					{
+						// 无法触及, 流程忽略
+						this.completeTask(nextForm, ModelProcessForm.EProcessFormStatus.IGNORED.getValue(), null);
+						
+						// 查找下一个几点
+						nextForm = this.serviceProcessForm.getNextProcessForm(nextForm.getId());
+						this.completeTask(procForm, ModelProcessForm.EProcessFormStatus.APPROVED.getValue(), comments);
+					}
+					else
+					{
+						nextForm.setAuditState(ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue());
+						this.serviceProcessForm.save(nextForm);
+					}
+				}
+				else
+				{
+					// 当前已经是最后一个节点了, 移除ProcessForm表中的记录
+					this.doEndProcess(procForm.getApplyFormNo());
+					break;
+				}
 			}
 		}
 	}
@@ -600,6 +627,23 @@ implements ServiceWorkFlow
 			{
 				throw new ServiceException("Exception raised when do record the process history.", e);
 			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Returns true if the process set as ignored.
+	 * 
+	 * @param procForm
+	 * @return
+	 */
+	private boolean isProcessIgnored (ModelProcessForm procForm)
+	{
+		if (procForm != null)
+		{
+			return !UtilString.isNotEmpty(procForm.getToPositionIds()) || 
+					(procForm.getAuditState() != null && ModelProcessForm.EProcessFormStatus.IGNORED.getValue().equals(procForm.getAuditState()));
 		}
 		
 		return false;
