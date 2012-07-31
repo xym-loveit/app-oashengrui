@@ -5,6 +5,7 @@
 <%@ taglib uri="/tags/struts-logic" prefix="logic"%>
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
@@ -88,7 +89,9 @@
 					<li><a class="add" href="app/hrm/employee/data.do?action=dialogHrmEmployeeAdd" target="dialog" title="添加新员工信息" width="1080" height="500" rel="dia_hr_empadd"><span>添加新员工</span></a></li>
 					<li class="line">line</li>
 				</c:if>
-				<li><a class="icon" href="javascript:void(0);" onclick="alert('员工导入功能待实现...');" title="导入员工信息" width="930" height="500" rel="dia_hr_entryadd"><span>导入员工信息</span></a></li>
+				<li>
+					<a class="add" href="app/hrm/employee/import.do?action=actionEmpImport" target="dialog" title="导入员工信息" width="380" height="180" rel="dia_admin_entryadd"><span>导入员工信息</span></a>
+				</li>
 			</ul>
 		</div>
 		<table class="table" width="100%" layoutH="168">
