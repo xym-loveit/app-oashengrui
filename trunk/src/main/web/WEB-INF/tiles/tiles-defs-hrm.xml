@@ -93,5 +93,10 @@
 	<!-- 员工简历 -->
 	<definition name="hrm.page.employee.resume"  
 		path="/WEB-INF/jsp/application/hrm/employee/pageEmployeeResume.jsp"/>
+		
+		
+	<!-- 员工信息导入-->
+	<definition name="employee.page.import"  
+		path="/WEB-INF/jsp/application/hrm/employee/doc/importPage.jsp"/>
 	
 </tiles-definitions>
