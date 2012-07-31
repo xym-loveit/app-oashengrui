@@ -62,6 +62,9 @@
         <property name="onboardDate" type="java.util.Date">
             <column name="onboard_date" />
         </property>
+        <property name="bankNo" type="java.lang.String">
+            <column name="bankNo" />
+        </property>
         
         <many-to-one name="resume" unique="true" class="ModelHrmResume" not-found="ignore">
         	<column name="resume_id" />
