@@ -80,7 +80,7 @@
 								<c:when test="${tm:ifGranted('_FUNCKEY_SYSTEM_DELETE_WORK_CONTENT')}">
 									<a href="app/system/work/base.do?action=actionRemoveBaseWorkContent&contentId=${entity.id}" class="oplink" target="ajaxTodo" title="工作内容删除" width="550" height="335"  target="ajaxTodo" title="确定要删除该工作内容吗?" rel="sys_dePosDel-${entity.id}" callback="callback_funcRemove(${entity.id})">删除</a>
 								</c:when>
-								<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">删除</label></c:otherwise></c:otherwise>
+								<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">删除</label></c:otherwise>
 							</c:choose>
 						</td>
 					</tr>
