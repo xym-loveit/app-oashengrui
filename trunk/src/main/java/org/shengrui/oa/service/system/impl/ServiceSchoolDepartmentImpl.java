@@ -5,6 +5,7 @@ import java.util.List;
 import org.shengrui.oa.dao.system.DAOSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.service.system.ServiceSchoolDepartment;
+import org.springframework.aop.ThrowsAdvice;
 
 import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.exception.ServiceException;
@@ -71,6 +72,17 @@ extends ServiceGenericImpl<ModelSchoolDepartment> implements ServiceSchoolDepart
 	public void setDaoSchoolDepartment(DAOSchoolDepartment daoSchoolDepartment)
 	{
 		this.daoSchoolDepartment = daoSchoolDepartment;
+	}
+
+	@Override
+	public ModelSchoolDepartment getDepartmentByName(String departmentName)
+			throws ServiceException {
+			try {
+				return daoSchoolDepartment.getDepartmentByName(departmentName);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				throw new ServiceException(e);
+			}
 	}
 
 }

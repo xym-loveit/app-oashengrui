@@ -7,6 +7,7 @@ import org.shengrui.oa.dao.system.DAOSchoolDistrict;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 import org.shengrui.oa.service.system.ServiceSchoolDistrict;
 
+import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
 import cn.trymore.core.util.UtilString;
@@ -109,6 +110,17 @@ extends ServiceGenericImpl<ModelSchoolDistrict> implements ServiceSchoolDistrict
 	public void setDaoSchoolDistrict(DAOSchoolDistrict daoSchoolDistrict)
 	{
 		this.daoSchoolDistrict = daoSchoolDistrict;
+	}
+
+	@Override
+	public ModelSchoolDistrict getDistrictByName(String districtName)
+			throws ServiceException {
+
+		try {
+			return this.daoSchoolDistrict.getDistrictByName(districtName);
+		} catch (Exception e) {
+			throw new ServiceException(e);
+		}
 	}
 
 }

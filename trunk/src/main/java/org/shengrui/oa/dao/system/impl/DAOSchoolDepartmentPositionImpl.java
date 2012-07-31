@@ -31,4 +31,14 @@ extends DAOGenericImpl<ModelSchoolDepartmentPosition> implements DAOSchoolDepart
 		return null;
 	}
 
+	@Override
+	public ModelSchoolDepartmentPosition getPositionByName(String positionName)
+			throws DAOException {
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelSchoolDepartmentPosition.class);
+		criteria.add(Restrictions.eq("positionName", positionName));
+		@SuppressWarnings("unchecked")
+		List<ModelSchoolDepartmentPosition> list = getHibernateTemplate().findByCriteria(criteria);
+		return list != null && list.size() > 0 ? list.get(0) : null;
+	}
+
 }

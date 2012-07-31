@@ -32,4 +32,9 @@ extends ServiceGeneric<ModelSchoolDepartment>
 	  */
 	 List<Object> getDistinctDepartmentNames () throws ServiceException;
 	 
+	 /**
+	  * 根据部门名称获取部门
+	  * @author pyc
+	  * */
+	 ModelSchoolDepartment getDepartmentByName(String departmentName) throws ServiceException;
 }

@@ -37,4 +37,12 @@ extends ServiceGeneric<ModelSchoolDistrict>
 	PaginationSupport<ModelSchoolDistrict> getSchoolDistrictPagination(ModelSchoolDistrict entity,
 			PagingBean pagingBean) throws ServiceException;
 	
+	/**
+	 * 根据校区名称查询校区编号
+	 * @author pyc
+	 * 
+	 * */
+	ModelSchoolDistrict getDistrictByName(String districtName) throws ServiceException;
+	
+	
 }

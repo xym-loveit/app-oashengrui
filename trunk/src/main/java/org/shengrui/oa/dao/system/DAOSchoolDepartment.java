@@ -25,5 +25,15 @@ extends DAOGeneric<ModelSchoolDepartment>
 	 * @throws DAOException
 	 */
 	List<ModelSchoolDepartment> getDepartmentByOrganization (Integer orgType) throws DAOException;
+	/**
+	 * 根据id获取部门信息
+	 * @author pyc
+	 * */
+	ModelSchoolDepartment getDepartment(String id)throws DAOException;
 	
+	/**
+	 * 根据部门名称获取部门信息
+	 * @author pyc
+	 * */
+	ModelSchoolDepartment getDepartmentByName(String departmentName) throws DAOException;
 }

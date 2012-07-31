@@ -16,4 +16,6 @@ extends DAOGeneric<ModelSchoolDistrict>
 	 */
 	ModelSchoolDistrict getDistrictByNo(String districtNo) throws DAOException;
 	
+	ModelSchoolDistrict getDistrictByName(String districtName) throws DAOException;
+	
 }
