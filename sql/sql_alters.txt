@@ -1,0 +1,3 @@
+ALTER TABLE  `app_process_task` ADD INDEX (  `def_id` )
+ALTER TABLE  `app_process_task` CHANGE  `def_id`  `def_id` BIGINT( 20 ) NULL COMMENT  '所属流程定义ID'
+ALTER TABLE  `app_process_task` ADD FOREIGN KEY (  `def_id` ) REFERENCES  `app_sroa`.`app_process_definition` (`def_id`) ON DELETE CASCADE ;
