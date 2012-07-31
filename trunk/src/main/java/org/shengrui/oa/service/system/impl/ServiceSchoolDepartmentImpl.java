@@ -5,7 +5,6 @@ import java.util.List;
 import org.shengrui.oa.dao.system.DAOSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.service.system.ServiceSchoolDepartment;
-import org.springframework.aop.ThrowsAdvice;
 
 import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.exception.ServiceException;
@@ -52,8 +51,8 @@ extends ServiceGenericImpl<ModelSchoolDepartment> implements ServiceSchoolDepart
 	 * @see org.shengrui.oa.service.system.ServiceSchoolDepartment#getDistinctDepartmentNames()
 	 */
 	@Override
-	 public List<Object> getDistinctDepartmentNames () throws ServiceException
-	 {
+	public List<Object> getDistinctDepartmentNames () throws ServiceException
+	{
 		try
 		{
 			return this.daoSchoolDepartment.findListByNativeSQL("SELECT distinct(dep_name) FROM app_school_department");
@@ -62,7 +61,25 @@ extends ServiceGenericImpl<ModelSchoolDepartment> implements ServiceSchoolDepart
 		{
 			throw new ServiceException (e);
 		}
-	 }
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.system.ServiceSchoolDepartment#getDepartmentByName(java.lang.String)
+	 */
+	@Override
+	public ModelSchoolDepartment getDepartmentByName(String departmentName)
+			throws ServiceException 
+	{
+		try 
+		{
+			return daoSchoolDepartment.getDepartmentByName(departmentName);
+		} 
+		catch (Exception e) 
+		{
+			throw new ServiceException(e);
+		}
+	}
 	
 	public DAOSchoolDepartment getDaoSchoolDepartment()
 	{
@@ -72,17 +89,6 @@ extends ServiceGenericImpl<ModelSchoolDepartment> implements ServiceSchoolDepart
 	public void setDaoSchoolDepartment(DAOSchoolDepartment daoSchoolDepartment)
 	{
 		this.daoSchoolDepartment = daoSchoolDepartment;
-	}
-
-	@Override
-	public ModelSchoolDepartment getDepartmentByName(String departmentName)
-			throws ServiceException {
-			try {
-				return daoSchoolDepartment.getDepartmentByName(departmentName);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				throw new ServiceException(e);
-			}
 	}
 
 }

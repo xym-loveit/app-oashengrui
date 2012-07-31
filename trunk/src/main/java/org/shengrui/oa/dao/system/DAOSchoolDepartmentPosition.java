@@ -6,7 +6,6 @@ import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 
 import cn.trymore.core.dao.DAOGeneric;
 import cn.trymore.core.exception.DAOException;
-import cn.trymore.core.exception.ServiceException;
 
 /**
  * The department position repository.
