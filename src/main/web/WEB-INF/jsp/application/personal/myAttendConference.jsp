@@ -69,9 +69,9 @@
 <!-- Body -->	
 <div class="pageContent">
 	<div class="panelBar">
-		<c:if test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.functionRights eq '__ALL' || tm:inRange(sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.functionRights, '_FUNCKEY_JOBAPPROVAL_SUBNODE', ',') || tm:inRange(sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.functionRights, '_FUNCKEY_JOBAPPROVAL_ROOT', ',')}">
+		<c:if test="${tm:ifGranted('_FUNCKEY_PERSONAL_CONFERENCE_VIEW_MY_INITIAL_CONFERENCE')}">
 			<ul class="toolBar" style="float:right">
-				<li><a treeicon="icon-edit" class="icon" href="app/personal/conference.do?action=myConferences" target="navTab" rel="myconference"><span class="icon-edit">我发起的会议</span></a></li>
+				<li><a treeicon="icon-edit" class="icon" href="app/personal/conference.do?action=myConferences" target="navTab" rel="_menu_mod_personal_conference"><span class="icon-edit">我发起的会议</span></a></li>
 			</ul>
 		</c:if>
 	</div>
@@ -103,7 +103,14 @@
 						<td>${entity.sponsor.fullName }</td>
 						<td>${entity.contactor}</td>
 						<td>${entity.phone }</td>
-						<td><a class="oplink" href="app/personal/conference.do?action=conferenceDetail&id=${entity.id}&op=view" target="dialog" title="会议详细" width="1150" height="450">详细</a></td>
+						<td>
+							<c:choose>
+								<c:when test="${tm:ifGranted('_FUNCKEY_HRM_JOBHIRE_JOB_VIEW')}">
+									<a class="oplink" href="app/personal/conference.do?action=conferenceDetail&id=${entity.id}&op=view" target="dialog" title="会议详细" width="1150" height="450">详细</a>
+								</c:when>
+								<c:otherwise><label class="opdisabled" title="您没有权限查看会议详细数据">详细</label></c:otherwise>
+							</c:choose>
+						</td>
 					</tr>
 				</logic:iterate>
 			</logic:present>

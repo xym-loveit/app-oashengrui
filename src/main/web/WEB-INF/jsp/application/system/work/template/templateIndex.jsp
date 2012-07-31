@@ -5,6 +5,7 @@
 <%@ taglib uri="/tags/struts-logic" prefix="logic"%>
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <style>
@@ -82,20 +83,22 @@
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
+		<c:if test="${tm:ifGranted('_FUNCKEY_SYSTEM_TEMPLATE_ACTIVATE')}">
 			<li><a class="icon" href="app/system/work/template.do?action=actionEnableWorkTemplate&templateId=${formWorkTemplate ne null ? formWorkTemplate.templateId :-1}" target="ajaxTodo"  title="确定要启用该模板吗?" callback="refreshCurrentPage()"><span>启用该模板</span></a></li>
+		</c:if>
 		</ul>
 	</div>
 	<table class="table" width="100%">
 	<thead>
 		<tr>
 			<th align="center">工作时间</th>
-			<th align="center">周一<a href="app/system/work/template.do?action=dialogWorkArrangePage&districtId=${formWorkTemplate ne null ? formWorkTemplate.district.id:'-1'}&templateId=${formWorkTemplate.templateId}&workDay=1" class="oplink" target="dialog" title="工作安排" width="800" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></th>
-			<th align="center">周二<a href="app/system/work/template.do?action=dialogWorkArrangePage&districtId=${formWorkTemplate ne null ? formWorkTemplate.district.id:'-1'}&templateId=${formWorkTemplate.templateId}&workDay=2" class="oplink" target="dialog" title="工作安排" width="800" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></th>
-			<th align="center">周三<a href="app/system/work/template.do?action=dialogWorkArrangePage&districtId=${formWorkTemplate ne null ? formWorkTemplate.district.id:'-1'}&templateId=${formWorkTemplate.templateId}&workDay=3" class="oplink" target="dialog" title="工作安排" width="800" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></th>
-			<th align="center">周四<a href="app/system/work/template.do?action=dialogWorkArrangePage&districtId=${formWorkTemplate ne null ? formWorkTemplate.district.id:'-1'}&templateId=${formWorkTemplate.templateId}&workDay=4" class="oplink" target="dialog" title="工作安排" width="800" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></th>
-			<th align="center">周五<a href="app/system/work/template.do?action=dialogWorkArrangePage&districtId=${formWorkTemplate ne null ? formWorkTemplate.district.id:'-1'}&templateId=${formWorkTemplate.templateId}&workDay=5" class="oplink" target="dialog" title="工作安排" width="800" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></th>
-			<th align="center">周六<a href="app/system/work/template.do?action=dialogWorkArrangePage&districtId=${formWorkTemplate ne null ? formWorkTemplate.district.id:'-1'}&templateId=${formWorkTemplate.templateId}&workDay=6" class="oplink" target="dialog" title="工作安排" width="800" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></th>
-			<th align="center">周日<a href="app/system/work/template.do?action=dialogWorkArrangePage&districtId=${formWorkTemplate ne null ? formWorkTemplate.district.id:'-1'}&templateId=${formWorkTemplate.templateId}&workDay=7" class="oplink" target="dialog" title="工作安排" width="800" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></th>
+			<th align="center">周一<c:if test="${tm:ifGranted('_FUNCKEY_SYSTEM_TEMPLATE_WORK_ADD')}"><a href="app/system/work/template.do?action=dialogWorkArrangePage&districtId=${formWorkTemplate ne null ? formWorkTemplate.district.id:'-1'}&templateId=${formWorkTemplate.templateId}&workDay=1" class="oplink" target="dialog" title="工作安排" width="800" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></c:if></th>
+			<th align="center">周二<c:if test="${tm:ifGranted('_FUNCKEY_SYSTEM_TEMPLATE_WORK_ADD')}"><a href="app/system/work/template.do?action=dialogWorkArrangePage&districtId=${formWorkTemplate ne null ? formWorkTemplate.district.id:'-1'}&templateId=${formWorkTemplate.templateId}&workDay=2" class="oplink" target="dialog" title="工作安排" width="800" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></c:if></th>
+			<th align="center">周三<c:if test="${tm:ifGranted('_FUNCKEY_SYSTEM_TEMPLATE_WORK_ADD')}"><a href="app/system/work/template.do?action=dialogWorkArrangePage&districtId=${formWorkTemplate ne null ? formWorkTemplate.district.id:'-1'}&templateId=${formWorkTemplate.templateId}&workDay=3" class="oplink" target="dialog" title="工作安排" width="800" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></c:if></th>
+			<th align="center">周四<c:if test="${tm:ifGranted('_FUNCKEY_SYSTEM_TEMPLATE_WORK_ADD')}"><a href="app/system/work/template.do?action=dialogWorkArrangePage&districtId=${formWorkTemplate ne null ? formWorkTemplate.district.id:'-1'}&templateId=${formWorkTemplate.templateId}&workDay=4" class="oplink" target="dialog" title="工作安排" width="800" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></c:if></th>
+			<th align="center">周五<c:if test="${tm:ifGranted('_FUNCKEY_SYSTEM_TEMPLATE_WORK_ADD')}"><a href="app/system/work/template.do?action=dialogWorkArrangePage&districtId=${formWorkTemplate ne null ? formWorkTemplate.district.id:'-1'}&templateId=${formWorkTemplate.templateId}&workDay=5" class="oplink" target="dialog" title="工作安排" width="800" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></c:if></th>
+			<th align="center">周六<c:if test="${tm:ifGranted('_FUNCKEY_SYSTEM_TEMPLATE_WORK_ADD')}"><a href="app/system/work/template.do?action=dialogWorkArrangePage&districtId=${formWorkTemplate ne null ? formWorkTemplate.district.id:'-1'}&templateId=${formWorkTemplate.templateId}&workDay=6" class="oplink" target="dialog" title="工作安排" width="800" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></c:if></th>
+			<th align="center">周日<c:if test="${tm:ifGranted('_FUNCKEY_SYSTEM_TEMPLATE_WORK_ADD')}"><a href="app/system/work/template.do?action=dialogWorkArrangePage&districtId=${formWorkTemplate ne null ? formWorkTemplate.district.id:'-1'}&templateId=${formWorkTemplate.templateId}&workDay=7" class="oplink" target="dialog" title="工作安排" width="800" height="335" rel="sys_chPlanSet-${entity.id}">（安排）</a></c:if></th>
 		</tr>
 	</thead>
 	<tbody>

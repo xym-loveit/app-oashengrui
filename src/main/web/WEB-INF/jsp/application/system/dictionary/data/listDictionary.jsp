@@ -5,6 +5,7 @@
 <%@ taglib uri="/tags/struts-logic" prefix="logic"%>
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <script type="text/javascript">
@@ -37,10 +38,20 @@ function callback_funcRemove(id) {
 							<td>${entity.extraValue}</td>
 							<td><fmt:formatDate value="${entity.modifiedDate}" type="date" pattern="yyyy-MM-dd"/></td>
 							<td>
-								<a href="app/system/dictionary.do?action=actionLoadDictionaryEditPage&id=${entity.id}" class="oplink" target="dialog" title="数据字典编辑" width="504" height="335" rel="sys_dePosSet-${entity.id}">编辑</a>
+								<c:choose>
+									<c:when test="${tm:ifGranted('_FUNCKEY_SYSTEM_EDIT_DICTIONARY')}">
+										<a href="app/system/dictionary.do?action=actionLoadDictionaryEditPage&id=${entity.id}" class="oplink" target="dialog" title="数据字典编辑" width="504" height="335" rel="sys_dePosSet-${entity.id}">编辑</a>
+									</c:when>
+									<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">编辑</label></c:otherwise>
+								</c:choose>
 							</td>
 							<td>
-								<a href="app/system/dictionary.do?action=actionDeleteDictionary&id=${entity.id}" class="oplink" target="ajaxTodo" title="数据字典删除" width="550" height="335"  target="ajaxTodo" title="确定要删除该工作内容吗?" rel="sys_dePosDel-${entity.id}" callback="callback_funcRemove(${entity.id})">删除</a>
+								<c:choose>
+									<c:when test="${tm:ifGranted('_FUNCKEY_SYSTEM_DELETE_DICTIONARY')}">
+										<a href="app/system/dictionary.do?action=actionDeleteDictionary&id=${entity.id}" class="oplink" target="ajaxTodo" title="数据字典删除" width="550" height="335"  target="ajaxTodo" title="确定要删除该工作内容吗?" rel="sys_dePosDel-${entity.id}" callback="callback_funcRemove(${entity.id})">删除</a>
+									</c:when>
+									<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">删除</label></c:otherwise>
+								</c:choose>
 							</td>
 						</tr>
 				</logic:iterate>
