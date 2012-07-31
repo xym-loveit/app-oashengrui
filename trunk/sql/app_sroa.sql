@@ -538,7 +538,7 @@ CREATE TABLE IF NOT EXISTS `app_function` (
   PRIMARY KEY  (`func_id`),
   UNIQUE KEY `func_key` (`func_key`),
   KEY `menu_id` (`menu_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能表' AUTO_INCREMENT=108 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能表' AUTO_INCREMENT=133 ;
 
 --
 -- 转存表中的数据 `app_function`
@@ -642,13 +642,36 @@ INSERT INTO `app_function` (`func_id`, `func_key`, `func_name`, `func_icon`, `fu
 (99, '_FUNCKEY_PERSONAL_APPLICATION_POST', '申请单提交', '', '填写申请单数据并提交审核.', 37),
 (100, '_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_EDIT', '岗位编辑', '', '编辑部门岗位', 23),
 (101, '_FUNCKEY_FLOW_FINAN_PROC_TYPE_REMOVE', '申请类别删除', '', '删除申请类别数据. (功能链接待添加...)', 21),
-(102, '_FUNCKEY_ADMIN_NEWS_ADD', '发布新闻', '', '发布新闻', 39),
-(103, '_FUNCKEY_ADMIN_NEWS_EDIT', '编辑新闻', '', '修改新闻', 39),
-(104, '_FUNCKEY_ADMIN_NEWS_DELETE', '删除新闻', '', '删除新闻', 39),
-(105, '_FUNCKEY_ADMIN_NEWS_APPROVE', '新闻管理与审批', '', '审批新闻', 39),
-(106, '_FUNCKEY_ADMIN_NEWS_TOP', '新闻置顶', '', '新闻置顶', 39),
-(107, '_FUNCKEY_ADMIN_NEWS_APPROVING', '新闻审批', '', '', 39);
-
+(102,'_FUNCKEY_PERSONAL_CONFERENCE_VIEW_MY_INITIAL_CONFERENCE','查看我发起的所有会议','','查看我发起的会议',32),
+(103,'_FUNCKEY_PERSONAL_CONFERENCE_INITIAL_CONFERENCE','发起新的会议','','发起新的会议',32),
+(104,'_FUNCKEY_PERSONAL_CONFERENCE_CANCEL_CONFERENCE','取消会议','','取消已经发起的会议',32),
+(105,'_FUNCKEY_PERSONAL_CONFERENCE_ADJUST_CONFERENCE','调整会议','','调整会议内容',32),
+(106,'_FUNCKEY_PERSONAL_CONFERENCE_VIEW_CONFERENCE','查看会议内容','','查看会议内容信息',32),
+(107,'_FUNCKEY_PERSONAL_CONFERENCE_ACTIVATE_CONFERENCE','激活会议','','重新激活已经取消的会议',32),
+(108,'_FUNCKEY_PERSONAL_CONFERENCE_SUMMARY_CONFERENCE','提交会议总结','','会议结束后进行的会议总结，包括上传会议记录',32),
+(109,'_FUNCKEY_ADMIN_ADD_WORK_ARRANGE','添加工作安排','','添加工作安排',43),
+(110,'_FUNCKEY_ADMIN_EDIT_WORK_ARRANGE','编辑工作安排','','编辑工作安排',43),
+(111,'_FUNCKEY_ADMIN_REMOVE_WORK_ARRANGE','删除工作安排','','删除工作安排',43),
+(112,'_FUNCKEY_ADMIN_IMPORT_WORK_ARRANGE','从模板导入工作安排','','从模板导入工作安排',43),
+(113,'_FUNCKEY_ADMIN_ADJUST_WORK_ARRANGE','调整工作安排','','调整工作安排',43),
+(114,'_FUNCKEY_ADMIN_VIEW_WORK_ARRANGE','查看工作安排','','按周查看工作安排情况',43),
+(115,'_FUNCKEY_SYSTEM_ADD_DICTIONARY','添加数据字典','','添加数据字典',11),
+(116,'_FUNCKEY_SYSTEM_EDIT_DICTIONARY','编辑数据字典','','编辑数据字典',11),
+(117,'_FUNCKEY_SYSTEM_DELETE_DICTIONARY','删除数据字典','','删除数据字典',11),
+(119,'_FUNCKEY_SYSTEM_EDIT_WORK_CONTENT','编辑工作内容','','编辑工作内容',19),
+(120,'_FUNCKEY_SYSTEM_ADD_WORK_CONTENT','添加工作内容','','添加工作内容',19),
+(121,'_FUNCKEY_SYSTEM_DELETE_WORK_CONTENT','删除工作内容','','删除工作内容',19),
+(122,'_FUNCKEY_SYSTEM_ADD_WORK_TIME','添加工作时间','','添加工作时间',19),
+(123,'_FUNCKEY_SYSTEM_DELETE_WORK_TIME','删除工作时间','','删除工作时间',19),
+(124,'_FUNCKEY_SYSTEM_EDIT_WORK_TIME','编辑工作时间','','编辑工作时间',19),
+(125,'_FUNCKEY_SYSTEM_TEMPLATE_WORK_ADD','安排模板里的工作','','给每套模板安排工作',18),
+(126,'_FUNCKEY_SYSTEM_TEMPLATE_ACTIVATE','启动模板','','启动模板',18);
+(127, '_FUNCKEY_ADMIN_NEWS_ADD', '发布新闻', '', '发布新闻', 39),
+(128, '_FUNCKEY_ADMIN_NEWS_EDIT', '编辑新闻', '', '修改新闻', 39),
+(129, '_FUNCKEY_ADMIN_NEWS_DELETE', '删除新闻', '', '删除新闻', 39),
+(130, '_FUNCKEY_ADMIN_NEWS_APPROVE', '新闻管理与审批', '', '审批新闻', 39),
+(131, '_FUNCKEY_ADMIN_NEWS_TOP', '新闻置顶', '', '新闻置顶', 39),
+(132, '_FUNCKEY_ADMIN_NEWS_APPROVING', '新闻审批', '', '', 39);
 -- --------------------------------------------------------
 
 --
@@ -661,7 +684,7 @@ CREATE TABLE IF NOT EXISTS `app_function_url` (
   `url_path` varchar(120) NOT NULL COMMENT '功能链接',
   PRIMARY KEY  (`url_id`),
   KEY `func_id` (`func_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能URL' AUTO_INCREMENT=256 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能URL' AUTO_INCREMENT=230 ;
 
 --
 -- 转存表中的数据 `app_function_url`
@@ -821,13 +844,40 @@ INSERT INTO `app_function_url` (`url_id`, `func_id`, `url_path`) VALUES
 (245, 100, 'app/system/menu/func.do?action=dialogMenuFuncPage'),
 (246, 101, 'TO BE ADDED HERE...'),
 (247, 54, 'app/flow/hrm.do?action=actionRemoveProcessTask'),
-(248, 102, 'app/admin.do?action=adminPageEntryDetail'),
-(251, 105, 'app/admin/news.do?action=adminPageEntryApprovalIndex'),
-(252, 104, 'app/admin.do?action=adminOprEntryRemove'),
-(253, 103, 'app/admin.do?action=adminPageEntryDetail'),
-(254, 106, 'app/admin.do?action=adminOprEntryFirst'),
-(255, 107, 'app/admin.do?action=adminPageEntryDetail');
-
+(251, 104, 'app/personal/conference.do?action=actionCancelConference'),
+(253, 106, 'app/personal/conference.do?action=conferenceDetail'),
+(254, 102, 'app/personal/conference.do?action=myConferences'),
+(255, 107, 'app/personal/conference.do?action=actionActivateConference'),
+(257, 109, 'app/admin.do?action=dialogStaffWorkArrange'),
+(258, 110, 'app/admin.do?action=adminEditStaffWorkArrangeDialog'),
+(259, 111, 'app/admin.do?action=adminDeleteWorkArrange'),
+(260, 112, 'app/admin.do?action=actionImportDataFromTemplateDialog'),
+(261, 113, 'app/admin.do?action=actionAdjustWorkArrangeDialog'),
+(262, 114, 'app/admin.do?action=actionViewWorkArrangePage'),
+(264, 16, 'app/system/dictionary.do?action=actionLoadDictionaryEditPage'),
+(265, 117, 'app/system/dictionary.do?action=actionDeleteDictionary'),
+(267, 119, 'app/system/work/base.do?action=dialogBaseWorkBasePage'),
+(269, 121, 'app/system/work/base.do?action=actionRemoveBaseWorkContent'),
+(270, 122, 'app/system/work/base/time.do?action=dialogAddWorkTime'),
+(271, 123, 'app/system/work/base/time.do?action=actionRemoveBaseWorkTime'),
+(272, 124, 'app/system/work/base/time.do?action=dialogBaseWorkTimePage'),
+(273, 125, 'app/system/work/template.do?action=dialogWorkArrangePage'),
+(274, 126, 'app/system/work/template.do?action=actionEnableWorkTemplate'),
+(275, 103, 'app/personal/conference.do?action=conferenceDetail'),
+(276, 103, 'app/personal/conference.do?action=actionConferenceSave'),
+(277, 108, 'app/personal/conference.do?action=actionLoadSubmitSummaryDialog'),
+(278, 108, 'app/personal/conference.do?action=actionSubmitSummary'),
+(279, 105, 'app/personal/conference.do?action=actionConferenceSave'),
+(280, 105, 'app/personal/conference.do?action=conferenceDetail'),
+(281, 115, 'app/system/dictionary.do?action=actionSaveDictionary'),
+(282, 120, 'app/system/work/base.do?action=actionSaveBaseWorkContent'),
+(283, 120, 'app/system/work/base.do?action=dialogAddWorkContent');
+(284, 127, 'app/admin.do?action=adminPageEntryDetail'),
+(285, 128, 'app/admin/news.do?action=adminPageEntryApprovalIndex'),
+(286, 129, 'app/admin.do?action=adminOprEntryRemove'),
+(287, 130, 'app/admin.do?action=adminPageEntryDetail'),
+(288, 131, 'app/admin.do?action=adminOprEntryFirst'),
+(289, 132, 'app/admin.do?action=adminPageEntryDetail');
 -- --------------------------------------------------------
 
 --
