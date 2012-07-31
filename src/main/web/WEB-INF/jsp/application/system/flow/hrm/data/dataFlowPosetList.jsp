@@ -42,7 +42,7 @@
 					<td>
 						<c:choose>
 							<c:when test="${tm:ifGranted('_FUNCKEY_FLOW_HRM_PROCESS_REMOVE')}">
-								<a href="app/flow/hrm.do?action=actionFlowCleanup&procTypeId=${rootTypeId}&posetId=${entity.id}" class="oplink" target="ajaxTodo" title="确定要删除该审批类型吗?" rel="sys_flowDel-${entity.id}" callback="callback_funcRemove(${entity.id})">配置清空</a>
+								<a href="app/flow/hrm.do?action=actionFlowCleanup&procTypeId=${rootTypeId}&posetId=${entity.id}" class="oplink" target="ajaxTodo" title="确定要清空该配置流程数据吗?" rel="sys_flowDel-${entity.id}" callback="callback_posetRefresh()">配置清空</a>
 							</c:when>
 							<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
 						</c:choose>

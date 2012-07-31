@@ -58,4 +58,14 @@ extends ServiceGeneric<ModelProcessDefinition>
 	List<ModelProcessDefinition> getProcessDefinitionFilterByPoset (String procTypeId, 
 			String posetId) throws ServiceException;
 	
+	/**
+	 * Returns true if 
+	 * 
+	 * @param procTypeId
+	 * @param filterPosetId
+	 * @return
+	 * @throws ServiceException
+	 */
+	boolean removeByTypeAndPoset (String procTypeId, String filterPosetId) throws ServiceException;
+	
 }
