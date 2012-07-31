@@ -10,6 +10,7 @@ import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.service.flow.ServiceProcessDefinition;
 import org.shengrui.oa.util.AppUtil;
 
+import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
 import cn.trymore.core.util.UtilString;
@@ -115,6 +116,31 @@ extends ServiceGenericImpl<ModelProcessDefinition> implements ServiceProcessDefi
 			}
 		}
 		return null;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.flow.ServiceProcessDefinition#removeByTypeAndPoset(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public boolean removeByTypeAndPoset(String procTypeId, String filterPosetId)
+			throws ServiceException
+	{
+		if (UtilString.isNotEmpty(procTypeId, filterPosetId))
+		{
+			String nativeSql = "DELETE FROM app_process_definition WHERE type_id = " + 
+									procTypeId + " AND filter_poset = " + filterPosetId;
+			try
+			{
+				this.daoProcessDefinition.execUpdateByNativeSQL(nativeSql);
+				return true;
+			} 
+			catch (DAOException e)
+			{
+				throw new ServiceException(e);
+			}
+		}
+		return false;
 	}
 	
 	public void setDaoProcessDefinition(DAOProcessDefinition daoProcessDefinition)

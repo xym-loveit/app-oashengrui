@@ -32,6 +32,10 @@
 			$("#mfunc-" + id).fadeOut("slow");
 		}
 	}
+	
+	function callback_posetRefresh() {
+		$("#refresh_poset").trigger("click");
+	}
 </script>
 
 <div class="pageContent bor" style="float:left; width: 220px;">
@@ -58,7 +62,7 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<c:if test="${tm:ifGranted('_FUNCKEY_FLOW_HRM_PROCESS_REFRESH')}">
-			<li><a class="refresh uvar" href="app/flow/${typeSlug}.do?action=actionLoadProcessPosets&rootTypeId={_var_htypeid}" warn="请从左侧选择审批类型!" target="ajax" rel="ajBoxFlowType_hrm" title="刷新" rel="dia_admin_entryadd"><span>刷新</span></a></li>
+			<li><a class="refresh uvar" id="refresh_poset" href="app/flow/${typeSlug}.do?action=actionLoadProcessPosets&rootTypeId={_var_htypeid}" warn="请从左侧选择审批类型!" target="ajax" rel="ajBoxFlowType_hrm" title="刷新" rel="dia_admin_entryadd"><span>刷新</span></a></li>
 			</c:if>
 		</ul>
 	</div>

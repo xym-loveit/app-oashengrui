@@ -181,6 +181,38 @@ extends FlowBaseAction
 	}
 	
 	/**
+	 * <b>[WebAction]</b> 
+	 * <br/>
+	 * 流程配置清空
+	 */
+	public ActionForward actionFlowCleanup (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		String procTypeId = request.getParameter("procTypeId");
+		String posetId = request.getParameter("posetId");
+		
+		if (UtilString.isNotEmpty(procTypeId, posetId))
+		{
+			try
+			{
+				this.serviceProcessDefinition.removeByTypeAndPoset(procTypeId, posetId);
+				
+				return ajaxPrint(response, 
+						getSuccessCallback("流程配置清空成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+			}
+			catch (Exception e)
+			{
+				LOGGER.error("Exception raised when clean up the HRM flow configuration data.", e);
+				return ajaxPrint(response, getErrorCallback("流程配置清空失败:" + e.getMessage()));
+			}
+		}
+		else
+		{
+			return ajaxPrint(response, getErrorCallback("需要传入流程类型ID和职位ID..."));
+		}
+	}
+	
+	/**
 	 * Checks the process definition against specified position set. 
 	 * Data for process definitions will be inserted if not found. 
 	 * 
