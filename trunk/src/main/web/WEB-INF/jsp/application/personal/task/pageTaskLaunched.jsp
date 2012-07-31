@@ -16,15 +16,20 @@
 	.dgreen {color: green;}
 </style>
 
+<form id="pagerForm" method="post" action="app/personal/task.do?action=pageTaskLaunched">
+	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
+	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
+</form>
+
 <!-- SearchBar -->
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="app/admin.do?action=adminPageEntryIndex" method="post">
+	<form onsubmit="return navTabSearch(this);" action="app/personal/task.do?action=pageTaskLaunched" method="post" id="searchForm" rel="pagerForm">
 		<div class="searchBar">
 			<table class="searchContent">
 				<tr>
 					<td>
 						<label>任务类型：</label>
-						<select class="combox" name="type" id="mylaunched_tasktype">
+						<select class="combox" name="taskTypeId" id="my_tasktype">
 							<option value="-1">所有</option>
 							<logic:present name="taskTypes">
 								<logic:iterate name="taskTypes" id="entity">
@@ -38,14 +43,15 @@
 					</td>
 					<td>
 						<label>任务状态：</label>
-						<select class="combox" name="status" id="task_status">
-							<option value="">所有</option>
-							<option value="1">未完成</option>
-							<option value="2">已完成</option>
+						<select class="combox" name="taskStatus" id="task_status">
+							<option value="-1">所有</option>
+							<option value="1">进行中</option>
+							<option value="2">已延期</option>
+							<option value="3">已完成</option>
 						</select>
 					</td>
 					<td>
-						任务名称：<input type="text" />
+						任务名称：<input type="text" name="taskName" />
 					</td>
 				</tr>
 			</table>
