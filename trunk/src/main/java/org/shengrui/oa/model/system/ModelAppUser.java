@@ -3,6 +3,7 @@ package org.shengrui.oa.model.system;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.bind.annotation.XmlTransient;
@@ -14,6 +15,7 @@ import org.springframework.security.userdetails.UserDetails;
 
 import com.google.gson.annotations.Expose;
 
+import cn.trymore.core.acl.AclFilterAnnotation;
 import cn.trymore.core.model.ModelBase;
 import cn.trymore.core.util.UtilString;
 
@@ -152,10 +154,17 @@ extends ModelBase implements UserDetails
 	protected Set<String> menuKeys = new HashSet<String>();
 	
 	/**
+	 * 数据权限
+	 */
+	protected Map<String, String> dataPermissions;
+	
+	/**
 	 * 初始化标志
 	 */
 	private boolean isInitialized = false;
 	
+	@AclFilterAnnotation(fields ={"test"}, snKeys ={"V_DEP"})
+	protected String aclFilterFields;
 	
 	/**
 	 * 职位ID 
@@ -293,33 +302,55 @@ extends ModelBase implements UserDetails
 					}
 					else
 					{
-						if (UtilString.isNotEmpty(role.getRoleRights()))
-						{
-							String[] items = role.getRoleRights().split("[,]");
-							for (int i = 0; i < items.length; i++) 
-							{
-								String item = items[i];
-								if (!this.rights.contains(item)) 
-								{
-									getRights().add(item);
-								}
-							}
-						}
-						
-						// 获取拥有的菜单项
-						if (role.getMenus() != null)
-						{
-							for (ModelAppMenu menu : role.getMenus())
-							{
-								if (!menuKeys.contains(menu.getMenuKey()))
-								{
-									menuKeys.add(menu.getMenuKey());
-								}
-							}
-						}
+						this.initRights(role);
+						this.initMenuKeys(role);
 					}
 				}
+				
+				
+				
 				isInitialized = true;
+			}
+		}
+	}
+	
+	/**
+	 * Initialize user rights with specified role.
+	 * 
+	 * @param role
+	 */
+	private void initRights (ModelAppRole role)
+	{
+		if (UtilString.isNotEmpty(role.getRoleRights()))
+		{
+			String[] items = role.getRoleRights().split("[,]");
+			for (int i = 0; i < items.length; i++) 
+			{
+				String item = items[i];
+				if (!this.rights.contains(item)) 
+				{
+					this.rights.add(item);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Initialize user menu keys with specified role
+	 * 
+	 * @param role
+	 */
+	private void initMenuKeys (ModelAppRole role)
+	{
+		// 获取拥有的菜单项
+		if (role.getMenus() != null)
+		{
+			for (ModelAppMenu menu : role.getMenus())
+			{
+				if (!menuKeys.contains(menu.getMenuKey()))
+				{
+					menuKeys.add(menu.getMenuKey());
+				}
 			}
 		}
 	}
@@ -612,5 +643,10 @@ extends ModelBase implements UserDetails
 	public String getPositionId()
 	{
 		return positionId;
+	}
+	
+	public Map<String, String> getDataPermissions()
+	{
+		return dataPermissions;
 	}
 }

@@ -44,7 +44,6 @@ extends ModelBase
 	 */
 	private ModelSchoolDistrict districtParent;
 	
-	
 	public String getDistrictNo()
 	{
 		return districtNo;

@@ -238,4 +238,10 @@ public interface DAOGeneric<T extends ModelBase>
 	 */
 	PaginationSupport<T> queryFieldsListForPaging(final String objectClassName, 
 			Map<String, List<Object>> params, int pageSize, int startIndex) throws DAOException, ClassNotFoundException;
+	
+	
+	abstract String getQueryFilter();
+	
+	abstract void setQueryFilter (String query);
+	
 }
