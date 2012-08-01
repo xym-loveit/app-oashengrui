@@ -1,5 +1,6 @@
 package org.shengrui.oa.web.action.hrm;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.util.ContextUtil;
 
 
+import cn.trymore.core.util.UtilBean;
 import cn.trymore.core.util.UtilDate;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.util.excel.ExcelRowData;
@@ -64,8 +66,15 @@ extends BaseHrmAction
 					break;
 				}
 				resume.setFullName(excelRowData.get(i).getRowData().get(1));
+				if(this.serviceSchoolDistrict.getDistrictByName(excelRowData.get(i).getRowData().get(2)) == null || this.serviceSchoolDepartment.getDepartmentByName(excelRowData.get(i).getRowData().get(3)) == null)
+				{
+					return ajaxPrint(response, getErrorCallback("您还没配置校区或部门，请先在系统里配置在导入员工信息！"));
+				}
 				employee.setEmployeeDistrict(this.serviceSchoolDistrict.getDistrictByName(excelRowData.get(i).getRowData().get(2)));
 				employee.setEmployeeDepartment(this.serviceSchoolDepartment.getDepartmentByName(excelRowData.get(i).getRowData().get(3)));
+				if(this.serviceSchoolDepartmentPosition.getPositionByName(excelRowData.get(i).getRowData().get(4)) == null){
+					return ajaxPrint(response, getErrorCallback("您还没配置岗位信息，请在系统内配置好在导入！"));
+				}
 				if(!excelRowData.get(i).getRowData().get(4).equals("null"))
 				{
 					employee.setEmployeePosition(this.serviceSchoolDepartmentPosition.getPositionByName(excelRowData.get(i).getRowData().get(4)));
@@ -86,7 +95,10 @@ extends BaseHrmAction
 				{
 					employee.setContractEndDate(UtilDate.toDate(excelRowData.get(i).getRowData().get(8)));
 				}
-				employee.setBankNo(excelRowData.get(i).getRowData().get(9));
+				if(!excelRowData.get(i).getRowData().get(9).equals("null"))
+				{
+					employee.setBankNo(excelRowData.get(i).getRowData().get(9));
+				}
 				if(!excelRowData.get(i).getRowData().get(10).equals( "null"))
 				{
 					resume.setBornPlace(excelRowData.get(i).getRowData().get(10));
@@ -127,7 +139,9 @@ extends BaseHrmAction
 				}
 				if(!excelRowData.get(i).getRowData().get(15).equals("null"))
 				{
-					employee.setPhoneNo(excelRowData.get(i).getRowData().get(15));
+					DecimalFormat df = new DecimalFormat("0");    
+					Double d = new Double(excelRowData.get(i).getRowData().get(15)); 
+					employee.setPhoneNo(df.format(d));
 				}
 				resume.setMobilePhone(excelRowData.get(i).getRowData().get(15));
 				if(!excelRowData.get(i).getRowData().get(16).equals( "null"))
@@ -250,12 +264,11 @@ extends BaseHrmAction
 						employee.getEmployeeDistrict().getId(), employee.getEmployeeDepartment().getId());
 				employee.setEmpNo(this.generateEmployeeNo(
 						employee.getEmployeeDistrict(), employee.getEmployeeDepartment(), amount));
-//				employee.setResume(resume);
+				
 				employee.setEntryDateTime(new Date());
 				employee.setEntryId(ContextUtil.getCurrentUserId());
 
 				this.serviceHrmEmployee.save(employee);
-				
 				resume.setEmployeeId(Integer.parseInt(employee.getId()));
 				this.serviceHrmResume.save(resume);
 				
@@ -272,7 +285,7 @@ extends BaseHrmAction
 				this.serviceAppUser.save(user);
 			} catch (Exception e) {
 				e.printStackTrace();
-				LOGGER.error("Exception raised when open the archive index page.", e);
+				LOGGER.error("Exception raised when import employee information.", e);
 				return ajaxPrint(response, getErrorCallback("员工信息导入页面加载失败:" + e.getMessage()));
 			}
 		}
