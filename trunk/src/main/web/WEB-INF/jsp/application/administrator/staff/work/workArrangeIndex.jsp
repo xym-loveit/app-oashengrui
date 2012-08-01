@@ -92,7 +92,7 @@ function callback_funcRemove(id) {
 		<ul class="toolBar">
 			<c:choose>
 				<c:when test="${tm:ifGranted('_FUNCKEY_ADMIN_ADD_WORK_ARRANGE') }">
-					<li><a class="add" href="app/admin.do?action=dialogStaffWorkArrange&districtId=1" target="dialog" title="添加工作安排" width="400" height="400"><span>添加工作安排</span></a></li>
+					<li><a class="add" href="app/admin.do?action=dialogStaffWorkArrange&districtId=1" target="dialog" title="添加工作安排" width="600" height="400"><span>添加工作安排</span></a></li>
 					<li class="line">line</li>
 				</c:when>
 			</c:choose>

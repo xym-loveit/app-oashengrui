@@ -39,64 +39,69 @@
 <div class="pageContent">
 	<form method="post" action="app/admin.do?action=adminAddStaffWorkArrange" id="formjob" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent" layoutH="56">
-			<table cellspacing="10" cellpadding="10" style="border-spacing:12">
-			    
-				<tr>
-					<td>工作日期：</td>
-					<td><input name="workDate" class="date textInput required" style="width:140px;float:left;" value='<logic:present name="workArrange"><fmt:formatDate value="${workArrange.workDate}" pattern="yyyy-MM-dd" /></logic:present>' ${op ne null && op eq 'view' ? 'readonly' : ''}/><c:if test="${op eq null || op ne 'view'}"><a class="inputDateButton" href="javascript:;">请选择</a></c:if></td>
-				</tr>
-				
-				<tr>
-    			    <td>上班类型：</td>
-	    				<td colspan="5"><select class="combox" name="workType.id" id="combox_district" style="width:140px">
-									<option value="-1">请选择</option>
-									<logic:present name="workTypes">
-										<logic:iterate name="workTypes" id="workType">
-											<option value="${workType.id}">${workType.type}</option>
-										</logic:iterate>
-									</logic:present>
-								</select>
-						</td>
-			    </tr>
-				<tr>
-					<td>工作中心：</td>
-					<td>
-						<select class="combox" name="districtId" id="districtId"  ref="dialog_workTimeBranch" refUrl="app/system/work/base/time.do?action=actionLoadWorkTimeByDistrict&districtId={value}" onchange="getWorkContentById()">
-						   <option value="-1">请选择</option>
-							<logic:present name="districts">
-								<logic:iterate name="districts" id="district">
-									<option value="${district.id}">${district.districtName}</option>
-								</logic:iterate>
-							</logic:present>
-						</select>
-					</td>
-				</tr>
-			    <tr>
-    			    <td>上班时间：</td>
-	    				<td colspan="5">
-	    					<select class="combox" name="workTime.id" id="dialog_workTimeBranch" style="width:140px">
-								<option value="">请选择</option>
+			<div style="float: right; width: 200px;">
+				<div class="accordion">
+					<div class="accordionHeader">
+						<h2><span>icon</span>按校区</h2>
+					</div>
+					<div class="accordionContent">
+						<%@ include file="../data/dataDistrictTree.jsp"%>
+					</div>
+				</div>
+			</div>
+			
+			<div style="margin-right: 220px">
+				<table cellspacing="10" cellpadding="10" style="border-spacing:12">
+				    
+					<tr>
+						<td>工作日期：</td>
+						<td><input name="workDate" class="date textInput required" style="width:140px;float:left;" value='<logic:present name="workArrange"><fmt:formatDate value="${workArrange.workDate}" pattern="yyyy-MM-dd" /></logic:present>' ${op ne null && op eq 'view' ? 'readonly' : ''}/><c:if test="${op eq null || op ne 'view'}"><a class="inputDateButton" href="javascript:;">请选择</a></c:if></td>
+					</tr>
+					
+					<tr>
+	    			    <td>上班类型：</td>
+		    				<td colspan="5"><select class="combox" name="workType.id" id="combox_district" style="width:140px">
+										<option value="-1">请选择</option>
+										<logic:present name="workTypes">
+											<logic:iterate name="workTypes" id="workType">
+												<option value="${workType.id}">${workType.type}</option>
+											</logic:iterate>
+										</logic:present>
+									</select>
+							</td>
+				    </tr>
+					<tr>
+						<td>工作中心：</td>
+						<td>
+							<select class="combox" name="districtId" id="districtId"  ref="dialog_workTimeBranch" refUrl="app/system/work/base/time.do?action=actionLoadWorkTimeByDistrict&districtId={value}" onchange="getWorkContentById()">
+							   <option value="-1">请选择</option>
+								<logic:present name="districts">
+									<logic:iterate name="districts" id="district">
+										<option value="${district.id}">${district.districtName}</option>
+									</logic:iterate>
+								</logic:present>
 							</select>
 						</td>
-			    </tr>
-			    
-			    <tr id="work_content">
-					<%@ include file="../data/workContent.jsp" %>
-				</tr>
-			    
-				<tr>
-					<td style="vertical-align: top;">工作人员：</td>
-					<td><input id="staffName" type="text" name="emp.fullName" style="width: 60%" postField="fullName" suggestFields="fullName,districtName" suggestUrl="app/base.do?action=lookupEmployeeByName" lookupGroup="emp" />
-	                    <input id="staffId" type="hidden" name="emp.id"  lookupGroup="emp" />
-	                    <div class="button"><div class="buttonContent"><button id="addStaff" type="button" class="submit">添加</button></div>
-	                </td>
-				</tr>
-				<tr>
-					<td></td>
-					<td colspan="5"><textarea name="staffNames" id="staffNames" rows="3" style="width:100%"}></textarea>
-					<input type="hidden" name="staffIds" id="staffIds" value="" /></td>
-				</tr>
-			</table>
+					</tr>
+				    <tr>
+	    			    <td>上班时间：</td>
+		    				<td colspan="5">
+		    					<select class="combox" name="workTime.id" id="dialog_workTimeBranch" style="width:140px">
+									<option value="">请选择</option>
+								</select>
+							</td>
+				    </tr>
+				    
+				    <tr id="work_content">
+						<%@ include file="../data/workContent.jsp" %>
+					</tr>
+				    
+					<tr>
+						<td style="vertical-align: top;">工作人员：</td>
+						<td colspan="2"><input id="staffs" type="text" style="width: 100%;${op ne null && op eq 'view' ? 'display:none': ''}" /></td>
+					</tr>
+				</table>
+			</div>
 		</div>
 		<div class="formBar">
 			<ul>
