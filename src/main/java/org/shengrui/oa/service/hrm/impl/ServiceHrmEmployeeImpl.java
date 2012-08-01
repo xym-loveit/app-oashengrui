@@ -224,4 +224,14 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 	{
 		return daoHrmEmployee;
 	}
+
+	@Override
+	public ModelHrmEmployee getEmployeeByEmpNo(String empNo)
+			throws ServiceException {
+		try {
+			return this.daoHrmEmployee.getEmployeeByEmpNo(empNo);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+	}
 }
