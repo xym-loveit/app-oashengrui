@@ -66,13 +66,13 @@ extends BaseHrmAction
 					break;
 				}
 				resume.setFullName(excelRowData.get(i).getRowData().get(1));
-				if(this.serviceSchoolDistrict.getDistrictByName(excelRowData.get(i).getRowData().get(2)) == null || this.serviceSchoolDepartment.getDepartmentByName(excelRowData.get(i).getRowData().get(3)) == null)
+				if(this.serviceSchoolDistrict.getDistrictByName(excelRowData.get(i).getRowData().get(2)).equals("null") || this.serviceSchoolDepartment.getDepartmentByName(excelRowData.get(i).getRowData().get(3)).equals("null"))
 				{
 					return ajaxPrint(response, getErrorCallback("您还没配置校区或部门，请先在系统里配置在导入员工信息！"));
 				}
 				employee.setEmployeeDistrict(this.serviceSchoolDistrict.getDistrictByName(excelRowData.get(i).getRowData().get(2)));
 				employee.setEmployeeDepartment(this.serviceSchoolDepartment.getDepartmentByName(excelRowData.get(i).getRowData().get(3)));
-				if(this.serviceSchoolDepartmentPosition.getPositionByName(excelRowData.get(i).getRowData().get(4)) == null){
+				if(this.serviceSchoolDepartmentPosition.getPositionByName(excelRowData.get(i).getRowData().get(4)).equals("null")){
 					return ajaxPrint(response, getErrorCallback("您还没配置岗位信息，请在系统内配置好在导入！"));
 				}
 				if(!excelRowData.get(i).getRowData().get(4).equals("null"))
@@ -259,15 +259,61 @@ extends BaseHrmAction
 						resume.setChineseLevel(7);
 					}
 				}
+				
+				employee.setEntryDateTime(new Date());
+				employee.setEntryId(ContextUtil.getCurrentUserId());
+				
+				//如果导入时xls文件里有员工编号 判断是否已存在该员工并执行更新
+				if(!excelRowData.get(i).getRowData().get(0).equals("null"))
+				{
+					ModelHrmEmployee modelHrmEmployee = this.serviceHrmEmployee.getEmployeeByEmpNo(excelRowData.get(i).getRowData().get(0));
+					UtilBean.copyNotNullProperties(modelHrmEmployee,employee);
+					ModelHrmResume model1 = this.serviceHrmResume.get(modelHrmEmployee.getResume().getId());
+					if(model1 == null){
+						this.serviceHrmResume.save(resume);
+					}else {
+						UtilBean.copyNotNullProperties(model1, resume);
+					}
+					this.serviceHrmEmployee.merge(modelHrmEmployee);
+					return ajaxPrint(response, getSuccessCallback("导入员工信息成功")); 
+				}
+				
+
+				
+				//判断记录是否已存在 存在执行更新
+				if(this.serviceHrmEmployee.findByFullName(excelRowData.get(i).getRowData().get(1)).size() > 0 )
+				{
+					for(int j = 0;j<this.serviceHrmEmployee.findByFullName(excelRowData.get(i).getRowData().get(1)).size();j++)
+					{
+						String districtId = this.serviceHrmEmployee.findByFullName(excelRowData.get(i).getRowData().get(1)).get(j).getEmployeeDistrict().getId();
+						String depId      = this.serviceHrmEmployee.findByFullName(excelRowData.get(i).getRowData().get(1)).get(j).getEmployeeDepartment().getId();
+						String posId      = this.serviceHrmEmployee.findByFullName(excelRowData.get(i).getRowData().get(1)).get(j).getEmployeePosition().getId();
+						if(districtId.equals(this.serviceSchoolDistrict.getDistrictByName(excelRowData.get(i).getRowData().get(2)).getId())
+								&&	depId.equals(this.serviceSchoolDepartment.getDepartmentByName(excelRowData.get(i).getRowData().get(3)).getId())	
+								&& posId.equals(this.serviceSchoolDepartmentPosition.getPositionByName(excelRowData.get(i).getRowData().get(4)).getId())) 
+						{
+							employee.setEmpNo(this.serviceHrmEmployee.findByFullName(excelRowData.get(i).getRowData().get(1)).get(j).getEmpNo());
+							ModelHrmEmployee model = this.serviceHrmEmployee.findByFullName(excelRowData.get(i).getRowData().get(1)).get(j);
+							ModelHrmResume model1 = this.serviceHrmResume.get(model.getResume().getId());
+							UtilBean.copyNotNullProperties(model,employee);
+							
+							if(model1 == null){
+								this.serviceHrmResume.save(resume);
+							}else {
+								UtilBean.copyNotNullProperties(model1, resume);
+							}
+							this.serviceHrmEmployee.merge(model);
+							return ajaxPrint(response, getSuccessCallback("导入员工信息成功")); 
+						}
+					}
+				}
+				this.serviceHrmResume.save(resume);
+				employee.setResume(resume);
 				// 生成员工号编号
 				int amount = this.serviceHrmEmployee.getEmployeeAmoutByDistrictIdAndDepId(
 						employee.getEmployeeDistrict().getId(), employee.getEmployeeDepartment().getId());
 				employee.setEmpNo(this.generateEmployeeNo(
 						employee.getEmployeeDistrict(), employee.getEmployeeDepartment(), amount));
-				
-				employee.setEntryDateTime(new Date());
-				employee.setEntryId(ContextUtil.getCurrentUserId());
-
 				this.serviceHrmEmployee.save(employee);
 				resume.setEmployeeId(Integer.parseInt(employee.getId()));
 				this.serviceHrmResume.save(resume);
@@ -283,10 +329,11 @@ extends BaseHrmAction
 				user.setPosition(employee.getEmployeePosition());
 				user.setDepartment(employee.getEmployeeDepartment());
 				this.serviceAppUser.save(user);
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 				LOGGER.error("Exception raised when import employee information.", e);
-				return ajaxPrint(response, getErrorCallback("员工信息导入页面加载失败:" + e.getMessage()));
+				return ajaxPrint(response, getErrorCallback("员工信息导入失败:" + e.getMessage()));
 			}
 		}
 		return ajaxPrint(response, getSuccessCallback("导入员工信息成功"));
