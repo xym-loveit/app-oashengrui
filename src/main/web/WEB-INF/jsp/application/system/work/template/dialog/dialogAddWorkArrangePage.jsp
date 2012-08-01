@@ -155,7 +155,29 @@ $(function(){
 		}
 	});
 	
-	$("#staffName").manifest();
+	$('#staffs').manifest({
+		// Use each location's full name as the display text.
+		formatDisplay: function (data, $item, $mpItem) {
+			return data.empName;
+		},
+		// Use each location's ID as the value to be submitted.
+		formatValue: function (data, $value, $item, $mpItem) {
+			return data.id;
+		},
+		valuesName: 'empid',
+		marcoPolo: {
+			url: 'app/base.do?action=lookupEmployeeByName',
+			formatItem: function (data) {
+			  return '"' + data.empName + '" (' + data.districtName + '-' + data.depName + ')';
+			},
+			onSelect: function (data, $item){
+				var count = $('#attendances_count').val();
+				if(count == "" || count == null) count = 0;
+				$('#attendances_count').val(1+parseInt(count));
+			}, 
+			param: 'fullName'
+		}
+	});
 });
 
 function loadData(obj){
@@ -200,35 +222,18 @@ function loadData(obj){
 	            </tr>
 	            <tr>
 	               <td style="vertical-align: top;">工作人员：</td>
-	               <td><input id="staffName" type="text" name="emp.fullName" style="width: 88%" postField="fullName" suggestFields="fullName,districtName" suggestUrl="app/base.do?action=lookupEmployeeByName" lookupGroup="emp" />
-	                    <input id="staffId" type="hidden" name="emp.id"  lookupGroup="emp" />
-	               </td>
-	               <td><div class="button"><div class="buttonContent"><button id="addStaff" type="button" class="submit">添加</button></div></td>
-	            </tr>
-	            <tr>
-	               <td></td>
-	               <td><textarea id="staffNames" rows="2" cols="40" name="staffNames" class="textInput" readonly=readonly style="width: 88%"></textarea></td>
-	               <td><input type="hidden" name="staffIds" id="staffIds" value="" />
- 	               </td>
+	               <td colspan="2"><input id="staffs" type="text" style="width: 100%;${op ne null && op eq 'view' ? 'display:none': ''}" /></td>
 	            </tr>
 				</table>
 	        </div>       
 			<div sytle="float:left">
-				<div class="toggleCollapse noborder">
-					<h2>校区列表</h2>
-				</div>
-				<div id="ajBoxDepTree" style="width:200px;float:left">
-				    <ul class="tree treeFolder">
-						<c:if test="${district ne null}">
-							<li class="expand"><a id="org_master"><c:out value="${district.districtName}" /></a>
-								<ul>
-									<c:forEach items="${departments}" var="entity">
-				    	 				<li><a id="dentity_${entity.id}" class='tparam' target="ajax" href="app/system/work/template.do?action=getAllStaffByDprtId&departId=${entity.id }&districtId=${district.id}"><c:out value="${entity.depName }" /></a></li>
-									</c:forEach>
-				   				</ul>
-							</li>
-						</c:if>
-					</ul>
+				<div class="accordion">
+					<div class="accordionHeader">
+						<h2><span>icon</span>按校区</h2>
+					</div>
+					<div class="accordionContent">
+						<%@ include file="../data/dataDistrictTree.jsp"%>
+					</div>
 				</div>
 			</div>
 		</div>
