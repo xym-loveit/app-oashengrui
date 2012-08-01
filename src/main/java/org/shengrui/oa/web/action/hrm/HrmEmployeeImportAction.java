@@ -142,8 +142,9 @@ extends BaseHrmAction
 					DecimalFormat df = new DecimalFormat("0");    
 					Double d = new Double(excelRowData.get(i).getRowData().get(15)); 
 					employee.setPhoneNo(df.format(d));
+					resume.setMobilePhone(df.format(d));
 				}
-				resume.setMobilePhone(excelRowData.get(i).getRowData().get(15));
+				
 				if(!excelRowData.get(i).getRowData().get(16).equals( "null"))
 				{
 					employee.setShortNo(excelRowData.get(i).getRowData().get(16));
