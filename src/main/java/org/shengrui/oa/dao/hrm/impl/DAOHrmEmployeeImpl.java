@@ -31,4 +31,14 @@ extends DAOGenericImpl<ModelHrmEmployee> implements DAOHrmEmployee
 		return this.getListByCriteria(criteria);
 	}
 
+	@Override
+	public ModelHrmEmployee getEmployeeByEmpNo(String empNo)
+			throws DAOException {
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployee.class);
+		criteria.add(Restrictions.eq("empNo", empNo));
+		@SuppressWarnings("unchecked")
+		List<ModelHrmEmployee> list = getHibernateTemplate().findByCriteria(criteria);
+		return list != null && list.size() > 0 ? list.get(0) : null;
+	}
+
 }
