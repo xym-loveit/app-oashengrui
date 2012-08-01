@@ -1,9 +1,10 @@
 package org.shengrui.oa.model.system;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 import javax.xml.bind.annotation.XmlTransient;
@@ -154,9 +155,9 @@ extends ModelBase implements UserDetails
 	protected Set<String> menuKeys = new HashSet<String>();
 	
 	/**
-	 * 数据权限
+	 * 用户拥有的数据权限
 	 */
-	protected Map<String, String> dataPermissions;
+	protected List<String> dataPermissions = new ArrayList<String>();
 	
 	/**
 	 * 初始化标志
@@ -307,9 +308,29 @@ extends ModelBase implements UserDetails
 					}
 				}
 				
-				
-				
+				this.initDataPermissions(this.position);
 				isInitialized = true;
+			}
+		}
+	}
+	
+	/**
+	 * Initialize data permissions
+	 * 
+	 * @param position
+	 *                 the department position
+	 */
+	private void initDataPermissions (ModelSchoolDepartmentPosition position)
+	{
+		if (position != null && UtilString.isNotEmpty(position.getDataPermissions()))
+		{
+			String[] perms = position.getDataPermissions().split(",");
+			for (String perm : perms)
+			{
+				if (!dataPermissions.contains(perm))
+				{
+					dataPermissions.add(perm);
+				}
 			}
 		}
 	}
@@ -645,7 +666,7 @@ extends ModelBase implements UserDetails
 		return positionId;
 	}
 	
-	public Map<String, String> getDataPermissions()
+	public List<String> getDataPermissions()
 	{
 		return dataPermissions;
 	}

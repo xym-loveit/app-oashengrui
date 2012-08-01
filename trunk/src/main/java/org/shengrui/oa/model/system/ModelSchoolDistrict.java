@@ -1,5 +1,6 @@
 package org.shengrui.oa.model.system;
 
+import cn.trymore.core.acl.AclFilterAnnotation;
 import cn.trymore.core.model.ModelBase;
 
 /**
@@ -43,6 +44,9 @@ extends ModelBase
 	 * 校区上级
 	 */
 	private ModelSchoolDistrict districtParent;
+	
+	@AclFilterAnnotation(fields ={"district_id"}, snKeys ={"V_DEP"})
+	protected String aclFilterFields;
 	
 	public String getDistrictNo()
 	{

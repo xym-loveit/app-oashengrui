@@ -22,6 +22,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import cn.trymore.core.dao.DAOGeneric;
 import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.model.ModelBase;
+import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
@@ -234,6 +235,10 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 	public List<T> getListByCriteria(final DetachedCriteria criteria)
 			throws DAOException
 	{
+		if (UtilString.isNotEmpty(this.getQueryFilter()))
+		{
+			criteria.add(Restrictions.sqlRestriction(this.getQueryFilter()));
+		}
 		return (List<T>) getHibernateTemplate().findByCriteria(criteria);
 	}
 	
@@ -245,6 +250,10 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 	public List<T> getListByCriteria(final DetachedCriteria criteria,
 			int firstResult,int maxResults) throws DAOException
 	{
+		if (UtilString.isNotEmpty(this.getQueryFilter()))
+		{
+			criteria.add(Restrictions.sqlRestriction(this.getQueryFilter()));
+		}
 		return (List<T>)getHibernateTemplate().findByCriteria(criteria, firstResult, maxResults);
 	}
 	

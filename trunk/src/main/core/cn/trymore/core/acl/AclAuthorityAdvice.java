@@ -43,19 +43,16 @@ implements MethodBeforeAdvice
 						AclFilterAnnotation aclFilter = field.getAnnotation(AclFilterAnnotation.class);
 						if (this.validateAnnotation(aclFilter))
 						{
-							this.buildQueryFilter(aclFilter);
-							repo.setQueryFilter("");
+							repo.setQueryFilter(this.buildQueryFilter(aclFilter));
 						}
 						else
 						{
-							LOGGER.warn("");
+							LOGGER.warn("Invalid properties configured on ACL filter annotation..");
 						}
 					}
 				}
 			}
-			
 		}
-		System.out.println(target);
 	}
 	
 	/**
@@ -79,6 +76,8 @@ implements MethodBeforeAdvice
 				{
 					builder.append(fields[i]);
 					builder.append(" IN (");
+					// only for test.
+					builder.append("1,4");
 					builder.append(")");
 				}
 				return builder.toString();
