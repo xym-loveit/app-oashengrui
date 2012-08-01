@@ -21,4 +21,11 @@ extends DAOGeneric<ModelHrmEmployee>
 	 * @throws DAOException
 	 */
 	List<ModelHrmEmployee> findByFullName (String fullName, boolean fetchAll) throws DAOException;
+	
+	/**
+	 * 
+	 * 根据员工编号查询员工信息
+	 * @author pyc
+	 * */
+	ModelHrmEmployee getEmployeeByEmpNo(String empNo) throws DAOException;
 }
