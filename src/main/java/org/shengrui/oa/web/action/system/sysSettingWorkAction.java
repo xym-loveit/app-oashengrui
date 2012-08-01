@@ -3,6 +3,7 @@ package org.shengrui.oa.web.action.system;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -247,6 +248,14 @@ public class sysSettingWorkAction extends sysSettingBaseAction {
       return mapping.findForward("dialog.sys.setting.work.template.addpage");
    }
 
+   /**
+    * 暂时不用该方法
+    * @param mapping
+    * @param form
+    * @param request
+    * @param response
+    * @return
+    */
    public ActionForward getAllStaffByDprtId(ActionMapping mapping,
          ActionForm form, HttpServletRequest request,
          HttpServletResponse response) {
@@ -277,62 +286,62 @@ public class sysSettingWorkAction extends sysSettingBaseAction {
       return ajaxPrint(response, "[]");
    }
 
+   /**
+    * 保存工作安排到模板中
+    * @param mapping
+    * @param form
+    * @param request
+    * @param response
+    * @return
+    */
    public ActionForward actionSaveWorkArrange(ActionMapping mapping,
          ActionForm form, HttpServletRequest request,
          HttpServletResponse response) {
-	    String staffNames = request.getParameter("staffNames");
-		String staffIds = request.getParameter("staffIds");
-		String[] staffNameArray = null;
-		String[] staffIdArray = null;
         ModelWorkTemplate formModeWorkTemplate = (ModelWorkTemplate) form;
-        if(staffNames!=null && staffIds!=null ){
-			if(staffNames.contains(",") || staffIds.contains(",")){
-				staffNameArray = staffNames.split(",");
-				staffIdArray = staffIds.split(",");
-				if(staffNameArray.length != staffIdArray.length){
-					return ajaxPrint(response,"提交的数据异常");
-				}else{
-					List<ModelWorkTemplate> list = new ArrayList<ModelWorkTemplate>();
-					for(int i=0;i<staffNameArray.length;i++){
+        // 保存工作人员
+		Map<String, List<String>> paramEmpIds = this.getAllRequestParameters(request, new String[] {"empid"});
+		if (paramEmpIds != null && paramEmpIds.size() > 0)
+		{
+			List<String> empIds = paramEmpIds.get("empid");
+			List<ModelWorkTemplate> list = new ArrayList<ModelWorkTemplate>();
+			for (String empId : empIds)
+			{
+				ModelHrmEmployee employee;
+				try {
+					employee = this.serviceHrmEmployee.get(empId);
+					if (employee != null)
+					{
 						ModelWorkTemplate template = new ModelWorkTemplate();
 						template.setWorkDay(formModeWorkTemplate.getWorkDay());
 						template.getWorkTime().setId(formModeWorkTemplate.getWorkTime().getId());
 						template.getWorkContent().setId(formModeWorkTemplate.getWorkContent().getId());
-						template.setStaffName(staffNameArray[i]);
-						template.getStaff().setId(staffIdArray[i]);
+						template.setStaffName(employee.getEmpName());
+						template.getStaff().setId(empId);
 						template.setTemplateId(formModeWorkTemplate.getTemplateId());
 						template.setEnable(formModeWorkTemplate.getEnable());
 						template.getDistrict().setId(formModeWorkTemplate.getDistrict().getId());
 						list.add(template);
 					}
-					try {
-						this.serviceWorkTemplate.batchInsert(list);
-					} catch (ServiceException e) {
-						// TODO Auto-generated catch block
-						LOGGER.error("Exception raised when add a work arrange!", e);
-						return ajaxPrint(response, getErrorCallback("添加工作安排失败,原因:" + e.getMessage()));
+					else
+					{
+						LOGGER.warn("The employee does not exist with id:" + empId);
+						return ajaxPrint(response,"提交的数据异常");
 					}
-			         // 保存成功后, Dialog进行关闭
-			         return ajaxPrint(response, 
-			               getSuccessCallback("添加工作安排成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+				} catch (ServiceException e) {
+					// TODO Auto-generated catch block
+					return ajaxPrint(response,"提交的数据异常");
 				}
-			}else{
-			      try {
-			          formModeWorkTemplate.setStaffName(staffNames);
-			          formModeWorkTemplate.getStaff().setId(staffIds);
-			          this.serviceWorkTemplate.save(formModeWorkTemplate);
-			          // 保存成功后, Dialog进行关闭
-			          return ajaxPrint(
-			                response,
-			                getSuccessCallback("工作安排保存成功.", CALLBACK_TYPE_CLOSE,
-			                      CURRENT_NAVTABID, null, false));
-			       } catch (ServiceException e) {
-			          LOGGER.error(
-			                "It failed to save the base work content item entity!", e);
-			          return ajaxPrint(response, getErrorCallback("工作安排保存失败."));
-			       }
 			}
-        }else{
+			try {
+				this.serviceWorkTemplate.batchInsert(list);
+		         // 保存成功后, Dialog进行关闭
+		         return ajaxPrint(response, 
+		               getSuccessCallback("添加工作安排成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+			} catch (ServiceException e) {
+				// TODO Auto-generated catch block
+				return ajaxPrint(response,"提交的数据异常");
+			}
+		}else{
         	return ajaxPrint(response,"提交的数据异常");
         }
    }
