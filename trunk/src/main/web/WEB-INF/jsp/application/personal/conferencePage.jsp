@@ -31,125 +31,7 @@
 		width: 120px;
 	}
 	#tbljob textarea {height: 30px;margin: 5px;width: 98%;}
-	
-	
-/*** Manifest ***/
-
-/* Manifest container that wraps the elements and now acts as, and should be
-   styled as, the input. */
-div.mf_container {
-  border: 1px solid #A2BAC0;
-  cursor: text;
-  display: inline-block;
-  padding: 2px;
-  width: 100%;
-  min-height: 30px;
-}
-
-/* Ordered list for displaying selected items. */
-div.mf_container ol.mf_list {
-  display: inline;
-}
-
-/* Selected item, regardless of state (highlighted, selected). */
-div.mf_container ol.mf_list li.mf_item {
-  border: 1px solid #C0C0C0;
-  cursor: pointer;
-  display: inline-block;
-  margin: 2px;
-  padding: 4px 4px 5px;
-}
-
-/* Selected item that's highlighted by mouseover. */
-div.mf_container ol.mf_list li.mf_item.mf_highlighted {
-  background-color: #E0E0E0;
-}
-
-/* Selected item that's selected by click or keyboard. */
-div.mf_container ol.mf_list li.mf_item.mf_selected {
-  background-color: #C0C0C0;
-}
-
-/* Remove link. */
-div.mf_container ol.mf_list li.mf_item a.mf_remove {
-  color: #E0E0E0;
-  margin-left: 10px;
-  text-decoration: none;
-}
-
-/* Remove link that's highlighted. */
-div.mf_container ol.mf_list li.mf_item.mf_highlighted a.mf_remove {
-  color: #FFFFFF;
-}
-
-/* Remove link that's selected. */
-div.mf_container ol.mf_list li.mf_item.mf_selected a.mf_remove {
-  color: #FFFFFF;
-}
-
-/* Actual input, styled to be invisible within the container. */
-div.mf_container input.mf_input {
-  border: 0;
-  font: inherit;
-  font-size: 100%;
-  margin: 2px;
-  outline: none;
-  padding: 4px;
-}
-
-/*** Marco Polo ***/
-
-/* Ordered list for display results. */
-ol.mp_list {
-  background-color: #FFFFFF;
-  border-left: 1px solid #C0C0C0;
-  border-right: 1px solid #C0C0C0;
-  overflow: hidden;
-  position: absolute;
-  width: 498px;
-  z-index: 99999;
-}
-
-/* Each list item, regardless of success, error, etc. */
-ol.mp_list li {
-  border-bottom: 1px solid #C0C0C0;
-  padding: 4px 4px 5px 9px;
-}
-
-/* Each list item from a successful request. */
-ol.mp_list li.mp_item {
-
-}
-
-/* Each list item that's selectable. */
-ol.mp_list li.mp_selectable {
-  cursor: pointer;
-}
-
-/* Currently highlighted list item. */
-ol.mp_list li.mp_highlighted {
-  background-color: #E0E0E0;
-}
-
-/* When a request is made that returns zero results. */
-ol.mp_list li.mp_no_results {
-
-}
-
-/* When a request is made that doesn't meet the 'minChars' length option. */
-ol.mp_list li.mp_min_chars {
-
-}
-
-/* When a request is made that fails during the ajax request. */
-ol.mp_list li.mp_error {
-
-}
-	
 </style>
-<script src="resources/js/jquery/jmainfest/jquery.ui.widget.min.js" type="text/javascript"></script>
-<script src="resources/js/jquery/jmainfest/jquery.marcopolo.min.js" type="text/javascript"></script>
-<script src="resources/js/jquery/jmainfest/jquery.manifest.js" type="text/javascript"></script>
 <script>
 	
 	$(function(){
@@ -253,7 +135,19 @@ ol.mp_list li.mp_error {
 			formatValue: function (data, $value, $item, $mpItem) {
 				return data.id;
 			},
-			valuesName: 'empid'
+			valuesName: 'empid',
+			marcoPolo: {
+				url: 'app/base.do?action=lookupEmployeeByName',
+				formatItem: function (data) {
+				  return '"' + data.empName + '" (' + data.districtName + '-' + data.depName + ')';
+				},
+				onSelect: function (data, $item){
+					var count = $('#attendances_count').val();
+					if(count == "" || count == null) count = 0;
+					$('#attendances_count').val(1+parseInt(count));
+				}, 
+				param: 'fullName'
+			}
 		});
 		<c:if test="${conference ne null && attendance_name_show ne null}">
 		json =${attendance_name_show} ;
@@ -465,7 +359,7 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 					</tr>
 					<tr>
 						<td class="field">参会人员：</td>
-						<td colspan="5"><input id="conferene_attendances" name="attendances" type="text" style="width: 90%; display: none;"  value="" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
+						<td colspan="5"><input id="conferene_attendances" name="attendances" type="text" style="width: 100%;${op ne null && op eq 'view' ? 'display:none': ''}" /></td>
 						<td class="field">参会人数：</td>
 						<td><input id="attendances_count" type="text" name="count" value="${conference ne null ? conference.count : '' }" style="width:70px;float:left;margin:0" />人	</td>
 					</tr>
