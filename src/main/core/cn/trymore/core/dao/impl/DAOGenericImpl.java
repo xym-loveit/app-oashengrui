@@ -43,7 +43,13 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 	/**
 	 * The entity class
 	 */
-	private Class<T> entityClass;
+	protected Class<T> entityClass;
+	
+	/**
+	 * The query cloud, 
+	 * aims for query injection before obtaining data from database. 
+	 */
+	private String queryFilter;
 	
 	/**
 	 * The default constructor
@@ -341,9 +347,27 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 	{
 		return queryFieldsListForPaging(Class.forName(objectClassName), params, pageSize, startIndex);
 	}
+	
+	@Override
+	public String getQueryFilter()
+	{
+		return this.queryFilter;
+	}
 
+	@Override
+	public void setQueryFilter(String query)
+	{
+		this.queryFilter = query;
+	}
+	
 	public static Logger getLogger() 
 	{
 		return LOGGER;
 	}
+	
+	public Class<T> getEntityClass()
+	{
+		return entityClass;
+	}
+	
 }

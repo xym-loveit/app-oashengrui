@@ -43,6 +43,8 @@ extends ActionForm
 	 */
 	private Set<ModelFileAttach> attachFiles;
 	
+	protected String aclFilterFields;
+	
 	static
 	{
 		ConvertUtils.register(new BeanDateConnverter(), Date.class);
@@ -66,6 +68,16 @@ extends ActionForm
 	public Set<ModelFileAttach> getAttachFiles()
 	{
 		return attachFiles;
+	}
+
+	public void setAclFilterFields(String aclFilterFields)
+	{
+		this.aclFilterFields = aclFilterFields;
+	}
+
+	public String getAclFilterFields()
+	{
+		return aclFilterFields;
 	}
 	
 }
