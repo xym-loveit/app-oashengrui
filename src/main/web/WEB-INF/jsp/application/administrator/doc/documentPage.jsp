@@ -72,6 +72,31 @@
 				
 			});
 		});
+		
+
+		$('#visiableUserNames').manifest({
+			// Use each location's full name as the display text.
+			formatDisplay: function (data, $item, $mpItem) {
+				return data.empName;
+			},
+			// Use each location's ID as the value to be submitted.
+			formatValue: function (data, $value, $item, $mpItem) {
+				return data.id;
+			},
+			valuesName: 'empid',
+			marcoPolo: {
+				url: 'app/base.do?action=lookupEmployeeByName',
+				formatItem: function (data) {
+				  return '"' + data.empName + '" (' + data.districtName + '-' + data.depName + ')';
+				},
+				onSelect: function (data, $item){
+					var count = $('#attendances_count').val();
+					if(count == "" || count == null) count = 0;
+					$('#attendances_count').val(1+parseInt(count));
+				}, 
+				param: 'fullName'
+			}
+		});
 	});
 	
 </script>
@@ -80,20 +105,22 @@
 	class="pageForm required-validate"
 	onsubmit="return validateCallback(this, dialogAjaxDone);">
 <div class="pageFormContent" layoutH="56">
-<div style="float: right; width: 300px;">
-<div class="accordion">
-<div class="accordionHeader">
-<h2><span>icon</span>按校区</h2>
-</div>
-<div class="accordionContent" style="height: 200px"><%@ include
-	file="data/dataDistrictTree.jsp"%></div>
-<div class="accordionHeader">
-<h2><span>icon</span>按部门</h2>
-</div>
-<div class="accordionContent"><%@ include
-	file="data/dataDepartmentTree.jsp"%></div>
-</div>
-</div>
+	<div style="float: right; width: 300px;">
+		<div class="accordion">
+			<div class="accordionHeader">
+				<h2><span>icon</span>按校区</h2>
+			</div>
+			<div class="accordionContent" style="height: 200px">
+				<%@ include file="data/dataDistrictTree.jsp"%>
+			</div>
+			<div class="accordionHeader">
+				<h2><span>icon</span>按部门</h2>
+			</div>
+			<div class="accordionContent">
+				<%@ include file="data/dataDepartmentTree.jsp"%>
+			</div>
+		</div>
+	</div>
 
 
 <div style="margin-right: 320px">
@@ -146,8 +173,7 @@
 	</tr>
 	<tr>
 		<td style="vertical-align: top">文档可见人：</td>
-		<td colspan="3"><textarea name="docUserNames" rows="5" cols="60"
-			style="width: 100%"  >${formDoc ne null ? formDoc.docUserNames : ''}</textarea></td>
+		<td colspan="3"><input id="visiableUserNames" style="width: 100%"  /></td>
 	</tr>
 	<tr>
 		<td>上传中心：</td>
