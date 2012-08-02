@@ -210,6 +210,14 @@ public class sysSettingWorkAction extends sysSettingBaseAction {
       return mapping.findForward("page.sys.setting.work.template.index");
    }
 
+   /**
+    * 弹出添加工作安排的dialog
+    * @param mapping
+    * @param form
+    * @param request
+    * @param response
+    * @return
+    */
    public ActionForward dialogWorkArrangePage(ActionMapping mapping,
          ActionForm form, HttpServletRequest request,
          HttpServletResponse response) {

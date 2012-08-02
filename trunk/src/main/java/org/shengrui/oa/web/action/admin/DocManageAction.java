@@ -1,8 +1,11 @@
 package org.shengrui.oa.web.action.admin;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,10 +18,12 @@ import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.admin.ModelDoc;
 import org.shengrui.oa.model.admin.ModelDocLevel;
 import org.shengrui.oa.model.admin.ModelDocVisiableRange;
+import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.system.ModelAppDictionary;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
+import org.shengrui.oa.util.AppUtil;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.exception.WebException;
@@ -159,7 +164,73 @@ extends BaseAdminAction
 			request.setAttribute("docLevels" , this.getServiceDocLevel().getAll());
 			request.setAttribute("docRanges" , this.getServiceDocVisiableRange().getAll());
 			request.setAttribute("deps" , this.getServiceSchoolDepartment().getDepartmentByOrganization(0));
+			// 获取所有校区
+			request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
 			
+			// 获取按校区所有部门列表
+			Map<Integer, List<ModelSchoolDepartment>> departments = this.getAllDepartments(request, false);
+			
+			if (departments != null)
+			{
+				List<Object> depNames = this.serviceSchoolDepartment.getDistinctDepartmentNames();
+				if (depNames != null)
+				{
+					request.setAttribute("depNames", depNames);
+					
+					Map<Integer, Map<String, String>> depSetIds = new HashMap<Integer, Map<String, String>>();
+					
+					depSetIds.put(AppUtil.EAppSchoolType.HEADQUARTERS.getValue(), 
+							new HashMap<String, String>());
+					
+					depSetIds.put(AppUtil.EAppSchoolType.AREA_CAMPUS.getValue(), 
+							new HashMap<String, String>());
+					
+					depSetIds.put(AppUtil.EAppSchoolType.AREA_SLOT.getValue(), 
+							new HashMap<String, String>());
+					
+					// 总部部门
+					List<ModelSchoolDepartment> depMasters = departments.get(AppUtil.EAppSchoolType.HEADQUARTERS.getValue());
+					if (depMasters != null)
+					{
+						for (ModelSchoolDepartment dep : depMasters)
+						{
+							if (depNames.contains(dep.getDepName()))
+							{
+								depSetIds.get(AppUtil.EAppSchoolType.HEADQUARTERS.getValue()).put(dep.getDepName(), dep.getId());
+							}
+						}
+					}
+					
+					// 校区部门
+					List<ModelSchoolDepartment> depCampus = departments.get(AppUtil.EAppSchoolType.AREA_CAMPUS.getValue());
+					if (depCampus != null)
+					{
+						for (ModelSchoolDepartment dep : depCampus)
+						{
+							if (depNames.contains(dep.getDepName()))
+							{
+								depSetIds.get(AppUtil.EAppSchoolType.AREA_CAMPUS.getValue()).put(dep.getDepName(), dep.getId());
+							}
+						}
+					}
+					
+					// 片区部门
+					List<ModelSchoolDepartment> depSlot = departments.get(AppUtil.EAppSchoolType.AREA_SLOT.getValue());
+					if (depSlot != null)
+					{
+						for (ModelSchoolDepartment dep : depSlot)
+						{
+							if (depNames.contains(dep.getDepName()))
+							{
+								depSetIds.get(AppUtil.EAppSchoolType.AREA_SLOT.getValue()).put(dep.getDepName(), dep.getId());
+							}
+						}
+					}
+					
+					request.setAttribute("depSetIds", depSetIds);
+					
+				}
+			}
 		} 
 		catch (ServiceException e)
 		{
@@ -196,6 +267,36 @@ extends BaseAdminAction
 				doc.setAttachFiles(files);
 				request.setAttribute("formDoc", doc);
 				request.setAttribute("op", "op");
+				String doc_user_ids = doc.getDocUserIds();
+				System.out.println(doc_user_ids);
+				String doc_use_name_show = "[";
+				if(doc_user_ids!=null && UtilString.isNotEmpty(doc_user_ids)){
+					if(doc_user_ids.contains(",")){
+						String[] ids = doc_user_ids.split(",");
+						int loop = 1;
+						for(String eid : ids){
+							ModelHrmEmployee employee = this.serviceHrmEmployee.get(eid);
+							if (employee != null)
+							{
+								doc_use_name_show+="{\"id\":\""+employee.getId()+"\",\"empName\":\""+employee.getEmpName()+"\",\"empNo\":\""+employee.getEmpNo()+"\"}";
+							}
+							else
+							{
+								LOGGER.warn("The employee does not exist with id:" + eid);
+							}
+							if(loop < ids.length && employee!=null){
+								doc_use_name_show += ",";
+							}
+							loop ++;
+						}
+					}else{
+						ModelHrmEmployee employee = this.serviceHrmEmployee.get(doc_user_ids);
+						doc_use_name_show+="{\"id\":\""+employee.getId()+"\",\"empname\":\""+employee.getFullName()+"\"}";
+					}
+					doc_use_name_show +="]";
+					System.out.println(doc_use_name_show);
+					request.setAttribute("doc_use_name_show", doc_use_name_show);
+				}
 			}
 
 			request.setAttribute("docTypes", this.getServiceAppDictionary().getByType("docType"));
@@ -231,29 +332,33 @@ extends BaseAdminAction
 				
 				if(formDoc!=null)
 				{
-					
+					// 保存文档可见人
+					Map<String, List<String>> paramEmpIds = this.getAllRequestParameters(request, new String[] {"empid"});
 					//封装设置个人可见数据
-					if( "2".equals(formDoc.getDocVisiableRange().getId())&&UtilString.isNotEmpty(formDoc.getDocUserNames()))
+					if( "2".equals(formDoc.getDocVisiableRange().getId())&&paramEmpIds != null && paramEmpIds.size() > 0)
 					{
 						
 						try {
-							String strUserNames = formDoc.getDocUserNames();
+							String strUserNames = "";
 							String userIds = "";
-							String[] names = strUserNames.split(",");
-							for (int i = 0; i < names.length; i++)
+							List<String> empIds = paramEmpIds.get("empid");
+							for (String empId : empIds)
 							{
-								
-								try {
-									ModelAppUser user = this.getServiceAppUser()
-											.findByUserName(names[i]);
-									userIds = userIds + user.getId() + ",";
-								} catch (NullPointerException e) {
-									LOGGER.error("Exception raised when fetch all doc manages.", e);
-									return ajaxPrint(response, getErrorCallback("文档可见人不存在，请重新输入."));
+								ModelHrmEmployee employee = this.serviceHrmEmployee.get(empId);
+								if (employee != null)
+								{
+									strUserNames+=employee.getEmpName()+",";
+									userIds+=employee.getId()+",";
+								}
+								else
+								{
+									LOGGER.warn("The employee does not exist with id:" + empId);
 								}
 							}
 							userIds = userIds.substring(0, userIds.length() - 1);
+							strUserNames = strUserNames.substring(0,strUserNames.length()-1);
 							formDoc.setDocUserIds(userIds);
+							formDoc.setDocUserNames(strUserNames);
 						} 
 						catch (Exception e)
 						{
@@ -262,7 +367,7 @@ extends BaseAdminAction
 						}
 						
 						
-					}else if(formDoc.getDocVisiableRange().getId()!="2"&&UtilString.isNotEmpty(formDoc.getDocUserNames()))
+					}else if(!"2".equals(formDoc.getDocVisiableRange().getId())&&paramEmpIds != null && paramEmpIds.size() > 0)
 					{
 						return ajaxPrint(response, getErrorCallback("当前不是设置为个人可见!"));
 					}
