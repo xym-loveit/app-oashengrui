@@ -32,7 +32,7 @@
 			<forward name="admin.page.staff.work.arrange.worktime" path="admin.page.staff.work.arrange.worktime"/>
 			<forward name="admin.dialog.staff.work.arrange.import" path="admin.dialog.staff.work.arrange.import"/>
 			<forward name="admin.page.staff.work.arrange.view" path="admin.page.staff.work.arrange.view"/>
-			
+			<forward name="admin.page.staff.work.arrange.department" path="admin.page.staff.work.arrange.department"/>
 			<forward name="admin.page.document.index" path="admin.page.document.index" />
 			<forward name="admin.page.document.detail" path="admin.page.document.detail" />
 		</action>
