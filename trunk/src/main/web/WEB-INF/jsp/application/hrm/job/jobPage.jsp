@@ -110,7 +110,7 @@ ${tm:fileRestore(jobHire['attachFiles'])}
 					<td style="padding: 5px;">
 						<c:choose>
 							<c:when test="${op eq null || op ne 'view'}">
-								<select class="combox" name="jobHireDistrictId" id="combox_district" style="width:120px" ref="combox_dept" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
+								<select class="combox" name="jobHireDistrictId" id="combox_district" style="width:120px" ref="combox_dept" refUrl="app/base.do?action=actionLoadDepartmentByOrg&districtId={value}">
 									<option value="">请选择校区</option>
 									<logic:present name="districts">
 										<logic:iterate name="districts" id="district">
