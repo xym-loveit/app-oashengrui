@@ -19,13 +19,6 @@ public class JstlTagDate
 	 */
 	public static Integer getIntervalDays(Date startday,Date endday)
 	{
-		if(startday.after(endday))
-		{
-			Date cal=startday;
-			startday=endday;
-			endday=cal;
-		}
-		
 		//分别得到两个时间的毫秒数
 		long sl=startday.getTime();
 		long el=endday.getTime();

@@ -136,8 +136,17 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 			public Object doInHibernate(Session paramSession) throws HibernateException,
 					SQLException
 			{
-				String str = "from " + DAOGenericImpl.this.entityClass.getName();
-				return paramSession.createQuery(str).list();
+				DetachedCriteria criteria = DetachedCriteria.forClass(DAOGenericImpl.this.entityClass);
+				
+				if (UtilString.isNotEmpty(DAOGenericImpl.this.getQueryFilter()))
+				{
+					criteria.add(Restrictions.sqlRestriction(DAOGenericImpl.this.getQueryFilter()));
+				}
+				
+				return getHibernateTemplate().findByCriteria(criteria);
+				
+				// String str = "from " + DAOGenericImpl.this.entityClass.getName();
+				//return paramSession.createQuery(str).list();
 			}
 		});
 	}

@@ -77,7 +77,14 @@ extends ServiceGenericImpl<ModelTaskPlan> implements ServiceTaskPlan
 		{
 			if (entity.getTaskStatus() != null && entity.getTaskStatus() > -1)
 			{
-				criteria.add(Restrictions.eq("taskStatus", entity.getTaskStatus()));
+				if (entity.getTaskStatus() == 0)
+				{
+					criteria.add(Restrictions.isNull("taskStatus"));
+				}
+				else
+				{
+					criteria.add(Restrictions.eq("taskStatus", entity.getTaskStatus()));
+				}
 			}
 			
 			if (entity.getAuditStatus() != null)

@@ -5,7 +5,8 @@ import java.lang.reflect.Method;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
+import org.shengrui.oa.model.system.ModelAppUser;
+import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
 import org.springframework.aop.MethodBeforeAdvice;
 
@@ -30,8 +31,7 @@ implements MethodBeforeAdvice
 	public void before(Method method, Object[] args, Object target)
 			throws Throwable
 	{
-		System.out.println("The object fetched from data policy threadLocal:" + DataPolicyEngine.get());
-		
+		System.out.println("The object fetched from data policy threadLocal (" + target + "):" + DataPolicyEngine.get());
 		LOGGER.debug("The object fetched from data policy threadLocal:" + DataPolicyEngine.get());
 		
 		if (this.isGrantedDataPolicy(DataPolicyEngine.get()))
@@ -96,21 +96,21 @@ implements MethodBeforeAdvice
 	{
 		if (aclFilter != null)
 		{
-			String[] fields = aclFilter.fields();
-			String[] snKeys = aclFilter.snKeys();
+			String[] fieldNames = aclFilter.fieldNames();
+			String[] fieldTypes = aclFilter.fieldTypes();
 			
-			if (fields.length == snKeys.length)
+			if (fieldNames.length == fieldTypes.length)
 			{
 				StringBuilder builder = new StringBuilder();
-				for (int i = 0, size = fields.length; i < size; i++)
+				for (int i = 0, size = fieldNames.length; i < size; i++)
 				{
-					String snKey = snKeys[i];
-					if (UtilString.isNotEmpty(snKey))
+					String fieldType = fieldTypes[i];
+					if (UtilString.isNotEmpty(fieldType))
 					{
-						builder.append(fields[i]);
+						builder.append(fieldNames[i]);
 						builder.append(" IN (");
 						// only for test.
-						builder.append(this.getFilterFieldValue(URI, snKey));
+						builder.append(this.obtainDataStrategy(URI, fieldType));
 						builder.append(")");	
 					}
 				}
@@ -121,13 +121,44 @@ implements MethodBeforeAdvice
 		return null;
 	}
 	
-	private String getFilterFieldValue (String URI, String snKey)
+	/**
+	 * Obtains the data strategy with the specified request URI and field type.
+	 * 
+	 * @param URI
+	 * @param fieldType
+	 * @return
+	 */
+	private String obtainDataStrategy (String URI, String fieldType)
 	{
+		ModelAppUser logonUser = ContextUtil.getCurrentUser();
+		
 		String dataPolicy = ContextUtil.getCurrentUser().getDataPermissions().get(URI.toString());
 		
-		if (String.valueOf(ModelSchoolDepartmentPosition.EPositionDataPermissions.PMS_DIS_CURRENT.getValue()).equals(dataPolicy))
+		if (String.valueOf(AppUtil.EDataPermissions.DP_DIS_WHOLE.getValue()).equals(dataPolicy))
 		{
+			// 全校数据, 可以访问所有数据
+			return null;
+		}
+		else if (String.valueOf(AppUtil.EDataPermissions.DP_DIS_CURRENT.getValue()).equals(dataPolicy))
+		{
+			// 校区数据
+			return logonUser.getEmployee() != null ? 
+						logonUser.getEmployee().getEmployeeDistrict().getId() : logonUser.getDistrict().getId();
+		}
+		else if (String.valueOf(AppUtil.EDataPermissions.DP_DEP_WHOLE.getValue()).equals(dataPolicy))
+		{
+			// 大部门数据
 			return "1, 4";
+		}
+		else if (String.valueOf(AppUtil.EDataPermissions.DP_DEP_CURRENT.getValue()).equals(dataPolicy))
+		{
+			// 部门数据
+			return logonUser.getEmployee() != null ? 
+					logonUser.getEmployee().getEmployeeDepartment().getId() : logonUser.getDepartment().getId();
+		}
+		else
+		{
+			// 默认拥有个人数据的数据权限
 		}
 		
 		return null;
@@ -144,8 +175,8 @@ implements MethodBeforeAdvice
 	{
 		if (annotation != null)
 		{
-			return annotation.fields() != null && annotation.snKeys() != null && 
-					annotation.fields().length == annotation.snKeys().length;
+			return annotation.fieldNames() != null && annotation.fieldTypes() != null && 
+					annotation.fieldNames().length == annotation.fieldTypes().length;
 		}
 		
 		return false;

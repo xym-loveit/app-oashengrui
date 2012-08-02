@@ -1,5 +1,7 @@
 package org.shengrui.oa.model.system;
 
+import org.shengrui.oa.util.AppUtil;
+
 import cn.trymore.core.acl.AclFilterAnnotation;
 import cn.trymore.core.model.ModelBase;
 
@@ -45,7 +47,13 @@ extends ModelBase
 	 */
 	private ModelSchoolDistrict districtParent;
 	
-	@AclFilterAnnotation(fields ={"district_id"}, snKeys ={"V_DEP"})
+	/**
+	 * 数据权限过滤
+	 */
+	@AclFilterAnnotation(
+		fieldNames ={"district_id"}, 
+		fieldTypes ={AppUtil.DATA_POLICY_DISTRICT}
+	)
 	protected String aclFilterFields;
 	
 	public String getDistrictNo()

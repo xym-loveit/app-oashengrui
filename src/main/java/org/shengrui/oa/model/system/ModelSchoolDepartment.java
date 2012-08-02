@@ -2,8 +2,11 @@ package org.shengrui.oa.model.system;
 
 import java.util.Set;
 
+import org.shengrui.oa.util.AppUtil;
+
 import com.google.gson.annotations.Expose;
 
+import cn.trymore.core.acl.AclFilterAnnotation;
 import cn.trymore.core.model.ModelBase;
 
 /**
@@ -59,6 +62,15 @@ extends ModelBase
 	 */
 	@Expose
 	protected Set<ModelSchoolDepartmentPosition> positions;
+	
+	/**
+	 * 数据权限过滤
+	 */
+	@AclFilterAnnotation(
+		fieldNames ={"dep_id"}, 
+		fieldTypes ={AppUtil.DATA_POLICY_DEPARTMENT}
+	)
+	protected String aclFilterFields;
 	
 	public String getDepName()
 	{
