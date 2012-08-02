@@ -1,10 +1,10 @@
 package org.shengrui.oa.model.system;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Set;
 
 import javax.xml.bind.annotation.XmlTransient;
@@ -157,7 +157,7 @@ extends ModelBase implements UserDetails
 	/**
 	 * 用户拥有的数据权限
 	 */
-	protected List<String> dataPermissions = new ArrayList<String>();
+	protected Map<String, String> dataPermissions = new HashMap<String, String>();
 	
 	/**
 	 * 初始化标志
@@ -307,11 +307,11 @@ extends ModelBase implements UserDetails
 						this.initMenuKeys(role);
 					}
 				}
-				
-				this.initDataPermissions(this.position);
-				isInitialized = true;
 			}
 		}
+		
+		this.initDataPermissions(this.position);
+		isInitialized = true;
 	}
 	
 	/**
@@ -322,17 +322,9 @@ extends ModelBase implements UserDetails
 	 */
 	private void initDataPermissions (ModelSchoolDepartmentPosition position)
 	{
-		if (position != null && UtilString.isNotEmpty(position.getDataPermissions()))
-		{
-			String[] perms = position.getDataPermissions().split(",");
-			for (String perm : perms)
-			{
-				if (!dataPermissions.contains(perm))
-				{
-					dataPermissions.add(perm);
-				}
-			}
-		}
+		// only for testing.
+		dataPermissions.put("app/personal/addressBook.do?action=addressBookInfo", 
+				String.valueOf(ModelSchoolDepartmentPosition.EPositionDataPermissions.PMS_DIS_CURRENT.getValue()));
 	}
 	
 	/**
@@ -666,7 +658,7 @@ extends ModelBase implements UserDetails
 		return positionId;
 	}
 	
-	public List<String> getDataPermissions()
+	public Map<String, String> getDataPermissions()
 	{
 		return dataPermissions;
 	}
