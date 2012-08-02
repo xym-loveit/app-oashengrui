@@ -6,6 +6,7 @@
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <script type="text/javascript">
 	function callback_roleRemove(id) {
@@ -56,9 +57,11 @@
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
+		<c:if test="${tm:ifGranted('_FUNCKEY_ADMIN_DOC_ADD')}">
 			<li><a class="add" href="app/admin/doc.do?action=adminPageDocumentDetail&op=loading" target="dialog" title="文档上传" width="850" height="380" rel="dia_admin_entryadd"><span>文档上传
 
 </span></a></li>
+		</c:if>
 		</ul>
 	</div>
 	<table class="table" width="100%" layoutH="138">
@@ -83,10 +86,21 @@
                 <td>${entity.createTime}</td>
                 <td>${entity.district.districtName} / ${entity.department.depName}</td>
 				<td>
-					<a href="app/admin/doc.do?action=adminPageDocumentEditDetail&id=${entity.id}" target="dialog" title="文档编辑" class="oplink" width="850" height="380" rel="admin_doc_edit">编辑</a>
+				<c:choose>
+					<c:when test="${tm:ifGranted('_FUNCKEY_ADMIN_DOC_EDIT')}">
+						<a href="app/admin/doc.do?action=adminPageDocumentEditDetail&id=${entity.id}" target="dialog" title="文档编辑" class="oplink" width="850" height="380" rel="admin_doc_edit">编辑</a>
+					</c:when>
+					<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+				</c:choose>
+
 				</td>
 				<td>
-					<a href="app/admin/doc.do?action=adminPageDocumentDelete&id=${entity.id}" target="ajaxTodo" title="确定删除该文档吗？" class="oplink"  callback="callback_roleRemove(${entity.id})">删除</a>
+				<c:choose>
+					<c:when test="${tm:ifGranted('_FUNCKEY_ADMIN_DOC_REMOVE')}">
+						<a href="app/admin/doc.do?action=adminPageDocumentDelete&id=${entity.id}" target="ajaxTodo" title="确定删除该文档吗？" class="oplink"  callback="callback_roleRemove(${entity.id})">删除</a>
+					</c:when>
+					<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+				</c:choose>
 				</td>
 			</tr>
 			</logic:iterate>
