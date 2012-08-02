@@ -162,7 +162,7 @@ ol.mp_list li.mp_error {
 				uploader.on('success', function (ev) {
 					var feedback = ev.result;
 					var file_id = feedback.data.id;
-					alert(file_id);
+					//alert(file_id);
 					if (file_id) {
 						$("#fileIds").val($("#fileIds").val() == "" ? file_id : ($("#fileIds").val() + "," + file_id));
 					}
