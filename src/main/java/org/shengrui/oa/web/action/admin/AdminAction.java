@@ -17,9 +17,11 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.admin.ModelAdminWorkArrange;
 import org.shengrui.oa.model.admin.ModelStaffAttendance;
+import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.news.ModelNewsMag;
 import org.shengrui.oa.model.system.ModelBaseWorkContent;
 import org.shengrui.oa.model.system.ModelBaseWorkTime;
+import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 import org.shengrui.oa.model.system.ModelWorkTemplate;
 import org.shengrui.oa.util.UtilDateTime;
@@ -490,23 +492,23 @@ extends BaseAdminAction
 	 * @return
 	 */
 	public ActionForward  adminAddStaffWorkArrange(ActionMapping mapping,ActionForm form,HttpServletRequest request,HttpServletResponse response){
-		String staffNames = request.getParameter("staffNames");
-		String staffIds = request.getParameter("staffIds");
-		String[] staffNameArray = null;
-		String[] staffIdArray = null;
 		ModelAdminWorkArrange entity = (ModelAdminWorkArrange)form;
-		if(staffNames!=null && staffIds!=null ){
-			if(staffNames.contains(",") || staffIds.contains(",")){
-				staffNameArray = staffNames.split(",");
-				staffIdArray = staffIds.split(",");
-				if(staffNameArray.length != staffIdArray.length){
-					return ajaxPrint(response,"提交的数据异常");
-				}else{
-					List<ModelAdminWorkArrange> list = new ArrayList<ModelAdminWorkArrange>();
-					for(int i=0;i<staffNameArray.length;i++){
+		// 保存工作人员
+		Map<String, List<String>> paramEmpIds = this.getAllRequestParameters(request, new String[] {"empid"});
+		if (paramEmpIds != null && paramEmpIds.size() > 0)
+		{
+			List<String> empIds = paramEmpIds.get("empid");
+			List<ModelAdminWorkArrange> list = new ArrayList<ModelAdminWorkArrange>();
+			for (String empId : empIds)
+			{
+				ModelHrmEmployee employee;
+				try {
+					employee = this.serviceHrmEmployee.get(empId);
+					if (employee != null)
+					{
 						ModelAdminWorkArrange model = new ModelAdminWorkArrange();
-						model.getStaff().setId(staffIdArray[i]);
-						model.setStaffName(staffNameArray[i]);
+						model.getStaff().setId(empId);
+						model.setStaffName(employee.getEmpName());
 						model.setWorkDate(entity.getWorkDate());
 						model.getWorkContent().setId(entity.getWorkContent().getId());
 						model.getWorkTime().setId(entity.getWorkTime().getId());
@@ -514,34 +516,28 @@ extends BaseAdminAction
 						model.setDistrictId(entity.getDistrictId());
 						list.add(model);
 					}
-					try {
-						this.serviceAdminWorkArrange.batchInsert(list);
-					} catch (ServiceException e) {
-						// TODO Auto-generated catch block
-						LOGGER.error("Exception raised when add a work arrange!", e);
-						return ajaxPrint(response, getErrorCallback("添加工作安排失败,原因:" + e.getMessage()));
+					else
+					{
+						LOGGER.warn("The employee does not exist with id:" + empId);
+						return ajaxPrint(response,"提交的数据异常");
 					}
-			         // 保存成功后, Dialog进行关闭
-			         return ajaxPrint(response, 
-			               getSuccessCallback("添加工作安排成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
-				}
-			}else{
-				entity.getStaff().setId(staffIds);
-				entity.setStaffName(staffNames);
-				try {
-					this.serviceAdminWorkArrange.save(entity);
 				} catch (ServiceException e) {
 					// TODO Auto-generated catch block
-					LOGGER.error("Exception raised when add a work arrange!", e);
-					return ajaxPrint(response, getErrorCallback("添加工作安排失败,原因:" + e.getMessage()));
+					return ajaxPrint(response,"提交的数据异常");
 				}
+			}
+			try {
+				this.serviceAdminWorkArrange.batchInsert(list);
 		         // 保存成功后, Dialog进行关闭
 		         return ajaxPrint(response, 
 		               getSuccessCallback("添加工作安排成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+			} catch (ServiceException e) {
+				// TODO Auto-generated catch block
+				return ajaxPrint(response,"提交的数据异常");
 			}
 		}else{
-			return ajaxPrint(response,"提交的数据异常");
-		}
+        	return ajaxPrint(response,"提交的数据异常");
+        }
 	}
 	
 	/**
@@ -573,6 +569,30 @@ extends BaseAdminAction
         request.setAttribute("districts", districts);
 		return mapping.findForward("admin.page.staff.work.arrange.dialog");
 	}
+	
+	/**
+	 * 根据校区ID加载部门树
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ActionForward actionLoadDepartmentsByDistrict(ActionMapping mapping,ActionForm form,HttpServletRequest request,HttpServletResponse response)
+	{
+		String districtId = request.getParameter("districtId");
+		try {
+			ModelSchoolDistrict district = this.serviceSchoolDistrict.get(districtId);
+			List<ModelSchoolDepartment> departments = this.serviceSchoolDepartment.getDepartmentByOrganization(district.getDistrictType());
+			request.setAttribute("district", district);
+			request.setAttribute("departments", departments);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			return ajaxPrint(response,"请求数据异常");
+		}
+		return mapping.findForward("admin.page.staff.work.arrange.department");
+	}
+	
 	
 	/**
 	 * 删除工作安排
