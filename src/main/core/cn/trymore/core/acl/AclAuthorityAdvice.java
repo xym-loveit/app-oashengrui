@@ -2,11 +2,15 @@ package cn.trymore.core.acl;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
+import org.shengrui.oa.util.ContextUtil;
 import org.springframework.aop.MethodBeforeAdvice;
 
 import cn.trymore.core.dao.impl.DAOGenericImpl;
+import cn.trymore.core.util.UtilString;
 
 public class AclAuthorityAdvice 
 implements MethodBeforeAdvice 
@@ -26,33 +30,59 @@ implements MethodBeforeAdvice
 	public void before(Method method, Object[] args, Object target)
 			throws Throwable
 	{
-		String targetClassName = target.getClass().getName();
-		if (targetClassName.endsWith("Impl") && targetClassName.indexOf("DAO") > -1)
+		System.out.println("The object fetched from data policy threadLocal:" + DataPolicyEngine.get());
+		
+		LOGGER.debug("The object fetched from data policy threadLocal:" + DataPolicyEngine.get());
+		
+		if (this.isGrantedDataPolicy(DataPolicyEngine.get()))
 		{
-			DAOGenericImpl repo = (DAOGenericImpl) target;
-			LOGGER.debug("It interceptored entity('" + repo.getEntityClass().getName() + "') against ACL filter");
-			Class entityObj = repo.getEntityClass();
-			Field[] fields = entityObj.getDeclaredFields();
-			if (fields != null)
+			String targetClassName = target.getClass().getName();
+			if (targetClassName.endsWith("Impl") && targetClassName.indexOf("DAO") > -1)
 			{
-				for (Field field : fields)
+				DAOGenericImpl repo = (DAOGenericImpl) target;
+				LOGGER.debug("It interceptored entity('" + repo.getEntityClass().getName() + "') against ACL filter");
+				Class entityObj = repo.getEntityClass();
+				Field[] fields = entityObj.getDeclaredFields();
+				if (fields != null)
 				{
-					if (field.isAnnotationPresent(AclFilterAnnotation.class))
+					for (Field field : fields)
 					{
-						LOGGER.debug("ACL filter detected on field:" + field.getName());
-						AclFilterAnnotation aclFilter = field.getAnnotation(AclFilterAnnotation.class);
-						if (this.validateAnnotation(aclFilter))
+						if (field.isAnnotationPresent(AclFilterAnnotation.class))
 						{
-							repo.setQueryFilter(this.buildQueryFilter(aclFilter));
-						}
-						else
-						{
-							LOGGER.warn("Invalid properties configured on ACL filter annotation..");
+							LOGGER.debug("ACL filter detected on field:" + field.getName());
+							AclFilterAnnotation aclFilter = field.getAnnotation(AclFilterAnnotation.class);
+							if (this.validateAnnotation(aclFilter))
+							{
+								repo.setQueryFilter(this.buildQueryFilter(DataPolicyEngine.get().toString(), aclFilter));
+							}
+							else
+							{
+								LOGGER.warn("Invalid properties configured on ACL filter annotation..");
+							}
 						}
 					}
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Returns true if the specified URI granted data policy access.
+	 * 
+	 * @param URI
+	 * @return
+	 */
+	private boolean isGrantedDataPolicy (Object URI)
+	{
+		if (ContextUtil.getCurrentUser() != null && URI != null)
+		{
+			Map<String, String> dataPerms = ContextUtil.getCurrentUser().getDataPermissions();
+			if (dataPerms != null && dataPerms.containsKey(URI))
+			{
+				return UtilString.isNotEmpty(dataPerms.get(URI));
+			}
+		}
+		return false;
 	}
 	
 	/**
@@ -62,7 +92,7 @@ implements MethodBeforeAdvice
 	 *          the annotation of ACL filter
 	 * @return query native SQL
 	 */
-	private String buildQueryFilter (AclFilterAnnotation aclFilter)
+	private String buildQueryFilter (String URI, AclFilterAnnotation aclFilter)
 	{
 		if (aclFilter != null)
 		{
@@ -74,14 +104,30 @@ implements MethodBeforeAdvice
 				StringBuilder builder = new StringBuilder();
 				for (int i = 0, size = fields.length; i < size; i++)
 				{
-					builder.append(fields[i]);
-					builder.append(" IN (");
-					// only for test.
-					builder.append("1,4");
-					builder.append(")");
+					String snKey = snKeys[i];
+					if (UtilString.isNotEmpty(snKey))
+					{
+						builder.append(fields[i]);
+						builder.append(" IN (");
+						// only for test.
+						builder.append(this.getFilterFieldValue(URI, snKey));
+						builder.append(")");	
+					}
 				}
 				return builder.toString();
 			}
+		}
+		
+		return null;
+	}
+	
+	private String getFilterFieldValue (String URI, String snKey)
+	{
+		String dataPolicy = ContextUtil.getCurrentUser().getDataPermissions().get(URI.toString());
+		
+		if (String.valueOf(ModelSchoolDepartmentPosition.EPositionDataPermissions.PMS_DIS_CURRENT.getValue()).equals(dataPolicy))
+		{
+			return "1, 4";
 		}
 		
 		return null;

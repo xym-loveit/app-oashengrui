@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.util.StringUtils;
 
 import cn.trymore.core.web.filter.SecurityInterceptorFilter;
 
@@ -78,6 +79,43 @@ implements ApplicationContextAware
 			ip = request.getRemoteAddr();
 		}
 		return ip;
+	}
+	
+	/**
+	 * Obtains the requested URI with the specified HTTP request.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static String getRequestURI (HttpServletRequest request)
+	{
+		// obtains the request URI
+		String requestURI = request.getRequestURI();
+		String contextPath = request.getContextPath() + "/";
+		
+		// 追加参数, 适应精准匹配.
+		if (requestURI.endsWith(".do") && UtilString.isNotEmpty(request.getQueryString()))
+		{
+			if (request.getQueryString().indexOf("&_") > -1)
+			{
+				requestURI = requestURI + "?" + request.getQueryString().substring(0, request.getQueryString().indexOf("&_"));
+			}
+			else
+			{
+				requestURI = requestURI + "?" + request.getQueryString();
+			}
+		}
+		
+		if (StringUtils.hasLength(contextPath))
+		{
+			int pos = requestURI.indexOf(contextPath);
+			if (pos != -1)
+			{
+				requestURI = requestURI.substring(pos + contextPath.length());
+			}
+		}
+		
+		return requestURI;
 	}
 	
 	public static ServletContext getServletContext()

@@ -14,11 +14,10 @@ import org.springframework.security.AccessDeniedException;
 import org.springframework.security.Authentication;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import cn.trymore.core.security.SecurityDataSource;
-import cn.trymore.core.util.UtilString;
+import cn.trymore.core.util.UtilApp;
 
 /**
  * The security intercepter filter
@@ -49,31 +48,8 @@ extends OncePerRequestFilter
 			HttpServletResponse response, FilterChain filter)
 			throws ServletException, IOException
 	{
-		// obtains the request URI
-		String requestURI = request.getRequestURI();
-		String contextPath = request.getContextPath() + "/";
-		
-		// 追加参数, 适应精准匹配.
-		if (requestURI.endsWith(".do") && UtilString.isNotEmpty(request.getQueryString()))
-		{
-			if (request.getQueryString().indexOf("&_") > -1)
-			{
-				requestURI = requestURI + "?" + request.getQueryString().substring(0, request.getQueryString().indexOf("&_"));
-			}
-			else
-			{
-				requestURI = requestURI + "?" + request.getQueryString();
-			}
-		}
-		
-		if (StringUtils.hasLength(contextPath))
-		{
-			int pos = requestURI.indexOf(contextPath);
-			if (pos != -1)
-			{
-				requestURI = requestURI.substring(pos + contextPath.length());
-			}
-		}
+		// obtains requested URI
+		String requestURI = UtilApp.getRequestURI(request);
 		
 		requestURI = "/" + requestURI;
 		
