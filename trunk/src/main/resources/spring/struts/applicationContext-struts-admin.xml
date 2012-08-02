@@ -19,6 +19,7 @@
         <property name="serviceWorkTemplate" ref="serviceWorkTemplate"/>
 		<property name="serviceBaseWorkTime" ref="serviceBaseWorkTime"/>
 		<property name="serviceBaseWorkContent" ref="serviceBaseWorkContent"/>
+		<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
      </bean>
 	
 		<bean name="/app/admin/news" class="org.shengrui.oa.web.action.admin.AdminAction">
@@ -49,6 +50,7 @@
 	    <property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
 		<property name="serviceSchoolDepartmentPosition" ref="serviceSchoolDepartmentPosition" />
 		<property name="serviceFileAttach" ref="serviceFileAttach" />
+		<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
 		
 		
 	</bean>
