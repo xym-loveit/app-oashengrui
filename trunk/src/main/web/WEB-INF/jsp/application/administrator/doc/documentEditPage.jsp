@@ -79,6 +79,33 @@
 				
 			});
 		});
+
+		$('#visiableUserNames').manifest({
+			// Use each location's full name as the display text.
+			formatDisplay: function (data, $item, $mpItem) {
+				return data.empName;
+			},
+			// Use each location's ID as the value to be submitted.
+			formatValue: function (data, $value, $item, $mpItem) {
+				return data.id;
+			},
+			<c:if test="${doc_use_name_show ne null}">
+			values: ${doc_use_name_show },
+			</c:if>
+			valuesName: 'empid',
+			marcoPolo: {
+				url: 'app/base.do?action=lookupEmployeeByName',
+				formatItem: function (data) {
+				  return '"' + data.empName + '" (' + data.districtName + '-' + data.depName + ')';
+				},
+				onSelect: function (data, $item){
+					var count = $('#attendances_count').val();
+					if(count == "" || count == null) count = 0;
+					$('#attendances_count').val(1+parseInt(count));
+				}, 
+				param: 'fullName'
+			}
+		});
 	});
 	
 </script>
@@ -158,8 +185,7 @@
 	</tr>
 	<tr>
 		<td style="vertical-align: top">文档可见人：</td>
-		<td colspan="3"><textarea name="docUserNames" rows="5" cols="60"
-			style="width: 100%"  >${formDoc ne null ? formDoc.docUserNames : ''}</textarea></td>
+		<td colspan="3"><input id="visiableUserNames" style="width: 100%"  /></td>
 	</tr>
 	<tr>
 		<td>上传中心：</td>

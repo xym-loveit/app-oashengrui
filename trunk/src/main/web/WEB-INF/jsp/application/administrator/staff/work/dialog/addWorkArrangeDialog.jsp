@@ -29,10 +29,36 @@
     			$("#staffId").val("");
     		}
     	});
+
+    	$('#staffs').manifest({
+    		// Use each location's full name as the display text.
+    		formatDisplay: function (data, $item, $mpItem) {
+    			return data.empName;
+    		},
+    		// Use each location's ID as the value to be submitted.
+    		formatValue: function (data, $value, $item, $mpItem) {
+    			return data.id;
+    		},
+    		valuesName: 'empid',
+    		marcoPolo: {
+    			url: 'app/base.do?action=lookupEmployeeByName',
+    			formatItem: function (data) {
+    			  return '"' + data.empName + '" (' + data.districtName + '-' + data.depName + ')';
+    			},
+    			onSelect: function (data, $item){
+    				var count = $('#attendances_count').val();
+    				if(count == "" || count == null) count = 0;
+    				$('#attendances_count').val(1+parseInt(count));
+    			}, 
+    			param: 'fullName'
+    		}
+    	});
     });
     function getWorkContentById(){
     	var relUrl = "app/admin.do?action=actionLoadWorkContent&districtId="+$("#districtId").val();
     	$("#work_content").loadUrl(relUrl,{},function(){});
+    	var url = "app/admin.do?action=actionLoadDepartmentsByDistrict&districtId="+$("#districtId").val();
+    	$("#district_departments").loadUrl(url,{},function(){});
     }
 </script>
 
@@ -44,7 +70,7 @@
 					<div class="accordionHeader">
 						<h2><span>icon</span>按校区</h2>
 					</div>
-					<div class="accordionContent">
+					<div class="accordionContent" id="district_departments" layoutH="100">
 						<%@ include file="../data/dataDistrictTree.jsp"%>
 					</div>
 				</div>

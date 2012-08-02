@@ -8,48 +8,59 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <script type="text/javascript">
-	// 高亮显示选中的菜单项, 供功能菜单联动选择
-	function dep_activated(id) {
-		var uroot = $("#dentity_" + id).parent().parent().parent();
-		uroot.find("div.selected").removeClass("selected");
-		$("#dentity_" + id).parent().addClass("selected");
-	}
+	$(function(){
+		$.each($("a[id^=mtask_depentity_]"), function(){
+			$(this).unbind("click");
+			$(this).bind("click", function(){
+				var depId = $(this).attr("depId");
+				var districtId = $(this).attr("districtId");
+				generic_ajax_op("app/base.do?action=actionLoadEmployeeByDepAndDistrict", "{'districtId':'" + districtId + "', 'depId':'" + depId + "'}", (function(){
+					$("#background,#progressBar").show();
+				}), (function(rsp_msg){
+					if (rsp_msg) {
+						var json_obj = eval('(' + rsp_msg + ')');
+						$('#visiableUserNames').manifest('add', json_obj);
+						$("#background,#progressBar").hide();
+					  };
+					}
+				));
+			});
+		});
+	});
 </script>
 
-<logic:present name="lookup">
-	<div class="pageContent">
-	<div class="pageFormContent" layoutH="58">
-</logic:present>
-
-<ul class="tree treeFolder" layoutH="8">
+<ul class="tree treeFolder">
 	<c:if test="${districts ne null}">
 		<c:forEach items="${districts}" var="entity">
 			<li class="expand"><a id="org_master"><c:out value="${entity.districtName}" /></a>
-			   <ul>
-			    <c:if test="${deps ne null}">
-		           <c:forEach items="${deps}" var="dep_entity">
-			         <li class="expand"><a id="org_master"><c:out value="${dep_entity.depName}" /></a>
-			         </li>
-		          </c:forEach>
-	            </c:if>
+				<ul>
+					<c:choose>
+						<c:when test="${entity.districtType eq 0}">
+							<c:if test="${departments ne null}">
+								<c:forEach items="${departments}" var="entry">
+									<c:if test="${entry.key eq 0}">
+										<c:forEach items="${entry.value}" var="department">
+											<li><a id="mtask_depentity_${department.id}" depId="${department.id}" districtId="${entity.id}" href="app/base.do?action=actionLoadEmployeeByDepAndDistrict&districtId=${entity.id}&depId=${department.id}" callback="dep_activated(${department.id});" target="ajax"><c:out value="${department.depName}" /></a></li>
+										</c:forEach>
+									</c:if>
+								</c:forEach>
+							</c:if>
+						</c:when>
+						<c:when test="${entity.districtType eq 1}">
+							<c:if test="${departments ne null}">
+								<c:forEach items="${departments}" var="entry">
+									<c:if test="${entry.key eq 1}">
+										<c:forEach items="${entry.value}" var="department">
+											<li><a id="mtask_depentity_${department.id}" depId="${department.id}" districtId="${entity.id}" href="app/base.do?action=actionLoadEmployeeByDepAndDistrict&districtId=${entity.id}&depId=${department.id}" callback="dep_activated(${department.id});" target="ajax"><c:out value="${department.depName}" /></a></li>
+										</c:forEach>
+									</c:if>
+								</c:forEach>
+							</c:if>
+						</c:when>
+					</c:choose>
 			   </ul>
 			</li>
 		</c:forEach>
 	</c:if>
 </ul>
 
-<logic:present name="lookup">
-	</div>
-	<div class="formBar">
-	<ul>
-		<li>
-		<div class="button">
-		<div class="buttonContent">
-		<button class="close" type="button">关闭</button>
-		</div>
-		</div>
-		</li>
-	</ul>
-	</div>
-	</div>
-</logic:present>
