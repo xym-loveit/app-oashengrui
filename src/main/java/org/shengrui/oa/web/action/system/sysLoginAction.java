@@ -167,7 +167,7 @@ extends BaseAppAction
 						}
 						else
 						{
-							msgBuffer.append("用户不能存在!");
+							msgBuffer.append("该用户不存在!");
 						}
 					}
 				}
