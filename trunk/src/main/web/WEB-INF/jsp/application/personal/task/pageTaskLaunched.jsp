@@ -8,6 +8,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
 <%@ taglib uri="/tags/trymore" prefix="tm"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <style>
 	label {width: auto;}
@@ -34,8 +35,7 @@
 							<logic:present name="taskTypes">
 								<logic:iterate name="taskTypes" id="entity">
 									<option value="${entity.id}" ${formEntity ne
-										null && formEntity.taskType ne
-										null && formEntity.taskType.id eq
+										null && formEntity.taskTypeId eq
 										entity.id ? 'selected="selected"' : ''}>${entity.value}</option>
 								</logic:iterate>
 							</logic:present>
@@ -44,14 +44,15 @@
 					<td>
 						<label>任务状态：</label>
 						<select class="combox" name="taskStatus" id="task_status">
-							<option value="-1">所有</option>
-							<option value="1">进行中</option>
-							<option value="2">已延期</option>
-							<option value="3">已完成</option>
+							<option value="-1" ${formEntity ne null && formEntity.taskStatus eq -1 ? 'selected="selected"' : ''}>所有</option>
+							<option value="0" ${formEntity ne null && formEntity.taskStatus eq 0 ? 'selected="selected"' : ''}>未开始</option>
+							<option value="1" ${formEntity ne null && formEntity.taskStatus eq 1 ? 'selected="selected"' : ''}>进行中</option>
+							<option value="2" ${formEntity ne null && formEntity.taskStatus eq 2 ? 'selected="selected"' : ''}>已延期</option>
+							<option value="3" ${formEntity ne null && formEntity.taskStatus eq 3 ? 'selected="selected"' : ''}>已完成</option>
 						</select>
 					</td>
 					<td>
-						任务名称：<input type="text" name="taskName" />
+						任务名称：<input type="text" name="taskName" value="${formEntity ne null && formEntity.taskName ne null ? formEntity.taskName : ''}"/>
 					</td>
 				</tr>
 			</table>
@@ -120,8 +121,22 @@
 						</td>
 						<td>
 							<c:choose>
-								<c:when test="${tm:getIntervalDays(entity.taskPlannedStartDate, entity.taskPlannedEndDate) >= 0}">还剩<b style="color:#3A9D3A; margin: 0 2px;">${tm:getIntervalDays(entity.taskPlannedStartDate, entity.taskPlannedEndDate)}</b>天
+								<c:when test="${entity.taskActualEndDate ne null}">
+									<c:choose>
+										<c:when test="${tm:getIntervalDays(entity.taskActualEndDate, entity.taskPlannedEndDate) >= 0}">
+											提前<b style="color:#3A9D3A; margin: 0 2px;">${fn:replace(tm:getIntervalDays(entity.taskActualEndDate, entity.taskPlannedEndDate), '-', '')}</b>天完成
+										</c:when>
+										<c:otherwise>
+											延期<b style="color:red; margin: 0 2px;">${fn:replace(tm:getIntervalDays(entity.taskActualEndDate, entity.taskPlannedEndDate), '-', '')}</b>天完成
+										</c:otherwise>
+									</c:choose>
 								</c:when>
+								<c:when test="${tm:getIntervalDays(today, entity.taskPlannedEndDate) >= 0}">
+									还剩<b style="color:#3A9D3A; margin: 0 2px;">${fn:replace(tm:getIntervalDays(today, entity.taskPlannedEndDate), '-', '')}</b>天
+								</c:when>
+								<c:otherwise>
+									已延期<b style="color:red; margin: 0 2px;">${fn:replace(tm:getIntervalDays(today, entity.taskPlannedEndDate), '-', '')}</b>天
+								</c:otherwise>
 							</c:choose>
 						</td>
 						<td><fmt:formatDate  value="${entity.taskPlannedStartDate}" pattern="yyyy-MM-dd" /></td>
