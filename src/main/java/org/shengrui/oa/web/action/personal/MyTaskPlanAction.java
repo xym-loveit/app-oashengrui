@@ -85,6 +85,8 @@ extends BaseAppAction
 			// 输出分页信息至客户端
 			outWritePagination(request, pagingBean, items);
 			
+			request.setAttribute("today", new Date());
+			
 			return mapping.findForward("page.task.index");
 		} 
 		catch (Exception e)
@@ -117,6 +119,8 @@ extends BaseAppAction
 			
 			// 输出分页信息至客户端
 			outWritePagination(request, pagingBean, items);
+			
+			request.setAttribute("today", new Date());
 			
 			return mapping.findForward("page.task.launched");
 		} 
