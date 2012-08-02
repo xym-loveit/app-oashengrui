@@ -20,6 +20,12 @@ public class AppUtil
 	
 	private static final String FORM_DATE_PATTERN = "yyyyMMddHHmmss";
 	
+	public static final String DATA_POLICY_DEPARTMENT = "V_DEP";
+	
+	public static final String DATA_POLICY_DISTRICT = "V_DIS";
+	
+	public static final String DATA_POLICY_PERSONAL = "V_PERSONAL";
+	
 	/**
 	 * The enumeration of application school type
 	 * 
@@ -48,6 +54,58 @@ public class AppUtil
 		public String getText()
 		{
 			return this.text;
+		}
+	}
+	
+	/**
+	 * The enumeration of data permission
+	 * 
+	 * @author Jeccy.Zhao
+	 *
+	 */
+	public static enum EDataPermissions
+	{
+		/**
+		 * 个人数据
+		 */
+		DP_MINE(1, AppUtil.DATA_POLICY_PERSONAL),						
+		
+		/**
+		 * 部门数据
+		 */
+		DP_DEP_CURRENT(2, AppUtil.DATA_POLICY_DEPARTMENT),		
+		
+		/**
+		 * 大部门数据
+		 */
+		DP_DEP_WHOLE(3, AppUtil.DATA_POLICY_DEPARTMENT),			
+		
+		/**
+		 * 校区数据
+		 */
+		DP_DIS_CURRENT(4, AppUtil.DATA_POLICY_DISTRICT),			
+		
+		/**
+		 * 全校数据
+		 */
+		DP_DIS_WHOLE(5, AppUtil.DATA_POLICY_DISTRICT);				
+		
+		private Integer value;
+		private String type;
+		
+		EDataPermissions (Integer value, String type)
+		{
+			this.value = value;
+			this.type = type;
+		}
+		
+		public Integer getValue(){
+			return value;
+		}
+		
+		public String getType()
+		{
+			return this.type;
 		}
 	}
 	

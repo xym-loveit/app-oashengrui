@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
+import org.shengrui.oa.util.AppUtil;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.GrantedAuthorityImpl;
 import org.springframework.security.userdetails.UserDetails;
@@ -164,7 +165,13 @@ extends ModelBase implements UserDetails
 	 */
 	private boolean isInitialized = false;
 	
-	@AclFilterAnnotation(fields ={"test"}, snKeys ={"V_DEP"})
+	/**
+	 * 数据权限过滤
+	 */
+	@AclFilterAnnotation(
+		fieldNames ={"district_id", "dep_id"}, 
+		fieldTypes ={AppUtil.DATA_POLICY_DISTRICT, AppUtil.DATA_POLICY_DEPARTMENT}
+	)
 	protected String aclFilterFields;
 	
 	/**
@@ -323,8 +330,8 @@ extends ModelBase implements UserDetails
 	private void initDataPermissions (ModelSchoolDepartmentPosition position)
 	{
 		// only for testing.
-		dataPermissions.put("app/personal/addressBook.do?action=addressBookInfo", 
-				String.valueOf(ModelSchoolDepartmentPosition.EPositionDataPermissions.PMS_DIS_CURRENT.getValue()));
+		//dataPermissions.put("app/personal/addressBook.do?action=addressBookInfo", 
+		//		String.valueOf(AppUtil.EDataPermissions.DP_DIS_CURRENT.getValue()));
 	}
 	
 	/**

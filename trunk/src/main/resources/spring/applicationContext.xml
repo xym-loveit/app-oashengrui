@@ -118,6 +118,20 @@
 		</property> 
 	</bean>
 	
+	<!-- LogAspect -->
+	<bean id="aclAuthAdvice" class="cn.trymore.core.acl.AclAuthorityAdvice"/>
+	<!--  Base Transaction Proxy -->
+	<bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="beanNames"> 
+			<value>dao*</value> 
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>aclAuthAdvice</value>
+			</list> 
+		</property> 
+	</bean>
+	
 	<bean id="AppUtil" class="cn.trymore.core.util.UtilApp" />
 	
 </beans>

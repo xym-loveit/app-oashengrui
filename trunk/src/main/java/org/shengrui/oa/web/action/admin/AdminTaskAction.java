@@ -1,5 +1,7 @@
 package org.shengrui.oa.web.action.admin;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -52,6 +54,8 @@ extends MyTaskPlanAction
 			
 			// 输出分页信息至客户端
 			outWritePagination(request, pagingBean, items);
+			
+			request.setAttribute("today", new Date());
 			
 			return mapping.findForward("admin.page.task.index");
 		} 

@@ -3,6 +3,8 @@ package org.shengrui.oa.model.system;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.shengrui.oa.util.AppUtil;
+
 import com.google.gson.annotations.Expose;
 
 import cn.trymore.core.model.ModelBase;
@@ -56,42 +58,7 @@ extends ModelBase
 	/**
 	 * 岗位拥有的数据权限
 	 */
-	private String dataPermissions = String.valueOf(EPositionDataPermissions.PMS_MINE.getValue());
-	
-	
-	/**
-	 * The enumeration of department position leadership
-	 * 
-	 * @author Jeccy.Zhao
-	 *
-	 */
-	public static enum EPositionDataPermissions
-	{
-		
-		PMS_MINE(1, "PMS_MINE"),									// 个人数据
-		PMS_DEP_CURRENT(2, "PMS_DEP_CURRENT"),			// 部门数据
-		PMS_DEP_WHOLE(3, "PMS_DEP_WHOLE"),					// 大部门数据
-		PMS_DIS_CURRENT(4, "PMS_DIS_CURRENT"),				// 校区数据
-		PMS_DIS_WHOLE(5, "PMS_DIS_WHOLE");					// 全校数据
-		
-		private Integer value;
-		private String text;
-		
-		EPositionDataPermissions (Integer value, String text)
-		{
-			this.value = value;
-			this.text = text;
-		}
-		
-		public Integer getValue(){
-			return value;
-		}
-		
-		public String getText()
-		{
-			return this.text;
-		}
-	}
+	private String dataPermissions = String.valueOf(AppUtil.EDataPermissions.DP_MINE.getValue());
 	
 	/**
 	 * The enumeration of department position leadership

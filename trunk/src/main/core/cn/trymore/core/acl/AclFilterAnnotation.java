@@ -23,10 +23,10 @@ public @interface AclFilterAnnotation
 	/**
 	 * Filtered fields
 	 */
-	String[] fields() default {};
+	String[] fieldNames() default {};
 	
 	/**
 	 * Session keys for specified field
 	 */
-	String[] snKeys() default {};
+	String[] fieldTypes() default {};
 }
