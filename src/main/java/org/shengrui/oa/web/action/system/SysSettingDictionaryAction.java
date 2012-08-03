@@ -173,7 +173,6 @@ public class SysSettingDictionaryAction extends sysSettingBaseAction {
 					loop++;
 				}
 				sb.append("]");
-				System.out.println(sb.toString());
 				return ajaxPrint(response, sb.toString());
 			}
 		} catch (ServiceException e) {
