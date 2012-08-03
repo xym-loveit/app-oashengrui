@@ -4,6 +4,7 @@ public class PagingBean
 {
 	
 	public static Integer DEFAULT_PAGE_SIZE = Integer.valueOf(20);
+	public static Integer DEFAULT_PAGE_SIZE1 = Integer.valueOf(4);
 	
 	public static final int DEFAULT_SHOW_PAGES = 10;
 	

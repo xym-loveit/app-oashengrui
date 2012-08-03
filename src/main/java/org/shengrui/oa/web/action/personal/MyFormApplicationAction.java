@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.shengrui.oa.model.admin.ModelTaskPlan;
 import org.shengrui.oa.model.flow.ModelProcessForm;
 import org.shengrui.oa.model.flow.ModelProcessType;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
@@ -45,6 +46,63 @@ extends FlowBaseAction
 	 * The employee develop service
 	 */
 	private ServiceHrmEmployeeDevelop serviceHrmEmployeeDevelop;
+	
+	/**
+	 * 首页显示我的申请
+	 * */
+	public ActionForward pageMyApplicationIndex1 (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		
+		try
+		{
+			PagingBean pagingBean = this.getPagingBean1(request);
+			PaginationSupport<ModelHrmEmployeeDevelop> items =
+					this.serviceHrmEmployeeDevelop.getEmployeeDevelopInfoPagination(null, pagingBean);
+			
+			request.setAttribute("dataList", items);
+			
+			// 输出分页信息至客户端
+//			outWritePagination(request, pagingBean, items);
+			response.getWriter().write(ObjectToString(items));
+		} 
+		catch (Exception e)
+		{
+			return ajaxPrint(response, getErrorCallback("页面加载失败:" + e.getMessage()));
+		}
+		
+		return null;
+	}
+	
+	private String ObjectToString(PaginationSupport<ModelHrmEmployeeDevelop> list){
+		StringBuffer sb =new StringBuffer();
+		if(list != null){
+			for (ModelHrmEmployeeDevelop application : list.getItems()) { 
+				sb.append("<tr><td style=\"display: none;\">");
+				sb.append(application.getId()+"</td><td>");
+				sb.append(application.getApplyFormType().getProcessTypeName()+"</td>");
+				sb.append("<td>"+application.getEmployee().getEmpName()+"</td><td>");
+				sb.append(intToString(application.getAuditState())+"</td></tr>");
+			}
+			return sb.toString();
+		}
+		return "";
+	}
+	private String intToString(Integer status){
+		String statu="";
+		if(null==status){
+			statu="未开始";
+		}else if(1==status.intValue()){
+			statu="进行";
+		}else if(2 == status.intValue()){
+			statu = "审批通过";
+		}else if(3 == status.intValue()){
+			statu = "审批未通过";
+		}else if(4 == status.intValue()){
+			statu = "审批退回";
+		}
+		return statu;
+	}
 	
 	/**
 	 * <b>[WebAction]</b> 

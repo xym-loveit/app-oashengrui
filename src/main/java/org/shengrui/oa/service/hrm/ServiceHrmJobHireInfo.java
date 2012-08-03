@@ -27,5 +27,4 @@ extends ServiceGeneric<ModelHrmJobHireInfo>
 	 */
 	PaginationSupport<ModelHrmJobHireInfo> getPaginationByEntity (ModelHrmJobHireInfo entity, 
 			PagingBean pagingBean) throws ServiceException;
-	
 }

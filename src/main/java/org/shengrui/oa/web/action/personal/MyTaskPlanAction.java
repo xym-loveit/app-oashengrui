@@ -57,6 +57,75 @@ extends BaseAppAction
 	protected ServiceTaskPlanTrack serviceTaskPlanTrack;
 	
 	/**
+	 * 首页显示我的任务
+	 * */
+	public ActionForward pageTaskIndex1 (ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) 
+	{
+		try
+		{
+			if (ContextUtil.getCurrentUser().getEmployee() == null)
+			{
+				return ajaxPrint(response, getErrorCallback("您必须具备员工身份才能访问我的任务..."));
+			}
+			
+			ModelTaskPlan formEntity = (ModelTaskPlan) form;
+			
+			request.setAttribute("taskTypes", this.serviceAppDictionary.getByType(DIC_KEY_TASK_TYPE));
+				
+			PagingBean pagingBean = this.getPagingBean1(request);
+			PaginationSupport<ModelTaskPlan> items =
+					this.serviceTaskPlan.getPaginationByEntity(formEntity, ContextUtil.getCurrentUser().getEmployee().getId(), false, pagingBean);
+			
+			request.setAttribute("list", items);
+			request.setAttribute("formEntity", formEntity);
+			
+			// 输出分页信息至客户端
+			outWritePagination(request, pagingBean, items);
+			response.getWriter().write(ObjectToString(items));
+//			return mapping.findForward("page.task.index1");
+			return null;
+		} 
+		catch (Exception e)
+		{
+			LOGGER.error("Exception raised when fetch all expense documents.", e);
+			return ajaxPrint(response, getErrorCallback("页面加载失败:" + e.getMessage()));
+		}
+		
+	}
+	
+	private String ObjectToString(PaginationSupport<ModelTaskPlan> list){
+		StringBuffer sb =new StringBuffer();
+		if(list != null){
+			for (ModelTaskPlan task : list.getItems()) {
+				sb.append("<tr><td style=\"display: none;\">");
+				sb.append(task.getId()+"</td><td>");
+				sb.append(task.getTaskName()+"</td>");
+				sb.append("<td>"+intToString(task.getTaskStatus())+"</td><td>");
+				sb.append(task.getTaskCharger().getEmpName()+"</td></tr>");
+			}
+			return sb.toString();
+		}
+		return "";
+	}
+	private String intToString(Integer status){
+		String statu="";
+		if(null==status){
+			statu="未开始";
+		}else if(1==status.intValue()){
+			statu="进行";
+		}else if(2 == status.intValue()){
+			statu = "已延期";
+		}else if(3 == status.intValue()){
+			statu = "已完成";
+		}else if(4 == status.intValue()){
+			statu = "待延期审批";
+		}else if(5 == status.intValue()){
+			statu = "待完成审批";
+		}
+		return statu;
+	}
+	/**
 	 * <b>[WebAction]</b> 
 	 * <br/>
 	 * 我的任务

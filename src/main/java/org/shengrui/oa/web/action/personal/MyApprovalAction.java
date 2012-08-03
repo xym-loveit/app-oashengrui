@@ -1,5 +1,7 @@
 package org.shengrui.oa.web.action.personal;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -32,6 +34,166 @@ extends BaseAppAction
 
 	protected ServiceHrmJobHireInfo serviceHrmJobHireInfo;
 	protected ServiceHrmEmployeeDevelop serviceHrmEmployeeDevelop;
+	
+	/**
+	 * 首页显示待我审批信息
+	 * 
+	 * */
+	public ActionForward pageMyApproval1(ActionMapping mapping,ActionForm form,
+			HttpServletRequest request,HttpServletResponse response
+	){
+		ModelNewsMag newsInfo = (ModelNewsMag) form;
+		ModelTaskPlan taskInfo = (ModelTaskPlan) form;
+		ModelFinanExpense finanInfo = (ModelFinanExpense) form;
+		ModelFinanContract contractInfo = (ModelFinanContract) form;
+		ModelHrmJobHireInfo formJobHireInfo = (ModelHrmJobHireInfo) form;
+		ModelHrmEmployeeDevelop formEmployee = (ModelHrmEmployeeDevelop) form;
+		
+		PagingBean pagingBean = this.getPagingBean1(request);
+		try {
+			//新闻发布审批
+			PaginationSupport<ModelNewsMag> news = 
+				this.serviceNewsManage.getNewsRec(newsInfo, pagingBean);
+			request.setAttribute("news", news);
+			//任务委托审批
+			PaginationSupport<ModelTaskPlan> task = 
+				this.serviceTaskPlan.getTaskPlanApproval(taskInfo,pagingBean);
+			request.setAttribute("task", task);
+			//财务审批
+			PaginationSupport<ModelFinanExpense> finan = 
+				this.serviceFinanExpense.getfinanApproval(finanInfo, pagingBean);
+			request.setAttribute("finan", finan);
+			//合同审批
+			PaginationSupport<ModelFinanContract> contract = 
+				this.serviceFinanContract.finanContract(contractInfo, pagingBean);
+			request.setAttribute("contract", contract);
+			//岗位发布审批
+			PaginationSupport<ModelHrmJobHireInfo> hireJobs = 
+				this.serviceHrmJobHireInfo.getPaginationByEntity(formJobHireInfo, pagingBean);
+			request.setAttribute("hireJobs", hireJobs);
+			//晋升申请审批
+			PaginationSupport<ModelHrmEmployeeDevelop> items =
+				this.serviceHrmEmployeeDevelop.getfinanHr(formEmployee, pagingBean);
+		    request.setAttribute("dataList", items);
+			
+			request.setAttribute("op", request.getParameter("op"));
+			try {
+				response.getWriter().write(ObjectToString(news));
+				response.getWriter().write(ObjectToString1(task));
+				response.getWriter().write(ObjectToString2(finan));
+				response.getWriter().write(ObjectToString3(contract));
+				response.getWriter().write(ObjectToString4(hireJobs));
+				response.getWriter().write(ObjectToString5(items));
+			} catch (IOException e) { 
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	private String ObjectToString(PaginationSupport<ModelNewsMag> list){
+		StringBuffer sb =new StringBuffer();
+		if(list != null){
+			for (ModelNewsMag news : list.getItems()) {
+				sb.append("<tr><td style=\"display: none;\">");
+				sb.append(news.getId()+"</td><td>");
+				sb.append("["+ news.getDictionary().getName() + "]"+"”" + news.getNewsSubject()+"“"+ "新闻发布审批"+"</td>");
+				sb.append("<td>"+news.getUser().getFullName()+"</td><td>");
+				sb.append(news.getUpdateTime()+"</td></tr>");
+				
+			}
+			return sb.toString();
+		}
+		return "";
+	}
+	private String ObjectToString1(PaginationSupport<ModelTaskPlan> list){
+		StringBuffer sb =new StringBuffer();
+		if(list != null){
+			for (ModelTaskPlan task : list.getItems()) {
+				sb.append("<tr><td style=\"display: none;\">");
+				sb.append(task.getId()+"</td><td>");
+				sb.append("["+task.getTaskType().getName()+"]"+ "”" + task.getTaskName() + "“"+ " 任务委托发布审批"+"</td>");
+				sb.append("<td>"+task.getTaskOriginator().getEmpName()+"</td><td>");
+				sb.append(task.getCreateTime()+"</td></tr>");
+			}
+			return sb.toString();
+		}
+		return "";
+	}
+	private String ObjectToString2(PaginationSupport<ModelFinanExpense> list){
+		StringBuffer sb =new StringBuffer();
+		if(list != null){
+			for (ModelFinanExpense finan : list.getItems()) {
+				sb.append("<tr><td style=\"display: none;\">");
+				sb.append(finan.getId()+"</td><td>");
+				sb.append(finan.getEmployee().getEmpName()+" "+ "<label style='color:red;'>"+finan.getEmpDistrict().getDistrictName()+"</label>&nbsp&nbsp&nbsp<label style='color:red;'>"+finan.getApplyAmt()+"</label>");
+				sb.append("<td>"+finan.getEmployee().getEmpName()+"</td><td>");
+				sb.append(finan.getApplyDate()+"</td></tr>");
+			}
+			return sb.toString();
+		}
+		return "";
+	}
+	private String ObjectToString3(PaginationSupport<ModelFinanContract> list){
+		StringBuffer sb =new StringBuffer();
+		if(list != null){
+			for (ModelFinanContract contract : list.getItems()) {
+				sb.append("<tr><td style=\"display: none;\">");
+				sb.append(contract.getId()+"</td><td>");
+				sb.append("["+contract.getEmployee().getEmpName()+"]"+" "+ contract.getEmpDistrict().getDistrictName()+" "+contract.getApplyFormType().getProcessTypeName());
+				sb.append("<td>"+contract.getEmployee().getEmpName()+"</td><td>");
+				sb.append(contract.getApplyDate()+"</td></tr>");
+			}
+			return sb.toString();
+		}
+		return "";
+	}
+	private String ObjectToString4(PaginationSupport<ModelHrmJobHireInfo> list){
+		StringBuffer sb =new StringBuffer();
+		if(list != null){
+			for (ModelHrmJobHireInfo hrm : list.getItems()) {
+				sb.append("<tr><td style=\"display: none;\">");
+				sb.append(hrm.getId()+"</td><td>");
+				sb.append("["+ hrm.getJobHireDepartment().getDepName()+" "+ hrm.getJobHireDistrict().getDistrictName()+"]" +"”"+hrm.getJobHireTitle()+"“" +"招聘");
+				sb.append("<td>"+hrm.getPostAuthorName()+"</td><td>");
+				sb.append(hrm.getPostDate()+"</td></tr>");
+			}
+			return sb.toString();
+		}
+		return "";
+	}
+	private String ObjectToString5(PaginationSupport<ModelHrmEmployeeDevelop> list){
+		StringBuffer sb =new StringBuffer();
+		if(list != null){
+			for (ModelHrmEmployeeDevelop entry : list.getItems()) {
+				sb.append("<tr><td style=\"display: none;\">");
+				sb.append(entry.getId()+"</td><td>");
+				sb.append(entry.getEmployee().getEmpName()+"岗位"+StrToString(entry.getApplyFormType().getId()));
+				sb.append("<td>"+entry.getEmployee().getEmpName()+"</td><td>");
+				sb.append(entry.getApplyDate()+"</td></tr>");
+			}
+			return sb.toString();
+		}
+		return "";
+	}
+	
+	private String StrToString(String status){
+		String statu="";
+		if("3"==status){
+			statu="转正申请";
+		}else if("4"==status){
+			statu="调动申请";
+		}else if("5"== status){
+			statu="晋升申请";
+		}else if("6"== status){
+			statu="离职申请";
+		}
+		return statu;
+	}
 	
 	/**
 	 * 待我审批
@@ -69,10 +231,9 @@ extends BaseAppAction
 			PaginationSupport<ModelHrmJobHireInfo> hireJobs = 
 				this.serviceHrmJobHireInfo.getPaginationByEntity(formJobHireInfo, pagingBean);
 			request.setAttribute("hireJobs", hireJobs);
-//			request.setAttribute("hireJobForm", formJobHireInfo);
 			//晋升申请审批
 			PaginationSupport<ModelHrmEmployeeDevelop> items =
-				this.serviceHrmEmployeeDevelop.getEmployeeDevelopInfoPagination(formEmployee, pagingBean);
+				this.serviceHrmEmployeeDevelop.getfinanHr(formEmployee, pagingBean);
 		    request.setAttribute("dataList", items);
 			
 			request.setAttribute("op", request.getParameter("op"));
@@ -119,10 +280,9 @@ extends BaseAppAction
 			PaginationSupport<ModelHrmJobHireInfo> hireJobsInfo = 
 				this.serviceHrmJobHireInfo.getPaginationByEntity(formJobHireInfo, pagingBean);
 			request.setAttribute("hireJobsInfo", hireJobsInfo);
-			request.setAttribute("hireJobFormInfo", formJobHireInfo);
 			//晋升申请审批
 			PaginationSupport<ModelHrmEmployeeDevelop> items =
-				this.serviceHrmEmployeeDevelop.getEmployeeDevelopInfoPagination(formEmployee, pagingBean);
+				this.serviceHrmEmployeeDevelop.getfinanHrRec(formEmployee, pagingBean);
 		    request.setAttribute("dataList", items);
 		    
 			request.setAttribute("op", request.getParameter("op"));
