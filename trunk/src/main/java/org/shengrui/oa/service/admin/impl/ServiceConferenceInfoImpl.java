@@ -86,10 +86,10 @@ extends ServiceGenericImpl<ModelConference> implements ServiceConferenceInfo
 			if(entity.getSponsor()!=null && UtilString.isNotEmpty(entity.getSponsor().getId()))
 			{
 				criteria.createCriteria("sponsor").add(Restrictions.eq("id", entity.getSponsor().getId()));
-				if(UtilString.isNotEmpty(entity.getSponsor().getFullName()))
-				{
-					criteria.add(Restrictions.like("attendances", entity.getSponsor().getFullName(), MatchMode.ANYWHERE));
-				}
+			}
+			if(entity.getSponsor()!=null && UtilString.isNotEmpty(entity.getSponsor().getFullName()))
+			{
+				criteria.add(Restrictions.like("attendances", entity.getSponsor().getFullName(), MatchMode.ANYWHERE));
 			}
 		}
 		
