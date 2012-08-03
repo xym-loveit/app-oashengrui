@@ -102,16 +102,27 @@ implements MethodBeforeAdvice
 			if (fieldNames.length == fieldTypes.length)
 			{
 				StringBuilder builder = new StringBuilder();
+				boolean multiCloud = false;
+				
 				for (int i = 0, size = fieldNames.length; i < size; i++)
 				{
 					String fieldType = fieldTypes[i];
 					if (UtilString.isNotEmpty(fieldType))
 					{
-						builder.append(fieldNames[i]);
-						builder.append(" IN (");
-						// only for test.
-						builder.append(this.obtainDataStrategy(URI, fieldType));
-						builder.append(")");	
+						String strategy = this.obtainDataStrategy(URI, fieldType);
+						if (strategy != null)
+						{
+							if (multiCloud)
+							{
+								builder.append(" AND ");
+							}
+							builder.append(fieldNames[i]);
+							builder.append(" IN (");
+							// only for test.
+							builder.append(strategy);
+							builder.append(")");
+							multiCloud = true;
+						}
 					}
 				}
 				return builder.toString();
@@ -134,23 +145,27 @@ implements MethodBeforeAdvice
 		
 		String dataPolicy = ContextUtil.getCurrentUser().getDataPermissions().get(URI.toString());
 		
-		if (String.valueOf(AppUtil.EDataPermissions.DP_DIS_WHOLE.getValue()).equals(dataPolicy))
+		if (String.valueOf(AppUtil.EDataPermissions.DP_DIS_WHOLE.getValue()).equals(dataPolicy)
+				&& AppUtil.EDataPermissions.DP_DIS_WHOLE.getType().equals(fieldType))
 		{
 			// 全校数据, 可以访问所有数据
 			return null;
 		}
-		else if (String.valueOf(AppUtil.EDataPermissions.DP_DIS_CURRENT.getValue()).equals(dataPolicy))
+		else if (String.valueOf(AppUtil.EDataPermissions.DP_DIS_CURRENT.getValue()).equals(dataPolicy)
+				&& AppUtil.EDataPermissions.DP_DIS_CURRENT.getType().equals(fieldType))
 		{
 			// 校区数据
 			return logonUser.getEmployee() != null ? 
 						logonUser.getEmployee().getEmployeeDistrict().getId() : logonUser.getDistrict().getId();
 		}
-		else if (String.valueOf(AppUtil.EDataPermissions.DP_DEP_WHOLE.getValue()).equals(dataPolicy))
+		else if (String.valueOf(AppUtil.EDataPermissions.DP_DEP_WHOLE.getValue()).equals(dataPolicy)
+				&& AppUtil.EDataPermissions.DP_DEP_WHOLE.getType().equals(fieldType))
 		{
 			// 大部门数据
 			return "1, 4";
 		}
-		else if (String.valueOf(AppUtil.EDataPermissions.DP_DEP_CURRENT.getValue()).equals(dataPolicy))
+		else if (String.valueOf(AppUtil.EDataPermissions.DP_DEP_CURRENT.getValue()).equals(dataPolicy)
+				&& AppUtil.EDataPermissions.DP_DEP_CURRENT.getType().equals(fieldType))
 		{
 			// 部门数据
 			return logonUser.getEmployee() != null ? 

@@ -172,7 +172,7 @@ extends ModelBase implements UserDetails
 		fieldNames ={"district_id", "dep_id"}, 
 		fieldTypes ={AppUtil.DATA_POLICY_DISTRICT, AppUtil.DATA_POLICY_DEPARTMENT}
 	)
-	protected String aclFilterFields;
+	private String aclFilterFields;
 	
 	/**
 	 * 职位ID 
@@ -330,7 +330,7 @@ extends ModelBase implements UserDetails
 	private void initDataPermissions (ModelSchoolDepartmentPosition position)
 	{
 		// only for testing.
-		//dataPermissions.put("app/personal/addressBook.do?action=addressBookInfo", 
+		// dataPermissions.put("app/personal/addressBook.do?action=addressBookInfo", 
 		//		String.valueOf(AppUtil.EDataPermissions.DP_DIS_CURRENT.getValue()));
 	}
 	
@@ -668,5 +668,15 @@ extends ModelBase implements UserDetails
 	public Map<String, String> getDataPermissions()
 	{
 		return dataPermissions;
+	}
+
+	public void setAclFilterFields(String aclFilterFields)
+	{
+		this.aclFilterFields = aclFilterFields;
+	}
+
+	public String getAclFilterFields()
+	{
+		return aclFilterFields;
 	}
 }

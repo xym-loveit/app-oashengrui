@@ -284,6 +284,11 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 	public PaginationSupport<T> findPageByCriteria(final DetachedCriteria criteria, 
 			final int pageSize, final int startIndex) throws DAOException
 	{
+		if (UtilString.isNotEmpty(this.getQueryFilter()))
+		{
+			criteria.add(Restrictions.sqlRestriction(this.getQueryFilter()));
+		}
+		
 		return (PaginationSupport<T>)getHibernateTemplate().execute(new HibernateCallback()
 		{
 			public Object doInHibernate(Session session) throws HibernateException, SQLException 
