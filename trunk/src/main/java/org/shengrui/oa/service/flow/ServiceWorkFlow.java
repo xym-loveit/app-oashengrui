@@ -7,6 +7,7 @@ import org.shengrui.oa.model.flow.ModelProcessHistory;
 import org.shengrui.oa.model.flow.ModelProcessTask;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
+import org.shengrui.oa.model.system.ModelSchoolDistrict;
 
 import cn.trymore.core.exception.ServiceException;
 
@@ -132,6 +133,26 @@ public interface ServiceWorkFlow
 	void doStartProcess (String processTypeId, 
 			ModelSchoolDepartmentPosition filterPosition, Object condParamVal, String formNo, ModelHrmEmployee employee) throws ServiceException;
 	
+	/**
+	 * Do starts the process
+	 * 
+	 * @param processTypeId
+	 *                  the process type id
+	 * @param filterPosition
+	 *                  the filtered position
+	 * @param filterDistrict
+	 *                  the filtered district
+	 * @param condParamVal
+	 *                  the condition parameter value
+	 * @param formNo
+	 *                  the application form no
+	 * @param employee
+	 *                  the employee entity, aims to generate the form entities.
+	 * @throws ServiceException
+	 */
+	void doStartProcess (String processTypeId, 
+			ModelSchoolDepartmentPosition filterPosition, ModelSchoolDistrict filterDistrict, Object condParamVal, String formNo, ModelHrmEmployee employee) throws ServiceException;
+
 	/**
 	 * Ends the process form nodes with the specified form no.
 	 * 

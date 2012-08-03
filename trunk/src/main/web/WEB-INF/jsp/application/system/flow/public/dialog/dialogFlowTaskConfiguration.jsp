@@ -6,6 +6,7 @@
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <script>
 	function after_save(json) {
@@ -52,6 +53,9 @@
 					<option value="2" ${taskType ne null && taskType eq 2 ? "selected='selected'" : ""}>某部门(账号所在校区)</option>
 					<option value="3" ${taskType ne null && taskType eq 3 ? "selected='selected'" : ""}>总部对口部门</option>
 					<option value="4" ${taskType ne null && taskType eq 4 ? "selected='selected'" : ""}>总部某部门</option>
+					<c:if test="${typeSlug eq 'hrm' && istran ne null}">
+					<option value="5" ${taskType ne null && taskType eq 5 ? "selected='selected'" : ""}>调动/晋升校区</option>
+					</c:if>
 				</select>
 			</div>
 			<div id="form_box" style="padding: 10px 0;clear:both">

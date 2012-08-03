@@ -44,6 +44,7 @@
 									<c:choose>
 										<c:when test="${entity.currentProcessForm.taskType eq 1 || entity.currentProcessForm.taskType eq 2}">(校区)</c:when>
 										<c:when test="${entity.currentProcessForm.taskType eq 3 || entity.currentProcessForm.taskType eq 4}">(总部)</c:when>
+										<c:when test="${entity.currentProcessForm.taskType eq 5}">(调动/晋升校区)</c:when>
 										<c:otherwise>未知</c:otherwise>
 									</c:choose>
 								</c:if>

@@ -20,7 +20,7 @@
 					</c:when>
 					<c:when test="${fn:length(prcessDefs) gt 1}">
 						<logic:iterate name="prcessDefs" id="entity">
-							<li><a id="fdefEntity_${typeSlug}_${entity.id}" class='tparam' param="_var_fdefid" paramRel="${entity.id}" href="app/flow/${typeSlug}.do?action=actionLoadProcessTasks&procDefId=${entity.id}" target="ajax" rel="ajBoxFlowConf_${processType.id}">
+							<li><a id="fdefEntity_${typeSlug}_${entity.id}" class='tparam' param="_var_fdefid" paramRel="${entity.id}" href="app/flow/${typeSlug}.do?action=actionLoadProcessTasks&procDefId=${entity.id}&istran=y" target="ajax" rel="ajBoxFlowConf_${processType.id}">
 							${entity.filterPoset.posetName} ${entity.condition eq null ? '' : (entity.condition eq 'x == 0' ? '- 校区内' : (entity.condition eq 'x == 1' ? '- 跨校区' : '- 未知'))}</a></li>
 						</logic:iterate>
 					</c:when>

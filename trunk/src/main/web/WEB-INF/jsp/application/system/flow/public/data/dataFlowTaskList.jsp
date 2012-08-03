@@ -9,7 +9,7 @@
 
 <script>
 	function callback_procTaskRemove(wrap_id, procDefId) {
-		$("#ajBoxFlowConf_"+wrap_id).loadUrl("app/flow.do?action=actionLoadProcessTasks&procDefId="+procDefId, {}, function(){
+		$("#ajBoxFlowConf_"+wrap_id).loadUrl("app/flow.do?action=actionLoadProcessTasks${istran ne null ? '&istran' : ''}&procDefId="+procDefId, {}, function(){
 		});
 	}
 </script>
@@ -35,6 +35,7 @@
 							<c:when test="${entity.processTaskType eq 1}">账号所在校区(本部门)</c:when>
 							<c:when test="${entity.processTaskType eq 2}">账号所在校区(某部门)</c:when>
 							<c:when test="${entity.processTaskType eq 3 || entity.processTaskType eq 4}">总部部门</c:when>
+							<c:when test="${entity.processTaskType eq 5}">调动/晋升校区部门</c:when>
 							<c:otherwise>未知</c:otherwise>
 						</c:choose>
 					</td>
@@ -42,7 +43,7 @@
 						<c:choose>
 							<c:when test="${entity.processTaskType eq 1}">校区部门</c:when>
 							<c:when test="${entity.processTaskType eq 3}">总部对口部门</c:when>
-							<c:when test="${entity.processTaskType eq 2 || entity.processTaskType eq 4}">${entity.toDepartmentNames}</c:when>
+							<c:when test="${entity.processTaskType eq 2 || entity.processTaskType eq 4 || entity.processTaskType eq 5}">${entity.toDepartmentNames}</c:when>
 							<c:otherwise>未知</c:otherwise>
 						</c:choose>
 					</td>
@@ -50,12 +51,12 @@
 						<c:choose>
 							<c:when test="${entity.processTaskType eq 1}">校区岗位</c:when>
 							<c:when test="${entity.processTaskType eq 3}">总部对口岗位</c:when>
-							<c:when test="${entity.processTaskType eq 2 || entity.processTaskType eq 4}">${entity.toPositionNames}</c:when>
+							<c:when test="${entity.processTaskType eq 2 || entity.processTaskType eq 4 || entity.processTaskType eq 5}">${entity.toPositionNames}</c:when>
 							<c:otherwise>未知</c:otherwise>
 						</c:choose>
 					</td>
 					<td>
-						<a href="app/flow/${typeSlug}.do?action=dialogFlowTaskConfigurationPage&procDefId={_var_fdefid}&procTaskId=${entity.id}" class="oplink" target="dialog" title="流程节点编辑" width="215" height="400" rel="sys_flowTaskEdit-${entity.id}">编辑</a>
+						<a href="app/flow/${typeSlug}.do?action=dialogFlowTaskConfigurationPage&procDefId={_var_fdefid}&procTaskId=${entity.id}${istran ne null ? '&istran' : ''}" class="oplink" target="dialog" title="流程节点编辑" width="215" height="400" rel="sys_flowTaskEdit-${entity.id}">编辑</a>
 					</td>
 					<td>
 						<a href="app/flow/${typeSlug}.do?action=actionRemoveProcessTask&procTaskId=${entity.id}" class="oplink" target="ajaxTodo" title="确定要删除该流程节点吗?" rel="sys_flowDel-${entity.id}" callback="callback_procTaskRemove(${entity.processDefinition.processType.id}, ${entity.processDefinition.id})">删除</a>

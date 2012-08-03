@@ -103,11 +103,12 @@
 					<logic:present name="entity" property="applyForm">
 						<logic:iterate name="entity" property="applyForm" id="entity">
 							<tr>
-								<td width="15%" class="audit${entity.auditState}" style="line-height: 35px;">
+								<td width="18%" class="audit${entity.auditState}" style="line-height: 35px;">
 									${entity.toDepartmentNames}-${entity.toPositionNames ne null ? entity.toPositionNames : '未知'}
 									<c:choose>
 										<c:when test="${entity.taskType eq 1 || entity.taskType eq 2}">(校区)</c:when>
 										<c:when test="${entity.taskType eq 3 || entity.taskType eq 4}">(总部)</c:when>
+										<c:when test="${entity.taskType eq 5}">(调动/晋升校区)</c:when>
 										<c:otherwise>未知</c:otherwise>
 									</c:choose>
 									审批
@@ -116,19 +117,21 @@
 									<c:choose>
 										<c:when test="${entity.auditState eq 1}">
 											<c:if test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.positionId eq entity.toPositionIds && tm:ifGranted('_FUNCKEY_HRM_DEVELOP_APPROVE')}">
-											<table style="padding:5px 0; width:100%;" cellpadding="0" cellspacing="0" id="auditForm${entity.id}">
-												<tr>
-													<td width="90%"><textarea style="width: 99%; height: 40px;"></textarea></td>
-													<td rowspan="2"><a class="button" id="auditPost${entity.id}" href="javascript:void(0);" style="margin-left:10px;"><span>审核提交</span></a></td>
-												</tr>
-												<tr>
-													<td align="right">
-														<input type="radio" name="auditState${entity.id}" id="auditState${entity.id}_2" value="2" />通过 
-														<input type="radio" name="auditState${entity.id}" id="auditState${entity.id}_3" value="3" />不通过 
-														<input type="radio" name="auditState${entity.id}" id="auditState${entity.id}_4" value="4" />退回 
-													</td>
-												</tr>
-											</table>
+												<c:if test="${entity.toDistrictIds eq null || sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.districtId eq entity.toDistrictIds}">
+													<table style="padding:5px 0; width:100%;" cellpadding="0" cellspacing="0" id="auditForm${entity.id}">
+														<tr>
+															<td width="90%"><textarea style="width: 99%; height: 40px;"></textarea></td>
+															<td rowspan="2"><a class="button" id="auditPost${entity.id}" href="javascript:void(0);" style="margin-left:10px;"><span>审核提交</span></a></td>
+														</tr>
+														<tr>
+															<td align="right">
+																<input type="radio" name="auditState${entity.id}" id="auditState${entity.id}_2" value="2" />通过 
+																<input type="radio" name="auditState${entity.id}" id="auditState${entity.id}_3" value="3" />不通过 
+																<input type="radio" name="auditState${entity.id}" id="auditState${entity.id}_4" value="4" />退回 
+															</td>
+														</tr>
+													</table>
+												</c:if>
 											</c:if>
 										</c:when>
 										<c:otherwise>${entity.auditState ne null ? (entity.auditState eq 0 ? '由于无法触及该节点,流程略过...' : entity.auditIdea) : ''}</c:otherwise>

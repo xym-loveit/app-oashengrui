@@ -49,6 +49,9 @@
 	<definition name="form.flow.task.type.masterDepsSingle" 
 		path="/WEB-INF/jsp/application/system/flow/public/form/formFlowTaskDepMasterSingle.jsp"/>
 	
+	<!-- 流程节点类型表单 - 调往/晋升校区 -->
+	<definition name="form.flow.task.type.transferDeps" 
+		path="/WEB-INF/jsp/application/system/flow/public/form/formFlowTaskDepTransfer.jsp"/>
 	
 	<!-- 财务审批流程页面 -->
 	<definition name="page.sys.setting.flow.financial.index" 

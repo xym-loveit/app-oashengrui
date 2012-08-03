@@ -319,6 +319,7 @@ extends FlowBaseAction
 							this.serviceWorkFlow.doStartProcess(
 									entity.getApplyFormType().getId(), 
 									filterPosition,
+									entity.getToDistrict(),
 									condValue, 
 									entity.getFormNo(), 
 									entity.getEmployee());

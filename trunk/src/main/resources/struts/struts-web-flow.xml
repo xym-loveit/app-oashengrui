@@ -21,6 +21,7 @@
 		<forward name="form.flow.task.type.ownerDepsSingle" path="form.flow.task.type.ownerDepsSingle" />
 		<forward name="form.flow.task.type.masterDepsAgainst" path="form.flow.task.type.masterDepsAgainst" />
 		<forward name="form.flow.task.type.masterDepsSingle" path="form.flow.task.type.masterDepsSingle" />
+		<forward name="form.flow.task.type.transferDeps" path="form.flow.task.type.transferDeps" />
 	</global-forwards>
 	
 	<action-mappings>

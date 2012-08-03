@@ -139,6 +139,7 @@
 			});
 			
 			// 设置10秒钟监听短消息
+			/*
 			setInterval(function(){
 				generic_ajax_op("app/message.do?action=actionObtainMyUnreadMessageNum&_="+Date.parse(new Date()), "{'skip_evt': 'true'}", (function(){
 					return null;
@@ -162,6 +163,7 @@
 					}
 				}))
 			}, 15000);
+			*/
 			
 			setInterval(function(){  
 				$("#currentTime").text("${FULLNAME}，欢迎您登录使用本系统，今天是" + new Date().toLocaleString());  
