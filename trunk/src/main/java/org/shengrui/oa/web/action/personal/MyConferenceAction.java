@@ -61,12 +61,13 @@ extends BaseAppAction
 					this.serviceConference.getPaginationByEntity(formInfo, pagingBean);
 
 			Date now = new Date();
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			if(conferences!=null){
 				for(ModelConference entity : conferences.getItems()){
 					if("1".equals(entity.getStatus())){
+						SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 						String edatetime = format.format(entity.getEndDay())+" "+entity.getEndHour()+":"+entity.getEndMinute()+":00";
 						String sdatetime = format.format(entity.getStartDay())+" "+entity.getStartHour()+":"+entity.getStartMinute()+":00";
+						format.applyPattern("yyyy-MM-dd HH:mm:ss");
 						Date endDate = format.parse(edatetime);
 						Date startDate = format.parse(sdatetime);
 						String result = "";
@@ -114,12 +115,13 @@ extends BaseAppAction
 	}
 	private String ObjectToString(PaginationSupport<ModelConference> list){
 		StringBuffer sb =new StringBuffer();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		if(list != null){
 			for (ModelConference conference : list.getItems()) { 
 				sb.append("<tr><td style=\"display: none;\">");
 				sb.append(conference.getId()+"</td><td>");
 				sb.append(conference.getConferenceName()+"</td>");
-				sb.append("<td>"+conference.getStartDay()+"</td><td>");
+				sb.append("<td>"+format.format(conference.getStartDay())+" "+conference.getStartHour()+":"+conference.getStartMinute()+"</td><td>");
 				sb.append(ToString(conference.getStatus())+"</td></tr>");
 				
 			}
@@ -159,12 +161,13 @@ extends BaseAppAction
 					this.serviceConference.getPaginationByEntity(formInfo, pagingBean);
 
 			Date now = new Date();
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			if(conferences!=null){
 				for(ModelConference entity : conferences.getItems()){
 					if("1".equals(entity.getStatus())){
+						SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 						String edatetime = format.format(entity.getEndDay())+" "+entity.getEndHour()+":"+entity.getEndMinute()+":00";
 						String sdatetime = format.format(entity.getStartDay())+" "+entity.getStartHour()+":"+entity.getStartMinute()+":00";
+						format.applyPattern("yyyy-MM-dd HH:mm:ss");
 						Date endDate = format.parse(edatetime);
 						Date startDate = format.parse(sdatetime);
 						String result = "";
@@ -480,12 +483,13 @@ extends BaseAppAction
 					this.serviceConference.getPaginationByEntity(formInfo, pagingBean);
 
 			Date now = new Date();
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			if(conferences !=null){
 				for(ModelConference entity : conferences.getItems()){
 					if("1".equals(entity.getStatus())){
+						SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 						String edatetime = format.format(entity.getEndDay())+" "+entity.getEndHour()+":"+entity.getEndMinute()+":00";
 						String sdatetime = format.format(entity.getStartDay())+" "+entity.getStartHour()+":"+entity.getStartMinute()+":00";
+						format.applyPattern("yyyy-MM-dd HH:mm:ss");
 						Date endDate = format.parse(edatetime);
 						Date startDate = format.parse(sdatetime);
 						String result = "";
