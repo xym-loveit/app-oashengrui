@@ -249,7 +249,7 @@ extends BaseAppAction
 						}
 					}else{
 						ModelHrmEmployee employee = this.serviceHrmEmployee.get(attendance_ids);
-						attendance_name_show+="{\"id\":\""+employee.getId()+"\",\"empname\":\""+employee.getFullName()+"\"}";
+						if(employee!=null)attendance_name_show+="{\"id\":\""+employee.getId()+"\",\"empname\":\""+employee.getFullName()+"\"}";
 					}
 				}
 				attendance_name_show +="]";
@@ -352,6 +352,13 @@ extends BaseAppAction
 		try
 		{
 			ModelConference formInfo = (ModelConference) form;
+			if(formInfo.getLevel() == null){
+				return ajaxPrint(response,getErrorCallback("请选择会议级别"));
+			}
+			if(formInfo.getType()==null || formInfo.getType().getId()==null)
+			{
+				return ajaxPrint(response,getErrorCallback("请选择会议类型"));
+			}
 			ModelConference entity = null;
 			if(formInfo.getSponsor().getId() == null){
 				formInfo.getSponsor().setId(ContextUtil.getCurrentUser().getId());
@@ -371,7 +378,7 @@ extends BaseAppAction
 					for (String empId : empIds)
 					{
 						ModelHrmEmployee employee = this.serviceHrmEmployee.get(empId);
-						if (employee != null)
+						if (employee != null && !empId.equals(ContextUtil.getCurrentUser().getId()))
 						{
 							attendances+=","+employee.getEmpName();
 							attendanceIds+=","+employee.getId();
@@ -386,6 +393,14 @@ extends BaseAppAction
 				formInfo.setAttendances(attendances);
 				formInfo.setAttendanceIds(attendanceIds);
 				formInfo.setCount(count);
+				String contactor = request.getParameter("emp.fullName");
+				if(contactor!=null && !"".equals(contactor)){
+					formInfo.setContactor(contactor);
+				}
+				String phone = request.getParameter("emp.phoneNo");
+				if(phone!=null && !"".equals(phone)){
+					formInfo.setPhone(phone);
+				}
 				entity = this.serviceConference.get(formInfo.getId());
 				if (entity != null)
 				{
@@ -446,6 +461,14 @@ extends BaseAppAction
 				formInfo.setAttendances(attendances);
 				formInfo.setAttendanceIds(attendanceIds);
 				formInfo.setCount(count);
+				String contactor = request.getParameter("emp.fullName");
+				if(contactor!=null && !"".equals(contactor)){
+					formInfo.setContactor(contactor);
+				}
+				String phone = request.getParameter("emp.phoneNo");
+				if(phone!=null && !"".equals(phone)){
+					formInfo.setPhone(phone);
+				}
 				entity = formInfo;
 			}
 
