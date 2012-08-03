@@ -56,7 +56,7 @@ extends BaseAppAction
 		{
 			ModelConference formInfo = (ModelConference) form;
 			//formInfo.setSponsor(ContextUtil.getCurrentUser());
-			formInfo.getSponsor().setId(ContextUtil.getCurrentUser().getId());
+			//formInfo.getSponsor().setId(ContextUtil.getCurrentUser().getId());
 			formInfo.getSponsor().setFullName(ContextUtil.getCurrentUser().getFullName());
 			PagingBean pagingBean = this.getPagingBean(request);
 			PaginationSupport<ModelConference> conferences =
@@ -263,6 +263,7 @@ extends BaseAppAction
 				// 更新
 				String attendances = ContextUtil.getCurrentUser().getFullName();
 				String attendanceIds = ContextUtil.getCurrentUser().getId();
+				int count = 1;
 				// 保存任务参与人
 				Map<String, List<String>> paramEmpIds = this.getAllRequestParameters(request, new String[] {"empid"});
 				if (paramEmpIds != null && paramEmpIds.size() > 0)
@@ -281,9 +282,11 @@ extends BaseAppAction
 							LOGGER.warn("The employee does not exist with id:" + empId);
 						}
 					}
+					count+=empIds.size();
 				}
 				formInfo.setAttendances(attendances);
 				formInfo.setAttendanceIds(attendanceIds);
+				formInfo.setCount(count);
 				entity = this.serviceConference.get(formInfo.getId());
 				if (entity != null)
 				{
@@ -320,6 +323,7 @@ extends BaseAppAction
 				// 新建
 				String attendances = ContextUtil.getCurrentUser().getFullName();
 				String attendanceIds = ContextUtil.getCurrentUser().getId();
+				int count = 1;
 				// 保存任务参与人
 				Map<String, List<String>> paramEmpIds = this.getAllRequestParameters(request, new String[] {"empid"});
 				if (paramEmpIds != null && paramEmpIds.size() > 0)
@@ -338,10 +342,11 @@ extends BaseAppAction
 							LOGGER.warn("The employee does not exist with id:" + empId);
 						}
 					}
+					count+=empIds.size();
 				}
 				formInfo.setAttendances(attendances);
 				formInfo.setAttendanceIds(attendanceIds);
-				formInfo.setCount(Integer.valueOf(request.getParameter("count"))+1);
+				formInfo.setCount(count);
 				entity = formInfo;
 			}
 
