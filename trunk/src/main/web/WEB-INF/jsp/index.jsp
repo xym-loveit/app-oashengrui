@@ -8,6 +8,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script type="text/javascript">
 $(function(){
+	//我的任务
 	$.post("app/personal/task.do?action=pageTaskIndex1",{},function(data){
 		$("#task").html(data);
 		var size=$('#task tr').size();
@@ -18,6 +19,8 @@ $(function(){
 	  	$('#task tr').eq(i).find('td').eq(1).html(result);
 	  	}
 	},'text');
+	
+	//待我审批
 	$.post("app/personal/approval.do?action=pageMyApproval1",{},function(data){
 		$("#approval").html(data);
 		var size=$('#approval tr').size();
@@ -28,6 +31,8 @@ $(function(){
 	  	$('#approval tr').eq(i).find('td').eq(1).html(result);
 	  	}
 	},'text');
+	
+	//我的申请
 	$.post("app/personal/application_form.do?action=pageMyApplicationIndex1",{},function(data){
 		$("#application").html(data);
 		var size=$('#application tr').size();
@@ -38,6 +43,8 @@ $(function(){
 	  	$('#application tr').eq(i).find('td').eq(1).html(result);
 	  	}
 	},'text');
+	
+	//我的信息
 	$.post("app/message.do?action=pageMessageReceivedIndex1",{},function(data){
 		$("#message").html(data);
 		var size=$('#message tr').size();
@@ -49,6 +56,8 @@ $(function(){
 	  	$('#message tr').eq(i).find('td').eq(2).html(result);
 	  	}
 	},'text')
+	
+	//我的会议
 	$.post("app/personal/conference.do?action=myConferenceIndex1",{},function(data){
 		$("#conference").html(data);
 		var size=$('#conference tr').size();
@@ -59,6 +68,8 @@ $(function(){
 	  	$('#conference tr').eq(i).find('td').eq(1).html(result);
 	  	}
 	},'text')
+	
+	//我的新闻
 	$.post("app/admin/news.do?action=adminPageEntryIndex1",{},function(data){
 		$("#news").html(data);
 		var size=$('#news tr').size();
@@ -69,6 +80,8 @@ $(function(){
 	  	$('#news tr').eq(i).find('td').eq(2).html(result);
 	  	}
 	},'text')
+	
+	//我的文档
 	$.post("app/admin/doc.do?action=adminPageDocumentIndex1",{},function(data){
 		$("#doc").html(data)
 		var size=$('#doc tr').size();
