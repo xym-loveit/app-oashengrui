@@ -977,7 +977,6 @@ public class UtilDateTime {
 	   long hour=(l/(60*60*1000)-day*24);
 	   long min=((l/(60*1000))-day*24*60-hour*60);
 	   long s=(l/1000-day*24*60*60-hour*60*60-min*60);
-	   System.out.println(""+day+"天"+hour+"小时"+min+"分"+s+"秒");
 	   return ""+day+"天"+hour+"小时"+min+"分"+s+"秒";
    }
    
