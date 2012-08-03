@@ -1,5 +1,6 @@
 package org.shengrui.oa.web.action.personal;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,6 +43,101 @@ extends BaseAppAction
 	 * The LOGGER
 	 */
 	private static final Logger LOGGER = Logger.getLogger(ConferenceAction.class);
+	
+	/**
+	 * 首页显示我的会议
+	 * */
+	public ActionForward myConferenceIndex1(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) throws ParseException 
+	{
+		
+		try
+		{
+			ModelConference formInfo = (ModelConference) form;
+			formInfo.getSponsor().setId(ContextUtil.getCurrentUser().getId());
+			formInfo.getSponsor().setFullName(ContextUtil.getCurrentUser().getFullName());
+			PagingBean pagingBean = this.getPagingBean1(request);
+			PaginationSupport<ModelConference> conferences =
+					this.serviceConference.getPaginationByEntity(formInfo, pagingBean);
+
+			Date now = new Date();
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			if(conferences!=null){
+				for(ModelConference entity : conferences.getItems()){
+					if("1".equals(entity.getStatus())){
+						String edatetime = format.format(entity.getEndDay())+" "+entity.getEndHour()+":"+entity.getEndMinute()+":00";
+						String sdatetime = format.format(entity.getStartDay())+" "+entity.getStartHour()+":"+entity.getStartMinute()+":00";
+						Date endDate = format.parse(edatetime);
+						Date startDate = format.parse(sdatetime);
+						String result = "";
+						if(now.before(startDate)){
+							result = UtilDateTime.getTimeBetweenDates(now, startDate);
+						}
+						if(now.after(startDate) && now.before(endDate)){
+							result = "会议进行中";
+						}
+						if(now.after(endDate)){ 
+							result = "会议时间已过";
+							if(entity.getSummary()==null || UtilString.isNotEmpty(entity.getSummary())){
+								result += "<br/><font color=\"red\"请进行会议总结</font>";
+							}
+						}
+						entity.setResult(result);
+					}else if("2".equals(entity.getStatus())){
+						entity.setResult("会议已取消");
+					}else if("3".equals(entity.getStatus())){
+						entity.setResult("会议时间已过");
+					}
+				}
+			}
+			request.setAttribute("conferences", conferences);
+			request.setAttribute("conferenceForm", formInfo);
+			request.setAttribute("conferenceType", this.serviceAppDictionary.getByType("conference"));
+			// 获取所有校区, 用于搜索查询使用
+			//request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
+			
+			// 输出分页信息至客户端
+			outWritePagination(request, pagingBean, conferences);
+			try {
+				response.getWriter().write(ObjectToString(conferences));
+			} catch (IOException e) { 
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} 
+		catch (ServiceException e)
+		{
+			LOGGER.error("Exception raised when fetch all conferences.", e);
+		}
+		
+		return null;
+	}
+	private String ObjectToString(PaginationSupport<ModelConference> list){
+		StringBuffer sb =new StringBuffer();
+		if(list != null){
+			for (ModelConference conference : list.getItems()) { 
+				sb.append("<tr><td style=\"display: none;\">");
+				sb.append(conference.getId()+"</td><td>");
+				sb.append(conference.getConferenceName()+"</td>");
+				sb.append("<td>"+conference.getStartDay()+"</td><td>");
+				sb.append(ToString(conference.getStatus())+"</td></tr>");
+				
+			}
+			return sb.toString();
+		}
+		return "";
+	}
+	private String ToString(String status){
+		String statu="";
+		if("1"==status){
+			statu="已发起";
+		}else if("2"==status.toString()){
+			statu="已结束";
+		}else if("3"== status.toString()){
+			statu = "已取消";
+		}
+		return statu;
+	}
 	
 	/**
 	 * <b>[WebAction]</b> <br/>

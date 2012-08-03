@@ -48,18 +48,17 @@
 			<logic:present name="hireJobs">
 				<logic:iterate id="entity" name="hireJobs" property="items">
 					<tr>
-					<c:choose>
-								<c:when test="${entity.status eq 1 }">
+					<c:choose><c:when test="${entity.status eq 2}">
 						<td>
 							岗位发布审批
 						</td>
 						<td>
-							[${entity.jobHireDistrict ne null ? entity.jobHireDistrict.districtName : ''}  ${entity.jobHireDepartment ne null ? entity.jobHireDepartment.depName : ''}] 
-							&nbsp&nbsp “${entity.jobHireTitle}”&nbsp&nbsp招聘
+							[${entity.jobHireDistrict.districtName}   ${entity.jobHireDepartment.depName}]&nbsp&nbsp “${entity.jobHireTitle}”&nbsp&nbsp招聘
 						</td>
 						<td>${entity.postAuthorName}</td>
 						<td><c:if test="${entity.postDate ne null}"><fmt:formatDate value="${entity.postDate}" pattern="yyyy-MM-dd"/></c:if></td>
-						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}" target="dialog" title="岗位详细" width="930" height="500">审批</a></td></c:when></c:choose>
+						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}" target="dialog" title="岗位审批" width="930" height="500">审批</a></td>
+					</c:when></c:choose>
 					</tr>
 				</logic:iterate>
 			</logic:present>
@@ -111,8 +110,7 @@
 			<logic:present name="dataList">
 				<logic:iterate id="type" name="dataList" property="items">
 					<tr>
-					<c:choose>
-								<c:when test="${type.applyFormType.id eq 5 && type.auditState eq 1}">
+					<c:choose><c:when test="${type.applyFormType.id eq 5}">
 					<td>
 						晋升申请审批
 					</td>
@@ -124,15 +122,14 @@
 					<td><c:if test="${type.applyDate ne null}"><fmt:formatDate value="${type.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
 <td>
 						<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">审批</a></td>
-					</td></c:when></c:choose>
+					</c:when></c:choose>
 					</tr>
 				</logic:iterate>
 			</logic:present>
 			<logic:present name="dataList">
 				<logic:iterate id="type" name="dataList" property="items">
 					<tr>
-					<c:choose>
-								<c:when test="${type.applyFormType.id eq 3 && type.auditState eq 1}">
+					<c:choose><c:when test="${type.applyFormType.id eq 3}">
 					<td>
 						转正申请审批
 					</td>
@@ -143,15 +140,14 @@
 					<td><c:if test="${type.applyDate ne null}"><fmt:formatDate value="${type.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
 					<td>
 						<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">审批</a></td>
-					</td></c:when></c:choose>
+					</c:when></c:choose>
 					</tr>
 				</logic:iterate>
 			</logic:present>
 			<logic:present name="dataList">
 				<logic:iterate id="type" name="dataList" property="items">
 					<tr>
-					<c:choose>
-								<c:when test="${type.applyFormType.id eq 6 && type.auditState eq 1}">
+					<c:choose><c:when test="${type.applyFormType.id eq 6}">
 					<td>
 						离职申请审批
 					</td>
@@ -162,15 +158,14 @@
 					<td><c:if test="${type.applyDate ne null}"><fmt:formatDate value="${type.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
 					<td>
 						<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">审批</a></td>
-					</td></c:when></c:choose>
+					</c:when></c:choose>
 					</tr>
 				</logic:iterate>
 			</logic:present>
 			<logic:present name="dataList">
 				<logic:iterate id="type" name="dataList" property="items">
 					<tr>
-					<c:choose>
-								<c:when test="${type.applyFormType.id eq 4 && type.auditState eq 1}">
+					<c:choose><c:when test="${type.applyFormType.id eq 4}">
 					<td>
 						调动申请审批
 					</td>
@@ -182,7 +177,7 @@
 					<td><c:if test="${type.applyDate ne null}"><fmt:formatDate value="${type.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
 					<td>
 						<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">审批</a></td>
-					</td></c:when></c:choose>
+					</c:when></c:choose>
 					</tr>
 				</logic:iterate>
 			</logic:present>

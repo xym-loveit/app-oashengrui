@@ -144,20 +144,20 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 	}
 
 	@Override
-	public PaginationSupport<ModelHrmEmployeeDevelop> finanContract(
+	public PaginationSupport<ModelHrmEmployeeDevelop> getfinanHr(
 			ModelHrmEmployeeDevelop entity, PagingBean pagingBean)
 			throws ServiceException {
-		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanContract.class);
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployeeDevelop.class);
 		criteria.add(Restrictions.isNull("auditState"));
 		
 		return this.getAll(criteria, pagingBean);
 	}
 
 	@Override
-	public PaginationSupport<ModelHrmEmployeeDevelop> finanContractRec(
+	public PaginationSupport<ModelHrmEmployeeDevelop> getfinanHrRec(
 			ModelHrmEmployeeDevelop entity, PagingBean pagingBean)
 			throws ServiceException {
-		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanContract.class);
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployeeDevelop.class);
 		criteria.add(Restrictions.in("auditState", new Integer[]{2,3,4}));
 		return this.getAll(criteria, pagingBean);
 	}

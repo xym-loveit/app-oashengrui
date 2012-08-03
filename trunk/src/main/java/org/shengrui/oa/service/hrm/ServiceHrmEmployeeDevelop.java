@@ -40,7 +40,7 @@ extends ServiceGeneric<ModelHrmEmployeeDevelop>
 	 * 查询未审批过的人资申请
 	 * @author cqx
 	 * */
-	PaginationSupport<ModelHrmEmployeeDevelop> finanContract (ModelHrmEmployeeDevelop entity, 
+	PaginationSupport<ModelHrmEmployeeDevelop> getfinanHr (ModelHrmEmployeeDevelop entity, 
 			PagingBean pagingBean) throws ServiceException;
 	
 	/**
@@ -48,6 +48,6 @@ extends ServiceGeneric<ModelHrmEmployeeDevelop>
 	 * 查询已审批过的人资申请
 	 * @author cqx
 	 * */
-	PaginationSupport<ModelHrmEmployeeDevelop> finanContractRec (ModelHrmEmployeeDevelop entity, 
+	PaginationSupport<ModelHrmEmployeeDevelop> getfinanHrRec (ModelHrmEmployeeDevelop entity, 
 			PagingBean pagingBean) throws ServiceException;
 }
