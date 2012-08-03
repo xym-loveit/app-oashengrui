@@ -135,8 +135,11 @@ extends BaseAppAction
 									// stores the authentication to spring security
 									UsernamePasswordAuthenticationToken authToken = 
 										new UsernamePasswordAuthenticationToken(userName, userPwd);
-									
 									SecurityContext securityContext = SecurityContextHolder.getContext();
+									if (securityContext.getAuthentication().getDetails() != null)
+									{
+										authToken.setDetails(securityContext.getAuthentication().getDetails());
+									}
 									securityContext.setAuthentication(this.authenticationManager.authenticate(authToken));
 									
 									SecurityContextHolder.setContext(securityContext);

@@ -20,6 +20,7 @@
         <form-login default-target-url="/index.jsp" login-page="/login.jsp" authentication-failure-url="/login.jsp?error=true" login-processing-url="/j_security_check" />
         <logout logout-url="/j_logout.do" logout-success-url="/login.jsp"/> 
    		<remember-me key="RememberAppUser"/>
+   		<concurrent-session-control max-sessions="1" exception-if-maximum-exceeded="false"/>
     </http>
 	
 	 <beans:bean id="accessDecisionManager" class="org.springframework.security.vote.AffirmativeBased">
