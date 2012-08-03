@@ -85,7 +85,7 @@ extends ServiceGenericImpl<ModelConference> implements ServiceConferenceInfo
 			}
 			if(entity.getEndDay()!=null)
 			{
-				criteria.add(Restrictions.le("endDay", entity.getEndDay()));
+				criteria.add(Restrictions.le("startDay", entity.getEndDay()));
 			}
 			if(entity.getSponsor()!=null && UtilString.isNotEmpty(entity.getSponsor().getId()))
 			{
