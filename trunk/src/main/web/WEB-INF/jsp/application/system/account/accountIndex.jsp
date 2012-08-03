@@ -7,6 +7,7 @@
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <script type="text/javascript">
 	function callback_roleRemove(id) {
@@ -87,14 +88,31 @@
 						<td>
 							<c:choose>
 								<c:when test="${user.status eq 1}">
-									<a href="app/system/account.do?action=actionUserStateChange&userId=${user.id}&status=0" target="ajaxTodo" title="您确定将‘${user.fullName}’ 的账号冻结吗？<br/>冻结以后该账号将不允许登录系统" class="oplink" width="504" height="348" rel="sysmgr_account_freez">冻结</a>
+								<c:choose>
+									<c:when test="${tm:ifGranted('_FUNCKEY_ADMIN_ACCOUNT_LOCK')}">
+										<a href="app/system/account.do?action=actionUserStateChange&userId=${user.id}&status=0" target="ajaxTodo" title="您确定将‘${user.fullName}’ 的账号冻结吗？<br/>冻结以后该账号将不允许登录系统" class="oplink" width="504" height="348" rel="sysmgr_account_freez">冻结</a>
+									</c:when>
+										<c:otherwise><label class="opdisabled" title="您没有权限冻结账号">---</label></c:otherwise>
+								</c:choose>
 								</c:when>
 								<c:otherwise>
+								<c:choose>
+									<c:when test="${tm:ifGranted('_FUNCKEY_ADMIN_ACCOUNT_ACTIVE')}">
 									<a href="app/system/account.do?action=actionUserStateChange&userId=${user.id}&status=1" target="ajaxTodo" title="您确定将‘${user.fullName}’ 的账号激活吗？" class="oplink" width="504" height="348" rel="sysmgr_account_act">激活</a>
+									</c:when>
+											<c:otherwise><label class="opdisabled" title="您没有权限激活账号">---</label></c:otherwise>
+									</c:choose>
 								</c:otherwise>
 							</c:choose>
 						</td>
-						<td><a href="app/system/account.do?action=actionUserPwdReset&userId=${user.id}" target="ajaxTodo" title="您确定将‘${user.fullName}’ 的账号冻结吗？<br/>重置后的密码与登录帐号相同" class="oplink" width="504" height="348" rel="sysmgr_account_pwdreset">重置密码</a></td>
+						<td>
+						<c:choose>
+							<c:when test="${tm:ifGranted('_FUNCKEY_ADMIN_ACCOUNT_PASSWORD_RESET')}">
+								<a href="app/system/account.do?action=actionUserPwdReset&userId=${user.id}" target="ajaxTodo" title="您确定将‘${user.fullName}’ 的账号重置密码吗？<br/>重置后的密码与登录帐号相同" class="oplink" width="504" height="348" rel="sysmgr_account_pwdreset">重置密码</a>
+							</c:when>
+							<c:otherwise><label class="opdisabled" title="您没有权限重置密码">---</label></c:otherwise>
+						</c:choose>
+						</td>
 					</tr>
 				</logic:iterate>
 			</logic:present>
