@@ -55,6 +55,10 @@ extends ServiceGenericImpl<ModelConference> implements ServiceConferenceInfo
 		
 		if (entity != null)
 		{
+			if(entity.getConferenceName() != null && UtilString.isNotEmpty(entity.getConferenceName()))
+			{
+				criteria.add(Restrictions.like("conferenceName", entity.getConferenceName(), MatchMode.ANYWHERE));
+			}
 			if (entity.getDistrict() != null && UtilString.isNotEmpty(entity.getDistrict().getId()))
 			{
 				criteria.createCriteria("district").add(Restrictions.eq("id", entity.getDistrict().getId()));
