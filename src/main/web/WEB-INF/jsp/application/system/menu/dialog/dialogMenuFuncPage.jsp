@@ -58,13 +58,25 @@
 				<tr>
 					<td style="vertical-align: top;">功能链接：</td>
 					<td>
-						<textarea rows="2" cols="40" name="urls" class="textInput required" style="width: 88%"><logic:present name="func"><logic:present name="func" property="funcURLs"><logic:iterate name="func" property="funcURLs" id="entity">${entity.urlPath}<br/></logic:iterate></logic:present></logic:present></textarea>
+						<textarea rows="4" cols="40" name="urls" class="textInput required" style="width: 88%"><logic:present name="func"><logic:present name="func" property="funcURLs"><logic:iterate name="func" property="funcURLs" id="entity">${entity.urlPath}<br/></logic:iterate></logic:present></logic:present></textarea>
 					</td>
 				</tr>
 				<tr>
 					<td style="vertical-align: top;">功能描述：</td>
 					<td>
 						<textarea rows="2" cols="40" name="funcDesc" class="textInput" style="width: 88%">${func ne null ? func.funcDesc : ''}</textarea>
+					</td>
+				</tr>
+				<tr>
+					<td style="vertical-align: top;width: 80px;">数据权限：<br/><span style="color:#999; margin-top: 5px;display:inline-block;">若未配置,<br/>则不进行控制.</span></td>
+					<td>
+						<ul>
+							<li><input type="checkbox" name="dataPerm" style="vertical-align:middle;"/> <label style="vertical-align:middle;float:none">全校数据</label></li>
+							<li><input type="checkbox" name="dataPerm" style="vertical-align:middle;"/> <label style="vertical-align:middle;float:none">校区数据</label></li>
+							<li><input type="checkbox" name="dataPerm" style="vertical-align:middle;"/> <label style="vertical-align:middle;float:none">大部门数据</label></li>
+							<li><input type="checkbox" name="dataPerm" style="vertical-align:middle;"/> <label style="vertical-align:middle;float:none">部门数据</label></li>
+							<li><input type="checkbox" name="dataPerm" style="vertical-align:middle;"/> <label style="vertical-align:middle;float:none">个人数据</label></li>
+						</ul>
 					</td>
 				</tr>
 			</table>
