@@ -19,6 +19,16 @@
 				}), (function(rsp_msg){
 					if (rsp_msg) {
 						var json_obj = eval('(' + rsp_msg + ')');
+						var total = json_obj.length;
+						var ids = [];
+						$.each($("input[id^=empid]"), function(){
+							ids.push($(this).val());
+						});
+						for(var i = 0 ; i<ids.length; i++){
+							for(var idx in json_obj){
+								if(ids[i] == json_obj[idx].id){total=total-1;}
+							}
+						}
 						$('#conferene_attendances').manifest('add', json_obj);
 						var count = $('#attendances_count').val();
 						if(count == "" || count == null) count = 0;

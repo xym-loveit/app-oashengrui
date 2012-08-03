@@ -142,9 +142,17 @@
 				  return '"' + data.empName + '" (' + data.districtName + '-' + data.depName + ')';
 				},
 				onSelect: function (data, $item){
-					var count = $('#attendances_count').val();
-					if(count == "" || count == null) count = 0;
-					$('#attendances_count').val(1+parseInt(count));
+					var flag = false;
+					$.each($("input[id^=empid]"), function(){
+						if($(this).val() == data.id){
+							flag = true;
+						}
+					});
+					if(!flag){
+						var count = $('#attendances_count').val();
+						if(count == "" || count == null) count = 0;
+						$('#attendances_count').val(1+parseInt(count));
+					}
 				}, 
 				param: 'fullName'
 			}
