@@ -54,7 +54,7 @@ extends ModelBase
 		fieldNames ={"district_id"}, 
 		fieldTypes ={AppUtil.DATA_POLICY_DISTRICT}
 	)
-	protected String aclFilterFields;
+	private String aclFilterFields;
 	
 	public String getDistrictNo()
 	{
@@ -114,6 +114,16 @@ extends ModelBase
 	public void setDistrictName(String districtName)
 	{
 		this.districtName = districtName;
+	}
+
+	public void setAclFilterFields(String aclFilterFields)
+	{
+		this.aclFilterFields = aclFilterFields;
+	}
+
+	public String getAclFilterFields()
+	{
+		return aclFilterFields;
 	}
 	
 }

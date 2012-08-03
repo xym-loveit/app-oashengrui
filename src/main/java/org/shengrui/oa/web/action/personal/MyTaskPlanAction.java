@@ -322,6 +322,13 @@ extends BaseAppAction
 					
 					entity.setTaskPlannedStartDate(formEntity.getTaskPlannedStartDate());
 					entity.setTaskPlannedEndDate(formEntity.getTaskPlannedEndDate());	
+					
+					if (entity.getAuditStatus() != null && 
+							ModelTaskPlan.ETaskApprovalStatus.RETURNED.getValue().equals(entity.getAuditStatus()))
+					{
+						// 修改已退回为待审批状态...
+						entity.setAuditStatus(null);
+					}
 				}
 				else
 				{

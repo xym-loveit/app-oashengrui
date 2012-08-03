@@ -47,7 +47,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="4" align="right"><div class="buttonActive" style="float:right"><div class="buttonContent"><button type="submit">完成申请</button></div></div></td>
+				<td colspan="4" align="right"><div class="buttonActive" style="float:right"><div class="buttonContent"><button type="submit">提交申请</button></div></div></td>
 			</tr>
 		</table>
 	</div>

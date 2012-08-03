@@ -220,16 +220,18 @@ ${tm:fileRestore(entity['attachFiles'])}
 					<tbody>
 						<logic:present name="entity">
 							<logic:iterate name="entity" property="taskTracks" id="track">
-								<tr>
-									<td>${track.taskApplyType eq 1 ? '完成申请' : '延期申请'}</td>
-									<td><fmt:formatDate value="${track.taskApplyFinalizedDate}" pattern="yyyy-MM-dd" /></td>
-									<td>${track.taskApplyMeto}</td>
-									<td><fmt:formatDate value="${track.taskApplyDate}" pattern="yyyy-MM-dd" /></td>
-									<td>${track.taskAuditState eq 1 ? '通过' : '不通过'}</td>
-									<td><c:if test="${track.taskAuditFinalizedDate ne null}"><fmt:formatDate value="${track.taskAuditFinalizedDate}" pattern="yyyy-MM-dd" /></c:if></td>
-									<td>${track.taskAuditMeto}</td>
-									<td><fmt:formatDate value="${track.taskAuditTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-								</tr>
+								<c:if test="${track.taskAuditState ne null}">
+									<tr>
+										<td>${track.taskApplyType eq 1 ? '完成申请' : '延期申请'}</td>
+										<td><fmt:formatDate value="${track.taskApplyFinalizedDate}" pattern="yyyy-MM-dd" /></td>
+										<td>${track.taskApplyMeto}</td>
+										<td><fmt:formatDate value="${track.taskApplyDate}" pattern="yyyy-MM-dd" /></td>
+										<td>${track.taskAuditState eq 1 ? '通过' : '不通过'}</td>
+										<td><c:if test="${track.taskAuditFinalizedDate ne null}"><fmt:formatDate value="${track.taskAuditFinalizedDate}" pattern="yyyy-MM-dd" /></c:if></td>
+										<td>${track.taskAuditMeto}</td>
+										<td><fmt:formatDate value="${track.taskAuditTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+									</tr>
+								</c:if>
 							</logic:iterate>
 						</logic:present>
 					</tbody>
