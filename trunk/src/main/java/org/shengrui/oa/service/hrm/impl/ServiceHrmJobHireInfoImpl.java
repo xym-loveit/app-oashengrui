@@ -6,7 +6,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.hrm.DAOHrmJobHireInfo;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireInfo;
-import org.shengrui.oa.model.news.ModelNewsMag;
 import org.shengrui.oa.service.hrm.ServiceHrmJobHireInfo;
 
 import cn.trymore.core.exception.ServiceException;
