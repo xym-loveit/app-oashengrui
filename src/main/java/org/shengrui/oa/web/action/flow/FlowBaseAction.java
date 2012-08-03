@@ -200,6 +200,7 @@ extends BaseAppAction
 				{
 					request.setAttribute("processDef", procDefEntity);
 					request.setAttribute("typeSlug", procDefEntity.getProcessType().getProcessTypeSlug());
+					request.setAttribute("istran", request.getParameter("istran"));
 					return mapping.findForward("data.sys.setting.flow.task.list");
 				}
 				else
@@ -255,7 +256,8 @@ extends BaseAppAction
 									
 									// 获取某部门对应的岗位列表
 									if (procTaskEntity.getProcessTaskType().equals(ModelProcessTask.EProcessTaskType.OWNER_DEPS_SINGLE.getValue()) || 
-											procTaskEntity.getProcessTaskType().equals(ModelProcessTask.EProcessTaskType.MASTER_DEPS_SINGLE.getValue()))
+											procTaskEntity.getProcessTaskType().equals(ModelProcessTask.EProcessTaskType.MASTER_DEPS_SINGLE.getValue()) || 
+												procTaskEntity.getProcessTaskType().equals(ModelProcessTask.EProcessTaskType.TRANSFER_DEPS.getValue()))
 									{
 										request.setAttribute("pos", this.getPositionByDepartment(procTaskEntity.getToDepartmentIds()));
 									}
@@ -522,6 +524,9 @@ extends BaseAppAction
 					
 					request.setAttribute("typeSlug", 
 							procDefEntity.getProcessType().getProcessTypeSlug());
+					
+					// 如果为调往/晋升流程配置, 设置标志位
+					request.setAttribute("istran", request.getParameter("istran"));
 					
 					return mapping.findForward("dialog.sys.flow.task.configuration");
 				}
@@ -904,7 +909,8 @@ extends BaseAppAction
 			return processTaskType.equals(ModelProcessTask.EProcessTaskType.OWNER_DEPS_AGAINST.getValue()) || 
 					processTaskType.equals(ModelProcessTask.EProcessTaskType.OWNER_DEPS_SINGLE.getValue()) ||
 					processTaskType.equals(ModelProcessTask.EProcessTaskType.MASTER_DEPS_AGAINST.getValue()) ||
-					processTaskType.equals(ModelProcessTask.EProcessTaskType.MASTER_DEPS_SINGLE.getValue());
+					processTaskType.equals(ModelProcessTask.EProcessTaskType.MASTER_DEPS_SINGLE.getValue()) ||
+					processTaskType.equals(ModelProcessTask.EProcessTaskType.TRANSFER_DEPS.getValue());
 		}
 		
 		return false;
@@ -935,6 +941,10 @@ extends BaseAppAction
 			else if (processTaskType.equals(ModelProcessTask.EProcessTaskType.MASTER_DEPS_SINGLE.getValue()))
 			{
 				return ModelProcessTask.EProcessTaskType.MASTER_DEPS_SINGLE.getText();
+			}
+			else if (processTaskType.equals(ModelProcessTask.EProcessTaskType.TRANSFER_DEPS.getValue()))
+			{
+				return ModelProcessTask.EProcessTaskType.TRANSFER_DEPS.getText();
 			}
 		}
 		

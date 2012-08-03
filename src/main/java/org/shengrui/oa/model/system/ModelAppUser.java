@@ -182,6 +182,13 @@ extends ModelBase implements UserDetails
 	 */
 	private String positionId;
 	
+	/**
+	 * 校区ID 
+	 * 
+	 * 由于存入Session中的实体无法再进行惰性加载获取关联对象的数据,
+	 * 因此这里用于初始化时进行赋值, 主要用于人资晋升和调往流程审批过程中的控制. 
+	 */
+	private String districtId;
 	
 	/**
 	 * The enumeration of user status
@@ -280,11 +287,17 @@ extends ModelBase implements UserDetails
 			if (this.getEmployee() != null)
 			{
 				this.position = this.employee.getEmployeePosition();
+				this.district = this.employee.getEmployeeDistrict();
 			}
 			
 			if (this.position != null)
 			{
 				this.positionId = this.position.getId(); 
+			}
+			
+			if (this.district != null)
+			{
+				this.districtId = this.district.getId();
 			}
 		}
 		
@@ -678,5 +691,10 @@ extends ModelBase implements UserDetails
 	public String getAclFilterFields()
 	{
 		return aclFilterFields;
+	}
+
+	public String getDistrictId()
+	{
+		return districtId;
 	}
 }

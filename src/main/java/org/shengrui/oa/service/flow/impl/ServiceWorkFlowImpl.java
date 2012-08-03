@@ -13,6 +13,7 @@ import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
+import org.shengrui.oa.model.system.ModelSchoolDistrict;
 import org.shengrui.oa.service.flow.ServiceProcessDefinition;
 import org.shengrui.oa.service.flow.ServiceProcessForm;
 import org.shengrui.oa.service.flow.ServiceProcessHistory;
@@ -81,6 +82,16 @@ implements ServiceWorkFlow
 	public void doStartProcess (String processTypeId, 
 			ModelSchoolDepartmentPosition filterPosition, Object condParamVal, String formNo, ModelHrmEmployee employee) throws ServiceException
 	{
+		doStartProcess(processTypeId, filterPosition, null, condParamVal, formNo, employee);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.flow.ServiceWorkFlow#doStartProcess(java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.shengrui.oa.model.system.ModelAppUser)
+	 */
+	public void doStartProcess (String processTypeId, 
+			ModelSchoolDepartmentPosition filterPosition, ModelSchoolDistrict filterDistrict, Object condParamVal, String formNo, ModelHrmEmployee employee) throws ServiceException
+	{
 		List<ModelProcessDefinition> processDefs = this.serviceProcessDefinition.getProcessDefinition(
 				processTypeId, filterPosition, condParamVal);
 		
@@ -133,6 +144,11 @@ implements ServiceWorkFlow
 					else
 					{
 						isFirstStep = false;
+					}
+					
+					if (filterDistrict != null)
+					{
+						form.setToDistrictIds(filterDistrict.getId());
 					}
 					
 					if (form != null)
@@ -359,8 +375,7 @@ implements ServiceWorkFlow
 		{
 			ModelProcessForm form = new ModelProcessForm();
 			
-			if (ModelProcessTask.EProcessTaskType.OWNER_DEPS_AGAINST.getValue().equals(
-					task.getProcessTaskType()))
+			if (ModelProcessTask.EProcessTaskType.OWNER_DEPS_AGAINST.getValue().equals(task.getProcessTaskType()))
 			{
 				// Handles against on district
 				if (employee.getEmployeeDepartment() != null)
@@ -381,6 +396,13 @@ implements ServiceWorkFlow
 						form.setAuditState(ModelProcessForm.EProcessFormStatus.IGNORED.getValue());
 					}
 				}
+			}
+			else if (ModelProcessTask.EProcessTaskType.TRANSFER_DEPS.getValue().equals(task.getProcessTaskType()))
+			{
+				form.setToPositionIds(task.getToPositionIds());
+				form.setToPositionNames(task.getToPositionNames());
+				form.setToDepartmentIds(task.getToDepartmentIds());
+				form.setToDepartmentNames(task.getToDepartmentNames());
 			}
 			else if (ModelProcessTask.EProcessTaskType.MASTER_DEPS_AGAINST.getValue().equals(
 					task.getProcessTaskType()))
