@@ -135,6 +135,11 @@
 			formatValue: function (data, $value, $item, $mpItem) {
 				return data.id;
 			},
+			onRemove: function(data, $item){
+				var count = $('#attendances_count').val();
+				if(count == "" || count == null) count = 0;
+				$('#attendances_count').val(parseInt(count)-1);
+			},
 			valuesName: 'empid',
 			marcoPolo: {
 				url: 'app/base.do?action=lookupEmployeeByName',
@@ -273,12 +278,12 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 							</c:choose>
 						</td>
 						<td nowrap class="field">会议地址：</td>
-						<td style="width: 120px; padding: 5px;"><input name="address" class="textInput required" value="${conference ne null ? conference.address : '' }"/></td>
+						<td style="width: 120px; padding: 5px;"><input name="address" class="textInput required" value="${conference ne null ? conference.address : '' }" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 					</tr>
 					<tr>
 						<td class="field">开始时间：</td>
 						<td style=" padding: 5px;" colspan='3'>
-							<input name="startDay" class="date textInput required" style="width:70px;float:left;margin:0" value="<fmt:formatDate value="${conference.startDay}" type="date" pattern="yyyy-MM-dd"/>"/>
+							<input name="startDay" class="${op ne null && op eq 'view' ? '' : 'date'} textInput required" style="width:70px;float:left;margin:0" value="<fmt:formatDate value="${conference.startDay}" type="date" pattern="yyyy-MM-dd"/>"  ${op ne null && op eq 'view' ? 'readonly' : ''}/>
 							<c:choose>
 								<c:when test="${op eq null || op ne 'view'}">
 									<select name="startHour" style="margin-left:5px;float:none">
@@ -322,7 +327,7 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 						</td>
 						<td class="field">结束时间：</td>
 						<td style=" padding: 5px;" colspan="3">
-							<input name="endDay" class="date textInput required" style="width:70px;float:left;margin:0" value="<fmt:formatDate value="${conference.endDay}" type="date" pattern="yyyy-MM-dd"/>"/>
+							<input name="endDay" class="${op ne null && op eq 'view' ? '' : 'date'} textInput required" style="width:70px;float:left;margin:0" value="<fmt:formatDate value="${conference.endDay}" type="date" pattern="yyyy-MM-dd"/>" ${op ne null && op eq 'view' ? 'readonly' : ''}/>
 							<c:choose>
 								<c:when test="${op eq null || op ne 'view'}">
 									<select name="endHour" style="margin-left:5px;float:none">
@@ -369,13 +374,17 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 						<td class="field">参会人员：</td>
 						<td colspan="5"><input id="conferene_attendances" name="attendances" type="text" style="width: 100%;${op ne null && op eq 'view' ? 'display:none': ''}" /></td>
 						<td class="field">参会人数：</td>
-						<td><input id="attendances_count" type="text" name="count" value="${conference ne null ? conference.count : '' }" style="width:70px;float:left;margin:0" />人	</td>
+						<td><input id="attendances_count" type="text" name="count" value="${conference ne null ? conference.count : '' }" style="width:70px;float:left;margin:0" ${op ne null && op eq 'view' ? 'readonly' : ''}/>人	</td>
 					</tr>
 					<tr>
 						<td class="field">联系人：</td>
-						<td colspan="3"><input name="contactor" type="text" value="${conference ne null ? conference.contactor : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''} /></td>
+						<td colspan="3">
+						<!--input name="contactor" type="text" value="${conference ne null ? conference.contactor : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''} /-->
+						<input id="inputEmpId" name="emp.id" value="" type="hidden"/>
+						<input class="required" name="emp.fullName" type="text" value="${conference ne null ? conference.contactor : ''}" <c:choose><c:when test="${op ne null && op eq 'view'}">readonly</c:when> <c:otherwise>postField="fullName" suggestFields="fullName,phoneNo" suggestUrl="app/base.do?action=lookupEmployeeByName" lookupGroup="emp" </c:otherwise></c:choose>/>
+						</td>
 						<td class="field" style="vertical-align: top;">联系电话：</td>
-						<td colspan="3"><input name="phone" type="text" value="${conference ne null ? conference.phone : ''}" /></td>
+						<td colspan="3"><input name="emp.phoneNo" type="text" value="${conference ne null ? conference.phone : ''}"  ${op ne null && op eq 'view' ? 'readonly' : ''} /></td>
 					</tr>
 					<tr>
 						<td class="field" style="vertical-align: top;">会议内容：</td>
