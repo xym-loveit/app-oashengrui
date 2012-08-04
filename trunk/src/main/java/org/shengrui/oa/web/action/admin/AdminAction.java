@@ -17,6 +17,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.admin.ModelAdminWorkArrange;
 import org.shengrui.oa.model.admin.ModelStaffAttendance;
+import org.shengrui.oa.model.admin.ModelStaffAttendanceView;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.news.ModelNewsMag;
 import org.shengrui.oa.model.system.ModelBaseWorkContent;
@@ -1064,12 +1065,16 @@ extends BaseAdminAction
 	{
 		try
 		{	
-			ModelStaffAttendance formStaffAttendance = (ModelStaffAttendance) form;
+//			ModelStaffAttendance formStaffAttendance = (ModelStaffAttendance) form;
+//			request.setAttribute("formStaffAttendance", formStaffAttendance);
+//			PagingBean pagingBean = this.getPagingBean(request);
+//			PaginationSupport<ModelStaffAttendance> staffAttendances =
+//				this.serviceStaffAttendance.getPaginationByEntity(formStaffAttendance, pagingBean);
+			ModelStaffAttendanceView formStaffAttendance = (ModelStaffAttendanceView) form;
 			request.setAttribute("formStaffAttendance", formStaffAttendance);
 			PagingBean pagingBean = this.getPagingBean(request);
-			PaginationSupport<ModelStaffAttendance> staffAttendances =
-				this.serviceStaffAttendance.getPaginationByEntity(formStaffAttendance, pagingBean);
-
+			PaginationSupport<ModelStaffAttendanceView> staffAttendances =
+				this.serviceStaffAttendanceView.getPaginationByEntity(formStaffAttendance, pagingBean);
 			request.setAttribute("staffAttendances", staffAttendances);
 		
 			// 输出分页信息至客户端
@@ -1092,19 +1097,15 @@ extends BaseAdminAction
 	public ActionForward adminPageStaffAttendanceOnPunch (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws WebException 
 	{
-		String id = request.getParameter("id");
-		if(this.isObjectIdValid(id)){
-			try {
-				if(this.getServiceStaffAttendance()==null)System.out.println("注入失败");
-				ModelStaffAttendance staffAttendance = this.getServiceStaffAttendance().getById(id);
-				request.setAttribute("staffAttendance", staffAttendance);
-			} catch (ServiceException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return ajaxPrint(response,"请求数据失败");
+		ModelStaffAttendanceView formInfo = (ModelStaffAttendanceView)form;
+		try {
+			if(formInfo.getAttendanceViewId()!=null){
+				ModelStaffAttendanceView staffAttendance = this.getServiceStaffAttendanceView().getById(formInfo.getAttendanceViewId());
+				if(staffAttendance != null)request.setAttribute("staffAttendance", staffAttendance);
+				else return ajaxPrint(response,getErrorCallback("请求数据失败"));
 			}
-		}else{
-			return ajaxPrint(response,"请求数据失败");
+		} catch (ServiceException e) {
+			return ajaxPrint(response,getErrorCallback("请求数据失败"));
 		}
 		return mapping.findForward("admin.page.staff.attendance.onpunch");
 	}
@@ -1120,25 +1121,36 @@ extends BaseAdminAction
 	public ActionForward actionPuchOnHand(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	{
-		String id = request.getParameter("id");
-		if(this.isObjectIdValid(id)){
-			try {
-				ModelStaffAttendance entity = this.serviceStaffAttendance.get(id);
-				entity.setOfftimeShour(request.getParameter("puchSHour"));
-				entity.setOfftimeSmin(request.getParameter("puchSMinute"));
-				entity.setOfftimeEhour(request.getParameter("puchEHour"));
-				entity.setOfftimeEmin(request.getParameter("puchEMinute"));
-				this.serviceStaffAttendance.save(entity);
-			    // 保存成功后, Dialog进行关闭
-			    return ajaxPrint(response, 
-			           getSuccessCallback("手动打卡成功 .", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
-			} catch (ServiceException e) {
-				// TODO Auto-generated catch block
-				return ajaxPrint(response,"请求数据失败");
-			}
+		ModelStaffAttendance formInfo = (ModelStaffAttendance)form;
+		String offSTime = formInfo.getOfftimeShour()+":"+formInfo.getOfftimeSmin();
+		String offETime = formInfo.getOfftimeEhour()+":"+formInfo.getOfftimeEmin();
+		String[] workTime = formInfo.getWorkTime().split("-");
+		if(offSTime.compareTo(workTime[0])<0 && offETime.compareTo(workTime[1])<0){
+			formInfo.setAttendanceResult("早退");
+		}else if(offSTime.compareTo(workTime[0])>0 && offETime.compareTo(workTime[1])>0){
+			formInfo.setAttendanceResult("迟到");
+		}else if(offSTime.compareTo(workTime[0])>0 && offETime.compareTo(workTime[1])<0){
+			formInfo.setAttendanceResult("迟到早退");
 		}else{
-			return ajaxPrint(response,"数据异常，打卡失败");
+			formInfo.setAttendanceResult("按时");
 		}
+		ModelStaffAttendance entity = null;
+		try {
+			entity = formInfo;
+			this.serviceStaffAttendance.save(entity);
+			String arrange_id = request.getParameter("arrang_id");
+			if(this.isObjectIdValid(arrange_id)){
+				ModelAdminWorkArrange arrange = this.getServiceAdminWorkArrange().get(arrange_id);
+				arrange.setAttendanceId(entity.getId());
+				this.getServiceAdminWorkArrange().save(arrange);
+			}
+			// 保存成功后, Dialog进行关闭
+			return ajaxPrint(response, 
+		           getSuccessCallback("手动打卡成功 .", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return ajaxPrint(response,getErrorCallback("请求数据失败"));
+		} 
 	}
 	
 	/**
@@ -1150,17 +1162,15 @@ extends BaseAdminAction
 	public ActionForward adminPageStaffAttendanceOnTravel (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws WebException 
 	{
-		String id = request.getParameter("id");
-		if(this.isObjectIdValid(id)){
-			try {
-				ModelStaffAttendance staffAttendance = this.serviceStaffAttendance.get(id);
-				request.setAttribute("staffAttendance", staffAttendance);
-			} catch (ServiceException e) {
-				// TODO Auto-generated catch block
-				return ajaxPrint(response,"请求数据失败");
+		ModelStaffAttendanceView formInfo = (ModelStaffAttendanceView)form;
+		try {
+			if(formInfo.getAttendanceViewId()!=null){
+				ModelStaffAttendanceView staffAttendance = this.getServiceStaffAttendanceView().getById(formInfo.getAttendanceViewId());
+				if(staffAttendance != null)request.setAttribute("staffAttendance", staffAttendance);
+				else return ajaxPrint(response,getErrorCallback("请求数据失败"));
 			}
-		}else{
-			return ajaxPrint(response,"请求数据失败");
+		} catch (ServiceException e) {
+			return ajaxPrint(response,getErrorCallback("请求数据失败"));
 		}
 		return mapping.findForward("admin.page.staff.attendance.ontravel");
 	}
@@ -1176,28 +1186,25 @@ extends BaseAdminAction
 	public ActionForward actionArrangeOnTravel(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	{
-		String id = request.getParameter("id");
-		if(this.isObjectIdValid(id)){
-			try {
-				ModelStaffAttendance staffAttendance = (ModelStaffAttendance)form;
-				ModelStaffAttendance entity = this.serviceStaffAttendance.get(id);
-				if (entity != null) {
-		               // 用表单输入的值覆盖实体中的属性值
-		            BeanUtils.copyProperties(staffAttendance, entity);
-		        } else {
-		            return ajaxPrint(response, AjaxResponse.RESPONSE_ERROR);
-		        }
-				this.serviceStaffAttendance.save(entity);
-			    // 保存成功后, Dialog进行关闭
-			    return ajaxPrint(response, 
-			           getSuccessCallback("手动打卡成功 .", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
-			} catch (ServiceException e) {
-				// TODO Auto-generated catch block
-				return ajaxPrint(response,"请求数据失败");
+		ModelStaffAttendance formInfo = (ModelStaffAttendance)form;
+		formInfo.setWorkStatus("1");
+		ModelStaffAttendance entity = null;
+		try {
+			entity = formInfo;
+			this.serviceStaffAttendance.save(entity);
+			String arrange_id = request.getParameter("arrang_id");
+			if(this.isObjectIdValid(arrange_id)){
+				ModelAdminWorkArrange arrange = this.getServiceAdminWorkArrange().get(arrange_id);
+				arrange.setAttendanceId(entity.getId());
+				this.getServiceAdminWorkArrange().save(arrange);
 			}
-		}else{
-			return ajaxPrint(response,"数据异常，打卡失败");
-		}
+			// 保存成功后, Dialog进行关闭
+			return ajaxPrint(response, 
+		          getSuccessCallback("安排出差成功 .", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return ajaxPrint(response,getErrorCallback("请求数据失败"));
+		} 
 	}
 	
 	/**
@@ -1209,17 +1216,15 @@ extends BaseAdminAction
 	public ActionForward adminPageStaffAttendanceOnLeave (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws WebException 
 	{
-		String id = request.getParameter("id");
-		if(this.isObjectIdValid(id)){
-			try {
-				ModelStaffAttendance staffAttendance = this.serviceStaffAttendance.get(id);
-				request.setAttribute("staffAttendance", staffAttendance);
-			} catch (ServiceException e) {
-				// TODO Auto-generated catch block
-				return ajaxPrint(response,"请求数据失败");
+		ModelStaffAttendanceView formInfo = (ModelStaffAttendanceView)form;
+		try {
+			if(formInfo.getAttendanceViewId()!=null){
+				ModelStaffAttendanceView staffAttendance = this.getServiceStaffAttendanceView().getById(formInfo.getAttendanceViewId());
+				if(staffAttendance != null)request.setAttribute("staffAttendance", staffAttendance);
+				else return ajaxPrint(response,getErrorCallback("请求数据失败"));
 			}
-		}else{
-			return ajaxPrint(response,"请求数据失败");
+		} catch (ServiceException e) {
+			return ajaxPrint(response,getErrorCallback("请求数据失败"));
 		}
 		return mapping.findForward("admin.page.staff.attendance.onleave");
 	}
@@ -1235,28 +1240,27 @@ extends BaseAdminAction
 	public ActionForward actionArrangeOnLeave(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	{
-		String id = request.getParameter("id");
-		if(this.isObjectIdValid(id)){
-			try {
-				ModelStaffAttendance staffAttendance = (ModelStaffAttendance)form;
-				ModelStaffAttendance entity = this.serviceStaffAttendance.get(id);
-				if (entity != null) {
-		               // 用表单输入的值覆盖实体中的属性值
-		            BeanUtils.copyProperties(staffAttendance, entity);
-		        } else {
-		            return ajaxPrint(response, AjaxResponse.RESPONSE_ERROR);
-		        }
-				this.serviceStaffAttendance.save(entity);
-			    // 保存成功后, Dialog进行关闭
-			    return ajaxPrint(response, 
-			           getSuccessCallback("手动打卡成功 .", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
-			} catch (ServiceException e) {
-				// TODO Auto-generated catch block
-				return ajaxPrint(response,"请求数据失败");
+		ModelStaffAttendance formInfo = (ModelStaffAttendance)form;
+		formInfo.setStaffBehalfId(request.getParameter("emp.id"));
+		formInfo.setStaffBehalfName(request.getParameter("emp.fullName"));
+		formInfo.setWorkStatus("2");
+		ModelStaffAttendance entity = null;
+		try {
+			entity = formInfo;
+			this.serviceStaffAttendance.save(entity);
+			String arrange_id = request.getParameter("arrang_id");
+			if(this.isObjectIdValid(arrange_id)){
+				ModelAdminWorkArrange arrange = this.getServiceAdminWorkArrange().get(arrange_id);
+				arrange.setAttendanceId(entity.getId());
+				this.getServiceAdminWorkArrange().save(arrange);
 			}
-		}else{
-			return ajaxPrint(response,"数据异常，打卡失败");
-		}
+			// 保存成功后, Dialog进行关闭
+			return ajaxPrint(response, 
+		          getSuccessCallback("请假安排成功 .", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return ajaxPrint(response,getErrorCallback("请求数据失败"));
+		} 
 	}
 	
 	/**
@@ -1268,17 +1272,15 @@ extends BaseAdminAction
 	public ActionForward adminPageStaffAttendanceOnAbsence (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws WebException 
 	{
-		String id = request.getParameter("id");
-		if(this.isObjectIdValid(id)){
-			try {
-				ModelStaffAttendance staffAttendance = this.serviceStaffAttendance.get(id);
-				request.setAttribute("staffAttendance", staffAttendance);
-			} catch (ServiceException e) {
-				// TODO Auto-generated catch block
-				return ajaxPrint(response,"请求数据失败");
+		ModelStaffAttendanceView formInfo = (ModelStaffAttendanceView)form;
+		try {
+			if(formInfo.getAttendanceViewId()!=null){
+				ModelStaffAttendanceView staffAttendance = this.getServiceStaffAttendanceView().getById(formInfo.getAttendanceViewId());
+				if(staffAttendance != null)request.setAttribute("staffAttendance", staffAttendance);
+				else return ajaxPrint(response,getErrorCallback("请求数据失败"));
 			}
-		}else{
-			return ajaxPrint(response,"请求数据失败");
+		} catch (ServiceException e) {
+			return ajaxPrint(response,getErrorCallback("请求数据失败"));
 		}
 		return mapping.findForward("admin.page.staff.attendance.onabsence");
 	}
@@ -1294,28 +1296,77 @@ extends BaseAdminAction
 	public ActionForward actionMarkOnAbsence(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	{
-		String id = request.getParameter("id");
-		if(this.isObjectIdValid(id)){
-			try {
-				ModelStaffAttendance staffAttendance = (ModelStaffAttendance)form;
-				ModelStaffAttendance entity = this.serviceStaffAttendance.get(id);
-				if (entity != null) {
-		               // 用表单输入的值覆盖实体中的属性值
-		            BeanUtils.copyProperties(staffAttendance, entity);
-		        } else {
-		            return ajaxPrint(response, AjaxResponse.RESPONSE_ERROR);
-		        }
-				this.serviceStaffAttendance.save(entity);
-			    // 保存成功后, Dialog进行关闭
-			    return ajaxPrint(response, 
-			           getSuccessCallback("手动打卡成功 .", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
-			} catch (ServiceException e) {
-				// TODO Auto-generated catch block
-				return ajaxPrint(response,"请求数据失败");
+		ModelStaffAttendance formInfo = (ModelStaffAttendance)form;
+		formInfo.setStaffBehalfId(request.getParameter("emp.id"));
+		formInfo.setStaffBehalfName(request.getParameter("emp.fullName"));
+		formInfo.setWorkStatus("3");
+		formInfo.setAttendanceResult("旷工");
+		ModelStaffAttendance entity = null;
+		try {
+			entity = formInfo;
+			this.serviceStaffAttendance.save(entity);
+			String arrange_id = request.getParameter("arrang_id");
+			if(this.isObjectIdValid(arrange_id)){
+				ModelAdminWorkArrange arrange = this.getServiceAdminWorkArrange().get(arrange_id);
+				arrange.setAttendanceId(entity.getId());
+				this.getServiceAdminWorkArrange().save(arrange);
 			}
-		}else{
-			return ajaxPrint(response,"数据异常，打卡失败");
+			// 保存成功后, Dialog进行关闭
+			return ajaxPrint(response, 
+		          getSuccessCallback("旷工处理成功 .", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return ajaxPrint(response,getErrorCallback("请求数据失败"));
+		} 
+	}
+	
+	public ActionForward actionCalculateVocation(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	{
+		ModelStaffAttendance formInfo = (ModelStaffAttendance)form;
+		String currentYearStart = UtilDateTime.currentYear()+"-01-01";
+		String currentYearEnd = UtilDateTime.currentYear()+"-12-31";
+		formInfo.setFilterStart(UtilDateTime.toDateByPattern(currentYearStart));
+		formInfo.setFilterEnd(UtilDateTime.toDateByPattern(currentYearEnd));
+		int hasUsedVocations = 0;
+		try {
+			List<ModelStaffAttendance> list = this.getServiceStaffAttendance().getListByCriteria(formInfo);
+			if(list != null){
+				hasUsedVocations = list.size();
+			}
+			if("3".equals(formInfo.getLeaveType())){
+				ModelHrmEmployee employee = this.getServiceHrmEmployee().getEmployeeByEmpNo(formInfo.getStaffId());
+				if(employee!=null){
+					int workYears = UtilDateTime.calculateYears(employee.getOnboardDate());
+					if(workYears >= 1 && workYears <10){
+						int last = 5 - hasUsedVocations;
+						request.setAttribute("days", last>0?last:0);
+					}else if(workYears >= 10 && workYears <20){
+						int last = 10 - hasUsedVocations;
+						request.setAttribute("days", last>0?last:0);
+					}else if(workYears >= 20){
+						int last = 15 - hasUsedVocations;
+						request.setAttribute("days", last>0?last:0);
+					}else{
+						request.setAttribute("days", 0);
+					}
+				}else{
+					request.setAttribute("days", 0);
+				}
+			}else if ("4".equals(formInfo.getLeaveType())){
+				List<ModelAdminWorkArrange> overTimes = this.getServiceAdminWorkArrange().queryCurrentYearWorkArrangById(formInfo.getStaffId(), formInfo.getFilterStart(), UtilDateTime.nowDate());
+				int overTimeDays = 0;
+				if(overTimes!=null)overTimeDays = overTimes.size();
+				request.setAttribute("days", (overTimeDays-hasUsedVocations)>0?(overTimeDays-hasUsedVocations):0);
+			}else{
+				request.setAttribute("days",hasUsedVocations);
+			}
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		request.setAttribute("leaveType", formInfo.getLeaveType());
+		return mapping.findForward("admin.page.staff.attendance.vocation");
 	}
 	
 	/**

@@ -211,4 +211,30 @@ extends ServiceGenericImpl<ModelAdminWorkArrange> implements ServiceAdminWorkArr
 		}
 	}
 
+	@Override
+	public List<ModelAdminWorkArrange> queryCurrentYearWorkArrangById(
+			String id, Date yearStart, Date yearEnd) throws ServiceException {
+		// TODO Auto-generated method stub
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelAdminWorkArrange.class);
+		if (id != null && UtilString.isNotEmpty(id))
+		{
+			criteria.createCriteria("staff").add(Restrictions.eq("id", id));
+		}
+		if(yearStart != null)
+		{
+			criteria.add(Restrictions.ge("workDate", yearStart));
+		}
+		if(yearEnd != null)
+		{
+			criteria.add(Restrictions.le("workDate", yearEnd));
+		}
+		criteria.createCriteria("workType").add(Restrictions.eq("id", "2"));
+		try {
+			return this.daoWorkArrange.getListByCriteria(criteria);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			throw new ServiceException(e);
+		}
+	}
+
 }

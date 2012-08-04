@@ -10,6 +10,7 @@ import org.shengrui.oa.service.admin.ServiceDocLevel;
 import org.shengrui.oa.service.admin.ServiceDocManage;
 import org.shengrui.oa.service.admin.ServiceDocVisiableRange;
 import org.shengrui.oa.service.admin.ServiceStaffAttendance;
+import org.shengrui.oa.service.admin.ServiceStaffAttendanceView;
 import org.shengrui.oa.service.news.ServiceNewsManage;
 import org.shengrui.oa.service.system.ServiceAppDictionary;
 import org.shengrui.oa.service.system.ServiceAppUser;
@@ -38,6 +39,22 @@ extends BaseAppAction
 	protected ServiceBaseWorkContent serviceBaseWorkContent;
 	@Resource
 	protected ServiceStaffAttendance serviceStaffAttendance;
+	protected ServiceStaffAttendanceView serviceStaffAttendanceView;
+	/**
+	 * @return the serviceStaffAttendanceView
+	 */
+	public ServiceStaffAttendanceView getServiceStaffAttendanceView() {
+		return serviceStaffAttendanceView;
+	}
+
+	/**
+	 * @param serviceStaffAttendanceView the serviceStaffAttendanceView to set
+	 */
+	public void setServiceStaffAttendanceView(
+			ServiceStaffAttendanceView serviceStaffAttendanceView) {
+		this.serviceStaffAttendanceView = serviceStaffAttendanceView;
+	}
+
 	/**
 	 * The work arrange service.
 	 */

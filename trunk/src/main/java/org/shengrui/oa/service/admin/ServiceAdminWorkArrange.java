@@ -84,4 +84,6 @@ extends ServiceGeneric<ModelAdminWorkArrange>
 	 * @throws ServiceException
 	 */
 	public List<ModelAdminWorkArrange> queryByWeek(Date startDay, Date endDay, String districtId) throws ServiceException;
+	
+	public List<ModelAdminWorkArrange> queryCurrentYearWorkArrangById(String id,Date yearStart,Date yearEnd) throws ServiceException;
 }

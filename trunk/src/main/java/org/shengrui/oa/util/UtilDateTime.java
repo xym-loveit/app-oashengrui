@@ -991,4 +991,10 @@ public class UtilDateTime {
 	   return (new SimpleDateFormat("yyyy-MM-dd").format(date));
    }
    
+   public static int calculateYears(Date date){
+	   Date now = new Date();
+	   long y = now.getTime() - date.getTime();
+	   long year = y/(24*60*60*1000*365);
+	   return (int) (year > 0 ? year : 0);
+   }
 }

@@ -39,13 +39,13 @@ public class ModelStaffAttendance extends ModelBase {
 	protected String offtimeShour;
 	
 	/**
-	 * 实际下班时间 - 打卡分钟 (上)
+	 * 实际下班时间 - 打卡小时 (下)
 	 */
 	@Expose
 	protected String offtimeEhour;
 	
 	/**
-	 * 实际下班时间 - 打卡小时 (下)
+	 * 实际下班时间 - 打卡分钟 (上)
 	 */
 	@Expose
 	protected String offtimeSmin;
@@ -113,38 +113,38 @@ public class ModelStaffAttendance extends ModelBase {
 	/**
 	 * 用于查询的临时变量
 	 */
-	protected String filterStart;
+	protected Date filterStart;
 	/**
 	 * 用于查询的临时变量
 	 */
-	protected String filterEnd;
+	protected Date filterEnd;
 
 
 	/**
 	 * @return the filterStart
 	 */
-	public String getFilterStart() {
+	public Date getFilterStart() {
 		return filterStart;
 	}
 
 	/**
 	 * @param filterStart the filterStart to set
 	 */
-	public void setFilterStart(String filterStart) {
+	public void setFilterStart(Date filterStart) {
 		this.filterStart = filterStart;
 	}
 
 	/**
 	 * @return the filterEnd
 	 */
-	public String getFilterEnd() {
+	public Date getFilterEnd() {
 		return filterEnd;
 	}
 
 	/**
 	 * @param filterEnd the filterEnd to set
 	 */
-	public void setFilterEnd(String filterEnd) {
+	public void setFilterEnd(Date filterEnd) {
 		this.filterEnd = filterEnd;
 	}
 
