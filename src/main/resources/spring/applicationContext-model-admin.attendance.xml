@@ -14,4 +14,16 @@
 			</bean>
 		</property>
 	</bean>
+	
+	<!-- StaffAttendanceView-->
+	<bean id="daoStaffAttendanceView" class="org.shengrui.oa.dao.admin.impl.DAOStaffAttendanceViewImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceStaffAttendanceView" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.admin.impl.ServiceStaffAttendanceViewImpl">
+				<constructor-arg index="0" ref="daoStaffAttendanceView"/>
+			</bean>
+		</property>
+	</bean>
 </beans>

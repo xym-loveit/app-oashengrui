@@ -6,6 +6,7 @@
 	<form-beans>
 		<form-bean name="form.admin.doc.info" type="org.shengrui.oa.model.admin.ModelDoc"></form-bean>
       <form-bean name="form.admin.attendance.info" type="org.shengrui.oa.model.admin.ModelStaffAttendance"></form-bean>
+      <form-bean name="form.admin.attendance.info.view" type="org.shengrui.oa.model.admin.ModelStaffAttendanceView"></form-bean>
       <form-bean name="form.admin.workarrange.info" type="org.shengrui.oa.model.admin.ModelAdminWorkArrange"></form-bean>
 	</form-beans>
 	
@@ -37,8 +38,8 @@
 			<forward name="admin.page.document.detail" path="admin.page.document.detail" />
 		</action>
 		
-      <action path="/app/admin/attendance"
-            name="form.admin.attendance.info"
+      <action path="/app/admin/attendance/view"
+            name="form.admin.attendance.info.view"
             scope="request"
             parameter="action"
             type="org.springframework.web.struts.DelegatingActionProxy">
@@ -52,6 +53,16 @@
          
          <forward name="admin.page.document.index" path="admin.page.document.index" />
          <forward name="admin.page.document.detail" path="admin.page.document.detail" />
+      </action>
+      
+      <action path="/app/admin/attendance/operation"
+            name="form.admin.attendance.info"
+            scope="request"
+            parameter="action"
+            type="org.springframework.web.struts.DelegatingActionProxy">
+         
+         <!-- 员工考勤-->
+         <forward name="admin.page.staff.attendance.vocation" path="admin.page.staff.attendance.vocation" />
       </action>
 	</action-mappings>
 

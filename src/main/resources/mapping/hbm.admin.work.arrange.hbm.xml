@@ -24,6 +24,9 @@
         <property name="districtId" type="java.lang.String">
         	<column name="district_id"/>
         </property>
+        <property name="attendanceId" type="java.lang.String">
+        	<column name="attend_id"/>
+        </property>
         <many-to-one name="workType" class="org.shengrui.oa.model.admin.ModelAdminWorkType" cascade="none">
             <column name="work_type">
             </column>

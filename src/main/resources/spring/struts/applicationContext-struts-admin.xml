@@ -33,10 +33,20 @@
 	     <property name="serviceFileAttach" ref="serviceFileAttach" />
 	</bean>
 	
-	<bean name="/app/admin/attendance" class="org.shengrui.oa.web.action.admin.AdminAction">
+	<bean name="/app/admin/attendance/operation" class="org.shengrui.oa.web.action.admin.AdminAction">
        <property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
        <property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
        <property name="serviceStaffAttendance" ref="serviceStaffAttendance"/>
+       <property name="serviceStaffAttendanceView" ref="serviceStaffAttendanceView"/>
+	   <property name="serviceAdminWorkArrange" ref="serviceAdminWorkArrange" />
+		<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
+	</bean>
+	
+	<bean name="/app/admin/attendance/view" class="org.shengrui.oa.web.action.admin.AdminAction">
+       <property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
+       <property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
+       <property name="serviceStaffAttendance" ref="serviceStaffAttendance"/>
+       <property name="serviceStaffAttendanceView" ref="serviceStaffAttendanceView"/>
 	</bean>
 	
 	<bean name="/app/admin/doc" class="org.shengrui.oa.web.action.admin.DocManageAction">
