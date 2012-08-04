@@ -262,6 +262,8 @@ implements ServiceWorkFlow
 					
 					// 结束流程
 					this.doEndProcess(procForm.getApplyFormNo());
+					
+					break;
 				}
 				else
 				{
