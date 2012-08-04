@@ -1,5 +1,7 @@
 package org.shengrui.oa.service.admin.impl;
 
+import java.util.List;
+
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
@@ -8,6 +10,7 @@ import org.shengrui.oa.dao.admin.DAOStaffAttendance;
 import org.shengrui.oa.model.admin.ModelStaffAttendance;
 import org.shengrui.oa.service.admin.ServiceStaffAttendance;
 
+import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
 import cn.trymore.core.util.UtilString;
@@ -63,6 +66,10 @@ public class ServiceStaffAttendanceImpl extends ServiceGenericImpl<ModelStaffAtt
 				criteria.add(Restrictions.like("staffName", entity.getStaffName(), MatchMode.ANYWHERE));
 			}
 
+			if (entity.getStaffId() != null)
+			{
+				criteria.add(Restrictions.eq("staffId", entity.getStaffId()));
+			}
 			if (entity.getWorkType() != null)
 			{
 				criteria.add(Restrictions.eq("workType", entity.getWorkType()));
@@ -72,17 +79,31 @@ public class ServiceStaffAttendanceImpl extends ServiceGenericImpl<ModelStaffAtt
 			{
 				criteria.add(Restrictions.eq("workDate", entity.getWorkDate()));
 			}
-			if(entity.getFilterStart()!=null && UtilString.isNotEmpty(entity.getFilterStart()))
+			if(entity.getFilterStart()!=null )
 			{
 				criteria.add(Restrictions.ge("workDate", entity.getFilterStart()));
 			}
-			if(entity.getFilterEnd()!=null && UtilString.isNotEmpty(entity.getFilterStart()))
+			if(entity.getFilterEnd()!=null)
 			{
 				criteria.add(Restrictions.le("workDate", entity.getFilterEnd()));
+			}
+			if(entity.getLeaveType()!=null && UtilString.isNotEmpty(entity.getLeaveType())){
+				criteria.add(Restrictions.eq("leaveType", entity.getLeaveType()));
 			}
 		}
 		criteria.addOrder(Order.desc("workDate"));
 		
 		return criteria;
+	}
+	@Override
+	public List<ModelStaffAttendance> getListByCriteria(
+			ModelStaffAttendance entity) throws ServiceException {
+		// TODO Auto-generated method stub
+		try {
+			return this.daoStaffAttendance.getListByCriteria(this.getCriterias(entity));
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			throw new ServiceException(e);
+		}
 	}
 }

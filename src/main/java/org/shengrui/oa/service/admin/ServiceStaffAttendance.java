@@ -1,5 +1,7 @@
 package org.shengrui.oa.service.admin;
 
+import java.util.List;
+
 import org.shengrui.oa.model.admin.ModelStaffAttendance;
 
 import cn.trymore.core.exception.ServiceException;
@@ -30,4 +32,5 @@ public interface ServiceStaffAttendance extends ServiceGeneric<ModelStaffAttenda
 	PaginationSupport<ModelStaffAttendance> getPaginationByEntity (ModelStaffAttendance entity, 
 			PagingBean pagingBean) throws ServiceException;
 	
+	List<ModelStaffAttendance> getListByCriteria(ModelStaffAttendance entity) throws ServiceException;
 }

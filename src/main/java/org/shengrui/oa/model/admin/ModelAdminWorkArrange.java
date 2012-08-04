@@ -62,6 +62,22 @@ extends ModelBase {
 	 */
 	protected String districtId;
 	
+	protected String attendanceId;
+	
+	/**
+	 * @return the attendanceId
+	 */
+	public String getAttendanceId() {
+		return attendanceId;
+	}
+
+	/**
+	 * @param attendanceId the attendanceId to set
+	 */
+	public void setAttendanceId(String attendanceId) {
+		this.attendanceId = attendanceId;
+	}
+
 	/**
 	 * @return the districtId
 	 */
