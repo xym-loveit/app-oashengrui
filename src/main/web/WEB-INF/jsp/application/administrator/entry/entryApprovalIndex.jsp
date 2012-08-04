@@ -100,6 +100,7 @@
 			<li><a treeicon="icon-admin" class="icon" href="app/admin/news.do?action=adminPageEntryIndex" target="navTab" rel="admin_entry"><span class="icon-adminnews">新闻发布与管理</span></a></li>
 		</ul>
 		
+		<!--
 		<ul class="toolBar">
 		<c:choose>
 			<c:when test="${tm:ifGranted('_FUNCKE_ADMIN_NEWS_DELETE') }">
@@ -113,12 +114,8 @@
 			<c:if test="${tm:ifGranted('_FUNCKEY_ADMIN_NEWS_EDIT') }">
 				<li><a class="edit" href="app/admin.do?action=adminPageEntryDetail&id={sid}" target="dialog" title="修改新闻" width="900" height="500"><span>修改</span></a></li>
 			</c:if>
-			<!--
-			<li><a class="add" href="app/admin.do?action=adminPageEntryDetail" target="dialog" title="添加新闻" width="900" height="500"><span>添加</span></a></li>
-			<li class="line">line</li>
-			<li><a class="icon" href="demo/common/dwz-team.xls" target="dwzExport" targetType="navTab" title="实要导出这些记录吗?"><span>导出EXCEL</span></a></li>
-			-->
 		</ul>
+		-->
 	</div>
 	<table class="table" width="100%" layoutH="138">
 		<thead>
