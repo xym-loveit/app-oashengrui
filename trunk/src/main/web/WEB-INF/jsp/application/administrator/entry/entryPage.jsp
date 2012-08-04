@@ -23,8 +23,8 @@ $(function(){
 		$("#formnews").submit();
 	});
 	<c:if test="${news eq null}">
-	$("#approval").unbind("click");
-	$("#approval").bind("click", function() { 
+	$("#app").unbind("click");
+	$("#app").bind("click", function() { 
 		$("#formadd").val("2");
 		$("#formnews").submit();
 		return false;
@@ -38,8 +38,8 @@ $(function(){
 	});
 	</c:if>
 	<c:if test="${news ne null}">
-	$("#approval").unbind("click");
-	$("#approval").bind("click", function() { 
+	$("#app").unbind("click");
+	$("#app").bind("click", function() { 
 		$("#formedit").val("4");
 		$("#formnews").submit();
 		return false;
@@ -223,7 +223,7 @@ ${tm:fileRestore(news['attachFiles'])}
 					</logic:equal>
 				</logic:present>
 				<logic:notPresent name="op">
-					<li><div class="buttonActive"><div class="buttonContent"><button id="approval" type="submit">提交审核</button></div></div></li>
+					<li><div class="buttonActive"><div class="buttonContent"><button id="app" type="submit">提交审核</button></div></div></li>
 					<li><div class="buttonActive"><div class="buttonContent"><button id="save" type="submit">保存草稿</button></div></div></li>
 				</logic:notPresent>
 				<li>
