@@ -19,23 +19,23 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `app_admin_attendance`;
 CREATE TABLE `app_admin_attendance` (
-  `attend_id` bigint(20) NOT NULL auto_increment COMMENT '考勤ID',
+  `attend_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '考勤ID',
   `work_date` date NOT NULL COMMENT '工作日期',
   `work_time` varchar(64) NOT NULL COMMENT '工作时间',
-  `offtime_shour` int(11) default NULL COMMENT '实际下班时间 - 打卡小时 (上)',
-  `offtime_ehour` int(11) default NULL COMMENT '实际下班时间 - 打卡分钟 (上)',
-  `offtime_smin` int(11) default NULL COMMENT '实际下班时间 - 打卡小时 (下)',
-  `offtime_emin` int(11) default NULL COMMENT '实际下班时间 - 打卡分钟 (下)',
+  `offtime_shour` varchar(11) DEFAULT NULL COMMENT '实际下班时间 - 打卡小时 (上)',
+  `offtime_ehour` varchar(11) DEFAULT NULL COMMENT '实际下班时间 - 打卡分钟 (上)',
+  `offtime_smin` varchar(11) DEFAULT NULL COMMENT '实际下班时间 - 打卡小时 (下)',
+  `offtime_emin` varchar(11) DEFAULT NULL COMMENT '实际下班时间 - 打卡分钟 (下)',
   `staff_id` bigint(20) NOT NULL COMMENT '员工ID',
   `staff_name` varchar(64) NOT NULL COMMENT '员工姓名',
-  `work_type` tinyint(4) NOT NULL COMMENT '上班类型, 0=正常上班, 1=带薪上班',
+  `work_type` tinyint(4) NOT NULL COMMENT '上班类型, 1=正常上班,2=调休加班, 3=带薪加班, 4=倍薪加班',
   `work_status` tinyint(4) NOT NULL COMMENT '上班状态， 0=在岗, 1=出差, 2=请假',
-  `leave_type` tinyint(4) default NULL COMMENT '请假类型',
-  `staff_behalf_name` varchar(64) default NULL COMMENT '代班员工姓名',
-  `staff_behalf_id` bigint(20) default NULL COMMENT '代班员工ID',
-  `meto` varchar(250) default NULL COMMENT '说明 (请假说明, 旷工说明)',
-  `attendance_result` tinyint(4) default NULL COMMENT '考勤结果, 0=按时, 1=迟到, 2=早退, 3=旷工',
-  PRIMARY KEY  (`attend_id`)
+  `leave_type` char(1) DEFAULT NULL COMMENT '请假类型',
+  `staff_behalf_name` varchar(64) DEFAULT NULL COMMENT '代班员工姓名',
+  `staff_behalf_id` bigint(20) DEFAULT NULL COMMENT '代班员工ID',
+  `meto` varchar(250) DEFAULT NULL COMMENT '说明 (请假说明, 旷工说明)',
+  `attendance_result` varchar(20) DEFAULT NULL COMMENT '考勤结果,按时,迟到,早退,旷工,迟到早退',
+  PRIMARY KEY (`attend_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-员工考勤';
 
 -- ----------------------------
@@ -319,30 +319,34 @@ INSERT INTO `app_admin_task_tracks` VALUES ('10', '10', '2012-08-03', '1', '2012
 -- ----------------------------
 DROP TABLE IF EXISTS `app_admin_workarrange`;
 CREATE TABLE `app_admin_workarrange` (
-  `work_id` bigint(20) NOT NULL auto_increment COMMENT '工作ID',
+  `work_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '工作ID',
   `work_date` date NOT NULL COMMENT '工作日期',
   `work_time` bigint(20) NOT NULL COMMENT '工作时间',
   `staff_name` varchar(64) NOT NULL COMMENT '员工姓名',
   `staff_id` bigint(20) NOT NULL COMMENT '员工ID',
-  `work_type` int(5) default NULL COMMENT '上班类型',
-  `work_content` bigint(20) default NULL COMMENT '工作内容',
-  `district_id` bigint(20) default NULL COMMENT '员工所在校区',
-  PRIMARY KEY  (`work_id`),
+  `work_type` int(5) DEFAULT NULL COMMENT '上班类型',
+  `work_content` bigint(20) DEFAULT NULL COMMENT '工作内容',
+  `district_id` bigint(20) DEFAULT NULL COMMENT '员工所在校区',
+  `attend_id` bigint(20) DEFAULT NULL COMMENT '对应的考勤记录',
+  PRIMARY KEY (`work_id`),
   KEY `PK_user` (`staff_id`),
   KEY `PK_type` (`work_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='行政管理-工作安排';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='行政管理-工作安排';
 
 -- ----------------------------
 -- Records of app_admin_workarrange
 -- ----------------------------
-INSERT INTO `app_admin_workarrange` VALUES ('11', '2012-08-06', '4', '梅杰', '20', '1', '4', '1');
-INSERT INTO `app_admin_workarrange` VALUES ('12', '2012-08-06', '4', '罗佳驹', '19', '1', '4', '1');
-INSERT INTO `app_admin_workarrange` VALUES ('13', '2012-08-13', '4', '梅杰', '20', '1', '4', '1');
-INSERT INTO `app_admin_workarrange` VALUES ('14', '2012-08-13', '4', '罗佳驹', '19', '1', '4', '1');
-INSERT INTO `app_admin_workarrange` VALUES ('15', '2012-08-20', '4', '梅杰', '20', '1', '4', '1');
-INSERT INTO `app_admin_workarrange` VALUES ('16', '2012-08-20', '4', '罗佳驹', '19', '1', '4', '1');
-INSERT INTO `app_admin_workarrange` VALUES ('17', '2012-08-27', '4', '梅杰', '20', '1', '4', '1');
-INSERT INTO `app_admin_workarrange` VALUES ('18', '2012-08-27', '4', '罗佳驹', '19', '1', '4', '1');
+INSERT INTO `app_admin_workarrange` VALUES ('1', '2012-08-05', '4', '刘苗芳', '24', '1', '4', '1', '2');
+INSERT INTO `app_admin_workarrange` VALUES ('2', '2012-08-05', '4', '梅杰', '20', '1', '4', '1', '3');
+INSERT INTO `app_admin_workarrange` VALUES ('3', '2012-08-05', '4', '罗佳驹', '19', '1', '4', '1', '1');
+INSERT INTO `app_admin_workarrange` VALUES ('4', '2012-08-05', '4', '程聪', '29', '1', '4', '1', '4');
+INSERT INTO `app_admin_workarrange` VALUES ('5', '2012-08-06', '4', '罗佳驹', '19', '1', '5', '1', null);
+INSERT INTO `app_admin_workarrange` VALUES ('6', '2012-08-06', '4', '蒋晓萍', '26', '1', '5', '1', null);
+INSERT INTO `app_admin_workarrange` VALUES ('7', '2012-08-06', '4', '程聪', '29', '1', '5', '1', '5');
+INSERT INTO `app_admin_workarrange` VALUES ('8', '2012-08-06', '4', '刘苗芳', '24', '1', '5', '1', null);
+INSERT INTO `app_admin_workarrange` VALUES ('9', '2012-08-06', '4', '周碧英', '25', '1', '5', '1', '6');
+INSERT INTO `app_admin_workarrange` VALUES ('10', '2012-08-06', '4', '梅杰', '20', '1', '5', '1', null);
+INSERT INTO `app_admin_workarrange` VALUES ('11', '2012-08-06', '4', '林菁菁', '21', '1', '5', '1', null);
 
 -- ----------------------------
 -- Table structure for `app_admin_worktype`
@@ -2744,3 +2748,9 @@ CREATE TABLE `app_user_role` (
 -- ----------------------------
 -- Records of app_user_role
 -- ----------------------------
+
+-- ----------------------------
+-- View structure for `app_admin_attendance_view`
+-- ----------------------------
+DROP VIEW IF EXISTS `app_admin_attendance_view`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `app_admin_attendance_view` AS select 'attendance' AS `origin`,`app_admin_attendance`.`attend_id` AS `attendance_view_id`,`app_admin_attendance`.`work_date` AS `work_date`,`app_admin_attendance`.`work_time` AS `work_time`,`app_admin_attendance`.`offtime_shour` AS `offtime_shour`,`app_admin_attendance`.`offtime_ehour` AS `offtime_ehour`,`app_admin_attendance`.`offtime_smin` AS `offtime_smin`,`app_admin_attendance`.`offtime_emin` AS `offtime_emin`,`app_admin_attendance`.`staff_id` AS `staff_id`,`app_admin_attendance`.`staff_name` AS `staff_name`,`app_admin_attendance`.`work_type` AS `work_type`,`app_admin_attendance`.`work_status` AS `work_status`,`app_admin_attendance`.`leave_type` AS `leave_type`,`app_admin_attendance`.`staff_behalf_name` AS `staff_behalf_name`,`app_admin_attendance`.`staff_behalf_id` AS `staff_behalf_id`,`app_admin_attendance`.`meto` AS `meto`,`app_admin_attendance`.`attendance_result` AS `attendance_result` from `app_admin_attendance` union select 'arrange' AS `origin`,`app_admin_workarrange`.`work_id` AS `attendance_view_id`,`app_admin_workarrange`.`work_date` AS `work_date`,concat(`app_system_work_time`.`work_stime`,'-',`app_system_work_time`.`work_etime`) AS `work_time`,NULL AS `offtime_shour`,NULL AS `offtime_ehour`,NULL AS `offtime_smin`,NULL AS `offtime_emin`,`app_admin_workarrange`.`staff_id` AS `staff_id`,`app_admin_workarrange`.`staff_name` AS `staff_name`,`app_admin_workarrange`.`work_type` AS `work_type`,'0' AS `work_status`,NULL AS `leave_type`,NULL AS `staff_behalf_name`,NULL AS `staff_behalf_id`,NULL AS `meto`,NULL AS `attendance_result` from (`app_admin_workarrange` join `app_system_work_time`) where (isnull(`app_admin_workarrange`.`attend_id`) and (`app_admin_workarrange`.`work_time` = `app_system_work_time`.`worktm_id`)) ;
