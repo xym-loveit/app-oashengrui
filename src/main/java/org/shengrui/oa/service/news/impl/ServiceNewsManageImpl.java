@@ -5,6 +5,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.news.DAONewsManage;
+import org.shengrui.oa.model.finan.ModelFinanExpense;
 import org.shengrui.oa.model.news.ModelNewsMag;
 import org.shengrui.oa.service.news.ServiceNewsManage;
 
@@ -31,6 +32,15 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 	{
 		return this.getAll(this.getCriteria(news), pagingBean);
 		
+	}
+	
+	@Override
+	public PaginationSupport<ModelNewsMag> getPaginationFilert(
+			ModelNewsMag news, PagingBean pagingBean) throws ServiceException
+	{
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelNewsMag.class);
+		criteria.add(Restrictions.in("status", new Integer[]{1,2,3}));
+		return this.getAll(criteria, pagingBean);
 	}
 	
 	private DetachedCriteria getCriteria(ModelNewsMag news)

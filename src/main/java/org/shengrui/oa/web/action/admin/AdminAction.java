@@ -145,7 +145,7 @@ extends BaseAdminAction
 			String districtPost = request.getParameter("districtPost");
 			approvalNews.setDistrict(this.serviceSchoolDistrict.get(districtPost));
 			PaginationSupport<ModelNewsMag> newsInfo = 
-				this.serviceNewsManage.getPaginationByNews(approvalNews, pagingBean);
+				this.serviceNewsManage.getPaginationFilert(approvalNews, pagingBean);
 			request.setAttribute("newsInfo", newsInfo);
 			request.setAttribute("newsApprove", approvalNews);
 			request.setAttribute("newsTypes", this.getServiceAppDictionary().getByType(type));
