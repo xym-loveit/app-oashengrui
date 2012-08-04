@@ -109,7 +109,7 @@ ${tm:fileRestore(news['attachFiles'])}
 			<table cellspacing="10" cellpadding="10" style="border-spacing:12">
 				<tr>
 					<td>新闻标题：</td>
-					<td colspan="5"><input name="newsSubject" type="text" size="30" value="${news.newsSubject}" style="width:100%"/></td>
+					<td colspan="5"><input name="newsSubject" class="required" type="text" size="30" value="${news.newsSubject}" style="width:100%"/></td>
 				</tr>
 				<tr>
 					<td>新闻级别：</td>
