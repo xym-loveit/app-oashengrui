@@ -62,7 +62,6 @@
 						<label>新闻状态：</label>
 						<select class="combox" name="status" id="entry_status_approve">
 							<option value="-1">所有</option>
-							<option value="0" ${newsApprove ne null && newsApprove.status eq 0 ? 'selected="selected"' : '' }>草稿</option>
 							<option value="1" ${newsApprove ne null && newsApprove.status eq 1 ? 'selected="selected"' : '' }>已发布并待审核</option>
 							<option value="2" ${newsApprove ne null && newsApprove.status eq 2 ? 'selected="selected"' : '' }>审核通过</option>
 							<option value="3" ${newsApprove ne null && newsApprove.status eq 3 ? 'selected="selected"' : '' }>审批退回</option>

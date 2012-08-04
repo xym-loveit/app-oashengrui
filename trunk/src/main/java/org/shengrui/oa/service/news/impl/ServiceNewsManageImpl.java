@@ -5,7 +5,6 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.news.DAONewsManage;
-import org.shengrui.oa.model.finan.ModelFinanExpense;
 import org.shengrui.oa.model.news.ModelNewsMag;
 import org.shengrui.oa.service.news.ServiceNewsManage;
 
@@ -39,6 +38,34 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 			ModelNewsMag news, PagingBean pagingBean) throws ServiceException
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelNewsMag.class);
+		if(news != null)
+		{
+			if(news.getDictionary() !=null && UtilString.isNotEmpty(news.getDictionary().getId()))
+			{
+				criteria.createCriteria("dictionary").add(Restrictions.eq("id", news.getDictionary().getId()));
+			}
+			if(news.getSearchStatusCondition() !=null && news.getSearchStatusCondition().length > 0)
+			{
+				criteria.add(Restrictions.in("status", news.getSearchStatusCondition()));
+			}
+			else
+			{
+				if (news.getStatus() != null && news.getStatus() > -1)
+				{
+					criteria.add(Restrictions.eq("status",news.getStatus()));
+				}
+			}
+			if(news.getNewsSubject() !=null)
+			{
+				criteria.add(Restrictions.like("newsSubject", news.getNewsSubject(), MatchMode.ANYWHERE));
+			}
+			if(news.getDistrict() != null && UtilString.isNotEmpty(news.getDistrict().getId()))
+			{
+				criteria.createCriteria("district").add(Restrictions.eq("id", news.getDistrict().getId()));
+			}
+		}
+		criteria.addOrder(Order.desc("topIndex"))
+				.addOrder(Order.desc("updateTime"));
 		criteria.add(Restrictions.in("status", new Integer[]{1,2,3}));
 		return this.getAll(criteria, pagingBean);
 	}
