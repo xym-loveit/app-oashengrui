@@ -13,6 +13,9 @@ extends ServiceGeneric<ModelNewsMag>
 	PaginationSupport<ModelNewsMag> getPaginationByNews(ModelNewsMag news,
 			PagingBean pagingBean)throws ServiceException;
 	
+	PaginationSupport<ModelNewsMag> getPaginationFilert(ModelNewsMag news,
+			PagingBean pagingBean)throws ServiceException;
+	
 	/**
 	 * 用于删除新闻纪录
 	 * @param newsId
