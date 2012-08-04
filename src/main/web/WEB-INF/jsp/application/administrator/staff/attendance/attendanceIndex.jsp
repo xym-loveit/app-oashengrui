@@ -99,16 +99,16 @@
 					<td><fmt:formatDate value="${entity.workDate}" type="date" pattern="yyyy-MM-dd"/></td>
 					<td>${entity.workTime}</td>
 					<td>${entity.staffName}</td>
-					<td><c:if test="${entity.workType==0}">正常上班</c:if><c:if test="${entity.workType==1 }">带薪上班</c:if></td>
-					<td>${entity.offtimeShour}:${entity.offtimeSmin} - ${entity.offtimeEhour}:${entity.offtimeEmin}</td>
-					<td><c:if test="${entity.workStatus==0}">在岗</c:if><c:if test="${entity.workStatus==1}">出差</c:if><c:if test="${entity.workStatus==2}">请假</c:if></td>
+					<td><c:if test="${entity.workType eq '1'}">正常上班</c:if><c:if test="${entity.workType eq '2' }">调休加班</c:if><c:if test="${entity.workType eq '3' }">带薪加班</c:if><c:if test="${entity.workType eq '4' }">倍薪加班</c:if></td>
+					<td><c:if test="${entity.offtimeShour ne null && entity.offtimeSmin ne null}">${entity.offtimeShour}:${entity.offtimeSmin}</c:if> - <c:if test="${entity.offtimeEhour ne null && entity.offtimeEmin ne null}">${entity.offtimeEhour}:${entity.offtimeEmin}</c:if></td>
+					<td><c:if test="${entity.workStatus==0}">在岗</c:if><c:if test="${entity.workStatus==1}">出差</c:if><c:if test="${entity.workStatus==2}">请假</c:if><c:if test="${entity.workStatus==3}">旷工</c:if></td>
 					<td>${entity.staffBehalfName ne null ? entity.staffBehalfName : "-"}</td>
-					<td>${entity.attendanceResult}</td>
+					<td>${entity.attendanceResult ne null ? entity.attendanceResult : "-"}</td>
 					<td></td>
-					<td><a href="app/admin/attendance.do?action=adminPageStaffAttendanceOnPunch&id=${entity.id}" class="oplink" target="dialog" title="员工考勤-打卡" width="550" height="250">打卡</a></td>
-				    <td><a href="app/admin/attendance.do?action=adminPageStaffAttendanceOnTravel&id=${entity.id}" class="oplink" target="dialog" title="员工考勤-出差安排" width="350" height="220" rel="admin_dutytravel-2">出差安排</a></td>
-					<td><a href="app/admin/attendance.do?action=adminPageStaffAttendanceOnLeave&id=${entity.id}" class="oplink" target="dialog" title="员工考勤-请假" width="550" height="320" rel="admin_dutyleave-2">请假</a></td>
-					<td><a href="app/admin/attendance.do?action=adminPageStaffAttendanceOnAbsence&id=${entity.id}" class="oplink" target="dialog" title="员工考勤-旷工" width="550" height="300" rel="admin_dutyabsence-2">旷工</a></td>
+					<td><a href="app/admin/attendance/view.do?action=adminPageStaffAttendanceOnPunch&attendanceViewId.viewId=${entity.attendanceViewId.viewId}&attendanceViewId.origin=${entity.attendanceViewId.origin}" class="oplink" target="dialog" title="员工考勤-打卡" width="550" height="250">打卡</a></td>
+				    <td><a href="app/admin/attendance/view.do?action=adminPageStaffAttendanceOnTravel&attendanceViewId.viewId=${entity.attendanceViewId.viewId}&attendanceViewId.origin=${entity.attendanceViewId.origin}" class="oplink" target="dialog" title="员工考勤-出差安排" width="350" height="220" rel="admin_dutytravel-2">出差安排</a></td>
+					<td><a href="app/admin/attendance/view.do?action=adminPageStaffAttendanceOnLeave&attendanceViewId.viewId=${entity.attendanceViewId.viewId}&attendanceViewId.origin=${entity.attendanceViewId.origin}" class="oplink" target="dialog" title="员工考勤-请假" width="650" height="320" rel="admin_dutyleave-2">请假</a></td>
+					<td><a href="app/admin/attendance/view.do?action=adminPageStaffAttendanceOnAbsence&attendanceViewId.viewId=${entity.attendanceViewId.viewId}&attendanceViewId.origin=${entity.attendanceViewId.origin}" class="oplink" target="dialog" title="员工考勤-旷工" width="550" height="300" rel="admin_dutyabsence-2">旷工</a></td>
 				</tr>
 			</logic:iterate>
 		  </logic:present>
