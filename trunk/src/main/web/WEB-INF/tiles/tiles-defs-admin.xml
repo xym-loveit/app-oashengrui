@@ -81,6 +81,10 @@
 	<!-- 员工考勤管理 - 员工考勤 - 旷工 -->
 	<definition name="admin.page.staff.attendance.onabsence" 
 		path="/WEB-INF/jsp/application/administrator/staff/attendance/attendanceOnAbsence.jsp" />
+		
+	<!-- 员工考勤管理 - 员工考勤 - 休假天数 -->
+	<definition name="admin.page.staff.attendance.vocation" 
+		path="/WEB-INF/jsp/application/administrator/staff/attendance/vocation.jsp" />
 	
 	<!-- 文档上传与管理 -->
 	<definition name="admin.page.document.index" 
