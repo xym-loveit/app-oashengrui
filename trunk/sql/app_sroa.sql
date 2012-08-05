@@ -208,6 +208,8 @@ CREATE TABLE `app_admin_task` (
   `task_name` varchar(120) NOT NULL COMMENT '任务名称',
   `task_originator` bigint(20) NOT NULL COMMENT '任务发起人',
   `task_charger` bigint(20) NOT NULL COMMENT '任务负责人',
+  `task_charger_depid` bigint(20) default NULL COMMENT '任务负责人所属部门ID',
+  `task_charger_disid` bigint(20) default NULL COMMENT '任务负责人所属校区ID', 
   `task_planStartDate` date NOT NULL COMMENT '任务计划开始时间',
   `task_planEndDate` date NOT NULL COMMENT '任务计划终止时间',
   `task_actualFinishDate` date default NULL COMMENT '任务实际完成时间',
@@ -223,12 +225,12 @@ CREATE TABLE `app_admin_task` (
 -- ----------------------------
 -- Records of app_admin_task
 -- ----------------------------
-INSERT INTO `app_admin_task` VALUES ('4', '7', 'task1', '36', '27', '2012-07-31', '2012-08-07', null, 'hi', null, null, '2', '2', '2012-07-31 21:39:58');
-INSERT INTO `app_admin_task` VALUES ('5', '7', 'task2', '36', '27', '2012-07-29', '2012-08-02', '2012-08-03', '', null, null, '3', '4', '2012-08-01 11:20:20');
-INSERT INTO `app_admin_task` VALUES ('6', '7', 'task', '19', '19', '2012-08-02', '2012-08-15', '2012-08-04', 'test21312', null, null, '3', null, '2012-08-02 17:00:00');
-INSERT INTO `app_admin_task` VALUES ('7', '7', 'task2', '20', '19', '2012-08-01', '2012-08-04', null, 'test', null, null, '4', null, '2012-08-02 17:02:08');
-INSERT INTO `app_admin_task` VALUES ('8', '8', 'task5', '19', '22', '2012-08-01', '2012-08-03', null, 'testfadfadf', null, null, null, '4', '2012-08-02 21:40:48');
-INSERT INTO `app_admin_task` VALUES ('10', '7', 'task7', '19', '19', '2012-08-02', '2012-08-11', null, '12312fadffafds', null, null, '5', '2', '2012-08-02 23:14:02');
+INSERT INTO `app_admin_task` VALUES ('4', '7', 'task1', '36', '27', null, null, '2012-07-31', '2012-08-07', null, 'hi', null, null, '2', '2', '2012-07-31 21:39:58');
+INSERT INTO `app_admin_task` VALUES ('5', '7', 'task2', '36', '27', null, null, '2012-07-29', '2012-08-02', '2012-08-03', '', null, null, '3', '4', '2012-08-01 11:20:20');
+INSERT INTO `app_admin_task` VALUES ('6', '7', 'task', '19', '19', null, null, '2012-08-02', '2012-08-15', '2012-08-04', 'test21312', null, null, '3', null, '2012-08-02 17:00:00');
+INSERT INTO `app_admin_task` VALUES ('7', '7', 'task2', '20', '19', null, null, '2012-08-01', '2012-08-04', null, 'test', null, null, '4', null, '2012-08-02 17:02:08');
+INSERT INTO `app_admin_task` VALUES ('8', '8', 'task5', '19', '22', null, null, '2012-08-01', '2012-08-03', null, 'testfadfadf', null, null, null, '4', '2012-08-02 21:40:48');
+INSERT INTO `app_admin_task` VALUES ('10', '7', 'task7', '19', '19', null, null, '2012-08-02', '2012-08-11', null, '12312fadffafds', null, null, '5', '2', '2012-08-02 23:14:02');
 
 -- ----------------------------
 -- Table structure for `app_admin_task_file`
@@ -538,6 +540,7 @@ CREATE TABLE `app_function` (
   `func_icon` varchar(32) default NULL COMMENT '功能显示图片',
   `func_desc` varchar(150) default NULL COMMENT '功能描述',
   `menu_id` bigint(20) NOT NULL COMMENT '所属菜单',
+  `strategy_ids` varchar(120) default NULL COMMENT '功能数据权限ID集合',
   PRIMARY KEY  (`func_id`),
   UNIQUE KEY `func_key` (`func_key`),
   KEY `menu_id` (`menu_id`)
@@ -546,139 +549,139 @@ CREATE TABLE `app_function` (
 -- ----------------------------
 -- Records of app_function
 -- ----------------------------
-INSERT INTO `app_function` VALUES ('5', '_FUNCKEY_HRM_JOBHIRE_JOB_VIEW', '岗位管理-岗位查看', '', '查看岗位详细信息..', '48');
-INSERT INTO `app_function` VALUES ('6', '_FUNCKEY_HRM_JOBHIRE_JOB_POST', '岗位管理-岗位发布', '', '需先具备`岗位查看`的权限, 才能进行岗位发布操作.', '48');
-INSERT INTO `app_function` VALUES ('7', '_FUNCKEY_HRM_JOBHIRE_JOB_EDIT', '岗位管理-岗位编辑', '', '需先具备`岗位查看`的权限, 才能进行岗位编辑操作.', '48');
-INSERT INTO `app_function` VALUES ('8', '_FUNCKEY_HRM_JOBHIRE_JOB_OPENCTRL', '岗位管理-应聘控制', '', '应聘控制包含, `应聘开启`和`应聘关闭`操作.', '48');
-INSERT INTO `app_function` VALUES ('9', '_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY', '入职安排-页面查看', '', '对通过面试的人员进行入职安排操作.', '48');
-INSERT INTO `app_function` VALUES ('10', '_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_RESUME_VIEW', '入职安排-简历查看', '', '入职安排页面中查看应聘者简历信息.', '48');
-INSERT INTO `app_function` VALUES ('11', '_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_INTERVIEW_VIEW', '入职安排-面试查看', '', '入职安排页面中查看应聘者面试记录信息.', '48');
-INSERT INTO `app_function` VALUES ('12', '_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_ARRANGE', '入职安排-入职安排', '', '主要是对入职校区、部门、时间等信息的安排.', '48');
-INSERT INTO `app_function` VALUES ('13', '_FUNCKEY_HRM_JOBHIRE_JOB_APPROVAL', '岗位管理-岗位审批', '', '对发布的岗位进行审批操作.', '48');
-INSERT INTO `app_function` VALUES ('14', '_FUNCKEY_HRM_JOBHIRE_JOB_OFFER', '招聘安排-页面查看', '', '主要对应聘者进行面试安排等操作.', '48');
-INSERT INTO `app_function` VALUES ('15', '_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_RESUME_VIEW', '招聘安排-简历查看', '', '招聘安排页面中查看应聘者简历信息.', '48');
-INSERT INTO `app_function` VALUES ('16', '_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_VIEW', '招聘安排-面试查看', '', '招聘安排页面中查看应聘者面试记录信息.', '48');
-INSERT INTO `app_function` VALUES ('17', '_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ENTILE', '招聘安排-员工录用', '', '面试过后, 进行员工录用状态转换操作.', '48');
-INSERT INTO `app_function` VALUES ('18', '_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ELIMINATE', '招聘安排-员工淘汰', '', '面试过后, 进行员工淘汰状态转换操作.', '48');
-INSERT INTO `app_function` VALUES ('19', '_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_ABSENCE', '招聘安排-员工未到', '', '面试过后, 进行员工淘汰状态转换操作.', '48');
-INSERT INTO `app_function` VALUES ('20', '_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_ARRANGE', '招聘安排-招聘安排', '', '应聘者面试安排操作', '48');
-INSERT INTO `app_function` VALUES ('21', '_FUNCKEY_HRM_ARCHIVE_RESUME_VIEW', '查看简历信息', '', '查看人才简历信息', '49');
-INSERT INTO `app_function` VALUES ('22', '_FUNCKEY_HRM_ARCHIVE_RESUME_REMOVE', '删除简历信息', '', '删除人才库中的简历信息', '49');
-INSERT INTO `app_function` VALUES ('23', '_FUNCKEY_HRM_ENTRY_OP_ONBOARD', '入职处理', '', '对入职安排中的应聘者进行入职安排操作.', '50');
-INSERT INTO `app_function` VALUES ('24', '_FUNCKEY_HRM_ENTRY_OP_ABSENCE', '未到处理', '', '对入职安排中的应聘者进行未到安排操作.', '50');
-INSERT INTO `app_function` VALUES ('25', '_FUNCKEY_HRM_ENTRY_OP_QUALIFY', '考察处理', '', '对入职安排中的应聘者进行考察通过、考察未通过处理.', '50');
-INSERT INTO `app_function` VALUES ('26', '_FUNCKEY_HRM_EMPLOYEE_ADD', '员工数据添加', '', '添加单个新员工数据', '51');
-INSERT INTO `app_function` VALUES ('27', '_FUNCKEY_HRM_EMPLOYEE_REMOVE', '员工数据删除', '', '员工数据删除', '51');
-INSERT INTO `app_function` VALUES ('28', '_FUNCKEY_HRM_EMPLOYEE_VIEW', '员工数据查看', '', '员工数据信息查看, 包括简历信息以及晟睿旅程信息.', '51');
-INSERT INTO `app_function` VALUES ('29', '_FUNCKEY_HRM_EMPLOYEE_UPDATE', '员工数据更新', '', '员工数据更新, 包括员工简历信息更新以及员工晟睿旅程信息的更新.', '51');
-INSERT INTO `app_function` VALUES ('30', '_FUNCKEY_HRM_DEVELOP_FINALIZE', '审批状态操作', '', '主要是针对员工, 转正、晋升、离职、调动等状态转换操作.', '47');
-INSERT INTO `app_function` VALUES ('31', '_FUNCKEY_HRM_DEVELOP_VIEWDATA', '审批数据加载', '', '加载\"审批中\"与\"已审批\"Tab的人力发展数据.', '47');
-INSERT INTO `app_function` VALUES ('32', '_FUNCKEY_FINAN_EXPENSE_APPLY', '费用支出申请', '', '填写费用支出申请单并提交审核.', '7');
-INSERT INTO `app_function` VALUES ('33', '_FUNCKEY_FINAN_EXPENSE_VIEW', '费用支出查看', '', '查看提交的费用支出申请单数据.', '7');
-INSERT INTO `app_function` VALUES ('34', '_FUNCKEY_FINAN_EXPENSE_APPROVE', '费用支出审核', '', '审核提交上来的费用支出', '7');
-INSERT INTO `app_function` VALUES ('35', '_FUNCKEY_FINAN_CONTRACT_APPLY', '合同申请提交', '', '填写合同申请单并提交审核', '30');
-INSERT INTO `app_function` VALUES ('36', '_FUNCKEY_FINAN_CONTRACT_VIEW', '合同申请查看', '', '查看合同申请单数据', '30');
-INSERT INTO `app_function` VALUES ('37', '_FUNCKEY_FINAN_CONTRACT_APPROVE', '合同申请审核', '', '审核提交上来的费用支出', '30');
-INSERT INTO `app_function` VALUES ('38', '_FUNCKEY_FINAN_EXPENSE_RECORD_VIEW', '审批记录查看', '', '查看费用审批记录数据.', '28');
-INSERT INTO `app_function` VALUES ('39', '_FUNCKEY_FINAN_CONTRACT_RECORD_VIEW', '审批记录查看', '', '查看费用审批记录数据.', '31');
-INSERT INTO `app_function` VALUES ('40', '_FUNCKEY_SYSTEM_MENU_ADD', '菜单项添加', '', '添加新的菜单项...', '16');
-INSERT INTO `app_function` VALUES ('41', '_FUNCKEY_SYSTEM_MENU_EDIT', '菜单项编辑', '', '编辑菜单项', '16');
-INSERT INTO `app_function` VALUES ('42', '_FUNCKEY_SYSTEM_MENU_REFRESH', '菜单项刷新', '', '刷新左侧菜单项树状结构.', '16');
-INSERT INTO `app_function` VALUES ('43', '_FUNCKEY_SYSTEM_MENU_FUNC_ADD', '功能项添加', '', '添加菜单对应的功能项.', '16');
-INSERT INTO `app_function` VALUES ('44', '_FUNCKEY_SYSTEM_MENU_FUNC_EDIT', '功能项编辑', '', '编辑菜单对应的功能项.', '16');
-INSERT INTO `app_function` VALUES ('45', '_FUNCKEY_SYSTEM_MENU_FUNC_REFRESH', '功能项刷新', '', '刷新选中菜单拥有的功能项.', '16');
-INSERT INTO `app_function` VALUES ('46', '_FUNCKEY_SYSTEM_MENU_FUNC_REMOVE', '功能项删除', '', '删除菜单某功能项', '16');
-INSERT INTO `app_function` VALUES ('47', '_FUNCKEY_SYSTEM_ROLE_VIEW', '权限组查看', '', '查看权限组详细信息', '15');
-INSERT INTO `app_function` VALUES ('48', '_FUNCKEY_SYSTEM_ROLE_ADD', '权限组添加', '', '添加新的权限组', '15');
-INSERT INTO `app_function` VALUES ('49', '_FUNCKEY_SYSTEM_ROLE_EDIT', '权限组编辑', '', '编辑权限组信息.', '15');
-INSERT INTO `app_function` VALUES ('50', '_FUNCKEY_SYSTEM_ROLE_REMOVE', '权限组删除', '', '删除权限组', '15');
-INSERT INTO `app_function` VALUES ('51', '_FUNCKEY_FLOW_HRM_TYPE_REFRESH', '审批类型刷新', '', '刷新左侧人资审批类型树状结构', '20');
-INSERT INTO `app_function` VALUES ('52', '_FUNCKEY_FLOW_HRM_PROCESS_REFRESH', '审批流程刷新', '', '根据审批类型刷新审批流程数据', '20');
-INSERT INTO `app_function` VALUES ('53', '_FUNCKEY_FLOW_HRM_PROCESS_CONFIGURE', '审批流程配置', '', '人资审批流程配置, 包括流程数据加载、节点添加及删除等操作.', '20');
-INSERT INTO `app_function` VALUES ('54', '_FUNCKEY_FLOW_HRM_PROCESS_REMOVE', '审批流程删除', '', '审批流程删除.. (链接待完善...)', '20');
-INSERT INTO `app_function` VALUES ('55', '_FUNCKEY_FLOW_FINAN_TYPE_REFRESH', '审批类型刷新', '', '财务审批类型刷新,主要体现在左侧的树状结构.', '21');
-INSERT INTO `app_function` VALUES ('56', '_FUNCKEY_FLOW_FINAN_PROC_TYPE_REFRESH', '申请类别刷新', '', '根据审批类型获取申请类别数据.', '21');
-INSERT INTO `app_function` VALUES ('57', '_FUNCKEY_FLOW_FINAN_PROC_TYPE_ADD', '申请类别添加', '', '添加申请类别', '21');
-INSERT INTO `app_function` VALUES ('58', '_FUNCKEY_FLOW_FINAN_PROC_TYPE_EDIT', '申请类别编辑', '', '编辑申请类别.', '21');
-INSERT INTO `app_function` VALUES ('59', '_FUNCKEY_FLOW_FINAN_PROC_APPROVE', '审批流程配置', '', '对审批申请类型进行流程配置.', '21');
-INSERT INTO `app_function` VALUES ('60', '_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_ADD', '校区添加', '', '添加新校区.', '22');
-INSERT INTO `app_function` VALUES ('61', '_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_EDIT', '校区编辑', '', '校区数据编辑.', '22');
-INSERT INTO `app_function` VALUES ('62', '_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_REMOVE', '校区删除', '', '校区数据删除.', '22');
-INSERT INTO `app_function` VALUES ('63', '_FUNCKEY_SYSTEM_SCHOOL_POSET_ADD', '职位添加', '', '添加新职位信息.', '24');
-INSERT INTO `app_function` VALUES ('64', '_FUNCKEY_SYSTEM_SCHOOL_POSET_REMOVE', '职位删除', '', '删除职位信息.', '24');
-INSERT INTO `app_function` VALUES ('65', '_FUNCKEY_SYSTEM_SCHOOL_POSET_EDIT', '职位编辑', '', '编辑职位信息', '24');
-INSERT INTO `app_function` VALUES ('66', '_FUNCKEY_SYSTEM_SCHOOL_DEP_ADD', '部门添加', '', '新增部门数据', '23');
-INSERT INTO `app_function` VALUES ('67', '_FUNCKEY_SYSTEM_SCHOOL_DEP_REFRESH', '部门刷新', '', '刷新左侧部门树状结构', '23');
-INSERT INTO `app_function` VALUES ('68', '_FUNCKEY_SYSTEM_SCHOOL_DEP_REMOVE', '部门删除', '', '删除部门数据.', '23');
-INSERT INTO `app_function` VALUES ('69', '_FUNCKEY_SYSTEM_SCHOOL_DEP_EDIT', '部门编辑', '', '编辑部门数据.', '23');
-INSERT INTO `app_function` VALUES ('70', '_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_REFRESH', '岗位刷新', '', '根据选择的部门刷新对应的岗位数据.', '23');
-INSERT INTO `app_function` VALUES ('71', '_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_REMOVE', '岗位删除', '', '删除岗位数据', '23');
-INSERT INTO `app_function` VALUES ('72', '_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_ADD', '岗位添加', '', '添加岗位信息.', '23');
-INSERT INTO `app_function` VALUES ('73', '_FUNCKEY_PERSONAL_JOBAPPLY_HISTORY', '我的历史应聘', '', '访问我的历史应聘数据', '35');
-INSERT INTO `app_function` VALUES ('74', '_FUNCKEY_PERSONAL_INTERVIEW_HISTORY', '我的历史面试', '', '访问我的历史面试数据', '36');
-INSERT INTO `app_function` VALUES ('75', '_FUNCKEY_PERSONAL_INTERVIEW_COMMIT', '提交面试意见', '', '提交面试意见.', '36');
-INSERT INTO `app_function` VALUES ('76', '_FUNCKEY_PERSONAL_INTERVIEW_JOBVIEW', '查看岗位信息', '', '查看岗位详细信息.', '36');
-INSERT INTO `app_function` VALUES ('77', '_FUNCKEY_PERSONAL_INTERVIEW_RESUMEVIEW', '查看简历信息', '', '查看简历详细信息.', '36');
-INSERT INTO `app_function` VALUES ('78', '_FUNCKEY_PERSONAL_TASK_VIEW', '任务详情查看', '', '查看任务详细信息.', '4');
-INSERT INTO `app_function` VALUES ('79', '_FUNCKEY_PERSONAL_TASK_MYVIEW', '查看我发起的任务', '', '查看我发起的任务', '4');
-INSERT INTO `app_function` VALUES ('80', '_FUNCKEY_PERSONAL_TASK_ADD', '任务新建', '', '新建任务', '4');
-INSERT INTO `app_function` VALUES ('81', '_FUNCKEY_PERSONAL_TASK_EDIT', '任务编辑', '', '编辑发起的任务.', '4');
-INSERT INTO `app_function` VALUES ('82', '_FUNCKEY_PERSONAL_TASK_APPROVES_VIEW', '任务审批记录查看', '', '查看任务审批记录详情.', '4');
-INSERT INTO `app_function` VALUES ('83', '_FUNCKEY_PERSONAL_TASK_POSTPONE', '任务延期申请', '', '提交任务延期申请单', '4');
-INSERT INTO `app_function` VALUES ('84', '_FUNCKEY_PERSONAL_TASK_ACCOMPLISH', '任务完成申请', '', '提交任务完成申请单.', '4');
-INSERT INTO `app_function` VALUES ('85', '_FUNCKEY_PERSONAL_TASK_POSTPONE_APPROVE', '任务延期审批', '', '审批任务延期申请单.', '4');
-INSERT INTO `app_function` VALUES ('86', '_FUNCKEY_PERSONAL_TASK_ACCOMPLISH_APPROVE', '任务完成审批', '', '审批提交的任务完成申请单.', '4');
-INSERT INTO `app_function` VALUES ('87', '_FUNCKEY_PERSONAL_INTERVIEW_RECORDS_VIEW', '查看面试记录', '', '查看面试记录.', '36');
-INSERT INTO `app_function` VALUES ('88', '_FUNCKEY_PERSONAL_JOBAPPLY_JOB_VIEW', '查看岗位信息', '', '查看发布的岗位信息', '35');
-INSERT INTO `app_function` VALUES ('89', '_FUNCKEY_PERSONAL_JOBAPPLY_RESUME_VIEW', '查看简历信息', '', '查看推荐或应聘的简历信息', '35');
-INSERT INTO `app_function` VALUES ('90', '_FUNCKEY_PERSONAL_JOBAPPLY_JOB_APPLY', '岗位应聘', '', '个人提交岗位应聘信息.', '35');
-INSERT INTO `app_function` VALUES ('91', '_FUNCKEY_PERSONAL_JOBAPPLY_JOB_RECOMMEND', '岗位推荐', '', '推荐他人应聘岗位', '35');
-INSERT INTO `app_function` VALUES ('92', '_FUNCKEY_ADMIN_TASK_VIEW', '任务信息查看', '', '查看任务信息', '40');
-INSERT INTO `app_function` VALUES ('93', '_FUNCKEY_ADMIN_TASK_EDIT', '任务信息编辑', '', '编辑任务信息', '40');
-INSERT INTO `app_function` VALUES ('94', '_FUNCKEY_ADMIN_TASK_REMOVE', '任务信息删除', '', '删除任务信息', '40');
-INSERT INTO `app_function` VALUES ('95', '_FUNCKEY_ADMIN_TASK_APPROVE', '任务信息审批', '', '审批提交的任务信息', '40');
-INSERT INTO `app_function` VALUES ('96', '_FUNCKEY_HRM_DEVELOP_APPROVE', '流程审批', '', '审批人资申请流程节点数据, 必须先具备有\'审批详细查看\'功能后才能进入页面进行审批操作.', '47');
-INSERT INTO `app_function` VALUES ('97', '_FUNCKEY_HRM_DEVELOP_VIEWAPPROVALS', '审批详细查看', '', '查看审批详细记录数据', '47');
-INSERT INTO `app_function` VALUES ('98', '_FUNCKEY_PERSONAL_APPLICATION_VIEW', '申请单查看', '', '查看申请单详细数据.', '37');
-INSERT INTO `app_function` VALUES ('99', '_FUNCKEY_PERSONAL_APPLICATION_POST', '申请单提交', '', '填写申请单数据并提交审核.', '37');
-INSERT INTO `app_function` VALUES ('100', '_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_EDIT', '岗位编辑', '', '编辑部门岗位', '23');
-INSERT INTO `app_function` VALUES ('101', '_FUNCKEY_FLOW_FINAN_PROC_TYPE_REMOVE', '申请类别删除', '', '删除申请类别数据. (功能链接待添加...)', '21');
-INSERT INTO `app_function` VALUES ('102', '_FUNCKEY_PERSONAL_CONFERENCE_VIEW_MY_INITIAL_CONFERENCE', '查看我发起的所有会议', '', '查看我发起的会议', '32');
-INSERT INTO `app_function` VALUES ('103', '_FUNCKEY_PERSONAL_CONFERENCE_INITIAL_CONFERENCE', '发起新的会议', '', '发起新的会议', '32');
-INSERT INTO `app_function` VALUES ('104', '_FUNCKEY_PERSONAL_CONFERENCE_CANCEL_CONFERENCE', '取消会议', '', '取消已经发起的会议', '32');
-INSERT INTO `app_function` VALUES ('105', '_FUNCKEY_PERSONAL_CONFERENCE_ADJUST_CONFERENCE', '调整会议', '', '调整会议内容', '32');
-INSERT INTO `app_function` VALUES ('106', '_FUNCKEY_PERSONAL_CONFERENCE_VIEW_CONFERENCE', '查看会议内容', '', '查看会议内容信息', '32');
-INSERT INTO `app_function` VALUES ('107', '_FUNCKEY_PERSONAL_CONFERENCE_ACTIVATE_CONFERENCE', '激活会议', '', '重新激活已经取消的会议', '32');
-INSERT INTO `app_function` VALUES ('108', '_FUNCKEY_PERSONAL_CONFERENCE_SUMMARY_CONFERENCE', '提交会议总结', '', '会议结束后进行的会议总结，包括上传会议记录', '32');
-INSERT INTO `app_function` VALUES ('109', '_FUNCKEY_ADMIN_ADD_WORK_ARRANGE', '添加工作安排', '', '添加工作安排', '43');
-INSERT INTO `app_function` VALUES ('110', '_FUNCKEY_ADMIN_EDIT_WORK_ARRANGE', '编辑工作安排', '', '编辑工作安排', '43');
-INSERT INTO `app_function` VALUES ('111', '_FUNCKEY_ADMIN_REMOVE_WORK_ARRANGE', '删除工作安排', '', '删除工作安排', '43');
-INSERT INTO `app_function` VALUES ('112', '_FUNCKEY_ADMIN_IMPORT_WORK_ARRANGE', '从模板导入工作安排', '', '从模板导入工作安排', '43');
-INSERT INTO `app_function` VALUES ('113', '_FUNCKEY_ADMIN_ADJUST_WORK_ARRANGE', '调整工作安排', '', '调整工作安排', '43');
-INSERT INTO `app_function` VALUES ('114', '_FUNCKEY_ADMIN_VIEW_WORK_ARRANGE', '查看工作安排', '', '按周查看工作安排情况', '43');
-INSERT INTO `app_function` VALUES ('115', '_FUNCKEY_SYSTEM_ADD_DICTIONARY', '添加数据字典', '', '添加数据字典', '11');
-INSERT INTO `app_function` VALUES ('116', '_FUNCKEY_SYSTEM_EDIT_DICTIONARY', '编辑数据字典', '', '编辑数据字典', '11');
-INSERT INTO `app_function` VALUES ('117', '_FUNCKEY_SYSTEM_DELETE_DICTIONARY', '删除数据字典', '', '删除数据字典', '11');
-INSERT INTO `app_function` VALUES ('119', '_FUNCKEY_SYSTEM_EDIT_WORK_CONTENT', '编辑工作内容', '', '编辑工作内容', '19');
-INSERT INTO `app_function` VALUES ('120', '_FUNCKEY_SYSTEM_ADD_WORK_CONTENT', '添加工作内容', '', '添加工作内容', '19');
-INSERT INTO `app_function` VALUES ('121', '_FUNCKEY_SYSTEM_DELETE_WORK_CONTENT', '删除工作内容', '', '删除工作内容', '19');
-INSERT INTO `app_function` VALUES ('122', '_FUNCKEY_SYSTEM_ADD_WORK_TIME', '添加工作时间', '', '添加工作时间', '19');
-INSERT INTO `app_function` VALUES ('123', '_FUNCKEY_SYSTEM_DELETE_WORK_TIME', '删除工作时间', '', '删除工作时间', '19');
-INSERT INTO `app_function` VALUES ('124', '_FUNCKEY_SYSTEM_EDIT_WORK_TIME', '编辑工作时间', '', '编辑工作时间', '19');
-INSERT INTO `app_function` VALUES ('125', '_FUNCKEY_SYSTEM_TEMPLATE_WORK_ADD', '安排模板里的工作', '', '给每套模板安排工作', '18');
-INSERT INTO `app_function` VALUES ('126', '_FUNCKEY_SYSTEM_TEMPLATE_ACTIVATE', '启动模板', '', '启动模板', '18');
-INSERT INTO `app_function` VALUES ('127', '_FUNCKEY_ADMIN_NEWS_ADD', '发布新闻', '', '发布新闻', '39');
-INSERT INTO `app_function` VALUES ('128', '_FUNCKEY_ADMIN_NEWS_EDIT', '编辑新闻', '', '修改新闻', '39');
-INSERT INTO `app_function` VALUES ('129', '_FUNCKEY_ADMIN_NEWS_DELETE', '删除新闻', '', '删除新闻', '39');
-INSERT INTO `app_function` VALUES ('130', '_FUNCKEY_ADMIN_NEWS_APPROVE', '新闻管理与审批', '', '审批新闻', '39');
-INSERT INTO `app_function` VALUES ('131', '_FUNCKEY_ADMIN_NEWS_TOP', '新闻置顶', '', '新闻置顶', '39');
-INSERT INTO `app_function` VALUES ('132', '_FUNCKEY_ADMIN_NEWS_APPROVING', '新闻审批', '', '', '39');
-INSERT INTO `app_function` VALUES ('133', '_FUNCKEY_ADMIN_DOC_ADD', '上传文档', '', '上传文档', '42');
-INSERT INTO `app_function` VALUES ('134', '_FUNCKEY_ADMIN_DOC_REMOVE', '删除文档', '', '删除文档', '42');
-INSERT INTO `app_function` VALUES ('135', '_FUNCKEY_ADMIN_DOC_EDIT', '编辑文档', '', '编辑文档', '42');
-INSERT INTO `app_function` VALUES ('136', '_FUNCKEY_ADMIN_ACCOUNT_LOCK', '冻结账号', '', '', '26');
-INSERT INTO `app_function` VALUES ('137', '_FUNCKEY_ADMIN_ACCOUNT_ACTIVE', '激活账号', '', '', '26');
-INSERT INTO `app_function` VALUES ('138', '_FUNCKEY_ADMIN_ACCOUNT_PASSWORD_RESET', '重置密码', '', '', '26');
+INSERT INTO `app_function` VALUES ('5', '_FUNCKEY_HRM_JOBHIRE_JOB_VIEW', '岗位管理-岗位查看', '', '查看岗位详细信息..', '48', null);
+INSERT INTO `app_function` VALUES ('6', '_FUNCKEY_HRM_JOBHIRE_JOB_POST', '岗位管理-岗位发布', '', '需先具备`岗位查看`的权限, 才能进行岗位发布操作.', '48', null);
+INSERT INTO `app_function` VALUES ('7', '_FUNCKEY_HRM_JOBHIRE_JOB_EDIT', '岗位管理-岗位编辑', '', '需先具备`岗位查看`的权限, 才能进行岗位编辑操作.', '48', null);
+INSERT INTO `app_function` VALUES ('8', '_FUNCKEY_HRM_JOBHIRE_JOB_OPENCTRL', '岗位管理-应聘控制', '', '应聘控制包含, `应聘开启`和`应聘关闭`操作.', '48', null);
+INSERT INTO `app_function` VALUES ('9', '_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY', '入职安排-页面查看', '', '对通过面试的人员进行入职安排操作.', '48', null);
+INSERT INTO `app_function` VALUES ('10', '_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_RESUME_VIEW', '入职安排-简历查看', '', '入职安排页面中查看应聘者简历信息.', '48', null);
+INSERT INTO `app_function` VALUES ('11', '_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_INTERVIEW_VIEW', '入职安排-面试查看', '', '入职安排页面中查看应聘者面试记录信息.', '48', null);
+INSERT INTO `app_function` VALUES ('12', '_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_ARRANGE', '入职安排-入职安排', '', '主要是对入职校区、部门、时间等信息的安排.', '48', null);
+INSERT INTO `app_function` VALUES ('13', '_FUNCKEY_HRM_JOBHIRE_JOB_APPROVAL', '岗位管理-岗位审批', '', '对发布的岗位进行审批操作.', '48', null);
+INSERT INTO `app_function` VALUES ('14', '_FUNCKEY_HRM_JOBHIRE_JOB_OFFER', '招聘安排-页面查看', '', '主要对应聘者进行面试安排等操作.', '48', null);
+INSERT INTO `app_function` VALUES ('15', '_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_RESUME_VIEW', '招聘安排-简历查看', '', '招聘安排页面中查看应聘者简历信息.', '48', null);
+INSERT INTO `app_function` VALUES ('16', '_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_VIEW', '招聘安排-面试查看', '', '招聘安排页面中查看应聘者面试记录信息.', '48', null);
+INSERT INTO `app_function` VALUES ('17', '_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ENTILE', '招聘安排-员工录用', '', '面试过后, 进行员工录用状态转换操作.', '48', null);
+INSERT INTO `app_function` VALUES ('18', '_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ELIMINATE', '招聘安排-员工淘汰', '', '面试过后, 进行员工淘汰状态转换操作.', '48', null);
+INSERT INTO `app_function` VALUES ('19', '_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_ABSENCE', '招聘安排-员工未到', '', '面试过后, 进行员工淘汰状态转换操作.', '48', null);
+INSERT INTO `app_function` VALUES ('20', '_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_ARRANGE', '招聘安排-招聘安排', '', '应聘者面试安排操作', '48', null);
+INSERT INTO `app_function` VALUES ('21', '_FUNCKEY_HRM_ARCHIVE_RESUME_VIEW', '查看简历信息', '', '查看人才简历信息', '49', null);
+INSERT INTO `app_function` VALUES ('22', '_FUNCKEY_HRM_ARCHIVE_RESUME_REMOVE', '删除简历信息', '', '删除人才库中的简历信息', '49', null);
+INSERT INTO `app_function` VALUES ('23', '_FUNCKEY_HRM_ENTRY_OP_ONBOARD', '入职处理', '', '对入职安排中的应聘者进行入职安排操作.', '50', null);
+INSERT INTO `app_function` VALUES ('24', '_FUNCKEY_HRM_ENTRY_OP_ABSENCE', '未到处理', '', '对入职安排中的应聘者进行未到安排操作.', '50', null);
+INSERT INTO `app_function` VALUES ('25', '_FUNCKEY_HRM_ENTRY_OP_QUALIFY', '考察处理', '', '对入职安排中的应聘者进行考察通过、考察未通过处理.', '50', null);
+INSERT INTO `app_function` VALUES ('26', '_FUNCKEY_HRM_EMPLOYEE_ADD', '员工数据添加', '', '添加单个新员工数据', '51', null);
+INSERT INTO `app_function` VALUES ('27', '_FUNCKEY_HRM_EMPLOYEE_REMOVE', '员工数据删除', '', '员工数据删除', '51', null);
+INSERT INTO `app_function` VALUES ('28', '_FUNCKEY_HRM_EMPLOYEE_VIEW', '员工数据查看', '', '员工数据信息查看, 包括简历信息以及晟睿旅程信息.', '51', null);
+INSERT INTO `app_function` VALUES ('29', '_FUNCKEY_HRM_EMPLOYEE_UPDATE', '员工数据更新', '', '员工数据更新, 包括员工简历信息更新以及员工晟睿旅程信息的更新.', '51', null);
+INSERT INTO `app_function` VALUES ('30', '_FUNCKEY_HRM_DEVELOP_FINALIZE', '审批状态操作', '', '主要是针对员工, 转正、晋升、离职、调动等状态转换操作.', '47', null);
+INSERT INTO `app_function` VALUES ('31', '_FUNCKEY_HRM_DEVELOP_VIEWDATA', '审批数据加载', '', '加载\"审批中\"与\"已审批\"Tab的人力发展数据.', '47', null);
+INSERT INTO `app_function` VALUES ('32', '_FUNCKEY_FINAN_EXPENSE_APPLY', '费用支出申请', '', '填写费用支出申请单并提交审核.', '7', null);
+INSERT INTO `app_function` VALUES ('33', '_FUNCKEY_FINAN_EXPENSE_VIEW', '费用支出查看', '', '查看提交的费用支出申请单数据.', '7', null);
+INSERT INTO `app_function` VALUES ('34', '_FUNCKEY_FINAN_EXPENSE_APPROVE', '费用支出审核', '', '审核提交上来的费用支出', '7', null);
+INSERT INTO `app_function` VALUES ('35', '_FUNCKEY_FINAN_CONTRACT_APPLY', '合同申请提交', '', '填写合同申请单并提交审核', '30', null);
+INSERT INTO `app_function` VALUES ('36', '_FUNCKEY_FINAN_CONTRACT_VIEW', '合同申请查看', '', '查看合同申请单数据', '30', null);
+INSERT INTO `app_function` VALUES ('37', '_FUNCKEY_FINAN_CONTRACT_APPROVE', '合同申请审核', '', '审核提交上来的费用支出', '30', null);
+INSERT INTO `app_function` VALUES ('38', '_FUNCKEY_FINAN_EXPENSE_RECORD_VIEW', '审批记录查看', '', '查看费用审批记录数据.', '28', null);
+INSERT INTO `app_function` VALUES ('39', '_FUNCKEY_FINAN_CONTRACT_RECORD_VIEW', '审批记录查看', '', '查看费用审批记录数据.', '31', null);
+INSERT INTO `app_function` VALUES ('40', '_FUNCKEY_SYSTEM_MENU_ADD', '菜单项添加', '', '添加新的菜单项...', '16', null);
+INSERT INTO `app_function` VALUES ('41', '_FUNCKEY_SYSTEM_MENU_EDIT', '菜单项编辑', '', '编辑菜单项', '16', null);
+INSERT INTO `app_function` VALUES ('42', '_FUNCKEY_SYSTEM_MENU_REFRESH', '菜单项刷新', '', '刷新左侧菜单项树状结构.', '16', null);
+INSERT INTO `app_function` VALUES ('43', '_FUNCKEY_SYSTEM_MENU_FUNC_ADD', '功能项添加', '', '添加菜单对应的功能项.', '16', null);
+INSERT INTO `app_function` VALUES ('44', '_FUNCKEY_SYSTEM_MENU_FUNC_EDIT', '功能项编辑', '', '编辑菜单对应的功能项.', '16', null);
+INSERT INTO `app_function` VALUES ('45', '_FUNCKEY_SYSTEM_MENU_FUNC_REFRESH', '功能项刷新', '', '刷新选中菜单拥有的功能项.', '16', null);
+INSERT INTO `app_function` VALUES ('46', '_FUNCKEY_SYSTEM_MENU_FUNC_REMOVE', '功能项删除', '', '删除菜单某功能项', '16', null);
+INSERT INTO `app_function` VALUES ('47', '_FUNCKEY_SYSTEM_ROLE_VIEW', '权限组查看', '', '查看权限组详细信息', '15', null);
+INSERT INTO `app_function` VALUES ('48', '_FUNCKEY_SYSTEM_ROLE_ADD', '权限组添加', '', '添加新的权限组', '15', null);
+INSERT INTO `app_function` VALUES ('49', '_FUNCKEY_SYSTEM_ROLE_EDIT', '权限组编辑', '', '编辑权限组信息.', '15', null);
+INSERT INTO `app_function` VALUES ('50', '_FUNCKEY_SYSTEM_ROLE_REMOVE', '权限组删除', '', '删除权限组', '15', null);
+INSERT INTO `app_function` VALUES ('51', '_FUNCKEY_FLOW_HRM_TYPE_REFRESH', '审批类型刷新', '', '刷新左侧人资审批类型树状结构', '20', null);
+INSERT INTO `app_function` VALUES ('52', '_FUNCKEY_FLOW_HRM_PROCESS_REFRESH', '审批流程刷新', '', '根据审批类型刷新审批流程数据', '20', null);
+INSERT INTO `app_function` VALUES ('53', '_FUNCKEY_FLOW_HRM_PROCESS_CONFIGURE', '审批流程配置', '', '人资审批流程配置, 包括流程数据加载、节点添加及删除等操作.', '20', null);
+INSERT INTO `app_function` VALUES ('54', '_FUNCKEY_FLOW_HRM_PROCESS_REMOVE', '审批流程删除', '', '审批流程删除.. (链接待完善...)', '20', null);
+INSERT INTO `app_function` VALUES ('55', '_FUNCKEY_FLOW_FINAN_TYPE_REFRESH', '审批类型刷新', '', '财务审批类型刷新,主要体现在左侧的树状结构.', '21', null);
+INSERT INTO `app_function` VALUES ('56', '_FUNCKEY_FLOW_FINAN_PROC_TYPE_REFRESH', '申请类别刷新', '', '根据审批类型获取申请类别数据.', '21', null);
+INSERT INTO `app_function` VALUES ('57', '_FUNCKEY_FLOW_FINAN_PROC_TYPE_ADD', '申请类别添加', '', '添加申请类别', '21', null);
+INSERT INTO `app_function` VALUES ('58', '_FUNCKEY_FLOW_FINAN_PROC_TYPE_EDIT', '申请类别编辑', '', '编辑申请类别.', '21', null);
+INSERT INTO `app_function` VALUES ('59', '_FUNCKEY_FLOW_FINAN_PROC_APPROVE', '审批流程配置', '', '对审批申请类型进行流程配置.', '21', null);
+INSERT INTO `app_function` VALUES ('60', '_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_ADD', '校区添加', '', '添加新校区.', '22', null);
+INSERT INTO `app_function` VALUES ('61', '_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_EDIT', '校区编辑', '', '校区数据编辑.', '22', null);
+INSERT INTO `app_function` VALUES ('62', '_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_REMOVE', '校区删除', '', '校区数据删除.', '22', null);
+INSERT INTO `app_function` VALUES ('63', '_FUNCKEY_SYSTEM_SCHOOL_POSET_ADD', '职位添加', '', '添加新职位信息.', '24', null);
+INSERT INTO `app_function` VALUES ('64', '_FUNCKEY_SYSTEM_SCHOOL_POSET_REMOVE', '职位删除', '', '删除职位信息.', '24', null);
+INSERT INTO `app_function` VALUES ('65', '_FUNCKEY_SYSTEM_SCHOOL_POSET_EDIT', '职位编辑', '', '编辑职位信息', '24', null);
+INSERT INTO `app_function` VALUES ('66', '_FUNCKEY_SYSTEM_SCHOOL_DEP_ADD', '部门添加', '', '新增部门数据', '23', null);
+INSERT INTO `app_function` VALUES ('67', '_FUNCKEY_SYSTEM_SCHOOL_DEP_REFRESH', '部门刷新', '', '刷新左侧部门树状结构', '23', null);
+INSERT INTO `app_function` VALUES ('68', '_FUNCKEY_SYSTEM_SCHOOL_DEP_REMOVE', '部门删除', '', '删除部门数据.', '23', null);
+INSERT INTO `app_function` VALUES ('69', '_FUNCKEY_SYSTEM_SCHOOL_DEP_EDIT', '部门编辑', '', '编辑部门数据.', '23', null);
+INSERT INTO `app_function` VALUES ('70', '_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_REFRESH', '岗位刷新', '', '根据选择的部门刷新对应的岗位数据.', '23', null);
+INSERT INTO `app_function` VALUES ('71', '_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_REMOVE', '岗位删除', '', '删除岗位数据', '23', null);
+INSERT INTO `app_function` VALUES ('72', '_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_ADD', '岗位添加', '', '添加岗位信息.', '23', null);
+INSERT INTO `app_function` VALUES ('73', '_FUNCKEY_PERSONAL_JOBAPPLY_HISTORY', '我的历史应聘', '', '访问我的历史应聘数据', '35', null);
+INSERT INTO `app_function` VALUES ('74', '_FUNCKEY_PERSONAL_INTERVIEW_HISTORY', '我的历史面试', '', '访问我的历史面试数据', '36', null);
+INSERT INTO `app_function` VALUES ('75', '_FUNCKEY_PERSONAL_INTERVIEW_COMMIT', '提交面试意见', '', '提交面试意见.', '36', null);
+INSERT INTO `app_function` VALUES ('76', '_FUNCKEY_PERSONAL_INTERVIEW_JOBVIEW', '查看岗位信息', '', '查看岗位详细信息.', '36', null);
+INSERT INTO `app_function` VALUES ('77', '_FUNCKEY_PERSONAL_INTERVIEW_RESUMEVIEW', '查看简历信息', '', '查看简历详细信息.', '36', null);
+INSERT INTO `app_function` VALUES ('78', '_FUNCKEY_PERSONAL_TASK_VIEW', '任务详情查看', '', '查看任务详细信息.', '4', null);
+INSERT INTO `app_function` VALUES ('79', '_FUNCKEY_PERSONAL_TASK_MYVIEW', '查看我发起的任务', '', '查看我发起的任务', '4', null);
+INSERT INTO `app_function` VALUES ('80', '_FUNCKEY_PERSONAL_TASK_ADD', '任务新建', '', '新建任务', '4', null);
+INSERT INTO `app_function` VALUES ('81', '_FUNCKEY_PERSONAL_TASK_EDIT', '任务编辑', '', '编辑发起的任务.', '4', null);
+INSERT INTO `app_function` VALUES ('82', '_FUNCKEY_PERSONAL_TASK_APPROVES_VIEW', '任务审批记录查看', '', '查看任务审批记录详情.', '4', null);
+INSERT INTO `app_function` VALUES ('83', '_FUNCKEY_PERSONAL_TASK_POSTPONE', '任务延期申请', '', '提交任务延期申请单', '4', null);
+INSERT INTO `app_function` VALUES ('84', '_FUNCKEY_PERSONAL_TASK_ACCOMPLISH', '任务完成申请', '', '提交任务完成申请单.', '4', null);
+INSERT INTO `app_function` VALUES ('85', '_FUNCKEY_PERSONAL_TASK_POSTPONE_APPROVE', '任务延期审批', '', '审批任务延期申请单.', '4', null);
+INSERT INTO `app_function` VALUES ('86', '_FUNCKEY_PERSONAL_TASK_ACCOMPLISH_APPROVE', '任务完成审批', '', '审批提交的任务完成申请单.', '4', null);
+INSERT INTO `app_function` VALUES ('87', '_FUNCKEY_PERSONAL_INTERVIEW_RECORDS_VIEW', '查看面试记录', '', '查看面试记录.', '36', null);
+INSERT INTO `app_function` VALUES ('88', '_FUNCKEY_PERSONAL_JOBAPPLY_JOB_VIEW', '查看岗位信息', '', '查看发布的岗位信息', '35', null);
+INSERT INTO `app_function` VALUES ('89', '_FUNCKEY_PERSONAL_JOBAPPLY_RESUME_VIEW', '查看简历信息', '', '查看推荐或应聘的简历信息', '35', null);
+INSERT INTO `app_function` VALUES ('90', '_FUNCKEY_PERSONAL_JOBAPPLY_JOB_APPLY', '岗位应聘', '', '个人提交岗位应聘信息.', '35', null);
+INSERT INTO `app_function` VALUES ('91', '_FUNCKEY_PERSONAL_JOBAPPLY_JOB_RECOMMEND', '岗位推荐', '', '推荐他人应聘岗位', '35', null);
+INSERT INTO `app_function` VALUES ('92', '_FUNCKEY_ADMIN_TASK_VIEW', '任务信息查看', '', '查看任务信息', '40', null);
+INSERT INTO `app_function` VALUES ('93', '_FUNCKEY_ADMIN_TASK_EDIT', '任务信息编辑', '', '编辑任务信息', '40', null);
+INSERT INTO `app_function` VALUES ('94', '_FUNCKEY_ADMIN_TASK_REMOVE', '任务信息删除', '', '删除任务信息', '40', null);
+INSERT INTO `app_function` VALUES ('95', '_FUNCKEY_ADMIN_TASK_APPROVE', '任务信息审批', '', '审批提交的任务信息', '40', null);
+INSERT INTO `app_function` VALUES ('96', '_FUNCKEY_HRM_DEVELOP_APPROVE', '流程审批', '', '审批人资申请流程节点数据, 必须先具备有\'审批详细查看\'功能后才能进入页面进行审批操作.', '47', null);
+INSERT INTO `app_function` VALUES ('97', '_FUNCKEY_HRM_DEVELOP_VIEWAPPROVALS', '审批详细查看', '', '查看审批详细记录数据', '47', null);
+INSERT INTO `app_function` VALUES ('98', '_FUNCKEY_PERSONAL_APPLICATION_VIEW', '申请单查看', '', '查看申请单详细数据.', '37', null);
+INSERT INTO `app_function` VALUES ('99', '_FUNCKEY_PERSONAL_APPLICATION_POST', '申请单提交', '', '填写申请单数据并提交审核.', '37', null);
+INSERT INTO `app_function` VALUES ('100', '_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_EDIT', '岗位编辑', '', '编辑部门岗位', '23', null);
+INSERT INTO `app_function` VALUES ('101', '_FUNCKEY_FLOW_FINAN_PROC_TYPE_REMOVE', '申请类别删除', '', '删除申请类别数据. (功能链接待添加...)', '21', null);
+INSERT INTO `app_function` VALUES ('102', '_FUNCKEY_PERSONAL_CONFERENCE_VIEW_MY_INITIAL_CONFERENCE', '查看我发起的所有会议', '', '查看我发起的会议', '32', null);
+INSERT INTO `app_function` VALUES ('103', '_FUNCKEY_PERSONAL_CONFERENCE_INITIAL_CONFERENCE', '发起新的会议', '', '发起新的会议', '32', null);
+INSERT INTO `app_function` VALUES ('104', '_FUNCKEY_PERSONAL_CONFERENCE_CANCEL_CONFERENCE', '取消会议', '', '取消已经发起的会议', '32', null);
+INSERT INTO `app_function` VALUES ('105', '_FUNCKEY_PERSONAL_CONFERENCE_ADJUST_CONFERENCE', '调整会议', '', '调整会议内容', '32', null);
+INSERT INTO `app_function` VALUES ('106', '_FUNCKEY_PERSONAL_CONFERENCE_VIEW_CONFERENCE', '查看会议内容', '', '查看会议内容信息', '32', null);
+INSERT INTO `app_function` VALUES ('107', '_FUNCKEY_PERSONAL_CONFERENCE_ACTIVATE_CONFERENCE', '激活会议', '', '重新激活已经取消的会议', '32', null);
+INSERT INTO `app_function` VALUES ('108', '_FUNCKEY_PERSONAL_CONFERENCE_SUMMARY_CONFERENCE', '提交会议总结', '', '会议结束后进行的会议总结，包括上传会议记录', '32', null);
+INSERT INTO `app_function` VALUES ('109', '_FUNCKEY_ADMIN_ADD_WORK_ARRANGE', '添加工作安排', '', '添加工作安排', '43', null);
+INSERT INTO `app_function` VALUES ('110', '_FUNCKEY_ADMIN_EDIT_WORK_ARRANGE', '编辑工作安排', '', '编辑工作安排', '43', null);
+INSERT INTO `app_function` VALUES ('111', '_FUNCKEY_ADMIN_REMOVE_WORK_ARRANGE', '删除工作安排', '', '删除工作安排', '43', null);
+INSERT INTO `app_function` VALUES ('112', '_FUNCKEY_ADMIN_IMPORT_WORK_ARRANGE', '从模板导入工作安排', '', '从模板导入工作安排', '43', null);
+INSERT INTO `app_function` VALUES ('113', '_FUNCKEY_ADMIN_ADJUST_WORK_ARRANGE', '调整工作安排', '', '调整工作安排', '43', null);
+INSERT INTO `app_function` VALUES ('114', '_FUNCKEY_ADMIN_VIEW_WORK_ARRANGE', '查看工作安排', '', '按周查看工作安排情况', '43', null);
+INSERT INTO `app_function` VALUES ('115', '_FUNCKEY_SYSTEM_ADD_DICTIONARY', '添加数据字典', '', '添加数据字典', '11', null);
+INSERT INTO `app_function` VALUES ('116', '_FUNCKEY_SYSTEM_EDIT_DICTIONARY', '编辑数据字典', '', '编辑数据字典', '11', null);
+INSERT INTO `app_function` VALUES ('117', '_FUNCKEY_SYSTEM_DELETE_DICTIONARY', '删除数据字典', '', '删除数据字典', '11', null);
+INSERT INTO `app_function` VALUES ('119', '_FUNCKEY_SYSTEM_EDIT_WORK_CONTENT', '编辑工作内容', '', '编辑工作内容', '19', null);
+INSERT INTO `app_function` VALUES ('120', '_FUNCKEY_SYSTEM_ADD_WORK_CONTENT', '添加工作内容', '', '添加工作内容', '19', null);
+INSERT INTO `app_function` VALUES ('121', '_FUNCKEY_SYSTEM_DELETE_WORK_CONTENT', '删除工作内容', '', '删除工作内容', '19', null);
+INSERT INTO `app_function` VALUES ('122', '_FUNCKEY_SYSTEM_ADD_WORK_TIME', '添加工作时间', '', '添加工作时间', '19', null);
+INSERT INTO `app_function` VALUES ('123', '_FUNCKEY_SYSTEM_DELETE_WORK_TIME', '删除工作时间', '', '删除工作时间', '19', null);
+INSERT INTO `app_function` VALUES ('124', '_FUNCKEY_SYSTEM_EDIT_WORK_TIME', '编辑工作时间', '', '编辑工作时间', '19', null);
+INSERT INTO `app_function` VALUES ('125', '_FUNCKEY_SYSTEM_TEMPLATE_WORK_ADD', '安排模板里的工作', '', '给每套模板安排工作', '18', null);
+INSERT INTO `app_function` VALUES ('126', '_FUNCKEY_SYSTEM_TEMPLATE_ACTIVATE', '启动模板', '', '启动模板', '18', null);
+INSERT INTO `app_function` VALUES ('127', '_FUNCKEY_ADMIN_NEWS_ADD', '发布新闻', '', '发布新闻', '39', null);
+INSERT INTO `app_function` VALUES ('128', '_FUNCKEY_ADMIN_NEWS_EDIT', '编辑新闻', '', '修改新闻', '39', null);
+INSERT INTO `app_function` VALUES ('129', '_FUNCKEY_ADMIN_NEWS_DELETE', '删除新闻', '', '删除新闻', '39', null);
+INSERT INTO `app_function` VALUES ('130', '_FUNCKEY_ADMIN_NEWS_APPROVE', '新闻管理与审批', '', '审批新闻', '39', null);
+INSERT INTO `app_function` VALUES ('131', '_FUNCKEY_ADMIN_NEWS_TOP', '新闻置顶', '', '新闻置顶', '39', null);
+INSERT INTO `app_function` VALUES ('132', '_FUNCKEY_ADMIN_NEWS_APPROVING', '新闻审批', '', '', '39', null);
+INSERT INTO `app_function` VALUES ('133', '_FUNCKEY_ADMIN_DOC_ADD', '上传文档', '', '上传文档', '42', null);
+INSERT INTO `app_function` VALUES ('134', '_FUNCKEY_ADMIN_DOC_REMOVE', '删除文档', '', '删除文档', '42', null);
+INSERT INTO `app_function` VALUES ('135', '_FUNCKEY_ADMIN_DOC_EDIT', '编辑文档', '', '编辑文档', '42', null);
+INSERT INTO `app_function` VALUES ('136', '_FUNCKEY_ADMIN_ACCOUNT_LOCK', '冻结账号', '', '', '26', null);
+INSERT INTO `app_function` VALUES ('137', '_FUNCKEY_ADMIN_ACCOUNT_ACTIVE', '激活账号', '', '', '26', null);
+INSERT INTO `app_function` VALUES ('138', '_FUNCKEY_ADMIN_ACCOUNT_PASSWORD_RESET', '重置密码', '', '', '26', null);
 
 -- ----------------------------
 -- Table structure for `app_function_url`
@@ -891,6 +894,24 @@ INSERT INTO `app_function_url` VALUES ('302', '135', 'app/admin/doc.do?action=ad
 INSERT INTO `app_function_url` VALUES ('303', '136', 'app/system/account.do?action=actionUserStateChange');
 INSERT INTO `app_function_url` VALUES ('304', '137', 'app/system/account.do?action=actionUserStateChange');
 INSERT INTO `app_function_url` VALUES ('305', '138', 'app/system/account.do?action=actionUserPwdReset');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `app_function_strategy`
+--
+
+CREATE TABLE IF NOT EXISTS `app_function_strategy` (
+  `stg_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '功能数据权限id',
+  `func_id` bigint(20) DEFAULT NULL COMMENT '功能id',
+  `stg_type` tinyint(4) NOT NULL COMMENT '数据策略类型',
+  PRIMARY KEY (`stg_id`),
+  KEY `func_id` (`func_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能数据权限' AUTO_INCREMENT=19 ;
+
+--
+-- 转存表中的数据 `app_function_strategy`
+--
 
 -- ----------------------------
 -- Table structure for `app_global_type`
@@ -2202,6 +2223,22 @@ INSERT INTO `app_role_menu` VALUES ('20', '44');
 INSERT INTO `app_role_menu` VALUES ('21', '3');
 INSERT INTO `app_role_menu` VALUES ('21', '4');
 INSERT INTO `app_role_menu` VALUES ('21', '32');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `app_role_dac`
+--
+
+CREATE TABLE IF NOT EXISTS `app_role_dac` (
+  `role_id` bigint(20) NOT NULL,
+  `stg_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`role_id`,`stg_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='权限组的数据权限';
+
+--
+-- 转存表中的数据 `app_role_dac`
+--
 
 -- ----------------------------
 -- Table structure for `app_school_department`
