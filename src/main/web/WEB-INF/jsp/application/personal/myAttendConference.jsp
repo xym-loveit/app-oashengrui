@@ -98,7 +98,9 @@
 						<td>${entity.conferenceName}</td>
 						<td><fmt:formatDate value="${entity.startDay}" type="date" pattern="yyyy-MM-dd"/> ${entity.startHour }:${entity.startMinute }</td>
 						<td><fmt:formatDate value="${entity.endDay}" type="date" pattern="yyyy-MM-dd"/> ${entity.endHour }:${entity.endMinute }</td>
-						<td><c:if test = "${entity.status == '1'}">已发起</c:if><c:if test = "${entity.status == '2'}">已结束</c:if><c:if test = "${entity.status == '3'}">已取消</c:if></td>
+						<c:if test = "${entity.status == '1'}"><td style="background-color:green">已发起</td></c:if>
+						<c:if test = "${entity.status == '2'}"><td style="background-color:gray">已结束</td></c:if>
+						<c:if test = "${entity.status == '3'}"><td style="background-color:yellow">已取消</td></c:if>
 						<td>${entity.result ne null ? entity.result : ''}</td>
 						<td>${entity.sponsor.fullName }</td>
 						<td>${entity.contactor}</td>
