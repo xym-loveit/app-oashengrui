@@ -27,7 +27,7 @@
 
 <!-- SearchBar -->
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="app/admin/attendance.do?action=adminPageStaffAttendance" method="post">
+	<form onsubmit="return navTabSearch(this);" action="app/admin/attendance/view.do?action=adminPageStaffAttendance" method="post">
 		<div class="searchBar">
 			<table class="searchContent">
 				<tr>
@@ -54,7 +54,7 @@
 						</select>
 					</td>
 					<td>
-						上班时间：<input type="text" class="date textInput" name="filterStart" value="${formStaffAttendance.filterStart}" /> - <input name="filterEnd" type="text" class="date textInput" value="${formStaffAttendance ne null ? formStaffAttendance.filterEnd : ''}" />
+						上班时间：<input type="text" class="date textInput" name="filterStart" value="<fmt:formatDate value="${formStaffAttendance.filterStart}" type="date" pattern="yyyy-MM-dd"/>" /> - <input name="filterEnd" type="text" class="date textInput" value="<fmt:formatDate value="${formStaffAttendance.filterEnd}" type="date" pattern="yyyy-MM-dd"/>" />
 					</td>
 				</tr>
 			</table>
