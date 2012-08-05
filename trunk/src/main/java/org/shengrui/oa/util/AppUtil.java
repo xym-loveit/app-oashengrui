@@ -19,11 +19,20 @@ public class AppUtil
 {
 	
 	private static final String FORM_DATE_PATTERN = "yyyyMMddHHmmss";
-	
+
+	/**
+	 * 部门数据权限类型标识符
+	 */
 	public static final String DATA_POLICY_DEPARTMENT = "V_DEP";
 	
+	/**
+	 * 校区数据权限类型标识符
+	 */
 	public static final String DATA_POLICY_DISTRICT = "V_DIS";
 	
+	/**
+	 * 个人数据权限类型标识符
+	 */
 	public static final String DATA_POLICY_PERSONAL = "V_PERSONAL";
 	
 	/**

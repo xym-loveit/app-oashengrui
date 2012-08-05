@@ -51,6 +51,16 @@ extends ModelBase
 	protected Set<ModelAppFunctionUrl> funcURLs = new HashSet<ModelAppFunctionUrl>();
 	
 	/**
+	 * 功能数据权限
+	 */
+	protected Set<ModelAppFunctionDataStrategy> funcDataStrategy = new HashSet<ModelAppFunctionDataStrategy>();
+	
+	/**
+	 * 功能数据权限IDs, 主要用于保存前判断.
+	 */
+	protected String strategyIds;
+	
+	/**
 	 * 默认构造函数
 	 */
 	public ModelAppFunction()
@@ -70,6 +80,57 @@ extends ModelBase
 	{
 		this.funcKey = paramfuncKey;
 		this.funcName = paramfuncName;
+	}
+	
+	/**
+	 * 返回功能URL列表
+	 * @return
+	 */
+	public String getUrls ()
+	{
+		if (funcURLs != null && funcURLs.size() > 0)
+		{
+			StringBuilder builder = new StringBuilder();
+			int count = 1;
+			for (ModelAppFunctionUrl url : funcURLs)
+			{
+				builder.append(url.getUrlPath());
+				if (count < funcURLs.size())
+				{
+					builder.append("\n");
+				}
+				count++;
+			}
+			
+			return builder.toString();
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public boolean equals (Object paramObject)
+	{
+		if (!(paramObject instanceof ModelAppFunction))
+		{
+			return false;
+		}
+		
+		ModelAppFunction localAppFunction = (ModelAppFunction)paramObject;
+		
+		return new EqualsBuilder()
+				.append(this.id, localAppFunction.id)
+					.append(this.funcKey, localAppFunction.funcKey)
+						.append(this.funcName, localAppFunction.funcName).isEquals();
+	}
+	
+	@Override
+	public String toString()
+	{
+		return new ToStringBuilder(this)
+					.append("functionId", this.id)
+						.append("funcKey", this.funcKey)
+							.append("funcName", this.funcName).toString();
 	}
 	
 	public String getFuncKey()
@@ -132,54 +193,24 @@ extends ModelBase
 		this.funcURLs = funcURLs;
 	}
 	
-	/**
-	 * 返回功能URL列表
-	 * @return
-	 */
-	public String getUrls ()
+	public Set<ModelAppFunctionDataStrategy> getFuncDataStrategy()
 	{
-		if (funcURLs != null && funcURLs.size() > 0)
-		{
-			StringBuilder builder = new StringBuilder();
-			int count = 1;
-			for (ModelAppFunctionUrl url : funcURLs)
-			{
-				builder.append(url.getUrlPath());
-				if (count < funcURLs.size())
-				{
-					builder.append("\n");
-				}
-				count++;
-			}
-			
-			return builder.toString();
-		}
-		
-		return null;
+		return funcDataStrategy;
+	}
+
+	public void setFuncDataStrategy(
+			Set<ModelAppFunctionDataStrategy> funcDataStrategy)
+	{
+		this.funcDataStrategy = funcDataStrategy;
 	}
 	
-	@Override
-	public boolean equals (Object paramObject)
+	public String getStrategyIds()
 	{
-		if (!(paramObject instanceof ModelAppFunction))
-		{
-			return false;
-		}
-		
-		ModelAppFunction localAppFunction = (ModelAppFunction)paramObject;
-		
-		return new EqualsBuilder()
-				.append(this.id, localAppFunction.id)
-					.append(this.funcKey, localAppFunction.funcKey)
-						.append(this.funcName, localAppFunction.funcName).isEquals();
+		return strategyIds;
 	}
-	
-	@Override
-	public String toString()
+
+	public void setStrategyIds(String strategyIds)
 	{
-		return new ToStringBuilder(this)
-					.append("functionId", this.id)
-						.append("funcKey", this.funcKey)
-							.append("funcName", this.funcName).toString();
+		this.strategyIds = strategyIds;
 	}
 }

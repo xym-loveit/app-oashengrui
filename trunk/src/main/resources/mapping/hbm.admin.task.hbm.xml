@@ -35,6 +35,14 @@
         	  <column name="create_time" />
         </property>
         
+        <property name="taskChargerDepId" type="java.lang.Integer">
+            <column name="task_charger_depid" />
+        </property>
+        
+        <property name="taskChargerDisId" type="java.lang.Integer">
+            <column name="task_charger_disid" />
+        </property>
+        
         <many-to-one name="taskType" class="org.shengrui.oa.model.system.ModelAppDictionary" fetch="select">
             <column name="type_dicid" not-null="true" />
         </many-to-one>

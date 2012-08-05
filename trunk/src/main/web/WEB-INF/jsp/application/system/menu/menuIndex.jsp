@@ -67,7 +67,7 @@
 			<li class="line">line</li>
 			</c:if>
 			<c:if test="${tm:ifGranted('_FUNCKEY_SYSTEM_MENU_FUNC_ADD')}">
-			<li><a class="add" href="app/system/menu/func.do?action=dialogMenuFuncPage&menuId={_var_menuid}" warn="请从左侧选择菜单项!" target="dialog" title="添加菜单功能" width="504" height="500" rel="dia_admin_entryadd"><span>添加功能</span></a></li>
+			<li><a class="add" href="app/system/menu/func.do?action=dialogMenuFuncPage&menuId={_var_menuid}" warn="请从左侧选择菜单项!" target="dialog" title="添加菜单功能" width="500" height="520" rel="dia_admin_entryadd"><span>添加功能</span></a></li>
 			<li class="line">line</li>
 			</c:if>
 			<c:if test="${tm:ifGranted('_FUNCKEY_SYSTEM_MENU_FUNC_REMOVE')}">

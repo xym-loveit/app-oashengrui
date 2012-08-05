@@ -37,4 +37,14 @@ extends ServiceGeneric<ModelSchoolDepartment>
 	  * @author pyc
 	  * */
 	 ModelSchoolDepartment getDepartmentByName(String departmentName) throws ServiceException;
+	 
+	 /**
+	  * Obtains department ids with the specified department name
+	  * 
+	  * @param departmentName
+	  *                    the department name
+	  * @return list of department ids
+	  * @throws ServiceException
+	  */
+	 List<Object> getDepartmentIdsByName (String departmentName) throws ServiceException;
 }

@@ -107,6 +107,11 @@ extends ModelBase implements GrantedAuthority
 	private Set<ModelAppUser> users = new HashSet<ModelAppUser>();
 	
 	/**
+	 * 角色拥有的功能数据权限集合
+	 */
+	private Set<ModelAppFunctionDataStrategy> funcDataPermissions = new HashSet<ModelAppFunctionDataStrategy>();
+	
+	/**
 	 * The enumeration of role status
 	 * 
 	 * @author Jeccy.Zhao
@@ -150,6 +155,32 @@ extends ModelBase implements GrantedAuthority
 			{
 				builder.append(menu.getId());
 				if (count < menus.size())
+				{
+					builder.append(",");
+				}
+				count++;
+			}
+			
+			return builder.toString();
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * 返回功能数据权限ID列表
+	 * @return
+	 */
+	public String getFuncPermIds ()
+	{
+		if (funcDataPermissions != null && funcDataPermissions.size() > 0)
+		{
+			StringBuilder builder = new StringBuilder();
+			int count = 1;
+			for (ModelAppFunctionDataStrategy funcPerm : funcDataPermissions)
+			{
+				builder.append(funcPerm.getId());
+				if (count < funcDataPermissions.size())
 				{
 					builder.append(",");
 				}
@@ -302,6 +333,16 @@ extends ModelBase implements GrantedAuthority
 	public void setRoleEditable(Integer roleEditable)
 	{
 		this.roleEditable = roleEditable;
+	}
+
+	public Set<ModelAppFunctionDataStrategy> getFuncDataPermissions()
+	{
+		return funcDataPermissions;
+	}
+
+	public void setFuncDataPermissions(Set<ModelAppFunctionDataStrategy> funcDataPermissions)
+	{
+		this.funcDataPermissions = funcDataPermissions;
 	}
 	
 }

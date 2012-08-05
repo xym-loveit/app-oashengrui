@@ -5,7 +5,9 @@ import java.util.Set;
 
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.system.ModelAppDictionary;
+import org.shengrui.oa.util.AppUtil;
 
+import cn.trymore.core.acl.AclFilterAnnotation;
 import cn.trymore.core.model.ModelBase;
 
 /**
@@ -97,6 +99,29 @@ extends ModelBase
 	 * 临时变量, 用于页面表单搜索
 	 */
 	private Integer taskTypeId;
+	
+	/**
+	 * 任务负责人所属部门ID
+	 * 
+	 * 主要用于数据权限过滤控制
+	 */
+	private Integer taskChargerDepId;
+	
+	/**
+	 * 任务负责人所属校区ID
+	 * 
+	 * 主要用于数据权限过滤控制
+	 */
+	private Integer taskChargerDisId;
+	
+	/**
+	 * 数据权限过滤
+	 */
+	@AclFilterAnnotation(
+		fieldNames ={"task_charger_disid", "task_charger_depid", "task_charger"}, 
+		fieldTypes ={AppUtil.DATA_POLICY_DISTRICT, AppUtil.DATA_POLICY_DEPARTMENT, AppUtil.DATA_POLICY_PERSONAL}
+	)
+	private String aclFilterFields;
 	
 	/**
 	 * The enumeration of task state
@@ -311,6 +336,36 @@ extends ModelBase
 	public void setTaskTracks(Set<ModelTaskPlanTrack> taskTracks)
 	{
 		this.taskTracks = taskTracks;
+	}
+
+	public Integer getTaskChargerDepId()
+	{
+		return taskChargerDepId;
+	}
+
+	public void setTaskChargerDepId(Integer taskChargerDepId)
+	{
+		this.taskChargerDepId = taskChargerDepId;
+	}
+
+	public Integer getTaskChargerDisId()
+	{
+		return taskChargerDisId;
+	}
+
+	public void setTaskChargerDisId(Integer taskChargerDisId)
+	{
+		this.taskChargerDisId = taskChargerDisId;
+	}
+
+	public String getAclFilterFields()
+	{
+		return aclFilterFields;
+	}
+
+	public void setAclFilterFields(String aclFilterFields)
+	{
+		this.aclFilterFields = aclFilterFields;
 	}
 	
 }

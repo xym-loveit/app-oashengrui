@@ -27,11 +27,13 @@
 			var item_ckm = getCheckedItems($("span[type='menu']", $("div.checked").parent()));
 			var item_indets = getCheckedItems($("span[type='menu']", $("div.indeterminate").parent()));
 			var item_ckf = getCheckedItems($("span[type='func']", $("div.checked").parent()));
+			var item_ckp = getCheckedItems($("span[type='perm']", $("div.checked").parent()));
 			
 			var menu_ids = (item_ckm != "" ? (item_ckm + ",") : "") + item_indets;
 			var func_rights = item_ckf;
+			var func_perms = item_ckp;
 			
-			$.bringBack({menuIds:menu_ids, funcRights:func_rights});			
+			$.bringBack({menuIds:menu_ids, funcRights:func_rights, funcPerms:func_perms});			
 		});
 	});
 </script>
@@ -56,7 +58,15 @@
 														<logic:notEmpty name="node" property="functions">
 															<ul>
 																<logic:iterate name="node" property="functions" id="func">
-																	<li treeicon="${func.funcIcon}"><a href="javascript:void(0);" ${view ne null ? 'readonly' : ''} ${role ne null && tm:inRange(role.roleRights, func.funcKey, ",") ? 'checked="true"': ''}><span type="func" alt="${func.funcKey}">${func.funcName}</span></a></li>
+																	<li treeicon="${func.funcIcon}"><a href="javascript:void(0);" ${view ne null ? 'readonly' : ''} ${role ne null && tm:inRange(role.roleRights, func.funcKey, ",") ? 'checked="true"': ''}><span type="func" alt="${func.funcKey}">${func.funcName}</span></a>
+																		<logic:notEmpty name="func" property="funcDataStrategy">
+																			<ul>
+																				<logic:iterate name="func" property="funcDataStrategy" id="funcPerm">
+																					<li><a href="javascript:void(0);" ${view ne null ? 'readonly' : ''} ${role ne null && tm:inRange(role.funcPermIds, funcPerm.id, ",") ? 'checked="true"': ''}><span type="perm" alt="${funcPerm.id}">${funcPerm.strategyType eq 5 ? '全校数据' : (funcPerm.strategyType eq 4 ? '校区数据' : (funcPerm.strategyType eq 3 ? '大部门数据' : (funcPerm.strategyType eq 2 ? '部门数据' : '个人数据')))}</span></a></li>
+																				</logic:iterate>
+																			</ul>
+																		</logic:notEmpty>
+																	</li>
 																</logic:iterate>
 															</ul>
 														</logic:notEmpty>
@@ -67,7 +77,15 @@
 										<logic:notEmpty name="child" property="functions">
 											<ul>
 												<logic:iterate name="child" property="functions" id="func">
-													<li treeicon="${func.funcIcon}"><a href="javascript:void(0);" ${view ne null ? 'readonly' : ''} ${role ne null && tm:inRange(role.roleRights, func.funcKey, ",") ? 'checked="true"': ''}><span type="func" alt="${func.funcKey}">${func.funcName}</span></a></li>
+													<li treeicon="${func.funcIcon}"><a href="javascript:void(0);" ${view ne null ? 'readonly' : ''} ${role ne null && tm:inRange(role.roleRights, func.funcKey, ",") ? 'checked="true"': ''}><span type="func" alt="${func.funcKey}">${func.funcName}</span></a>
+														<logic:notEmpty name="func" property="funcDataStrategy">
+															<ul>
+																<logic:iterate name="func" property="funcDataStrategy" id="funcPerm">
+																	<li><a href="javascript:void(0);" ${view ne null ? 'readonly' : ''} ${role ne null && tm:inRange(role.funcPermIds, funcPerm.id, ",") ? 'checked="true"': ''}><span type="perm" alt="${funcPerm.id}">${funcPerm.strategyType eq 5 ? '全校数据' : (funcPerm.strategyType eq 4 ? '校区数据' : (funcPerm.strategyType eq 3 ? '大部门数据' : (funcPerm.strategyType eq 2 ? '部门数据' : '个人数据')))}</span></a></li>
+																</logic:iterate>
+															</ul>
+														</logic:notEmpty>
+													</li>
 												</logic:iterate>
 											</ul>
 										</logic:notEmpty>

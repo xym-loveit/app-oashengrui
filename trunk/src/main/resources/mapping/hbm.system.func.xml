@@ -20,14 +20,22 @@
         <property name="funcDesc" type="java.lang.String">
             <column name="func_desc" />
         </property>
+        <property name="strategyIds" type="java.lang.String">
+            <column name="strategy_ids" />
+        </property>
         
         <many-to-one name="menu" class="ModelAppMenu">
         	<column name="menu_id" />
         </many-to-one>
         
-        <set name="funcURLs" table="app_function_url" lazy="true" inverse="true" cascade="all-delete-orphan" sort="unsorted"> 
+        <set name="funcURLs" table="app_function_url" lazy="true" cascade="all-delete-orphan" sort="unsorted"> 
 	      <key column="func_id"/>
 	      <one-to-many class="ModelAppFunctionUrl"/> 
+	    </set>
+	    
+	    <set name="funcDataStrategy" table="app_function_strategy" lazy="true" cascade="save-update" sort="unsorted" order-by="stg_type desc"> 
+	      <key column="func_id"/>
+	      <one-to-many class="ModelAppFunctionDataStrategy"/> 
 	    </set>
 	    
 	</class>

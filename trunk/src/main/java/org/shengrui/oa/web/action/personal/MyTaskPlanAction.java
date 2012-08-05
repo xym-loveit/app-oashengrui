@@ -456,6 +456,12 @@ extends BaseAppAction
 							// 附件关联保存
 							this.handleFileAttachments(entity, request);
 							
+							// 保存负责人所属的校区和部门ID, 用于数据权限访问过滤
+							entity.setTaskChargerDepId(
+									Integer.valueOf(entity.getTaskCharger().getEmployeeDepartment().getId()));
+							entity.setTaskChargerDisId(
+									Integer.valueOf(entity.getTaskCharger().getEmployeeDistrict().getId()));
+							
 							this.serviceTaskPlan.save(entity);
 							
 							// 保存成功后, Dialog进行关闭

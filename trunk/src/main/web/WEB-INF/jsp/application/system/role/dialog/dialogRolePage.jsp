@@ -48,6 +48,7 @@
 					<td style="vertical-align: top;">角色功能：</td>
 					<td>
 						<input name="menuFunc.menuIds" type="hidden" size="30" value="${role ne null ? role.menuIds : ''}" style="width: 88%" readonly/>
+						<input name="menuFunc.funcPerms" type="hidden" size="30" value="${role ne null ? role.funcPermIds : ''}" style="width: 88%" readonly/>
 						<textarea rows="5" cols="40" name="menuFunc.funcRights" style="width: 88%" readonly>${role ne null ? role.roleRights : ''}</textarea>
 						<a class="btnLook" href="app/system/role.do?action=actionLoadAppFuncs&roleId=${role ne null ? role.id : '-1'}<logic:present name='view'>&view</logic:present>" lookupGroup="menuFunc" width="476" height="404" rel="mfunc_lookup">角色功能列表</a>
 					</td>

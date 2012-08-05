@@ -6,6 +6,7 @@
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <script type="text/javascript">
 	function after_save(json) {
@@ -71,11 +72,11 @@
 					<td style="vertical-align: top;width: 80px;">数据权限：<br/><span style="color:#999; margin-top: 5px;display:inline-block;">若未配置,<br/>则不进行控制.</span></td>
 					<td>
 						<ul>
-							<li><input type="checkbox" name="dataPerm" style="vertical-align:middle;"/> <label style="vertical-align:middle;float:none">全校数据</label></li>
-							<li><input type="checkbox" name="dataPerm" style="vertical-align:middle;"/> <label style="vertical-align:middle;float:none">校区数据</label></li>
-							<li><input type="checkbox" name="dataPerm" style="vertical-align:middle;"/> <label style="vertical-align:middle;float:none">大部门数据</label></li>
-							<li><input type="checkbox" name="dataPerm" style="vertical-align:middle;"/> <label style="vertical-align:middle;float:none">部门数据</label></li>
-							<li><input type="checkbox" name="dataPerm" style="vertical-align:middle;"/> <label style="vertical-align:middle;float:none">个人数据</label></li>
+							<li><input type="checkbox" name="dataPerm" value="5" style="vertical-align:middle;" <c:if test="${func ne null && tm:inRange(func.strategyIds, '5', ',')}">checked</c:if>/> <label style="vertical-align:middle;float:none">全校数据</label></li>
+							<li><input type="checkbox" name="dataPerm" value="4" style="vertical-align:middle;" <c:if test="${func ne null && tm:inRange(func.strategyIds, '4', ',')}">checked</c:if>/> <label style="vertical-align:middle;float:none">校区数据</label></li>
+							<li><input type="checkbox" name="dataPerm" value="3" style="vertical-align:middle;" <c:if test="${func ne null && tm:inRange(func.strategyIds, '3', ',')}">checked</c:if>/> <label style="vertical-align:middle;float:none">大部门数据</label></li>
+							<li><input type="checkbox" name="dataPerm" value="2" style="vertical-align:middle;" <c:if test="${func ne null && tm:inRange(func.strategyIds, '2', ',')}">checked</c:if>/> <label style="vertical-align:middle;float:none">部门数据</label></li>
+							<li><input type="checkbox" name="dataPerm" value="1" style="vertical-align:middle;" <c:if test="${func ne null && tm:inRange(func.strategyIds, '1', ',')}">checked</c:if>/> <label style="vertical-align:middle;float:none">个人数据</label></li>
 						</ul>
 					</td>
 				</tr>

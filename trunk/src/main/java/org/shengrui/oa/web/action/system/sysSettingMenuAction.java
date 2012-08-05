@@ -12,8 +12,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.system.ModelAppFunction;
+import org.shengrui.oa.model.system.ModelAppFunctionDataStrategy;
 import org.shengrui.oa.model.system.ModelAppFunctionUrl;
 import org.shengrui.oa.model.system.ModelAppMenu;
+import org.shengrui.oa.service.system.ServiceAppFunctionDataStrategy;
 import org.springframework.beans.BeanUtils;
 
 import cn.trymore.core.exception.ServiceException;
@@ -33,6 +35,11 @@ extends sysSettingBaseAction
 	 * The LOGGER
 	 */
 	private static final Logger LOGGER = Logger.getLogger(sysSettingMenuAction.class);
+	
+	/**
+	 * The service of function strategy
+	 */
+	private ServiceAppFunctionDataStrategy serviceAppFunctionDataStrategy;
 	
 	/**
 	 * <b>[WebAction]</b> 
@@ -342,6 +349,52 @@ extends sysSettingBaseAction
 					entity.setFuncURLs(appFuncUrls);
 				}
 				
+				// 判断数据权限是否有改变
+				String[] dataPermIds = request.getParameterValues("dataPerm");
+				if (dataPermIds != null)
+				{
+					String permIds = UtilString.join(dataPermIds, ",");
+					if (!permIds.equals(entity.getStrategyIds()))
+					{
+						// 保存功能数据权限
+						Set<ModelAppFunctionDataStrategy> appFuncDataStrategy = null;
+						
+						appFuncDataStrategy = entity.getFuncDataStrategy();
+						if (appFuncDataStrategy == null)
+						{
+							appFuncDataStrategy = new HashSet<ModelAppFunctionDataStrategy>();
+						}
+						else
+						{
+							// 取消AppFunction与AppFunctionDataStrategy之间的关联
+							Iterator<ModelAppFunctionDataStrategy> itor = appFuncDataStrategy.iterator();
+							while (itor.hasNext())
+							{
+								ModelAppFunctionDataStrategy funcDataStrategy = itor.next();
+								funcDataStrategy.setFunction(null);
+								itor.remove();
+							}
+						}
+						
+						for (String dataPermId : dataPermIds)
+						{
+							ModelAppFunctionDataStrategy strategy = new ModelAppFunctionDataStrategy();
+							strategy.setStrategyType(Integer.valueOf(dataPermId));
+							strategy.setFunction(entity);
+							
+							appFuncDataStrategy.add(strategy);
+						}
+						
+						entity.setStrategyIds(permIds);
+						entity.setFuncDataStrategy(appFuncDataStrategy);
+					}
+				}
+				else
+				{
+					entity.setStrategyIds(null);
+					entity.setFuncDataStrategy(null);
+				}
+				
 				this.serviceAppFunc.save(entity);
 				
 				return ajaxPrint(response, getSuccessCallbackAndReloadCurrent("菜单功能项保存成功."));
@@ -466,6 +519,17 @@ extends sysSettingBaseAction
 	public static Logger getLogger()
 	{
 		return LOGGER;
+	}
+
+	public ServiceAppFunctionDataStrategy getServiceAppFunctionDataStrategy()
+	{
+		return serviceAppFunctionDataStrategy;
+	}
+
+	public void setServiceAppFunctionDataStrategy(
+			ServiceAppFunctionDataStrategy serviceAppFunctionDataStrategy)
+	{
+		this.serviceAppFunctionDataStrategy = serviceAppFunctionDataStrategy;
 	}
 
 	

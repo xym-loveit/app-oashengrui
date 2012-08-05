@@ -631,6 +631,21 @@ extends DispatchAction
 	protected void outWritePagination (HttpServletRequest request, 
 			PagingBean pagingBean, PaginationSupport pagingData)
 	{
+		outWritePagination(request, pagingBean, pagingData, "pagingBean");
+	}
+	
+	/**
+	 * Writes pagination to response entity.
+	 * 
+	 * @param request
+	 * @param pagingBean
+	 * @param pagingData
+	 * @param paramName
+	 */
+	@SuppressWarnings("rawtypes")
+	protected void outWritePagination (HttpServletRequest request, 
+			PagingBean pagingBean, PaginationSupport pagingData, String paramName)
+	{
 		if (pagingBean == null)
 		{
 			pagingBean = new PagingBean();
@@ -643,27 +658,7 @@ extends DispatchAction
 			pagingBean.setTotalPages(pagingData.getTotalPage());
 		}
 		
-		request.setAttribute("pagingBean", pagingBean);
-		
-	}
-	
-	protected void outWritePagination1 (HttpServletRequest request, 
-			PagingBean pagingBean1, PaginationSupport pagingData)
-	{
-		if (pagingBean1 == null)
-		{
-			pagingBean1 = new PagingBean();
-		}
-		
-		if (pagingData != null && pagingData.getItemCount() > 0)
-		{
-			pagingBean1.setTotalItems(pagingData.getTotalCount());
-			pagingBean1.setCurrentPage(pagingData.getCurrentPage());
-			pagingBean1.setTotalPages(pagingData.getTotalPage());
-		}
-		
-		request.setAttribute("pagingBean1", pagingBean1);
-		
+		request.setAttribute(paramName, pagingBean);
 	}
 	
 	/**

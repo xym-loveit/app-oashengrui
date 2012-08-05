@@ -81,6 +81,23 @@ extends ServiceGenericImpl<ModelSchoolDepartment> implements ServiceSchoolDepart
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.system.ServiceSchoolDepartment#getDepartmentIdsByName(java.lang.String)
+	 */
+	@Override
+	public List<Object> getDepartmentIdsByName (String departmentName) throws ServiceException
+	{
+		try
+		{
+			return this.daoSchoolDepartment.getDepartmentIdsByName(departmentName);
+		} 
+		catch (DAOException e)
+		{
+			throw new ServiceException(e);
+		}
+	}
+	
 	public DAOSchoolDepartment getDaoSchoolDepartment()
 	{
 		return daoSchoolDepartment;
