@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.shengrui.oa.model.admin.ModelTaskPlan;
 import org.shengrui.oa.model.news.ModelNewsMag;
 import org.shengrui.oa.web.action.BaseAppAction;
 
@@ -44,7 +43,7 @@ extends BaseAppAction
 			request.setAttribute("op", request.getParameter("op"));
 			// 输出分页信息至客户端
 			outWritePagination(request, pagingBean, news);
-			outWritePagination1(request, pagingBean1, newsdistrict);
+			outWritePagination(request, pagingBean1, newsdistrict, "pagingBean1");
 			
 		} catch (Exception e) {
 			e.printStackTrace();

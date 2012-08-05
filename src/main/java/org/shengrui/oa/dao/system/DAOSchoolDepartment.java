@@ -36,4 +36,14 @@ extends DAOGeneric<ModelSchoolDepartment>
 	 * @author pyc
 	 * */
 	ModelSchoolDepartment getDepartmentByName(String departmentName) throws DAOException;
+	
+	/**
+	  * Obtains department ids with the specified department name
+	  * 
+	  * @param departmentName
+	  *                    the department name
+	  * @return list of department ids
+	 * @throws DAOException
+	 */
+	List<Object> getDepartmentIdsByName (String departmentName) throws DAOException;
 }

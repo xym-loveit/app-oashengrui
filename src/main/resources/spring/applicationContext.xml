@@ -119,7 +119,10 @@
 	</bean>
 	
 	<!-- LogAspect -->
-	<bean id="aclAuthAdvice" class="cn.trymore.core.acl.AclAuthorityAdvice"/>
+	<bean id="aclAuthAdvice" class="cn.trymore.core.acl.AclAuthorityAdvice">
+		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
+	</bean>
+	
 	<!--  Base Transaction Proxy -->
 	<bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
 		<property name="beanNames"> 

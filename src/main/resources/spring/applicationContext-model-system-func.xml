@@ -27,4 +27,15 @@
 		</property>
 	</bean>
 	
+	<bean id="daoAppFunctionDataStrategy" class="org.shengrui.oa.dao.system.impl.DAOAppFunctionDataStrategyImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	
+	<bean id="serviceAppFunctionDataStrategy" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.system.impl.ServiceAppFunctionDataStrategyImpl">
+				<constructor-arg index="0" ref="daoAppFunctionDataStrategy"/>
+			</bean>
+		</property>
+	</bean>
 </beans>

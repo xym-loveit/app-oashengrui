@@ -50,5 +50,17 @@ extends DAOGenericImpl<ModelSchoolDepartment> implements DAOSchoolDepartment
 		List<ModelSchoolDepartment> list = getHibernateTemplate().findByCriteria(criteria);
 		return list != null && list.size() > 0 ?list.get(0) : null;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.dao.system.DAOSchoolDepartment#getDepartmentIdsByName(java.lang.String)
+	 */
+	@Override
+	public List<Object> getDepartmentIdsByName(String departmentName)
+			throws DAOException
+	{
+		String nativeSql = "SELECT dep_id FROM app_school_department WHERE dep_name = '" + departmentName + "'";
+		return this.findListByNativeSQL(nativeSql);
+	}
 
 }

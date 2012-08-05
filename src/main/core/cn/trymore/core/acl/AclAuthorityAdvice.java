@@ -2,10 +2,12 @@ package cn.trymore.core.acl;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.shengrui.oa.model.system.ModelAppUser;
+import org.shengrui.oa.service.system.ServiceSchoolDepartment;
 import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
 import org.springframework.aop.MethodBeforeAdvice;
@@ -13,6 +15,12 @@ import org.springframework.aop.MethodBeforeAdvice;
 import cn.trymore.core.dao.impl.DAOGenericImpl;
 import cn.trymore.core.util.UtilString;
 
+/**
+ * Advice for access control data.
+ * 
+ * @author Jeccy.Zhao
+ *
+ */
 public class AclAuthorityAdvice 
 implements MethodBeforeAdvice 
 {
@@ -21,6 +29,11 @@ implements MethodBeforeAdvice
 	 * The LOGGER
 	 */
 	private static final Logger LOGGER = Logger.getLogger(AclAuthorityAdvice.class);
+	
+	/**
+	 * The service of school department.
+	 */
+	private ServiceSchoolDepartment serviceSchoolDepartment;
 			
 	/*
 	 * (non-Javadoc)
@@ -76,10 +89,10 @@ implements MethodBeforeAdvice
 	{
 		if (ContextUtil.getCurrentUser() != null && URI != null)
 		{
-			Map<String, String> dataPerms = ContextUtil.getCurrentUser().getDataPermissions();
+			Map<String, Integer> dataPerms = ContextUtil.getCurrentUser().getDataPermissions();
 			if (dataPerms != null && dataPerms.containsKey(URI))
 			{
-				return UtilString.isNotEmpty(dataPerms.get(URI));
+				return dataPerms.get(URI) != null;
 			}
 		}
 		return false;
@@ -118,7 +131,6 @@ implements MethodBeforeAdvice
 							}
 							builder.append(fieldNames[i]);
 							builder.append(" IN (");
-							// only for test.
 							builder.append(strategy);
 							builder.append(")");
 							multiCloud = true;
@@ -143,37 +155,66 @@ implements MethodBeforeAdvice
 	{
 		ModelAppUser logonUser = ContextUtil.getCurrentUser();
 		
-		String dataPolicy = ContextUtil.getCurrentUser().getDataPermissions().get(URI.toString());
+		Integer dataPolicy = ContextUtil.getCurrentUser().getDataPermissions().get(URI.toString());
 		
-		if (String.valueOf(AppUtil.EDataPermissions.DP_DIS_WHOLE.getValue()).equals(dataPolicy)
+		if (AppUtil.EDataPermissions.DP_DIS_WHOLE.getValue().equals(dataPolicy)
 				&& AppUtil.EDataPermissions.DP_DIS_WHOLE.getType().equals(fieldType))
 		{
 			// 全校数据, 可以访问所有数据
 			return null;
 		}
-		else if (String.valueOf(AppUtil.EDataPermissions.DP_DIS_CURRENT.getValue()).equals(dataPolicy)
+		else if (AppUtil.EDataPermissions.DP_DIS_CURRENT.getValue().equals(dataPolicy)
 				&& AppUtil.EDataPermissions.DP_DIS_CURRENT.getType().equals(fieldType))
 		{
 			// 校区数据
 			return logonUser.getEmployee() != null ? 
 						logonUser.getEmployee().getEmployeeDistrict().getId() : logonUser.getDistrict().getId();
 		}
-		else if (String.valueOf(AppUtil.EDataPermissions.DP_DEP_WHOLE.getValue()).equals(dataPolicy)
+		else if (AppUtil.EDataPermissions.DP_DEP_WHOLE.getValue().equals(dataPolicy)
 				&& AppUtil.EDataPermissions.DP_DEP_WHOLE.getType().equals(fieldType))
 		{
 			// 大部门数据
-			return "1, 4";
+			String depName = logonUser.getEmployee() != null ? 
+					logonUser.getEmployee().getEmployeeDepartment().getDepName() : 
+						(logonUser.getDepartment() != null ? logonUser.getDepartment().getId() : null);
+			try
+			{
+				List<Object> depIds = this.serviceSchoolDepartment.getDepartmentIdsByName(depName);
+				if (depIds != null)
+				{
+					StringBuilder builder = new StringBuilder();
+					int index = 0;
+					for (Object depId : depIds)
+					{
+						builder.append(depId);
+						if (index < depIds.size() - 1)
+						{
+							builder.append(",");
+						}
+						index++;
+					}
+					return builder.toString();
+				}
+			}
+			catch (Exception e)
+			{
+				LOGGER.error("Exception raised when fetch department ids with name:" + depName, e);
+				return null;
+			}
 		}
-		else if (String.valueOf(AppUtil.EDataPermissions.DP_DEP_CURRENT.getValue()).equals(dataPolicy)
+		else if (AppUtil.EDataPermissions.DP_DEP_CURRENT.getValue().equals(dataPolicy)
 				&& AppUtil.EDataPermissions.DP_DEP_CURRENT.getType().equals(fieldType))
 		{
 			// 部门数据
 			return logonUser.getEmployee() != null ? 
 					logonUser.getEmployee().getEmployeeDepartment().getId() : logonUser.getDepartment().getId();
 		}
-		else
+		else if (AppUtil.EDataPermissions.DP_MINE.getValue().equals(dataPolicy)
+				&& AppUtil.EDataPermissions.DP_MINE.getType().equals(fieldType))
 		{
 			// 默认拥有个人数据的数据权限
+			return logonUser.getEmployee() != null ?
+						logonUser.getEmployee().getId() : logonUser.getId();
 		}
 		
 		return null;
@@ -195,6 +236,16 @@ implements MethodBeforeAdvice
 		}
 		
 		return false;
+	}
+
+	public ServiceSchoolDepartment getServiceSchoolDepartment()
+	{
+		return serviceSchoolDepartment;
+	}
+
+	public void setServiceSchoolDepartment(ServiceSchoolDepartment serviceSchoolDepartment)
+	{
+		this.serviceSchoolDepartment = serviceSchoolDepartment;
 	}
 	
 }

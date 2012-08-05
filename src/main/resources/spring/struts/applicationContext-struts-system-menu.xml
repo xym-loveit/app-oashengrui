@@ -16,6 +16,7 @@
 	<bean name="/app/system/menu/func" class="org.shengrui.oa.web.action.system.sysSettingMenuAction">
 		<property name="serviceAppMenu" ref="serviceAppMenu" />
 		<property name="serviceAppFunc" ref="serviceAppFunc" />
+		<property name="serviceAppFunctionDataStrategy" ref="serviceAppFunctionDataStrategy" />
 	</bean>
 	
 </beans>

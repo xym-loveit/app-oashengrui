@@ -8,8 +8,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.system.ModelAppFunction;
+import org.shengrui.oa.model.system.ModelAppFunctionDataStrategy;
 import org.shengrui.oa.model.system.ModelAppMenu;
 import org.shengrui.oa.model.system.ModelAppRole;
+import org.shengrui.oa.service.system.ServiceAppFunctionDataStrategy;
 import org.shengrui.oa.service.system.ServiceAppRole;
 import org.springframework.beans.BeanUtils;
 
@@ -38,6 +40,11 @@ extends sysSettingBaseAction
 	 * The application role service
 	 */
 	private ServiceAppRole serviceAppRole;
+	
+	/**
+	 * The service of function data strategy
+	 */
+	private ServiceAppFunctionDataStrategy serviceAppFunctionDataStrategy;
 
 	/**
 	 * <b>[WebAction]</b> 
@@ -274,6 +281,24 @@ extends sysSettingBaseAction
 				}
 			}
 			
+			
+			// 设置功能数据权限清单
+			String roleFuncPerms = request.getParameter("menuFunc.funcPerms");
+			if (!roleFuncPerms.equals(entity.getFuncPermIds()))
+			{
+				entity.getFuncDataPermissions().clear();
+				String[] arrayOfFuncPermIds = roleFuncPerms.split("[,]");
+				for (int i = 0; i < arrayOfFuncPermIds.length; i++)
+				{
+					ModelAppFunctionDataStrategy modelAppFuncPerm = this.serviceAppFunctionDataStrategy.get(arrayOfFuncPermIds[i]);
+					if (modelAppFuncPerm == null)
+					{
+						continue;
+					}
+					entity.getFuncDataPermissions().add(modelAppFuncPerm);
+				}
+			}
+			
 			this.serviceAppRole.save(entity);
 			
 			// 重新加载权限数据池
@@ -304,5 +329,16 @@ extends sysSettingBaseAction
 	public void setServiceAppRole(ServiceAppRole serviceAppRole)
 	{
 		this.serviceAppRole = serviceAppRole;
+	}
+
+	public ServiceAppFunctionDataStrategy getServiceAppFunctionDataStrategy()
+	{
+		return serviceAppFunctionDataStrategy;
+	}
+
+	public void setServiceAppFunctionDataStrategy(
+			ServiceAppFunctionDataStrategy serviceAppFunctionDataStrategy)
+	{
+		this.serviceAppFunctionDataStrategy = serviceAppFunctionDataStrategy;
 	}
 }

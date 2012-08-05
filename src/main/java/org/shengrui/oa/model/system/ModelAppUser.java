@@ -158,7 +158,7 @@ extends ModelBase implements UserDetails
 	/**
 	 * 用户拥有的数据权限
 	 */
-	protected Map<String, String> dataPermissions = new HashMap<String, String>();
+	protected Map<String, Integer> dataPermissions = new HashMap<String, Integer>();
 	
 	/**
 	 * 初始化标志
@@ -325,12 +325,12 @@ extends ModelBase implements UserDetails
 					{
 						this.initRights(role);
 						this.initMenuKeys(role);
+						this.initDataPermissions(role);
 					}
 				}
 			}
 		}
 		
-		this.initDataPermissions(this.position);
 		isInitialized = true;
 	}
 	
@@ -340,8 +340,30 @@ extends ModelBase implements UserDetails
 	 * @param position
 	 *                 the department position
 	 */
-	private void initDataPermissions (ModelSchoolDepartmentPosition position)
+	private void initDataPermissions (ModelAppRole role)
 	{
+		if (role != null && role.getFuncDataPermissions() != null)
+		{
+			for (ModelAppFunctionDataStrategy funcPerm : role.getFuncDataPermissions())
+			{
+				ModelAppFunction func = funcPerm.getFunction();
+				if (func != null)
+				{
+					Set<ModelAppFunctionUrl> funcURIs = func.getFuncURLs();
+					if (funcURIs != null)
+					{
+						for (ModelAppFunctionUrl funcURI : funcURIs)
+						{
+							if (!dataPermissions.containsKey(funcURI.getUrlPath()) || 
+									funcPerm.getStrategyType() > dataPermissions.get(funcURI.getUrlPath()))
+							{
+								dataPermissions.put(funcURI.getUrlPath(), funcPerm.getStrategyType());
+							}
+						}
+					}
+				}
+			}
+		}
 		// only for testing.
 		// dataPermissions.put("app/personal/addressBook.do?action=addressBookInfo", 
 		//		String.valueOf(AppUtil.EDataPermissions.DP_DIS_CURRENT.getValue()));
@@ -678,7 +700,7 @@ extends ModelBase implements UserDetails
 		return positionId;
 	}
 	
-	public Map<String, String> getDataPermissions()
+	public Map<String, Integer> getDataPermissions()
 	{
 		return dataPermissions;
 	}
