@@ -997,4 +997,18 @@ public class UtilDateTime {
 	   long year = y/(24*60*60*1000*365);
 	   return (int) (year > 0 ? year : 0);
    }
+   
+   public static boolean compareTime(String time1,String time2,String pattern){
+	   SimpleDateFormat format = new SimpleDateFormat(pattern);
+	   Date d1 = null;
+	   Date d2 = null;
+	   try {
+		   d1 = format.parse(time1);
+		   d2 = format.parse(time2);
+	   } catch (ParseException e) {
+		   // TODO Auto-generated catch block
+		   e.printStackTrace();
+	   }
+	   return d1.before(d2);
+   }
 }

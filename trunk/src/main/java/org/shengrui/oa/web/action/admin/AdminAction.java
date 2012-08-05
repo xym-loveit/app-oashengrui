@@ -1125,11 +1125,11 @@ extends BaseAdminAction
 		String offSTime = formInfo.getOfftimeShour()+":"+formInfo.getOfftimeSmin();
 		String offETime = formInfo.getOfftimeEhour()+":"+formInfo.getOfftimeEmin();
 		String[] workTime = formInfo.getWorkTime().split("-");
-		if(offSTime.compareTo(workTime[0])<0 && offETime.compareTo(workTime[1])<0){
+		if(UtilDateTime.compareTime(offSTime,workTime[0],"HH:mm") && UtilDateTime.compareTime(offETime,workTime[1],"HH:mm")){
 			formInfo.setAttendanceResult("早退");
-		}else if(offSTime.compareTo(workTime[0])>0 && offETime.compareTo(workTime[1])>0){
+		}else if(!UtilDateTime.compareTime(offSTime,workTime[0],"HH:mm") && !UtilDateTime.compareTime(offETime,workTime[1],"HH:mm")){
 			formInfo.setAttendanceResult("迟到");
-		}else if(offSTime.compareTo(workTime[0])>0 && offETime.compareTo(workTime[1])<0){
+		}else if(!UtilDateTime.compareTime(offSTime,workTime[0],"HH:mm") && UtilDateTime.compareTime(offETime,workTime[1],"HH:mm")){
 			formInfo.setAttendanceResult("迟到早退");
 		}else{
 			formInfo.setAttendanceResult("按时");
