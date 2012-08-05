@@ -44,7 +44,6 @@ implements MethodBeforeAdvice
 	public void before(Method method, Object[] args, Object target)
 			throws Throwable
 	{
-		System.out.println("The object fetched from data policy threadLocal (" + target + "):" + DataPolicyEngine.get());
 		LOGGER.debug("The object fetched from data policy threadLocal:" + DataPolicyEngine.get());
 		
 		if (this.isGrantedDataPolicy(DataPolicyEngine.get()))
@@ -127,7 +126,7 @@ implements MethodBeforeAdvice
 						{
 							if (multiCloud)
 							{
-								builder.append(" AND ");
+								builder.append(" OR ");
 							}
 							builder.append(fieldNames[i]);
 							builder.append(" IN (");

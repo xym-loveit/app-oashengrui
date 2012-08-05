@@ -1207,17 +1207,19 @@ CREATE TABLE `app_hrm_hire_job` (
   `status` smallint(6) NOT NULL COMMENT '状态            1=通过审核            0=未审核            2=审核不通过',
   `memo` varchar(1024) default NULL COMMENT '备注',
   `isopen` tinyint(4) default '1' COMMENT '应聘控制 0=关闭, 1=开放',
+  `entry_id` bigint(20) default NULL COMMENT '岗位发布人员ID',
+  `entry_time` datetime default NULL COMMENT '岗位发布时间',
   PRIMARY KEY  (`hjob_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='招聘岗位发布';
 
 -- ----------------------------
 -- Records of app_hrm_hire_job
 -- ----------------------------
-INSERT INTO `app_hrm_hire_job` VALUES ('4', '校区总监', '3', '18', '1', null, '2012-07-26 00:00:00', '1', '', '', '', '', '管理员', '2012-07-26 13:43:27', null, null, null, null, null, '4', null, '1');
-INSERT INTO `app_hrm_hire_job` VALUES ('5', '教师', '1', '16', '1', null, '2012-07-31 00:00:00', '10', '', '', '', '', '管理员', '2012-07-26 14:05:40', null, null, null, null, null, '4', null, '1');
-INSERT INTO `app_hrm_hire_job` VALUES ('6', 'teat', '1', '15', '1', '3', '2012-07-24 00:00:00', '12', '', '213', '321', '', '管理员', '2012-07-29 03:02:37', null, null, null, null, null, '2', null, null);
-INSERT INTO `app_hrm_hire_job` VALUES ('7', '行政助理', '1', '24', '1', null, '2012-08-02 00:00:00', '2', '', '', '', '', '管理员', '2012-07-31 14:56:59', null, null, null, null, null, '4', null, '1');
-INSERT INTO `app_hrm_hire_job` VALUES ('8', 'test', '1', '15', '1', null, '2012-07-31 00:00:00', '2', '', '', '', '', '管理员', '2012-07-31 16:23:54', null, null, null, null, null, '4', null, null);
+INSERT INTO `app_hrm_hire_job` VALUES ('4', '校区总监', '3', '18', '1', null, '2012-07-26 00:00:00', '1', '', '', '', '', '管理员', '2012-07-26 13:43:27', null, null, null, null, null, '4', null, '1', null, null);
+INSERT INTO `app_hrm_hire_job` VALUES ('5', '教师', '1', '16', '1', null, '2012-07-31 00:00:00', '10', '', '', '', '', '管理员', '2012-07-26 14:05:40', null, null, null, null, null, '4', null, '1', null, null);
+INSERT INTO `app_hrm_hire_job` VALUES ('6', 'teat', '1', '15', '1', '3', '2012-07-24 00:00:00', '12', '', '213', '321', '', '管理员', '2012-07-29 03:02:37', null, null, null, null, null, '2', null, null, null, null);
+INSERT INTO `app_hrm_hire_job` VALUES ('7', '行政助理', '1', '24', '1', null, '2012-08-02 00:00:00', '2', '', '', '', '', '管理员', '2012-07-31 14:56:59', null, null, null, null, null, '4', null, '1', null, null);
+INSERT INTO `app_hrm_hire_job` VALUES ('8', 'test', '1', '15', '1', null, '2012-07-31 00:00:00', '2', '', '', '', '', '管理员', '2012-07-31 16:23:54', null, null, null, null, null, '4', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `app_hrm_hire_job_file`

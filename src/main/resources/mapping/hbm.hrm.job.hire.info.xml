@@ -62,6 +62,12 @@
          <property name="isOpen" type="java.lang.Integer">
             <column name="isopen" />
         </property>
+         <property name="entryId" type="java.lang.Integer">
+            <column name="entry_id" />
+        </property>
+        <property name="entryTime" type="timestamp">
+            <column name="entry_time" />
+        </property>
         
         <many-to-one not-found="ignore" name="jobHireDepartment" class="org.shengrui.oa.model.system.ModelSchoolDepartment" >
         	<column name="hjob_depid" />

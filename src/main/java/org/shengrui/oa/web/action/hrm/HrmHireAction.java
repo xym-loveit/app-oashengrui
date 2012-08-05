@@ -331,6 +331,7 @@ extends BaseHrmAction
 			{
 				// 新建
 				entity = formJobHireInfo;
+				entity.setEntryTime(new Date());
 			}
 			
 			String districtId = request.getParameter("jobHireDistrictId");
@@ -361,6 +362,7 @@ extends BaseHrmAction
 			if (ContextUtil.getCurrentUser() != null)
 			{
 				entity.setPostAuthorName(ContextUtil.getCurrentUser().getFullName());
+				entity.setEntryId(ContextUtil.getCurrentUserId());
 			}
 			
 			// 设置岗位附件

@@ -141,6 +141,7 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 				if (UtilString.isNotEmpty(DAOGenericImpl.this.getQueryFilter()))
 				{
 					criteria.add(Restrictions.sqlRestriction(DAOGenericImpl.this.getQueryFilter()));
+					DAOGenericImpl.this.setQueryFilter(null);
 				}
 				
 				return getHibernateTemplate().findByCriteria(criteria);
@@ -247,6 +248,7 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 		if (UtilString.isNotEmpty(this.getQueryFilter()))
 		{
 			criteria.add(Restrictions.sqlRestriction(this.getQueryFilter()));
+			this.setQueryFilter(null);
 		}
 		return (List<T>) getHibernateTemplate().findByCriteria(criteria);
 	}
@@ -262,6 +264,7 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 		if (UtilString.isNotEmpty(this.getQueryFilter()))
 		{
 			criteria.add(Restrictions.sqlRestriction(this.getQueryFilter()));
+			this.setQueryFilter(null);
 		}
 		return (List<T>)getHibernateTemplate().findByCriteria(criteria, firstResult, maxResults);
 	}
@@ -287,6 +290,7 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 		if (UtilString.isNotEmpty(this.getQueryFilter()))
 		{
 			criteria.add(Restrictions.sqlRestriction(this.getQueryFilter()));
+			this.setQueryFilter(null);
 		}
 		
 		return (PaginationSupport<T>)getHibernateTemplate().execute(new HibernateCallback()

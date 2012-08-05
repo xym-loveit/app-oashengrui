@@ -6,7 +6,9 @@ import java.util.Set;
 
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
+import org.shengrui.oa.util.AppUtil;
 
+import cn.trymore.core.acl.AclFilterAnnotation;
 import cn.trymore.core.model.ModelBase;
 
 /**
@@ -135,6 +137,25 @@ extends ModelBase
 	 * 主要用于多状态集合搜索,超级用户
 	 */
 	private Integer[] searchStatusCondition;
+	
+	/**
+	 * 岗位发布人员ID
+	 */
+	private Integer entryId;
+	
+	/**
+	 * 岗位发布时间
+	 */
+	private Date entryTime;
+	
+	/**
+	 * 数据权限过滤
+	 */
+	@AclFilterAnnotation(
+		fieldNames ={"hjob_districtid", "hjob_depid", "entry_id"}, 
+		fieldTypes ={AppUtil.DATA_POLICY_DISTRICT, AppUtil.DATA_POLICY_DEPARTMENT, AppUtil.DATA_POLICY_PERSONAL}
+	)
+	private String aclFilterFields;
 	
 	/**
 	 * The enumeration of job hire approval status
@@ -426,6 +447,36 @@ extends ModelBase
 	public Integer[] getSearchStatusCondition()
 	{
 		return searchStatusCondition;
+	}
+
+	public Integer getEntryId()
+	{
+		return entryId;
+	}
+
+	public void setEntryId(Integer entryId)
+	{
+		this.entryId = entryId;
+	}
+
+	public Date getEntryTime()
+	{
+		return entryTime;
+	}
+
+	public void setEntryTime(Date entryTime)
+	{
+		this.entryTime = entryTime;
+	}
+
+	public String getAclFilterFields()
+	{
+		return aclFilterFields;
+	}
+
+	public void setAclFilterFields(String aclFilterFields)
+	{
+		this.aclFilterFields = aclFilterFields;
 	}
 	
 }

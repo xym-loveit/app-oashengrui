@@ -11,7 +11,7 @@ import cn.trymore.core.acl.AclFilterAnnotation;
 import cn.trymore.core.model.ModelBase;
 
 /**
- * Model: 
+ * Model: 任务安排
  * 
  * @author Jeccy.Zhao
  *
