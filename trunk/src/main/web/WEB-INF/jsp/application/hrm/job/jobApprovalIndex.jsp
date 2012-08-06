@@ -88,6 +88,7 @@
 				<th align="center">招聘部门</th>
 				<th align="center">招聘范围</th>
 				<th align="center">招聘状态</th>
+				<th align="center">审批状态</th>
 				<!--
 				<th align="center">校区审批</th>
 				<th align="center">总部审批</th>
@@ -116,12 +117,13 @@
 								</c:when>
 							</c:choose>
 						</td>
+						<td>${entity.status eq 1 ? '待校区审批' : (entity.status eq 2 ? '待总部审批' : (entity.status eq 3 ? '审核退回' : (entity.status eq 4 ? '审核通过' : '未知')))}</td>
 						<!--
 						<td>${entity.status eq 0 ? '待审批' : (entity.status eq 1 ? '审核通过' : (entity.status eq 2 ? '审核退回' : '未知'))}</td>
 						<td>${entity.status eq 0 ? '待审批' : (entity.status eq 1 ? '审核通过' : (entity.status eq 2 ? '审核退回' : '未知'))}</td>
 						-->
-						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}" target="dialog" title="岗位详细" width="930" height="500">详细</a></td>
-						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}" target="dialog" title="岗位详细" width="930" height="500">审批</a></td>
+						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}" target="dialog" title="岗位详细" width="930" height="420">详细</a></td>
+						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}" target="dialog" title="岗位详细" width="930" height="420">审批</a></td>
 					</tr>
 				</logic:iterate>
 			</logic:present>

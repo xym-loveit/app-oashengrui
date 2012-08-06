@@ -47,6 +47,11 @@ extends BaseHrmAction
 	private static final String ACTION_QUALIFIED = "qualified";
 	
 	/**
+	 * 入职未到操作KEY
+	 */
+	private static final String ACTION_OUTOFBOARD = "outofboard";
+	
+	/**
 	 * <b>[WebAction]</b> <br/>
 	 * 招聘入职
 	 */
@@ -189,7 +194,8 @@ extends BaseHrmAction
 			String operation = request.getParameter("op");
 			if (UtilString.isNotEmpty(state, operation) && UtilString.isNumeric(state))
 			{
-				if (operation.equalsIgnoreCase(ACTION_BOARD) || operation.equalsIgnoreCase(ACTION_QUALIFIED))
+				if (operation.equalsIgnoreCase(ACTION_BOARD) || operation.equalsIgnoreCase(ACTION_QUALIFIED)
+						|| operation.equalsIgnoreCase(ACTION_OUTOFBOARD))
 				{
 					String entryId = request.getParameter("entryId");
 					if (this.isObjectIdValid(entryId))
@@ -233,13 +239,19 @@ extends BaseHrmAction
 											entry.setEntryCharger(this.serviceAppUser.get(chargerId));
 										}
 									}
-									
 									entry.setEntryActDate(Timestamp.valueOf(request.getParameter("entryActDate")));
 								}
-								else if (ModelHrmJobHireEntry.EHireEntryFStatus.OUTOFBOARD.getValue().equals(state))
+								else
 								{
-									// 未到
-									entry.setFinalStatus(ModelHrmJobHireEntry.EHireEntryInspectStatus.UNQUALIFIED.getValue());
+									return ajaxPrint(response, getErrorCallback("入职状态码不正确..."));
+								}
+							}
+							else if (ACTION_OUTOFBOARD.equalsIgnoreCase(operation))
+							{
+								// 未到处理
+								if (!ModelHrmJobHireEntry.EHireEntryFStatus.OUTOFBOARD.getValue().toString().equals(state))
+								{
+									return ajaxPrint(response, getErrorCallback("未到状态码不正确..."));
 								}
 							}
 							else
@@ -253,47 +265,39 @@ extends BaseHrmAction
 								entry.setInspectStatus(Integer.parseInt(state));
 							}
 							
-							if (ACTION_BOARD.equalsIgnoreCase(operation))
+							if (ACTION_QUALIFIED.equalsIgnoreCase(operation) && 
+									state.equals(ModelHrmJobHireEntry.EHireEntryInspectStatus.PASSED.getValue().toString()))
 							{
-								// 生成员工数据
+								// 考察通过 -> 生成员工数据
 								if (!this.actionEmployeeCreation(entry)) 
 								{
 									return ajaxPrint(response, getErrorCallback("员工数据生成失败!"));
 								}
-							}
-							else
-							{
-								// 改变员工在职状态
-								ModelHrmEmployee employee = this.serviceHrmEmployee.get(request.getParameter("empId"));
-								if (employee != null)
-								{
-									ModelHrmEmployeeRoadMap roadMap = new ModelHrmEmployeeRoadMap();
-									
-									if (state.equals(ModelHrmJobHireEntry.EHireEntryInspectStatus.PASSED.getValue().toString()))
-									{
-										// 考察通过 -> 正式员工
-										employee.setOnboardStatus(ModelHrmEmployee.EOnBoardStatus.ONREGULAR.getValue());
-										roadMap.setType(ModelHrmEmployeeRoadMap.ERoadMapType.BEREGULAR.getValue());
-									}
-									else if (state.equals(ModelHrmJobHireEntry.EHireEntryInspectStatus.UNQUALIFIED.getValue().toString()))
-									{
-										// 考察未通过 -> 辞退
-										employee.setOnboardStatus(ModelHrmEmployee.EOnBoardStatus.FIRED.getValue());
-										roadMap.setType(ModelHrmEmployeeRoadMap.ERoadMapType.FIRED.getValue());
-									}
-									
-									roadMap.setEmployee(employee);
-									roadMap.setOrginalDepartment(employee.getEmployeeDepartment());
-									roadMap.setOrginalDepartmentPosition(employee.getEmployeePosition());
-									roadMap.setOrginalDistrict(employee.getEmployeeDistrict());
-									roadMap.setDate(new Date());
-									
-									employee.getRoadMaps().add(roadMap);
-									this.serviceHrmEmployee.save(employee);
-								}
 								else
 								{
-									return ajaxPrint(response, getErrorCallback("员工数据不存在!"));
+									// 改变员工在职状态
+									ModelHrmEmployee employee = this.serviceHrmEmployee.get(request.getParameter("empId"));
+									if (employee != null)
+									{
+										ModelHrmEmployeeRoadMap roadMap = new ModelHrmEmployeeRoadMap();
+										
+										// 考察通过 -> 正式员工
+										employee.setOnboardStatus(ModelHrmEmployee.EOnBoardStatus.ONREGULAR.getValue());
+												
+										roadMap.setType(ModelHrmEmployeeRoadMap.ERoadMapType.BEREGULAR.getValue());
+										roadMap.setEmployee(employee);
+										roadMap.setOrginalDepartment(employee.getEmployeeDepartment());
+										roadMap.setOrginalDepartmentPosition(employee.getEmployeePosition());
+										roadMap.setOrginalDistrict(employee.getEmployeeDistrict());
+										roadMap.setDate(new Date());
+										
+										employee.getRoadMaps().add(roadMap);
+										this.serviceHrmEmployee.save(employee);
+									}
+									else
+									{
+										return ajaxPrint(response, getErrorCallback("员工数据不存在!"));
+									}
 								}
 							}
 							
@@ -307,7 +311,14 @@ extends BaseHrmAction
 								ModelHrmArchive hrmArchive = new ModelHrmArchive();
 								hrmArchive.setJobHireInfo(entry.getJobHireIssue().getJobHire());
 								hrmArchive.setResume(entry.getJobHireIssue().getResume());
-								hrmArchive.setSource(ModelHrmArchive.EArchiveSource.OUTOFPROBATION.getValue());
+								if (operation.equalsIgnoreCase(ACTION_QUALIFIED))
+								{
+									hrmArchive.setSource(ModelHrmArchive.EArchiveSource.OUTOFPROBATION.getValue());
+								}
+								else if (operation.equalsIgnoreCase(ACTION_OUTOFBOARD))
+								{
+									hrmArchive.setSource(ModelHrmArchive.EArchiveSource.OFFERDROPED.getValue());
+								}
 								hrmArchive.setStarLevel(Integer.parseInt(archiveStar));
 								this.serviceHrmArchive.save(hrmArchive);
 							}

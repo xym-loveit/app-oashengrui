@@ -21,7 +21,7 @@
 					<c:when test="${op eq 'qualified'}">
 						您确定'<span class="fblue">${jobHireEntry ne null ? jobHireEntry.jobHireIssue.resume.fullName : ''}</span>'<span class="fred">考察期已结束</span>并且<span class="fred">未通过考察</span>吗？
 					</c:when>
-					<c:when test="${op eq 'board'}">
+					<c:when test="${op eq 'outofboard'}">
 						您确定<span class="fblue">${jobHireEntry ne null ? jobHireEntry.jobHireIssue.resume.fullName : ''}</span><span class="fred">不到本校区入职了</span>吗？<br/>
 						<span class="fred" style="line-height: 30px;">别忘了给他打电话确认一遍哦！</span>
 					</c:when>
