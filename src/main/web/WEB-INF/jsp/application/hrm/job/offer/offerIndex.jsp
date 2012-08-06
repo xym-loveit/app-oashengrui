@@ -19,6 +19,12 @@
 	td.finished {background-color: #ddd;}
 </style>
 
+<script>
+	function reload_offerdata() {
+		navTab.reload();
+	}
+</script>
+
 <form id="pagerForm" method="post" action="app/hrm/hire.do?action=hrmJobIndex">
 	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
 	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
@@ -110,7 +116,7 @@
 							<td>
 								<c:choose>
 									<c:when test="${entity.currentStatus eq 0 || entity.currentStatus eq 1}">
-										<a class="oplink" href="app/hrm/hire.do?action=actionJobIssueFinalize&issueId=${entity.id}&state=1" target="ajaxToDo" title="确定要录用‘${entity.resume.fullName}’吗?" >录用</a>
+										<a class="oplink" href="app/hrm/hire.do?action=actionJobIssueFinalize&issueId=${entity.id}&state=1" target="ajaxToDo" title="确定要录用‘${entity.resume.fullName}’吗?" callback="reload_offerdata()">录用</a>
 									</c:when>
 									<c:otherwise>
 										<label class="opdisabled">录用</label>
@@ -120,7 +126,7 @@
 							<td> 
 								<c:choose>
 									<c:when test="${entity.currentStatus eq 0 || entity.currentStatus eq 1}">
-										<a class="oplink" href="app/hrm/hire.do?action=dialogJobOfferFinalizePage&issueId=${entity.id}&state=2" target="dialog" title="确定要淘汰‘${entity.resume.fullName}’吗?" rel="hrm_eliminate_${entity.id}" width="300" height="160">淘汰</a>
+										<a class="oplink" href="app/hrm/hire.do?action=dialogJobOfferFinalizePage&issueId=${entity.id}&state=2" target="dialog" title="确定要淘汰‘${entity.resume.fullName}’吗?" rel="hrm_eliminate_${entity.id}" width="300" height="160" callback="reload_offerdata()">淘汰</a>
 									</c:when>
 									<c:otherwise>
 										<label class="opdisabled">淘汰</label>
@@ -130,7 +136,7 @@
 							<td>
 								<c:choose>
 									<c:when test="${entity.currentStatus eq 0 || entity.currentStatus eq 1}">
-										<a class="oplink" href="app/hrm/hire.do?action=dialogJobOfferFinalizePage&issueId=${entity.id}&state=3" target="dialog" title="确定‘${entity.resume.fullName}’未到吗?" rel="hrm_absence_${entity.id}" width="300" height="200">未到</a>
+										<a class="oplink" href="app/hrm/hire.do?action=dialogJobOfferFinalizePage&issueId=${entity.id}&state=3" target="dialog" title="确定‘${entity.resume.fullName}’未到吗?" rel="hrm_absence_${entity.id}" width="300" height="200" callback="reload_offerdata()">未到</a>
 									</c:when>
 									<c:otherwise>
 										<label class="opdisabled">未到</label>

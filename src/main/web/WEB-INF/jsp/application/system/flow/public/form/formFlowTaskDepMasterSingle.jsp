@@ -38,7 +38,7 @@
 				<div style="margin-bottom: 10px;"><b>请选择部门：</b></div>
 				<div>
 					<input type="hidden" name="depName" value="" id="cmb_depId_name" />
-					<select name="depId" class="combox" id="cmb_depId" ref="cmb_posId" refUrl="app/base.do?action=actionLoadPositionByDepartment&depId={value}">
+					<select name="depId" class="combox" id="cmb_depId_ms" ref="cmb_posId_ms" refUrl="app/base.do?action=actionLoadPositionByDepartment&depId={value}">
 						<option value="-1">请选择部门</option>
 						<logic:iterate name="dep" property="value" id="entity">
 							<option value="${entity.id}" ${procTask ne null && tm:inRange(procTask.toDepartmentIds, entity.id, ',') ? "selected='selected'" : ""}>${entity.depName}</option>
@@ -51,7 +51,7 @@
 				<div style="margin-bottom: 10px;"><b>请选择岗位：</b></div>
 				<div>
 					<input type="hidden" name="posName" value="" id="cmb_posId_name" />
-					<select name="posId" class="combox" id="cmb_posId" defOPKey="请选择岗位" defOPVal="">
+					<select name="posId" class="combox" id="cmb_posId_ms" defOPKey="请选择岗位" defOPVal="">
 						<option value="-1">请选择岗位</option>
 						<logic:present name="pos">
 							<logic:iterate name="pos" id="entity">

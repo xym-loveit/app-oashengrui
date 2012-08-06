@@ -47,18 +47,18 @@
 						<label>入职状态：</label>
 						<select class="combox" name="finalStatus" style="width:108px;">
 							<option value="-1">所有</option>
-							<option value="1">待入职</option>
-							<option value="2">已入职</option>
-							<option value="3">未到岗</option>
+							<option value="0" ${formEntry ne null && formEntry.finalStatus eq 0 ? 'selected="true"' : ''}>待入职</option>
+							<option value="1" ${formEntry ne null && formEntry.finalStatus eq 1 ? 'selected="true"' : ''}>已入职</option>
+							<option value="2" ${formEntry ne null && formEntry.finalStatus eq 2 ? 'selected="true"' : ''}>未到岗</option>
 						</select>
 					</td>
 					<td>
 						<label>考察结果：</label>
 						<select class="combox" name="inspectStatus" style="width:108px;">
 							<option value="-1">所有</option>
-							<option value="0">考察中</option>
-							<option value="1">考察通过</option>
-							<option value="2">考察不通过</option>
+							<option value="0" ${formEntry ne null && formEntry.inspectStatus eq 0 ? 'selected="true"' : ''}>考察中</option>
+							<option value="1" ${formEntry ne null && formEntry.inspectStatus eq 1 ? 'selected="true"' : ''}>考察通过</option>
+							<option value="2" ${formEntry ne null && formEntry.inspectStatus eq 2 ? 'selected="true"' : ''}>考察不通过</option>
 						</select>
 					</td>
 				</tr>
@@ -127,7 +127,7 @@
 									<c:when test="${tm:ifGranted('_FUNCKEY_HRM_ENTRY_OP_ABSENCE')}">
 										<c:choose>
 											<c:when test="${entity.finalStatus eq 0}">
-												<a class="oplink" href="app/hrm/entry.do?action=dialogEntryFinalize&entryId=${entity.id}&op=board&state=2" target="dialog" title="未到处理" mask="true" rel="hrm_entryabsence_${entity.id}" width="300" height="200">未到</a>
+												<a class="oplink" href="app/hrm/entry.do?action=dialogEntryFinalize&entryId=${entity.id}&op=outofboard&state=2" target="dialog" title="未到处理" mask="true" rel="hrm_entryabsence_${entity.id}" width="300" height="200">未到</a>
 											</c:when>
 											<c:otherwise>
 												<label class="opdisabled">未到</label>

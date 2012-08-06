@@ -44,7 +44,7 @@ extends BaseHrmAction
 	
 	private static final String ACTION_FORM_FLAG_APPROVAL = "1";
 	
-	private static final String ACTION_FORM_FLAG_RETURNED = "2";
+	private static final String ACTION_FORM_FLAG_RETURNED = "0";
 	
 	/**
 	 * <b>[WebAction]</b> <br/>

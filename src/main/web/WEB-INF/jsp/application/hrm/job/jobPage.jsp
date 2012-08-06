@@ -40,12 +40,14 @@
 		$("#btnapproval").bind("click", function() { 
 			$("#formAction").val("1");
 			$("#formjob").submit();
+			return false;
 		});
 		
 		$("#btnback").unbind("click");
 		$("#btnback").bind("click", function() { 
 			$("#formAction").val("0");
 			$("#formjob").submit();
+			return false;
 		});
 		
 		<c:if test="${op eq null || op ne 'view'}">
