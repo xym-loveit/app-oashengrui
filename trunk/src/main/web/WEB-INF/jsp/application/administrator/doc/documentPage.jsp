@@ -125,10 +125,10 @@
 
 <div style="margin-right: 320px">
 <table cellspacing="10" cellpadding="10"
-	style="border-spacing: 12; width: 100%;">
+	style="border-spacing: 12; width: 505px;">
 	<tr>
 		<td width="100px;">文档类型：</td>
-		<td><select class="combox" id="combox_doc_type" name="type.id"
+		<td><select class="combox" id="combox_doc_type1" name="type.id"
 			style="width: 108px;">
 			<logic:present name="docTypes">
 				<logic:iterate name="docTypes" id="entity">
@@ -191,7 +191,6 @@
 		<td>上传部门：</td>
 		<td><select class="combox" id="combox_doc_dep" name="department.id"
 			style="width: 108px;">
-			<option value="">请选择部门</option>
 			<logic:present name="deps">
 				<logic:iterate name="deps" id="entity">
 					<option value="${entity.id}" ${formDoc ne

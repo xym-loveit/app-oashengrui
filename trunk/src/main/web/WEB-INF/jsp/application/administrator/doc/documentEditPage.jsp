@@ -140,7 +140,7 @@
 	style="border-spacing: 12; width: 100%;">
 	<tr>
 		<td width="100px;">文档类型：</td>
-		<td><select class="combox" id="combox_doc_type" name="type.id"
+		<td><select class="combox" id="combox_doc_type1" name="type.id"
 			style="width: 108px;">
 			<logic:present name="docTypes">
 				<logic:iterate name="docTypes" id="entity">

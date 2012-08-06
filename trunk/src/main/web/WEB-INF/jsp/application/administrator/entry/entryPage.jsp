@@ -118,12 +118,12 @@ ${tm:fileRestore(news['attachFiles'])}
 								<c:when test="${op ne 'opp'}">
 						<select class="combox" name="newsLevel" id="entry_level" style="width:150px" ref="news_type1" refUrl="app/system/dictionary.do?action=actionLoadByTypeAndLevel&type=news&level={value}">
 						    <option value="">请选择新闻级别</option>
-							<option value="公司总部新闻" ${news.level ne null && news.level eq '公司总部新闻' ? 'selected="selected"' : '' }>公司新闻</option>
-							<option value="分校区新闻" ${news.level ne null && news.level eq '分校区新闻' ? 'selected="selected"' : '' }>校区新闻</option>
+							<option value="公司总部新闻" ${news.newsLevel ne null && news.newsLevel eq '0' ? 'selected="selected"' : '' }>公司新闻</option>
+							<option value="分校区新闻" ${news.newsLevel ne null && news.newsLevel eq '1' ? 'selected="selected"' : '' }>校区新闻</option>
 						</select>
 						        </c:when>
 							<c:otherwise>
-								<input type="text"  value="${news.level }" readonly />
+								<input type="text"  value="${news.newsLevel }" readonly />
 							</c:otherwise>
 						</c:choose>
 					</td>
