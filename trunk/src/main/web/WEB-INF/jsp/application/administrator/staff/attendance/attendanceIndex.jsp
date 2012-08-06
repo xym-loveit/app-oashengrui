@@ -36,21 +36,21 @@
 					</td>
 					<td>
 						<label>上班状态：</label>
-						<select class="combox" name="workType" id="workType">
+						<select class="combox" name="workStatus" id="workStatus">
 							<option value="">所有</option>
-							<option value="1" ${formStaffAttendance ne null && formStaffAttendance.workType eq '1' ? 'selected="selected"':'' }>在岗</option>
-							<option value="2" ${formStaffAttendance ne null && formStaffAttendance.workType eq '2' ? 'selected="selected"':'' }>出差</option>
-							<option value="0" ${formStaffAttendance ne null && formStaffAttendance.workType eq '0' ? 'selected="selected"':'' }>请假</option>
+							<option value="0" ${formStaffAttendance ne null && formStaffAttendance.workStatus eq '0' ? 'selected="selected"':'' }>在岗</option>
+							<option value="1" ${formStaffAttendance ne null && formStaffAttendance.workStatus eq '1' ? 'selected="selected"':'' }>出差</option>
+							<option value="2" ${formStaffAttendance ne null && formStaffAttendance.workStatus eq '2' ? 'selected="selected"':'' }>请假</option>
 						</select>
 					</td>
 					<td>
 						<label>考勤结果：</label>
 						<select class="combox" name="attendanceResult" id="attendanceResult">
 							<option value="">所有</option>
-							<option value="1" ${formStaffAttendance ne null && formStaffAttendance.attendanceResult eq '1' ? 'selected="selected"':'' }>按时</option>
-							<option value="2" ${formStaffAttendance ne null && formStaffAttendance.attendanceResult eq '2' ? 'selected="selected"':'' }>迟到</option>
-							<option value="3" ${formStaffAttendance ne null && formStaffAttendance.attendanceResult eq '3' ? 'selected="selected"':'' }>早退</option>
-							<option value="4" ${formStaffAttendance ne null && formStaffAttendance.attendanceResult eq '4' ? 'selected="selected"':'' }>旷工</option>
+							<option value="按时" ${formStaffAttendance ne null && formStaffAttendance.attendanceResult eq '按时' ? 'selected="selected"':'' }>按时</option>
+							<option value="迟到" ${formStaffAttendance ne null && formStaffAttendance.attendanceResult eq '迟到' ? 'selected="selected"':'' }>迟到</option>
+							<option value="早退" ${formStaffAttendance ne null && formStaffAttendance.attendanceResult eq '早退' ? 'selected="selected"':'' }>早退</option>
+							<option value="旷工" ${formStaffAttendance ne null && formStaffAttendance.attendanceResult eq '旷工' ? 'selected="selected"':'' }>旷工</option>
 						</select>
 					</td>
 					<td>

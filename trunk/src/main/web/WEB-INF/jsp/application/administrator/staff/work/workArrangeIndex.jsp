@@ -59,10 +59,10 @@ function callback_funcRemove(id) {
 						<label>上班类型：</label>
 						<select class="combox" name="workType.id" id="workType">
 							<option value="-1">所有类型</option>
-							<option value="1">正常上班</option>
-							<option value="2">调休加班</option>
-							<option value="3">带薪加班</option>
-							<option value="4">倍薪加班</option>
+							<option value="1" ${formWorkArrange ne null && formWorkArrange.workType.id eq '1'?'selected="selected"':'' }>正常上班</option>
+							<option value="2" ${formWorkArrange ne null && formWorkArrange.workType.id eq '2'?'selected="selected"':'' }>调休加班</option>
+							<option value="3" ${formWorkArrange ne null && formWorkArrange.workType.id eq '3'?'selected="selected"':'' }>带薪加班</option>
+							<option value="4" ${formWorkArrange ne null && formWorkArrange.workType.id eq '4'?'selected="selected"':'' }>倍薪加班</option>
 						</select>
 					</td>
 					<td>
