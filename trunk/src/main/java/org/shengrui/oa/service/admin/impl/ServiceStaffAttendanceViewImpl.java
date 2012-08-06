@@ -73,7 +73,10 @@ public class ServiceStaffAttendanceViewImpl extends ServiceGenericImpl<ModelStaf
 			{
 				criteria.add(Restrictions.eq("workType", entity.getWorkType()));
 			}
-			
+			if(entity.getWorkStatus() != null && UtilString.isNotEmpty(entity.getWorkStatus()))
+			{
+				criteria.add(Restrictions.eq("workStatus", entity.getWorkStatus()));
+			}
 			if (entity.getWorkDate() != null )
 			{
 				criteria.add(Restrictions.eq("workDate", entity.getWorkDate()));
@@ -85,6 +88,10 @@ public class ServiceStaffAttendanceViewImpl extends ServiceGenericImpl<ModelStaf
 			if(entity.getFilterEnd()!=null)
 			{
 				criteria.add(Restrictions.le("workDate", entity.getFilterEnd()));
+			}
+			if(entity.getAttendanceResult() != null && UtilString.isNotEmpty(entity.getAttendanceResult()))
+			{
+				criteria.add(Restrictions.eq("attendanceResult", entity.getAttendanceResult()));
 			}
 		}
 		criteria.addOrder(Order.asc("workDate"));
