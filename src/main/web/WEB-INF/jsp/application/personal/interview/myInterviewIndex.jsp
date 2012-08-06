@@ -19,6 +19,13 @@
 				</c:if>
 			</ul>
 		</c:if>
+		<c:if test="${op ne null || op eq 'history'}">
+			<ul class="toolBar" style="float:right">
+				<c:if test="${tm:ifGranted('_FUNCKEY_PERSONAL_INTERVIEW_HISTORY')}">
+				<li><a treeicon="icon-records" class="icon" href="app/personal/interview.do?action=pageMyInterviewToDo" target="navTab" rel="dmy_interview"><span class="icon-edit">返回我的面试</span></a></li>
+				</c:if>
+			</ul>
+		</c:if>
 	</div>
 	
 	<%@ include file="data/dataInterviewList.jsp" %>
