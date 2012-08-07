@@ -906,7 +906,7 @@ extends BaseAdminAction
 		int currentWeek = Integer.parseInt(request.getParameter("currentWeek")!=null?request.getParameter("currentWeek"):"0");
 		String districtId = request.getParameter("districtId");
 		if(!this.isObjectIdValid(districtId)){
-			return ajaxPrint(response,"请先选择校区");
+			return ajaxPrint(response,getErrorCallback("请先选择校区"));
 		}
 		Date currentDay = new Date();
 		//几周后的今天
@@ -1036,7 +1036,7 @@ extends BaseAdminAction
 	               startWorkTimeWeekendAM);
 	         request.setAttribute("endWorkTimeWeekendAM", endWorkTimeWeekendAM);
 			}else{
-				return ajaxPrint(response,"这周没有工作安排");
+				return ajaxPrint(response,getErrorCallback("这周没有工作安排"));
 			}
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
