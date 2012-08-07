@@ -2,6 +2,7 @@ package org.shengrui.oa.web.action.hrm;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -119,7 +120,23 @@ extends BaseHrmAction
 			request.setAttribute("hireJobForm", formJobHireInfo);
 			
 			// 获取所有校区, 用于搜索查询使用
-			request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
+			List<ModelSchoolDistrict> districts = this.serviceSchoolDistrict.getAll();
+			request.setAttribute("districts", districts);
+			
+			if (formJobHireInfo.getJobHireDistrict() != null && 
+					this.isObjectIdValid(formJobHireInfo.getJobHireDistrict().getId()))
+			{
+				for (ModelSchoolDistrict district : districts)
+				{
+					if (district.getId().equals(formJobHireInfo.getJobHireDistrict().getId()))
+					{
+						// 获取校区对应的部门
+						request.setAttribute("departments", 
+								this.getDepartmentByOrganization(district.getDistrictType().toString()));
+						break;
+					}
+				}
+			}
 			
 			// 输出分页信息至客户端
 			outWritePagination(request, pagingBean, hireJobs);
@@ -214,11 +231,24 @@ extends BaseHrmAction
 					request.setAttribute("departments", 
 							this.getDepartmentByOrganization(district.getDistrictType().toString()));
 				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("岗位信息(id:" + id + ")不存在..."));
+				}
 				
 				request.setAttribute("jobHire", jobHireInfo);
 			}
 			
-			request.setAttribute("districts", this.getAllDistricts());
+			List<ModelSchoolDistrict> districts = this.getAllDistricts();
+			request.setAttribute("districts", districts);
+			
+			if (!this.isObjectIdValid(id) && districts.size() > 0)
+			{
+				// 岗位发布, 选择列表校区头数据获取部门数据...
+				request.setAttribute("departments", 
+						this.getDepartmentByOrganization(districts.get(0).getDistrictType().toString()));
+			}
+			
 			request.setAttribute("op", request.getParameter("op"));
 	
 			return mapping.findForward("hrm.page.job.detail");
