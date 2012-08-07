@@ -72,6 +72,9 @@
 		<c:if test="${staffAttendance ne null && staffAttendance.attendanceResult }">
 			<input type="hidden" name="attendanceResult" value="${staffAttendance.attendanceResult }" />
 		</c:if>
+		<c:if test="${staffAttendance ne null && staffAttendance.exception }">
+			<input type="hidden" name="exception" value="${staffAttendance.exception }" />
+		</c:if>
 		<input type="hidden" name="id" value="${staffAttendance ne null && staffAttendance.attendanceViewId ne null && staffAttendance.attendanceViewId.origin eq 'attendance' ? staffAttendance.attendanceViewId.viewId : '-1' }" />
 		<input type="hidden" name="arrang_id" value="${staffAttendance ne null && staffAttendance.attendanceViewId ne null && staffAttendance.attendanceViewId.origin eq 'arrange' ? staffAttendance.attendanceViewId.viewId : '-1' }"/>
 	</form>

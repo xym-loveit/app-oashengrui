@@ -48,14 +48,16 @@
 						<label>考勤结果：</label>
 						<select class="combox" name="attendanceResult" id="attendanceResult">
 							<option value="">所有</option>
-							<option value="按时" ${formStaffAttendance ne null && formStaffAttendance.attendanceResult eq '按时' ? 'selected="selected"':'' }>按时</option>
-							<option value="迟到" ${formStaffAttendance ne null && formStaffAttendance.attendanceResult eq '迟到' ? 'selected="selected"':'' }>迟到</option>
-							<option value="早退" ${formStaffAttendance ne null && formStaffAttendance.attendanceResult eq '早退' ? 'selected="selected"':'' }>早退</option>
+							<option value="1" ${formStaffAttendance ne null && formStaffAttendance.attendanceResult eq '1' ? 'selected="selected"':'' }>按时</option>
+							<option value="2" ${formStaffAttendance ne null && formStaffAttendance.attendanceResult eq '2' ? 'selected="selected"':'' }>迟到</option>
+							<option value="3" ${formStaffAttendance ne null && formStaffAttendance.attendanceResult eq '3' ? 'selected="selected"':'' }>早退</option>
+							<option value="4" ${formStaffAttendance ne null && formStaffAttendance.attendanceResult eq '4' ? 'selected="selected"':'' }>迟到早退</option>
 						</select>
 					</td>
 					<td>
 						上班时间：<input type="text" class="date textInput" name="filterStart" value="<fmt:formatDate value="${formStaffAttendance.filterStart}" type="date" pattern="yyyy-MM-dd"/>" /> - <input name="filterEnd" type="text" class="date textInput" value="<fmt:formatDate value="${formStaffAttendance.filterEnd}" type="date" pattern="yyyy-MM-dd"/>" />
 					</td>
+					<td><input type="checkbox" value="1" name="exception" />异常数据</td>
 				</tr>
 			</table>
 			<div class="subBar">
@@ -102,9 +104,20 @@
 					<td><c:if test="${entity.workType eq '1'}">正常上班</c:if><c:if test="${entity.workType eq '2' }">调休加班</c:if><c:if test="${entity.workType eq '3' }">带薪加班</c:if><c:if test="${entity.workType eq '4' }">倍薪加班</c:if></td>
 					<td><c:if test="${entity.offtimeShour ne null && entity.offtimeSmin ne null}">${entity.offtimeShour}:${entity.offtimeSmin}</c:if> - <c:if test="${entity.offtimeEhour ne null && entity.offtimeEmin ne null}">${entity.offtimeEhour}:${entity.offtimeEmin}</c:if></td>
 					<td><c:if test="${entity.workStatus==0}">在岗</c:if><c:if test="${entity.workStatus==1}">出差</c:if><c:if test="${entity.workStatus==2}">请假</c:if><c:if test="${entity.workStatus==3}">旷工</c:if></td>
-					<td>${entity.staffBehalfName ne null ? entity.staffBehalfName : "-"}</td>
-					<td>${entity.attendanceResult ne null ? entity.attendanceResult : "-"}</td>
-					<td style="color:red">${entity.attendanceResult ne null && entity.attendanceResult eq '异常' ? entity.attendanceResult : ""}</td>
+					<td>${entity.staffBehalfName ne null ? entity.staffBehalfName:'-'}</td>
+					<td>
+					<c:if test="${entity.attendanceResult ne null}">
+						<c:choose>
+							<c:when test="${entity.attendanceResult eq '1'}">按时</c:when>
+							<c:when test="${entity.attendanceResult eq '2'}">迟到</c:when>
+							<c:when test="${entity.attendanceResult eq '3'}">早退</c:when>
+							<c:when test="${entity.attendanceResult eq '4'}">迟到早退</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</c:if>
+					<c:if test="${entity.attendanceResult eq null}">-</c:if>
+					</td>
+					<td style="color:red">${entity.exception ne null && entity.exception eq '1' ? entity.exception : "-"}</td>
 					<td><a href="app/admin/attendance/view.do?action=adminPageStaffAttendanceOnPunch&attendanceViewId.viewId=${entity.attendanceViewId.viewId}&attendanceViewId.origin=${entity.attendanceViewId.origin}" class="oplink" target="dialog" title="员工考勤-打卡" width="550" height="250">打卡</a></td>
 				    <td><a href="app/admin/attendance/view.do?action=adminPageStaffAttendanceOnTravel&attendanceViewId.viewId=${entity.attendanceViewId.viewId}&attendanceViewId.origin=${entity.attendanceViewId.origin}" class="oplink" target="dialog" title="员工考勤-出差安排" width="350" height="220" rel="admin_dutytravel-2">出差安排</a></td>
 					<td><a href="app/admin/attendance/view.do?action=adminPageStaffAttendanceOnLeave&attendanceViewId.viewId=${entity.attendanceViewId.viewId}&attendanceViewId.origin=${entity.attendanceViewId.origin}" class="oplink" target="dialog" title="员工考勤-请假" width="650" height="320" rel="admin_dutyleave-2">请假</a></td>
