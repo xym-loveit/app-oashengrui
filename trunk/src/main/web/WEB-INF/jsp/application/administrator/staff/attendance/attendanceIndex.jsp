@@ -41,6 +41,7 @@
 							<option value="0" ${formStaffAttendance ne null && formStaffAttendance.workStatus eq '0' ? 'selected="selected"':'' }>在岗</option>
 							<option value="1" ${formStaffAttendance ne null && formStaffAttendance.workStatus eq '1' ? 'selected="selected"':'' }>出差</option>
 							<option value="2" ${formStaffAttendance ne null && formStaffAttendance.workStatus eq '2' ? 'selected="selected"':'' }>请假</option>
+							<option value="3" ${formStaffAttendance ne null && formStaffAttendance.workStatus eq '3' ? 'selected="selected"':'' }>旷工</option>
 						</select>
 					</td>
 					<td>
@@ -50,7 +51,6 @@
 							<option value="按时" ${formStaffAttendance ne null && formStaffAttendance.attendanceResult eq '按时' ? 'selected="selected"':'' }>按时</option>
 							<option value="迟到" ${formStaffAttendance ne null && formStaffAttendance.attendanceResult eq '迟到' ? 'selected="selected"':'' }>迟到</option>
 							<option value="早退" ${formStaffAttendance ne null && formStaffAttendance.attendanceResult eq '早退' ? 'selected="selected"':'' }>早退</option>
-							<option value="旷工" ${formStaffAttendance ne null && formStaffAttendance.attendanceResult eq '旷工' ? 'selected="selected"':'' }>旷工</option>
 						</select>
 					</td>
 					<td>
@@ -104,7 +104,7 @@
 					<td><c:if test="${entity.workStatus==0}">在岗</c:if><c:if test="${entity.workStatus==1}">出差</c:if><c:if test="${entity.workStatus==2}">请假</c:if><c:if test="${entity.workStatus==3}">旷工</c:if></td>
 					<td>${entity.staffBehalfName ne null ? entity.staffBehalfName : "-"}</td>
 					<td>${entity.attendanceResult ne null ? entity.attendanceResult : "-"}</td>
-					<td></td>
+					<td style="color:red">${entity.attendanceResult ne null && entity.attendanceResult eq '异常' ? entity.attendanceResult : ""}</td>
 					<td><a href="app/admin/attendance/view.do?action=adminPageStaffAttendanceOnPunch&attendanceViewId.viewId=${entity.attendanceViewId.viewId}&attendanceViewId.origin=${entity.attendanceViewId.origin}" class="oplink" target="dialog" title="员工考勤-打卡" width="550" height="250">打卡</a></td>
 				    <td><a href="app/admin/attendance/view.do?action=adminPageStaffAttendanceOnTravel&attendanceViewId.viewId=${entity.attendanceViewId.viewId}&attendanceViewId.origin=${entity.attendanceViewId.origin}" class="oplink" target="dialog" title="员工考勤-出差安排" width="350" height="220" rel="admin_dutytravel-2">出差安排</a></td>
 					<td><a href="app/admin/attendance/view.do?action=adminPageStaffAttendanceOnLeave&attendanceViewId.viewId=${entity.attendanceViewId.viewId}&attendanceViewId.origin=${entity.attendanceViewId.origin}" class="oplink" target="dialog" title="员工考勤-请假" width="650" height="320" rel="admin_dutyleave-2">请假</a></td>
