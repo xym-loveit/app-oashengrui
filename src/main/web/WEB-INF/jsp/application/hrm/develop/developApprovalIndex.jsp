@@ -95,8 +95,8 @@
 			<div class="tabsHeader">
 				<div class="tabsHeaderContent">
 					<ul>
-						<li class="selected"><a href="app/hrm/develop.do?action=actionDevelopLoadRecords&finished" class="j-ajax" callback="after_switch(0)" paramRef="pagerForm, record_form"><span>审批结束</span></a></li>
-						<li class=""><a href="app/hrm/develop.do?action=actionDevelopLoadRecords" class="j-ajax" callback="after_switch(1)" paramRef="pagerForm, record_form"><span>审批中</span></a></li>
+						<li class="selected"><a href="app/hrm/develop.do?action=actionDevelopLoadRecords" class="j-ajax" callback="after_switch(1)" paramRef="pagerForm, record_form"><span>审批中</span></a></li>
+						<li class=""><a href="app/hrm/develop.do?action=actionDevelopLoadRecords&finished" class="j-ajax" callback="after_switch(0)" paramRef="pagerForm, record_form"><span>审批结束</span></a></li>
 					</ul>
 				</div>
 			</div>
