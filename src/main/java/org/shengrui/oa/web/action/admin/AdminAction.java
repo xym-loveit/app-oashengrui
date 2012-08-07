@@ -674,10 +674,10 @@ extends BaseAdminAction
 		try {
 			List<ModelAdminWorkArrange> list = this.serviceAdminWorkArrange.queryByCriteria(formWorkArrange);
 			int loop = 1;
-			String staffNames = "";
+			String staffNames = "[";
 			String staffIds = "";
 			for(ModelAdminWorkArrange entity : list){
-				staffNames+=entity.getStaffName();
+				staffNames+="{\"id\":\""+entity.getStaff().getId()+"\",\"empName\":\""+entity.getStaffName()+"\",\"empNo\":\""+entity.getStaff().getEmployee().getEmpNo()+"\"}";
 				staffIds+=entity.getStaff().getId();
 				if(loop!=list.size()){
 					staffNames+=",";
@@ -685,6 +685,7 @@ extends BaseAdminAction
 				}
 				loop++;
 			}
+			staffNames += "]";
 			request.setAttribute("staffNames", staffNames);
 			request.setAttribute("staffIds", staffIds);
 			//return ajaxPrint(response,sb.toString());
@@ -774,9 +775,14 @@ extends BaseAdminAction
 	{
 		String operation = request.getParameter("operations");
 		ModelAdminWorkArrange entity = (ModelAdminWorkArrange)form;
+		Map<String, List<String>> paramEmpIds = this.getAllRequestParameters(request, new String[] {"empid"});
 		if("remove".equals(operation)){
 			try {
-				this.serviceAdminWorkArrange.batchRemoveByCriteria(entity);
+				if (paramEmpIds != null && paramEmpIds.size() > 0)
+				{
+					List<String> empIds = paramEmpIds.get("empid");
+					this.serviceAdminWorkArrange.batchRemoveByCriteria(entity,empIds);
+				}
 			} catch (ServiceException e) {
 				// TODO Auto-generated catch block
 				return ajaxPrint(
@@ -792,7 +798,11 @@ extends BaseAdminAction
 			String newWorkTime = request.getParameter("newWorkTime");
 			entity.getWorkTime().setId(newWorkTime);
 			try {
-				this.serviceAdminWorkArrange.batchUpdateByCriteria(entity, newWorkDate);
+				if (paramEmpIds != null && paramEmpIds.size() > 0)
+				{
+					List<String> empIds = paramEmpIds.get("empid");
+					this.serviceAdminWorkArrange.batchUpdateByCriteria(entity, newWorkDate, empIds);
+				}
 			} catch (ServiceException e) {
 				// TODO Auto-generated catch block
 				return ajaxPrint(

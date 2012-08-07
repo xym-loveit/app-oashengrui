@@ -57,14 +57,14 @@ extends ServiceGeneric<ModelAdminWorkArrange>
 	 * @param criteria
 	 * @throws ServiceException
 	 */
-	public void batchRemoveByCriteria(ModelAdminWorkArrange criteria) throws ServiceException;
+	public void batchRemoveByCriteria(ModelAdminWorkArrange criteria,List<String> staffIds) throws ServiceException;
 	
 	/**
 	 * 批量更新
 	 * @param criteria
 	 * @throws ServiceException
 	 */
-	public void batchUpdateByCriteria(ModelAdminWorkArrange criteria,String day) throws ServiceException;
+	public void batchUpdateByCriteria(ModelAdminWorkArrange criteria,String day,List<String> staffIds) throws ServiceException;
 	
 	/**
 	 * 按校区批量导入模板

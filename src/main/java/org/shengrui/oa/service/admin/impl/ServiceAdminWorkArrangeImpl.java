@@ -95,7 +95,9 @@ extends ServiceGenericImpl<ModelAdminWorkArrange> implements ServiceAdminWorkArr
 		}
 		//System.out.println("entity:"+entity);
 		
-		criteria.addOrder(Order.desc("workDate"));
+		criteria.addOrder(Order.asc("workDate"));
+		criteria.addOrder(Order.asc("workTime"));
+		criteria.addOrder(Order.asc("staffName"));
 		
 		return criteria;
 	}
@@ -145,11 +147,23 @@ extends ServiceGenericImpl<ModelAdminWorkArrange> implements ServiceAdminWorkArr
 	}
 
 	@Override
-	public void batchRemoveByCriteria(ModelAdminWorkArrange criteria)
+	public void batchRemoveByCriteria(ModelAdminWorkArrange criteria,List<String> staffIds)
 			throws ServiceException {
 		// TODO Auto-generated method stub
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		String sql = "delete from app_admin_workarrange where work_date = '"+format.format(criteria.getWorkDate())+"' and work_time='"+criteria.getWorkTime().getId()+"' and district_id='"+criteria.getDistrictId()+"'";
+		String sql = "delete from app_admin_workarrange where work_date = '"+format.format(criteria.getWorkDate())+"' and work_time='"+criteria.getWorkTime().getId()+"' and district_id='"+criteria.getDistrictId()+"' and (";
+		if(staffIds !=null && staffIds.size()>0)
+		{
+			for(int i=0;i<staffIds.size();i++){
+				sql+="staff_id='"+staffIds.get(i)+"'";
+				if(i<staffIds.size()-1){
+					sql+=" or ";
+				}
+			}
+		}else{
+			sql+="staff_id=''";
+		}
+		sql+=")";
 		try {
 			this.daoWorkArrange.execUpdateByNativeSQL(sql);
 		} catch (DAOException e) {
@@ -159,12 +173,24 @@ extends ServiceGenericImpl<ModelAdminWorkArrange> implements ServiceAdminWorkArr
 	}
 
 	@Override
-	public void batchUpdateByCriteria(ModelAdminWorkArrange criteria,String day)
+	public void batchUpdateByCriteria(ModelAdminWorkArrange criteria,String day,List<String> staffIds)
 			throws ServiceException {
 		// TODO Auto-generated method stub
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		String sql ="update app_admin_workarrange set work_date='"+day+"',work_time='"+criteria.getWorkTime().getId()+"'"
-					+ " where work_date='"+format.format(criteria.getWorkDate())+"' and district_id="+criteria.getDistrictId();
+					+ " where work_date='"+format.format(criteria.getWorkDate())+"' and district_id="+criteria.getDistrictId()+" and (";
+		if(staffIds !=null && staffIds.size()>0)
+		{
+			for(int i=0;i<staffIds.size();i++){
+				sql+="staff_id='"+staffIds.get(i)+"'";
+				if(i<staffIds.size()-1){
+					sql+=" or ";
+				}
+			}
+		}else{
+			sql+="staff_id=''";
+		}
+		sql+=")";
 		try {
 			this.daoWorkArrange.execUpdateByNativeSQL(sql);
 		} catch (DAOException e) {
