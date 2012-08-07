@@ -21,6 +21,13 @@
 	td.finished {background-color: #ddd;}
 </style>
 
+<script>
+	function reload_entrypage() {
+		// 重新加载当前的navTab
+		navTab.reload(navTab.getCurrentTabUrl(), {navTabId: navTab.getCurrentTabId()});
+	}
+</script>
+
 <form id="pagerForm" method="post" action="app/hrm/entry.do?action=hrmPageEntryIndex">
 	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
 	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
@@ -142,7 +149,7 @@
 									<c:when test="${tm:ifGranted('_FUNCKEY_HRM_ENTRY_OP_QUALIFY')}">
 										<c:choose>
 											<c:when test="${entity.inspectStatus eq 0}">
-												<a class="oplink" href="app/hrm/entry.do?action=actionEntrySave&entryId=${entity.id}&op=qualified&state=1&empId=${entity.jobHireIssue.resume.employeeId}" target="ajaxToDo" title="您确定‘${entity.jobHireIssue.resume.fullName}’考察期已经结束并且通过考察吗?" mask="true" rel="hrm_entryqua_${entity.id}">通过</a>
+												<a class="oplink" href="app/hrm/entry.do?action=actionEntrySave&entryId=${entity.id}&op=qualified&state=1&empId=${entity.jobHireIssue.resume.employeeId}" target="ajaxToDo" title="您确定‘${entity.jobHireIssue.resume.fullName}’考察期已经结束并且通过考察吗?" mask="true" rel="hrm_entryqua_${entity.id}" callback="reload_entrypage()">通过</a>
 												&nbsp;&nbsp;
 												<a class="oplink" href="app/hrm/entry.do?action=dialogEntryFinalize&entryId=${entity.id}&op=qualified&state=2&empId=${entity.jobHireIssue.resume.employeeId}" target="dialog" title="面试记录‘${entity.jobHireIssue.resume.fullName}’" mask="true" rel="hrm_entryqua_${entity.id}" width="300" height="150">未通过</a></td>
 											</c:when>
