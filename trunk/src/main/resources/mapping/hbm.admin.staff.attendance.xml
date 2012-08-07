@@ -74,17 +74,8 @@
             <column name="attendance_result">
             </column>
         </property>
-        
-        <!--  many-to-one name="workType" class="org.shengrui.oa.model.admin.ModelAdminWorkType" fetch="select">
-            <column name="work_type" not-null="true">
-            </column>
-        </many-to-one-->
-        
-        <!--
-        <property name="workType" type="java.lang.Integer">
-            <column name="work_type" not-null="true">
-            </column>
-        </property>
-        -->
+		<property name="exception" type="java.lang.String">
+			<column name="exception"/>
+		</property>  
     </class>
 </hibernate-mapping>
