@@ -8,6 +8,30 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
+<script type="text/javascript">
+	$(function(){
+		var hours = "";
+		for(var i = 0 ; i < 24 ; i++)
+		{
+			if(i<10)
+			 	hours += "<option value='0"+i+"'>0"+i+"</option>";
+			 else
+				hours += "<option value='"+i+"'>"+i+"</option>";
+		}
+		$("#amh").html(hours);
+		$("#pmh").html(hours);
+		var minutes = "";
+		for(var i = 0 ; i < 60 ; i++)
+		{
+			if(i<10)
+				minutes += "<option value='0"+i+"'>0"+i+"</option>";
+			 else
+				minutes += "<option value='"+i+"'>"+i+"</option>";
+		}
+		$("#amm").html(minutes);
+		$("#pmm").html(minutes);
+	});
+</script>
 <!-- Body -->	
 <div class="pageContent">
 	<form onsubmit="return validateCallback(this, dialogAjaxDone);" action="app/admin/attendance/operation.do?action=actionPuchOnHand" method="post">
@@ -31,40 +55,13 @@
 				<tr>
 					<td>
 						<label>打卡：</label>
-						<select id="ph" class="combox" name="offtimeShour">
-							<option selected="selected" value="08">08</option>
-							<option value="09">09</option>
-							<option value="10">10</option>
-							<option value="20">20</option>
-							<option value="21">21</option>
-							<option value="22">22</option>
-						</select>
+						<select id="amh" class="combox" name="offtimeShour"></select>
 						<b class="symbol">：</b>
-						<select id="pm" class="combox" name="offtimeSmin">
-							<option selected="selected" value="01">01</option>
-							<option value="02">02</option>
-							<option value="03">03</option>
-							<option value="58">58</option>
-							<option value="59">59</option>
-						</select> 
+						<select id="amm" class="combox" name="offtimeSmin"></select> 
 						<b class="symbol">-</b>
-						<select id="th" class="combox" name="offtimeEhour">
-							<option value="08">08</option>
-							<option value="09">09</option>
-							<option value="10">10</option>
-							<option selected="selected" value="17">17</option>
-							<option value="21">21</option>
-							<option value="22">22</option>
-						</select>
+						<select id="pmh" class="combox" name="offtimeEhour"></select>
 						<b class="symbol">：</b>
-						<select id="tm" class="combox" name="offtimeEmin">
-							<option value="01">01</option>
-							<option value="02">02</option>
-							<option value="03">03</option>
-							<option selected="selected" value="40">40</option>
-							<option value="58">58</option>
-							<option value="59">59</option>
-						</select>
+						<select id="pmm" class="combox" name="offtimeEmin"></select>
 					</td>
 				</tr>
 			</table>
