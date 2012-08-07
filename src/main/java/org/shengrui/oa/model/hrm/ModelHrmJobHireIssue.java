@@ -59,7 +59,38 @@ extends ModelBase
 	/**
 	 * 面试结果
 	 */
-	private Map<String, Integer> interviewStates;
+	private Map<String, InterviewVO> interviewStates;
+	
+	
+	class InterviewVO 
+	{
+		private Integer interviewState;
+		
+		private Date interviewDate;
+		
+		public InterviewVO (Integer state, Date date)
+		{
+			this.interviewState = state;
+			this.interviewDate = date;
+		}
+		
+		public void setInterviewState(Integer interviewState)
+		{
+			this.interviewState = interviewState;
+		}
+		public Integer getInterviewState()
+		{
+			return interviewState;
+		}
+		public void setInterviewDate(Date interviewDate)
+		{
+			this.interviewDate = interviewDate;
+		}
+		public Date getInterviewDate()
+		{
+			return interviewDate;
+		}
+	}
 	
 	/**
 	 * The enumeration of job hire issue status
@@ -186,26 +217,49 @@ extends ModelBase
 	}
 	
 	/**
+	 * 获取当前面试环节的面试时间.
+	 * 
+	 * @return
+	 */
+	public Date getCurrentInterviewNodeDate()
+	{
+		if (this.interviews != null && this.interviews.size() > 0)
+		{
+			for (ModelHrmJobHireInterview interview : interviews)
+			{
+				if (interview.getInterviewStatus().equals(ModelHrmJobHireInterview.EInterviewState.ONGING.getValue()) ||
+						interview.getInterviewStatus().equals(ModelHrmJobHireInterview.EInterviewState.TODO.getValue()))
+				{
+					return interview.getInterviewDate();
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	/**
 	 * 获取每个面试环节的面试状态
 	 * 
 	 * @return
 	 */
-	public Map<String, Integer> getInterviewStates()
+	public Map<String, InterviewVO> getInterviewStates()
 	{
 		if (interviewStates == null && this.interviews != null && this.interviews.size() > 0)
 		{
-			interviewStates = new HashMap<String, Integer>();
+			interviewStates = new HashMap<String, InterviewVO>();
 			
 			for (ModelHrmJobHireInterview interview : interviews)
 			{
-				interviewStates.put(interview.getSessionSN().toString(), interview.getInterviewStatus());
+				interviewStates.put(interview.getSessionSN().toString(), 
+						new InterviewVO(interview.getInterviewStatus(), interview.getInterviewDate()));
 			}
 		}
 		
 		return interviewStates;
 	}
-
-	public void setInterviewStates(Map<String, Integer> interviewStates)
+	
+	public void setInterviewStates(Map<String, InterviewVO> interviewStates)
 	{
 		this.interviewStates = interviewStates;
 	}

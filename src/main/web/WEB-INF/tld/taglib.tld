@@ -70,6 +70,18 @@
 
 <function>
    <description>
+     date utility
+   </description>
+   <name>getIntervalSeconds</name>
+   <function-class>cn.trymore.core.jstl.JstlTagDate</function-class>
+   <function-signature>java.lang.Integer getIntervalSeconds(java.util.Date, java.util.Date)</function-signature>
+     <example>
+        name: ${ltag:getIntervalSeconds(start_date, end_date)}
+     </example>
+</function>
+
+<function>
+   <description>
      security access control
    </description>
    <name>ifGranted</name>
