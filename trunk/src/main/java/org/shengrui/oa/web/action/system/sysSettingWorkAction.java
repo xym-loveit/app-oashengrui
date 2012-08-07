@@ -373,7 +373,6 @@ public class sysSettingWorkAction extends sysSettingBaseAction {
         	 List<ModelWorkTemplate> list = this.serviceWorkTemplate.getListByCriteria(entity);
         	 if(list!=null && list.size()>0){
         		 int rows = this.serviceWorkTemplate.enableWorkTemplate(id);
-        		 System.out.println(rows);
 	            if ( rows > 0) {
 	               // 保存成功后, Dialog进行关闭
 	               return ajaxPrint(
@@ -404,7 +403,6 @@ public class sysSettingWorkAction extends sysSettingBaseAction {
    public ActionForward pageWorkBaseIndex(ActionMapping mapping,
          ActionForm form, HttpServletRequest request,
          HttpServletResponse response) {
-      System.out.println("进入工作基础设置");
       // 获得校区信息
       List<ModelSchoolDistrict> districts = this.getAllDistricts();
       request.setAttribute("districts", districts);

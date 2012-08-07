@@ -59,7 +59,6 @@ extends sysSettingBaseAction
    public ActionForward pageWorkBaseIndex (ActionMapping mapping, ActionForm form,
          HttpServletRequest request, HttpServletResponse response) 
    {
-      System.out.println("进入工作基础设置");
       //获得校区信息
         List<ModelSchoolDistrict> districts=this.getAllDistricts();
         request.setAttribute("districts", districts);
@@ -243,14 +242,12 @@ extends sysSettingBaseAction
 			HttpServletRequest request, HttpServletResponse response) throws ServiceException 
 	{
 		String districtId = request.getParameter("districtId");
-		System.out.println(districtId);
 		if (UtilString.isNotEmpty(districtId))
 		{
 			ModelWorkTemplate enabledTemplate = this.serviceWorkTemplate.getEnabledWorkTemplate(districtId);
 			String templateId = "-1";
 			if(enabledTemplate!=null && enabledTemplate.getTemplateId()!=null)
 				templateId = enabledTemplate.getTemplateId();
-			System.out.println(districtId+"\t"+templateId);
 			List<ModelBaseWorkTime> workTimes = this.serviceBaseWorkTime.getDayWorkTimeByDistrictIdAndTemplateId(districtId, templateId);
 			if (workTimes != null)
 			{
@@ -267,7 +264,6 @@ extends sysSettingBaseAction
 					loop++;
 				}
 				sb.append("]");
-				System.out.println(sb.toString());
 				return ajaxPrint(response, sb.toString());
 			}
 		}
