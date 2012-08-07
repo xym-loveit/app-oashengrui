@@ -113,7 +113,6 @@ ${tm:fileRestore(jobHire['attachFiles'])}
 						<c:choose>
 							<c:when test="${op eq null || op ne 'view'}">
 								<select class="combox" name="jobHireDistrictId" id="combox_district" style="width:120px" ref="combox_dept" refUrl="app/base.do?action=actionLoadDepartmentByOrg&districtId={value}">
-									<option value="">请选择校区</option>
 									<logic:present name="districts">
 										<logic:iterate name="districts" id="district">
 											<option value="${district.id}" ${jobHire ne null && jobHire.jobHireDistrict ne null && jobHire.jobHireDistrict.id eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
@@ -130,8 +129,7 @@ ${tm:fileRestore(jobHire['attachFiles'])}
 					<td style="padding: 5px;">
 						<c:choose>
 							<c:when test="${op eq null || op ne 'view'}">
-								<select class="combox" name="jobHireDepartmentId" id="combox_dept" defOPKey="请选择部门" defOPVal="" style="width:120px">
-									<option value="">请选择部门</option>
+								<select class="combox" name="jobHireDepartmentId" id="combox_dept" style="width:120px">
 									<logic:present name="departments">
 										<logic:iterate name="departments" id="entity">
 											<option value="${entity.id}" ${jobHire ne null && jobHire.jobHireDepartment ne null && jobHire.jobHireDepartment.id eq entity.id ? 'selected="selected"' : ''}>${entity.depName}</option>

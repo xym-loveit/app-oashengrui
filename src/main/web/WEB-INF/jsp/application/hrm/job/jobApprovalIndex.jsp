@@ -16,14 +16,14 @@
 </style>
 
 
-<form id="pagerForm" method="post" action="app/hrm/hire.do?action=hrmJobIndex">
+<form id="pagerForm" method="post" action="app/hrm/hire.do?action=hrmPageJobApprovalIndex">
 	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
 	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
 </form>
 
 <!-- SearchBar -->
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="app/hrm.do?action=hrmPageJobApprovalIndex" method="post" id="searchForm" rel="pagerForm">
+	<form onsubmit="return navTabSearch(this);" action="app/hrm/hire.do?action=hrmPageJobApprovalIndex" method="post" id="searchForm" rel="pagerForm">
 		<div class="searchBar">
 			<table class="searchContent">
 				<tr>
@@ -122,26 +122,28 @@
 						<td>${entity.status eq 0 ? '待审批' : (entity.status eq 1 ? '审核通过' : (entity.status eq 2 ? '审核退回' : '未知'))}</td>
 						<td>${entity.status eq 0 ? '待审批' : (entity.status eq 1 ? '审核通过' : (entity.status eq 2 ? '审核退回' : '未知'))}</td>
 						-->
-						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}" target="dialog" title="岗位详细" width="930" height="420">详细</a></td>
+						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}&op=view" target="dialog" title="岗位详细" width="930" height="420">详细</a></td>
 						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}" target="dialog" title="岗位详细" width="930" height="420">审批</a></td>
 					</tr>
 				</logic:iterate>
 			</logic:present>
 		</tbody>
 	</table>
+	
+	<!-- Pagination -->
 	<div class="panelBar">
 		<div class="pages">
 			<span>显示</span>
 			<select class="combox" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
-				<option value="20">20</option>
-				<option value="50">50</option>
-				<option value="100">100</option>
-				<option value="200">200</option>
+				<option value="20" ${pagingBean ne null && pagingBean.pageSize eq 20 ? 'selected="selected"' : ''}>20</option>
+				<option value="50" ${pagingBean ne null && pagingBean.pageSize eq 50 ? 'selected="selected"' : ''}>50</option>
+				<option value="100" ${pagingBean ne null && pagingBean.pageSize eq 100 ? 'selected="selected"' : ''}>100</option>
+				<option value="200" ${pagingBean ne null && pagingBean.pageSize eq 200 ? 'selected="selected"' : ''}>200</option>
 			</select>
-			<span>条，共${totalCount}条</span>
+			<span>条，共${pagingBean ne null ? pagingBean.totalItems : 0}条</span>
 		</div>
 		
-		<div class="pagination" targetType="navTab" totalCount="200" numPerPage="20" pageNumShown="10" currentPage="1"></div>
+		<div class="pagination" targetType="navTab" totalCount="${pagingBean ne null ? pagingBean.totalItems : 0}" numPerPage="${pagingBean ne null ? pagingBean.pageSize : 20}" pageNumShown="${pagingBean ne null ? pagingBean.pageNumShown : 10}" currentPage="${pagingBean ne null ? pagingBean.currentPage : 1}"></div>
 
 	</div>
 		
