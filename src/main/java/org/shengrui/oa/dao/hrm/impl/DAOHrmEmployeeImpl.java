@@ -28,6 +28,10 @@ extends DAOGenericImpl<ModelHrmEmployee> implements DAOHrmEmployee
 		{
 			criteria.add(Restrictions.like("empName", fullName, MatchMode.ANYWHERE));
 		}
+		
+		// 过滤被删除的员工档案
+		criteria.add(Restrictions.or(Restrictions.eq("status", "Y"), Restrictions.isNull("status")));
+		
 		return this.getListByCriteria(criteria);
 	}
 
@@ -36,6 +40,10 @@ extends DAOGenericImpl<ModelHrmEmployee> implements DAOHrmEmployee
 			throws DAOException {
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployee.class);
 		criteria.add(Restrictions.eq("empNo", empNo));
+		
+		// 过滤被删除的员工档案
+		criteria.add(Restrictions.or(Restrictions.eq("status", "Y"), Restrictions.isNull("status")));
+		
 		@SuppressWarnings("unchecked")
 		List<ModelHrmEmployee> list = getHibernateTemplate().findByCriteria(criteria);
 		return list != null && list.size() > 0 ? list.get(0) : null;

@@ -104,6 +104,11 @@ extends ServiceGenericImpl<ModelAppUser> implements ServiceAppUser
 			}
 		}
 		
+		// 过滤已删除的用户账号...
+		criteria.add(Restrictions.or(
+				Restrictions.eq("delFlag", ModelAppUser.FLAG_UNDEL), 
+				Restrictions.isNull("delFlag")));
+		
 		return criteria;
 	}
 	

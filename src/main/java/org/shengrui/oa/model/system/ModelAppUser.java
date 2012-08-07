@@ -30,8 +30,18 @@ import cn.trymore.core.util.UtilString;
 public class ModelAppUser
 extends ModelBase implements UserDetails
 {
-
+	
 	private static final long serialVersionUID = 6633139098998882031L;
+	
+	/**
+	 * 已删除标志
+	 */
+	public static final Integer FLAG_DEL = Integer.valueOf(1);
+	
+	/**
+	 * 未删除标志
+	 */
+	public static final Integer FLAG_UNDEL = Integer.valueOf(0);
 	
 	/**
 	 * 超级用户ID
@@ -102,6 +112,11 @@ extends ModelBase implements UserDetails
 	 */
 	@Expose
 	protected Integer status;
+	
+	/**
+	 * 删除标记 (1=已删除, 0=未删除)
+	 */
+	protected Integer delFlag = FLAG_UNDEL;
 	
 	/**
 	 * 最后登陆IP
@@ -718,5 +733,15 @@ extends ModelBase implements UserDetails
 	public String getDistrictId()
 	{
 		return districtId;
+	}
+	
+	public Integer getDelFlag()
+	{
+		return delFlag;
+	}
+
+	public void setDelFlag(Integer delFlag)
+	{
+		this.delFlag = delFlag;
 	}
 }
