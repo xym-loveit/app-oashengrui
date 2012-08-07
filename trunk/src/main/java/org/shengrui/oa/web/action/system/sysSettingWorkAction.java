@@ -234,8 +234,9 @@ public class sysSettingWorkAction extends sysSettingBaseAction {
             List<ModelBaseWorkTime> workTimes = this.serviceBaseWorkTime
                   .getDayWorkTimeByDistrictIdAndTemplateId(districtId,
                         templateId);
-            List<ModelBaseWorkContent> workContents = this.serviceBaseWorkContent
-                  .getAll();
+            ModelBaseWorkContent entity = new ModelBaseWorkContent();
+    		entity.getBaseWorkDistrict().setId(request.getParameter("districtId"));
+            List<ModelBaseWorkContent> workContents = this.serviceBaseWorkContent.getListByCriteria(entity);
             request.setAttribute("workTimes", workTimes);
             request.setAttribute("workContents", workContents);
             ModelSchoolDistrict district = this.serviceSchoolDistrict
