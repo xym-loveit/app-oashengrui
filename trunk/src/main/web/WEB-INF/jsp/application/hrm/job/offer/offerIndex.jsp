@@ -7,6 +7,7 @@
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn"%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <style>
 	label {width: auto;}
@@ -17,6 +18,7 @@
 	.opdisabled {text-decoration: line-through; color: #DDD; line-height: 21px;}
 	td.ongoing {background-color: #99FF99; color: #333;}
 	td.finished {background-color: #ddd;}
+	td.todo {background-color: #FF7300;}
 </style>
 
 <script>
@@ -91,25 +93,34 @@
 							<td class="flag-itv${entity['interviewStates']['1']}">
 								<c:choose>
 									<c:when test="${entity['interviewStates'] ne null &&  entity['interviewStates']['1'] ne null}">
-										${entity['interviewStates']['1'] eq 0 ? '待面试' : (entity['interviewStates']['1'] eq 1 ? '面试' : (entity['interviewStates']['1'] eq 2 ? '通过' : (entity['interviewStates']['1'] eq 3 ? '淘汰' : (entity['interviewStates']['1'] eq 4 ? '未到' : ''))))}
+										${entity['interviewStates']['1']['interviewState'] eq 0 ? '待面试' : (entity['interviewStates']['1']['interviewState'] eq 1 ? '面试' : (entity['interviewStates']['1']['interviewState'] eq 2 ? '通过' : (entity['interviewStates']['1']['interviewState'] eq 3 ? '淘汰' : (entity['interviewStates']['1']['interviewState'] eq 4 ? '未到' : ''))))}
 									</c:when>
 								</c:choose>
 							</td>
 							<td class="flag-itv${entity['interviewStates']['2']}">
 								<c:choose>
 									<c:when test="${entity['interviewStates'] ne null &&  entity['interviewStates']['2'] ne null}">
-										${entity['interviewStates']['2'] eq 0 ? '待面试' : (entity['interviewStates']['2'] eq 1 ? '面试' : (entity['interviewStates']['2'] eq 2 ? '通过' : (entity['interviewStates']['2'] eq 3 ? '淘汰' : (entity['interviewStates']['2'] eq 4 ? '未到' : ''))))}
+										${entity['interviewStates']['2']['interviewState'] eq 0 ? '待面试' : (entity['interviewStates']['2']['interviewState'] eq 1 ? '面试' : (entity['interviewStates']['2']['interviewState'] eq 2 ? '通过' : (entity['interviewStates']['2']['interviewState'] eq 3 ? '淘汰' : (entity['interviewStates']['2']['interviewState'] eq 4 ? '未到' : ''))))}
 									</c:when>
 								</c:choose>
 							</td>
 							<td class="flag-itv${entity['interviewStates']['3']}">
 								<c:choose>
 									<c:when test="${entity['interviewStates'] ne null &&  entity['interviewStates']['3'] ne null}">
-										${entity['interviewStates']['3'] eq 0 ? '待面试' : (entity['interviewStates']['3'] eq 1 ? '面试' : (entity['interviewStates']['3'] eq 2 ? '通过' : (entity['interviewStates']['3'] eq 3 ? '淘汰' : (entity['interviewStates']['3'] eq 4 ? '未到' : ''))))}
+										${entity['interviewStates']['3']['interviewState'] eq 0 ? '待面试' : (entity['interviewStates']['3']['interviewState'] eq 1 ? '面试' : (entity['interviewStates']['3']['interviewState'] eq 2 ? '通过' : (entity['interviewStates']['3']['interviewState'] eq 3 ? '淘汰' : (entity['interviewStates']['3']['interviewState'] eq 4 ? '未到' : ''))))}
 									</c:when>
 								</c:choose>
 							</td>
-							<td class="${entity.currentStatus eq 3 ? 'ongoing' : (entity.currentStatus eq 4 ? 'finished' : '')}">${entity.currentStatus eq 0 ? '待处理' : (entity.currentStatus eq 1 ? '待安排' : (entity.currentStatus eq 2 ? '已安排' : ( entity.currentStatus eq 3 ? '面试中' : (entity.currentStatus eq 4 ? '已结束' : ''))))}</td>
+							<td class="${entity.currentInterviewNodeDate ne null && tm:getIntervalSeconds(today, entity.currentInterviewNodeDate) gt 0 ? 'todo' : (entity.currentStatus eq 3 ? 'ongoing' : (entity.currentStatus eq 4 ? 'finished' : ''))}">
+								<c:choose>
+									<c:when test="${entity.currentInterviewNodeDate ne null && tm:getIntervalSeconds(today, entity.currentInterviewNodeDate) gt 0}">
+										待面试
+									</c:when>
+									<c:otherwise>
+										${entity.currentStatus eq 0 ? '待处理' : (entity.currentStatus eq 1 ? '待安排' : (entity.currentStatus eq 2 ? '已安排' : ( entity.currentStatus eq 3 ? '面试中' : (entity.currentStatus eq 4 ? '已结束' : ''))))}
+									</c:otherwise>
+								</c:choose>
+							</td>
 							<td>${entity.finalResult ne null ? (entity.finalResult eq 1 ? '录用' : (entity.finalResult eq 2 ? '淘汰' : (entity.finalResult eq 3 ? '未面试' : '未知'))) : '---'}</td>
 							<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobResume&resumeId=${entity.resume.id}&op=view" target="dialog" title="简历信息‘${entity.resume.fullName}’" width="900" height="500" rel="hrm_resumeview_${entity.id}" mask="true" rel="hrm_resumedetail_${entity.id}">简历信息</a></td>
 							<td><a class="oplink" href="app/hrm/hire/interview.do?action=hrmPageJobOfferInterviewIndex&issueId=${entity.id}" target="dialog" title="面试记录‘${entity.resume.fullName}’" mask="true" rel="hrm_interviewdetail_${entity.id}">面试记录</a></td>

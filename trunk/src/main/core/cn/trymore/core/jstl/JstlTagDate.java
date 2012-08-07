@@ -28,4 +28,23 @@ public class JstlTagDate
 		//根据毫秒数计算间隔天数
 		return (int)(ei/(1000*60*60*24));
 	}
+	
+	/**
+	 * 获取时间间隔秒数
+	 * 
+	 * @param startday
+	 * @param endday
+	 * @return
+	 */
+	public static Integer getIntervalSeconds (Date srcTime, Date dstTime)
+	{
+		//分别得到两个时间的毫秒数
+		long sl=srcTime.getTime();
+		long el=dstTime.getTime();
+	
+		long ei=el-sl;
+		
+		//根据毫秒数计算间隔秒数
+		return (int)(ei/(1000));
+	}
 }

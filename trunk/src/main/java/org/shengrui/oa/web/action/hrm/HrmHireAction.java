@@ -592,6 +592,8 @@ extends BaseHrmAction
 					// 输出分页信息至客户端
 					outWritePagination(request, pagingBean, jobHireIssues);
 					
+					request.setAttribute("today", new Date());
+					
 					return mapping.findForward("hrm.page.job.offer.index");
 				}
 				else
