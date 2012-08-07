@@ -1126,13 +1126,13 @@ extends BaseAdminAction
 		String offETime = formInfo.getOfftimeEhour()+":"+formInfo.getOfftimeEmin();
 		String[] workTime = formInfo.getWorkTime().split("-");
 		if(UtilDateTime.compareTime(offSTime,workTime[0],"HH:mm") && UtilDateTime.compareTime(offETime,workTime[1],"HH:mm")){
-			formInfo.setAttendanceResult("早退");
+			formInfo.setAttendanceResult("3");
 		}else if(!UtilDateTime.compareTime(offSTime,workTime[0],"HH:mm") && !UtilDateTime.compareTime(offETime,workTime[1],"HH:mm")){
-			formInfo.setAttendanceResult("迟到");
+			formInfo.setAttendanceResult("2");
 		}else if(!UtilDateTime.compareTime(offSTime,workTime[0],"HH:mm") && UtilDateTime.compareTime(offETime,workTime[1],"HH:mm")){
-			formInfo.setAttendanceResult("迟到早退");
+			formInfo.setAttendanceResult("4");
 		}else{
-			formInfo.setAttendanceResult("按时");
+			formInfo.setAttendanceResult("1");
 		}
 		ModelStaffAttendance entity = null;
 		try {
@@ -1188,6 +1188,7 @@ extends BaseAdminAction
 	{
 		ModelStaffAttendance formInfo = (ModelStaffAttendance)form;
 		formInfo.setWorkStatus("1");
+		formInfo.setAttendanceResult(null);
 		ModelStaffAttendance entity = null;
 		try {
 			entity = formInfo;
@@ -1244,6 +1245,7 @@ extends BaseAdminAction
 		formInfo.setStaffBehalfId(request.getParameter("emp.id"));
 		formInfo.setStaffBehalfName(request.getParameter("emp.fullName"));
 		formInfo.setWorkStatus("2");
+		formInfo.setAttendanceResult(null);
 		ModelStaffAttendance entity = null;
 		try {
 			entity = formInfo;
@@ -1300,7 +1302,7 @@ extends BaseAdminAction
 		formInfo.setStaffBehalfId(request.getParameter("emp.id"));
 		formInfo.setStaffBehalfName(request.getParameter("emp.fullName"));
 		formInfo.setWorkStatus("3");
-		formInfo.setAttendanceResult("旷工");
+		formInfo.setAttendanceResult(null);
 		ModelStaffAttendance entity = null;
 		try {
 			entity = formInfo;

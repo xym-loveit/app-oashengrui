@@ -110,6 +110,22 @@ public class ModelStaffAttendance extends ModelBase {
 	@Expose
 	protected String attendanceResult;
 	
+	protected String exception;
+	
+	/**
+	 * @return the exception
+	 */
+	public String getException() {
+		return exception;
+	}
+
+	/**
+	 * @param exception the exception to set
+	 */
+	public void setException(String exception) {
+		this.exception = exception;
+	}
+
 	/**
 	 * 用于查询的临时变量
 	 */

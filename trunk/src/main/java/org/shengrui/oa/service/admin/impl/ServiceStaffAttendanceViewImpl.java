@@ -93,6 +93,10 @@ public class ServiceStaffAttendanceViewImpl extends ServiceGenericImpl<ModelStaf
 			{
 				criteria.add(Restrictions.eq("attendanceResult", entity.getAttendanceResult()));
 			}
+			if(entity.getException() != null && "1".equals(entity.getException()))
+			{
+				criteria.add(Restrictions.eq("exception", entity.getException()));
+			}
 		}
 		criteria.addOrder(Order.asc("workDate"));
 		criteria.addOrder(Order.asc("workTime"));
