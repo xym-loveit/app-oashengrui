@@ -22,6 +22,13 @@
 	td.finished {background-color: #ddd;}
 </style>
 
+<script>
+	function reload_empDocPage() {
+		// 重新加载当前的navTab
+		navTab.reload(navTab.getCurrentTabUrl(), {navTabId: navTab.getCurrentTabId()});
+	}
+</script>
+
 <form id="pagerForm" method="post" action="app/hrm/employee.do?action=hrmEmployeeDocIndex">
 	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
 	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
@@ -163,7 +170,7 @@
 							<td>
 								<c:choose>
 									<c:when test="${tm:ifGranted('_FUNCKEY_HRM_EMPLOYEE_REMOVE')}">
-										<a class="oplink" href="app/hrm/employee.do?action=actionEmployeeDelete&id=${entity.id}" target="ajaxTodo" title="确定要删除吗?">删除</a>
+										<a class="oplink" href="app/hrm/employee.do?action=actionEmployeeDelete&id=${entity.id}" callback="reload_empDocPage()" target="ajaxTodo" title="确定要删除吗?">删除</a>
 									</c:when>
 									<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
 								</c:choose>

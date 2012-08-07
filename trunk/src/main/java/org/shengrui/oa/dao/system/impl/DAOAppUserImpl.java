@@ -38,6 +38,11 @@ extends DAOGenericImpl<ModelAppUser> implements DAOAppUser, UserDetailsService
 			criteria.add(Restrictions.eq("username", userName));
 		}
 		
+		// 过滤已删除的用户账号...
+		criteria.add(Restrictions.or(
+				Restrictions.eq("delFlag", ModelAppUser.FLAG_UNDEL), 
+				Restrictions.isNull("delFlag")));
+		
 		List<ModelAppUser> result = this.getListByCriteria(criteria);
 		
 		return result != null && result.size() > 0 ? result.get(0) : null;
@@ -55,6 +60,12 @@ extends DAOGenericImpl<ModelAppUser> implements DAOAppUser, UserDetailsService
 		{
 			criteria.add(Restrictions.like("fullName", fullName, MatchMode.ANYWHERE));
 		}
+		
+		// 过滤已删除的用户账号...
+		criteria.add(Restrictions.or(
+				Restrictions.eq("delFlag", ModelAppUser.FLAG_UNDEL), 
+				Restrictions.isNull("delFlag")));
+		
 		return this.getListByCriteria(criteria);
 	}
 	
@@ -77,13 +88,22 @@ extends DAOGenericImpl<ModelAppUser> implements DAOAppUser, UserDetailsService
 		
 		return null;
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.dao.system.DAOAppUser#getPasswordByUserName(java.lang.String)
+	 */
 	@Override
 	public ModelAppUser getPasswordByUserName(String userName) throws DAOException
 	{
-		// TODO Auto-generated method stub
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelAppUser.class);
 		criteria.add(Restrictions.eq("username", userName));
+		
+		// 过滤已删除的用户账号...
+		criteria.add(Restrictions.or(
+				Restrictions.eq("delFlag", ModelAppUser.FLAG_UNDEL), 
+				Restrictions.isNull("delFlag")));
+		
 		@SuppressWarnings("unchecked")
 		List<ModelAppUser> list = getHibernateTemplate().findByCriteria(criteria);
 		return list != null && list.size() > 0 ? list.get(0) : null;

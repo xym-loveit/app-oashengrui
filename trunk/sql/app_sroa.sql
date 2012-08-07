@@ -3071,7 +3071,7 @@ ALTER TABLE `app_process_definition`
 ALTER TABLE `app_process_task`
   ADD CONSTRAINT `app_process_task_ibfk_1` FOREIGN KEY (`def_id`) REFERENCES `app_process_definition` (`def_id`) ON DELETE CASCADE;
 
-ALTER TABLE `app_user` ADD `del_flag` TINYINT NULL DEFAULT '1' COMMENT '删除标记, 0=删除, 1=未删除' AFTER `status` 
+ALTER TABLE `app_user` ADD `del_flag` TINYINT NULL DEFAULT '0' COMMENT '删除标记, 1=已删除, 0=未删除' AFTER `status` 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

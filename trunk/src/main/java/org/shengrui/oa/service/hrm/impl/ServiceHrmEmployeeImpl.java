@@ -38,20 +38,6 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 		this.daoHrmEmployee = dao;
 	}
 	
-	/**
-	 * 
-	 * @param entity
-	 * @return
-	 */
-	protected DetachedCriteria getCriteria (ModelHrmEmployee entity)
-	{
-		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployee.class);
-		
-		// TODO Criteria conditions needed here.
-		
-		return criteria;
-	}
-	
 	
 	/*
 	 * (non-Javadoc)
@@ -132,7 +118,8 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 			}
 		}
 		
-		// criteria.add(Restrictions.eq("status", "Y"));
+		// 过滤被删除的员工档案
+		criteria.add(Restrictions.or(Restrictions.eq("status", "Y"), Restrictions.isNull("status")));
 		
 		return criteria;
 	}
@@ -161,6 +148,9 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 			}
 		}
 		
+		// 过滤被删除的员工档案
+		criteria.add(Restrictions.or(Restrictions.eq("status", "Y"), Restrictions.isNull("status")));
+		
 		try 
 		{
 			return this.daoHrmEmployee.getListByCriteria(criteria);
@@ -183,6 +173,9 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 		
 		criteria.createCriteria("employeeDistrict").add(Restrictions.eq("id", districtId));
 		criteria.createCriteria("employeeDepartment").add(Restrictions.eq("id", depId));
+		
+		// 过滤被删除的员工档案
+		criteria.add(Restrictions.or(Restrictions.eq("status", "Y"), Restrictions.isNull("status")));
 		
 		try 
 		{

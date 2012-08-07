@@ -274,6 +274,15 @@ extends BaseHrmAction
 					employeeInfo.setStatus("N");
 					this.serviceHrmEmployee.save(employeeInfo);
 					
+					// 设置登录用户为删除状态...
+					ModelAppUser account = 
+						this.serviceAppUser.findByUserName(employeeInfo.getEmpNo());
+					if (account != null)
+					{
+						account.setDelFlag(ModelAppUser.FLAG_DEL);
+						this.serviceAppUser.save(account);
+					}
+					
 					return ajaxPrint(response, 
 							getSuccessCallback("员工档案删除成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 				}
