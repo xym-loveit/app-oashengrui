@@ -82,8 +82,11 @@
 					<td></td>
 					<td></td>
 			    </tr>
-				<tr id="staffNames">
-					<%@ include file="../data/staffNames.jsp" %>
+				<tr>
+					<td>工作人员:</td>
+					<td colspan="4" id="staffNames">
+						<%@ include file="../data/staffNames.jsp" %>
+					</td>
 				</tr>
 				<tr>
 					<td colspan="5"><input type="radio" name="operations" value="remove" onclick="removeRequire()" />不安排工作</td>
