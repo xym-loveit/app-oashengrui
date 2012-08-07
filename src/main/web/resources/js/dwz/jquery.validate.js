@@ -190,6 +190,12 @@ $.extend($.validator, {
 		highlight: function(element, errorClass, validClass) {
 			if (element.type === 'radio') {
 				this.findByName(element.name).addClass(errorClass).removeClass(validClass);
+			} if (element.nodeName == "SELECT") {
+				var ele_node = this.findByName(element.name);
+				var ele_root = $(ele_node).parent().parent();
+				if (ele_root.size() > 0 && ele_root.hasClass('combox')) {
+					ele_root.addClass('combox-'+errorClass);
+				}
 			} else {
 				$(element).addClass(errorClass).removeClass(validClass);
 			}
@@ -197,6 +203,12 @@ $.extend($.validator, {
 		unhighlight: function(element, errorClass, validClass) {
 			if (element.type === 'radio') {
 				this.findByName(element.name).removeClass(errorClass).addClass(validClass);
+			} if (element.nodeName == "SELECT") {
+				var ele_node = this.findByName(element.name);
+				var ele_root = $(ele_node).parent().parent();
+				if (ele_root.size() > 0 && ele_root.hasClass('combox-'+errorClass)) {
+					ele_root.removeClass('combox-'+errorClass);
+				}
 			} else {
 				$(element).removeClass(errorClass).addClass(validClass);
 			}
