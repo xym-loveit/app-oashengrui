@@ -1681,6 +1681,55 @@ CREATE TABLE `app_process_task` (
 -- ----------------------------
 -- Records of app_process_task
 -- ----------------------------
+INSERT INTO `app_process_task` VALUES ('1', '18', null, null, null, '1', null, '总经办', '副总经理', null, null, null, '15', '13', null, '4');
+INSERT INTO `app_process_task` VALUES ('2', '5', null, null, null, '1', null, '总经办', '副总经理', null, null, null, '15', '13', null, '4');
+INSERT INTO `app_process_task` VALUES ('3', '4', null, null, null, '1', null, '总经办', '副总经理', null, null, null, '15', '13', null, '4');
+INSERT INTO `app_process_task` VALUES ('4', '19', null, null, null, '1', null, '总经办', '副总经理', null, null, null, '15', '13', null, '4');
+INSERT INTO `app_process_task` VALUES ('6', '20', null, null, null, '1', null, '总经办', '副总经理', null, null, null, '15', '13', null, '4');
+INSERT INTO `app_process_task` VALUES ('7', '21', null, null, null, '1', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('8', '22', null, null, null, '1', null, '总监室', '校长', null, null, null, '18', '27', null, '2');
+INSERT INTO `app_process_task` VALUES ('9', '23', null, null, null, '1', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('10', '24', null, null, null, '1', null, '人资部', '人资总监', null, null, null, '26', '46', null, '4');
+INSERT INTO `app_process_task` VALUES ('11', '24', null, null, null, '2', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('12', '25', null, null, null, '1', null, '总监室', '校长', null, null, null, '18', '27', null, '2');
+INSERT INTO `app_process_task` VALUES ('13', '26', null, null, null, '1', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('14', '27', null, null, null, '1', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('15', '27', null, null, null, '2', null, '总监室', '校长', null, null, null, '18', '27', null, '5');
+INSERT INTO `app_process_task` VALUES ('16', '28', null, null, null, '1', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('17', '29', null, null, null, '1', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('18', '30', null, null, null, '1', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('19', '31', null, null, null, '1', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('20', '32', null, null, null, '1', null, '总经办', '副总经理', null, null, null, '15', '13', null, '4');
+INSERT INTO `app_process_task` VALUES ('21', '33', null, null, null, '1', null, '总经办', '副总经理', null, null, null, '15', '13', null, '4');
+INSERT INTO `app_process_task` VALUES ('22', '33', null, null, null, '2', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('23', '34', null, null, null, '1', null, '总监室', '校长', null, null, null, '18', '27', null, '2');
+INSERT INTO `app_process_task` VALUES ('24', '35', null, null, null, '1', null, '总监室', '校长', null, null, null, '18', '27', null, '2');
+INSERT INTO `app_process_task` VALUES ('25', '35', null, null, null, '2', null, '总监室', '校长', null, null, null, '18', '27', null, '5');
+INSERT INTO `app_process_task` VALUES ('26', '36', null, null, null, '1', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('27', '37', null, null, null, '1', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('28', '38', null, null, null, '1', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('29', '39', null, null, null, '1', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('30', '40', null, null, null, '1', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('31', '41', null, null, null, '1', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('32', '42', null, null, null, '1', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('33', '43', null, null, null, '1', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('34', '44', null, null, null, '1', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('35', '45', null, null, null, '1', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('36', '46', null, null, null, '1', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('37', '47', null, null, null, '1', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('38', '48', null, null, null, '1', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('39', '49', null, null, null, '1', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('40', '50', null, null, null, '1', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('41', '3', null, null, null, '1', null, '总经办', '副总经理', null, null, null, '15', '13', null, '4');
+INSERT INTO `app_process_task` VALUES ('42', '3', null, null, null, '2', null, '财务部', '财务总监', null, null, null, '17', '39', null, '4');
+INSERT INTO `app_process_task` VALUES ('43', '2', null, null, null, '1', null, '总经办', '副总经理', null, null, null, '15', '13', null, '4');
+INSERT INTO `app_process_task` VALUES ('44', '1', null, null, null, '1', null, '总经办', '副总经理', null, null, null, '15', '13', null, '4');
+INSERT INTO `app_process_task` VALUES ('45', '53', null, null, null, '1', null, '总经办', '副总经理', null, null, null, '15', '13', null, '4');
+INSERT INTO `app_process_task` VALUES ('46', '52', null, null, null, '1', null, '总经办', '总经理', null, null, null, '15', '26', null, '4');
+INSERT INTO `app_process_task` VALUES ('47', '51', null, null, null, '1', null, '总经办', '副总经理', null, null, null, '15', '13', null, '4');
+INSERT INTO `app_process_task` VALUES ('48', '51', null, null, null, '2', null, '财务部', '财务总监', null, null, null, '17', '39', null, '4');
+INSERT INTO `app_process_task` VALUES ('49', '18', null, null, null, '2', null, '财务部', '财务总监', null, null, null, '17', '39', null, '4');
+
 
 -- ----------------------------
 -- Table structure for `app_process_type`
