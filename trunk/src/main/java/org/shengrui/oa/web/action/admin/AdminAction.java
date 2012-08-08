@@ -510,6 +510,9 @@ extends BaseAdminAction
 				e.printStackTrace();
 			}
 			try {
+				ModelHrmEmployee emp = this.getServiceHrmEmployee().get(staffId);
+				entity.setDistrictId(emp.getEmployeeDistrict().getId());
+				entity.setDepId(emp.getEmployeeDepartment().getId());
 				this.serviceAdminWorkArrange.save(entity);
 		         // 保存成功后, Dialog进行关闭
 		         return ajaxPrint(response, 
@@ -554,7 +557,8 @@ extends BaseAdminAction
 						model.getWorkContent().setId(entity.getWorkContent().getId());
 						model.getWorkTime().setId(entity.getWorkTime().getId());
 						model.getWorkType().setId(entity.getWorkType().getId());
-						model.setDistrictId(entity.getDistrictId());
+						model.setDistrictId(employee.getEmployeeDistrict().getId());
+						model.setDepId(employee.getEmployeeDepartment().getId());
 						list.add(model);
 					}
 					else
@@ -677,6 +681,7 @@ extends BaseAdminAction
 			String staffNames = "[";
 			String staffIds = "";
 			for(ModelAdminWorkArrange entity : list){
+				if(entity.getAttendanceId()!=null)continue;
 				staffNames+="{\"id\":\""+entity.getStaff().getId()+"\",\"empName\":\""+entity.getStaffName()+"\",\"empNo\":\""+entity.getStaff().getEmployee().getEmpNo()+"\"}";
 				staffIds+=entity.getStaff().getId();
 				if(loop!=list.size()){
