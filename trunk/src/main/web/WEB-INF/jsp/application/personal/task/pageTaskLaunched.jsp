@@ -173,7 +173,7 @@
 						<td>
 							<c:choose>
 								<c:when test="${tm:ifGranted('_FUNCKEY_PERSONAL_TASK_EDIT')}">
-									<a href="app/personal/task.do?action=dialogTaskPage&id=${entity.id}" target="dialog" title="任务‘${entity.taskName}’-编辑" width="1080" height="380" class="oplink" rel="personal_taskedit-${edit.id}">编辑</a>
+									<a href="app/personal/task.do?action=dialogTaskPage&id=${entity.id}" target="dialog" title="任务‘${entity.taskName}’-编辑" width="1080" height="415" class="oplink" rel="personal_taskedit-${edit.id}">编辑</a>
 								</c:when>
 								<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
 							</c:choose>

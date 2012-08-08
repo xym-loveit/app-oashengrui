@@ -106,7 +106,7 @@
 						<td>${entity.taskCharger.id eq sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.employee.id ? '负责' : '参与'}</td>
 						<td>
 							<c:choose>
-								<c:when test="${entity.taskStatus eq null}">未开始</c:when>
+								<c:when test="${entity.taskStatus eq null}">${tm:getIntervalDays(today, entity.taskPlannedStartDate) >= 0 ? '未开始' : '进行中'}</c:when>
 								<c:when test="${entity.taskStatus eq 1}">进行中</c:when>
 								<c:when test="${entity.taskStatus eq 2}">已延期</c:when>
 								<c:when test="${entity.taskStatus eq 3}">已完成</c:when>

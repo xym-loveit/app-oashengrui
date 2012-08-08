@@ -143,7 +143,10 @@ extends BaseAppAction
 			ModelTaskPlan formEntity = (ModelTaskPlan) form;
 			
 			request.setAttribute("taskTypes", this.serviceAppDictionary.getByType(DIC_KEY_TASK_TYPE));
-				
+			
+			// 过滤显示审批通过的任务数据
+			formEntity.setAuditStatus(ModelTaskPlan.ETaskApprovalStatus.APPROVED.getValue());
+			
 			PagingBean pagingBean = this.getPagingBean(request);
 			PaginationSupport<ModelTaskPlan> items =
 					this.serviceTaskPlan.getPaginationByEntity(formEntity, ContextUtil.getCurrentUser().getEmployee().getId(), false, pagingBean);
@@ -329,6 +332,7 @@ extends BaseAppAction
 						{
 							request.setAttribute("entity", taskPlan);
 							request.setAttribute("applyType", applyType);
+							request.setAttribute("today", new Date());
 							
 							return mapping.findForward("form.task.apply.page");
 						}

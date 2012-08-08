@@ -7,6 +7,7 @@ import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.admin.DAOTaskPlan;
 import org.shengrui.oa.model.admin.ModelTaskPlan;
 import org.shengrui.oa.service.admin.ServiceTaskPlan;
+import org.shengrui.oa.util.UtilDateTime;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
@@ -77,9 +78,16 @@ extends ServiceGenericImpl<ModelTaskPlan> implements ServiceTaskPlan
 		{
 			if (entity.getTaskStatus() != null && entity.getTaskStatus() > -1)
 			{
-				if (entity.getTaskStatus() == 0)
+				if (entity.getTaskStatus().equals(ModelTaskPlan.ETaskStatus.NOTSTART.getValue()))
 				{
+					// 未开始
 					criteria.add(Restrictions.isNull("taskStatus"));
+					criteria.add(Restrictions.sqlRestriction("task_planStartDate > ?", UtilDateTime.nowDateString(), Hibernate.STRING));
+				}
+				else if (entity.getTaskStatus().equals(ModelTaskPlan.ETaskStatus.ONGOING.getValue()))
+				{
+					// 进行中
+					criteria.add(Restrictions.sqlRestriction("task_planStartDate <= ?", UtilDateTime.nowDateString(), Hibernate.STRING));
 				}
 				else
 				{

@@ -82,11 +82,11 @@
 				<logic:iterate name="roles" property="items" id="role" indexId="idx">
 					<tr id="drole-${role.id}">
 						<td>${idx+1}</td>
-						<td>${role.roleName}</td>
+						<td style="text-align:left">${role.roleName}</td>
 						<td>${role.roleType == 0 ? '总部' : (role.roleType == 1 ? '校区' : (role.roleType == 2 ? '片区' : '/'))}</td>
-						<td>${role.roleKey}</td>
-						<td>${role.roleDesc}</td>
-						<td>
+						<td style="text-align:left">${role.roleKey}</td>
+						<td style="text-align:left">${role.roleDesc}</td>
+						<td style="text-align:left">
 							<c:choose>
 								<c:when test="${tm:ifGranted('_FUNCKEY_SYSTEM_ROLE_VIEW')}">
 									<a href="app/system/role.do?action=dialogRolePage&roleId=${role.id}&view" target="dialog" title="权限组详细" class="oplink" width="504" height="348" rel="sysmgr_roleview_${idx}">详细</a>
@@ -94,7 +94,7 @@
 								<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
 							</c:choose>
 						</td>
-						<td>
+						<td style="text-align:left">
 							<c:choose>
 								<c:when test="${tm:ifGranted('_FUNCKEY_SYSTEM_ROLE_EDIT')}">
 									<c:choose>
@@ -109,7 +109,7 @@
 								<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
 							</c:choose>
 						</td>
-						<td>
+						<td style="text-align:left">
 							<c:choose>
 								<c:when test="${tm:ifGranted('_FUNCKEY_SYSTEM_ROLE_REMOVE')}">
 									<c:choose>

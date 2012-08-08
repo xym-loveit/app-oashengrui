@@ -131,7 +131,7 @@ ${tm:fileRestore(news['attachFiles'])}
 					<td>
 						<c:choose>
 							<c:when test="${op ne 'opp'}">
-								<select class="combox" name="districtVisible" style="width:120px" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
+								<select class="combox" name="districtVisible" style="width:120px" refUrl="app/base.do?action=actionLoadDepartmentByOrg&districtId={value}">
 									<option value="">所有校区</option>
 									<logic:present name="districts">
 										<logic:iterate name="districts" id="district">
@@ -165,7 +165,7 @@ ${tm:fileRestore(news['attachFiles'])}
 					<td>
 						<c:choose>
 							<c:when test="${op ne 'opp'}">
-								<select class="combox" name="districtPost" style="width:120px" ref="combox_department1" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
+								<select class="combox" name="districtPost" style="width:120px" ref="combox_department1" refUrl="app/base.do?action=actionLoadDepartmentByOrg&districtId={value}">
 									<logic:present name="districts">
 										<logic:iterate name="districts" id="districtPublic">
 											<option value="${districtPublic.id}" ${news ne null && news.district.id eq districtPublic.id ? 'selected="selected"' : ''}>${districtPublic.districtName}</option>

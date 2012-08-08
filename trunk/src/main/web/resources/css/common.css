@@ -533,3 +533,12 @@ label.opdisabled {
 	color: #DDD; 
 	line-height: 21px;
 }
+
+li.item_file {
+	margin-bottom: 8px;
+}
+
+li.item_file a {
+	color: blue;
+	text-decoration: underline;
+}

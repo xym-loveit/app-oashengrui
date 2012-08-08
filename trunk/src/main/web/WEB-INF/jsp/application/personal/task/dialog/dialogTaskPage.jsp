@@ -115,13 +115,13 @@ ${tm:fileRestore(entity['attachFiles'])}
 					<div class="accordionHeader">
 						<h2><span>icon</span>按校区</h2>
 					</div>
-					<div class="accordionContent">
+					<div class="accordionContent" style="height:240px;">
 						<%@ include file="../data/dataDistrictTree.jsp"%>
 					</div>
 					<div class="accordionHeader">
 						<h2><span>icon</span>按部门</h2>
 					</div>
-					<div class="accordionContent">
+					<div class="accordionContent" style="height:240px;">
 						<%@ include file="../data/dataDepartmentTree.jsp"%>
 					</div>
 				</div>
@@ -132,7 +132,7 @@ ${tm:fileRestore(entity['attachFiles'])}
 				<table cellspacing="10" cellpadding="10" style="border-spacing: 12; width: 100%;">
 					<tr>
 						<td style="line-height: 25px;">任务名称：</td>
-						<td colspan="3"><input type="text" name="taskName" class="required" style="width:97%;"  value="${entity ne null ? entity.taskName : ''}"/></td>
+						<td colspan="3"><input type="text" name="taskName" class="required" style="width:97%;" ${op ne null && op eq 'view' ? 'readonly' : ''} value="${entity ne null ? entity.taskName : ''}"/></td>
 						<td style="line-height: 25px;">任务类型：</td>
 						<td>
 							<select class="combox" id="combox_doc_type" class="required" name="taskTypeId">
@@ -154,9 +154,9 @@ ${tm:fileRestore(entity['attachFiles'])}
 							<input type="text" name="charger.fullName" class="required" style=""  value="${entity ne null && entity.taskCharger ne null ? entity.taskCharger.empName : ''}" <c:choose><c:when test="${op ne null && op eq 'view'}">readonly</c:when> <c:otherwise>postField="fullName" suggestFields="fullName,districtName" suggestUrl="app/base.do?action=lookupEmployeeByName" lookupGroup="charger" </c:otherwise></c:choose>/>
 						</td>
 						<td style="line-height: 25px;">任务开始时间：</td>
-						<td><input type="text" name="taskPlannedStartDate" class="required date" style="" value="<c:if test='${entity ne null}'><fmt:formatDate  value='${entity.taskPlannedStartDate}' pattern='yyyy-MM-dd' /></c:if>" ll/></td>
+						<td><input type="text" name="taskPlannedStartDate" class="required ${op ne null && op eq 'view' ? '' : 'date'}" ${op ne null && op eq 'view' ? 'readonly' : ''} style="" value="<c:if test='${entity ne null}'><fmt:formatDate  value='${entity.taskPlannedStartDate}' pattern='yyyy-MM-dd' /></c:if>" ll/></td>
 						<td style="line-height: 25px;">任务结束时间：</td>
-						<td><input type="text" name="taskPlannedEndDate" class="required date" style="" value="<c:if test='${entity ne null}'><fmt:formatDate  value='${entity.taskPlannedEndDate}' pattern='yyyy-MM-dd' /></c:if>"/></td>
+						<td><input type="text" name="taskPlannedEndDate" class="required ${op ne null && op eq 'view' ? '' : 'date'}" ${op ne null && op eq 'view' ? 'readonly' : ''} style="" value="<c:if test='${entity ne null}'><fmt:formatDate  value='${entity.taskPlannedEndDate}' pattern='yyyy-MM-dd' /></c:if>"/></td>
 					</tr>
 					<tr>
 						<td style="line-height: 25px;vertical-align: top">任务参与人：</td>
@@ -165,7 +165,7 @@ ${tm:fileRestore(entity['attachFiles'])}
 					<tr>
 						<td style="line-height: 25px;vertical-align: top">任务描述：</td>
 						<td colspan="5"><textarea name="taskDescription" rows="5" cols="60"
-							style="width: 100%"  >${entity ne null ? entity.taskDescription : ''}</textarea></td>
+							style="width: 100%" ${op ne null && op eq 'view' ? 'readonly' : ''}>${entity ne null ? entity.taskDescription : ''}</textarea></td>
 					</tr>
 					<tr>
 						<td style="vertical-align: top;">附件区：</td>
