@@ -24,6 +24,9 @@
         <property name="districtId" type="java.lang.String">
         	<column name="district_id"/>
         </property>
+		<property name="depId" type="java.lang.String">
+			<column name="dep_id"/>
+		</property>
         <property name="attendanceId" type="java.lang.String">
         	<column name="attend_id"/>
         </property>
