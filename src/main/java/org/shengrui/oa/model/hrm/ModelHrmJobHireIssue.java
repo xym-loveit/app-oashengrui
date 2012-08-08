@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.shengrui.oa.model.system.ModelAppUser;
+import org.shengrui.oa.model.vo.ModelHrmJobHireInterviewVO;
 
 import cn.trymore.core.model.ModelBase;
 
@@ -59,38 +60,8 @@ extends ModelBase
 	/**
 	 * 面试结果
 	 */
-	private Map<String, InterviewVO> interviewStates;
+	private Map<String, ModelHrmJobHireInterviewVO> interviewStates;
 	
-	
-	class InterviewVO 
-	{
-		private Integer interviewState;
-		
-		private Date interviewDate;
-		
-		public InterviewVO (Integer state, Date date)
-		{
-			this.interviewState = state;
-			this.interviewDate = date;
-		}
-		
-		public void setInterviewState(Integer interviewState)
-		{
-			this.interviewState = interviewState;
-		}
-		public Integer getInterviewState()
-		{
-			return interviewState;
-		}
-		public void setInterviewDate(Date interviewDate)
-		{
-			this.interviewDate = interviewDate;
-		}
-		public Date getInterviewDate()
-		{
-			return interviewDate;
-		}
-	}
 	
 	/**
 	 * The enumeration of job hire issue status
@@ -243,23 +214,23 @@ extends ModelBase
 	 * 
 	 * @return
 	 */
-	public Map<String, InterviewVO> getInterviewStates()
+	public Map<String, ModelHrmJobHireInterviewVO> getInterviewStates()
 	{
 		if (interviewStates == null && this.interviews != null && this.interviews.size() > 0)
 		{
-			interviewStates = new HashMap<String, InterviewVO>();
+			interviewStates = new HashMap<String, ModelHrmJobHireInterviewVO>();
 			
 			for (ModelHrmJobHireInterview interview : interviews)
 			{
 				interviewStates.put(interview.getSessionSN().toString(), 
-						new InterviewVO(interview.getInterviewStatus(), interview.getInterviewDate()));
+						new ModelHrmJobHireInterviewVO(interview.getInterviewStatus(), interview.getInterviewDate()));
 			}
 		}
 		
 		return interviewStates;
 	}
 	
-	public void setInterviewStates(Map<String, InterviewVO> interviewStates)
+	public void setInterviewStates(Map<String, ModelHrmJobHireInterviewVO> interviewStates)
 	{
 		this.interviewStates = interviewStates;
 	}

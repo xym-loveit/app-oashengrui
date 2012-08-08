@@ -90,24 +90,24 @@
 							<td>${entity.resume.fullName}</td>
 							<td>${entity.resume.mobilePhone}</td>
 							<td>${entity.resume.source eq 0 ? '手工输入' : (entity.resume.source eq 1 ? '内部申请' : (entity.resume.source eq 2 ? '内部推荐' : entity.resume.source eq 3 ? '外部申请' : ''))}<c:if test="${entity.resume.source eq 2}">(${entity.candidate.fullName})</c:if></td>
-							<td class="flag-itv${entity['interviewStates']['1']}">
+							<td class="flag-itv${entity['interviewStates']['1']['interviewState']}">
 								<c:choose>
 									<c:when test="${entity['interviewStates'] ne null &&  entity['interviewStates']['1'] ne null}">
-										${entity['interviewStates']['1']['interviewState'] eq 0 ? '待面试' : (entity['interviewStates']['1']['interviewState'] eq 1 ? '面试' : (entity['interviewStates']['1']['interviewState'] eq 2 ? '通过' : (entity['interviewStates']['1']['interviewState'] eq 3 ? '淘汰' : (entity['interviewStates']['1']['interviewState'] eq 4 ? '未到' : ''))))}
+										${entity['interviewStates']['1']['interviewState'] eq 0 ? (tm:getIntervalSeconds(today, entity['interviewStates']['1']['interviewDate']) gt 0 ? '待面试' : '面试中') : (entity['interviewStates']['1']['interviewState'] eq 1 ? '面试中' : (entity['interviewStates']['1']['interviewState'] eq 2 ? '通过' : (entity['interviewStates']['1']['interviewState'] eq 3 ? '淘汰' : (entity['interviewStates']['1']['interviewState'] eq 4 ? '未到' : ''))))}
 									</c:when>
 								</c:choose>
 							</td>
-							<td class="flag-itv${entity['interviewStates']['2']}">
+							<td class="flag-itv${entity['interviewStates']['2']['interviewState']}">
 								<c:choose>
 									<c:when test="${entity['interviewStates'] ne null &&  entity['interviewStates']['2'] ne null}">
-										${entity['interviewStates']['2']['interviewState'] eq 0 ? '待面试' : (entity['interviewStates']['2']['interviewState'] eq 1 ? '面试' : (entity['interviewStates']['2']['interviewState'] eq 2 ? '通过' : (entity['interviewStates']['2']['interviewState'] eq 3 ? '淘汰' : (entity['interviewStates']['2']['interviewState'] eq 4 ? '未到' : ''))))}
+										${entity['interviewStates']['2']['interviewState'] eq 0 ? (tm:getIntervalSeconds(today, entity['interviewStates']['2']['interviewDate']) gt 0 ? '待面试' : '面试中') : (entity['interviewStates']['2']['interviewState'] eq 1 ? '面试中' : (entity['interviewStates']['2']['interviewState'] eq 2 ? '通过' : (entity['interviewStates']['2']['interviewState'] eq 3 ? '淘汰' : (entity['interviewStates']['2']['interviewState'] eq 4 ? '未到' : ''))))}
 									</c:when>
 								</c:choose>
 							</td>
-							<td class="flag-itv${entity['interviewStates']['3']}">
+							<td class="flag-itv${entity['interviewStates']['3']['interviewState']}">
 								<c:choose>
 									<c:when test="${entity['interviewStates'] ne null &&  entity['interviewStates']['3'] ne null}">
-										${entity['interviewStates']['3']['interviewState'] eq 0 ? '待面试' : (entity['interviewStates']['3']['interviewState'] eq 1 ? '面试' : (entity['interviewStates']['3']['interviewState'] eq 2 ? '通过' : (entity['interviewStates']['3']['interviewState'] eq 3 ? '淘汰' : (entity['interviewStates']['3']['interviewState'] eq 4 ? '未到' : ''))))}
+										${entity['interviewStates']['3']['interviewState'] eq 0 ? (tm:getIntervalSeconds(today, entity['interviewStates']['3']['interviewDate']) gt 0 ? '待面试' : '面试中') : (entity['interviewStates']['3']['interviewState'] eq 1 ? '面试中' : (entity['interviewStates']['3']['interviewState'] eq 2 ? '通过' : (entity['interviewStates']['3']['interviewState'] eq 3 ? '淘汰' : (entity['interviewStates']['3']['interviewState'] eq 4 ? '未到' : ''))))}
 									</c:when>
 								</c:choose>
 							</td>

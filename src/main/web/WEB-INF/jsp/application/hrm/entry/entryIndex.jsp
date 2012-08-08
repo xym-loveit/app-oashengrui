@@ -24,7 +24,7 @@
 <script>
 	function reload_entrypage() {
 		// 重新加载当前的navTab
-		navTab.reload(navTab.getCurrentTabUrl(), {navTabId: navTab.getCurrentTabId()});
+		navTab.reload();
 	}
 </script>
 
