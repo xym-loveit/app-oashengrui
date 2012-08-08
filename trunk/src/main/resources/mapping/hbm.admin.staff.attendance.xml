@@ -76,6 +76,12 @@
         </property>
 		<property name="exception" type="java.lang.String">
 			<column name="exception"/>
-		</property>  
+		</property>   
+		<property name="districtId" type="java.lang.String">
+			<column name="district_id"/>
+		</property>
+		<property name="depId" type="java.lang.String">
+			<column name="dep_id"/>
+		</property> 
     </class>
 </hibernate-mapping>
