@@ -131,20 +131,30 @@ function callback_funcRemove(id) {
 				<td <c:if test="${entity.workType.id==3 }">style="background-color:yellow;"</c:if>>${entity.workType.type}</td>
 				<td>${entity.workContent.itemName}</td>
 				<td>
-					<c:choose>
-						<c:when test="${tm:ifGranted('_FUNCKEY_ADMIN_ADJUST_WORK_ARRANGE') }">
-							<a href="app/admin.do?action=adminEditStaffWorkArrangeDialog&id=${entity.id}" class="oplink" target="dialog" title="员工工作安排编辑" width="600" height="350" rel="admin_staffWorkEdit-1">编辑</a>
-						</c:when>
-						<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">编辑</label></c:otherwise>
-					</c:choose>
+				<c:choose>
+					<c:when test="${entity.attendanceId eq null }">
+						<c:choose>
+							<c:when test="${tm:ifGranted('_FUNCKEY_ADMIN_ADJUST_WORK_ARRANGE') }">
+								<a href="app/admin.do?action=adminEditStaffWorkArrangeDialog&id=${entity.id}" class="oplink" target="dialog" title="员工工作安排编辑" width="600" height="350" rel="admin_staffWorkEdit-1">编辑</a>
+							</c:when>
+							<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">编辑</label></c:otherwise>
+						</c:choose>
+					</c:when>
+					<c:otherwise><label class="opdisabled" title="考勤处理后已经生效,不能编辑">编辑</label></c:otherwise>
+				</c:choose>
 				</td>
 				<td>
-					<c:choose>
-						<c:when test="${tm:ifGranted('_FUNCKEY_ADMIN_REMOVE_WORK_ARRANGE') }">
-							<a href="app/admin.do?action=adminDeleteWorkArrange&id=${entity.id}" class="oplink" target="ajaxToDo" title="确定要删除该员工的工作安排吗?"rel="admin_staffWorkRemove-1" callback="callback_funcRemove(${entity.id})">删除</a>
-						</c:when>
-						<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">删除</label></c:otherwise>
-					</c:choose>
+				<c:choose>
+					<c:when test="${entity.attendanceId eq null }">
+						<c:choose>
+							<c:when test="${tm:ifGranted('_FUNCKEY_ADMIN_REMOVE_WORK_ARRANGE') }">
+								<a href="app/admin.do?action=adminDeleteWorkArrange&id=${entity.id}" class="oplink" target="ajaxToDo" title="确定要删除该员工的工作安排吗?"rel="admin_staffWorkRemove-1" callback="callback_funcRemove(${entity.id})">删除</a>
+							</c:when>
+							<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">删除</label></c:otherwise>
+						</c:choose>
+					</c:when>
+					<c:otherwise><label class="opdisabled" title="考勤处理后已经生效,不能删除">删除</label></c:otherwise>
+				</c:choose>
 				</td>
 			</tr>
 			</logic:iterate>
