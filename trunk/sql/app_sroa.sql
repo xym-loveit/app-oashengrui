@@ -44,6 +44,8 @@ CREATE TABLE IF NOT EXISTS `app_admin_attendance` (
   `meto` varchar(250) DEFAULT NULL COMMENT '说明 (请假说明, 旷工说明)',
   `attendance_result` char(1) DEFAULT NULL COMMENT '考勤结果,1:按时,2:迟到,3:早退,4:迟到早退',
   `exception` char(1) DEFAULT NULL COMMENT '数据是否异常,0:正常,1:异常',
+  `dep_id` bigint(20) DEFAULT NULL COMMENT '员工所在部门ID',
+  `district_id` bigint(20) DEFAULT NULL COMMENT '员工所在校区ID',
   PRIMARY KEY (`attend_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-员工考勤' AUTO_INCREMENT=1 ;
 
@@ -399,27 +401,15 @@ CREATE TABLE IF NOT EXISTS `app_admin_workarrange` (
   `work_content` bigint(20) DEFAULT NULL COMMENT '工作内容',
   `district_id` bigint(20) DEFAULT NULL COMMENT '员工所在校区',
   `attend_id` bigint(20) DEFAULT NULL COMMENT '对应的考勤记录',
+  `dep_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`work_id`),
   KEY `PK_user` (`staff_id`),
   KEY `PK_type` (`work_type`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='行政管理-工作安排' AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='行政管理-工作安排' AUTO_INCREMENT=1 ;
 
 --
 -- 转存表中的数据 `app_admin_workarrange`
 --
-
-INSERT INTO `app_admin_workarrange` (`work_id`, `work_date`, `work_time`, `staff_name`, `staff_id`, `work_type`, `work_content`, `district_id`, `attend_id`) VALUES
-(1, '2012-08-05', 4, '刘苗芳', 24, 1, 4, 1, 2),
-(2, '2012-08-05', 4, '梅杰', 20, 1, 4, 1, 3),
-(3, '2012-08-05', 4, '罗佳驹', 19, 1, 4, 1, 1),
-(4, '2012-08-05', 4, '程聪', 29, 1, 4, 1, 4),
-(5, '2012-08-06', 4, '罗佳驹', 19, 1, 5, 1, NULL),
-(6, '2012-08-06', 4, '蒋晓萍', 26, 1, 5, 1, NULL),
-(7, '2012-08-06', 4, '程聪', 29, 1, 5, 1, 5),
-(8, '2012-08-06', 4, '刘苗芳', 24, 1, 5, 1, NULL),
-(9, '2012-08-06', 4, '周碧英', 25, 1, 5, 1, 6),
-(10, '2012-08-06', 4, '梅杰', 20, 1, 5, 1, NULL),
-(11, '2012-08-06', 4, '林菁菁', 21, 1, 5, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -3336,7 +3326,7 @@ CREATE TABLE IF NOT EXISTS `app_user_role` (
 --
 DROP TABLE IF EXISTS `app_admin_attendance_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `app_admin_attendance_view` AS select 'attendance' AS `origin`,`app_admin_attendance`.`attend_id` AS `attendance_view_id`,`app_admin_attendance`.`work_date` AS `work_date`,`app_admin_attendance`.`work_time` AS `work_time`,`app_admin_attendance`.`offtime_shour` AS `offtime_shour`,`app_admin_attendance`.`offtime_ehour` AS `offtime_ehour`,`app_admin_attendance`.`offtime_smin` AS `offtime_smin`,`app_admin_attendance`.`offtime_emin` AS `offtime_emin`,`app_admin_attendance`.`staff_id` AS `staff_id`,`app_admin_attendance`.`staff_name` AS `staff_name`,`app_admin_attendance`.`work_type` AS `work_type`,`app_admin_attendance`.`work_status` AS `work_status`,`app_admin_attendance`.`leave_type` AS `leave_type`,`app_admin_attendance`.`staff_behalf_name` AS `staff_behalf_name`,`app_admin_attendance`.`staff_behalf_id` AS `staff_behalf_id`,`app_admin_attendance`.`meto` AS `meto`,`app_admin_attendance`.`attendance_result` AS `attendance_result`,`app_admin_attendance`.`exception` AS `exception` from `app_admin_attendance` union select 'arrange' AS `origin`,`app_admin_workarrange`.`work_id` AS `attendance_view_id`,`app_admin_workarrange`.`work_date` AS `work_date`,concat(`app_system_work_time`.`work_stime`,'-',`app_system_work_time`.`work_etime`) AS `work_time`,NULL AS `offtime_shour`,NULL AS `offtime_ehour`,NULL AS `offtime_smin`,NULL AS `offtime_emin`,`app_admin_workarrange`.`staff_id` AS `staff_id`,`app_admin_workarrange`.`staff_name` AS `staff_name`,`app_admin_workarrange`.`work_type` AS `work_type`,'0' AS `work_status`,NULL AS `leave_type`,NULL AS `staff_behalf_name`,NULL AS `staff_behalf_id`,NULL AS `meto`,'1' AS `attendance_result`,'0' AS `exception` from (`app_admin_workarrange` join `app_system_work_time`) where (isnull(`app_admin_workarrange`.`attend_id`) and (`app_admin_workarrange`.`work_time` = `app_system_work_time`.`worktm_id`));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `app_admin_attendance_view` AS select 'attendance' AS `origin`,`app_admin_attendance`.`attend_id` AS `attendance_view_id`,`app_admin_attendance`.`work_date` AS `work_date`,`app_admin_attendance`.`work_time` AS `work_time`,`app_admin_attendance`.`offtime_shour` AS `offtime_shour`,`app_admin_attendance`.`offtime_ehour` AS `offtime_ehour`,`app_admin_attendance`.`offtime_smin` AS `offtime_smin`,`app_admin_attendance`.`offtime_emin` AS `offtime_emin`,`app_admin_attendance`.`staff_id` AS `staff_id`,`app_admin_attendance`.`staff_name` AS `staff_name`,`app_admin_attendance`.`work_type` AS `work_type`,`app_admin_attendance`.`work_status` AS `work_status`,`app_admin_attendance`.`leave_type` AS `leave_type`,`app_admin_attendance`.`staff_behalf_name` AS `staff_behalf_name`,`app_admin_attendance`.`staff_behalf_id` AS `staff_behalf_id`,`app_admin_attendance`.`meto` AS `meto`,`app_admin_attendance`.`attendance_result` AS `attendance_result`,`app_admin_attendance`.`exception` AS `exception`,`app_admin_attendance`.`dep_id` AS `dep_id`,`app_admin_attendance`.`district_id` AS `district_id` from `app_admin_attendance` union select 'arrange' AS `origin`,`app_admin_workarrange`.`work_id` AS `attendance_view_id`,`app_admin_workarrange`.`work_date` AS `work_date`,concat(`app_system_work_time`.`work_stime`,'-',`app_system_work_time`.`work_etime`) AS `work_time`,NULL AS `offtime_shour`,NULL AS `offtime_ehour`,NULL AS `offtime_smin`,NULL AS `offtime_emin`,`app_admin_workarrange`.`staff_id` AS `staff_id`,`app_admin_workarrange`.`staff_name` AS `staff_name`,`app_admin_workarrange`.`work_type` AS `work_type`,'0' AS `work_status`,NULL AS `leave_type`,NULL AS `staff_behalf_name`,NULL AS `staff_behalf_id`,NULL AS `meto`,'1' AS `attendance_result`,'0' AS `exception`,`app_admin_workarrange`.`dep_id` AS `dep_id`,`app_admin_workarrange`.`district_id` AS `district_id` from (`app_admin_workarrange` join `app_system_work_time`) where (isnull(`app_admin_workarrange`.`attend_id`) and (`app_admin_workarrange`.`work_time` = `app_system_work_time`.`worktm_id`)) ;
 
 --
 -- 限制导出的表
