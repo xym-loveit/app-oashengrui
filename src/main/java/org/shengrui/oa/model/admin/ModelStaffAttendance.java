@@ -111,6 +111,44 @@ public class ModelStaffAttendance extends ModelBase {
 	protected String attendanceResult;
 	
 	protected String exception;
+
+	/**
+	 * @return the districtId
+	 */
+	public String getDistrictId() {
+		return districtId;
+	}
+
+	/**
+	 * @param districtId the districtId to set
+	 */
+	public void setDistrictId(String districtId) {
+		this.districtId = districtId;
+	}
+
+	/**
+	 * @return the depId
+	 */
+	public String getDepId() {
+		return depId;
+	}
+
+	/**
+	 * @param depId the depId to set
+	 */
+	public void setDepId(String depId) {
+		this.depId = depId;
+	}
+
+	/**
+	 * 员工所属校区
+	 */
+	protected String districtId;
+	
+	/**
+	 * 员工所在部门
+	 */
+	protected String depId;
 	
 	/**
 	 * @return the exception

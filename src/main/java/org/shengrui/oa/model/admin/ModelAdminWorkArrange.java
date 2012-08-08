@@ -5,7 +5,9 @@ import java.util.Date;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelBaseWorkContent;
 import org.shengrui.oa.model.system.ModelBaseWorkTime;
+import org.shengrui.oa.util.AppUtil;
 
+import cn.trymore.core.acl.AclFilterAnnotation;
 import cn.trymore.core.model.ModelBase;
 
 import com.google.gson.annotations.Expose;
@@ -58,10 +60,52 @@ extends ModelBase {
 	protected ModelBaseWorkContent workContent = new ModelBaseWorkContent();
 
 	/**
-	 * 用于过滤（临时变量）
+	 * 员工所属校区
 	 */
 	protected String districtId;
 	
+	/**
+	 * 员工所在部门
+	 */
+	protected String depId;
+	
+	/**
+	 * 数据权限过滤
+	 */
+	@AclFilterAnnotation(
+		fieldNames ={"district_id", "dep_id", "staff_id"}, 
+		fieldTypes ={AppUtil.DATA_POLICY_DISTRICT, AppUtil.DATA_POLICY_DEPARTMENT, AppUtil.DATA_POLICY_PERSONAL}
+	)
+	private String aclFilterFields;
+	
+	/**
+	 * @return the aclFilterFields
+	 */
+	public String getAclFilterFields() {
+		return aclFilterFields;
+	}
+
+	/**
+	 * @param aclFilterFields the aclFilterFields to set
+	 */
+	public void setAclFilterFields(String aclFilterFields) {
+		this.aclFilterFields = aclFilterFields;
+	}
+
+	/**
+	 * @return the depId
+	 */
+	public String getDepId() {
+		return depId;
+	}
+
+	/**
+	 * @param depId the depId to set
+	 */
+	public void setDepId(String depId) {
+		this.depId = depId;
+	}
+
 	protected String attendanceId;
 	
 	/**
