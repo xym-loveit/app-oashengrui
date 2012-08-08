@@ -25,7 +25,24 @@
 		<logic:present name="entity">
 			$("#cnRMB").val(Arabia_to_Chinese("${entity.applyAmt}"));
 		</logic:present>
-	
+		
+		$("#pay_money").unbind("click");
+		$("#pay_money").bind("click", function(){
+			if ($(this).attr("checked") && $(this).attr("checked") == "checked") {
+				$("#bank").removeClass("required");
+				$("#accountName").removeClass("required");
+				$("#accountNo").removeClass("required");
+			}
+		});
+		
+		$("#pay_transfer").unbind("click");
+		$("#pay_transfer").bind("click", function(){
+			if ($(this).attr("checked") && $(this).attr("checked") == "checked") {
+				$("#bank").addClass("required");
+				$("#accountName").addClass("required");
+				$("#accountNo").addClass("required");
+			}
+		});
 	});
 </script>
 
@@ -38,7 +55,6 @@
 					<c:otherwise>
 						<span style="float:left; color:#FF7300; line-height: 18px;">费用支出类型：</span>
 						<select class="combox required" name="applyFormTypeId" id="expense_type">
-							<option value="">请选择申请类型</option>
 							<logic:present name="types">
 								<logic:iterate name="types" id="typeEntity">
 									<option value="${typeEntity.id}" ${entity ne null && entity.applyFormType ne null && entity.applyFormType.id eq typeEntity.id ? "selected='selected'" : ""}>${typeEntity.processTypeName}</option>
@@ -117,16 +133,16 @@
 				<tr>
 					<td class='field'>付款方式</td>
 					<td colspan="2">
-						<input type="radio" value="0" name="payMethod" ${entity ne null && entity.payMethod eq 0 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 现金
-						<input type="radio" value="1" name="payMethod" ${entity ne null && entity.payMethod eq 1 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 转账
+						<input type="radio" id="pay_money" value="0" name="payMethod" ${entity ne null && entity.payMethod eq 0 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 现金
+						<input type="radio" id="pay_transfer" value="1" name="payMethod" ${entity ne null && entity.payMethod eq 1 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 转账
 					</td>
 					<td class='field'>开户银行</td>
-					<td><input name="bank" type="text" class="required" style="width: 80%;" value="${entity ne null ? entity.bank : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
+					<td><input name="bank" id="bank" type="text" class="required" style="width: 80%;" value="${entity ne null ? entity.bank : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
 					<td class='field'>账户名</td>
-					<td><input name="accountName" class="required" type="text" style="width: 80%;" value="${entity ne null ? entity.accountName : ''}"  <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
+					<td><input name="accountName" id="accountName" class="required" type="text" style="width: 80%;" value="${entity ne null ? entity.accountName : ''}"  <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
 					<td class='field'>账号</td>
 					<td colspan="2">
-						<input name="accountNo" class="required" type="text" style="width: 90%;" value="${entity ne null ? entity.accountNo : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/>
+						<input name="accountNo" id="accountNo" class="required" type="text" style="width: 90%;" value="${entity ne null ? entity.accountNo : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/>
 					</td>
 				</tr>
 			</table>

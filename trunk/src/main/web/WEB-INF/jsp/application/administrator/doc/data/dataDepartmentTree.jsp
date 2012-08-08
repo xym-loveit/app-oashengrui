@@ -32,7 +32,7 @@
 <ul class="tree treeFolder">
 	<c:if test="${depNames ne null}">
 		<c:forEach items="${depNames}" var="entry">
-			<li class="expand"><a id=""><c:out value="${entry}" /></a>
+			<li><a id=""><c:out value="${entry}" /></a>
 			   <ul>
 				<c:if test="${districts ne null}">
 					<c:forEach items="${districts}" var="district">

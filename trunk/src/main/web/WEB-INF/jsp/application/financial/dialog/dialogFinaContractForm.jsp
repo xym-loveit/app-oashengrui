@@ -38,7 +38,6 @@
 					<c:otherwise>
 						<span style="float:left; color:#FF7300; line-height: 18px;">合同类型：</span>
 						<select class="combox required" name="applyFormTypeId" id="expense_type">
-							<option value="">请选择合同类型</option>
 							<logic:present name="types">
 								<logic:iterate name="types" id="typeEntity">
 									<option value="${typeEntity.id}" ${entity ne null && entity.applyFormType ne null && entity.applyFormType.id eq typeEntity.id ? "selected='selected'" : ""}>${typeEntity.processTypeName}</option>

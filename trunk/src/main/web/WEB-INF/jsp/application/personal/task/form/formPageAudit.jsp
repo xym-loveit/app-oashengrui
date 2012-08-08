@@ -34,13 +34,13 @@
 			<tr>
 				<td nowrap style="width:60px">申请${auditType eq 1 ? '完成在' : '延期到'}：</td>
 				<td>
-					<input type="text" class="required" style="width: 96%" name="applyDate" value="<fmt:formatDate  value='${trackForm.taskApplyFinalizedDate}' pattern='yyyy-MM-dd' />" readonly />
+					<input type="text" class="required" style="width: 96%" name="applyDate" value="<fmt:formatDate value='${trackForm.taskApplyFinalizedDate}' pattern='yyyy-MM-dd' />" readonly />
 				</td>
 			</tr>
 			<tr>
 				<td nowrap style="vertical-align: top;">${auditType eq 1 ? '完成描述' : '延期原因'}：</td>
 				<td colspan="4" >
-					<textarea name="meto" rows="2" style="width:99%" value="${trackForm.taskApplyMeto}" readonly ></textarea>
+					<textarea name="meto" rows="2" style="width:99%" readonly >${trackForm.taskApplyMeto}</textarea>
 				</td>
 			</tr>
 		</table>
@@ -56,7 +56,7 @@
 			<tr>
 				<td nowrap style="width:60px">确认${auditType eq 1 ? '完成到' : '延期到'}：</td>
 				<td>
-					<input type="text" class="date" style="width: 96%" name="taskAuditFinalizedDate"/>
+					<input type="text" class="date required" style="width: 96%" name="taskAuditFinalizedDate" value="<fmt:formatDate value='${trackForm.taskApplyFinalizedDate}' pattern='yyyy-MM-dd' />"/>
 				</td>
 			</tr>
 			<tr>
