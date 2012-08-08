@@ -190,13 +190,13 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 					<div class="accordionHeader">
 						<h2><span>icon</span>按校区</h2>
 					</div>
-					<div class="accordionContent">
+					<div class="accordionContent" style="height: 260px;">
 						<%@ include file="conference/data/dataDistrictTree.jsp"%>
 					</div>
 					<div class="accordionHeader">
 						<h2><span>icon</span>按部门</h2>
 					</div>
-					<div class="accordionContent">
+					<div class="accordionContent" style="height: 260px;">
 						<%@ include file="conference/data/dataDepartmentTree.jsp"%>
 					</div>
 				</div>

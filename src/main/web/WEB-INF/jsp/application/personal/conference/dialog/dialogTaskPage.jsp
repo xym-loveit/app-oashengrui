@@ -199,7 +199,7 @@ ol.mp_list li.mp_error {
 					<div class="accordionHeader">
 						<h2><span>icon</span>按校区</h2>
 					</div>
-					<div class="accordionContent">
+					<div class="accordionContent" style="height: 240px;">
 						<%@ include file="../data/dataDistrictTree.jsp"%>
 					</div>
 					<div class="accordionHeader">
