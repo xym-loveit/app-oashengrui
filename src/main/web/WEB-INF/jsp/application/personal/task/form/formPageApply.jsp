@@ -33,7 +33,7 @@
 			<tr>
 				<td nowrap style="width:60px">申请时间：</td>
 				<td>
-					<input type="text" class="date required" style="width: 96%" name="applyDate"/>
+					<input type="text" class="date required" style="width: 96%" name="applyDate" value="<fmt:formatDate  value='${today}' pattern='yyyy-MM-dd' />"/>
 				</td>
 				<td nowrap style="width:60px">申请${applyType eq 1 ? '完成' : '延期'}时间：</td>
 				<td>

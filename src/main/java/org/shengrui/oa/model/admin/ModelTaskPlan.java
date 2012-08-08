@@ -131,6 +131,7 @@ extends ModelBase
 	 */
 	public static enum ETaskStatus
 	{
+		NOTSTART (0, "notstart"),										// 未进行
 		ONGOING (1, "ongoing"),										// 进行中
 		POSTPONED(2, "postponed"),									// 已延期
 		DONE(3, "done"),													// 已完成

@@ -569,6 +569,10 @@ build time: Jun 13 20:26
                 || !S.isPlainObject(o)) {
                 return str;
             }
+			
+			if (str.indexOf('_sUrl_') > -1 && o.sUrl) {
+				str = str.replaceAll("_sUrl_", "{sUrl}");
+			}
 
             return str.replace(regexp || /\\?\{([^{}]+)\}/g, function (match, name) {
                 if (match.charAt(0) === '\\') {

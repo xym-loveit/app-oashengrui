@@ -53,7 +53,7 @@
 					<div class="accordionHeader">
 						<h2><span>icon</span>按部门</h2>
 					</div>
-					<div class="accordionContent">
+					<div class="accordionContent" style="height: 240px">
 						<%@ include file="../data/dataDepartmentTree.jsp"%>
 					</div>
 				</div>
