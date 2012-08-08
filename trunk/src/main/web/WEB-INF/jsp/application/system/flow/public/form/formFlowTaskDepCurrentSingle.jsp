@@ -37,7 +37,7 @@
 			<div style="overflow:hidden; margin-bottom: 10px;">
 				<div style="margin-bottom: 10px;"><b>请选择部门：</b></div>
 				<div>
-					<input type="hidden" name="depName" value="" id="cmb_depId_name" />
+					<input type="hidden" name="depName" value="" id="cmb_depId_cs_name" />
 					<select name="depId" class="combox" id="cmb_depId_cs" ref="cmb_posId_cs" refUrl="app/base.do?action=actionLoadPositionByDepartment&depId={value}">
 						<option value="-1">请选择部门</option>
 						<logic:iterate name="dep" property="value" id="entity">
@@ -50,7 +50,7 @@
 			<div style="overflow:hidden; clear:both">
 				<div style="margin-bottom: 10px;"><b>请选择岗位：</b></div>
 				<div>
-					<input type="hidden" name="posName" value="" id="cmb_posId_name" />
+					<input type="hidden" name="posName" value="" id="cmb_posId_cs_name" />
 					<select name="posId" class="combox" id="cmb_posId_cs" defOPKey="请选择岗位" defOPVal="">
 						<option value="-1">请选择岗位</option>
 						<logic:present name="pos">

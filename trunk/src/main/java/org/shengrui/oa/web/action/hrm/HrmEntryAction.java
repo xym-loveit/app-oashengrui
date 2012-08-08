@@ -257,11 +257,6 @@ extends BaseHrmAction
 							else
 							{
 								// 考察处理
-								String empId = request.getParameter("empId");
-								if (!this.isObjectIdValid(empId))
-								{
-									return ajaxPrint(response, getErrorCallback("考察处理需要传入合法的员工ID!"));
-								}
 								entry.setInspectStatus(Integer.parseInt(state));
 							}
 							
