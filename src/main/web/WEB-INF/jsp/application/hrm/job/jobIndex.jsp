@@ -145,7 +145,7 @@
 							<c:choose>
 								<c:when test="${tm:ifGranted('_FUNCKEY_HRM_JOBHIRE_JOB_EDIT')}">
 									<c:choose>
-										<c:when test="${entity.status eq 1 || entity.status eq 2}">
+										<c:when test="${entity.status eq 3}">
 											<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}&op=edit" target="dialog" title="编辑岗位" width="960" height="420">编辑</a>
 										</c:when>
 										<c:otherwise><label class="opdisabled">编辑</label></c:otherwise>

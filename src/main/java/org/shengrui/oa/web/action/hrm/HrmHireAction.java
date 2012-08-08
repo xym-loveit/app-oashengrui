@@ -427,7 +427,7 @@ extends BaseHrmAction
 				AppUtil.EAppSchoolType.HEADQUARTERS.getValue()))
 		{
 			// 总部岗位
-			if (isCreation)
+			if (isCreation || !UtilString.isNotEmpty(formAction))
 			{
 				// 审批状态为总部审批
 				entity.setStatus(ModelHrmJobHireInfo.EJobHireStatus.TODO_HEAD.getValue());
@@ -449,7 +449,7 @@ extends BaseHrmAction
 		else
 		{
 			// 校区岗位
-			if (isCreation)
+			if (isCreation || !UtilString.isNotEmpty(formAction))
 			{
 				// 设置审批状态为校区审批 (适用于片区)
 				entity.setStatus(ModelHrmJobHireInfo.EJobHireStatus.TODO_ZONE.getValue());
