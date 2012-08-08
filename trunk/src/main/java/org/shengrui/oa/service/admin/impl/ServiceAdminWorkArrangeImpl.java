@@ -115,13 +115,13 @@ extends ServiceGenericImpl<ModelAdminWorkArrange> implements ServiceAdminWorkArr
 			throws ServiceException {
 		// TODO Auto-generated method stub
 		StringBuffer sql  = new StringBuffer();
-		sql.append("insert into app_admin_workarrange(`work_date`, `work_time`, `staff_name`, `staff_id`, `work_type`, `work_content`, `district_id`) values");
+		sql.append("insert into app_admin_workarrange(`work_date`, `work_time`, `staff_name`, `staff_id`, `work_type`, `work_content`, `district_id`, `dep_id`) values");
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		for(int i=0;i<list.size();i++){
 			ModelAdminWorkArrange entity = list.get(i);
 			sql.append("('").append(format.format(entity.getWorkDate())).append("',").append(entity.getWorkTime().getId()).append(",'")
 			.append(entity.getStaffName()).append("',").append(entity.getStaff().getId()).append(",").append(entity.getWorkType().getId())
-			.append(",").append(entity.getWorkContent().getId()).append(",").append(entity.getDistrictId()).append(")");
+			.append(",").append(entity.getWorkContent().getId()).append(",").append(entity.getDistrictId()).append(",").append(entity.getDepId()).append(")");
 			if(i != list.size()-1){
 				sql.append(",");
 			}
