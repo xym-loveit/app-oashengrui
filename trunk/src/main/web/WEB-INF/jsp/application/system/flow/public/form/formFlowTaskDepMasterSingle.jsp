@@ -37,7 +37,7 @@
 			<div style="overflow:hidden; margin-bottom: 10px;">
 				<div style="margin-bottom: 10px;"><b>请选择部门：</b></div>
 				<div>
-					<input type="hidden" name="depName" value="" id="cmb_posId_ms_name" />
+					<input type="hidden" name="depName" value="" id="cmb_depId_ms_name" />
 					<select name="depId" class="combox" id="cmb_depId_ms" ref="cmb_posId_ms" refUrl="app/base.do?action=actionLoadPositionByDepartment&depId={value}">
 						<option value="-1">请选择部门</option>
 						<logic:iterate name="dep" property="value" id="entity">
@@ -63,5 +63,4 @@
 			</div>
 		</c:if>
 	</logic:iterate>
-	<input type="hidden" name="procTaskId" value="${procTask ne null ? procTask.id : -1}" />
 </logic:present>

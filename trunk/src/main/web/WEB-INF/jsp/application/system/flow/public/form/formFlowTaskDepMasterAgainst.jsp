@@ -55,5 +55,4 @@
 			</logic:iterate>
 		</c:if>
 	</logic:iterate>
-	<input type="hidden" name="procTaskId" value="${procTask ne null ? procTask.id : -1}" />
 </logic:present>
