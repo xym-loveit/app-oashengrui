@@ -19,6 +19,17 @@
 			<table class="searchContent">
 				<tr>
 					<td>
+						<label>文档类型：</label>
+						<select class="combox" id="combox_doc_type" name="type.id" style="width:108px;">
+							<option value="-1">所有类型</option>
+							<logic:present name="docTypes">
+								<logic:iterate name="docTypes" id="entity">
+									<option value="${entity.id}" ${formDoc ne null && formDoc.type ne null && formDoc.type.id eq entity.id ? 'selected="selected"' : ''}>${entity.value}</option>
+								</logic:iterate>
+							</logic:present>
+						</select>
+					</td>
+					<td>
 						<label>文档名称：</label>
 						<input type="text" name="docName" value="${formDoc ne null ? formDoc.docName : ''}"/>
 					</td>
@@ -36,10 +47,11 @@
 
 <!-- Body -->	
 <div class="pageContent">
-	<table class="table" width="100%" layoutH="138">
+	<table class="table" width="100%" layoutH="115">
 		<thead>
 			<tr>
 				<th align="center">文档名称</th>
+				<th align="center">文档类型</th>
 				<th align="center">上传时间</th>
 			</tr>
 		</thead>
@@ -48,7 +60,8 @@
 		<logic:present name="docs">
 		   <logic:iterate name="docs" property="items" id="entity">
 			<tr id="doc_entity-${entity.id}">
-                <td>${entity.docName}</td>
+                <td><a href="/soafile-download?path=${entity.file.filePath}" target="_blank">${entity.docName}</a></td>
+				<td>${entity.type.name }</td>
                 <td>${entity.createTime}</td>
 			</tr>
 			</logic:iterate>

@@ -12,15 +12,15 @@
 <!-- Body -->	
 <div class="pageContent">
 	<div class="panelBar">
-		<ul class="toolBar">
-    		<li><a class="add" href="app/personal/doc.do?action=pageMyDocMore&typeId=1&levleId=3" target="navTab" rel="moreDocs"><span>More人资文档</span></a></li>
-			<li><a class="add" href="app/personal/doc.do?action=pageMyDocMore&typeId=2&levleId=3" target="navTab" rel="moreDocs"><span>More行政文档</span></a></li>
+		<ul class="toolBar" style="float:right">
+    		<li><a class="add" href="app/personal/doc.do?action=pageMyDocMore&levleId=3" target="navTab" rel="moreDocs"><span>更多文档</span></a></li>
 		</ul>
 	</div>
 	<table class="table" width="100%" layoutH="380px">
 		<thead>
 			<tr>
 				<th align="center">文档名称</th>
+				<th align="center">文档类型</th>
 				<th align="center">上传时间</th>
 			</tr>
 		</thead>
@@ -30,6 +30,7 @@
 		   <logic:iterate name="department_docs1" id="entity">
 			<tr id="doc_entity-${entity.id}" target="sid" rel="${entity.file.filePath}">
                 <td><a href="/soafile-download?path=${entity.file.filePath}" target="_blank">${entity.docName}</a></td>
+				<td>${entity ne null && entity.type ne null ? entity.type.value:"" }</td>
                 <td><fmt:formatDate value="${entity.createTime}" pattern="yyyy-MM-dd" /></td>
 			</tr>
 			</logic:iterate>
