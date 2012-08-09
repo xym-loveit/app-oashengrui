@@ -186,7 +186,7 @@ ${tm:fileRestore(entity['attachFiles'])}
 										<c:when test="${entity ne null && fn:length(entity.attachFiles) gt 0}">
 											<ul>
 												<logic:iterate name="entity" property="attachFiles" id="file">
-													<li class="item_file"><a title="点击下载`${file.fileName}`文件" href="uploads/${file.filePath}" target="_blank">${file.fileName}</a></li>
+													<li class="item_file"><a title="点击下载`${file.fileName}`文件" href="file-download?path=${file.filePath}" target="_blank">${file.fileName}</a></li>
 												</logic:iterate>
 											</ul>
 										</c:when>

@@ -306,9 +306,9 @@ KISSY.add('gallery/form/1.2/uploader/queue', function (S, Node, Base) {
 			
 			// added by Jeccy.Zhao on 2012/07/29, only for temporary solution.
 			if (data.sUrl && jQuery("#queue-file-"+ file.id).size() > 0) {
-				if (jQuery("#queue-file-"+ file.id).find("a[href='uploads/_sUrl_']").size() > 0) {
-					var href = jQuery("#queue-file-"+ file.id).find("a[href='uploads/_sUrl_']").attr("href");
-					jQuery("#queue-file-"+ file.id).find("a[href='uploads/_sUrl_']").attr("href", href.replaceAll("_sUrl_", data.sUrl));
+				if (jQuery("#queue-file-"+ file.id).find("a[href='/file-download?path=_sUrl_']").size() > 0) {
+					var href = jQuery("#queue-file-"+ file.id).find("a[href='/file-download?path=_sUrl_']").attr("href");
+					jQuery("#queue-file-"+ file.id).find("a[href='/file-download?path=_sUrl_']").attr("href", href.replaceAll("_sUrl_", data.sUrl));
 				}
 			}
 			

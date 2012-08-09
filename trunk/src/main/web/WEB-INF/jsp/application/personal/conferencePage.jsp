@@ -415,7 +415,7 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 												<ul>
 													<logic:iterate name="conference" property="attachFiles" id="file">
 														<c:if test="${file.fileType eq 'conference_process' }">
-															<li class="item_file"><a title="点击下载`${file.fileName}`文件" href="uploads/${file.filePath}" target="_blank">${file.fileName}</a></li>
+															<li class="item_file"><a title="点击下载`${file.fileName}`文件" href="file-download?path=${file.filePath}" target="_blank">${file.fileName}</a></li>
 														</c:if>
 													</logic:iterate>
 												</ul>
@@ -436,7 +436,7 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 								<ul>
 									<logic:iterate name="conference" property="attachFiles" id="file">
 										<c:if test="${file.fileType eq 'conference_summary' }">
-											<li class="item_file"><a title="点击下载`${file.fileName}`文件" href="uploads/${file.filePath}" target="_blank">${file.fileName}</a></li>
+											<li class="item_file"><a title="点击下载`${file.fileName}`文件" href="file-download?path=${file.filePath}" target="_blank">${file.fileName}</a></li>
 										</c:if>
 									</logic:iterate>
 								</ul>
@@ -465,7 +465,7 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 												<ul>
 													<logic:iterate name="conference" property="attachFiles" id="file">
 														<c:if test="${file.fileType eq 'conference_attach' }">
-															<li class="item_file"><a title="点击下载`${file.fileName}`文件" href="uploads/${file.filePath}" target="_blank">${file.fileName}</a></li>
+															<li class="item_file"><a title="点击下载`${file.fileName}`文件" href="file-download?path=${file.filePath}" target="_blank">${file.fileName}</a></li>
 														</c:if>
 													</logic:iterate>
 												</ul>
