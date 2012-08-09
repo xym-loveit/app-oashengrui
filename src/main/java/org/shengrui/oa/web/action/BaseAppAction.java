@@ -63,22 +63,6 @@ import cn.trymore.oa.service.system.ServiceSystemLog;
 public class BaseAppAction
 extends BaseAction
 {
-	protected ServiceSystemLog serviceSystemLog;
-	/**
-	 * @return the serviceSystemLog
-	 */
-	public ServiceSystemLog getServiceSystemLog() {
-		return serviceSystemLog;
-	}
-
-	/**
-	 * @param serviceSystemLog the serviceSystemLog to set
-	 */
-	public void setServiceSystemLog(ServiceSystemLog serviceSystemLog) {
-		this.serviceSystemLog = serviceSystemLog;
-	}
-
-	protected ServiceConferenceInfo serviceConference;
 	/**
 	 * The LOGGER
 	 */
@@ -126,25 +110,39 @@ extends BaseAction
 	@Resource
 	protected ServiceFileAttach serviceFileAttach;
 	
-	protected ServiceNewsManage serviceNewsManage;
+	/**
+	 * The repository of short message
+	 */
+	@Resource
+	protected ServiceShortMessage serviceShortMessage;
 	
+	/**
+	 * The repository of message in
+	 */
+	@Resource
+	protected ServiceInMessage serviceInMessage;
+	
+	/**
+	 * The repository of system log
+	 */
+	@Resource
+	protected ServiceSystemLog serviceSystemLog;
+	
+	/**
+	 * The repository of system dictionary
+	 */
+	@Resource
 	protected ServiceAppDictionary serviceAppDictionary;
+	
+	protected ServiceConferenceInfo serviceConference;
+
+	protected ServiceNewsManage serviceNewsManage;
 	
 	protected ServiceTaskPlan serviceTaskPlan;
 	
 	protected ServiceFinanExpense serviceFinanExpense;
 	
 	protected ServiceFinanContract serviceFinanContract;
-	
-	/**
-	 * The repository of short message
-	 */
-	protected ServiceShortMessage serviceShortMessage;
-	
-	/**
-	 * The repository of message in
-	 */
-	protected ServiceInMessage serviceInMessage;
 	
 	/**
 	 * 获取所有校区
@@ -962,5 +960,21 @@ extends BaseAction
 	public void setServiceInMessage(ServiceInMessage serviceInMessage)
 	{
 		this.serviceInMessage = serviceInMessage;
+	}
+	
+	/**
+	 * @return the serviceSystemLog
+	 */
+	public ServiceSystemLog getServiceSystemLog() 
+	{
+		return serviceSystemLog;
+	}
+
+	/**
+	 * @param serviceSystemLog the serviceSystemLog to set
+	 */
+	public void setServiceSystemLog(ServiceSystemLog serviceSystemLog) 
+	{
+		this.serviceSystemLog = serviceSystemLog;
 	}
 }

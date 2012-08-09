@@ -64,6 +64,7 @@
 		</div>
 		<div class="formBar">
 			<input type="hidden" name="procDefId" value="${processDef.id}" />
+			<input type="hidden" name="procTaskId" value="${procTask ne null ? procTask.id : -1}" />
 			<ul>
 				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
 				<li>

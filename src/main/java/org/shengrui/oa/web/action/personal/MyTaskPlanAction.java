@@ -15,6 +15,7 @@ import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.admin.ModelTaskPlan;
 import org.shengrui.oa.model.admin.ModelTaskPlanTrack;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
+import org.shengrui.oa.model.info.ModelShortMessage;
 import org.shengrui.oa.model.system.ModelAppDictionary;
 import org.shengrui.oa.service.admin.ServiceTaskPlan;
 import org.shengrui.oa.service.admin.ServiceTaskPlanTrack;
@@ -690,6 +691,8 @@ extends BaseAppAction
 					
 					String auditType = request.getParameter("auditType");
 					
+					String auditResult = "";
+					
 					if (ModelTaskPlanTrack.ETaskAuditState.PASS.getValue().equals(taskTrack.getTaskAuditState()))
 					{
 						// 审核通过
@@ -704,16 +707,32 @@ extends BaseAppAction
 							taskPlan.setTaskStatus(ModelTaskPlan.ETaskStatus.POSTPONED.getValue());
 							taskPlan.setTaskPlannedEndDate(UtilDate.toDate(request.getParameter("taskAuditFinalizedDate")));
 						}
+						
+						auditResult = this.getMessageFromResource(request, "approval.status.ok");
 					}
 					else if (ModelTaskPlanTrack.ETaskAuditState.NOTPASS.getValue().equals(taskTrack.getTaskAuditState()))
 					{
 						// 审核未过
 						taskPlan.setTaskStatus(ModelTaskPlan.ETaskStatus.ONGOING.getValue());
+						
+						auditResult = this.getMessageFromResource(request, "approval.status.nok");
 					}
 					
 					taskTrack.setTask(taskPlan);
 					
 					this.serviceTaskPlanTrack.save(taskTrack);
+					
+					// 发送短消息给任务负责人...
+					StringBuilder msgSubject =  new StringBuilder();
+					msgSubject.append("[`");
+					msgSubject.append(this.getMessageFromResource(request, "audit.cat.task"));
+					msgSubject.append("`] ");
+					msgSubject.append(taskPlan.getTaskName());
+					msgSubject.append(" - ");
+					msgSubject.append(auditResult);
+					
+					this.sendMessage(msgSubject.toString(), 
+							msgSubject.toString(), new Object[] {taskPlan.getTaskCharger().getId()}, ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue());
 					
 					// 保存成功后, Dialog进行关闭
 					return ajaxPrint(response, 

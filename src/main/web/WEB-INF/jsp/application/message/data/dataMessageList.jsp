@@ -45,12 +45,12 @@
 								</c:choose>
 							</td>
 							<td>${entity.shortMessage.sender}</td>
-							<td>${entity.shortMessage.subject}</td>
+							<td style="text-align:left">${entity.shortMessage.subject}</td>
 							<td><fmt:formatDate value="${entity.shortMessage.sendTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 							<td><img style="padding:3px;" src="resources/images/icons/${entity.readFlag eq 1 ? 'email_open.png' : 'email.png'}" /></td>
 							<td>
 								<a target="dialog" href="app/message.do?action=dialogMessagePage&msgId=${entity.shortMessage.id}&msgInId=${entity.id}" title="查看消息" rel="msg_read_${entity.id}"><img src="resources/images/icons/update.gif" style="padding: 3px;"/></a>&nbsp;
-								<a href="app/message.do?action=actionRemoveShortMessage&msgInId=${entity.id}" target="ajaxTodo" title="确定要删除`${entity.shortMessage.subject}`消息吗?" callback="msg_reload()"><img class="opr" src="resources/images/icons/remove.png" style="padding: 3px;"/></a>
+								<a href="app/message.do?action=actionRemoveShortMessage&msgInId=${entity.id}" target="ajaxTodo" title="确定要删除`${entity.shortMessage.subject}`消息吗?" callback="msg_reload()"><img src="resources/images/icons/remove.png" style="padding: 3px;"/></a>
 							</td>
 						</tr>
 					</logic:iterate>
