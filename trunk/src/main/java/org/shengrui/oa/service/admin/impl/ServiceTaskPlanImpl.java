@@ -144,7 +144,7 @@ extends ServiceGenericImpl<ModelTaskPlan> implements ServiceTaskPlan
 				{
 					criteria.add(Restrictions.or(
 							Restrictions.sqlRestriction("task_charger = ?", empId, Hibernate.STRING), 
-							Restrictions.sqlRestriction("? in (`task_participant_ids`)", empId, Hibernate.STRING)));
+							Restrictions.sqlRestriction("? in (task_participant_ids)", Integer.valueOf(empId), Hibernate.INTEGER)));
 				}
 			}
 		}

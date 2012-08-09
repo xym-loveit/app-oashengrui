@@ -149,32 +149,46 @@
 						<td><fmt:formatDate value="${entity.taskActualEndDate}" pattern="yyyy-MM-dd" /></td>
 						<td>
 							<c:choose>
-								<c:when test="${tm:ifGranted('_FUNCKEY_PERSONAL_TASK_ACCOMPLISH')}">
+								<c:when test="${entity.taskCharger.id eq sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.employee.id}">
 									<c:choose>
-										<c:when test="${entity.taskStatus eq 3 || entity.taskStatus eq 5 || entity.taskStatus eq 4}">
-											<label class="opdisabled">[完成审请]</label>
+										<c:when test="${tm:ifGranted('_FUNCKEY_PERSONAL_TASK_ACCOMPLISH')}">
+											<c:choose>
+												<c:when test="${entity.taskStatus eq 3 || entity.taskStatus eq 5 || entity.taskStatus eq 4}">
+													<label class="opdisabled">[完成审请]</label>
+												</c:when>
+												<c:otherwise>
+													<a href="app/personal/task.do?action=dialogApplyPage&id=${entity.id}&type=1" target="dialog" title="任务‘${entity.taskName}’-完成审请" width="555" height="445" class="oplink" rel="my_taskacc-${entity.id}">[完成审请]</a>
+												</c:otherwise>
+											</c:choose>
 										</c:when>
-										<c:otherwise>
-											<a href="app/personal/task.do?action=dialogApplyPage&id=${entity.id}&type=1" target="dialog" title="任务‘${entity.taskName}’-完成审请" width="555" height="445" class="oplink" rel="my_taskacc-${entity.id}">[完成审请]</a>
-										</c:otherwise>
+										<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
 									</c:choose>
 								</c:when>
-								<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+								<c:otherwise>
+									<label class="opdisabled" title="只有负责任才能进行`完成申请`操作...">[完成审请]</label>
+								</c:otherwise>
 							</c:choose>
 						</td>
 						<td>
 							<c:choose>
-								<c:when test="${tm:ifGranted('_FUNCKEY_PERSONAL_TASK_POSTPONE')}">
+								<c:when test="${entity.taskCharger.id eq sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.employee.id}">
 									<c:choose>
-										<c:when test="${entity.taskStatus eq 3 || entity.taskStatus eq 5 || entity.taskStatus eq 4}">
-											<label class="opdisabled">[延期申请]</label>
+										<c:when test="${tm:ifGranted('_FUNCKEY_PERSONAL_TASK_POSTPONE')}">
+											<c:choose>
+												<c:when test="${entity.taskStatus eq 3 || entity.taskStatus eq 5 || entity.taskStatus eq 4}">
+													<label class="opdisabled">[延期申请]</label>
+												</c:when>
+												<c:otherwise>
+													<a href="app/personal/task.do?action=dialogApplyPage&id=${entity.id}&type=0" target="dialog" title="任务‘${entity.taskName}’-延期申请" width="555" height="445" class="oplink" rel="my_taskapos-${entity.id}">[延期申请]</a>
+												</c:otherwise>
+											</c:choose>
 										</c:when>
-										<c:otherwise>
-											<a href="app/personal/task.do?action=dialogApplyPage&id=${entity.id}&type=0" target="dialog" title="任务‘${entity.taskName}’-延期申请" width="555" height="445" class="oplink" rel="my_taskapos-${entity.id}">[延期申请]</a>
-										</c:otherwise>
+										<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
 									</c:choose>
 								</c:when>
-								<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+								<c:otherwise>
+									<label class="opdisabled" title="只有负责任才能进行`延期申请`操作...">[延期申请]</label>
+								</c:otherwise>
 							</c:choose>
 						</td>
 						<td>
