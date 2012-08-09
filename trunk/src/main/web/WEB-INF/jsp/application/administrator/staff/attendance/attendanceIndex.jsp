@@ -31,11 +31,10 @@
 		<div class="searchBar">
 			<table class="searchContent">
 				<tr>
+					<td>员工姓名：</td>
+					<td style="width:90px"><input type="text" style="width:100%" name="staffName" value="${formStaffAttendance ne null ? formStaffAttendance.staffName : ''}" /></td>
+					<td>上班状态：</td>
 					<td>
-						员工姓名：<input type="text" name="staffName" value="${formStaffAttendance ne null ? formStaffAttendance.staffName : ''}" />
-					</td>
-					<td>
-						<label>上班状态：</label>
 						<select class="combox" name="workStatus" id="workStatus">
 							<option value="">所有</option>
 							<option value="0" ${formStaffAttendance ne null && formStaffAttendance.workStatus eq '0' ? 'selected="selected"':'' }>在岗</option>
@@ -44,8 +43,8 @@
 							<option value="3" ${formStaffAttendance ne null && formStaffAttendance.workStatus eq '3' ? 'selected="selected"':'' }>旷工</option>
 						</select>
 					</td>
+					<td>考勤结果：</td>
 					<td>
-						<label>考勤结果：</label>
 						<select class="combox" name="attendanceResult" id="attendanceResult">
 							<option value="">所有</option>
 							<option value="1" ${formStaffAttendance ne null && formStaffAttendance.attendanceResult eq '1' ? 'selected="selected"':'' }>按时</option>
@@ -55,8 +54,9 @@
 						</select>
 					</td>
 					<td>
-						上班时间：<input type="text" class="date textInput" name="filterStart" value="<fmt:formatDate value="${formStaffAttendance.filterStart}" type="date" pattern="yyyy-MM-dd"/>" /> - <input name="filterEnd" type="text" class="date textInput" value="<fmt:formatDate value="${formStaffAttendance.filterEnd}" type="date" pattern="yyyy-MM-dd"/>" />
+						上班时间：
 					</td>
+					<td style="width:180px"><input type="text" style="width:45%" class="date textInput" name="filterStart" value="<fmt:formatDate value="${formStaffAttendance.filterStart}" type="date" pattern="yyyy-MM-dd"/>" /> - <input name="filterEnd" style="width:45%" type="text" class="date textInput" value="<fmt:formatDate value="${formStaffAttendance.filterEnd}" type="date" pattern="yyyy-MM-dd"/>" /></td>
 					<td><input type="checkbox" value="1" name="exception" />异常数据</td>
 				</tr>
 			</table>
