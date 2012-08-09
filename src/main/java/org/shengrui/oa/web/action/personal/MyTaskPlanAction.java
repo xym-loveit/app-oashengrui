@@ -460,6 +460,8 @@ extends BaseAppAction
 										LOGGER.warn("The employee does not exist with id:" + empId);
 									}
 								}
+								
+								entity.setTaskParticipantIds(UtilString.join(empIds, ","));
 							}
 							
 							// 附件关联保存
