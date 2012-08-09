@@ -10,7 +10,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.admin.ModelDoc;
 import org.shengrui.oa.model.admin.ModelDocLevel;
-import org.shengrui.oa.model.system.ModelAppDictionary;
 
 import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.exception.ServiceException;
@@ -88,21 +87,9 @@ extends BasePersonalAction
 			String levelId=request.getParameter("levleId");
 			String typeId=request.getParameter("typeId");
 			
-			System.out.println(levelId+"/"+typeId);
-			
 			ModelDocLevel level=this.getServiceDocLevel().get(levelId);
-			ModelAppDictionary type=null;
-			
-			if("1".equals(typeId))
-			{
-				type=this.getServiceAppDictionary().getByName("人资文档");
-			}else if("2".equals(typeId))
-			{
-				type=this.getServiceAppDictionary().getByName("行政文档");
-			}
 			
 			formDoc.setDocLevel(level);
-			formDoc.setType(type);
 			
 			PagingBean pagingBean = this.getPagingBean(request);
 			PaginationSupport<ModelDoc> docs =
@@ -111,6 +98,8 @@ extends BasePersonalAction
 			request.setAttribute("docs", docs);
 			request.setAttribute("levelId", levelId);
 			request.setAttribute("typeId", typeId);
+			request.setAttribute("docTypes", this.getServiceAppDictionary().getByType("docType"));
+			request.setAttribute("formDoc", formDoc);
 			
 			// 输出分页信息至客户端
 			outWritePagination(request, pagingBean, docs);
