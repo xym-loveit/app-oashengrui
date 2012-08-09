@@ -9,6 +9,7 @@
 		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
 		<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
 		<property name="serviceAppUser" ref="serviceAppUser" />
+		<property name="serviceAppDictionary" ref="serviceAppDictionary" />
 	</bean>
 	
 </beans>

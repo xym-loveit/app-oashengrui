@@ -18,6 +18,7 @@ import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.info.ModelInMessage;
 import org.shengrui.oa.model.info.ModelShortMessage;
+import org.shengrui.oa.model.system.ModelAppDictionary;
 import org.shengrui.oa.model.system.ModelAppRole;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
@@ -773,6 +774,49 @@ extends BaseAction
 		}
 		
 		return true;
+	}
+	
+	/**
+	 * 根据类型加载数据字典
+	 * 
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ActionForward actionLoadByTypeAndLevel(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request, HttpServletResponse response)
+	{
+		String type = request.getParameter("type");
+		String level = request.getParameter("level");
+		try 
+		{
+			List<ModelAppDictionary> list = this.serviceAppDictionary.getByTypeAndLevel(type, level);
+			if (list != null)
+			{
+				StringBuilder sb = new StringBuilder();
+				sb.append("[");
+				int loop = 1;
+				for(ModelAppDictionary entity : list)
+				{
+					sb.append("[\"").append(entity.getId()).append("\",").append("\"").append(entity.getName()).append("\"]");
+					if(loop != list.size())
+					{
+						sb.append(",");
+					}
+					loop++;
+				}
+				sb.append("]");
+				return ajaxPrint(response, sb.toString());
+			}
+		} 
+		catch (ServiceException e) 
+		{
+			LOGGER.error("Exception raised when load dictionary data...", e);
+		}
+		
+		return ajaxPrint(response,"[]");
 	}
 	
 	public ServiceSchoolDepartment getServiceSchoolDepartment()
