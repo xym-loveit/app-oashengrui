@@ -254,7 +254,8 @@ function initUI(_box){
 			var rel = $this.attr("rel");
 			var callback = $this.attr("callback");
 			if (rel) {
-				var $rel = $("#"+rel);
+				// revised by Jeccy.Zhao on 09/08/2012, current panel should be pointed out.
+				var $rel = $(navTab.getCurrentPanel()).find("#"+rel);
 				// modified by Jeccy.Zhao
 				var url = $this.attr("href");
 				if ($this.hasClass("uvar")) {
