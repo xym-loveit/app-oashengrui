@@ -1,6 +1,7 @@
 package org.shengrui.oa.web.action;
 
 import java.lang.reflect.Field;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -15,6 +16,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
+import org.shengrui.oa.model.info.ModelInMessage;
+import org.shengrui.oa.model.info.ModelShortMessage;
 import org.shengrui.oa.model.system.ModelAppRole;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
@@ -35,6 +38,7 @@ import org.shengrui.oa.service.system.ServiceSchoolDepartmentPosition;
 import org.shengrui.oa.service.system.ServiceSchoolDistrict;
 import org.shengrui.oa.service.system.ServiceSchoolPositionSet;
 import org.shengrui.oa.util.AppUtil;
+import org.shengrui.oa.util.ContextUtil;
 
 import com.google.gson.FieldNamingStrategy;
 import com.google.gson.Gson;
@@ -718,6 +722,57 @@ extends BaseAction
 				request.setAttribute("depSetIds", depSetIds);
 			}
 		}
+	}
+	
+	/**
+	 * 发送短消息
+	 * 
+	* @param msgSubject
+	 *           消息标题
+	 * @param msgContent
+	 *           消息内容
+	 * @param recEmpIds
+	 *           消息接收员工ID
+	 * @param msgType
+	 *           消息类型
+	 * @return
+	 * @throws Exception
+	 */
+	protected boolean sendMessage (String msgSubject, String msgContent,
+			Object[] recEmpIds, Integer msgType) throws Exception
+	{
+		// 保存短消息...
+		ModelShortMessage msgShort = new ModelShortMessage();
+		msgShort.setSendTime(new Date());
+		msgShort.setSender(ContextUtil.getCurrentUser().getEmployee().getEmpName());
+		msgShort.setSenderId(Long.valueOf(ContextUtil.getCurrentUser().getEmployee().getId()));
+		msgShort.setContent(msgContent);
+		msgShort.setSubject(msgSubject);
+		msgShort.setMsgType(Integer.valueOf(msgType));
+		
+		this.serviceShortMessage.save(msgShort);
+		
+		for (Object empId : recEmpIds)
+		{
+			ModelHrmEmployee employee = this.serviceHrmEmployee.get(empId.toString());
+			if (employee != null)
+			{
+				ModelInMessage msgIn = new ModelInMessage();
+				msgIn.setUserId(Long.valueOf(empId.toString()));
+				msgIn.setUserFullName(employee.getEmpName());
+				msgIn.setReceiveTime(new Date());
+				msgIn.setShortMessage(msgShort);
+				msgIn.setReadFlag(ModelInMessage.FLAG_UNREAD);
+				msgIn.setDelFlag(ModelInMessage.FLAG_UNDEL);
+				this.serviceInMessage.save(msgIn);
+			}
+			else
+			{
+				LOGGER.warn("The specified employee with id:" + empId + " does not exist.");
+			}
+		}
+		
+		return true;
 	}
 	
 	public ServiceSchoolDepartment getServiceSchoolDepartment()

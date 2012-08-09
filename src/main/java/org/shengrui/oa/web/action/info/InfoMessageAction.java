@@ -1,6 +1,5 @@
 package org.shengrui.oa.web.action.info;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +10,6 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.info.ModelInMessage;
 import org.shengrui.oa.model.info.ModelShortMessage;
 import org.shengrui.oa.util.ContextUtil;
@@ -248,40 +246,13 @@ extends BaseAppAction
 			String msgSubject = request.getParameter("subject");
 			String msgType = request.getParameter("msgType");
 			
-			ModelShortMessage msgShort = new ModelShortMessage();
-			msgShort.setSendTime(new Date());
-			msgShort.setSender(ContextUtil.getCurrentUser().getEmployee().getEmpName());
-			msgShort.setSenderId(Long.valueOf(ContextUtil.getCurrentUser().getEmployee().getId()));
-			msgShort.setContent(msgContent);
-			msgShort.setSubject(msgSubject);
-			msgShort.setMsgType(Integer.valueOf(msgType));
-			this.serviceShortMessage.save(msgShort);
-			
 			Map<String, List<String>> paramReceiverIds = this.getAllRequestParameters(
 					request, new String[] {"empid"});
 			
 			if (paramReceiverIds != null && paramReceiverIds.size() > 0)
 			{
 				List<String> empIds = paramReceiverIds.get("empid");
-				for (String empId : empIds)
-				{
-					ModelHrmEmployee employee = this.serviceHrmEmployee.get(empId);
-					if (employee != null)
-					{
-						ModelInMessage msgIn = new ModelInMessage();
-						msgIn.setUserId(Long.valueOf(empId));
-						msgIn.setUserFullName(employee.getEmpName());
-						msgIn.setReceiveTime(new Date());
-						msgIn.setShortMessage(msgShort);
-						msgIn.setReadFlag(ModelInMessage.FLAG_UNREAD);
-						msgIn.setDelFlag(ModelInMessage.FLAG_UNDEL);
-						this.serviceInMessage.save(msgIn);
-					}
-					else
-					{
-						LOGGER.warn("The specified employee with id:" + empId + " does not exist.");
-					}
-				}
+				this.sendMessage(msgSubject, msgContent, empIds.toArray(), Integer.valueOf(msgType));
 			}
 			
 			// 发送成功后, Dialog进行关闭
