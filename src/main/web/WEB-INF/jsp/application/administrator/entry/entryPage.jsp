@@ -109,28 +109,28 @@ ${tm:fileRestore(news['attachFiles'])}
 			<table cellspacing="10" cellpadding="10" style="border-spacing:12">
 				<tr>
 					<td>新闻标题：</td>
-					<td colspan="5"><input name="newsSubject" class="required" type="text" size="30" value="${news.newsSubject}" style="width:100%"/></td>
+					<td colspan="5"><input name="newsSubject" class="required" type="text" size="30" value="${news.newsSubject}" style="width:100%" ${op eq null || op ne 'view' ? '' : 'readonly'} /></td>
 				</tr>
 				<tr>
 					<td>新闻级别：</td>
 					<td>
 					<c:choose>
-								<c:when test="${op ne 'opp'}">
-						<select class="combox" name="newsLevel" id="entry_level" style="width:150px" ref="news_type1" refUrl="app/base.do?action=actionLoadByTypeAndLevel&type=news&level={value}">
-						    <option value="">请选择新闻级别</option>
-							<option value="公司总部新闻" ${news.newsLevel ne null && news.newsLevel eq '0' ? 'selected="selected"' : '' }>公司新闻</option>
-							<option value="分校区新闻" ${news.newsLevel ne null && news.newsLevel eq '1' ? 'selected="selected"' : '' }>校区新闻</option>
-						</select>
-						        </c:when>
-							<c:otherwise>
-								<input type="text"  value="${news.newsLevel }" readonly />
-							</c:otherwise>
-						</c:choose>
+						<c:when test="${op eq null || op ne 'view'}">
+							<select class="combox" name="newsLevel" id="entry_level" style="width:150px" ref="news_type1" refUrl="app/base.do?action=actionLoadByTypeAndLevel&type=news&level={value}">
+							    <option value="">请选择新闻级别</option>
+								<option value="公司总部新闻" ${news.newsLevel ne null && news.newsLevel eq '0' ? 'selected="selected"' : '' }>公司新闻</option>
+								<option value="分校区新闻" ${news.newsLevel ne null && news.newsLevel eq '1' ? 'selected="selected"' : '' }>校区新闻</option>
+							</select>
+						</c:when>
+						<c:otherwise>
+							<input type="text" value="<c:if test='${news.newsLevel ne null && news.newsLevel eq "0" }'>公司新闻</c:if><c:if test='${news.newsLevel ne null && news.newsLevel eq "1"}'>校区新闻</c:if>" readonly />
+						</c:otherwise>
+					</c:choose>
 					</td>
 					<td>可见校区：</td>
 					<td>
 						<c:choose>
-							<c:when test="${op ne 'opp'}">
+							<c:when test="${op eq null || op ne 'view'}">
 								<select class="combox" name="districtVisible" style="width:120px" refUrl="app/base.do?action=actionLoadDepartmentByOrg&districtId={value}">
 									<option value="">所有校区</option>
 									<logic:present name="districts">
@@ -140,6 +140,9 @@ ${tm:fileRestore(news['attachFiles'])}
 									</logic:present>
 								</select>
 							</c:when>
+							<c:otherwise>
+								<input type="text"  value="${news ne null && news.newsDistrictVisible ne null ? news.newsDistrictVisible.districtName:'所有校区'}" readonly />
+							</c:otherwise>
 						</c:choose>
 					</td>
 				</tr>
@@ -147,24 +150,24 @@ ${tm:fileRestore(news['attachFiles'])}
 					<td>新闻类别：</td>
 					<td>
 					<c:choose>
-								<c:when test="${op ne 'opp'}">
-						<select class="combox" name="typeDicid" id="news_type1" defOPKey="请选择新闻类别" defOPVal="" style="width:150px">
-						  	<logic:present name="newsTypes">
-								<logic:iterate name="newsTypes" id="newsType">
-									<option value="${newsType.id}" ${news ne null && news.dictionary.id eq newsType.id? 'selected="selected"' : ''}>${newsType.name}</option>
-								</logic:iterate>
-							</logic:present>
-						</select>
+						<c:when test="${op eq null || op ne 'view'}">
+							<select class="combox" name="typeDicid" id="news_type1" defOPKey="请选择新闻类别" defOPVal="" style="width:150px">
+							  	<logic:present name="newsTypes">
+									<logic:iterate name="newsTypes" id="newsType">
+										<option value="${newsType.id}" ${news ne null && news.dictionary.id eq newsType.id? 'selected="selected"' : ''}>${newsType.name}</option>
+									</logic:iterate>
+								</logic:present>
+							</select>
 						</c:when>
-								<c:otherwise>
-									<input type="text"  value="${newsType.type.name }" readonly />
-								</c:otherwise>
-							</c:choose>
+						<c:otherwise>
+							<input type="text"  value="${news ne null && news.dictionary ne null ? news.dictionary.value:''}" readonly />
+						</c:otherwise>
+					</c:choose>
 					</td>
 					<td>发布校区：</td>
 					<td>
 						<c:choose>
-							<c:when test="${op ne 'opp'}">
+							<c:when test="${op eq null || op ne 'view'}">
 								<select class="combox" name="districtPost" style="width:120px" ref="combox_department1" refUrl="app/base.do?action=actionLoadDepartmentByOrg&districtId={value}">
 									<logic:present name="districts">
 										<logic:iterate name="districts" id="districtPublic">
@@ -173,12 +176,15 @@ ${tm:fileRestore(news['attachFiles'])}
 									</logic:present>
 								</select>
 							</c:when>
+							<c:otherwise>
+								<input type="text"  value="${news ne null && news.district ne null ? news.district.districtName:''}" readonly />
+							</c:otherwise>
 						</c:choose>
 					</td>
 					<td>发布部门：</td>
 					<td>
 						<c:choose>
-							<c:when test="${op ne 'opp'}">
+							<c:when test="${op eq null || op ne 'view'}">
 								<select class="combox" name="depPost" id="combox_department1" style="width:120px" efOPKey="请选择部门" defOPVal="">
 									<logic:present name="departments">
 										<logic:iterate name="departments" id="department">
@@ -187,6 +193,9 @@ ${tm:fileRestore(news['attachFiles'])}
 									</logic:present>
 								</select>
 							</c:when>
+							<c:otherwise>
+								<input type="text"  value="${news ne null && news.department ne null ? news.department.depName:''}" readonly />
+							</c:otherwise>
 						</c:choose>	
 					</td>
 				</tr>
