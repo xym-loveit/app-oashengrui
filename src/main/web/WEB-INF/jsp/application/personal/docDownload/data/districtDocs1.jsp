@@ -29,7 +29,7 @@
 		<logic:present name="district_docs1">
 		   <logic:iterate name="district_docs1" id="entity">
 			<tr id="doc_entity-${entity.id}" target="sid" rel="${entity.file.filePath}">
-                <td><a href="/soa/file-download?path=${entity.file.filePath}" target="_blank">${entity.docName}</a></td>
+                <td><a href="/soafile-download?path=${entity.file.filePath}" target="_blank">${entity.docName}</a></td>
                 <td><fmt:formatDate value="${entity.createTime}" pattern="yyyy-MM-dd" /></td>
 			</tr>
 			</logic:iterate>

@@ -39,7 +39,7 @@
 						<td>
 							<c:if test="${entity ne null && fn:length(entity.attachFiles) gt 0}">
 								<logic:iterate name="entity" property="attachFiles" id="file">
-									<a title="点击下载`${file.fileName}`文件" href="uploads/${file.filePath}" target="_blank" style="line-height:20px;color: blue;text-decoration: underline;">下载</a>
+									<a title="点击下载`${file.fileName}`文件" href="file-download?path=${file.filePath}" target="_blank" style="line-height:20px;color: blue;text-decoration: underline;">下载</a>
 								</logic:iterate>
 							</c:if>
 						</td>

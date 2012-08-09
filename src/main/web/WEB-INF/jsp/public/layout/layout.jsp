@@ -11,12 +11,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<% 
-		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 ,时间：HH:mm:ss");
-		String currentDate=sdf.format(date);
-%>
-
 <html>
   <head>
   	<tiles:insert name="path"/>
@@ -29,7 +23,7 @@
 	<link href="resources/themes/default/style.css" rel="stylesheet" type="text/css" media="screen"/>
 	<link href="resources/themes/css/core.css" rel="stylesheet" type="text/css" media="screen"/>
 	<link href="resources/themes/css/print.css" rel="stylesheet" type="text/css" media="print"/>
-	<link href="resources/js/uploadify/css/uploadify.css" rel="stylesheet" type="text/css" media="screen"/>
+	<!--<link href="resources/js/uploadify/css/uploadify.css" rel="stylesheet" type="text/css" media="screen"/>-->
 	<link href="resources/css/common.css" rel="stylesheet" type="text/css" media="screen"/>
 	
 	<!--[if IE]>
@@ -42,9 +36,10 @@
 	<script src="resources/js/dwz/jquery.validate.js" type="text/javascript"></script>
 	<script src="resources/js/dwz/jquery.bgiframe.js" type="text/javascript"></script>
 	<script src="resources/js/xheditor/xheditor-1.1.12-zh-cn.min.js" type="text/javascript"></script>
+	<!--
 	<script src="resources/js/uploadify//scripts/swfobject.js" type="text/javascript"></script>
 	<script src="resources/js/uploadify//scripts/jquery.resources/js/uploadify/.v2.1.0.js" type="text/javascript"></script>
-	
+	-->
 	<script src="resources/js/dwz/dwz.core.js" type="text/javascript"></script>
 	<script src="resources/js/dwz/dwz.util.date.js" type="text/javascript"></script>
 	<script src="resources/js/dwz/dwz.validate.method.js" type="text/javascript"></script>
