@@ -5,16 +5,11 @@
 
 	
 	<!-- 员工入职 -->
-	<bean name="/app/hrm/entry" class="org.shengrui.oa.web.action.hrm.HrmEntryAction">
-		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
-		<property name="serviceSchoolDepartmentPosition" ref="serviceSchoolDepartmentPosition" />
-		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
-		<property name="serviceAppUser" ref="serviceAppUser" />
+	<bean name="/app/hrm/entry" 
+			class="org.shengrui.oa.web.action.hrm.HrmEntryAction" parent="base">
 		<property name="serviceHrmJobHireEntry" ref="serviceHrmJobHireEntry" />
 		<property name="serviceHrmArchive" ref="serviceHrmArchive" />
 		<property name="serviceHrmResume" ref="serviceHrmResume" />
-		<property name="serviceFileAttach" ref="serviceFileAttach" />
-		<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
 	</bean>
 	
 </beans>

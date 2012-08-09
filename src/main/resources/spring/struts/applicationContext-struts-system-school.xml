@@ -3,25 +3,20 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
-	<bean name="/app/system/school/district" class="org.shengrui.oa.web.action.system.sysSettingSchoolAction">
-		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
+	<bean name="/app/system/school/district" 
+			class="org.shengrui.oa.web.action.system.sysSettingSchoolAction" parent="base">
 	</bean>
 	
-	<bean name="/app/system/school/department" class="org.shengrui.oa.web.action.system.sysSettingSchoolAction">
-		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
-		<property name="serviceSchoolDepartmentPosition" ref="serviceSchoolDepartmentPosition" />
+	<bean name="/app/system/school/department" 
+			class="org.shengrui.oa.web.action.system.sysSettingSchoolAction" parent="base">
 	</bean>
 	
-	<bean name="/app/system/school/department/position" class="org.shengrui.oa.web.action.system.sysSettingSchoolAction">
-		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
-		<property name="serviceSchoolDepartmentPosition" ref="serviceSchoolDepartmentPosition" />
-		<property name="serviceAppRole" ref="serviceAppRole" />
+	<bean name="/app/system/school/department/position" 
+			class="org.shengrui.oa.web.action.system.sysSettingSchoolAction" parent="base">
 	</bean>
 	
-	<bean name="/app/system/school/poset" class="org.shengrui.oa.web.action.system.sysSettingSchoolAction">
-		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
-		<property name="serviceSchoolDepartmentPosition" ref="serviceSchoolDepartmentPosition" />
-		<property name="serviceSchoolPositionSet" ref="serviceSchoolPositionSet" />
+	<bean name="/app/system/school/poset" 
+			class="org.shengrui.oa.web.action.system.sysSettingSchoolAction" parent="base">
 	</bean>
 	
 </beans>

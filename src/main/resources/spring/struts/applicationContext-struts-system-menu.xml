@@ -3,18 +3,18 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
-	<bean name="/app/system/menu" class="org.shengrui.oa.web.action.system.sysSettingMenuAction">
-		<property name="serviceAppMenu" ref="serviceAppMenu" />
+	<bean name="/app/system/menu" 
+			class="org.shengrui.oa.web.action.system.sysSettingMenuAction" parent="base">
 		<property name="serviceAppFunc" ref="serviceAppFunc" />
 	</bean>
 	
-	<bean name="/app/system/menu/item" class="org.shengrui.oa.web.action.system.sysSettingMenuAction">
-		<property name="serviceAppMenu" ref="serviceAppMenu" />
+	<bean name="/app/system/menu/item" 
+			class="org.shengrui.oa.web.action.system.sysSettingMenuAction" parent="base">
 		<property name="serviceAppFunc" ref="serviceAppFunc" />
 	</bean>
 	
-	<bean name="/app/system/menu/func" class="org.shengrui.oa.web.action.system.sysSettingMenuAction">
-		<property name="serviceAppMenu" ref="serviceAppMenu" />
+	<bean name="/app/system/menu/func" 
+			class="org.shengrui.oa.web.action.system.sysSettingMenuAction" parent="base">
 		<property name="serviceAppFunc" ref="serviceAppFunc" />
 		<property name="serviceAppFunctionDataStrategy" ref="serviceAppFunctionDataStrategy" />
 	</bean>

@@ -3,8 +3,8 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
-	<bean name="/login" class="org.shengrui.oa.web.action.system.sysLoginAction" scope="prototype">
-		<property name="serviceAppUser" ref="serviceAppUser" />
+	<bean name="/login" 
+			class="org.shengrui.oa.web.action.system.sysLoginAction" scope="prototype" parent="base">
 		<property name="authenticationManager" ref="authenticationManager" />
 	</bean>
 	

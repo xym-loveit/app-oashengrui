@@ -4,12 +4,10 @@
 		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<!-- 财务支出管理 -->	
-	<bean name="/app/finan/expense" class="org.shengrui.oa.web.action.financial.FinanExpenseAction">
-		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
-		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
+	<bean name="/app/finan/expense" 
+			class="org.shengrui.oa.web.action.financial.FinanExpenseAction" parent="base">
 		<property name="serviceFinanExpense" ref="serviceFinanExpense" />
 		<property name="serviceProcessType" ref="serviceProcessType" />
-		<property name="serviceHrmEmployee"	 ref="serviceHrmEmployee" />
 		<property name="serviceWorkFlow" ref="serviceWorkFlow" />
 		<property name="serviceProcessForm" ref="serviceProcessForm" />
 	</bean>
