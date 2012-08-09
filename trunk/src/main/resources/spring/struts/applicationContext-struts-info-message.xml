@@ -4,12 +4,8 @@
 		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<!-- 短消息管理 -->
-	<bean name="/app/message" class="org.shengrui.oa.web.action.info.InfoMessageAction">
-		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
-		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
-		<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
-		<property name="serviceInMessage" ref="serviceInMessage" />
-		<property name="serviceShortMessage" ref="serviceShortMessage" />
+	<bean name="/app/message" 
+			class="org.shengrui.oa.web.action.info.InfoMessageAction" parent="base">
 	</bean>
 	
 </beans>

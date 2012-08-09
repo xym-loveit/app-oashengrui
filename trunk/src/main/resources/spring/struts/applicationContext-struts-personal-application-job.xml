@@ -4,7 +4,8 @@
 		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
 	<!-- 我要应聘 -->
-	<bean name="/app/personal/jobapplication" class="org.shengrui.oa.web.action.personal.MyJobApplicationAction">
+	<bean name="/app/personal/jobapplication" 
+			class="org.shengrui.oa.web.action.personal.MyJobApplicationAction" parent="base">
 		<property name="serviceHrmJobHireInfo" ref="serviceHrmJobHireInfo" />
 		<property name="serviceHrmJobHireIssue" ref="serviceHrmJobHireIssue" />
 	</bean>
