@@ -87,6 +87,7 @@
 				<th align="center">发起人</th>
 				<th align="center">负责/参与</th>
 				<th align="center">任务状态</th>
+				<th align="center">申请状态</th>
 				<th align="center">剩余时间</th>
 				<th align="center">开始时间</th>
 				<th align="center">结束时间</th>
@@ -106,12 +107,21 @@
 						<td>${entity.taskCharger.id eq sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.employee.id ? '负责' : '参与'}</td>
 						<td>
 							<c:choose>
-								<c:when test="${entity.taskStatus eq null}">${tm:getIntervalDays(today, entity.taskPlannedStartDate) >= 0 ? '未开始' : '进行中'}</c:when>
-								<c:when test="${entity.taskStatus eq 1}">进行中</c:when>
-								<c:when test="${entity.taskStatus eq 2}">已延期</c:when>
 								<c:when test="${entity.taskStatus eq 3}">已完成</c:when>
+								<c:otherwise>
+									<c:choose>
+										<c:when test="${tm:getIntervalDays(today, entity.taskPlannedStartDate) gt 0}">未开始</c:when>
+										<c:when test="${tm:getIntervalDays(today, entity.taskPlannedStartDate) <= 0 && tm:getIntervalDays(today, entity.taskPlannedEndDate) >= 0}">进行中</c:when>
+										<c:when test="${tm:getIntervalDays(today, entity.taskPlannedEndDate) < 0}">已延期</c:when>
+									</c:choose>
+								</c:otherwise>
+							</c:choose>
+						</td>
+						<td>
+							<c:choose>
 								<c:when test="${entity.taskStatus eq 4}">待延期审批</c:when>
 								<c:when test="${entity.taskStatus eq 5}">待完成审批</c:when>
+								<c:otherwise>---</c:otherwise>
 							</c:choose>
 						</td>
 						<td>

@@ -4,6 +4,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.type.Type;
 import org.shengrui.oa.dao.admin.DAOTaskPlan;
 import org.shengrui.oa.model.admin.ModelTaskPlan;
 import org.shengrui.oa.service.admin.ServiceTaskPlan;
@@ -78,20 +79,34 @@ extends ServiceGenericImpl<ModelTaskPlan> implements ServiceTaskPlan
 		{
 			if (entity.getTaskStatus() != null && entity.getTaskStatus() > -1)
 			{
-				if (entity.getTaskStatus().equals(ModelTaskPlan.ETaskStatus.NOTSTART.getValue()))
+				if (entity.getTaskStatus().equals(ModelTaskPlan.ETaskStatus.DONE.getValue()))
 				{
-					// 未开始
-					criteria.add(Restrictions.isNull("taskStatus"));
-					criteria.add(Restrictions.sqlRestriction("task_planStartDate > ?", UtilDateTime.nowDateString(), Hibernate.STRING));
-				}
-				else if (entity.getTaskStatus().equals(ModelTaskPlan.ETaskStatus.ONGOING.getValue()))
-				{
-					// 进行中
-					criteria.add(Restrictions.sqlRestriction("task_planStartDate <= ?", UtilDateTime.nowDateString(), Hibernate.STRING));
+					// 已完成
+					criteria.add(Restrictions.eq("taskStatus", entity.getTaskStatus()));
 				}
 				else
 				{
-					criteria.add(Restrictions.eq("taskStatus", entity.getTaskStatus()));
+					if (entity.getTaskStatus().equals(ModelTaskPlan.ETaskStatus.NOTSTART.getValue()))
+					{
+						// 未开始
+						criteria.add(Restrictions.isNull("taskStatus"));
+						criteria.add(Restrictions.sqlRestriction(
+								"task_planStartDate > ?", UtilDateTime.nowDateString(), Hibernate.STRING));
+					}
+					else if (entity.getTaskStatus().equals(ModelTaskPlan.ETaskStatus.ONGOING.getValue()))
+					{
+						// 进行中
+						criteria.add(Restrictions.sqlRestriction(
+								"task_planStartDate <= ? and task_planEndDate >= ? ", 
+								new Object[] {UtilDateTime.nowDateString(), UtilDateTime.nowDateString()}, 
+								new Type[] {Hibernate.STRING, Hibernate.STRING}));
+					}
+					else if (entity.getTaskStatus().equals(ModelTaskPlan.ETaskStatus.POSTPONED.getValue()))
+					{
+						// 已延期
+						criteria.add(Restrictions.sqlRestriction(
+								"task_planEndDate < ?", UtilDateTime.nowDateString(), Hibernate.STRING));
+					} 
 				}
 			}
 			

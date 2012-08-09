@@ -102,12 +102,14 @@
 						<td>${entity.taskCharger.empName}</td>
 						<td>
 							<c:choose>
-								<c:when test="${entity.taskStatus eq null}">未开始</c:when>
-								<c:when test="${entity.taskStatus eq 1}">进行中</c:when>
-								<c:when test="${entity.taskStatus eq 2}">已延期</c:when>
 								<c:when test="${entity.taskStatus eq 3}">已完成</c:when>
-								<c:when test="${entity.taskStatus eq 4}">待延期审批</c:when>
-								<c:when test="${entity.taskStatus eq 5}">待完成审批</c:when>
+								<c:otherwise>
+									<c:choose>
+										<c:when test="${tm:getIntervalDays(today, entity.taskPlannedStartDate) gt 0}">未开始</c:when>
+										<c:when test="${tm:getIntervalDays(today, entity.taskPlannedStartDate) <= 0 && tm:getIntervalDays(today, entity.taskPlannedEndDate) >= 0}">进行中</c:when>
+										<c:when test="${tm:getIntervalDays(today, entity.taskPlannedEndDate) < 0}">已延期</c:when>
+									</c:choose>
+								</c:otherwise>
 							</c:choose>
 						</td>
 						<td>
