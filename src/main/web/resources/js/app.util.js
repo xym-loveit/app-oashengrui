@@ -10,9 +10,10 @@
  * @author Zhao.Xiang
  *
  **/
-function generic_ajax_op(url,data_params,send_handler,success_handler,error_handler,asyn){
+function generic_ajax_op(url,data_params,send_handler,success_handler,error_handler,global,asyn){
 	var _url = url || "BTS_Ajax.aspx";
 	var _asyn = asyn && 1;
+	var _global = global && true;
 	var param_obj = eval('(' + data_params + ')');
 	var param_str = "";
 	var callback_args = [];
@@ -38,6 +39,7 @@ function generic_ajax_op(url,data_params,send_handler,success_handler,error_hand
 		type: "post",
 		url: _url,
 		async: _asyn > 0 ? true : false,
+		global: _global ? true : false,
 		data: param_str,
 		beforeSend: function(){
 			if(send_handler != undefined && typeof(send_handler) == "function" ){

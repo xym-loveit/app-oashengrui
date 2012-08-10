@@ -133,10 +133,14 @@
 				}]
 			});
 			
+			$.ajax({
+				url: "app/message.do?action=actionObtainMyUnreadMessageNum",
+				global: false,// 禁用全局Ajax事件.
+			});
+			
 			// 设置10秒钟监听短消息
-			/*
 			setInterval(function(){
-				generic_ajax_op("app/message.do?action=actionObtainMyUnreadMessageNum&_="+Date.parse(new Date()), "{'skip_evt': 'true'}", (function(){
+				generic_ajax_op("app/message.do?action=actionObtainMyUnreadMessageNum&_="+Date.parse(new Date()), null, (function(){
 					return null;
 				}), (function(rsp_msg) {
 					if ($("#message_content a[rel='nav_msg']").size() > 0 && $("#message_content a[rel='nav_msg']").text() == rsp_msg) {
@@ -156,9 +160,8 @@
 							);
 						}));
 					}
-				}))
+				}), false)
 			}, 15000);
-			*/
 			
 			setInterval(function(){  
 				$("#currentTime").text("${FULLNAME}，欢迎您登录使用本系统，今天是" + new Date().toLocaleString());  
