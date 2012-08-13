@@ -1,5 +1,6 @@
 package org.shengrui.oa.service.hrm.impl;
 
+import org.hibernate.Hibernate;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
@@ -7,6 +8,7 @@ import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.hrm.DAOHrmJobHireInfo;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireInfo;
 import org.shengrui.oa.service.hrm.ServiceHrmJobHireInfo;
+import org.shengrui.oa.util.ContextUtil;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
@@ -93,6 +95,11 @@ extends ServiceGenericImpl<ModelHrmJobHireInfo> implements ServiceHrmJobHireInfo
 				}
 			}
 		}
+		
+		// 招聘范围过滤...
+		criteria.add(Restrictions.or(
+				Restrictions.isNull("jobHireVisibleDistrict"), 
+				Restrictions.sqlRestriction("hjob_visible_districtid = ?", Integer.valueOf(ContextUtil.getCurrentUser().getDistrictId()), Hibernate.INTEGER)));
 		
 		criteria.addOrder(Order.desc("jobHireEndDate"));
 		

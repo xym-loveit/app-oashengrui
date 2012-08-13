@@ -251,6 +251,8 @@ extends BaseFinanAction
 					else
 					{
 						UtilBean.copyNotNullProperties(contractInfo, formEntity);
+						
+						contractInfo.setApplyDate(formEntity.getApplyDate());
 					}
 				}
 				else
@@ -294,6 +296,12 @@ extends BaseFinanAction
 						contractInfo.getApplyAmt(), 
 						contractInfo.getFormNo(), 
 						contractInfo.getEmployee());
+			}
+			else
+			{
+				// 重置流程...
+				this.serviceWorkFlow.resetProcess(contractInfo.getFormNo());
+				contractInfo.setAuditState(ModelProcessForm.EProcessFormStatus.RETURNED.getValue());
 			}
 			
 			this.serviceFinanContract.save(contractInfo);

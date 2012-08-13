@@ -256,6 +256,8 @@ extends BaseFinanAction
 					else
 					{
 						UtilBean.copyNotNullProperties(expenseInfo, formEntity);
+						
+						expenseInfo.setApplyDate(formEntity.getApplyDate());
 					}
 				}
 				else
@@ -299,6 +301,12 @@ extends BaseFinanAction
 						expenseInfo.getApplyAmt(), 
 						expenseInfo.getFormNo(), 
 						expenseInfo.getEmployee());
+			}
+			else
+			{
+				// 重置流程...
+				this.serviceWorkFlow.resetProcess(expenseInfo.getFormNo());
+				expenseInfo.setAuditState(ModelProcessForm.EProcessFormStatus.RETURNED.getValue());
 			}
 			
 			this.serviceFinanExpense.save(expenseInfo);
