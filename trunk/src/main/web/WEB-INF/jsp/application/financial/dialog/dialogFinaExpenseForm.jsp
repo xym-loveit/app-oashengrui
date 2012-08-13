@@ -74,20 +74,20 @@
 				<tr>
 					<td class='field'>经办人</td>
 					<td>
-						<input id="inputEmpId" name="emp.id" value="" type="hidden"/>
-						<input class="required" name="emp.fullName" type="text" value="${entity ne null ? entity.employee.empName : ''}" <c:choose><c:when test="${op ne null && op eq 'view'}">readonly</c:when> <c:otherwise>postField="fullName" suggestFields="fullName,districtName" suggestUrl="app/base.do?action=lookupEmployeeByName" lookupGroup="emp" </c:otherwise></c:choose>/>
+						<input id="inputEmpId" name="emp.id" value="${entity ne null ? entity.employee.id : ''}" type="hidden"/>
+						<input class="required" name="emp.fullName" type="text" value="${entity ne null ? entity.employee.empName : ''}" <c:choose><c:when test="${op ne null && (op eq 'view' || op eq 'edit')}">readonly</c:when> <c:otherwise>postField="fullName" suggestFields="fullName,districtName" suggestUrl="app/base.do?action=lookupEmployeeByName" lookupGroup="emp" </c:otherwise></c:choose>/>
 					</td>
 					<td class='field'>日期</td>
 					<td><input name="applyDate" class="<c:if test='${op eq null || op ne \'view\'}'>date</c:if> required textInput" format="yyyy-MM-dd" type="text" value="<c:if test='${entity ne null}'><fmt:formatDate value='${entity.applyDate}' pattern='yyyy-MM-dd' /></c:if>" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>></td>
 					<td class='field'>所属校区</td>
 					<td>
 						<input name="emp.districtName" readonly type="text" value="${entity ne null ? entity.empDistrict.districtName : ''}"/>
-						<input id="inputEmpDisId" name="emp.districtId" value="" type="hidden"/>
+						<input id="inputEmpDisId" name="emp.districtId" value="${entity ne null ? entity.empDistrict.id : ''}" type="hidden"/>
 					</td>
 					<td class='field'>所属部门</td>
 					<td>
 						<input name="emp.depName" readonly type="text" value="${entity ne null ? entity.empDepartment.depName : ''}"/>
-						<input id="inputEmpDepId" name="emp.depId" value="" type="hidden"/>
+						<input id="inputEmpDepId" name="emp.depId" value="${entity ne null ? entity.empDepartment.id : ''}" type="hidden"/>
 					</td>
 					<td class='field'>联系电话</td>
 					<td><input name="emp.phoneNo" class="required phone" type="text" value="${entity ne null ? entity.empPhoneNo : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
@@ -137,12 +137,12 @@
 						<input type="radio" id="pay_transfer" value="1" name="payMethod" ${entity ne null && entity.payMethod eq 1 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 转账
 					</td>
 					<td class='field'>开户银行</td>
-					<td><input name="bank" id="bank" type="text" class="required" style="width: 80%;" value="${entity ne null ? entity.bank : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
+					<td><input name="bank" id="bank" type="text" class="${entity ne null && entity.payMethod eq 0 ? '' : 'required'}" style="width: 80%;" value="${entity ne null ? entity.bank : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
 					<td class='field'>账户名</td>
-					<td><input name="accountName" id="accountName" class="required" type="text" style="width: 80%;" value="${entity ne null ? entity.accountName : ''}"  <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
+					<td><input name="accountName" id="accountName" class="${entity ne null && entity.payMethod eq 0 ? '' : 'required'}" type="text" style="width: 80%;" value="${entity ne null ? entity.accountName : ''}"  <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
 					<td class='field'>账号</td>
 					<td colspan="2">
-						<input name="accountNo" id="accountNo" class="required" type="text" style="width: 90%;" value="${entity ne null ? entity.accountNo : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/>
+						<input name="accountNo" id="accountNo" class="${entity ne null && entity.payMethod eq 0 ? '' : 'required'}" type="text" style="width: 90%;" value="${entity ne null ? entity.accountNo : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/>
 					</td>
 				</tr>
 			</table>

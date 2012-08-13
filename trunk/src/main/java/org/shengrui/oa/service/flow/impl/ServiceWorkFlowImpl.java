@@ -261,7 +261,7 @@ implements ServiceWorkFlow
 					this.completeTask(procForm, ModelProcessForm.EProcessFormStatus.RETURNED.getValue(), comments);
 					
 					// 结束流程
-					this.doEndProcess(procForm.getApplyFormNo());
+					// this.doEndProcess(procForm.getApplyFormNo());
 					
 					break;
 				}
@@ -321,6 +321,7 @@ implements ServiceWorkFlow
 					{
 						nextForm.setAuditState(ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue());
 						this.serviceProcessForm.save(nextForm);
+						break;
 					}
 				}
 				else
@@ -468,6 +469,42 @@ implements ServiceWorkFlow
 			Integer auditState, String comments) throws ServiceException
 	{
 		completeTask(this.serviceProcessForm.get(procFormId), auditState, comments);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.flow.ServiceWorkFlow#cleanProcess(java.lang.String)
+	 */
+	@Override
+	public void resetProcess (String procFormNo) throws ServiceException
+	{
+		List<ModelProcessForm> forms = this.serviceProcessForm.getProcessFormsByFormNo(procFormNo);
+		if (forms != null)
+		{
+			boolean isFirstStep = false;
+			for (ModelProcessForm form : forms)
+			{
+				if (ModelProcessForm.EProcessFormStatus.IGNORED.getValue().equals(form.getAuditState()))
+				{
+					continue;
+				}
+				
+				if (!isFirstStep)
+				{
+					isFirstStep = true;
+					form.setAuditState(ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue());
+				}
+				else
+				{
+					form.setAuditState(null);
+				}
+				
+				form.setAuditDate(null);
+				form.setAuditIdea(null);
+				
+				this.serviceProcessForm.save(form);
+			}
+		}
 	}
 	
 	/**

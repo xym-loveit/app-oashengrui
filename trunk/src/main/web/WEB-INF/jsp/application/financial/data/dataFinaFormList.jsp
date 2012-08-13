@@ -24,6 +24,7 @@
 			<th align="center">审批环节</th>
 			<th align="center">审批结果</th>
 			<th align="center">申请单查看</th>
+			<th align="center">申请单编辑</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -58,7 +59,12 @@
 					</td>
 					<td>
 						<c:choose>
-							<c:when test="${entity.applyForm ne null && fn:length(entity.applyForm) > 0}">---</c:when>
+							<c:when test="${entity.applyForm ne null && fn:length(entity.applyForm) > 0}">
+								<c:choose>
+									<c:when test="${entity.finalState eq 4}">审批退回</c:when>
+									<c:otherwise>---</c:otherwise>
+								</c:choose>
+							</c:when>
 							<c:otherwise>
 								<c:choose>
 									<c:when test="${entity.auditState eq 2}">审批通过</c:when>
@@ -87,6 +93,22 @@
 									<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
 								</c:choose>
 							</c:when>	
+						</c:choose>
+					</td>
+					<td>
+						<c:choose>
+							<c:when test="${(entity.applyForm ne null && fn:length(entity.applyForm) > 0) && entity.finalState eq 4}">
+								<c:choose>
+									<c:when test="${PAGE_TYPE eq 'FE' && tm:ifGranted('_FUNCKEY_FINAN_EXPENSE_APPLY')}">
+										<a class="oplink" href="app/finan/expense.do?action=diaglogFinaExpensePage&id=${entity.id}&op=edit" target="dialog" title="财务申请单编辑" width="1150" height="500" rel="dia_finexp_edit">编辑</a>
+									</c:when>
+									<c:when test="${PAGE_TYPE eq 'FC' && tm:ifGranted('_FUNCKEY_FINAN_CONTRACT_APPLY')}">
+										<a class="oplink" href="app/finan/contract.do?action=diaglogFinaContractPage&id=${entity.id}&op=edit" target="dialog" title="合同申请单编辑" width="1150" height="500" rel="dia_fincta_edit">编辑</a>
+									</c:when>
+									<c:otherwise>---</c:otherwise>
+								</c:choose>
+							</c:when>
+							<c:otherwise>---</c:otherwise>
 						</c:choose>
 					</td>
 				</tr>

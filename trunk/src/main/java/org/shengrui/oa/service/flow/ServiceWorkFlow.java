@@ -177,6 +177,15 @@ public interface ServiceWorkFlow
 			Integer procFormState, String comments) throws ServiceException;
 	
 	/**
+	 * Resets the process forms.
+	 * 
+	 * @param procFormNo
+	 *                    the process form no
+	 * @throws ServiceException
+	 */
+	void resetProcess (String procFormNo) throws ServiceException;
+	
+	/**
 	 * 
 	 * @param formNo
 	 * @return
