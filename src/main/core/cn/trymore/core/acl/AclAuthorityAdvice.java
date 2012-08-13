@@ -44,7 +44,7 @@ implements MethodBeforeAdvice
 	public void before(Method method, Object[] args, Object target)
 			throws Throwable
 	{
-		LOGGER.debug("The object fetched from data policy threadLocal:" + DataPolicyEngine.get());
+		// LOGGER.debug("The object fetched from data policy threadLocal:" + DataPolicyEngine.get());
 		
 		if (this.isGrantedDataPolicy(DataPolicyEngine.get()))
 		{
@@ -52,7 +52,7 @@ implements MethodBeforeAdvice
 			if (targetClassName.endsWith("Impl") && targetClassName.indexOf("DAO") > -1)
 			{
 				DAOGenericImpl repo = (DAOGenericImpl) target;
-				LOGGER.debug("It interceptored entity('" + repo.getEntityClass().getName() + "') against ACL filter");
+				// LOGGER.debug("It interceptored entity('" + repo.getEntityClass().getName() + "') against ACL filter");
 				Class entityObj = repo.getEntityClass();
 				Field[] fields = entityObj.getDeclaredFields();
 				if (fields != null)
@@ -61,7 +61,7 @@ implements MethodBeforeAdvice
 					{
 						if (field.isAnnotationPresent(AclFilterAnnotation.class))
 						{
-							LOGGER.debug("ACL filter detected on field:" + field.getName());
+							// LOGGER.debug("ACL filter detected on field:" + field.getName());
 							AclFilterAnnotation aclFilter = field.getAnnotation(AclFilterAnnotation.class);
 							if (this.validateAnnotation(aclFilter))
 							{
