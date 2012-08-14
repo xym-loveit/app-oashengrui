@@ -1,5 +1,6 @@
 package org.shengrui.oa.service.news.impl;
 
+import org.hibernate.Hibernate;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
@@ -7,6 +8,7 @@ import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.news.DAONewsManage;
 import org.shengrui.oa.model.news.ModelNewsMag;
 import org.shengrui.oa.service.news.ServiceNewsManage;
+import org.shengrui.oa.util.ContextUtil;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
@@ -103,6 +105,12 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 			}
 		
 		}
+		
+		// 可见校区过滤...
+		criteria.add(Restrictions.or(
+				Restrictions.isNull("newsDistrictVisible"), 
+				Restrictions.sqlRestriction("district_visible = ?", Integer.valueOf(ContextUtil.getCurrentUser().getDistrictId()), Hibernate.INTEGER)));
+		
 		criteria.addOrder(Order.desc("topIndex"))
 				.addOrder(Order.desc("updateTime"));
 				
