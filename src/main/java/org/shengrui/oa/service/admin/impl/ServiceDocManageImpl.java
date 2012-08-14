@@ -2,15 +2,18 @@ package org.shengrui.oa.service.admin.impl;
 
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.type.Type;
 import org.shengrui.oa.dao.admin.DAODocManage;
 import org.shengrui.oa.model.admin.ModelDoc;
 import org.shengrui.oa.model.admin.ModelDocLevel;
 import org.shengrui.oa.model.system.ModelAppDictionary;
 import org.shengrui.oa.service.admin.ServiceDocManage;
+import org.shengrui.oa.util.ContextUtil;
 
 import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.exception.ServiceException;
@@ -111,6 +114,18 @@ extends ServiceGenericImpl<ModelDoc> implements ServiceDocManage
             	criteria.add(Restrictions.eq("docLevel", entity.getDocLevel()));
             }
 		}
+		
+		// 文档范围过滤...
+		criteria.add(
+				Restrictions.sqlRestriction(
+						"doc_VisiableRange_id = 1 or (doc_VisiableRange_id = 2 and ? in (`doc_userIds`)) or doc_VisiableRange_id = ?", 
+						new Object[] {
+								Integer.valueOf(ContextUtil.getCurrentUser().getId()), 
+								Integer.valueOf(ContextUtil.getCurrentUser().getDistrictId())}, 
+						new Type[] {
+								Hibernate.INTEGER, 
+								Hibernate.INTEGER}));
+		
 		
 		criteria.addOrder(Order.desc("createTime"));
 		
