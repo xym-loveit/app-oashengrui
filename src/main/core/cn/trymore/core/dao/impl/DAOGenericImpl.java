@@ -15,6 +15,7 @@ import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.persister.entity.SingleTableEntityPersister;
 
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -373,6 +374,33 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 			Map<String, List<Object>> params, int pageSize, int startIndex) throws DAOException, ClassNotFoundException
 	{
 		return queryFieldsListForPaging(Class.forName(objectClassName), params, pageSize, startIndex);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see cn.trymore.core.dao.DAOGeneric#getAffectedNumByQueryFilter(java.lang.String, java.lang.String)
+	 */
+	@Override
+	@SuppressWarnings("rawtypes")
+	public int getAffectedNumByQueryFilter(Class clas,
+			String whereCloud) throws DAOException, ClassNotFoundException
+	{
+		SingleTableEntityPersister entityPersister= 
+			(SingleTableEntityPersister)this.getSessionFactory().getClassMetadata(clas);
+		
+		StringBuilder nativeSql = new StringBuilder("SELECT COUNT(*) FROM ");
+		nativeSql.append(entityPersister.getTableName());
+		nativeSql.append(" WHERE 1=1 ");
+		
+		if (UtilString.isNotEmpty(whereCloud))
+		{
+			nativeSql.append(whereCloud);
+		}
+		
+		List<Object> result = this.findListByNativeSQL(nativeSql.toString());
+		
+		return result != null && result.size() == 1 ? 
+				Integer.valueOf(result.get(0).toString()) : 0;
 	}
 	
 	@Override

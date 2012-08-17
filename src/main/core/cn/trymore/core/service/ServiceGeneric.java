@@ -97,4 +97,15 @@ public interface ServiceGeneric<T extends ModelBase>
 	 * @throws ServiceException
 	 */
 	void flush() throws ServiceException;
+	
+	/**
+	 * 
+	 * @param clas
+	 * @param whereCloud
+	 * @return
+	 * @throws ServiceException
+	 */
+	@SuppressWarnings("rawtypes")
+	int getAffectedNumByQuery (final Class clas, 
+			String whereCloud);
 }

@@ -239,9 +239,29 @@ public interface DAOGeneric<T extends ModelBase>
 	PaginationSupport<T> queryFieldsListForPaging(final String objectClassName, 
 			Map<String, List<Object>> params, int pageSize, int startIndex) throws DAOException, ClassNotFoundException;
 	
+	/**
+	 * Obtains the affected number with the specified query filter.
+	 * 
+	 * @param clas
+	 * @param whereCloud
+	 * @return
+	 * @throws DAOException
+	 * @throws ClassNotFoundException
+	 */
+	@SuppressWarnings("rawtypes")
+	int getAffectedNumByQueryFilter (final Class clas, 
+			String whereCloud) throws DAOException, ClassNotFoundException;
 	
+	/**
+	 * Obtains the query filter
+	 * @return
+	 */
 	abstract String getQueryFilter();
 	
+	/**
+	 * Sets the query filter
+	 * @param query
+	 */
 	abstract void setQueryFilter (String query);
 	
 }

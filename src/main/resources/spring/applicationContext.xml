@@ -118,9 +118,13 @@
 		</property> 
 	</bean>
 	
+	<bean id="dataPolicyQuery" class="cn.trymore.core.acl.DataPolicyQuery">
+		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
+	</bean>
+	
 	<!-- LogAspect -->
 	<bean id="aclAuthAdvice" class="cn.trymore.core.acl.AclAuthorityAdvice">
-		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
+		<property name="dataPolicyQuery" ref="dataPolicyQuery" />
 	</bean>
 	
 	<!--  Base Transaction Proxy -->

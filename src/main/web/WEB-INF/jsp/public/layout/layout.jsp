@@ -143,6 +143,14 @@
 				generic_ajax_op("app/message.do?action=actionObtainMyUnreadMessageNum&_="+Date.parse(new Date()), null, (function(){
 					return null;
 				}), (function(rsp_msg) {
+					
+					// 更新短消息数字提醒
+					if (rsp_msg != "0") {
+						$("#elenum_msg").find("span.num").text("(" + rsp_msg + ")");
+					} else {
+						$("#elenum_msg").find("span.num").text("");
+					}
+					
 					if ($("#message_content a[rel='nav_msg']").size() > 0 && $("#message_content a[rel='nav_msg']").text() == rsp_msg) {
 						return;
 					} else {
