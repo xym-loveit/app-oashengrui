@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.criterion.DetachedCriteria;
 
 import cn.trymore.core.dao.DAOGeneric;
+import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.model.ModelBase;
 import cn.trymore.core.service.ServiceGeneric;
@@ -190,6 +191,31 @@ implements ServiceGeneric<T>
 		catch (Exception e)
 		{
 			throw new ServiceException(e);
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see cn.trymore.core.service.ServiceGeneric#getAffectedNumByQuery(java.lang.Class, java.lang.String)
+	 */
+	@Override
+	@SuppressWarnings("rawtypes")
+	public int getAffectedNumByQuery (final Class clas, 
+			String whereCloud)
+	{
+		try
+		{
+			return dao.getAffectedNumByQueryFilter(clas, whereCloud);
+		}
+		catch (DAOException e)
+		{
+			LOGGER.error("Affected number cannot be obtained.");
+			return 0;
+		}
+		catch (ClassNotFoundException e)
+		{
+			LOGGER.error("Entity cannot be found with class:" + clas.getName());
+			return 0;
 		}
 	}
 	

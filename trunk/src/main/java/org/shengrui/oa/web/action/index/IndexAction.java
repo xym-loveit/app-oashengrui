@@ -10,9 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.shengrui.oa.model.admin.ModelTaskPlan;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.util.AppUtil;
+import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.web.action.BaseAppAction;
 
 import cn.trymore.core.exception.ServiceException;
@@ -38,6 +40,9 @@ extends BaseAppAction
 	{
 		// loads all configured menus, aims to present the left menu items.
 		this.getRootMenus(request);
+		
+		// initialization.
+		init(request);
 		
 		return mapping.findForward("index");
 	}
@@ -92,4 +97,31 @@ extends BaseAppAction
 		}
 		return mapping.findForward("personal.page.addressBook");
 	}
+	
+	/**
+	 * Initialization for current loggon user
+	 * 
+	 * @param request
+	 */
+	private void init(HttpServletRequest request)
+	{
+		String empId = ContextUtil.getCurrentUser().getEmployee().getId();
+		
+		request.setAttribute("numMsgUnread", 
+				this.getUnreadMessageByUserId(empId));
+		
+		request.setAttribute("numTaskToApproval", 
+			this.serviceTaskPlan.getAffectedNumByQuery(ModelTaskPlan.class, 
+				this.getModelDataPolicyQuery(
+					"app/admin/task.do?action=pageTaskDelegateIndex", 
+					ModelTaskPlan.class, 
+					new String[] {
+						"(approval_status = " + ModelTaskPlan.ETaskApprovalStatus.TOAPPROVE.getValue() + " OR approval_status IS NULL)"
+					}
+				)
+			)
+		);
+		
+	}
+	
 }

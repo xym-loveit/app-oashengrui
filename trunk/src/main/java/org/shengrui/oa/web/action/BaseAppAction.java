@@ -45,6 +45,7 @@ import com.google.gson.FieldNamingStrategy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import cn.trymore.core.acl.DataPolicyQuery;
 import cn.trymore.core.common.Constants;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.model.ModelBase;
@@ -133,6 +134,11 @@ extends BaseAction
 	 */
 	@Resource
 	protected ServiceAppDictionary serviceAppDictionary;
+	
+	/**
+	 * The data policy query bean
+	 */
+	protected DataPolicyQuery dataPolicyQuery;
 	
 	protected ServiceConferenceInfo serviceConference;
 
@@ -817,6 +823,60 @@ extends BaseAction
 		return ajaxPrint(response,"[]");
 	}
 	
+	/**
+	 * Obtains unread message number by user id.
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	protected int getUnreadMessageByUserId (String userId)
+	{
+		try
+		{
+			return this.serviceInMessage.getUnreadMessageCountByUser(userId);
+		}
+		catch (Exception e)
+		{
+			return 0;
+		}
+	}
+	
+	/**
+	 * Obtains the model query condition.
+	 * 
+	 * @param URI
+	 * @param entityClass
+	 * @param fieldNames
+	 * @param fieldValues
+	 * @return
+	 */
+	@SuppressWarnings("rawtypes")
+	protected String getModelDataPolicyQuery(final String URI, 
+			final Class entityClass, final String[] conditions)
+	{
+		StringBuilder builder = new StringBuilder();
+		
+		if (dataPolicyQuery.isGrantedDataPolicy(URI))
+		{
+			String query = dataPolicyQuery.buildPolicyQuery(entityClass);
+			if (UtilString.isNotEmpty(query))
+			{
+				builder.append(query);
+			}
+		}
+		
+		if (conditions != null)
+		{
+			for (String condition : conditions)
+			{
+				builder.append(" AND ");
+				builder.append(condition);
+			}
+		}
+		
+		return builder.toString();
+	}
+	
 	public ServiceSchoolDepartment getServiceSchoolDepartment()
 	{
 		return serviceSchoolDepartment;
@@ -976,5 +1036,15 @@ extends BaseAction
 	public void setServiceSystemLog(ServiceSystemLog serviceSystemLog) 
 	{
 		this.serviceSystemLog = serviceSystemLog;
+	}
+	
+	public DataPolicyQuery getDataPolicyQuery()
+	{
+		return dataPolicyQuery;
+	}
+
+	public void setDataPolicyQuery(DataPolicyQuery dataPolicyQuery)
+	{
+		this.dataPolicyQuery = dataPolicyQuery;
 	}
 }

@@ -23,6 +23,8 @@
 		<property name="serviceSchoolPositionSet" ref="serviceSchoolPositionSet"/>
 		
 		<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
+		
+		<property name="dataPolicyQuery" ref="dataPolicyQuery" />
 	</bean>
 	
 </beans>
