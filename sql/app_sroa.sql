@@ -3366,4 +3366,7 @@ ALTER TABLE `app_process_task`
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
-ALTER TABLE `app_school_department_position` CHANGE `pos_roleRights` `pos_roleRights` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '岗位角色权限'
+ALTER TABLE `app_school_department_position` CHANGE `pos_roleRights` `pos_roleRights` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '岗位角色权限';
+
+ALTER TABLE `app_admin_doc` DROP FOREIGN KEY `PK_range`;
+ALTER TABLE `app_admin_task` ADD INDEX ( `approval_status` );

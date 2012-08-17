@@ -172,13 +172,14 @@
 	<tr>
 		<td>文档范围：</td>
 		<td colspan="3"><select class="combox" id="combox_doc_range"
-			name="docVisiableRange.id" style="width: 108px;">
-			<logic:present name="docRanges">
-				<logic:iterate name="docRanges" id="entity">
+			name="docVisiableRange" style="width: 108px;">
+			<option value="-1" ${formDoc ne null && formDoc.docVisiableRange eq -1 ? 'selected="selected"' : ''}>全校可见</option>
+			<option value="0" ${formDoc ne null && formDoc.docVisiableRange eq 0 ? 'selected="selected"' : ''}>设置个人可见</option>
+			<logic:present name="districts">
+				<logic:iterate name="districts" id="entity">
 					<option value="${entity.id}" ${formDoc ne
-						null && formDoc.docVisiableRange ne
-						null && formDoc.docVisiableRange.id eq
-						entity.id ? 'selected="selected"' : ''}>${entity.visiableName}</option>
+						null && formDoc.docVisiableRange eq
+						entity.id ? 'selected="selected"' : ''}>${entity.districtName}</option>
 				</logic:iterate>
 			</logic:present>
 		</select></td>

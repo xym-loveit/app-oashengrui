@@ -11,10 +11,11 @@
             <generator class="native" />
         </id>
         
-       <many-to-one name="docVisiableRange" class="org.shengrui.oa.model.admin.ModelDocVisiableRange" fetch="select">
-            <column name="doc_VisiableRange_id" not-null="true">
+       <property name="docVisiableRange" type="java.lang.Integer">
+            <column name="doc_VisiableRange_id">
             </column>
-        </many-to-one>
+        </property>
+        
         <many-to-one name="district" class="org.shengrui.oa.model.system.ModelSchoolDistrict" fetch="select">
             <column name="doc_postDistrictId" not-null="true">
             </column>
