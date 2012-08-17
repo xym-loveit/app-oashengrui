@@ -26,8 +26,10 @@ extends ModelBase {
 	 */
 	private static final long serialVersionUID = 6590268185904116069L;
 	
-	@Expose
-	protected ModelDocVisiableRange docVisiableRange = new ModelDocVisiableRange();
+	/**
+	 * 文档范围
+	 */
+	private Integer docVisiableRange;
 	
 	@Expose
 	protected ModelSchoolDistrict district = new ModelSchoolDistrict();
@@ -58,15 +60,37 @@ extends ModelBase {
 	
 	@Expose
 	protected Date createTime;
-
-	public ModelDocVisiableRange getDocVisiableRange() {
-		return docVisiableRange;
+	
+	/**
+	 * The document range
+	 * 
+	 * @author Jeccy.Zhao
+	 *
+	 */
+	public static enum EDocVisibleRange
+	{
+		ALL (-1, "all"),								// 所有校区
+		PERSONALS (0, "personals");			// 个人所见
+		
+		private Integer value;
+		private String text;
+		
+		EDocVisibleRange (Integer value, String text)
+		{
+			this.value = value;
+			this.text = text;
+		}
+		
+		public Integer getValue(){
+			return value;
+		}
+		
+		public String getText()
+		{
+			return this.text;
+		}
 	}
-
-	public void setDocVisiableRange(ModelDocVisiableRange docVisiableRange) {
-		this.docVisiableRange = docVisiableRange;
-	}
-
+	
 	public ModelSchoolDistrict getDistrict() {
 		return district;
 	}
@@ -232,5 +256,13 @@ extends ModelBase {
 		this.file = file;
 	}
 
-	
+	public Integer getDocVisiableRange()
+	{
+		return docVisiableRange;
+	}
+
+	public void setDocVisiableRange(Integer docVisiableRange)
+	{
+		this.docVisiableRange = docVisiableRange;
+	}
 }

@@ -18,7 +18,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.admin.ModelDoc;
 import org.shengrui.oa.model.admin.ModelDocLevel;
-import org.shengrui.oa.model.admin.ModelDocVisiableRange;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.system.ModelAppDictionary;
 import org.shengrui.oa.model.system.ModelAppUser;
@@ -217,8 +216,12 @@ extends BaseAdminAction
 			request.setAttribute("docTypes", this.getServiceAppDictionary().getByType("docType"));
 			request.setAttribute("districts" , this.getServiceSchoolDistrict().getAll());
 			request.setAttribute("docLevels" , this.getServiceDocLevel().getAll());
+			
+			
 			request.setAttribute("docRanges" , this.getServiceDocVisiableRange().getAll());
+			
 			request.setAttribute("deps" , this.getServiceSchoolDepartment().getDepartmentByOrganization(0));
+			
 			// 获取所有校区
 			request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
 			
@@ -389,8 +392,10 @@ extends BaseAdminAction
 				{
 					// 保存文档可见人
 					Map<String, List<String>> paramEmpIds = this.getAllRequestParameters(request, new String[] {"empid"});
+					
 					//封装设置个人可见数据
-					if( "2".equals(formDoc.getDocVisiableRange().getId())&&paramEmpIds != null && paramEmpIds.size() > 0)
+					if(ModelDoc.EDocVisibleRange.PERSONALS.getValue().equals(formDoc.getDocVisiableRange()) && 
+							paramEmpIds != null && paramEmpIds.size() > 0)
 					{
 						
 						try {
@@ -422,7 +427,9 @@ extends BaseAdminAction
 						}
 						
 						
-					}else if(!"2".equals(formDoc.getDocVisiableRange().getId())&&paramEmpIds != null && paramEmpIds.size() > 0)
+					}
+					else if (!ModelDoc.EDocVisibleRange.PERSONALS.getValue().equals(
+							formDoc.getDocVisiableRange()) && paramEmpIds != null && paramEmpIds.size() > 0)
 					{
 						return ajaxPrint(response, getErrorCallback("当前不是设置为个人可见!"));
 					}
@@ -433,7 +440,7 @@ extends BaseAdminAction
 					}
 					ModelAppDictionary type     =this.getServiceAppDictionary().get(formDoc.getType().getId());
 					ModelDocLevel level         =this.getServiceDocLevel().get(formDoc.getDocLevel().getId());
-					ModelDocVisiableRange range =this.getServiceDocVisiableRange().get(formDoc.getDocVisiableRange().getId());
+					// ModelDocVisiableRange range =this.getServiceDocVisiableRange().get(formDoc.getDocVisiableRange().getId());
 					ModelSchoolDistrict district=this.getServiceSchoolDistrict().get(formDoc.getDistrict().getId());
 					ModelSchoolDepartment dep   =this.getServiceSchoolDepartment().get(formDoc.getDepartment().getId());
 					ModelAppUser author         = this.getServiceAppUser().findByUserName((String)request.getSession().getAttribute("SPRING_SECURITY_LAST_USERNAME"));
@@ -442,7 +449,7 @@ extends BaseAdminAction
 					formDoc.setAuthor(author);
 					formDoc.setDepartment(dep);
 					formDoc.setDocLevel(level);
-					formDoc.setDocVisiableRange(range);
+					// formDoc.setDocVisiableRange(range);
 					formDoc.setDistrict(district);
 					formDoc.setCreateTime(new Date());
 					
@@ -507,7 +514,8 @@ extends BaseAdminAction
 				if(formDoc!=null)
 				{
 					//封装设置个人可见数据
-					if( "2".equals(formDoc.getDocVisiableRange().getId())&&UtilString.isNotEmpty(formDoc.getDocUserNames()))
+					if(ModelDoc.EDocVisibleRange.PERSONALS.getValue().equals(
+							formDoc.getDocVisiableRange()) && UtilString.isNotEmpty(formDoc.getDocUserNames()))
 					{
 						
 						try {
@@ -536,18 +544,20 @@ extends BaseAdminAction
 						}
 						
 						
-					}else if(formDoc.getDocVisiableRange().getId()!="2"&&UtilString.isNotEmpty(formDoc.getDocUserNames()))
+					}
+					else if (!ModelDoc.EDocVisibleRange.PERSONALS.getValue().equals(formDoc.getDocVisiableRange()) && 
+							UtilString.isNotEmpty(formDoc.getDocUserNames()))
 					{
 						return ajaxPrint(response, getErrorCallback("当前不是设置为个人可见!"));
 					}
-				
+					
 					if(!UtilString.isNotEmpty(formDoc.getDocName()))
 					{
 						return ajaxPrint(response, getErrorCallback("文档名称不能为空!"));
 					}
 					ModelAppDictionary type     =this.getServiceAppDictionary().get(formDoc.getType().getId());
 					ModelDocLevel level         =this.getServiceDocLevel().get(formDoc.getDocLevel().getId());
-					ModelDocVisiableRange range =this.getServiceDocVisiableRange().get(formDoc.getDocVisiableRange().getId());
+					// ModelDocVisiableRange range =this.getServiceDocVisiableRange().get(formDoc.getDocVisiableRange().getId());
 					ModelSchoolDistrict district=this.getServiceSchoolDistrict().get(formDoc.getDistrict().getId());
 					ModelSchoolDepartment dep   =this.getServiceSchoolDepartment().get(formDoc.getDepartment().getId());
 					ModelAppUser author         = this.getServiceAppUser().findByUserName((String)request.getSession().getAttribute("SPRING_SECURITY_LAST_USERNAME"));
@@ -556,7 +566,7 @@ extends BaseAdminAction
 					formDoc.setAuthor(author);
 					formDoc.setDepartment(dep);
 					formDoc.setDocLevel(level);
-					formDoc.setDocVisiableRange(range);
+					//formDoc.setDocVisiableRange(range);
 					formDoc.setDistrict(district);
 					formDoc.setCreateTime(new Date());
 					//在数据上传的FileUploadServlet中传过来的session值，用完销毁掉。

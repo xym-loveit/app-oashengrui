@@ -118,7 +118,9 @@ extends ServiceGenericImpl<ModelDoc> implements ServiceDocManage
 		// 文档范围过滤...
 		criteria.add(
 				Restrictions.sqlRestriction(
-						"doc_VisiableRange_id = 1 or (doc_VisiableRange_id = 2 and ? in (`doc_userIds`)) or doc_VisiableRange_id = ?", 
+						"doc_VisiableRange_id = " + ModelDoc.EDocVisibleRange.ALL.getValue() +
+						" or (doc_VisiableRange_id = " + ModelDoc.EDocVisibleRange.PERSONALS.getValue() + 
+						" and ? in (`doc_userIds`)) or doc_VisiableRange_id = ?", 
 						new Object[] {
 								Integer.valueOf(ContextUtil.getCurrentUser().getId()), 
 								Integer.valueOf(ContextUtil.getCurrentUser().getDistrictId())}, 
