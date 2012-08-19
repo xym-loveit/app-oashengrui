@@ -33,4 +33,6 @@ public interface ServiceStaffAttendance extends ServiceGeneric<ModelStaffAttenda
 			PagingBean pagingBean) throws ServiceException;
 	
 	List<ModelStaffAttendance> getListByCriteria(ModelStaffAttendance entity) throws ServiceException;
+	
+	void insertFromWorkArrangeByDate(String startDay,String endDay,String districtId) throws ServiceException;
 }

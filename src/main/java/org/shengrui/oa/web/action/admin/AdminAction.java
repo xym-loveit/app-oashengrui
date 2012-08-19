@@ -3,6 +3,7 @@ package org.shengrui.oa.web.action.admin;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +31,9 @@ import org.springframework.beans.BeanUtils;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.exception.WebException;
 import cn.trymore.core.util.UtilBean;
+import cn.trymore.core.util.excel.AbstractExcelParser;
+import cn.trymore.core.util.excel.ExcelRowData;
+import cn.trymore.core.util.excel.PoiExcelParser;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
@@ -1337,6 +1341,14 @@ extends BaseAdminAction
 		} 
 	}
 	
+	/**
+	 * 计算员工假期
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	public ActionForward actionCalculateVocation(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	{
@@ -1384,6 +1396,116 @@ extends BaseAdminAction
 		}
 		request.setAttribute("leaveType", formInfo.getLeaveType());
 		return mapping.findForward("admin.page.staff.attendance.vocation");
+	}
+	
+	/**
+	 * 跳转到导入考勤机数据的对话框
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ActionForward actionShowImportAttendanceDataDialog(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	{
+		try {
+			request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return mapping.findForward("admin.page.staff.attendance.import");
+	}
+	
+	/**
+	 * 导入考勤机数据
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	
+	/**
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ActionForward actionEmployeeImport(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response)
+	{
+		String path = request.getParameter("fileUrls");
+		if(!"xls".equalsIgnoreCase(path.substring(path.lastIndexOf(".")+1)) && !"xlsx".equalsIgnoreCase(path.substring(path.lastIndexOf(".")+1))){
+			ajaxPrint(response,getErrorCallback("上传的文件格式不对，请重新选择"));
+		}
+		String districtId = request.getParameter("districtId");
+		ModelSchoolDistrict district = null;
+		try {
+			district = this.getServiceSchoolDistrict().getDistrictByNo(districtId);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String url = request.getServletContext().getRealPath("/uploads/");
+		AbstractExcelParser excelParser = new PoiExcelParser(url + "/" +path);
+		List<ExcelRowData> excelRowData = excelParser.getRowData(0);
+		
+		Date startDay = UtilDateTime.toDateByPattern(excelRowData.get(1).getRowData().get(4));
+		Date endDay = UtilDateTime.toDateByPattern(excelRowData.get(1).getRowData().get(4));
+		for(int i = 1; i <excelRowData.size();i++)
+		{
+			if(!district.getDistrictName().equals(excelRowData.get(i).getRowData().get(0)))continue;//异常数据，与所选校区不对应
+			if(excelRowData.get(i).getRowData().get(4) == null || "".equals(excelRowData.get(i).getRowData().get(4))) continue;
+			Date day = UtilDateTime.toDateByPattern(excelRowData.get(i).getRowData().get(4));
+			if(day == null)continue;
+			try {
+				ModelHrmEmployee emp = this.getServiceHrmEmployee().getEmployeeByEmpNo(excelRowData.get(i).getRowData().get(2));
+				if(!districtId.equals(emp.getEmployeeDistrict().getId()))continue;
+				ModelStaffAttendanceView entity = this.getServiceStaffAttendanceView().getRecordByCondition(emp.getId(), day, emp.getEmployeeDistrict().getId());
+				if(entity == null){//有考勤数据却没工作安排，为异常数据
+					continue;
+				}
+				//考勤机数据中打卡时间不全，为异常数据
+				if(excelRowData.get(i).getRowData().get(5)==null || "".equals(excelRowData.get(i).getRowData().get(5)) || 
+						excelRowData.get(i).getRowData().get(6)==null || "".equals(excelRowData.get(i).getRowData().get(6))){
+					entity.setException("1");
+				}
+				entity.setOfftimeShour(UtilDateTime.getTimeField(UtilDateTime.toDateByPattern(excelRowData.get(i).getRowData().get(5), "HH:mm"), Calendar.HOUR_OF_DAY));
+				entity.setOfftimeSmin(UtilDateTime.getTimeField(UtilDateTime.toDateByPattern(excelRowData.get(i).getRowData().get(5), "HH:mm"), Calendar.MINUTE));
+				entity.setOfftimeEhour(UtilDateTime.getTimeField(UtilDateTime.toDateByPattern(excelRowData.get(i).getRowData().get(6), "HH:mm"), Calendar.HOUR_OF_DAY));
+				entity.setOfftimeEmin(UtilDateTime.getTimeField(UtilDateTime.toDateByPattern(excelRowData.get(i).getRowData().get(6), "HH:mm"), Calendar.MINUTE));
+				ModelStaffAttendance atd = entity;
+				if("attendance".equals(entity.getAttendanceViewId().getOrigin())){
+					atd.setId(entity.getAttendanceViewId().getViewId());
+				}
+				this.getServiceStaffAttendance().save(atd);
+				if("arrange".equals(entity.getAttendanceViewId().getOrigin())){
+					ModelAdminWorkArrange arrange = this.getServiceAdminWorkArrange().get(entity.getAttendanceViewId().getViewId());
+					arrange.setAttendanceId(atd.getId());
+					this.getServiceAdminWorkArrange().save(arrange);
+				}
+				if(day.before(startDay)){
+					startDay = day;
+				}else if(day.after(endDay)){
+					endDay = day;
+				}
+			} catch (ServiceException e) {
+				// TODO Auto-generated catch block
+				ajaxPrint(response,getErrorCallback("导入考勤机数据失败，请重试"));
+			}//根据员工编号查询员工信息
+		}
+		//有工作安排却没有考勤机数据，为异常数据
+		try {
+			this.getServiceStaffAttendance().insertFromWorkArrangeByDate(UtilDateTime.formatDate2Str(startDay), UtilDateTime.formatDate2Str(endDay), districtId);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			ajaxPrint(response,getErrorCallback("导入考勤机数据失败，请重试"));
+		}
+		return ajaxPrint(response, getSuccessCallback("导入考勤机数据成功"));
 	}
 	
 	/**

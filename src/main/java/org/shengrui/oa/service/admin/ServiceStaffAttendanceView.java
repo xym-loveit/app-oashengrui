@@ -1,5 +1,7 @@
 package org.shengrui.oa.service.admin;
 
+import java.util.Date;
+
 import org.shengrui.oa.model.admin.ModelStaffAttendanceView;
 import org.shengrui.oa.model.admin.ModelStaffAttendanceViewID;
 
@@ -27,4 +29,13 @@ public interface ServiceStaffAttendanceView extends ServiceGeneric<ModelStaffAtt
 	PaginationSupport<ModelStaffAttendanceView> getPaginationByEntity (ModelStaffAttendanceView entity, 
 			PagingBean pagingBean) throws ServiceException;
 	
+	/**
+	 * 查询员工当天的考勤结果
+	 * @param staffId
+	 * @param day
+	 * @param districtId
+	 * @return
+	 * @throws ServiceException
+	 */
+	ModelStaffAttendanceView getRecordByCondition(String staffId,Date day,String districtId) throws ServiceException;
 }
