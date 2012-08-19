@@ -85,6 +85,10 @@
 	<!-- 员工考勤管理 - 员工考勤 - 休假天数 -->
 	<definition name="admin.page.staff.attendance.vocation" 
 		path="/WEB-INF/jsp/application/administrator/staff/attendance/vocation.jsp" />
+		
+	<!-- 员工考勤管理- 员工考勤- 导入考勤机数据对话框 -->
+	<definition name="admin.page.staff.attendance.import" 
+		path="/WEB-INF/jsp/application/administrator/staff/attendance/importAttendanceData.jsp" />
 	
 	<!-- 文档上传与管理 -->
 	<definition name="admin.page.document.index" 
