@@ -429,6 +429,7 @@ public class UtilDateTime {
     }
     
     public static java.util.Date toDateByPattern(String dateTime, String pattern) {
+    	if(dateTime == null || "".equals(dateTime))return null;
     	SimpleDateFormat sdf = new SimpleDateFormat(pattern);
     	try {
 			return sdf.parse(dateTime);
@@ -1011,4 +1012,12 @@ public class UtilDateTime {
 	   }
 	   return d1.before(d2);
    }
+   
+   public static String getTimeField(Date day,int field){
+	   if(day == null)return null;
+	   Calendar c = Calendar.getInstance();
+	   c.setTime(day);
+	   return c.get(field)<10?"0"+c.get(field):""+c.get(field);
+   }
+   
 }

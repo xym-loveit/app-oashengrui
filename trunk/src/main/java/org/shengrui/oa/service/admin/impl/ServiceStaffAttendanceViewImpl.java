@@ -1,5 +1,6 @@
 package org.shengrui.oa.service.admin.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
@@ -117,5 +118,31 @@ public class ServiceStaffAttendanceViewImpl extends ServiceGenericImpl<ModelStaf
 			// TODO Auto-generated catch block
 			throw new ServiceException(e);
 		}
+	}
+	@Override
+	public ModelStaffAttendanceView getRecordByCondition(String staffId,
+			Date day, String districtId) throws ServiceException {
+		// TODO Auto-generated method stub
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelStaffAttendanceView.class);
+		if(UtilString.isNotEmpty(staffId)){
+			criteria.add(Restrictions.eq("staffId", staffId));
+		}
+		if(day != null){
+			criteria.add(Restrictions.eq("workDate", day));
+		}
+		if(UtilString.isNotEmpty(districtId)){
+			criteria.add(Restrictions.eq("districtId", districtId));
+		}
+		List<ModelStaffAttendanceView> list = null;
+		try {
+			list = this.getDaoStaffAttendanceView().getListByCriteria(criteria);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(list!=null && list.size()>0){
+			return list.get(0);
+		}
+		return null;
 	}
 }

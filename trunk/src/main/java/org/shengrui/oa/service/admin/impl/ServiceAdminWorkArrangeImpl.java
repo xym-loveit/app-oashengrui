@@ -203,7 +203,7 @@ extends ServiceGenericImpl<ModelAdminWorkArrange> implements ServiceAdminWorkArr
 	public void batchCopyByDay(String day,String date, String districtId) throws ServiceException {
 		// TODO Auto-generated method stub
 		String sql = "insert into app_admin_workarrange(work_date,work_time,staff_name,staff_id,work_type,work_content,district_id,dep_id)"
-					+ " select '"+date+"',worktm_id,staff_name,staff_id,'1',workcnt_id,district_id,dep_id from app_system_work_template where enable='1' and district_id="+districtId+" and work_day='"+day+"'";
+					+ " select '"+date+"',worktm_id,staff_name,staff_id,'1',workcnt_id,t.district_id,e.dep_id from app_system_work_template t, app_hrm_employee e where enable='1' AND t.staff_id = e.emp_id and t.district_id="+districtId+" and work_day='"+day+"'";
 		try {
 			this.daoWorkArrange.execUpdateByNativeSQL(sql);
 		} catch (DAOException e) {

@@ -106,4 +106,19 @@ public class ServiceStaffAttendanceImpl extends ServiceGenericImpl<ModelStaffAtt
 			throw new ServiceException(e);
 		}
 	}
+	@Override
+	public void insertFromWorkArrangeByDate(String startDay, String endDay,
+			String districtId) throws ServiceException {
+		// TODO Auto-generated method stub
+		String sql = "insert into app_admin_attendance(work_date,work_time,offtime_shour,offtime_ehour,offtime_smin,offtime_emin,staff_id,staff_name,work_type,work_status,leave_type,staff_behalf_name,staff_behalf_id,meto,attendance_result,exception,dep_id,district_id)"
+			+ " select work_date,concat(work_stime,'-',work_etime),null,null,null,null,staff_id,staff_name,work_type,'0',null,null,null,null,'1','1',a.dep_id,a.district_id from app_admin_workarrange a join app_system_work_time w where "
+			+ " work_time = worktm_id and ISNULL(a.attend_id) and"
+			+ " a.district_id="+districtId+" and work_date>='"+startDay+"' and work_date<='"+endDay+"'";
+		try {
+			this.daoStaffAttendance.execUpdateByNativeSQL(sql);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			throw new ServiceException(e);
+		}
+	}
 }
