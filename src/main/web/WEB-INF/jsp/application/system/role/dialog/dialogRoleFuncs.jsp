@@ -27,10 +27,13 @@
 			var item_ckm = getCheckedItems($("span[type='menu']", $("div.checked").parent()));
 			var item_indets = getCheckedItems($("span[type='menu']", $("div.indeterminate").parent()));
 			var item_ckf = getCheckedItems($("span[type='func']", $("div.checked").parent()));
+			var item_ckindets = getCheckedItems($("span[type='func']", $("div.indeterminate").parent()));
 			var item_ckp = getCheckedItems($("span[type='perm']", $("div.checked").parent()));
 			
 			var menu_ids = (item_ckm != "" ? (item_ckm + ",") : "") + item_indets;
-			var func_rights = item_ckf;
+			var func_rts = (item_ckf != "" ? (item_ckf + ",") : "") + item_ckindets;
+			
+			var func_rights = func_rts;
 			var func_perms = item_ckp;
 			
 			$.bringBack({menuIds:menu_ids, funcRights:func_rights, funcPerms:func_perms});			
