@@ -63,6 +63,7 @@
          
          <!-- 员工考勤-->
          <forward name="admin.page.staff.attendance.vocation" path="admin.page.staff.attendance.vocation" />
+         <forward name="admin.page.staff.attendance.import" path="admin.page.staff.attendance.import"/>
       </action>
 	</action-mappings>
 
