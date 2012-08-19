@@ -73,7 +73,7 @@
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a class="icon" href="demo/common/dwz-team.xls" target="dwzExport" targetType="navTab" title="确定要导入考勤数据吗?"><span>导入考勤数据</span></a></li>
+			<li><a class="icon" width="400" height="180" href="app/admin/attendance/operation.do?action=actionShowImportAttendanceDataDialog" target="dialog" title="导入考勤数据" rel="_menu_mod_admin_staff_attendance"><span>导入考勤数据</span></a></li>
 		</ul>
 	</div>
 	<table class="table" width="100%" layoutH="138">
