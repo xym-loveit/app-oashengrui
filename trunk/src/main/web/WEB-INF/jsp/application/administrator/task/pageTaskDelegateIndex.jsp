@@ -76,7 +76,7 @@
 			<tr>
 				<th align="center">任务类型</th>
 				<th align="center">任务名称</th>
-				<th align="center">发责人</th>
+				<th align="center">发起人</th>
 				<th align="center">负责人</th>
 				<th align="center">任务状态</th>
 				<th align="center">发布审批</th>

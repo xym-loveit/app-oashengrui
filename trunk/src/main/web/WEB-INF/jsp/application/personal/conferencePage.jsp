@@ -211,7 +211,7 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 						<td style="padding: 5px;">
 							<c:choose>
 								<c:when test="${op eq null || op ne 'view'}">
-									<select class="combox" name="level" id="combox_level" style="width:120px" ref="combox_cof_type" refUrl="app/system/dictionary.do?action=actionLoadByTypeAndLevel&type=conference&level={value}">
+									<select class="combox" name="level" id="combox_level" style="width:120px" ref="combox_cof_type" refUrl="app/base.do?action=actionLoadByTypeAndLevel&type=conference&level={value}">
 										<option value="">请选择会议级别</option>
 										<option value="公司级别会议" ${conference.level ne null && conference.level eq '公司级别会议' ? 'selected="selected"':'' }>公司级别会议</option>
 										<option value="校区级别会议" ${conference.level ne null && conference.level eq '校区级别会议' ? 'selected="selected"':'' }>校区级别会议</option>

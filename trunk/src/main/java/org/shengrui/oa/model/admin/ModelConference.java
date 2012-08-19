@@ -6,7 +6,9 @@ import org.shengrui.oa.model.system.ModelAppDictionary;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
+import org.shengrui.oa.util.AppUtil;
 
+import cn.trymore.core.acl.AclFilterAnnotation;
 import cn.trymore.core.model.ModelBase;
 
 public class ModelConference extends ModelBase {
@@ -120,6 +122,16 @@ public class ModelConference extends ModelBase {
 	 * 主要用于多状态集合搜索,超级用户
 	 */
 	private Integer[] searchStatusCondition;
+	
+	
+	/**
+	 * 数据权限过滤
+	 */
+	@AclFilterAnnotation(
+		fieldNames ={"district_id", "depart_id", "sponsor"}, 
+		fieldTypes ={AppUtil.DATA_POLICY_DISTRICT, AppUtil.DATA_POLICY_DEPARTMENT, AppUtil.DATA_POLICY_PERSONAL}
+	)
+	private String aclFilterFields;
 	
 	/**
 	 * The enumeration of job hire approval status

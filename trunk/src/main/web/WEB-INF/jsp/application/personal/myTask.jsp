@@ -103,7 +103,7 @@
 					<tr target="entry_id" rel="${entity.id}">
 						<td>${entity.taskType.name}</td>
 						<td>${entity.taskName}</td>
-						<td>${entity.taskCharger.empName}</td>
+						<td>${entity.taskOriginator.empName}</td>
 						<td>${entity.taskCharger.id eq sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.employee.id ? '负责' : '参与'}</td>
 						<td>
 							<c:choose>
