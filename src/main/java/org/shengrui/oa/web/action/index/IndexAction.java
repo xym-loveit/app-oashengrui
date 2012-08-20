@@ -15,6 +15,7 @@ import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
+import org.shengrui.oa.util.WebActionUtil;
 import org.shengrui.oa.web.action.BaseAppAction;
 
 import cn.trymore.core.exception.ServiceException;
@@ -110,7 +111,7 @@ extends BaseAppAction
 		request.setAttribute("numMsgUnread", 
 				this.getUnreadMessageByUserId(empId));
 		
-		request.setAttribute("num_menu_mod_admin_task", 
+		request.setAttribute(WebActionUtil.MENU_KEY_ADMIN_TASK, 
 			this.serviceTaskPlan.getAffectedNumByQuery(ModelTaskPlan.class, 
 				this.getModelDataPolicyQuery(
 					"app/admin/task.do?action=pageTaskDelegateIndex", 
