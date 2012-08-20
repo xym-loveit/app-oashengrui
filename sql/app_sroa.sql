@@ -3371,5 +3371,5 @@ ALTER TABLE `app_school_department_position` CHANGE `pos_roleRights` `pos_roleRi
 ALTER TABLE `app_admin_doc` DROP FOREIGN KEY `PK_range`;
 ALTER TABLE `app_admin_task` ADD INDEX ( `approval_status` );
 
-ALTER TABLE  `app_admin_task` ADD  `auditor` BIGINT NULL COMMENT  '审批人' AFTER  `approval_status`
-ALTER TABLE  `app_admin_task` ADD  `audit_time` DATETIME NULL COMMENT  '审批时间' AFTER  `auditor`
+ALTER TABLE  `app_admin_task` ADD  `auditor` BIGINT NULL COMMENT  '审批人' AFTER  `approval_status`;
+ALTER TABLE  `app_admin_task` ADD  `audit_time` DATETIME NULL COMMENT  '审批时间' AFTER  `auditor`;
