@@ -12,6 +12,14 @@
 
 <script>
 	
+	function openNavTab() {
+		
+	}
+	
+	function openDialog(url, dlgId, title) {
+		$.pdialog.open(url, dlgId, title);
+	}
+	
 	$(function(){
 		<logic:notPresent name="msgId">
 		$('#task_participants').manifest({
@@ -40,7 +48,14 @@
 		var editor = KindEditor.create('textarea[name="content"]',{
 			basePath: "resources/js/kindeditor/",
 			resizeType : 1,
+			<logic:present name="msgId">
+			minHeight: 200,
+			</logic:present>
 			allowPreviewEmoticons : true,
+			filterMode: false,
+			afterBlur: function(){
+				this.sync();
+			},
 			items : [
 				'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
 				'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
@@ -48,6 +63,11 @@
 			<logic:present name="msgId">
 			,readonlyMode : true
 			</logic:present>
+			<logic:notPresent name="msgId">
+			,afterCreate : function() {
+				DWZ.initUI($(iframe));
+			}
+			</logic:notPresent>
 		});
 	});
 	

@@ -49,7 +49,7 @@
 							<td><fmt:formatDate value="${entity.shortMessage.sendTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 							<td><img style="padding:3px;" src="resources/images/icons/${entity.readFlag eq 1 ? 'email_open.png' : 'email.png'}" /></td>
 							<td>
-								<a target="dialog" href="app/message.do?action=dialogMessagePage&msgId=${entity.shortMessage.id}&msgInId=${entity.id}" title="查看消息" rel="msg_read_${entity.id}"><img src="resources/images/icons/update.gif" style="padding: 3px;"/></a>&nbsp;
+								<a target="dialog" href="app/message.do?action=dialogMessagePage&msgId=${entity.shortMessage.id}&msgInId=${entity.id}" width="640" height="380" title="查看消息" rel="msg_read_${entity.id}"><img src="resources/images/icons/update.gif" style="padding: 3px;"/></a>&nbsp;
 								<a href="app/message.do?action=actionRemoveShortMessage&msgInId=${entity.id}" target="ajaxTodo" title="确定要删除`${entity.shortMessage.subject}`消息吗?" callback="msg_reload()"><img src="resources/images/icons/remove.png" style="padding: 3px;"/></a>
 							</td>
 						</tr>
@@ -62,7 +62,7 @@
 							<td>${entity.subject}</td>
 							<td><fmt:formatDate value="${entity.sendTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 							<td>
-								<a target="dialog" href="app/message.do?action=dialogMessagePage&msgId=${entity.id}" title="查看消息" rel="msg_read_${entity.id}"><img src="resources/images/icons/update.gif" style="padding: 3px;"/></a></td>
+								<a target="dialog" width="640" height="380" href="app/message.do?action=dialogMessagePage&msgId=${entity.id}" title="查看消息" rel="msg_read_${entity.id}"><img src="resources/images/icons/update.gif" style="padding: 3px;"/></a></td>
 						</tr>
 					</logic:iterate>
 				</c:otherwise>

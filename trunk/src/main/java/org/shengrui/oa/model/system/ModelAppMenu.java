@@ -68,6 +68,11 @@ extends ModelBase
 	 */
 	protected Set<ModelAppFunction> functions;
 	
+	/**
+	 * 菜单项对应的待办项数目
+	 */
+	protected int itemNum;
+	
 	public String getMenuTitle()
 	{
 		return menuTitle;
@@ -156,6 +161,16 @@ extends ModelBase
 	public void setFunctions(Set<ModelAppFunction> functions)
 	{
 		this.functions = functions;
+	}
+	
+	public int getItemNum()
+	{
+		return itemNum;
+	}
+
+	public void setItemNum(int itemNum)
+	{
+		this.itemNum = itemNum;
 	}
 	
 	@Override
