@@ -282,6 +282,14 @@ extends ModelBase
 	public void setNewsDistrictVisible(ModelSchoolDistrict newsDistrictVisible) {
 		this.newsDistrictVisible = newsDistrictVisible;
 	}
+	public void setAclFilterFields(String aclFilterFields)
+	{
+		this.aclFilterFields = aclFilterFields;
+	}
+	public String getAclFilterFields()
+	{
+		return aclFilterFields;
+	}
 
 	
 }

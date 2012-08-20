@@ -18,12 +18,14 @@
 		$("#task_btnapproval").bind("click", function() { 
 			$("#auditStatus").val("2");
 			$("#formTask").submit();
+			return false;
 		});
 		
 		$("#task_btnback").unbind("click");
 		$("#task_btnback").bind("click", function() { 
 			$("#auditStatus").val("4");
 			$("#formTask").submit();
+			return false;
 		});
 		
 		KISSY.use('gallery/form/1.2/uploader/queue/base', function (S, Queue) {

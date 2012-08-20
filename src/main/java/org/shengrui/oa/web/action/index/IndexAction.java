@@ -110,7 +110,7 @@ extends BaseAppAction
 		request.setAttribute("numMsgUnread", 
 				this.getUnreadMessageByUserId(empId));
 		
-		request.setAttribute("numTaskToApproval", 
+		request.setAttribute("num_menu_mod_admin_task", 
 			this.serviceTaskPlan.getAffectedNumByQuery(ModelTaskPlan.class, 
 				this.getModelDataPolicyQuery(
 					"app/admin/task.do?action=pageTaskDelegateIndex", 

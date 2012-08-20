@@ -25,11 +25,17 @@
         <property name="taskParticipantIds" type="java.lang.String">
         	<column name="task_participant_ids" />
         </property>
+        <property name="taskParticipantNames" type="java.lang.String">
+        	<column name="task_participant_names" />
+        </property>
         <property name="taskStatus" type="java.lang.Integer">
             <column name="task_status" />
         </property>
         <property name="auditStatus" type="java.lang.Integer">
             <column name="approval_status" />
+        </property>
+        <property name="auditTime" type="timestamp">
+        	  <column name="audit_time" />
         </property>
         <property name="createTime" type="timestamp">
         	  <column name="create_time" />
@@ -53,6 +59,10 @@
         
         <many-to-one name="taskOriginator" class="org.shengrui.oa.model.hrm.ModelHrmEmployee">
         	<column name="task_originator" />
+        </many-to-one>
+        
+        <many-to-one name="auditor" class="org.shengrui.oa.model.hrm.ModelHrmEmployee">
+        	<column name="auditor" />
         </many-to-one>
         
         <set name="attachFiles" table="app_admin_task_file"

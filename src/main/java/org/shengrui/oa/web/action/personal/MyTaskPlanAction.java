@@ -1,9 +1,11 @@
 package org.shengrui.oa.web.action.personal;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -401,12 +403,22 @@ extends BaseAppAction
 					{
 						// 提交审核...
 						entity.setAuditStatus(null);
+						entity.setAuditor(null);
+						entity.setAuditTime(null);
 					}
 					else if (entity.getAuditStatus() != null && 
 							ModelTaskPlan.ETaskApprovalStatus.RETURNED.getValue().equals(entity.getAuditStatus()))
 					{
 						// 修改已退回为待审批状态...
 						entity.setAuditStatus(ModelTaskPlan.ETaskApprovalStatus.RETURNED.getValue());
+						entity.setAuditTime(new Date());
+						entity.setAuditor(ContextUtil.getCurrentUser().getEmployee());
+					}
+					else if (entity.getAuditStatus() != null && 
+							ModelTaskPlan.ETaskApprovalStatus.APPROVED.getValue().equals(entity.getAuditStatus()))
+					{
+						entity.setAuditTime(new Date());
+						entity.setAuditor(ContextUtil.getCurrentUser().getEmployee());
 					}
 				}
 				else
@@ -449,12 +461,20 @@ extends BaseAppAction
 							if (paramEmpIds != null && paramEmpIds.size() > 0)
 							{
 								List<String> empIds = paramEmpIds.get("empid");
+								List<String> empNames = null;
 								for (String empId : empIds)
 								{
 									ModelHrmEmployee employee = this.serviceHrmEmployee.get(empId);
 									if (employee != null)
 									{
 										entity.getTaskParticipants().add(employee);
+										
+										if (empNames == null)
+										{
+											empNames = new ArrayList<String>();
+										}
+										
+										empNames.add(employee.getEmpName());
 									}
 									else
 									{
@@ -463,6 +483,10 @@ extends BaseAppAction
 								}
 								
 								entity.setTaskParticipantIds(UtilString.join(empIds, ","));
+								entity.setTaskParticipantNames(UtilString.join(empNames, ","));
+								
+								empNames = null;
+								empIds = null;
 							}
 							
 							// 附件关联保存
@@ -475,6 +499,38 @@ extends BaseAppAction
 									Integer.valueOf(entity.getTaskCharger().getEmployeeDistrict().getId()));
 							
 							this.serviceTaskPlan.save(entity);
+							
+							// 发送短消息给任务负责人...
+							if (entity.getAuditStatus() != null)
+							{
+								Map<String, Object> params = new HashMap<String, Object>();
+								params.put("entity", entity);
+								
+								if (ModelTaskPlan.ETaskApprovalStatus.APPROVED.getValue().equals(
+										entity.getAuditStatus()))
+								{
+									// 审核通过
+									this.sendMessage("admin.task.audit.approved", 
+										params, new Object[] {
+											entity.getTaskCharger().getId(),
+											entity.getTaskOriginator().getId(),
+											entity.getTaskParticipantIds()
+										}, 
+										ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+									);
+								}
+								else if (entity.getAuditStatus() != null && 
+										ModelTaskPlan.ETaskApprovalStatus.RETURNED.getValue().equals(entity.getAuditStatus()))
+								{
+									// 审核被退回
+									this.sendMessage("admin.task.audit.returned", 
+										params, new Object[] {
+											entity.getTaskOriginator().getId()
+										}, 
+										ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+									);
+								}
+							}
 							
 							// 保存成功后, Dialog进行关闭
 							return ajaxPrint(response, 
@@ -691,8 +747,6 @@ extends BaseAppAction
 					
 					String auditType = request.getParameter("auditType");
 					
-					String auditResult = "";
-					
 					if (ModelTaskPlanTrack.ETaskAuditState.PASS.getValue().equals(taskTrack.getTaskAuditState()))
 					{
 						// 审核通过
@@ -707,32 +761,16 @@ extends BaseAppAction
 							taskPlan.setTaskStatus(ModelTaskPlan.ETaskStatus.POSTPONED.getValue());
 							taskPlan.setTaskPlannedEndDate(UtilDate.toDate(request.getParameter("taskAuditFinalizedDate")));
 						}
-						
-						auditResult = this.getMessageFromResource(request, "approval.status.ok");
 					}
 					else if (ModelTaskPlanTrack.ETaskAuditState.NOTPASS.getValue().equals(taskTrack.getTaskAuditState()))
 					{
 						// 审核未过
 						taskPlan.setTaskStatus(ModelTaskPlan.ETaskStatus.ONGOING.getValue());
-						
-						auditResult = this.getMessageFromResource(request, "approval.status.nok");
 					}
 					
 					taskTrack.setTask(taskPlan);
 					
 					this.serviceTaskPlanTrack.save(taskTrack);
-					
-					// 发送短消息给任务负责人...
-					StringBuilder msgSubject =  new StringBuilder();
-					msgSubject.append("[`");
-					msgSubject.append(this.getMessageFromResource(request, "audit.cat.task"));
-					msgSubject.append("`] ");
-					msgSubject.append(taskPlan.getTaskName());
-					msgSubject.append(" - ");
-					msgSubject.append(auditResult);
-					
-					this.sendMessage(msgSubject.toString(), 
-							msgSubject.toString(), new Object[] {taskPlan.getTaskCharger().getId()}, ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue());
 					
 					// 保存成功后, Dialog进行关闭
 					return ajaxPrint(response, 

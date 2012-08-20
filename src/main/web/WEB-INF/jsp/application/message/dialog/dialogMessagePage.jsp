@@ -74,7 +74,7 @@
 					</logic:notPresent>
 					<tr>
 						<td style="line-height: 25px;vertical-align: top">消息内容：</td>
-						<td><textarea name="content" class="required" rows="5" cols="60"
+						<td><textarea name="content" class="required" rows="8" cols="60"
 							style="width: 100%" ${entity ne null ? 'readonly' : ''}>${entity ne null ? entity.content : ''}</textarea></td>
 					</tr>
 				</table>
