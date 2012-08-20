@@ -7,6 +7,9 @@
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
+<script src="resources/js/kindeditor/kindeditor.js" type="text/javascript"></script>
+<script src="resources/js/kindeditor/lang/zh_CN.js" type="text/javascript"></script>
+
 <script>
 	
 	$(function(){
@@ -33,6 +36,19 @@
 			}
 		});
 		</logic:notPresent>
+		
+		var editor = KindEditor.create('textarea[name="content"]',{
+			basePath: "resources/js/kindeditor/",
+			resizeType : 1,
+			allowPreviewEmoticons : true,
+			items : [
+				'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+				'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+				'insertunorderedlist', '|', 'emoticons', 'image', 'link']
+			<logic:present name="msgId">
+			,readonlyMode : true
+			</logic:present>
+		});
 	});
 	
 </script>
@@ -74,8 +90,9 @@
 					</logic:notPresent>
 					<tr>
 						<td style="line-height: 25px;vertical-align: top">消息内容：</td>
-						<td><textarea name="content" class="required" rows="8" cols="60"
-							style="width: 100%" ${entity ne null ? 'readonly' : ''}>${entity ne null ? entity.content : ''}</textarea></td>
+						<td>
+							<textarea name="content" class="" rows="8" cols="60" style="width: 100%" ${entity ne null ? 'readonly' : ''}>${entity ne null ? entity.content : ''}</textarea>
+						</td>
 					</tr>
 				</table>
 			</div>
