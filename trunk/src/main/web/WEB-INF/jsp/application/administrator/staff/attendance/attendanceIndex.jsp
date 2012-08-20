@@ -117,7 +117,7 @@
 					</c:if>
 					<c:if test="${entity.attendanceResult eq null}">-</c:if>
 					</td>
-					<td style="color:red">${entity.exception ne null && entity.exception eq '1' ? entity.exception : "-"}</td>
+					<td style="color:red">${entity.exception ne null && entity.exception eq '1' ? "异常" : "-"}</td>
 					<td><a href="app/admin/attendance/view.do?action=adminPageStaffAttendanceOnPunch&attendanceViewId.viewId=${entity.attendanceViewId.viewId}&attendanceViewId.origin=${entity.attendanceViewId.origin}" class="oplink" target="dialog" title="员工考勤-打卡" width="550" height="250">打卡</a></td>
 				    <td><a href="app/admin/attendance/view.do?action=adminPageStaffAttendanceOnTravel&attendanceViewId.viewId=${entity.attendanceViewId.viewId}&attendanceViewId.origin=${entity.attendanceViewId.origin}" class="oplink" target="dialog" title="员工考勤-出差安排" width="350" height="220" rel="admin_dutytravel-2">出差安排</a></td>
 					<td><a href="app/admin/attendance/view.do?action=adminPageStaffAttendanceOnLeave&attendanceViewId.viewId=${entity.attendanceViewId.viewId}&attendanceViewId.origin=${entity.attendanceViewId.origin}" class="oplink" target="dialog" title="员工考勤-请假" width="650" height="320" rel="admin_dutyleave-2">请假</a></td>
