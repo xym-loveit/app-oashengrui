@@ -149,7 +149,7 @@
 								<c:when test="${entity.taskStatus eq 4}">
 									<c:choose>
 										<c:when test="${tm:ifGranted('_FUNCKEY_PERSONAL_TASK_ACCOMPLISH_APPROVE')}">
-											<a href="app/personal/task.do?action=dialogAuditPage&taskId=${entity.id}&type=0" target="dialog" title="任务‘${entity.taskName}’-延期审批" width="555" height="445" class="oplink" rel="admin_taskapproval-1">[延期审批]</a>	
+											<a href="app/personal/task.do?action=dialogAuditPage&taskId=${entity.id}&type=0" target="dialog" title="任务‘${entity.taskName}’-延期审批" width="555" height="445" class="oplink" rel="admin_taskapproval-1" style="color: #E27D2D">[延期审批]</a>	
 										</c:when>
 										<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
 									</c:choose>
@@ -157,7 +157,7 @@
 								<c:when test="${entity.taskStatus eq 5}">
 									<c:choose>
 										<c:when test="${tm:ifGranted('_FUNCKEY_PERSONAL_TASK_POSTPONE_APPROVE')}">
-											<a href="app/personal/task.do?action=dialogAuditPage&taskId=${entity.id}&type=1" target="dialog" title="任务‘${entity.taskName}’-完成审批" width="555" height="445" class="oplink" rel="admin_taskapproval-1">[完成审批]</a>
+											<a href="app/personal/task.do?action=dialogAuditPage&taskId=${entity.id}&type=1" target="dialog" title="任务‘${entity.taskName}’-完成审批" width="555" height="445" class="oplink" rel="admin_taskapproval-1" style="color: #E27D2D">[完成审批]</a>
 										</c:when>
 										<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
 									</c:choose>

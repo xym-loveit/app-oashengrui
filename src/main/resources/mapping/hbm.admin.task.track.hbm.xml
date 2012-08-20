@@ -36,5 +36,9 @@
             <column name="task_id" not-null="true" />
         </many-to-one>
         
+        <many-to-one name="taskAuditor" class="org.shengrui.oa.model.hrm.ModelHrmEmployee">
+        	<column name="auditor" />
+        </many-to-one>
+        
     </class>
 </hibernate-mapping>

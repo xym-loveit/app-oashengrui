@@ -2,6 +2,8 @@ package org.shengrui.oa.model.admin;
 
 import java.util.Date;
 
+import org.shengrui.oa.model.hrm.ModelHrmEmployee;
+
 import cn.trymore.core.model.ModelBase;
 
 /**
@@ -64,6 +66,10 @@ extends ModelBase
 	 */
 	private Date taskAuditTime;
 	
+	/**
+	 * 审批人
+	 */
+	private ModelHrmEmployee taskAuditor;
 	
 	/**
 	 * The enumeration of task track apply type
@@ -213,6 +219,16 @@ extends ModelBase
 	public void setTaskAuditTime(Date taskAuditTime)
 	{
 		this.taskAuditTime = taskAuditTime;
+	}
+
+	public ModelHrmEmployee getTaskAuditor()
+	{
+		return taskAuditor;
+	}
+
+	public void setTaskAuditor(ModelHrmEmployee taskAuditor)
+	{
+		this.taskAuditor = taskAuditor;
 	}
 
 }

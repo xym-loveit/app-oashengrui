@@ -747,6 +747,9 @@ extends BaseAppAction
 					
 					String auditType = request.getParameter("auditType");
 					
+					// 消息模板
+					String msgTplName = null;
+					
 					if (ModelTaskPlanTrack.ETaskAuditState.PASS.getValue().equals(taskTrack.getTaskAuditState()))
 					{
 						// 审核通过
@@ -761,16 +764,37 @@ extends BaseAppAction
 							taskPlan.setTaskStatus(ModelTaskPlan.ETaskStatus.POSTPONED.getValue());
 							taskPlan.setTaskPlannedEndDate(UtilDate.toDate(request.getParameter("taskAuditFinalizedDate")));
 						}
+						
+						taskTrack.setTaskAuditor(ContextUtil.getCurrentUser().getEmployee());
+						
+						msgTplName = "admin.task.apply.approved";
 					}
 					else if (ModelTaskPlanTrack.ETaskAuditState.NOTPASS.getValue().equals(taskTrack.getTaskAuditState()))
 					{
 						// 审核未过
 						taskPlan.setTaskStatus(ModelTaskPlan.ETaskStatus.ONGOING.getValue());
+						
+						msgTplName = "admin.task.apply.returned";
 					}
 					
 					taskTrack.setTask(taskPlan);
 					
 					this.serviceTaskPlanTrack.save(taskTrack);
+					
+					// 发送短消息给任务负责人, 任务参与人...
+					if (msgTplName != null)
+					{
+						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("entity", taskTrack);
+						
+						this.sendMessage(msgTplName, 
+							params, new Object[] {
+								taskTrack.getTask().getTaskCharger().getId(),
+								taskTrack.getTask().getTaskParticipantIds()
+							}, 
+							ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+						);
+					}
 					
 					// 保存成功后, Dialog进行关闭
 					return ajaxPrint(response, 
