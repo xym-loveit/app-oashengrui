@@ -31,6 +31,7 @@ import org.springframework.beans.BeanUtils;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.exception.WebException;
 import cn.trymore.core.util.UtilBean;
+import cn.trymore.core.util.UtilString;
 import cn.trymore.core.util.excel.AbstractExcelParser;
 import cn.trymore.core.util.excel.ExcelRowData;
 import cn.trymore.core.util.excel.PoiExcelParser;
@@ -1426,15 +1427,7 @@ extends BaseAdminAction
 	 * @param response
 	 * @return
 	 */
-	
-	/**
-	 * @param mapping
-	 * @param form
-	 * @param request
-	 * @param response
-	 * @return
-	 */
-	public ActionForward actionEmployeeImport(ActionMapping mapping,
+	public ActionForward actionImportAttendanceData(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response)
 	{
@@ -1445,12 +1438,12 @@ extends BaseAdminAction
 		String districtId = request.getParameter("districtId");
 		ModelSchoolDistrict district = null;
 		try {
-			district = this.getServiceSchoolDistrict().getDistrictByNo(districtId);
+			district = this.getServiceSchoolDistrict().get(districtId);
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String url = request.getServletContext().getRealPath("/uploads/");
+		String url = request.getSession().getServletContext().getRealPath("/uploads/");
 		AbstractExcelParser excelParser = new PoiExcelParser(url + "/" +path);
 		List<ExcelRowData> excelRowData = excelParser.getRowData(0);
 		
@@ -1469,16 +1462,41 @@ extends BaseAdminAction
 				if(entity == null){//有考勤数据却没工作安排，为异常数据
 					continue;
 				}
+				ModelStaffAttendance atd = new ModelStaffAttendance();
+				atd.setWorkDate(entity.getWorkDate());
+				atd.setWorkTime(entity.getWorkTime());
+				atd.setWorkStatus(entity.getWorkStatus());
+				atd.setWorkType(entity.getWorkType());
 				//考勤机数据中打卡时间不全，为异常数据
-				if(excelRowData.get(i).getRowData().get(5)==null || "".equals(excelRowData.get(i).getRowData().get(5)) || 
-						excelRowData.get(i).getRowData().get(6)==null || "".equals(excelRowData.get(i).getRowData().get(6))){
-					entity.setException("1");
+				if(!UtilString.isNotEmpty(excelRowData.get(i).getRowData().get(5)) || "null".equalsIgnoreCase(excelRowData.get(i).getRowData().get(5)) || 
+						!UtilString.isNotEmpty(excelRowData.get(i).getRowData().get(6)) || "null".equalsIgnoreCase(excelRowData.get(i).getRowData().get(6))){
+					atd.setException("1");
+					atd.setAttendanceResult("");
+				}else{
+					String[] workTime = entity.getWorkTime().split("-");
+					if(UtilDateTime.compareTime(excelRowData.get(i).getRowData().get(5),workTime[0],"HH:mm") && UtilDateTime.compareTime(excelRowData.get(i).getRowData().get(6),workTime[1],"HH:mm")){
+						atd.setAttendanceResult("3");
+					}else if(!UtilDateTime.compareTime(excelRowData.get(i).getRowData().get(5),workTime[0],"HH:mm") && !UtilDateTime.compareTime(excelRowData.get(i).getRowData().get(6),workTime[1],"HH:mm")){
+						atd.setAttendanceResult("2");
+					}else if(!UtilDateTime.compareTime(excelRowData.get(i).getRowData().get(5),workTime[0],"HH:mm") && UtilDateTime.compareTime(excelRowData.get(i).getRowData().get(6),workTime[1],"HH:mm")){
+						atd.setAttendanceResult("4");
+					}else{
+						atd.setAttendanceResult("1");
+					}
 				}
-				entity.setOfftimeShour(UtilDateTime.getTimeField(UtilDateTime.toDateByPattern(excelRowData.get(i).getRowData().get(5), "HH:mm"), Calendar.HOUR_OF_DAY));
-				entity.setOfftimeSmin(UtilDateTime.getTimeField(UtilDateTime.toDateByPattern(excelRowData.get(i).getRowData().get(5), "HH:mm"), Calendar.MINUTE));
-				entity.setOfftimeEhour(UtilDateTime.getTimeField(UtilDateTime.toDateByPattern(excelRowData.get(i).getRowData().get(6), "HH:mm"), Calendar.HOUR_OF_DAY));
-				entity.setOfftimeEmin(UtilDateTime.getTimeField(UtilDateTime.toDateByPattern(excelRowData.get(i).getRowData().get(6), "HH:mm"), Calendar.MINUTE));
-				ModelStaffAttendance atd = entity;
+				atd.setOfftimeShour(UtilDateTime.getTimeField(UtilDateTime.toDateByPattern(excelRowData.get(i).getRowData().get(5), "HH:mm"), Calendar.HOUR_OF_DAY));
+				atd.setOfftimeSmin(UtilDateTime.getTimeField(UtilDateTime.toDateByPattern(excelRowData.get(i).getRowData().get(5), "HH:mm"), Calendar.MINUTE));
+				atd.setOfftimeEhour(UtilDateTime.getTimeField(UtilDateTime.toDateByPattern(excelRowData.get(i).getRowData().get(6), "HH:mm"), Calendar.HOUR_OF_DAY));
+				atd.setOfftimeEmin(UtilDateTime.getTimeField(UtilDateTime.toDateByPattern(excelRowData.get(i).getRowData().get(6), "HH:mm"), Calendar.MINUTE));
+				atd.setStaffId(entity.getStaffId());
+				atd.setStaffName(entity.getStaffName());
+				atd.setStaffBehalfId(entity.getStaffBehalfId());
+				atd.setStaffBehalfName(entity.getStaffBehalfName());
+				atd.setDepId(emp.getEmployeeDepartment().getId());
+				atd.setDistrictId(districtId);
+				atd.setLeaveType(entity.getLeaveType());
+				atd.setMeto(entity.getMeto());
+				
 				if("attendance".equals(entity.getAttendanceViewId().getOrigin())){
 					atd.setId(entity.getAttendanceViewId().getViewId());
 				}
@@ -1505,7 +1523,9 @@ extends BaseAdminAction
 			// TODO Auto-generated catch block
 			ajaxPrint(response,getErrorCallback("导入考勤机数据失败，请重试"));
 		}
-		return ajaxPrint(response, getSuccessCallback("导入考勤机数据成功"));
+		// 保存成功后, Dialog进行关闭
+		return ajaxPrint(response, 
+		          getSuccessCallback("导入考勤机数据成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 	}
 	
 	/**
