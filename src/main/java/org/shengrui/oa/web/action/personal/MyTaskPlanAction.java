@@ -692,6 +692,17 @@ extends BaseAppAction
 			
 			this.serviceTaskPlanTrack.save(taskTrack);
 			
+			// 发送短消息给任务负责人, 任务发起人...
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("entity", taskTrack);
+			
+			this.sendMessage("admin.task.apply.post", 
+				params, new Object[] {
+					taskTrack.getTask().getTaskOriginator().getId()
+				}, 
+				ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+			);
+			
 			// 申请保存成功后, Dialog进行关闭
 			return ajaxPrint(response, 
 					getSuccessCallback("申请保存成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
