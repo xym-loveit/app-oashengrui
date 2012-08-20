@@ -497,4 +497,14 @@ public class ModelConference extends ModelBase {
 	public void setSearchStatusCondition(Integer[] searchStatusCondition) {
 		this.searchStatusCondition = searchStatusCondition;
 	}
+
+	public void setAclFilterFields(String aclFilterFields)
+	{
+		this.aclFilterFields = aclFilterFields;
+	}
+
+	public String getAclFilterFields()
+	{
+		return aclFilterFields;
+	}
 }

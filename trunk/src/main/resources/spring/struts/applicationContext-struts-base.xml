@@ -25,6 +25,8 @@
 		<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
 		
 		<property name="dataPolicyQuery" ref="dataPolicyQuery" />
+		
+		<property name="freeMarker" ref="freeMarker" />
 	</bean>
 	
 </beans>

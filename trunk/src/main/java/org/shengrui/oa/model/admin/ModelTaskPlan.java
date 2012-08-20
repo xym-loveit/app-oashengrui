@@ -71,6 +71,11 @@ extends ModelBase
 	private String taskParticipantIds;
 	
 	/**
+	 * 任务参与人姓名集合, 方便于短消息发送
+	 */
+	private String taskParticipantNames;
+	
+	/**
 	 * 任务描述
 	 */
 	private String taskDescription;
@@ -84,6 +89,16 @@ extends ModelBase
 	 * 任务审批状态
 	 */
 	private Integer auditStatus;
+	
+	/**
+	 * 任务审批人
+	 */
+	private ModelHrmEmployee auditor;
+	
+	/**
+	 * 任务审批时间
+	 */
+	private Date auditTime;
 	
 	/**
 	 * 申请时间
@@ -166,9 +181,9 @@ extends ModelBase
 	public static enum ETaskApprovalStatus
 	{
 		TOAPPROVE(1, "toapprove"),					// 待审核
-		APPROVED (2, "approved"),						// 审核通过
-		NOTPASSED(3, "notpass"),						// 审核未通过
-		RETURNED(4, "returned");						// 审核退回
+		APPROVED (2, "approved"),					// 审核通过
+		NOTPASSED(3, "notpass"),					// 审核未通过
+		RETURNED(4, "returned");					// 审核退回
 		
 		private Integer value;
 		private String text;
@@ -367,6 +382,36 @@ extends ModelBase
 	public void setAclFilterFields(String aclFilterFields)
 	{
 		this.aclFilterFields = aclFilterFields;
+	}
+
+	public void setAuditor(ModelHrmEmployee auditor)
+	{
+		this.auditor = auditor;
+	}
+
+	public ModelHrmEmployee getAuditor()
+	{
+		return auditor;
+	}
+
+	public void setAuditTime(Date auditTime)
+	{
+		this.auditTime = auditTime;
+	}
+
+	public Date getAuditTime()
+	{
+		return auditTime;
+	}
+
+	public void setTaskParticipantNames(String taskParticipantNames)
+	{
+		this.taskParticipantNames = taskParticipantNames;
+	}
+
+	public String getTaskParticipantNames()
+	{
+		return taskParticipantNames;
 	}
 	
 }

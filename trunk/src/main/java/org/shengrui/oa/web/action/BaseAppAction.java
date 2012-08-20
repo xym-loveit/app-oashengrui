@@ -1,11 +1,13 @@
 package org.shengrui.oa.web.action;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +42,8 @@ import org.shengrui.oa.service.system.ServiceSchoolDistrict;
 import org.shengrui.oa.service.system.ServiceSchoolPositionSet;
 import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import com.google.gson.FieldNamingStrategy;
 import com.google.gson.Gson;
@@ -54,6 +58,8 @@ import cn.trymore.core.web.action.BaseAction;
 import cn.trymore.oa.model.system.ModelFileAttach;
 import cn.trymore.oa.service.system.ServiceFileAttach;
 import cn.trymore.oa.service.system.ServiceSystemLog;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 
 /**
  * The base application action.
@@ -68,7 +74,22 @@ extends BaseAction
 	 * The LOGGER
 	 */
 	private static final Logger LOGGER = Logger.getLogger(BaseAppAction.class);
-			
+	
+	/**
+	 * The prefix of short message template file name
+	 */
+	public static final String TPL_MSG_PREFIX = "tpl.msg.";
+	
+	/**
+	 * The end-fix of short message subject template file name
+	 */
+	public static final String TPL_MSG_SUBJECT_ENDFIX = ".subject.ftl";
+	
+	/**
+	 * The end-fix of short message body template file name
+	 */
+	public static final String TPL_MSG_BODY_ENDFIX = ".body.ftl";
+	
 	/**
 	 * The school department service
 	 */
@@ -138,7 +159,14 @@ extends BaseAction
 	/**
 	 * The data policy query bean
 	 */
+	@Resource
 	protected DataPolicyQuery dataPolicyQuery;
+	
+	/**
+	 * The free marker bean
+	 */
+	@Resource
+	protected FreeMarkerConfigurer freeMarker;
 	
 	protected ServiceConferenceInfo serviceConference;
 
@@ -732,6 +760,30 @@ extends BaseAction
 	/**
 	 * 发送短消息
 	 * 
+	 * @param msgTpl
+	 *           短消息freeMarker模板名
+	 * @param params
+	 *           模板内使用的参数实体
+	 * @param recEmpIds
+	 *           消息接收员工ID
+	 * @param msgType
+	 *           消息类型
+	 * @return
+	 * @throws Exception
+	 */
+	protected boolean sendMessage (String msgTpl,
+			Map<String, Object> params, Object[] recEmpIds, Integer msgType) throws Exception
+	{
+		String msgSubject = this.getShortMessageSubjectFromTemplate(msgTpl, params);
+		
+		String msgBody = this.getShortMessageBodyFromTemplate(msgTpl, params);
+		
+		return this.sendMessage(msgSubject, msgBody, recEmpIds, msgType);
+	}
+	
+	/**
+	 * 发送短消息
+	 * 
 	* @param msgSubject
 	 *           消息标题
 	 * @param msgContent
@@ -754,28 +806,39 @@ extends BaseAction
 		msgShort.setContent(msgContent);
 		msgShort.setSubject(msgSubject);
 		msgShort.setMsgType(Integer.valueOf(msgType));
-		
 		this.serviceShortMessage.save(msgShort);
 		
+		Set<String> alreadySent = new HashSet<String>();
 		for (Object empId : recEmpIds)
 		{
-			ModelHrmEmployee employee = this.serviceHrmEmployee.get(empId.toString());
-			if (employee != null)
+			String[] ids = empId.toString().split(",");
+			for (String id : ids)
 			{
-				ModelInMessage msgIn = new ModelInMessage();
-				msgIn.setUserId(Long.valueOf(empId.toString()));
-				msgIn.setUserFullName(employee.getEmpName());
-				msgIn.setReceiveTime(new Date());
-				msgIn.setShortMessage(msgShort);
-				msgIn.setReadFlag(ModelInMessage.FLAG_UNREAD);
-				msgIn.setDelFlag(ModelInMessage.FLAG_UNDEL);
-				this.serviceInMessage.save(msgIn);
-			}
-			else
-			{
-				LOGGER.warn("The specified employee with id:" + empId + " does not exist.");
+				if (!alreadySent.contains(id))
+				{
+					ModelHrmEmployee employee = this.serviceHrmEmployee.get(id);
+					if (employee != null)
+					{
+						ModelInMessage msgIn = new ModelInMessage();
+						msgIn.setUserId(Long.valueOf(id.toString()));
+						msgIn.setUserFullName(employee.getEmpName());
+						msgIn.setReceiveTime(new Date());
+						msgIn.setShortMessage(msgShort);
+						msgIn.setReadFlag(ModelInMessage.FLAG_UNREAD);
+						msgIn.setDelFlag(ModelInMessage.FLAG_UNDEL);
+						this.serviceInMessage.save(msgIn);
+						
+						alreadySent.add(id);
+					}
+					else
+					{
+						LOGGER.warn("The specified employee with id:" + empId + " does not exist.");
+					}
+				}
 			}
 		}
+		
+		alreadySent = null;
 		
 		return true;
 	}
@@ -875,6 +938,77 @@ extends BaseAction
 		}
 		
 		return builder.toString();
+	}
+	
+	/**
+	 * Obtains HTML text from the specified free marker template
+	 * 
+	 * @param tplName
+	 *          the free marker template name
+	 * @param params
+	 *          the parameters that injected into template
+	 * @return
+	 * @throws IOException
+	 * @throws TemplateException
+	 */
+	private String getHtmlTextFromTemplate (String tplName, 
+			Map<String, Object> params) throws IOException, TemplateException
+	{
+		// 通过指定模板名获取FreeMarker模板实例
+		Template fm = freeMarker.getConfiguration().getTemplate(tplName);
+		
+		// FreeMarker通过Map传递动态数据
+		return FreeMarkerTemplateUtils.processTemplateIntoString(fm, params);
+	}
+	
+	/**
+	 * Obtains the short message subject from freeMarker template
+	 * 
+	 * @param tplName
+	 * @param params
+	 * @return
+	 * @throws IOException
+	 * @throws TemplateException
+	 */
+	protected String getShortMessageSubjectFromTemplate (String tplName, 
+			Map<String, Object> params) throws IOException, TemplateException
+	{
+		if (!tplName.toLowerCase().endsWith(TPL_MSG_SUBJECT_ENDFIX))
+		{
+			tplName = tplName + TPL_MSG_SUBJECT_ENDFIX;
+		}
+		
+		if (!tplName.toLowerCase().startsWith(TPL_MSG_PREFIX))
+		{
+			tplName = TPL_MSG_PREFIX + tplName;
+		}
+		
+		return getHtmlTextFromTemplate(tplName, params);
+	}
+	
+	/**
+	 * Obtains the short message body from freeMarker template
+	 * 
+	 * @param tplName
+	 * @param params
+	 * @return
+	 * @throws IOException
+	 * @throws TemplateException
+	 */
+	protected String getShortMessageBodyFromTemplate (String tplName, 
+			Map<String, Object> params) throws IOException, TemplateException
+	{
+		if (!tplName.toLowerCase().endsWith(TPL_MSG_BODY_ENDFIX))
+		{
+			tplName = tplName + TPL_MSG_BODY_ENDFIX;
+		}
+		
+		if (!tplName.toLowerCase().startsWith(TPL_MSG_PREFIX))
+		{
+			tplName = TPL_MSG_PREFIX + tplName;
+		}
+		
+		return getHtmlTextFromTemplate(tplName, params);
 	}
 	
 	public ServiceSchoolDepartment getServiceSchoolDepartment()
@@ -1046,5 +1180,15 @@ extends BaseAction
 	public void setDataPolicyQuery(DataPolicyQuery dataPolicyQuery)
 	{
 		this.dataPolicyQuery = dataPolicyQuery;
+	}
+	
+	public FreeMarkerConfigurer getFreeMarker()
+	{
+		return freeMarker;
+	}
+
+	public void setFreeMarker(FreeMarkerConfigurer freeMarker)
+	{
+		this.freeMarker = freeMarker;
 	}
 }

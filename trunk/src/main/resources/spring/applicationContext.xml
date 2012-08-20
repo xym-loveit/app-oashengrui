@@ -141,4 +141,19 @@
 	
 	<bean id="AppUtil" class="cn.trymore.core.util.UtilApp" />
 	
+	<!--  Free Maker -->
+	<bean id="freeMarker" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<!--指定模板文件目录-->
+		<property name="templateLoaderPath" value="classpath:template" />
+		<!-- 设置FreeMarker环境属性-->
+		<property name="freemarkerSettings">
+			<props>
+				<!--刷新模板的周期，单位为秒-->
+				<prop key="template_update_delay">1800</prop>
+				<!--模板的编码格式 -->
+				<prop key="default_encoding">UTF-8</prop>
+			</props>
+		</property>
+	</bean>
+	
 </beans>
