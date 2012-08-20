@@ -3,7 +3,7 @@
 	<div>${entity.taskOriginator.empName}发起任务 “${entity.taskName}” 已审批通过.</div> 
 	<div>------------------------------------------------------------------</div>
 	<div><b>任务负责人：</b> ${entity.taskCharger.empName}</div>
-	<div><b>任务时间：</b> ${(entity.taskPlannedStartDate)?string("yyyy-MM-dd")}-${(entity.taskPlannedEndDate)?string("yyyy-MM-dd")} </div>
+	<div><b>任务时间：</b> ${(entity.taskPlannedStartDate)?string("yyyy-MM-dd")} --- ${(entity.taskPlannedEndDate)?string("yyyy-MM-dd")} </div>
 	<div><b>任务参与人：</b> ${entity.taskParticipantNames!""} </div>
 	<div><b>审批人：</b> ${entity.auditor.empName} </div>
 	<div><b>详情点击：</b><a href="javascript:void(0);" 
