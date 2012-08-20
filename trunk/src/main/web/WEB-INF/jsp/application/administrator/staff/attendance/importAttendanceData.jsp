@@ -74,7 +74,7 @@ ${tm:fileRestore(entity['attachFiles'])}
 				<tr>
 					<td><label>所属校区：</label></td>
 					<td>
-						<select class="combox" name="district.id" id="districtId" onchange="districtChange()">
+						<select class="combox" name="districtId" id="districtId" onchange="districtChange()">
 							<logic:present name="districts">
 								<logic:iterate name="districts" id="district">
 									<option value="${district.id}" ${formWorkTemplate ne null && formWorkTemplate.district.id eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
