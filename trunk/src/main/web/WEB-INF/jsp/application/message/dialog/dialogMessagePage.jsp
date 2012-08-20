@@ -7,9 +7,6 @@
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<script src="resources/js/kindeditor/kindeditor.js" type="text/javascript"></script>
-<script src="resources/js/kindeditor/lang/zh_CN.js" type="text/javascript"></script>
-
 <script>
 	
 	function openNavTab() {
@@ -63,11 +60,6 @@
 			<logic:present name="msgId">
 			,readonlyMode : true
 			</logic:present>
-			<logic:notPresent name="msgId">
-			,afterCreate : function() {
-				DWZ.initUI($(iframe));
-			}
-			</logic:notPresent>
 		});
 	});
 	
