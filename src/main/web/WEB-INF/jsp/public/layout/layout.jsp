@@ -92,6 +92,9 @@
 	<script src="resources/js/jquery/jmainfest/jquery.marcopolo.js" type="text/javascript"></script>
 	<script src="resources/js/jquery/jmainfest/jquery.manifest.js" type="text/javascript"></script>
 
+	<script src="resources/js/kindeditor/kindeditor.js" type="text/javascript"></script>
+	<script src="resources/js/kindeditor/lang/zh_CN.js" type="text/javascript"></script>
+
 	<!--[if lt IE 7]>  
 	<script type="text/javascript" src="resources/js/pngfix/DD_belatedPNG_0.0.8a.js"></script>  
 	<script type="text/javascript">  

@@ -226,7 +226,7 @@ K.basePath = _getBasePath();
 K.options = {
 	designMode : true,
 	fullscreenMode : false,
-	filterMode : true,
+	filterMode : false,
 	wellFormatMode : true,
 	shadowMode : true,
 	loadStyleMode : true,
@@ -291,7 +291,7 @@ K.options = {
 			'.text-align', '.color', '.background-color', '.font-size', '.font-family', '.font-weight',
 			'.font-style', '.text-decoration', '.vertical-align', '.background', '.border'
 		],
-		a : ['href', 'target', 'name'],
+		a : ['href', 'target', 'name', 'onclick', 'rel'],
 		embed : ['src', 'width', 'height', 'type', 'loop', 'autostart', 'quality', '.width', '.height', 'align', 'allowscriptaccess'],
 		img : ['src', 'width', 'height', 'border', 'alt', 'title', 'align', '.width', '.height', '.border'],
 		'p,ol,ul,li,blockquote,h1,h2,h3,h4,h5,h6' : [
@@ -928,7 +928,7 @@ function _mediaImg(blankPath, attrs) {
 	if (style !== '') {
 		html += 'style="' + style + '" ';
 	}
-	html += 'data-ke-tag="' + escape(srcTag) + '" alt="" />';
+	html += 'tag="' + escape(srcTag) + '" alt="" />';
 	return html;
 }
 function _tmpl(str, data) {
@@ -3165,7 +3165,7 @@ _extend(KCmd, {
 	insertimage : function(url, title, width, height, border, align) {
 		title = _undef(title, '');
 		border = _undef(border, 0);
-		var html = '<img src="' + _escape(url) + '" data-ke-src="' + _escape(url) + '" ';
+		var html = '<img src="' + _escape(url) + '" src="' + _escape(url) + '" ';
 		if (width) {
 			html += 'width="' + _escape(width) + '" ';
 		}
@@ -3190,7 +3190,7 @@ _extend(KCmd, {
 			range.selectNode(a.get());
 			self.select();
 		}
-		var html = '<a href="' + _escape(url) + '" data-ke-src="' + _escape(url) + '" ';
+		var html = '<a href="' + _escape(url) + '" src="' + _escape(url) + '" ';
 		if (type) {
 			html += ' target="' + _escape(type) + '"';
 		}
@@ -3208,7 +3208,7 @@ _extend(KCmd, {
 		}
 		_nativeCommand(doc, 'createlink', '__kindeditor_temp_url__');
 		K('a[href="__kindeditor_temp_url__"]', doc).each(function() {
-			K(this).attr('href', url).attr('data-ke-src', url);
+			K(this).attr('href', url).attr('src', url);
 			if (type) {
 				K(this).attr('target', type);
 			} else {
@@ -5747,27 +5747,27 @@ _plugin('core', function(K) {
 		.replace(/<img[^>]*class="?ke-(flash|rm|media)"?[^>]*>/ig, function(full) {
 			var imgAttrs = _getAttrList(full),
 				styles = _getCssList(imgAttrs.style || ''),
-				attrs = _mediaAttrs(imgAttrs['data-ke-tag']);
+				attrs = _mediaAttrs(imgAttrs['tag']);
 			attrs.width = _undef(imgAttrs.width, _removeUnit(_undef(styles.width, '')));
 			attrs.height = _undef(imgAttrs.height, _removeUnit(_undef(styles.height, '')));
 			return _mediaEmbed(attrs);
 		})
 		.replace(/<img[^>]*class="?ke-anchor"?[^>]*>/ig, function(full) {
 			var imgAttrs = _getAttrList(full);
-			return '<a name="' + unescape(imgAttrs['data-ke-name']) + '"></a>';
+			return '<a name="' + unescape(imgAttrs['name']) + '"></a>';
 		})
-		.replace(/<div\s+[^>]*data-ke-script-attr="([^"]*)"[^>]*>([\s\S]*?)<\/div>/ig, function(full, attr, code) {
+		.replace(/<div\s+[^>]*script-attr="([^"]*)"[^>]*>([\s\S]*?)<\/div>/ig, function(full, attr, code) {
 			return '<script' + unescape(attr) + '>' + unescape(code) + '</script>';
 		})
-		.replace(/<div\s+[^>]*data-ke-noscript-attr="([^"]*)"[^>]*>([\s\S]*?)<\/div>/ig, function(full, attr, code) {
+		.replace(/<div\s+[^>]*noscript-attr="([^"]*)"[^>]*>([\s\S]*?)<\/div>/ig, function(full, attr, code) {
 			return '<noscript' + unescape(attr) + '>' + unescape(code) + '</noscript>';
 		})
-		.replace(/(<[^>]*)data-ke-src="([^"]*)"([^>]*>)/ig, function(full, start, src, end) {
+		.replace(/(<[^>]*)src="([^"]*)"([^>]*>)/ig, function(full, start, src, end) {
 			full = full.replace(/(\s+(?:href|src)=")[^"]*(")/i, '$1' + src + '$2');
-			full = full.replace(/\s+data-ke-src="[^"]*"/i, '');
+			full = full.replace(/\s+src="[^"]*"/i, '');
 			return full;
 		})
-		.replace(/(<[^>]+\s)data-ke-(on\w+="[^"]*"[^>]*>)/ig, function(full, start, end) {
+		.replace(/(<[^>]+\s)(on\w+="[^"]*"[^>]*>)/ig, function(full, start, end) {
 			return start + end;
 		});
 	});
@@ -5784,23 +5784,23 @@ _plugin('core', function(K) {
 			if (attrs.href !== undefined) {
 				return full;
 			}
-			return '<img class="ke-anchor" src="' + self.themesPath + 'common/anchor.gif" data-ke-name="' + escape(attrs.name) + '" />';
+			return '<img class="ke-anchor" src="' + self.themesPath + 'common/anchor.gif" name="' + escape(attrs.name) + '" />';
 		})
 		.replace(/<script([^>]*)>([\s\S]*?)<\/script>/ig, function(full, attr, code) {
-			return '<div class="ke-script" data-ke-script-attr="' + escape(attr) + '">' + escape(code) + '</div>';
+			return '<div class="ke-script" script-attr="' + escape(attr) + '">' + escape(code) + '</div>';
 		})
 		.replace(/<noscript([^>]*)>([\s\S]*?)<\/noscript>/ig, function(full, attr, code) {
-			return '<div class="ke-noscript" data-ke-noscript-attr="' + escape(attr) + '">' + escape(code) + '</div>';
+			return '<div class="ke-noscript" noscript-attr="' + escape(attr) + '">' + escape(code) + '</div>';
 		})
 		.replace(/(<[^>]*)(href|src)="([^"]*)"([^>]*>)/ig, function(full, start, key, src, end) {
-			if (full.match(/\sdata-ke-src="[^"]*"/i)) {
+			if (full.match(/\ssrc="[^"]*"/i)) {
 				return full;
 			}
-			full = start + key + '="' + src + '"' + ' data-ke-src="' + src + '"' + end;
+			full = start + key + '="' + src + '"' + ' src="' + src + '"' + end;
 			return full;
 		})
 		.replace(/(<[^>]+\s)(on\w+="[^"]*"[^>]*>)/ig, function(full, start, end) {
-			return start + 'data-ke-' + end;
+			return start + '' + end;
 		})
 		.replace(/<table[^>]*\s+border="0"[^>]*>/ig, function(full) {
 			if (full.indexOf('ke-zeroborder') >= 0) {
