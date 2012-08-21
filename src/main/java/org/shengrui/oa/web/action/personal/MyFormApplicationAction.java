@@ -1,7 +1,9 @@
 package org.shengrui.oa.web.action.personal;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +16,7 @@ import org.shengrui.oa.model.flow.ModelProcessForm;
 import org.shengrui.oa.model.flow.ModelProcessType;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop;
+import org.shengrui.oa.model.info.ModelShortMessage;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
@@ -23,6 +26,7 @@ import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.web.action.flow.FlowBaseAction;
 
+import cn.trymore.core.bean.PairObject;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
@@ -417,9 +421,12 @@ extends FlowBaseAction
 	public  ActionForward actionApproveProcess(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request, HttpServletResponse response) 
 	{
+		String formId = request.getParameter("formId");
 		String procFormId = request.getParameter("id");
 		String procFormState = request.getParameter("state");
 		String procFormComments = request.getParameter("comments");
+		
+		ModelProcessForm formEntity = null;
 		
 		if (UtilString.isNotEmpty(procFormId, procFormState))
 		{
@@ -427,14 +434,15 @@ extends FlowBaseAction
 			{
 				try
 				{
-					boolean result = this.serviceWorkFlow.proceed(
+					PairObject<Boolean, Boolean> result = this.serviceWorkFlow.proceed(
 							procFormId, Integer.parseInt(procFormState), procFormComments);
 					
 					// 更新业务表中的状态...
 					String formNo = request.getParameter("formNo");
+					formEntity = this.serviceProcessForm.get(procFormId);
+					
 					if (!UtilString.isNotEmpty(formNo))
 					{
-						ModelProcessForm formEntity = this.serviceProcessForm.get(procFormId);
 						if (formEntity != null)
 						{
 							formNo = formEntity.getApplyFormNo();
@@ -453,8 +461,38 @@ extends FlowBaseAction
 						this.serviceHrmEmployeeDevelop.save(entity);
 					}
 					
-					if (result)
+					if (result.getLeft())
 					{
+						// 短消息通知申请人...
+						String msgTplName = null;
+						if ((ModelProcessForm.EProcessFormStatus.APPROVED.getValue().equals(Integer.valueOf(procFormState)) || 
+								ModelProcessForm.EProcessFormStatus.RETURNED.getValue().equals(Integer.valueOf(procFormState))) && result.getRight())
+						{
+							// 审批通过/退回
+							msgTplName = "my.application.audit";
+						}
+						else if (ModelProcessForm.EProcessFormStatus.NOTPASSED.getValue().equals(Integer.valueOf(procFormState)))
+						{
+							// 审批不通过
+							msgTplName = "my.application.audit";
+						}
+						
+						if (msgTplName != null)
+						{
+							Map<String, Object> params = new HashMap<String, Object>();
+							params.put("entity", entity);
+							params.put("state", Integer.valueOf(procFormState));
+							params.put("procForm", formEntity);
+							params.put("formId", formId);
+							
+							this.sendMessage(msgTplName, 
+								params, new Object[] {
+									entity.getEmployee().getId()
+								}, 
+								ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+							);
+						}
+						
 						return ajaxPrint(response, 
 								getSuccessCallback("审批成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 					}

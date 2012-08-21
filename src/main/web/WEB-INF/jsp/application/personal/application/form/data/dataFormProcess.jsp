@@ -37,7 +37,7 @@
 					var comments = form_ele.find("textarea").val();
 					alertMsg.confirm("您确定进行该环节的审批操作么?", {
 						okCall: function(){
-							$.post("app/personal/application_form.do?action=actionApproveProcess", {"id": id, "state": state, "comments": comments, "formNo": "${entity.formNo}", "catkey": "${CATKEY}"}, function(){
+							$.post("app/personal/application_form.do?action=actionApproveProcess", {"id": id, "formId": "${entity.id}", "state": state, "comments": comments, "formNo": "${entity.formNo}", "catkey": "${CATKEY}"}, function(){
 								// 重新加载当前的navTab
 								navTab.reload(navTab.getCurrentTabUrl(), {navTabId: navTab.getCurrentTabId()});
 								// 重新加载当前弹框页面数据

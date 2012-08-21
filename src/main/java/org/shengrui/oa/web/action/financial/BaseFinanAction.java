@@ -15,6 +15,7 @@ import org.shengrui.oa.service.finan.ServiceFinanContract;
 import org.shengrui.oa.service.finan.ServiceFinanExpense;
 import org.shengrui.oa.web.action.flow.FlowBaseAction;
 
+import cn.trymore.core.bean.PairObject;
 import cn.trymore.core.util.UtilString;
 
 /**
@@ -90,7 +91,7 @@ extends FlowBaseAction
 			{
 				try
 				{
-					boolean result = this.serviceWorkFlow.proceed(
+					PairObject<Boolean, Boolean> result = this.serviceWorkFlow.proceed(
 							procFormId, Integer.parseInt(procFormState), procFormComments);
 					
 					String catKey = request.getParameter("catkey");
@@ -142,7 +143,7 @@ extends FlowBaseAction
 						return ajaxPrint(response, getErrorCallback("审批失败: 需要传入审核分类Key..."));
 					}
 					
-					if (result)
+					if (result.getLeft())
 					{
 						return ajaxPrint(response, 
 								getSuccessCallback("审批成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));

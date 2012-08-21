@@ -2,7 +2,9 @@ package org.shengrui.oa.web.action.hrm;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +20,7 @@ import org.shengrui.oa.model.hrm.ModelHrmJobHireInfo;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireInterview;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireIssue;
 import org.shengrui.oa.model.hrm.ModelHrmResume;
+import org.shengrui.oa.model.info.ModelShortMessage;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 import org.shengrui.oa.util.AppUtil;
@@ -881,6 +884,16 @@ extends BaseHrmAction
 							jobHireInterview.setInterviewer(interviewer);
 							
 							this.serviceHrmJobHireInterview.save(jobHireInterview);
+							
+							// 短消息通知面试官
+							Map<String, Object> params = new HashMap<String, Object>();
+							params.put("entity", jobHireInterview);
+							this.sendMessage("hrm.interview.arranged", 
+								params, new Object[] {
+									jobHireInterview.getInterviewer().getEmployee().getId()
+								}, 
+								ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+							);
 							
 							return ajaxPrint(response, 
 									getSuccessCallback("招聘面试安排成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));

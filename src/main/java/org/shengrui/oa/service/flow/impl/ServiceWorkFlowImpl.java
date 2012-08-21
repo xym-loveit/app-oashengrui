@@ -118,14 +118,14 @@ implements ServiceWorkFlow
 			else
 			{
 				// it's only accepted one process definition.
-				if (processDefs.size() == 1)
+				if (processDefs.size() > 1)
 				{
 					def = processDefs.get(0);
 				}
-				else
-				{
-					throw new ServiceException("More than one process definition is found.");
-				}
+				//else
+				//{
+				//	throw new ServiceException("More than one process definition is found.");
+				//}
 			}
 			
 			// obtains set of process tasks.
@@ -173,7 +173,7 @@ implements ServiceWorkFlow
 	 * @see org.shengrui.oa.service.flow.ServiceWorkFlow#proceed(java.lang.String, java.lang.Integer, java.lang.String)
 	 */
 	@Override
-	public boolean proceed (String procFormId, 
+	public PairObject<Boolean, Boolean> proceed (String procFormId, 
 			Integer procFormState, String comments) throws ServiceException
 	{
 		if (ModelProcessForm.EProcessFormStatus.APPROVED.getValue().equals(procFormState))
@@ -192,7 +192,7 @@ implements ServiceWorkFlow
 			completeTask(procFormId, ModelProcessForm.EProcessFormStatus.NOTPASSED.getValue(), comments);
 		}
 		
-		return true;
+		return new PairObject<Boolean, Boolean> (true, true);
 	}
 
 	/*
@@ -244,9 +244,10 @@ implements ServiceWorkFlow
 	 * @see org.shengrui.oa.service.flow.ServiceWorkFlow#jumpToPreTask(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void jumpToPreTask(String procFormId, String comments)
+	public boolean jumpToPreTask(String procFormId, String comments)
 			throws ServiceException
 	{
+		boolean isNodeFirst = false;
 		ModelProcessForm procForm = this.serviceProcessForm.get(procFormId);
 		
 		if (procForm != null)
@@ -259,10 +260,7 @@ implements ServiceWorkFlow
 				{
 					// 当前为第一个流程节点, 回退代表结束.
 					this.completeTask(procForm, ModelProcessForm.EProcessFormStatus.RETURNED.getValue(), comments);
-					
-					// 结束流程
-					// this.doEndProcess(procForm.getApplyFormNo());
-					
+					isNodeFirst = true;
 					break;
 				}
 				else
@@ -285,6 +283,7 @@ implements ServiceWorkFlow
 			}
 		}
 		
+		return isNodeFirst;
 	}
 	
 	/*
@@ -292,9 +291,10 @@ implements ServiceWorkFlow
 	 * @see org.shengrui.oa.service.flow.ServiceWorkFlow#jumpToNextTask(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void jumpToNextTask(String procFormId,
+	public boolean jumpToNextTask(String procFormId,
 			String comments) throws ServiceException
 	{
+		boolean isNodeLast = false;
 		ModelProcessForm procForm = this.serviceProcessForm.get(procFormId);
 		
 		if (procForm != null)
@@ -328,10 +328,13 @@ implements ServiceWorkFlow
 				{
 					// 当前已经是最后一个节点了, 移除ProcessForm表中的记录
 					this.doEndProcess(procForm.getApplyFormNo());
+					isNodeLast = true;
 					break;
 				}
 			}
 		}
+		
+		return isNodeLast;
 	}
 	
 	/*

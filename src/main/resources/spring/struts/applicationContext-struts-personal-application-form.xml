@@ -9,6 +9,7 @@
 		<property name="serviceProcessType" ref="serviceProcessType" />
 		<property name="serviceWorkFlow" ref="serviceWorkFlow" />
 		<property name="serviceHrmEmployeeDevelop" ref="serviceHrmEmployeeDevelop" />
+		<property name="serviceProcessForm" ref="serviceProcessForm" />
 	</bean>
 	
 </beans>

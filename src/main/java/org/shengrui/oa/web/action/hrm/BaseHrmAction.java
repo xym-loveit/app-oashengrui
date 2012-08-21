@@ -10,7 +10,6 @@ import org.shengrui.oa.service.hrm.ServiceHrmJobHireInfo;
 import org.shengrui.oa.service.hrm.ServiceHrmJobHireInterview;
 import org.shengrui.oa.service.hrm.ServiceHrmJobHireIssue;
 import org.shengrui.oa.service.hrm.ServiceHrmResume;
-import org.shengrui.oa.service.hrm.ServiceHrmEmployee;
 import org.shengrui.oa.web.action.BaseAppAction;
 
 /**
@@ -51,12 +50,6 @@ extends BaseAppAction
 	 */
 	@Resource
 	protected ServiceHrmArchive serviceHrmArchive;
-	
-	/**
-	 * The employee service.
-	 */
-	@Resource
-	protected ServiceHrmEmployee serviceHrmEmployee;
 	
 	/**
 	 * The employee service.
@@ -136,14 +129,6 @@ extends BaseAppAction
 		this.serviceHrmJobHireEntry = serviceHrmJobHireEntry;
 	}
 	
-	public ServiceHrmEmployee getServiceHrmEmployee() {
-		return serviceHrmEmployee;
-	}
-
-	public void setServiceHrmEmployee(ServiceHrmEmployee serviceHrmEmployee) {
-		this.serviceHrmEmployee = serviceHrmEmployee;
-	}
-
 	public ServiceHrmEmployeeRoadMap getServiceHrmEmployeeRoadMap()
 	{
 		return serviceHrmEmployeeRoadMap;
