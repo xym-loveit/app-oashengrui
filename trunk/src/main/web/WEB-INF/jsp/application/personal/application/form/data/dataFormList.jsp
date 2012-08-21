@@ -32,7 +32,7 @@
 					<td>${entity.employee.empName}</td>
 					<td><fmt:formatDate  value="${entity.applyDate}" pattern="yyyy-MM-dd" /></td>
 					<c:choose>
-						<c:when test="${entity.applyForm eq null || fn:length(entity.applyForm) == 0}"><td style="background-color: #ddd">审批结束</td></c:when>
+						<c:when test="${entity.applyForm eq null || fn:length(entity.applyForm) == 0 || entity.finalState eq 4}"><td style="background-color: #ddd">审批结束</td></c:when>
 						<c:otherwise><td style="background-color: #FFBD5A">审批中</td></c:otherwise>
 					</c:choose>
 					<td>
@@ -53,7 +53,13 @@
 					</td>
 					<td>
 						<c:choose>
-							<c:when test="${entity.applyForm ne null && fn:length(entity.applyForm) > 0}">---</c:when>
+							<c:when test="${entity.applyForm eq null || fn:length(entity.applyForm) == 0}">审批结束</c:when>
+							<c:when test="${entity.applyForm ne null && fn:length(entity.applyForm) > 0}">
+								<c:choose>
+									<c:when test="${entity.finalState eq 4}">审批退回</c:when>
+									<c:otherwise>---</c:otherwise>
+								</c:choose>
+							</c:when>
 							<c:otherwise>
 								<c:choose>
 									<c:when test="${entity.auditState eq 2}">审批通过</c:when>
