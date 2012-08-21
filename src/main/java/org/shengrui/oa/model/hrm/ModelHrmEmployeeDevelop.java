@@ -141,6 +141,10 @@ extends ModelBase
 	 */
 	protected Integer empDistrictId;
 	
+	/**
+	 * 最终审批结果 (仅用于前端页面显示...)
+	 */
+	protected Integer finalState;
 	
 	/**
 	 * The enumeration of operation state
@@ -410,6 +414,43 @@ extends ModelBase
 		}
 			
 		return currentProcessForm;
+	}
+	
+	/**
+	 * Obtains the final audit state.
+	 * 
+	 * @return
+	 */
+	public Integer getFinalState()
+	{
+		if (this.finalState == null)
+		{
+			if (this.applyForm != null && this.applyForm.size() > 0)
+			{
+				ModelProcessForm[] forms = new ModelProcessForm[this.applyForm.size()];
+				this.applyForm.toArray(forms);
+				
+				for (int i = forms.length - 1 ; i >= 0; i--)
+				{
+					ModelProcessForm form = forms[i];
+					if (form.getAuditState() != null)
+					{
+						this.finalState = form.getAuditState();
+						break;
+					}
+				}
+			}
+			else if (this.getProcessHistory() != null && this.getProcessHistory().size() > 0)
+			{
+				ModelProcessHistory[] forms = new ModelProcessHistory[this.processHistory.size()];
+				this.processHistory.toArray(forms);
+				
+				ModelProcessHistory procLast = forms[this.processHistory.size() - 1];
+				this.finalState = procLast.getAuditState();
+			}
+		}
+		
+		return this.finalState;
 	}
 
 	public Integer getOperationState()
