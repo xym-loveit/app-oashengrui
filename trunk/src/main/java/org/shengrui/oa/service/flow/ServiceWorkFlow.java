@@ -9,6 +9,7 @@ import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 
+import cn.trymore.core.bean.PairObject;
 import cn.trymore.core.exception.ServiceException;
 
 /**
@@ -87,7 +88,7 @@ public interface ServiceWorkFlow
 	 *                 the audit comments
 	 * @throws ServiceException
 	 */
-	void jumpToPreTask (String procFormId,
+	boolean jumpToPreTask (String procFormId,
 			String comments) throws ServiceException;
 	
 	/**
@@ -99,7 +100,7 @@ public interface ServiceWorkFlow
 	 *                  the audit comments
 	 * @throws ServiceException
 	 */
-	void jumpToNextTask (String procFormId, String comments) throws ServiceException;
+	boolean jumpToNextTask (String procFormId, String comments) throws ServiceException;
 	
 	/**
 	 * Completes task
@@ -173,7 +174,7 @@ public interface ServiceWorkFlow
 	 *                  the comments
 	 * @throws ServiceException
 	 */
-	boolean proceed (String procFormId, 
+	PairObject<Boolean, Boolean> proceed (String procFormId, 
 			Integer procFormState, String comments) throws ServiceException;
 	
 	/**
