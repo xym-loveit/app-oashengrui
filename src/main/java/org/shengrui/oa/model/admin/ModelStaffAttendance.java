@@ -2,8 +2,11 @@ package org.shengrui.oa.model.admin;
 
 import java.util.Date;
 
+import org.shengrui.oa.util.AppUtil;
+
 import com.google.gson.annotations.Expose;
 
+import cn.trymore.core.acl.AclFilterAnnotation;
 import cn.trymore.core.model.ModelBase;
 
 /**
@@ -149,6 +152,8 @@ public class ModelStaffAttendance extends ModelBase {
 	 * 员工所在部门
 	 */
 	protected String depId;
+	
+	
 	
 	/**
 	 * @return the exception

@@ -7,10 +7,12 @@ import java.util.Set;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
+import org.shengrui.oa.util.AppUtil;
 
 import com.google.gson.annotations.Expose;
 
 import cn.trymore.core.model.ModelBase;
+import cn.trymore.core.acl.AclFilterAnnotation;
 
 /**
  * Model: 员工
@@ -157,6 +159,15 @@ extends ModelBase
 	@Deprecated
 	private String fullName;
 	
+	/**
+	 * 数据权限过滤
+	 */
+	@AclFilterAnnotation(
+		fieldNames ={"district_id", "dep_id", "entry_id"}, 
+		fieldTypes ={AppUtil.DATA_POLICY_DISTRICT, AppUtil.DATA_POLICY_DEPARTMENT, AppUtil.DATA_POLICY_PERSONAL}
+	)
+	private String aclFilterFields;
+
 	
 	/**
 	 * The enumeration of interview state
