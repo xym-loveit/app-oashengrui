@@ -53,6 +53,19 @@ extends ServiceGeneric<ModelHrmEmployee>
 			PagingBean pagingBen) throws ServiceException;
 	
 	/**
+	 * 根据部门和岗位获取员工集合
+	 * 
+	 * @param depId
+	 *                部门ID
+	 * @param posId
+	 *                岗位ID
+	 * @return
+	 * @throws ServiceException
+	 */
+	List<ModelHrmEmployee> getByDepartmentAndPosition (String depId, 
+			String posId) throws ServiceException;
+	
+	/**
 	 * 根据校区和部门查员工
 	 */
 	List<ModelHrmEmployee> getEmployeeByDistrictIdAndDeptId(ModelHrmEmployee entity) throws ServiceException;

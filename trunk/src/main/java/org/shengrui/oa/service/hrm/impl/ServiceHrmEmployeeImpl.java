@@ -186,6 +186,32 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 			throw new ServiceException(e);
 		}	
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmEmployee#getByDepartmentAndPosition(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public List<ModelHrmEmployee> getByDepartmentAndPosition (String depId, 
+			String posId) throws ServiceException
+	{
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployee.class);
+		
+		criteria.createCriteria("employeeDepartment").add(Restrictions.eq("id", depId));
+		criteria.createCriteria("employeePosition").add(Restrictions.eq("id", posId));
+		
+		// 过滤被删除的员工档案
+		criteria.add(Restrictions.or(Restrictions.eq("status", "Y"), Restrictions.isNull("status")));
+		
+		try 
+		{
+			return this.daoHrmEmployee.getListByCriteria(criteria);
+		} 
+		catch (DAOException e) 
+		{
+			throw new ServiceException(e);
+		}
+	}
 
 	/*
 	 * (non-Javadoc)

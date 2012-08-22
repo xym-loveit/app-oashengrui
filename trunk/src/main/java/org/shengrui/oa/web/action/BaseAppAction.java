@@ -778,8 +778,10 @@ extends BaseAction
 	protected boolean sendMessage (String msgTpl,
 			Map<String, Object> params, Object[] recEmpIds, Integer msgType) throws Exception
 	{
+		// 获取短消息标题
 		String msgSubject = this.getShortMessageSubjectFromTemplate(msgTpl, params);
 		
+		// 获取短消息正文
 		String msgBody = this.getShortMessageBodyFromTemplate(msgTpl, params);
 		
 		return this.sendMessage(msgSubject, msgBody, recEmpIds, msgType);
@@ -815,28 +817,31 @@ extends BaseAction
 		Set<String> alreadySent = new HashSet<String>();
 		for (Object empId : recEmpIds)
 		{
-			String[] ids = empId.toString().split(",");
-			for (String id : ids)
+			if (UtilString.isNotEmpty(empId.toString()))
 			{
-				if (!alreadySent.contains(id))
+				String[] ids = empId.toString().split(",");
+				for (String id : ids)
 				{
-					ModelHrmEmployee employee = this.serviceHrmEmployee.get(id);
-					if (employee != null)
+					if (UtilString.isNotEmpty(id) && !alreadySent.contains(id))
 					{
-						ModelInMessage msgIn = new ModelInMessage();
-						msgIn.setUserId(Long.valueOf(id.toString()));
-						msgIn.setUserFullName(employee.getEmpName());
-						msgIn.setReceiveTime(new Date());
-						msgIn.setShortMessage(msgShort);
-						msgIn.setReadFlag(ModelInMessage.FLAG_UNREAD);
-						msgIn.setDelFlag(ModelInMessage.FLAG_UNDEL);
-						this.serviceInMessage.save(msgIn);
-						
-						alreadySent.add(id);
-					}
-					else
-					{
-						LOGGER.warn("The specified employee with id:" + empId + " does not exist.");
+						ModelHrmEmployee employee = this.serviceHrmEmployee.get(id);
+						if (employee != null)
+						{
+							ModelInMessage msgIn = new ModelInMessage();
+							msgIn.setUserId(Long.valueOf(id.toString()));
+							msgIn.setUserFullName(employee.getEmpName());
+							msgIn.setReceiveTime(new Date());
+							msgIn.setShortMessage(msgShort);
+							msgIn.setReadFlag(ModelInMessage.FLAG_UNREAD);
+							msgIn.setDelFlag(ModelInMessage.FLAG_UNDEL);
+							this.serviceInMessage.save(msgIn);
+							
+							alreadySent.add(id);
+						}
+						else
+						{
+							LOGGER.warn("The specified employee with id:" + empId + " does not exist.");
+						}
 					}
 				}
 			}

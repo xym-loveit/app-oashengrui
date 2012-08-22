@@ -291,6 +291,7 @@ extends FlowBaseAction
 		
 		try
 		{
+			ModelProcessForm procForm = null;
 			String applyFormTypeId = request.getParameter("applyFormTypeId");
 			
 			if (UtilString.isNotEmpty(applyFormTypeId))
@@ -377,7 +378,7 @@ extends FlowBaseAction
 								}
 							}
 							
-							this.serviceWorkFlow.doStartProcess(
+							procForm = this.serviceWorkFlow.doStartProcess(
 									entity.getApplyFormType().getId(), 
 									filterPosition,
 									entity.getToDistrict(),
@@ -387,6 +388,32 @@ extends FlowBaseAction
 						}
 						
 						this.serviceHrmEmployeeDevelop.save(entity);
+						
+						if (procForm != null)
+						{
+							// 短消息通知审批人
+							Map<String, Object> params = new HashMap<String, Object>();
+							params.put("entity", entity);
+							params.put("procForm", procForm);
+							
+							List<ModelHrmEmployee> employees = this.serviceHrmEmployee.getByDepartmentAndPosition(
+									procForm.getToDepartmentIds(), procForm.getToPositionIds());
+							
+							StringBuilder builder = new StringBuilder();
+							for (int i = 0, size = employees.size(); i <  size; i++)
+							{
+								ModelHrmEmployee employee = employees.get(i);
+								builder.append(employee.getId());
+								builder.append(",");
+							}
+							
+							this.sendMessage("my.approval.audit.hrm", 
+								params, new Object[] {
+									builder.toString()
+								}, 
+								ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+							);
+						}
 						
 						// 保存成功后, Dialog进行关闭
 						return ajaxPrint(response, 
@@ -410,6 +437,7 @@ extends FlowBaseAction
 		}
 		catch (Exception e)
 		{
+			LOGGER.error("Exception raised when saving form application", e);
 			return ajaxPrint(response, getErrorCallback("人资申请保存失败:" + e.getMessage()));
 		}
 	}
@@ -434,7 +462,7 @@ extends FlowBaseAction
 			{
 				try
 				{
-					PairObject<Boolean, Boolean> result = this.serviceWorkFlow.proceed(
+					PairObject<Boolean, ModelProcessForm> result = this.serviceWorkFlow.proceed(
 							procFormId, Integer.parseInt(procFormState), procFormComments);
 					
 					// 更新业务表中的状态...
@@ -466,7 +494,7 @@ extends FlowBaseAction
 						// 短消息通知申请人...
 						String msgTplName = null;
 						if ((ModelProcessForm.EProcessFormStatus.APPROVED.getValue().equals(Integer.valueOf(procFormState)) || 
-								ModelProcessForm.EProcessFormStatus.RETURNED.getValue().equals(Integer.valueOf(procFormState))) && result.getRight())
+								ModelProcessForm.EProcessFormStatus.RETURNED.getValue().equals(Integer.valueOf(procFormState))) && result.getRight() == null)
 						{
 							// 审批通过/退回
 							msgTplName = "my.application.audit";

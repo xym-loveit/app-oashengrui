@@ -3,6 +3,7 @@ package org.shengrui.oa.service.flow;
 import java.util.List;
 
 import org.shengrui.oa.model.flow.ModelProcessDefinition;
+import org.shengrui.oa.model.flow.ModelProcessForm;
 import org.shengrui.oa.model.flow.ModelProcessHistory;
 import org.shengrui.oa.model.flow.ModelProcessTask;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
@@ -86,9 +87,10 @@ public interface ServiceWorkFlow
 	 *                 the process form id
 	 * @param comments
 	 *                 the audit comments
+	 * @return previous task entity
 	 * @throws ServiceException
 	 */
-	boolean jumpToPreTask (String procFormId,
+	ModelProcessForm jumpToPreTask (String procFormId,
 			String comments) throws ServiceException;
 	
 	/**
@@ -98,9 +100,10 @@ public interface ServiceWorkFlow
 	 *                  the process form id
 	 * @param comments
 	 *                  the audit comments
+	 * @return next task entity
 	 * @throws ServiceException
 	 */
-	boolean jumpToNextTask (String procFormId, String comments) throws ServiceException;
+	ModelProcessForm jumpToNextTask (String procFormId, String comments) throws ServiceException;
 	
 	/**
 	 * Completes task
@@ -129,9 +132,10 @@ public interface ServiceWorkFlow
 	 *                  the application form no
 	 * @param employee
 	 *                  the employee entity, aims to generate the form entities.
+	 * @return the first process form
 	 * @throws ServiceException
 	 */
-	void doStartProcess (String processTypeId, 
+	ModelProcessForm doStartProcess (String processTypeId, 
 			ModelSchoolDepartmentPosition filterPosition, Object condParamVal, String formNo, ModelHrmEmployee employee) throws ServiceException;
 	
 	/**
@@ -149,9 +153,10 @@ public interface ServiceWorkFlow
 	 *                  the application form no
 	 * @param employee
 	 *                  the employee entity, aims to generate the form entities.
+	 * @return the first process form
 	 * @throws ServiceException
 	 */
-	void doStartProcess (String processTypeId, 
+	ModelProcessForm doStartProcess (String processTypeId, 
 			ModelSchoolDepartmentPosition filterPosition, ModelSchoolDistrict filterDistrict, Object condParamVal, String formNo, ModelHrmEmployee employee) throws ServiceException;
 
 	/**
@@ -172,9 +177,10 @@ public interface ServiceWorkFlow
 	 *                  the process form state
 	 * @param comments
 	 *                  the comments
+	 * @return 
 	 * @throws ServiceException
 	 */
-	PairObject<Boolean, Boolean> proceed (String procFormId, 
+	PairObject<Boolean, ModelProcessForm> proceed (String procFormId, 
 			Integer procFormState, String comments) throws ServiceException;
 	
 	/**
