@@ -64,9 +64,21 @@ public class DataPolicyQuery
 	 */
 	public boolean isGrantedDataPolicy (Object URI)
 	{
+		return this.isGrantedDataPolicy(URI, ContextUtil.getCurrentUser());
+	}
+	
+	/**
+	 * Returns true if the specified URI granted data policy access.
+	 * 
+	 * @param URI
+	 * @param user
+	 * @return
+	 */
+	public boolean isGrantedDataPolicy (Object URI, ModelAppUser user)
+	{
 		if (ContextUtil.getCurrentUser() != null && URI != null)
 		{
-			Map<String, Integer> dataPerms = ContextUtil.getCurrentUser().getDataPermissions();
+			Map<String, Integer> dataPerms = user.getDataPermissions();
 			if (dataPerms != null && dataPerms.containsKey(URI))
 			{
 				return dataPerms.get(URI) != null;
@@ -129,6 +141,11 @@ public class DataPolicyQuery
 							builder.append(strategy);
 							builder.append(")");
 							multiCloud = true;
+						}
+						else
+						{
+							// 全校数据
+							return null;
 						}
 					}
 				}

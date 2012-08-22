@@ -2,6 +2,7 @@ package org.shengrui.oa.web.action;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -49,10 +50,13 @@ import com.google.gson.FieldNamingStrategy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import cn.trymore.core.acl.AclFilterAnnotation;
 import cn.trymore.core.acl.DataPolicyQuery;
 import cn.trymore.core.common.Constants;
 import cn.trymore.core.exception.ServiceException;
+import cn.trymore.core.jstl.JstlTagString;
 import cn.trymore.core.model.ModelBase;
+import cn.trymore.core.util.UtilAnnotation;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.action.BaseAction;
 import cn.trymore.oa.model.system.ModelFileAttach;
@@ -1009,6 +1013,175 @@ extends BaseAction
 		}
 		
 		return getHtmlTextFromTemplate(tplName, params);
+	}
+	
+	/**
+	 * Obtains list of user ids against granted specified resource
+	 * 
+	 * @param url
+	 *         the URL resource
+	 * @param entityClass
+	 *         the entity class package name
+	 * @param districtId
+	 *         the owned district id
+	 * @param depId
+	 *         the owned department id
+	 * @return
+	 */
+	@SuppressWarnings("rawtypes")
+	protected List<String> getUserIdsAgainstGrantedResource (String url, 
+			Class entityClass, String districtId, String depId)
+	{
+		try
+		{
+			List<String> userIds = new ArrayList<String>();
+			
+			// 获取所有用户.
+			List<ModelAppUser> users = this.serviceAppUser.getAll();
+			
+			if (users != null && users.size() > 0)
+			{
+				for (ModelAppUser user : users)
+				{
+					if (user.isSuerUser())
+					{
+						// 超级用户
+						userIds.add(user.getEmployee().getId());
+					}
+					else
+					{
+						// 普通用户
+						if (this.isResourceGranted(user, url, entityClass, districtId, depId))
+						{
+							userIds.add(user.getEmployee().getId());
+						}
+					}
+				}
+			}
+			
+			return userIds;
+		}
+		catch (Exception e)
+		{
+			LOGGER.error("Exception raised when obtains user ids against resource.", e);
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * 判断资源是否被授权
+	 * 
+	 * @param user
+	 *          用户实体
+	 * @param url
+	 *          URL资源
+	 * @param entityClass
+	 *          实体类名
+	 * @param districtId
+	 *          数据对应的校区ID
+	 * @param depId
+	 *          数据对应的部门ID
+	 * @return
+	 */
+	@SuppressWarnings("rawtypes")
+	private boolean isResourceGranted (ModelAppUser user, 
+			String url, Class entityClass, String districtId, String depId)
+	{
+		// 判断URL是否被授权
+		Set<String> grantedUrls = user.getRightsURLs();
+		if (grantedUrls != null)
+		{
+			boolean isGranted = false;
+			for (String grantedUrl : grantedUrls)
+			{
+				if (grantedUrl.indexOf(url) > -1 || url.indexOf(grantedUrl) > -1)
+				{
+					isGranted = true;
+					break;
+				}
+			}
+			
+			if (isGranted)
+			{
+				// 判断是否被授予数据权限
+				if (dataPolicyQuery.isGrantedDataPolicy(url, user))
+				{
+					String dataQuery = dataPolicyQuery.buildPolicyQuery(entityClass);
+					if (UtilString.isNotEmpty(dataQuery))
+					{
+						// 获取AclFilterAnnotation
+						AclFilterAnnotation annotation = (AclFilterAnnotation) UtilAnnotation.getAnnotationFromEntityFields(
+								entityClass, AclFilterAnnotation.class);
+						
+						// 获取AclFilter过滤的字段
+						String[] aclFieldNames = annotation.fieldNames();
+						String[] aclFieldTypes = annotation.fieldTypes();
+						
+						// 截取字段过滤条件
+						String[] conds = dataQuery.toLowerCase().split("or");
+						
+						for (String cond : conds)
+						{
+							String[] ret = cond.split("in");
+							String fieldName = ret[0].trim();
+							String fieldValue = ret[1].trim();
+							
+							if (fieldValue.startsWith("(") && fieldValue.endsWith(")"))
+							{
+								fieldValue = fieldValue.substring(1, fieldValue.length() - 1);
+							}
+							
+							for (int i = 0, size = aclFieldNames.length; i < size; i++)
+							{
+								String aclFieldName = aclFieldNames[i];
+								String aclFieldType = aclFieldTypes[i];
+								
+								if (aclFieldName.equals(fieldName))
+								{
+									if (AppUtil.DATA_POLICY_DISTRICT.equals(aclFieldType))
+									{
+										// 校区数据
+										if (UtilString.isNotEmpty(districtId) && JstlTagString.inRange(fieldValue, districtId, ","))
+										{
+											return true;
+										}
+									}
+									else if (AppUtil.DATA_POLICY_DEPARTMENT.equals(aclFieldType))
+									{
+										// 部门数据
+										if (UtilString.isNotEmpty(depId) && JstlTagString.inRange(fieldValue, depId, ","))
+										{
+											return true;
+										}
+									}
+									else if (AppUtil.DATA_POLICY_PERSONAL.equals(aclFieldType))
+									{
+										// 个人数据
+										if (JstlTagString.inRange(fieldValue, user.getId(), ","))
+										{
+											return true;
+										}
+									}
+								}
+							}
+						}
+					}
+					else
+					{
+						// 被授予`全校数据`数据权限
+						return true;
+					}
+				}
+				else
+				{
+					// 未被授予数据权限
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 	
 	public ServiceSchoolDepartment getServiceSchoolDepartment()
