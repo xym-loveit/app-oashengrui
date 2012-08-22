@@ -18,16 +18,20 @@
 
 <script>
 	$(function(){
-		$("#enRMB").keyup(function(){
-			$("#cnRMB").val(Arabia_to_Chinese(this.value));
+		var cdialog = $.pdialog.getCurrent();
+		
+		$("#enRMB", cdialog).keyup(function(){
+			$("#cnRMB", cdialog).val(Arabia_to_Chinese(this.value));
 		});
 		
 		<logic:present name="entity">
-			$("#cnRMB").val(Arabia_to_Chinese("${entity.applyAmt}"));
+			$("#cnRMB", cdialog).val(Arabia_to_Chinese("${entity.applyAmt}"));
 		</logic:present>
 		
-		$("#pay_money").unbind("click");
-		$("#pay_money").bind("click", function(){
+		
+		
+		$("#pay_money", cdialog).unbind("click");
+		$("#pay_money", cdialog).bind("click", function(){
 			if ($(this).attr("checked") && $(this).attr("checked") == "checked") {
 				$("#bank").removeClass("required");
 				$("#accountName").removeClass("required");
@@ -35,8 +39,8 @@
 			}
 		});
 		
-		$("#pay_transfer").unbind("click");
-		$("#pay_transfer").bind("click", function(){
+		$("#pay_transfer", cdialog).unbind("click");
+		$("#pay_transfer", cdialog).bind("click", function(){
 			if ($(this).attr("checked") && $(this).attr("checked") == "checked") {
 				$("#bank").addClass("required");
 				$("#accountName").addClass("required");

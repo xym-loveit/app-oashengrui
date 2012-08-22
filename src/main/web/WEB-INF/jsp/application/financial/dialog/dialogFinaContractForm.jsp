@@ -25,7 +25,7 @@
 		<logic:present name="entity">
 			$("#cnRMB").val(Arabia_to_Chinese("${entity.applyAmt}"));
 		</logic:present>
-	
+		
 	});
 </script>
 

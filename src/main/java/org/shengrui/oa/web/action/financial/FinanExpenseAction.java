@@ -1,6 +1,9 @@
 package org.shengrui.oa.web.action.financial;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +15,8 @@ import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.finan.ModelFinanExpense;
 import org.shengrui.oa.model.flow.ModelProcessForm;
 import org.shengrui.oa.model.flow.ModelProcessType;
+import org.shengrui.oa.model.hrm.ModelHrmEmployee;
+import org.shengrui.oa.model.info.ModelShortMessage;
 import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
 
@@ -238,6 +243,7 @@ extends BaseFinanAction
 		try
 		{
 			boolean isCreation = false;
+			ModelProcessForm procForm = null;
 			
 			ModelFinanExpense expenseInfo = null;
 			ModelFinanExpense formEntity = (ModelFinanExpense) form;
@@ -295,7 +301,7 @@ extends BaseFinanAction
 			if (isCreation)
 			{
 				// 进入流程...
-				this.serviceWorkFlow.doStartProcess(
+				procForm = this.serviceWorkFlow.doStartProcess(
 						expenseInfo.getApplyFormType().getId(), 
 						null, 
 						expenseInfo.getApplyAmt(), 
@@ -310,6 +316,33 @@ extends BaseFinanAction
 			}
 			
 			this.serviceFinanExpense.save(expenseInfo);
+			
+			if (isCreation && procForm != null)
+			{
+				// 短消息提醒审批人..
+				Map<String, Object> params = new HashMap<String, Object>();
+				params.put("entity", expenseInfo);
+				params.put("procForm", procForm);
+				params.put("type", FIANA_CATKEY_EXPENSE);
+				
+				List<ModelHrmEmployee> employees = this.serviceHrmEmployee.getByDepartmentAndPosition(
+						procForm.getToDepartmentIds(), procForm.getToPositionIds());
+				
+				StringBuilder builder = new StringBuilder();
+				for (int i = 0, size = employees.size(); i <  size; i++)
+				{
+					ModelHrmEmployee employee = employees.get(i);
+					builder.append(employee.getId());
+					builder.append(",");
+				}
+				
+				this.sendMessage("my.approval.audit.fina", 
+					params, new Object[] {
+						builder.toString()
+					}, 
+					ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+				);
+			}
 			
 			return ajaxPrint(response, 
 					getSuccessCallback("费用申请保存成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));

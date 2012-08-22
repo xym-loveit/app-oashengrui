@@ -29,7 +29,7 @@
 		<td><input name="sex" style="width: 87%;" readonly class="required textInput" format="yyyy-MM-dd" type="text" value="${entity ne null ? (entity.employee.resume.sex eq 1 ? '男' : '女') : (employee.resume.sex eq 1 ? '男' : '女')}" /></td>
 		<td class='field'>出生日期</td>
 		<td>
-			<input name="birthdate" style="width: 87%;" readonly type="text" value="${entity ne null ? entity.employee.birthdate : employee.birthdate}"/>
+			<input name="birthdate" style="width: 87%;" readonly type="text" value="<c:choose><c:when test='${entity ne null}'><fmt:formatDate  value='${entity.employee.birthdate}' pattern='yyyy-MM-dd' /></c:when><c:otherwise><fmt:formatDate  value='${employee.birthdate}' pattern='yyyy-MM-dd' /></c:otherwise></c:choose>"/>
 			<input id="inputEmpDisId" name="emp.districtId" value="" type="hidden"/>
 		</td>
 		<td class='field'>联系电话</td>
