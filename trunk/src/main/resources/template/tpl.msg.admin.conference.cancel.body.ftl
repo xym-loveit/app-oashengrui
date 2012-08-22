@@ -1,6 +1,6 @@
-<#--会议发起 - 正文 -->
+<#--会议取消 - 正文 -->
 <div style="line-height: 25px;">
-	<div>[会议发起] 会议“${entity.conferenceName} ”已发起，请及时参加.</div> 
+	<div>[会议取消] 会议“${entity.conferenceName} ”已取消.</div> 
 	<div>------------------------------------------------------------------</div>
 	<div><b>会议时间：</b> ${(entity.startDay)?string("yyyy-MM-dd")} ${entity.startHour}：${entity.startMinute}---${(entity.endDay)?string("yyyy-MM-dd")}
  ${entity.endHour}：${entity.endMinute}</div>
