@@ -136,6 +136,11 @@ extends ModelBase implements UserDetails
 	protected Set<String> rights = new HashSet<String>();
 	
 	/**
+	 * 用于存储该用户的功能权限对应的URL
+	 */
+	protected Set<String> rightsURLs = new HashSet<String>();
+	
+	/**
 	 * 用户所属岗位
 	 */
 	@Expose
@@ -400,6 +405,26 @@ extends ModelBase implements UserDetails
 				if (!this.rights.contains(item)) 
 				{
 					this.rights.add(item);
+					
+					// 获取功能对应的URLs
+					Set<ModelAppFunction> funcs = role.getFunctions();
+					if (funcs != null)
+					{
+						for (ModelAppFunction func : funcs)
+						{
+							if (func.getFuncKey().equals(item))
+							{
+								Set<ModelAppFunctionUrl> urls = func.getFuncURLs();
+								if (urls != null)
+								{
+									for (ModelAppFunctionUrl url : urls)
+									{
+										this.rightsURLs.add(url.getUrlPath());
+									}
+								}
+							}
+						}
+					}
 				}
 			}
 		}
@@ -677,6 +702,17 @@ extends ModelBase implements UserDetails
 	
 	public ModelHrmEmployee getEmployee()
 	{
+		if (employee == null)
+		{
+			// hot-fix to avoid nullPointerException if employee empty.
+			employee = new ModelHrmEmployee();
+			
+			// TODO: employee entity with id "0" should be stored in database
+			employee.setId("0");
+			employee.setFullName("unknown");
+			employee.setEmpNo("000000");
+		}
+		
 		return employee;
 	}
 
@@ -743,5 +779,15 @@ extends ModelBase implements UserDetails
 	public void setDelFlag(Integer delFlag)
 	{
 		this.delFlag = delFlag;
+	}
+	
+	public Set<String> getRightsURLs()
+	{
+		return rightsURLs;
+	}
+
+	public void setRightsURLs(Set<String> rightsURLs)
+	{
+		this.rightsURLs = rightsURLs;
 	}
 }
