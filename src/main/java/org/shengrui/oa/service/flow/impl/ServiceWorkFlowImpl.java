@@ -290,6 +290,7 @@ implements ServiceWorkFlow
 						this.serviceProcessForm.save(previousForm);
 						
 						preFormEntity = previousForm;
+						break;
 					}
 				}
 			}
