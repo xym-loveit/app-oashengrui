@@ -1,5 +1,9 @@
 package org.shengrui.oa.web.action.financial;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,9 +12,12 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.shengrui.oa.model.finan.ModelFinanBase;
 import org.shengrui.oa.model.finan.ModelFinanContract;
 import org.shengrui.oa.model.finan.ModelFinanExpense;
 import org.shengrui.oa.model.flow.ModelProcessForm;
+import org.shengrui.oa.model.hrm.ModelHrmEmployee;
+import org.shengrui.oa.model.info.ModelShortMessage;
 import org.shengrui.oa.service.finan.ServiceFinanContract;
 import org.shengrui.oa.service.finan.ServiceFinanExpense;
 import org.shengrui.oa.web.action.flow.FlowBaseAction;
@@ -81,6 +88,7 @@ extends FlowBaseAction
 	public  ActionForward actionFinanApplicationApprove(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request, HttpServletResponse response) 
 	{
+		String formId = request.getParameter("formId");
 		String procFormId = request.getParameter("id");
 		String procFormState = request.getParameter("state");
 		String procFormComments = request.getParameter("comments");
@@ -91,6 +99,9 @@ extends FlowBaseAction
 			{
 				try
 				{
+					ModelFinanBase baseEntity = null;
+					ModelProcessForm formEntity = null;
+					
 					PairObject<Boolean, ModelProcessForm> result = this.serviceWorkFlow.proceed(
 							procFormId, Integer.parseInt(procFormState), procFormComments);
 					
@@ -99,9 +110,10 @@ extends FlowBaseAction
 					{
 						// 更新业务表中的状态...
 						String formNo = request.getParameter("formNo");
+						formEntity = this.serviceProcessForm.get(procFormId);
+						
 						if (!UtilString.isNotEmpty(formNo))
 						{
-							ModelProcessForm formEntity = this.serviceProcessForm.get(procFormId);
 							if (formEntity != null)
 							{
 								formNo = formEntity.getApplyFormNo();
@@ -122,6 +134,7 @@ extends FlowBaseAction
 								entity.setAuditState(Integer.parseInt(procFormState));
 								this.serviceFinanExpense.save(entity);
 							}
+							baseEntity = entity;
 						}
 						else if (FIANA_CATKEY_CONTRACT.equals(catKey.toLowerCase()))
 						{
@@ -132,6 +145,7 @@ extends FlowBaseAction
 								entity.setAuditState(Integer.parseInt(procFormState));
 								this.serviceFinanContract.save(entity);
 							}
+							baseEntity = entity;
 						}
 						else
 						{
@@ -145,6 +159,46 @@ extends FlowBaseAction
 					
 					if (result.getLeft())
 					{
+						// 短消息通知
+						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("entity", baseEntity);
+						params.put("state", Integer.valueOf(procFormState));
+						params.put("procForm", formEntity);
+						params.put("formId", formId);
+						params.put("type", catKey.toLowerCase());
+						
+						if (result.getRight() == null)
+						{
+							// 审批结束, 审批退回/不通过/通过
+							this.sendMessage("my.application.audit", 
+								params, new Object[] {
+									baseEntity.getEmployee().getId()
+								}, 
+								ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+							);
+						}
+						else
+						{
+							List<ModelHrmEmployee> employees = this.serviceHrmEmployee.getByDepartmentAndPosition(
+									result.getRight().getToDepartmentIds(), result.getRight().getToPositionIds());
+							
+							StringBuilder builder = new StringBuilder();
+							for (int i = 0, size = employees.size(); i <  size; i++)
+							{
+								ModelHrmEmployee employee = employees.get(i);
+								builder.append(employee.getId());
+								builder.append(",");
+							}
+							
+							// 通知下一个审批环节的审批人
+							this.sendMessage("my.approval.audit.fina", 
+								params, new Object[] {
+									builder.toString()
+								}, 
+								ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+							);
+						}
+						
 						return ajaxPrint(response, 
 								getSuccessCallback("审批成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 					}

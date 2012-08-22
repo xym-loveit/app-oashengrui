@@ -492,28 +492,37 @@ extends FlowBaseAction
 					if (result.getLeft())
 					{
 						// 短消息通知申请人...
-						String msgTplName = null;
-						if ((ModelProcessForm.EProcessFormStatus.APPROVED.getValue().equals(Integer.valueOf(procFormState)) || 
-								ModelProcessForm.EProcessFormStatus.RETURNED.getValue().equals(Integer.valueOf(procFormState))) && result.getRight() == null)
-						{
-							// 审批通过/退回
-							msgTplName = "my.application.audit";
-						}
-						else if (ModelProcessForm.EProcessFormStatus.NOTPASSED.getValue().equals(Integer.valueOf(procFormState)))
-						{
-							// 审批不通过
-							msgTplName = "my.application.audit";
-						}
+						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("entity", entity);
+						params.put("state", Integer.valueOf(procFormState));
+						params.put("procForm", formEntity);
+						params.put("formId", formId);
 						
-						if (msgTplName != null)
+						if (result.getRight() == null)
 						{
-							Map<String, Object> params = new HashMap<String, Object>();
-							params.put("entity", entity);
-							params.put("state", Integer.valueOf(procFormState));
-							params.put("procForm", formEntity);
-							params.put("formId", formId);
+							// 审批结束, 审批退回/不通过/通过
+							this.sendMessage("my.application.audit", 
+								params, new Object[] {
+									entity.getEmployee().getId()
+								}, 
+								ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+							);
+						}
+						else
+						{
+							List<ModelHrmEmployee> employees = this.serviceHrmEmployee.getByDepartmentAndPosition(
+									result.getRight().getToDepartmentIds(), result.getRight().getToPositionIds());
 							
-							this.sendMessage(msgTplName, 
+							StringBuilder builder = new StringBuilder();
+							for (int i = 0, size = employees.size(); i <  size; i++)
+							{
+								ModelHrmEmployee employee = employees.get(i);
+								builder.append(employee.getId());
+								builder.append(",");
+							}
+							
+							// 通知下一个审批环节的审批人
+							this.sendMessage("my.approval.audit.hrm", 
 								params, new Object[] {
 									entity.getEmployee().getId()
 								}, 
