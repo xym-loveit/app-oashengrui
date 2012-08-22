@@ -79,19 +79,21 @@ implements ServiceWorkFlow
 	 * @see org.shengrui.oa.service.flow.ServiceWorkFlow#doStartProcess(java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.shengrui.oa.model.system.ModelAppUser)
 	 */
 	@Override
-	public void doStartProcess (String processTypeId, 
+	public ModelProcessForm doStartProcess (String processTypeId, 
 			ModelSchoolDepartmentPosition filterPosition, Object condParamVal, String formNo, ModelHrmEmployee employee) throws ServiceException
 	{
-		doStartProcess(processTypeId, filterPosition, null, condParamVal, formNo, employee);
+		return doStartProcess(processTypeId, filterPosition, null, condParamVal, formNo, employee);
 	}
 	
 	/*
 	 * (non-Javadoc)
 	 * @see org.shengrui.oa.service.flow.ServiceWorkFlow#doStartProcess(java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.shengrui.oa.model.system.ModelAppUser)
 	 */
-	public void doStartProcess (String processTypeId, 
+	public ModelProcessForm doStartProcess (String processTypeId, 
 			ModelSchoolDepartmentPosition filterPosition, ModelSchoolDistrict filterDistrict, Object condParamVal, String formNo, ModelHrmEmployee employee) throws ServiceException
 	{
+		ModelProcessForm firstItem = null;
+		
 		List<ModelProcessDefinition> processDefs = this.serviceProcessDefinition.getProcessDefinition(
 				processTypeId, filterPosition, condParamVal);
 		
@@ -118,14 +120,10 @@ implements ServiceWorkFlow
 			else
 			{
 				// it's only accepted one process definition.
-				if (processDefs.size() > 1)
+				if (processDefs.size() > 0)
 				{
 					def = processDefs.get(0);
 				}
-				//else
-				//{
-				//	throw new ServiceException("More than one process definition is found.");
-				//}
 			}
 			
 			// obtains set of process tasks.
@@ -133,9 +131,17 @@ implements ServiceWorkFlow
 			if (tasks != null && tasks.size() > 0)
 			{
 				boolean isFirstStep = true;
+				
 				for (ModelProcessTask task : tasks)
 				{
 					ModelProcessForm form = this.convertTaskToForm(task, processTypeId, formNo, employee, isFirstStep);
+					
+					// 判断当前Form是否被设置为第一个审批节点..
+					if (ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue().equals(form.getAuditState())
+							&& isFirstStep)
+					{
+						firstItem = form;
+					}
 					
 					if (isFirstStep && ModelProcessForm.EProcessFormStatus.IGNORED.getValue().equals(form.getAuditState()))
 					{
@@ -166,6 +172,8 @@ implements ServiceWorkFlow
 		{
 			throw new ServiceException("No process entities found for the specified type:" + processTypeId);
 		}
+		
+		return firstItem;
 	}
 	
 	/*
@@ -173,18 +181,20 @@ implements ServiceWorkFlow
 	 * @see org.shengrui.oa.service.flow.ServiceWorkFlow#proceed(java.lang.String, java.lang.Integer, java.lang.String)
 	 */
 	@Override
-	public PairObject<Boolean, Boolean> proceed (String procFormId, 
+	public PairObject<Boolean, ModelProcessForm> proceed (String procFormId, 
 			Integer procFormState, String comments) throws ServiceException
 	{
+		ModelProcessForm entityDist = null;
+		
 		if (ModelProcessForm.EProcessFormStatus.APPROVED.getValue().equals(procFormState))
 		{
 			// 审批通过, 跳转到下一个审批节点..
-			this.jumpToNextTask(procFormId, comments);
+			entityDist = this.jumpToNextTask(procFormId, comments);
 		}
 		else if (ModelProcessForm.EProcessFormStatus.RETURNED.getValue().equals(procFormState))
 		{
 			// 审批退回
-			this.jumpToPreTask(procFormId, comments);
+			entityDist = this.jumpToPreTask(procFormId, comments);
 		}
 		else if (ModelProcessForm.EProcessFormStatus.NOTPASSED.getValue().equals(procFormState))
 		{
@@ -192,7 +202,7 @@ implements ServiceWorkFlow
 			completeTask(procFormId, ModelProcessForm.EProcessFormStatus.NOTPASSED.getValue(), comments);
 		}
 		
-		return new PairObject<Boolean, Boolean> (true, true);
+		return new PairObject<Boolean, ModelProcessForm> (true, entityDist);
 	}
 
 	/*
@@ -244,10 +254,11 @@ implements ServiceWorkFlow
 	 * @see org.shengrui.oa.service.flow.ServiceWorkFlow#jumpToPreTask(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public boolean jumpToPreTask(String procFormId, String comments)
+	public ModelProcessForm jumpToPreTask(String procFormId, String comments)
 			throws ServiceException
 	{
-		boolean isNodeFirst = false;
+		ModelProcessForm preFormEntity = null;
+		
 		ModelProcessForm procForm = this.serviceProcessForm.get(procFormId);
 		
 		if (procForm != null)
@@ -260,7 +271,6 @@ implements ServiceWorkFlow
 				{
 					// 当前为第一个流程节点, 回退代表结束.
 					this.completeTask(procForm, ModelProcessForm.EProcessFormStatus.RETURNED.getValue(), comments);
-					isNodeFirst = true;
 					break;
 				}
 				else
@@ -278,12 +288,14 @@ implements ServiceWorkFlow
 						// 重置前一个审批流程节点为待审批状态
 						previousForm.setAuditState(ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue());
 						this.serviceProcessForm.save(previousForm);
+						
+						preFormEntity = previousForm;
 					}
 				}
 			}
 		}
 		
-		return isNodeFirst;
+		return preFormEntity;
 	}
 	
 	/*
@@ -291,10 +303,11 @@ implements ServiceWorkFlow
 	 * @see org.shengrui.oa.service.flow.ServiceWorkFlow#jumpToNextTask(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public boolean jumpToNextTask(String procFormId,
+	public ModelProcessForm jumpToNextTask(String procFormId,
 			String comments) throws ServiceException
 	{
-		boolean isNodeLast = false;
+		ModelProcessForm nextFormEntity = null;
+		
 		ModelProcessForm procForm = this.serviceProcessForm.get(procFormId);
 		
 		if (procForm != null)
@@ -321,6 +334,8 @@ implements ServiceWorkFlow
 					{
 						nextForm.setAuditState(ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue());
 						this.serviceProcessForm.save(nextForm);
+						
+						nextFormEntity = nextForm;
 						break;
 					}
 				}
@@ -328,13 +343,12 @@ implements ServiceWorkFlow
 				{
 					// 当前已经是最后一个节点了, 移除ProcessForm表中的记录
 					this.doEndProcess(procForm.getApplyFormNo());
-					isNodeLast = true;
 					break;
 				}
 			}
 		}
 		
-		return isNodeLast;
+		return nextFormEntity;
 	}
 	
 	/*

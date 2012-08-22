@@ -91,7 +91,7 @@ extends FlowBaseAction
 			{
 				try
 				{
-					PairObject<Boolean, Boolean> result = this.serviceWorkFlow.proceed(
+					PairObject<Boolean, ModelProcessForm> result = this.serviceWorkFlow.proceed(
 							procFormId, Integer.parseInt(procFormState), procFormComments);
 					
 					String catKey = request.getParameter("catkey");
