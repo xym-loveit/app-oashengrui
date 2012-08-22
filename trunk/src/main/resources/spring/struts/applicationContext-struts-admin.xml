@@ -3,64 +3,46 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean name="/app/admin" class="org.shengrui.oa.web.action.admin.AdminAction">
-		 <property name="serviceNewsManage" ref="serviceNewsManage"></property> 
+	<bean name="/app/admin" 
+		class="org.shengrui.oa.web.action.admin.AdminAction" parent="base">
+		<property name="serviceNewsManage" ref="serviceNewsManage"></property> 
 	    <property name="serviceAdminWorkArrange" ref="serviceAdminWorkArrange" />
 	    <property name="serviceAdminWorkType" ref="serviceAdminWorkType" />
-	    <property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
 	    <property name="serviceDocManage" ref="serviceDocManage" />
 	    <property name="serviceDocFile" ref="serviceDocFile" />
 	    <property name="serviceDocLevel" ref="serviceDocLevel" />
-	    <property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
 	    <property name="serviceDocVisiableRange" ref="serviceDocVisiableRange" />
-	    <property name="serviceAppDictionary" ref="serviceAppDictionary" />
-        <property name="serviceAppUser" ref="serviceAppUser" />
-	    <property name="serviceFileAttach" ref="serviceFileAttach" />
         <property name="serviceWorkTemplate" ref="serviceWorkTemplate"/>
 		<property name="serviceBaseWorkTime" ref="serviceBaseWorkTime"/>
 		<property name="serviceBaseWorkContent" ref="serviceBaseWorkContent"/>
-		<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
      </bean>
 	
-		<bean name="/app/admin/news" class="org.shengrui.oa.web.action.admin.AdminAction">
+	<bean name="/app/admin/news" 
+		class="org.shengrui.oa.web.action.admin.AdminAction" parent="base">
 		 <property name="serviceNewsManage" ref="serviceNewsManage"></property> 
-		 <property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
-		 <property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
 	   	 <property name="serviceAdminWorkArrange" ref="serviceAdminWorkArrange" />
 	   	 <property name="serviceAdminWorkType" ref="serviceAdminWorkType" />
-	   	 <property name="serviceAppDictionary" ref="serviceAppDictionary" />
-	     <property name="serviceAppUser" ref="serviceAppUser" />
-	     <property name="serviceFileAttach" ref="serviceFileAttach" />
 	</bean>
 	
-	<bean name="/app/admin/attendance/operation" class="org.shengrui.oa.web.action.admin.AdminAction">
-       <property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
-       <property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
+	<bean name="/app/admin/attendance/operation" 
+		class="org.shengrui.oa.web.action.admin.AdminAction" parent="base">
        <property name="serviceStaffAttendance" ref="serviceStaffAttendance"/>
        <property name="serviceStaffAttendanceView" ref="serviceStaffAttendanceView"/>
 	   <property name="serviceAdminWorkArrange" ref="serviceAdminWorkArrange" />
-		<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
 	</bean>
 	
-	<bean name="/app/admin/attendance/view" class="org.shengrui.oa.web.action.admin.AdminAction">
-       <property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
-       <property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
+	<bean name="/app/admin/attendance/view" 
+		class="org.shengrui.oa.web.action.admin.AdminAction" parent="base">
        <property name="serviceStaffAttendance" ref="serviceStaffAttendance"/>
        <property name="serviceStaffAttendanceView" ref="serviceStaffAttendanceView"/>
 	</bean>
 	
-	<bean name="/app/admin/doc" class="org.shengrui.oa.web.action.admin.DocManageAction">
+	<bean name="/app/admin/doc" 
+		class="org.shengrui.oa.web.action.admin.DocManageAction" parent="base">
 	    <property name="serviceDocManage" ref="serviceDocManage" />
 	    <property name="serviceDocFile" ref="serviceDocFile" />
 	    <property name="serviceDocLevel" ref="serviceDocLevel" />
 	    <property name="serviceDocVisiableRange" ref="serviceDocVisiableRange" />
-	    <property name="serviceAppUser" ref="serviceAppUser" />
-	    <property name="serviceAppDictionary" ref="serviceAppDictionary" />
-	    <property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
-	    <property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
-		<property name="serviceSchoolDepartmentPosition" ref="serviceSchoolDepartmentPosition" />
-		<property name="serviceFileAttach" ref="serviceFileAttach" />
-		<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
 		
 		
 	</bean>

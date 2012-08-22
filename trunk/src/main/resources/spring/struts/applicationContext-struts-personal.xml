@@ -3,39 +3,31 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean name="/app/personal" class="org.shengrui.oa.web.action.personal.MyDesktopAction">
+	<bean name="/app/personal" 
+		class="org.shengrui.oa.web.action.personal.MyDesktopAction" parent="base">
 	</bean>
 	
 	
-	<bean name="/app/personal/doc" class="org.shengrui.oa.web.action.personal.MyDocAction">
+	<bean name="/app/personal/doc" 
+		class="org.shengrui.oa.web.action.personal.MyDocAction" parent="base">
 		<property name="serviceDocManage" ref="serviceDocManage" />
 	    <property name="serviceDocFile" ref="serviceDocFile" />
 	    <property name="serviceDocLevel" ref="serviceDocLevel" />
 	    <property name="serviceDocVisiableRange" ref="serviceDocVisiableRange" />
-	    <property name="serviceAppUser" ref="serviceAppUser" />
-	    <property name="serviceAppDictionary" ref="serviceAppDictionary" />
 	</bean>
 	
-	<bean name="/app/personal/news" class="org.shengrui.oa.web.action.personal.MyNewsAction">
+	<bean name="/app/personal/news" 
+		class="org.shengrui.oa.web.action.personal.MyNewsAction" parent="base">
 		<property name="serviceNewsManage" ref="serviceNewsManage"></property>
-		<property name="serviceAppDictionary" ref="serviceAppDictionary" />
-		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
-		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
 	</bean>
 	
 	
-	<bean name="/app/personal/conference" class="org.shengrui.oa.web.action.personal.MyConferenceAction">
+	<bean name="/app/personal/conference" 
+		class="org.shengrui.oa.web.action.personal.MyConferenceAction" parent="base">
 		<property name="serviceConference" ref="serviceConference" />
-		<property name="serviceAppDictionary" ref="serviceAppDictionary" />
-		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
-		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
-		<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
-		<property name="serviceFileAttach" ref="serviceFileAttach" />
 	</bean>
 	
-	<bean name="/app/personal/addressBook" class="org.shengrui.oa.web.action.index.IndexAction">
-		<property name="serviceAppUser" ref="serviceAppUser"></property>
-		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
-		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
+	<bean name="/app/personal/addressBook" 
+		class="org.shengrui.oa.web.action.index.IndexAction" parent="base">
 	</bean>
 </beans>
