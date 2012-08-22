@@ -167,7 +167,6 @@ extends ModelBase
 		fieldTypes ={AppUtil.DATA_POLICY_DISTRICT, AppUtil.DATA_POLICY_DEPARTMENT, AppUtil.DATA_POLICY_PERSONAL}
 	)
 	private String aclFilterFields;
-
 	
 	/**
 	 * The enumeration of interview state
@@ -419,6 +418,16 @@ extends ModelBase
 
 	public void setBankNo(String bankNo) {
 		this.bankNo = bankNo;
+	}
+
+	public void setAclFilterFields(String aclFilterFields)
+	{
+		this.aclFilterFields = aclFilterFields;
+	}
+
+	public String getAclFilterFields()
+	{
+		return aclFilterFields;
 	}
 	
 	

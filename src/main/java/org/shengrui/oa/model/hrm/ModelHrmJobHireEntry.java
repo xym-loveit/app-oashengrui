@@ -273,5 +273,15 @@ extends ModelBase
 	{
 		this.inspectStatus = inspectStatus;
 	}
+
+	public void setAclFilterFields(String aclFilterFields)
+	{
+		this.aclFilterFields = aclFilterFields;
+	}
+
+	public String getAclFilterFields()
+	{
+		return aclFilterFields;
+	}
 	
 }

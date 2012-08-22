@@ -276,4 +276,14 @@ extends ModelBase {
 	{
 		this.docVisiableRange = docVisiableRange;
 	}
+
+	public void setAclFilterFields(String aclFilterFields)
+	{
+		this.aclFilterFields = aclFilterFields;
+	}
+
+	public String getAclFilterFields()
+	{
+		return aclFilterFields;
+	}
 }
