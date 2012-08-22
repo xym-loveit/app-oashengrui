@@ -17,6 +17,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.admin.ModelConference;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
+import org.shengrui.oa.model.info.ModelShortMessage;
+import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
@@ -469,22 +471,48 @@ extends BaseAppAction
 				if(phone!=null && !"".equals(phone)){
 					formInfo.setPhone(phone);
 				}
+				
+				//ModelAppUser sponsor;
+				//formInfo.setSponsor(sponsor);
+				
+				
 				entity = formInfo;
+				entity.setSponsor(ContextUtil.getCurrentUser());
 			}
 
 			// 设置会议附件
 			this.handleFileAttachments(entity, request);
 			this.handleFileAttachments(entity, request, "fileUrls_1");
 			this.serviceConference.save(entity);
+			
+			System.out.println("发起人："+entity.getSponsor().getFullName());
+			
+			if(entity !=null )
+			{
+			//发送消息
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("entity", entity);
+			
+			this.sendMessage("admin.conference.initial", 
+					params, new Object[] {
+						entity.getAttendanceIds()
+					}, 
+					ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+				);
+			
+			}
+			
+			
+			
 			// 保存成功后, Dialog进行关闭
 			return ajaxPrint(response, 
 					getSuccessCallback("会议保存成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 		} 
-		catch (ServiceException e)
+		catch (Exception e)
 		{
 			LOGGER.error("It failed to save the school department item entity!", e);
 			
-			return ajaxPrint(response, getErrorCallback("会议保存失败."));
+			return ajaxPrint(response, getErrorCallback("会议保存失败."+ e.getMessage()));
 		}
 	}
 	
