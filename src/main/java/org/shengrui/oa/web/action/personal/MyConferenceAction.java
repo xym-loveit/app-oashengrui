@@ -423,6 +423,12 @@ extends BaseAppAction
 						{
 							entity.setContactor(ContextUtil.getCurrentUser().getFullName());
 						}
+						
+						if (entity.getSponsor().getFullName() == null)
+						{
+							entity.setSponsor(ContextUtil.getCurrentUser());
+						}
+						
 					} 
 					catch (Exception e)
 					{
@@ -485,21 +491,31 @@ extends BaseAppAction
 			this.handleFileAttachments(entity, request, "fileUrls_1");
 			this.serviceConference.save(entity);
 			
-			System.out.println("发起人："+entity.getSponsor().getFullName());
 			
-			if(entity !=null )
-			{
-			//发送消息
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("entity", entity);
 			
-			this.sendMessage("admin.conference.initial", 
-					params, new Object[] {
-						entity.getAttendanceIds()
-					}, 
-					ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
-				);
+			//调整会议，发送消息
+			if (!isCreation)
+			{
+				this.sendMessage("admin.conference.update", 
+						params, new Object[] {
+							entity.getAttendanceIds()
+						}, 
+						ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+					);
 			
+			}
+			//发起会议，发送消息
+			else
+			{
+				this.sendMessage("admin.conference.initial", 
+						params, new Object[] {
+							entity.getAttendanceIds()
+						}, 
+						ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+					);
+				
 			}
 			
 			
@@ -595,6 +611,18 @@ extends BaseAppAction
 			{
 				entity.setStatus(ModelConference.ConferenceStatus.CANCEL.getText());
 				this.serviceConference.save(entity);
+				
+				Map<String, Object> params = new HashMap<String, Object>();
+				params.put("entity", entity);
+				
+				//取消会议，发送消息
+					this.sendMessage("admin.conference.cancel", 
+							params, new Object[] {
+								entity.getAttendanceIds()
+							}, 
+							ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+						);
+				
 				return ajaxPrint(
 		                  response,
 		                  getSuccessCallback("会议取消成功.", CALLBACK_TYPE_CLOSE,
@@ -602,9 +630,9 @@ extends BaseAppAction
 			}else{
 				return ajaxPrint(response,getErrorCallback("无效的ID"));
 			}
-		} catch (ServiceException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			return ajaxPrint(response,getErrorCallback("会议取消失败"));
+			return ajaxPrint(response,getErrorCallback("会议取消失败"+e.getMessage()));
 		}
 	}
 	
@@ -620,6 +648,17 @@ extends BaseAppAction
 			{
 				entity.setStatus(ModelConference.ConferenceStatus.START.getText());
 				this.serviceConference.save(entity);
+				
+				Map<String, Object> params = new HashMap<String, Object>();
+				params.put("entity", entity);
+				//会议激活，发送消息
+				this.sendMessage("admin.conference.initial", 
+						params, new Object[] {
+							entity.getAttendanceIds()
+						}, 
+						ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+					);
+				
 				return ajaxPrint(
 		                  response,
 		                  getSuccessCallback("会议激活成功.", CALLBACK_TYPE_CLOSE,
@@ -627,9 +666,9 @@ extends BaseAppAction
 			}else{
 				return ajaxPrint(response,getErrorCallback("无效的ID"));
 			}
-		} catch (ServiceException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			return ajaxPrint(response,getErrorCallback("会议激活失败"));
+			return ajaxPrint(response,getErrorCallback("会议激活失败"+e.getMessage()));
 		}
 	}
 	
@@ -668,14 +707,25 @@ extends BaseAppAction
 				entity.setStatus(ModelConference.ConferenceStatus.END.getText());
 				entity.setSummary(request.getParameter("summary"));
 				this.serviceConference.save(entity);
+				
+				Map<String, Object> params = new HashMap<String, Object>();
+				params.put("entity", entity);
+				//会议总结，发送消息
+				this.sendMessage("admin.conference.complete", 
+						params, new Object[] {
+							entity.getAttendanceIds()
+						}, 
+						ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+					);
+				
 				return ajaxPrint(response, 
 						getSuccessCallback("会议总结提交成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 			}else{
 				return ajaxPrint(response,getErrorCallback("无效的ID"));
 			}
-		} catch (ServiceException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			return ajaxPrint(response,getErrorCallback("会议总结提交失败"));
+			return ajaxPrint(response,getErrorCallback("会议总结提交失败"+e.getMessage()));
 		}
 	}
 }
