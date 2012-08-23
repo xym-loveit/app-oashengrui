@@ -27,6 +27,7 @@ import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
+import org.shengrui.oa.model.vo.ModelApprovalVO;
 import org.shengrui.oa.service.admin.ServiceConferenceInfo;
 import org.shengrui.oa.service.admin.ServiceTaskPlan;
 import org.shengrui.oa.service.finan.ServiceFinanContract;
@@ -1021,10 +1022,12 @@ extends BaseAction
 	}
 	
 	/**
-	 * Obtains list of user ids against granted specified resource
+	 * Obtains list of user identities against granted specified resource
 	 * 
-	 * @param url
-	 *         the URL resource
+	 * @param vo
+	 *         the approval value object
+	 * @param funcKey
+	 *         the function key
 	 * @param entityClass
 	 *         the entity class package name
 	 * @param districtId
@@ -1034,7 +1037,7 @@ extends BaseAction
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	protected List<String> getUserIdsAgainstGrantedResource (String url, 
+	protected List<String> getUserIdsAgainstGrantedResource (ModelApprovalVO vo,
 			Class entityClass, String districtId, String depId)
 	{
 		try
@@ -1055,8 +1058,11 @@ extends BaseAction
 					}
 					else
 					{
+						// 初始化用户拥有的资源
+						user.initMenuRights();
+						
 						// 普通用户
-						if (this.isResourceGranted(user, url, entityClass, districtId, depId))
+						if (this.isResourceGranted(user, vo, entityClass, districtId, depId))
 						{
 							userIds.add(user.getEmployee().getId());
 						}
@@ -1077,10 +1083,10 @@ extends BaseAction
 	/**
 	 * 判断资源是否被授权
 	 * 
-	 * @param user
-	 *          用户实体
-	 * @param url
-	 *          URL资源
+	 * @param vo
+	 *          审批操作VO
+	 * @param funcKey
+	 *          功能Key
 	 * @param entityClass
 	 *          实体类名
 	 * @param districtId
@@ -1091,16 +1097,16 @@ extends BaseAction
 	 */
 	@SuppressWarnings("rawtypes")
 	private boolean isResourceGranted (ModelAppUser user, 
-			String url, Class entityClass, String districtId, String depId)
+		ModelApprovalVO vo, Class entityClass, String districtId, String depId)
 	{
-		// 判断URL是否被授权
-		Set<String> grantedUrls = user.getRightsURLs();
-		if (grantedUrls != null)
+		// 判断功能是否被授权
+		if (UtilString.isNotEmpty(vo.getApprovalFuncKey()))
 		{
+			Set<String> funcKeys = user.getRights();
 			boolean isGranted = false;
-			for (String grantedUrl : grantedUrls)
+			for (String key : funcKeys)
 			{
-				if (grantedUrl.indexOf(url) > -1 || url.indexOf(grantedUrl) > -1)
+				if (key.equalsIgnoreCase(vo.getApprovalFuncKey()))
 				{
 					isGranted = true;
 					break;
@@ -1110,7 +1116,7 @@ extends BaseAction
 			if (isGranted)
 			{
 				// 判断是否被授予数据权限
-				if (dataPolicyQuery.isGrantedDataPolicy(url, user))
+				if (dataPolicyQuery.isGrantedDataPolicy(vo.getApprovalURI(), user))
 				{
 					String dataQuery = dataPolicyQuery.buildPolicyQuery(entityClass);
 					if (UtilString.isNotEmpty(dataQuery))

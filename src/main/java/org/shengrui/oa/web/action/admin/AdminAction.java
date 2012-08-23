@@ -20,6 +20,7 @@ import org.shengrui.oa.model.admin.ModelAdminWorkArrange;
 import org.shengrui.oa.model.admin.ModelStaffAttendance;
 import org.shengrui.oa.model.admin.ModelStaffAttendanceView;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
+import org.shengrui.oa.model.info.ModelShortMessage;
 import org.shengrui.oa.model.news.ModelNewsMag;
 import org.shengrui.oa.model.system.ModelBaseWorkContent;
 import org.shengrui.oa.model.system.ModelBaseWorkTime;
@@ -27,6 +28,7 @@ import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 import org.shengrui.oa.model.system.ModelWorkTemplate;
 import org.shengrui.oa.util.UtilDateTime;
+import org.shengrui.oa.util.WebActionUtil;
 import org.springframework.beans.BeanUtils;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.exception.WebException;
@@ -279,8 +281,8 @@ extends BaseAdminAction
 					return ajaxPrint(response, 
 							getSuccessCallback("新闻审批退回.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 				}
-
 			}
+			
 			//添加
 			if(formadd != null){
 				if(formadd.equals("2")){
@@ -294,6 +296,34 @@ extends BaseAdminAction
 			this.handleFileAttachments(entity, request);
 			
 			this.serviceNewsManage.save(entity);
+			
+			// Added by Jeccy.Zhao on 23/08/2012: 短消息提醒新闻审批人..
+			List<String> auditorIds = this.getUserIdsAgainstGrantedResource(
+				WebActionUtil.APPROVAL_ADMIN_NEWS, 
+				ModelNewsMag.class, 
+				String.valueOf(entity.getDistrictPost()), 
+				String.valueOf(entity.getDepPost())
+			);
+			
+			if (auditorIds != null && auditorIds.size() > 0)
+			{
+				String strIds = UtilString.join(auditorIds, ",");
+				System.out.println(strIds);
+				
+				if (UtilString.isNotEmpty(strIds))
+				{
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("entity", entity);
+					
+					this.sendMessage("my.approval.audit.news", 
+						params, new Object[] {
+							strIds
+						}, 
+						ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+					);
+				}
+			}
+			
 			return ajaxPrint(response, 
 					getSuccessCallback("新闻添加成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 			

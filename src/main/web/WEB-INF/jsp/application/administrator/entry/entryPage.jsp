@@ -15,12 +15,14 @@ $(function(){
 	$("#pass").bind("click", function() { 
 		$("#formAction").val("0");
 		$("#formnews").submit();
+		return false;
 	});
 	
 	$("#return").unbind("click");
 	$("#return").bind("click", function() { 
 		$("#formAction").val("1");
 		$("#formnews").submit();
+		return false;
 	});
 	<c:if test="${news eq null}">
 	$("#app").unbind("click");
