@@ -18,10 +18,12 @@ import org.shengrui.oa.model.admin.ModelTaskPlan;
 import org.shengrui.oa.model.admin.ModelTaskPlanTrack;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.info.ModelShortMessage;
+import org.shengrui.oa.model.news.ModelNewsMag;
 import org.shengrui.oa.model.system.ModelAppDictionary;
 import org.shengrui.oa.service.admin.ServiceTaskPlan;
 import org.shengrui.oa.service.admin.ServiceTaskPlanTrack;
 import org.shengrui.oa.util.ContextUtil;
+import org.shengrui.oa.util.WebActionUtil;
 import org.shengrui.oa.web.action.BaseAppAction;
 
 import cn.trymore.core.util.UtilBean;
@@ -500,35 +502,65 @@ extends BaseAppAction
 							
 							this.serviceTaskPlan.save(entity);
 							
-							// 发送短消息给任务负责人...
-							if (entity.getAuditStatus() != null)
+							if (isCreation)
 							{
-								Map<String, Object> params = new HashMap<String, Object>();
-								params.put("entity", entity);
+								// 任务发布, 发送短消息给审批人...
+								List<String> auditorIds = this.getUserIdsAgainstGrantedResource(
+									WebActionUtil.APPROVAL_ADMIN_TASK, 
+									ModelNewsMag.class, 
+									String.valueOf(entity.getTaskChargerDisId()), 
+									String.valueOf(entity.getTaskChargerDepId())
+								);
 								
-								if (ModelTaskPlan.ETaskApprovalStatus.APPROVED.getValue().equals(
-										entity.getAuditStatus()))
+								if (auditorIds != null && auditorIds.size() > 0)
 								{
-									// 审核通过
-									this.sendMessage("admin.task.audit.approved", 
-										params, new Object[] {
-											entity.getTaskCharger().getId(),
-											entity.getTaskOriginator().getId(),
-											entity.getTaskParticipantIds()
-										}, 
-										ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
-									);
+									String strIds = UtilString.join(auditorIds, ",");
+									if (UtilString.isNotEmpty(strIds))
+									{
+										Map<String, Object> params = new HashMap<String, Object>();
+										params.put("entity", entity);
+										
+										this.sendMessage("my.approval.audit.task", 
+											params, new Object[] {
+												strIds
+											}, 
+											ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+										);
+									}
 								}
-								else if (entity.getAuditStatus() != null && 
-										ModelTaskPlan.ETaskApprovalStatus.RETURNED.getValue().equals(entity.getAuditStatus()))
+							}
+							else
+							{
+								// 审核操作, 发送短消息给任务负责人...
+								if (entity.getAuditStatus() != null)
 								{
-									// 审核被退回
-									this.sendMessage("admin.task.audit.returned", 
-										params, new Object[] {
-											entity.getTaskOriginator().getId()
-										}, 
-										ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
-									);
+									Map<String, Object> params = new HashMap<String, Object>();
+									params.put("entity", entity);
+									
+									if (ModelTaskPlan.ETaskApprovalStatus.APPROVED.getValue().equals(
+											entity.getAuditStatus()))
+									{
+										// 审核通过
+										this.sendMessage("admin.task.audit.approved", 
+											params, new Object[] {
+												entity.getTaskCharger().getId(),
+												entity.getTaskOriginator().getId(),
+												entity.getTaskParticipantIds()
+											}, 
+											ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+										);
+									}
+									else if (entity.getAuditStatus() != null && 
+											ModelTaskPlan.ETaskApprovalStatus.RETURNED.getValue().equals(entity.getAuditStatus()))
+									{
+										// 审核被退回
+										this.sendMessage("admin.task.audit.returned", 
+											params, new Object[] {
+												entity.getTaskOriginator().getId()
+											}, 
+											ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+										);
+									}
 								}
 							}
 							
