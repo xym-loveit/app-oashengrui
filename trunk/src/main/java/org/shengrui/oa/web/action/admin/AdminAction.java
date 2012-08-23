@@ -216,14 +216,17 @@ extends BaseAdminAction
 		String formAction = request.getParameter("formAction");
 		String formadd = request.getParameter("formadd");
 		String formedit = request.getParameter("formedit");
-		try {
+		try 
+		{
 			ModelNewsMag modelNewsMag = (ModelNewsMag) form;
 			ModelNewsMag entity = null;
 			
 			boolean isCreation = !this.isObjectIdValid(modelNewsMag.getId());
-			if(!isCreation){
+			if(!isCreation)
+			{
 				entity = serviceNewsManage.getModelNewsMag(modelNewsMag.getId());
-				if(entity != null && !formedit.equals("") && formadd == null){
+				if(entity != null && !formedit.equals("") && formadd == null)
+				{
 					String districtPost = request.getParameter("districtPost");
 					entity.setDistrict(this.serviceSchoolDistrict.get(districtPost));
 					String districtVisible = request.getParameter("districtVisible");
@@ -236,17 +239,26 @@ extends BaseAdminAction
 					if(formedit.equals("4"))
 					{
 						entity.setStatus(1);
-					}else{
+					}
+					else
+					{
 						entity.setStatus(0);
 					}
+					
 					// 用表单输入的值覆盖实体中的属性值
 					UtilBean.copyNotNullProperties(entity, modelNewsMag);
-					this.serviceNewsManage.save(entity);
-					return ajaxPrint(response, 
-							getSuccessCallback("新闻编辑成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+					
+					if(!UtilString.isNotEmpty(formAction))
+					{
+						// 编辑操作...
+						this.serviceNewsManage.save(entity);
+						return ajaxPrint(response, 
+								getSuccessCallback("新闻编辑成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+					}
 				}
 			}
-			else{
+			else
+			{
 				//创建一条新闻
 				entity = modelNewsMag;
 				modelNewsMag.setDistrict(this.serviceSchoolDistrict.get(request.getParameter("districtPost")));
@@ -268,7 +280,7 @@ extends BaseAdminAction
 			}
 
 			//审核
-			if(formAction != null)
+			if(UtilString.isNotEmpty(formAction))
 			{
 				// revised by Jeccy.Zhao on 23/08/2012
 				if(formAction.equals("0"))
@@ -301,11 +313,15 @@ extends BaseAdminAction
 			}
 			
 			//添加
-			if(formadd != null){
-				if(formadd.equals("2")){
+			if(formadd != null)
+			{
+				if(formadd.equals("2"))
+				{
 					entity.setStatus(1);
 				}
-				if(formadd.equals("3")){
+				
+				if(formadd.equals("3"))
+				{
 					entity.setStatus(0);
 				}
 			}
@@ -342,7 +358,9 @@ extends BaseAdminAction
 			return ajaxPrint(response, 
 					getSuccessCallback("新闻添加成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 			
-		} catch (Exception e) {
+		}
+		catch (Exception e) 
+		{
 			LOGGER.error("Exception raised when open the archive index page.", e);
 			return ajaxPrint(response, getErrorCallback("编辑新闻失败：" + e.getMessage()));
 		}
