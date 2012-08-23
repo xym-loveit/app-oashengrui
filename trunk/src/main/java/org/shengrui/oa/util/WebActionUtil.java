@@ -17,8 +17,12 @@ public final class WebActionUtil
 	public static final ModelApprovalVO APPROVAL_ADMIN_TASK = new ModelApprovalVO(
 		"_FUNCKEY_ADMIN_TASK_APPROVE", "app/personal/task.do?action=actionSaveTaskPlan");
 	
-	// 岗位发布审批操作
-	public static final ModelApprovalVO APPROVAL_HRM_JOB = new ModelApprovalVO(
+	// 岗位发布审批操作 - 总部
+	public static final ModelApprovalVO APPROVAL_HRM_JOB_MASTER = new ModelApprovalVO(
 		"_FUNCKEY_JOBAPPROVAL_SUBNODE", "app/hrm/hire.do?action=actionJobSave");
+	
+	// 岗位发布审批操作 - 校区
+	public static final ModelApprovalVO APPROVAL_HRM_JOB_ZOON = new ModelApprovalVO(
+			"_FUNCKEY_JOBAPPROVAL_ROOT", "app/hrm/hire.do?action=actionJobSave");
 	
 }

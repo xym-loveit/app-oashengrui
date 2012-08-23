@@ -69,15 +69,18 @@
             <column name="entry_time" />
         </property>
         
-        <many-to-one not-found="ignore" name="jobHireDepartment" class="org.shengrui.oa.model.system.ModelSchoolDepartment" >
+        <many-to-one not-found="ignore" name="jobHireDepartment" 
+        	class="org.shengrui.oa.model.system.ModelSchoolDepartment" >
         	<column name="hjob_depid" />
         </many-to-one>
 		
-        <many-to-one not-found="ignore" name="jobHireDistrict" class="org.shengrui.oa.model.system.ModelSchoolDistrict">
+        <many-to-one not-found="ignore" name="jobHireDistrict" 
+        	class="org.shengrui.oa.model.system.ModelSchoolDistrict">
         	<column name="hjob_districtid" />
         </many-to-one>
         
-        <many-to-one not-found="ignore" name="jobHireVisibleDistrict" class="org.shengrui.oa.model.system.ModelSchoolDistrict">
+        <many-to-one not-found="ignore" name="jobHireVisibleDistrict" 
+        	class="org.shengrui.oa.model.system.ModelSchoolDistrict">
         	<column name="hjob_visible_districtid" />
         </many-to-one>
         

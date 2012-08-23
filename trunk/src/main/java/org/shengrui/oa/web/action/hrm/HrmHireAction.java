@@ -21,10 +21,12 @@ import org.shengrui.oa.model.hrm.ModelHrmJobHireInterview;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireIssue;
 import org.shengrui.oa.model.hrm.ModelHrmResume;
 import org.shengrui.oa.model.info.ModelShortMessage;
+import org.shengrui.oa.model.news.ModelNewsMag;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
+import org.shengrui.oa.util.WebActionUtil;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.util.UtilBean;
@@ -395,13 +397,55 @@ extends BaseHrmAction
 			if (ContextUtil.getCurrentUser() != null)
 			{
 				entity.setPostAuthorName(ContextUtil.getCurrentUser().getFullName());
-				entity.setEntryId(ContextUtil.getCurrentUserId());
+				entity.setEntryId(Integer.valueOf(ContextUtil.getCurrentUser().getEmployee().getId()));
 			}
 			
 			// 设置岗位附件
 			this.handleFileAttachments(entity, request);
 			
 			this.serviceHrmJobHireInfo.save(entity);
+			
+			// 短消息通知: 岗位审批人 / 岗位发起人
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("entity", entity);
+			
+			if (ModelHrmJobHireInfo.EJobHireStatus.TODO_ZONE.getValue().equals(entity.getStatus()) || 
+					ModelHrmJobHireInfo.EJobHireStatus.TODO_HEAD.getValue().equals(entity.getStatus()))
+			{
+				// 待校区审批 or 待总部审批
+				List<String> auditorIds = this.getUserIdsAgainstGrantedResource(
+						ModelHrmJobHireInfo.EJobHireStatus.TODO_ZONE.getValue().equals(entity.getStatus()) ? 
+								WebActionUtil.APPROVAL_HRM_JOB_ZOON : WebActionUtil.APPROVAL_HRM_JOB_MASTER, 
+					ModelNewsMag.class, 
+					entity.getJobHireDistrict().getId(), 
+					entity.getJobHireDepartment().getId()
+				);
+				
+				if (auditorIds != null && auditorIds.size() > 0)
+				{
+					String strIds = UtilString.join(auditorIds, ",");
+					if (UtilString.isNotEmpty(strIds))
+					{
+						this.sendMessage("my.approval.audit.job", 
+							params, new Object[] {
+								strIds
+							}, 
+							ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+						);
+					}
+				}
+			}
+			else if (ModelHrmJobHireInfo.EJobHireStatus.RETURNED.getValue().equals(entity.getStatus()) || 
+				ModelHrmJobHireInfo.EJobHireStatus.APPROVED.getValue().equals(entity.getStatus()))
+			{
+				// 审批被退回 or 审批通过
+				this.sendMessage("hrm.job.audit.result", 
+					params, new Object[] {
+						entity.getEntryId()
+					}, 
+					ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+				);
+			}
 			
 			// 保存成功后, Dialog进行关闭
 			return ajaxPrint(response, 
@@ -422,7 +466,8 @@ extends BaseHrmAction
 	 * @param isCreation
 	 * @param request
 	 */
-	private void applyApprovalStatus (ModelHrmJobHireInfo entity, boolean isCreation, HttpServletRequest request)
+	private void applyApprovalStatus (ModelHrmJobHireInfo entity, 
+			boolean isCreation, HttpServletRequest request)
 	{
 		String formAction = request.getParameter("formAction");
 		
@@ -441,11 +486,15 @@ extends BaseHrmAction
 				{
 					// 审批状态为审批通过
 					entity.setStatus(ModelHrmJobHireInfo.EJobHireStatus.APPROVED.getValue());
+					entity.setAuditor(ContextUtil.getCurrentUser().getEmployee().getEmpName());
+					entity.setAuditDate(new Date());
 				}
 				else if (ACTION_FORM_FLAG_RETURNED.equals(formAction))
 				{
 					// 审批状态为审批退回
 					entity.setStatus(ModelHrmJobHireInfo.EJobHireStatus.RETURNED.getValue());
+					entity.setAuditor(ContextUtil.getCurrentUser().getEmployee().getEmpName());
+					entity.setAuditDate(new Date());
 				}
 			}
 		} 
@@ -466,6 +515,8 @@ extends BaseHrmAction
 					{
 						// 审批状态为提交至总部审批
 						entity.setStatus(ModelHrmJobHireInfo.EJobHireStatus.APPROVED.getValue());
+						entity.setAuditor(ContextUtil.getCurrentUser().getEmployee().getEmpName());
+						entity.setAuditDate(new Date());
 					}
 					else if (ACTION_FORM_FLAG_RETURNED.equals(formAction))
 					{
@@ -485,6 +536,8 @@ extends BaseHrmAction
 					{
 						// 审批状态为审批退回
 						entity.setStatus(ModelHrmJobHireInfo.EJobHireStatus.RETURNED.getValue());
+						entity.setAuditor(ContextUtil.getCurrentUser().getEmployee().getEmpName());
+						entity.setAuditDate(new Date());
 					}
 				}
 			}

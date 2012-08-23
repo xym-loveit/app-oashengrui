@@ -3377,4 +3377,6 @@ ALTER TABLE  `app_admin_task` ADD  `audit_time` DATETIME NULL COMMENT  '审批�
 ALTER TABLE `app_admin_task_tracks` ADD `auditor` BIGINT NULL COMMENT '审批人' AFTER `task_auditTime` ;
 
 ALTER TABLE `app_admin_news` ADD `auditor` BIGINT NULL COMMENT '审批人' AFTER `status` ,
-ADD `audit_time` DATETIME NULL COMMENT '审批时间' AFTER `auditor` 
+ADD `audit_time` DATETIME NULL COMMENT '审批时间' AFTER `auditor`;
+
+update app_function set func_key = '_FUNCKEY_JOBAPPROVAL_SUBNODE', func_name = '岗位管理-岗位审批(校区)' WHERE func_key = '_FUNCKEY_HRM_JOBHIRE_JOB_APPROVAL';
