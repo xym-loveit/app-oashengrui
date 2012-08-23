@@ -94,6 +94,9 @@
 
 	<script src="resources/js/kindeditor/kindeditor.js" type="text/javascript"></script>
 	<script src="resources/js/kindeditor/lang/zh_CN.js" type="text/javascript"></script>
+	
+	<script src="resources/js/dwr/engine.js" type="text/javascript"></script>
+	<script src="resources/js/dwr/util.js" type="text/javascript"></script>
 
 	<!--[if lt IE 7]>  
 	<script type="text/javascript" src="resources/js/pngfix/DD_belatedPNG_0.0.8a.js"></script>  
@@ -109,6 +112,10 @@
 			(request.getServerPort() == 80 ? "" : (":"+request.getServerPort())) +path+"/";  
 	%>
 	<script type="text/javascript">
+		
+		function showMessage(msg) {
+			// alert(msg);
+		}
 		
 		var APP_BASE_PATH = "<%=basePath%>";
 		
@@ -184,7 +191,7 @@
 	
   </head>
 
-  <body scroll="no" onbeforeunload="return '确认要离开？';">
+  <body scroll="no" onbeforeunload="return '确认要离开？';" onload="dwr.engine.setActiveReverseAjax(true);dwr.engine.setNotifyServerOnPageUnload(true);">
   	<!-- Container Start -->
 	<div id="layout">
 		
