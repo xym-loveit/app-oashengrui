@@ -53,10 +53,19 @@
             </column>
         </many-to-one>
         
+        <property name="auditTime" type="timestamp">
+        	  <column name="audit_time" />
+        </property>
+        
+        <many-to-one name="auditor" class="org.shengrui.oa.model.hrm.ModelHrmEmployee">
+        	<column name="auditor" />
+        </many-to-one>
+        
         <set name="attachFiles" table="app_admin_news_file"
         	cascade="save-update" lazy="true"> 
 	      <key column="news_id"/>
 	      <many-to-many class="cn.trymore.oa.model.system.ModelFileAttach" column="file_id" />
 	    </set>
+	    
 	</class>
 </hibernate-mapping>

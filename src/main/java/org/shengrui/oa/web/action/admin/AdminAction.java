@@ -27,6 +27,7 @@ import org.shengrui.oa.model.system.ModelBaseWorkTime;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 import org.shengrui.oa.model.system.ModelWorkTemplate;
+import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.util.UtilDateTime;
 import org.shengrui.oa.util.WebActionUtil;
 import org.springframework.beans.BeanUtils;
@@ -269,18 +270,34 @@ extends BaseAdminAction
 			//审核
 			if(formAction != null)
 			{
-				if(formAction.equals("0")){
+				// revised by Jeccy.Zhao on 23/08/2012
+				if(formAction.equals("0"))
+				{
 					entity.setStatus(2);
-					this.serviceNewsManage.save(entity);
-					return ajaxPrint(response, 
-							getSuccessCallback("新闻审核通过.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+					
 				}
-				if(formAction.equals("1")){
+				else if(formAction.equals("1"))
+				{
 					entity.setStatus(3);
-					this.serviceNewsManage.save(entity);
-					return ajaxPrint(response, 
-							getSuccessCallback("新闻审批退回.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 				}
+				
+				entity.setAuditor(ContextUtil.getCurrentUser().getEmployee());
+				entity.setAuditTime(new Date());
+				this.serviceNewsManage.save(entity);
+				
+				// 短消息通知作者...
+				Map<String, Object> params = new HashMap<String, Object>();
+				params.put("entity", entity);
+				
+				this.sendMessage("admin.news.audit.result", 
+					params, new Object[] {
+						entity.getUser().getEmployee().getId()
+					}, 
+					ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+				);
+				
+				return ajaxPrint(response, 
+						getSuccessCallback(formAction.equals("0") ? "新闻审核通过." : "新闻审批退回.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 			}
 			
 			//添加
@@ -308,8 +325,6 @@ extends BaseAdminAction
 			if (auditorIds != null && auditorIds.size() > 0)
 			{
 				String strIds = UtilString.join(auditorIds, ",");
-				System.out.println(strIds);
-				
 				if (UtilString.isNotEmpty(strIds))
 				{
 					Map<String, Object> params = new HashMap<String, Object>();
