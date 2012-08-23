@@ -3375,3 +3375,6 @@ ALTER TABLE  `app_admin_task` ADD  `auditor` BIGINT NULL COMMENT  '审批人' AF
 ALTER TABLE  `app_admin_task` ADD  `audit_time` DATETIME NULL COMMENT  '审批时间' AFTER  `auditor`;
 
 ALTER TABLE `app_admin_task_tracks` ADD `auditor` BIGINT NULL COMMENT '审批人' AFTER `task_auditTime` ;
+
+ALTER TABLE `app_admin_news` ADD `auditor` BIGINT NULL COMMENT '审批人' AFTER `status` ,
+ADD `audit_time` DATETIME NULL COMMENT '审批时间' AFTER `auditor` 

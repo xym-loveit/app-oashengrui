@@ -2,6 +2,7 @@ package org.shengrui.oa.model.news;
 
 import java.util.Date;
 
+import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.system.ModelAppDictionary;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
@@ -106,6 +107,17 @@ extends ModelBase
 	 * 主要用于多状态集合搜索,超级用户
 	 */
 	private Integer[] searchStatusCondition;
+	
+	// added by Jeccy.Zhao on 23/08/2012
+	/**
+	 * 审批人
+	 */
+	private ModelHrmEmployee auditor;
+	
+	/**
+	 * 审批时间
+	 */
+	private Date auditTime;
 	
 	/**
 	 * 
@@ -289,6 +301,22 @@ extends ModelBase
 	public String getAclFilterFields()
 	{
 		return aclFilterFields;
+	}
+	public void setAuditor(ModelHrmEmployee auditor)
+	{
+		this.auditor = auditor;
+	}
+	public ModelHrmEmployee getAuditor()
+	{
+		return auditor;
+	}
+	public void setAuditTime(Date auditTime)
+	{
+		this.auditTime = auditTime;
+	}
+	public Date getAuditTime()
+	{
+		return auditTime;
 	}
 
 	
