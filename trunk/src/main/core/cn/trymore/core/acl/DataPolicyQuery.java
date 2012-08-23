@@ -132,6 +132,12 @@ public class DataPolicyQuery
 						String strategy = obtainDataStrategy(URI, fieldType);
 						if (strategy != null)
 						{
+							if ("__ALL".equals(strategy))
+							{
+								// 全校数据
+								return null;
+							}
+							
 							if (multiCloud)
 							{
 								builder.append(" OR ");
@@ -141,11 +147,6 @@ public class DataPolicyQuery
 							builder.append(strategy);
 							builder.append(")");
 							multiCloud = true;
-						}
-						else
-						{
-							// 全校数据
-							return null;
 						}
 					}
 				}
@@ -173,7 +174,7 @@ public class DataPolicyQuery
 				&& AppUtil.EDataPermissions.DP_DIS_WHOLE.getType().equals(fieldType))
 		{
 			// 全校数据, 可以访问所有数据
-			return null;
+			return "__ALL";
 		}
 		else if (AppUtil.EDataPermissions.DP_DIS_CURRENT.getValue().equals(dataPolicy)
 				&& AppUtil.EDataPermissions.DP_DIS_CURRENT.getType().equals(fieldType))
