@@ -22,7 +22,7 @@
 			<logic:iterate name="rootMenus" id="root" indexId="idx">
 				<c:if test="${tm:ifMenuGranted(root.menuKey)}">
 					<div class="accordionHeader">
-						<h2><span class="${root.menuIcon}">Folder</span>${root.menuTitle}</h2>
+						<h2><span class="${root.menuIcon}">Folder</span>${root.menuTitle}(${num_menu_mod_admin_task})</h2>
 					</div>
 					<logic:notEmpty name="root" property="menuChildren">
 						<div class="accordionContent">
@@ -31,18 +31,26 @@
 									<c:if test="${tm:ifMenuGranted(child.menuKey)}">
 										<c:choose>
 											<c:when test="${child.menuChildren ne null && fn:length(child.menuChildren) gt 0}">
-												<li treeicon="${child.menuIcon}"><a>${child.menuTitle}</a>
+												<li treeicon="${child.menuIcon}"><a>${child.menuTitle}(${num_menu_mod_admin_task})</a>
 													<ul>
 														<logic:iterate name="child" property="menuChildren" id="node">
 															<c:if test="${tm:ifMenuGranted(node.menuKey)}">
-																<li treeicon="${node.menuIcon}"><a href="${node.menuUrl}" target="navTab" rel="${node.menuKey}">${node.menuTitle}</a></li>
+																<li treeicon="${node.menuIcon}">
+																	<a href="${node.menuUrl}" target="navTab" rel="${node.menuKey}">
+																		${node.menuTitle} (${num_menu_mod_admin_task})
+																	</a>
+																</li>
 															</c:if>
 														</logic:iterate>
 													</ul>
 												</li>
 											</c:when>
 											<c:otherwise>
-												<li treeicon="${child.menuIcon}"><a href="${child.menuUrl}" target="navTab" rel="${child.menuKey}">${child.menuTitle}</a></li>
+												<li treeicon="${child.menuIcon}">
+													<a href="${child.menuUrl}" target="navTab" rel="${child.menuKey}">
+														${child.menuTitle} (${num_menu_mod_admin_task})
+													</a>
+												</li>
 											</c:otherwise>
 										</c:choose>
 									</c:if>

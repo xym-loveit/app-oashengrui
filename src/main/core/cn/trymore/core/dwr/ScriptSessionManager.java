@@ -11,16 +11,27 @@ import org.directwebremoting.event.ScriptSessionEvent;
 import org.directwebremoting.event.ScriptSessionListener;
 import org.directwebremoting.impl.DefaultScriptSession;
 import org.directwebremoting.impl.DefaultScriptSessionManager;
-import org.shengrui.oa.model.system.ModelAppUser;
-import org.shengrui.oa.util.ContextUtil;
 
+import cn.trymore.core.common.Constants;
+import cn.trymore.core.util.UtilString;
+
+/**
+ * The session manager for client script, 
+ * aims to monitor the script session creation and destroy. 
+ * 
+ * @author Jeccy.Zhao
+ * 
+ */
 public class ScriptSessionManager 
 extends DefaultScriptSessionManager
 {
 	public static final String SS_ID = "DWR_ScriptSession_Id";
 	
 	public static final String SS_UID = "DWR_ScriptSession_UID";
-
+	
+	/**
+	 * The default constructor.
+	 */
 	public ScriptSessionManager()
 	{
 		try
@@ -34,7 +45,6 @@ extends DefaultScriptSessionManager
 				@Override
 				public void sessionDestroyed(ScriptSessionEvent event) 
 				{
-					
 				}
 				
 				/*
@@ -50,14 +60,14 @@ extends DefaultScriptSessionManager
 					//得到产生的httpSession
 					HttpSession httpSession = WebContextFactory.get().getSession();
 					
-					//得到当前用户
-					ModelAppUser user = ContextUtil.getCurrentUser();
+					//得到当前用户员工ID
+					String uid = (String) httpSession.getAttribute(Constants.SESSION_KEY_USER_EMPID);
 					
-					//如果当前用户已经退出系统，然后销毁这个scriptsession
-					if (user==null)
+					//如果当前用户已经退出系统，然后销毁这个Script Session
+					if (!UtilString.isNotEmpty(uid))
 					{
-						scriptSession.invalidate();  
-						httpSession.invalidate();  
+						scriptSession.invalidate();
+						httpSession.invalidate();
 						return;
 					}
 					
@@ -77,7 +87,7 @@ extends DefaultScriptSessionManager
 					httpSession.setAttribute(SS_ID, scriptSession.getId());
 					
 					//绑定用户ID到ScriptSession上
-					scriptSession.setAttribute(SS_UID, user.getEmployee().getId());
+					scriptSession.setAttribute(SS_UID, uid);
 				}
 			});
 		}
@@ -87,6 +97,12 @@ extends DefaultScriptSessionManager
 		}
 	}
 	
+	/**
+	 * Invalidates the script session with the specified script session id.
+	 * 
+	 * @param ssId
+	 *         the script session id.
+	 */
 	public static void invalidate(String ssId)
 	{
 		Browser.withSession(ssId, new Runnable()

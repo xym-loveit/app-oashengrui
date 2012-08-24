@@ -66,6 +66,7 @@ import cn.trymore.core.model.ModelBase;
 import cn.trymore.core.util.UtilAnnotation;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.action.BaseAction;
+import cn.trymore.core.web.push.MessagePush;
 import cn.trymore.oa.model.system.ModelFileAttach;
 import cn.trymore.oa.service.system.ServiceFileAttach;
 import cn.trymore.oa.service.system.ServiceSystemLog;
@@ -178,6 +179,12 @@ extends BaseAction
 	 */
 	@Resource
 	protected FreeMarkerConfigurer freeMarker;
+	
+	/**
+	 * The message push bean
+	 */
+	@Resource
+	protected MessagePush messagePush;
 	
 	protected ServiceConferenceInfo serviceConference;
 
@@ -853,7 +860,7 @@ extends BaseAction
 								msgIn.setDelFlag(ModelInMessage.FLAG_UNDEL);
 								this.serviceInMessage.save(msgIn);
 								
-								sendMessageAuto(id, "test");
+								sendMessageAuto(id, msgShort.getSubject());
 								
 								alreadySent.add(id);
 							}
@@ -1436,5 +1443,15 @@ extends BaseAction
 	public void setFreeMarker(FreeMarkerConfigurer freeMarker)
 	{
 		this.freeMarker = freeMarker;
+	}
+	
+	public MessagePush getMessagePush()
+	{
+		return messagePush;
+	}
+	
+	public void setMessagePush(MessagePush messagePush)
+	{
+		this.messagePush = messagePush;
 	}
 }
