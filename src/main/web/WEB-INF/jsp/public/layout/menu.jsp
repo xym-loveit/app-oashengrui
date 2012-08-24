@@ -37,7 +37,7 @@
 															<c:if test="${tm:ifMenuGranted(node.menuKey)}">
 																<li treeicon="${node.menuIcon}">
 																	<a href="${node.menuUrl}" target="navTab" rel="${node.menuKey}">
-																		${node.menuTitle} (${num_menu_mod_admin_task})
+																		${node.menuTitle}
 																	</a>
 																</li>
 															</c:if>
@@ -48,7 +48,7 @@
 											<c:otherwise>
 												<li treeicon="${child.menuIcon}">
 													<a href="${child.menuUrl}" target="navTab" rel="${child.menuKey}">
-														${child.menuTitle} (${num_menu_mod_admin_task})
+														${child.menuTitle}
 													</a>
 												</li>
 											</c:otherwise>
