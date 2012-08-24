@@ -165,6 +165,11 @@ extends ModelBase
 	
 	public int getItemNum()
 	{
+		if (this.getMenuChildren() == null || this.getMenuChildren().size() == 0)
+		{
+			return this.itemNum;
+		}
+		
 		return this.getMenuItemNum(this);
 	}
 
