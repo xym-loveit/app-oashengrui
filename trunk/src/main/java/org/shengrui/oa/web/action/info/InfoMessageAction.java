@@ -184,6 +184,10 @@ extends BaseAppAction
 									{
 										msgIn.setReadFlag(ModelInMessage.FLAG_READ);
 										this.serviceInMessage.save(msgIn);
+										
+										// 消息推送, 减少消息提醒数量
+										this.messagePush.pushMessage(
+												String.valueOf(msgIn.getUserId()), "messageNotify", -1);
 									}
 								}
 							}
