@@ -46,9 +46,14 @@
 		</listener-class>
 	</listener>
 	
-	<!-- spring cleanup listener -->
+	<!-- Spring cleanup listener -->
 	<listener>
 		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+	
+	<!--  User Session listener -->
+	<listener>
+		<listener-class>cn.trymore.web.listener.UserSessionListener</listener-class>
 	</listener>
 	
 	<!-- Spring Security -->

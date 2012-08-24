@@ -64,6 +64,7 @@
 				<beans:value>/app/message.do</beans:value>
 				<beans:value>/file-upload</beans:value>
 				<beans:value>/file-download</beans:value>
+				<beans:value>/dwr/</beans:value>
 			</beans:set>
 		</beans:property>
 	</beans:bean>

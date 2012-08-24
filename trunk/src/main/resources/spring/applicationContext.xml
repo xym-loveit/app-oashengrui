@@ -118,6 +118,7 @@
 		</property> 
 	</bean>
 	
+	<!--  Data Policy Query -->
 	<bean id="dataPolicyQuery" class="cn.trymore.core.acl.DataPolicyQuery">
 		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
 	</bean>
@@ -139,6 +140,7 @@
 		</property> 
 	</bean>
 	
+	<!-- Application Utilitiy -->
 	<bean id="AppUtil" class="cn.trymore.core.util.UtilApp" />
 	
 	<!--  Free Maker -->
@@ -155,5 +157,8 @@
 			</props>
 		</property>
 	</bean>
+	
+	<!--  Message Push Bean -->
+	<bean id="messagePush" class="cn.trymore.core.web.push.MessagePush" />
 	
 </beans>

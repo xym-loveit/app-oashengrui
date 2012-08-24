@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import nl.captcha.Captcha;
 
@@ -24,6 +25,7 @@ import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 import org.springframework.util.StringUtils;
 
+import cn.trymore.core.common.Constants;
 import cn.trymore.core.log.LogAnnotation;
 import cn.trymore.core.util.UtilApp;
 import cn.trymore.core.util.UtilString;
@@ -141,15 +143,10 @@ extends BaseAppAction
 										authToken.setDetails(securityContext.getAuthentication().getDetails());
 									}
 									securityContext.setAuthentication(this.authenticationManager.authenticate(authToken));
-									
 									SecurityContextHolder.setContext(securityContext);
-									request.getSession().setAttribute("SPRING_SECURITY_LAST_USERNAME", userName);
-									if(user.getPosition() !=null && user.getPosition().getPositionName() !=null){
-										request.getSession().setAttribute("POSITION", user.getPosition().getPositionName());
-									}else {
-										request.getSession().setAttribute("POSITION", "暂无职位");
-									}
-									request.getSession().setAttribute("FULLNAME", user.getFullName());
+									
+									// initialize user session.
+									this.initUserSession(request.getSession(), user);
 									
 									String rememberMe = request.getParameter("_spring_security_remember_me");
 									if (rememberMe != null && "on".equalsIgnoreCase(rememberMe))
@@ -208,6 +205,34 @@ extends BaseAppAction
 		}
 		
 		return localCookie;
+	}
+	
+	/**
+	 * Initialization user session.
+	 * 
+	 * @param session
+	 * @param user
+	 */
+	private void initUserSession (HttpSession session, ModelAppUser user)
+	{
+		// session injection on user name.
+		session.setAttribute(Constants.SESSION_KEY_USER_NAME, user.getUsername());
+		
+		// session injection on user id
+		session.setAttribute(Constants.SESSION_KEY_USER_ID, user.getId());
+		
+		// session injection on user employee id
+		session.setAttribute(Constants.SESSION_KEY_USER_EMPID, user.getEmployee().getId());
+		
+		if(user.getPosition() !=null && user.getPosition().getPositionName() !=null)
+		{
+			session.setAttribute(Constants.SESSION_KEY_USER_POSITION, user.getPosition().getPositionName());
+		}
+		else 
+		{
+			session.setAttribute(Constants.SESSION_KEY_USER_POSITION, "暂无职位");
+		}
+		session.setAttribute(Constants.SESSION_KEY_USER_FULLNAME, user.getFullName());
 	}
 	
 	public void setAuthenticationManager(AuthenticationManager authenticationManager)
