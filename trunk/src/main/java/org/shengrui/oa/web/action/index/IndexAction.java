@@ -39,9 +39,6 @@ extends BaseAppAction
 	public ActionForward index (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) 
 	{
-		// loads all configured menus, aims to present the left menu items.
-		this.getRootMenus(request);
-		
 		// initialization.
 		init(request);
 		
@@ -100,7 +97,7 @@ extends BaseAppAction
 	}
 	
 	/**
-	 * Initialization for current loggon user
+	 * Initialization for current logon user
 	 * 
 	 * @param request
 	 */
@@ -111,7 +108,10 @@ extends BaseAppAction
 		request.setAttribute("numMsgUnread", 
 				this.getUnreadMessageByUserId(empId));
 		
-		request.setAttribute(WebActionUtil.MENU_KEY_ADMIN_TASK, 
+		Map<String, Integer> affectedItems = new HashMap<String, Integer>();
+		
+		// 获取待审批委托任务数量...
+		affectedItems.put(WebActionUtil.MENU_KEY_ADMIN_TASK, 
 			this.serviceTaskPlan.getAffectedNumByQuery(ModelTaskPlan.class, 
 				this.getModelDataPolicyQuery(
 					"app/admin/task.do?action=pageTaskDelegateIndex", 
@@ -122,6 +122,9 @@ extends BaseAppAction
 				)
 			)
 		);
+		
+		// loads all configured menus, aims to present the left menu items.
+		this.getRootMenus(request, affectedItems);
 		
 	}
 	

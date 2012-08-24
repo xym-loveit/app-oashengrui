@@ -3,6 +3,7 @@ package cn.trymore.core.web.action;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -665,9 +666,22 @@ extends DispatchAction
 	 * 获取父菜单列表
 	 * 
 	 * @param request
+	 * @param itemNums
 	 * @return
 	 */
 	protected List<ModelAppMenu> getRootMenus(HttpServletRequest request)
+	{
+		return this.getRootMenus(request, null);
+	}
+	
+	/**
+	 * 获取父菜单列表
+	 * 
+	 * @param request
+	 * @param itemNums
+	 * @return
+	 */
+	protected List<ModelAppMenu> getRootMenus(HttpServletRequest request, Map<String, Integer> itemNums)
 	{
 		List<ModelAppMenu> result = null;
 		
@@ -679,6 +693,10 @@ extends DispatchAction
 		try
 		{
 			result = this.serviceAppMenu.getAllRootMenus();
+			
+			// append menu item numbers
+			appendMenuItem (result, itemNums);
+			
 			request.setAttribute("rootMenus", result);
 		} 
 		catch (ServiceException e)
@@ -687,6 +705,34 @@ extends DispatchAction
 		}
 		
 		return result;
+	}
+	
+	/**
+	 * Append item number to menu.
+	 * 
+	 * @param menus
+	 * @param itemNums
+	 */
+	private void appendMenuItem (Collection<ModelAppMenu> menus, Map<String, Integer> itemNums)
+	{
+		if (menus != null && itemNums != null && itemNums.size() > 0)
+		{
+			for (ModelAppMenu menu : menus)
+			{
+				if (menu.getMenuChildren() != null && menu.getMenuChildren().size() > 0)
+				{
+					appendMenuItem(menu.getMenuChildren(), itemNums);
+				}
+				else
+				{
+					String menuKey = menu.getMenuKey();
+					if (itemNums.containsKey(menuKey) && itemNums.get(menuKey) > 0)
+					{
+						menu.setItemNum(itemNums.get(menuKey));
+					}
+				}
+			}
+		}
 	}
 	
 	public ServiceAppMenu getServiceAppMenu()

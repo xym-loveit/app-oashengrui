@@ -71,7 +71,7 @@ extends ModelBase
 	/**
 	 * 菜单项对应的待办项数目
 	 */
-	protected int itemNum;
+	protected int itemNum = 0;
 	
 	public String getMenuTitle()
 	{
@@ -165,12 +165,38 @@ extends ModelBase
 	
 	public int getItemNum()
 	{
-		return itemNum;
+		return this.getMenuItemNum(this);
 	}
 
 	public void setItemNum(int itemNum)
 	{
 		this.itemNum = itemNum;
+	}
+	
+	/**
+	 * Obtains the affected menu item number.
+	 * 
+	 * @param menu
+	 * @return
+	 */
+	private int getMenuItemNum (ModelAppMenu menu)
+	{
+		int num = 0;
+		
+		if (menu.getMenuChildren() == null || menu.getMenuChildren().size() == 0)
+		{
+			num = num + menu.getItemNum();
+			return num;
+		}
+		else
+		{
+			for (ModelAppMenu sub : this.menuChildren)
+			{
+				num = num + getMenuItemNum(sub);
+			}
+		}
+		
+		return num;
 	}
 	
 	@Override
