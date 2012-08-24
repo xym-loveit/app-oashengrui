@@ -53,7 +53,7 @@
 	
 	<!--  User Session listener -->
 	<listener>
-		<listener-class>cn.trymore.web.listener.UserSessionListener</listener-class>
+		<listener-class>cn.trymore.core.web.listener.UserSessionListener</listener-class>
 	</listener>
 	
 	<!-- Spring Security -->

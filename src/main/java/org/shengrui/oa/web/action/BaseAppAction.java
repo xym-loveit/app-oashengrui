@@ -3,7 +3,6 @@ package org.shengrui.oa.web.action;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,10 +18,6 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.directwebremoting.Browser;
-import org.directwebremoting.ScriptBuffer;
-import org.directwebremoting.ScriptSession;
-import org.directwebremoting.ScriptSessionFilter;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.info.ModelInMessage;
 import org.shengrui.oa.model.info.ModelShortMessage;
@@ -59,7 +54,6 @@ import com.google.gson.GsonBuilder;
 import cn.trymore.core.acl.AclFilterAnnotation;
 import cn.trymore.core.acl.DataPolicyQuery;
 import cn.trymore.core.common.Constants;
-import cn.trymore.core.dwr.ScriptSessionManager;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.jstl.JstlTagString;
 import cn.trymore.core.model.ModelBase;
@@ -860,7 +854,8 @@ extends BaseAction
 								msgIn.setDelFlag(ModelInMessage.FLAG_UNDEL);
 								this.serviceInMessage.save(msgIn);
 								
-								sendMessageAuto(id, msgShort.getSubject());
+								// 推送消息给客户端.
+								messagePush.pushMessage(id, "messageNotify", 1);
 								
 								alreadySent.add(id);
 							}
@@ -881,45 +876,6 @@ extends BaseAction
 			LOGGER.error("Exception raised when sending message", e);
 			return false;
 		}
-	}
-	
-	/**
-	 * 
-	 * @param userid
-	 * @param message
-	 */
-	public void sendMessageAuto (String userid, String message) 
-	{
-		final String userId = userid ;
-		final String autoMessage = message;
-		 
-		Browser.withAllSessionsFiltered(new ScriptSessionFilter()
-		{
-			public boolean match(ScriptSession session) 
-			{
-				if (session.getAttribute(ScriptSessionManager.SS_UID) == null)
-				{
-					return false;
-				}
-				else
-				{
-					return (session.getAttribute(ScriptSessionManager.SS_UID)).equals(userId);
-				}
-			}
-		}, new Runnable() {
-			
-			private ScriptBuffer script = new ScriptBuffer();
-			
-			public void run() 
-			{
-				script.appendCall("showMessage", autoMessage);
-				Collection<ScriptSession> sessions = Browser.getTargetSessions();
-				for (ScriptSession scriptSession : sessions) 
-				{
-					scriptSession.addScript(script);
-				}
-			}
-		});
 	}
 	
 	/**
