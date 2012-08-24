@@ -113,8 +113,25 @@
 	%>
 	<script type="text/javascript">
 		
-		function showMessage(msg) {
-			alert(msg);
+		function messageNotify (affectedNum) {
+			var ele_msg = $("#elenum_msg").find("span.num");
+			var num = ele_msg.text() == "" ? 0 : ele_msg.text();
+			if (num.startsWith("(") && num.endsWith(")")) {
+				num = parseInt(num.substr(1, num.length - 2));
+			}
+			
+			var inc = parseInt(affectedNum) > 0 ? 1 : -1;
+			if (num + inc > 0) {
+				ele_msg.text("(" + (num + inc) + ")") ;
+			} else {
+				ele_msg.text("");
+			}
+			
+			if (inc > 0) {
+				$.messager.show(
+					'<font style="color:#093">温馨提醒</font>', '<font style="font-size:9pt;font-weight:normal;">您收到1条新短消息,请注意查收.</font>',5000
+				);
+			}
 		}
 		
 		var APP_BASE_PATH = "<%=basePath%>";
@@ -148,39 +165,6 @@
 				url: "app/message.do?action=actionObtainMyUnreadMessageNum",
 				global: false,// 禁用全局Ajax事件.
 			});
-			
-			// 设置10秒钟监听短消息
-			setInterval(function(){
-				generic_ajax_op("app/message.do?action=actionObtainMyUnreadMessageNum&_="+Date.parse(new Date()), null, (function(){
-					return null;
-				}), (function(rsp_msg) {
-					
-					// 更新短消息数字提醒
-					if (rsp_msg != "0") {
-						$("#elenum_msg").find("span.num").text("(" + rsp_msg + ")");
-					} else {
-						$("#elenum_msg").find("span.num").text("");
-					}
-					
-					if ($("#message_content a[rel='nav_msg']").size() > 0 && $("#message_content a[rel='nav_msg']").text() == rsp_msg) {
-						return;
-					} else {
-						// $.messager.close();
-						$("#messager_box").remove();
-						// $("#floatdiv").remove();
-						if (rsp_msg != "0") {
-							$.messager.show('<font style="color:#093">温馨提醒</font>', '<font style="font-size:9pt;font-weight:normal;">您有<a href="javascript:void(0);" id="msg_num" style="color:red;" rel="nav_msg" title="我的短消息">' + rsp_msg +'</a>条新短消息..</font>',0);
-						}
-						
-						$("#msg_num").unbind("click");
-						$("#msg_num").bind("click", (function(){
-							navTab.openTab("nav_msg", 
-								"app/message.do?action=pageMessageReceivedIndex&readFlag=0", {title: "我的短消息", fresh:true, icon: "icon-default icon", data:{}}
-							);
-						}));
-					}
-				}), false)
-			}, 15000);
 			
 			setInterval(function(){  
 				$("#currentTime").text("${FULLNAME}，欢迎您登录使用本系统，今天是" + new Date().toLocaleString());  
