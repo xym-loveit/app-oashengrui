@@ -195,7 +195,7 @@ extends ModelBase
 		}
 		else
 		{
-			for (ModelAppMenu sub : this.menuChildren)
+			for (ModelAppMenu sub : menu.getMenuChildren())
 			{
 				num = num + getMenuItemNum(sub);
 			}

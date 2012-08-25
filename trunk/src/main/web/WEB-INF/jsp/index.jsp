@@ -97,7 +97,7 @@ $(function(){
 </script>
 <div class="pageContent" layoutH="42" style="padding:5px" width="100%">
 	<!--<div class="sortDrag x-panel x-panel-right" width="100">-->
-	<div class="x-panel x-panel-left" width="45%">
+	<div class="x-panel x-panel-left sortDrag" width="45%">
 		<div class="panel" minH="60">
 			<h1><span class="icon-mymsg icon">个人消息<label style="float:right;margin-top:9px;"><a href="app/message.do?action=pageMessageReceivedIndex" target="navTab">更多>></a></label></span></h1>
 	        <div>
@@ -168,7 +168,7 @@ $(function(){
 		</div>
 	</div>
 	
-	<div class="x-panel x-panel-right">
+	<div class="x-panel x-panel-right sortDrag">
 		
 		<div class="panel" minH="60">
 			<h1><span class="icon-myapproval icon">待我审批<label style="float:right;margin-top:9px;"><a href="app/personal/approval.do?action=pageMyApproval" target="navTab">更多>></a></label></span></h1>

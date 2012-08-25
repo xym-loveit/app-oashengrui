@@ -17,6 +17,26 @@ import cn.trymore.core.dwr.ScriptSessionManager;
  */
 public class MessagePush
 {
+	
+	/**
+	 * Push message to client
+	 * 
+	 * @param userIds
+	 *          the list of user ids
+	 * @param scriptMethodName
+	 *          the script method name
+	 * @param args
+	 *          the arguments that applied in the script
+	 */
+	public void pushMessage (final String[] userIds, 
+			final String scriptMethodName, final Object... args)
+	{
+		for (String userId : userIds)
+		{
+			pushMessage(userId, scriptMethodName, args);
+		}
+	}
+	
 	/**
 	 * Push message to client
 	 * 
@@ -30,33 +50,38 @@ public class MessagePush
 	public void pushMessage (final String userId, 
 		final String scriptMethodName, final Object... args)
 	{
-		Browser.withAllSessionsFiltered (new ScriptSessionFilter()
+		final String[] uids = userId.split(",");
+		
+		for (final String uid : uids)
 		{
-			public boolean match(ScriptSession session) 
+			Browser.withAllSessionsFiltered (new ScriptSessionFilter()
 			{
-				if (session.getAttribute(ScriptSessionManager.SS_UID) == null)
+				public boolean match(ScriptSession session) 
 				{
-					return false;
+					if (session.getAttribute(ScriptSessionManager.SS_UID) == null)
+					{
+						return false;
+					}
+					else
+					{
+						return (session.getAttribute(ScriptSessionManager.SS_UID)).equals(uid);
+					}
 				}
-				else
+			}, new Runnable() {
+				
+				private ScriptBuffer script = new ScriptBuffer();
+				
+				public void run() 
 				{
-					return (session.getAttribute(ScriptSessionManager.SS_UID)).equals(userId);
+					script.appendCall(scriptMethodName, args);
+					Collection<ScriptSession> sessions = Browser.getTargetSessions();
+					for (ScriptSession scriptSession : sessions) 
+					{
+						scriptSession.addScript(script);
+					}
 				}
-			}
-		}, new Runnable() {
-			
-			private ScriptBuffer script = new ScriptBuffer();
-			
-			public void run() 
-			{
-				script.appendCall(scriptMethodName, args);
-				Collection<ScriptSession> sessions = Browser.getTargetSessions();
-				for (ScriptSession scriptSession : sessions) 
-				{
-					scriptSession.addScript(script);
-				}
-			}
-		});
+			});
+		}
 	}
 	
 }
