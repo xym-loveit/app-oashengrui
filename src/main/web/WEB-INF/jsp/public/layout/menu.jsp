@@ -22,7 +22,7 @@
 			<logic:iterate name="rootMenus" id="root" indexId="idx">
 				<c:if test="${tm:ifMenuGranted(root.menuKey)}">
 					<div class="accordionHeader">
-						<h2><span class="${root.menuIcon}">Folder</span>${root.menuTitle}</h2>
+						<h2><span class="${root.menuIcon}">Folder</span>${root.menuTitle} <logic:greaterThan name="root" property="itemNum" value="0">(${root.itemNum})</logic:greaterThan></h2>
 					</div>
 					<logic:notEmpty name="root" property="menuChildren">
 						<div class="accordionContent">
@@ -31,13 +31,13 @@
 									<c:if test="${tm:ifMenuGranted(child.menuKey)}">
 										<c:choose>
 											<c:when test="${child.menuChildren ne null && fn:length(child.menuChildren) gt 0}">
-												<li treeicon="${child.menuIcon}"><a>${child.menuTitle}</a>
+												<li treeicon="${child.menuIcon}"><a id="${child.menuKey}">${child.menuTitle} <logic:greaterThan name="child" property="itemNum" value="0">(${child.itemNum})</logic:greaterThan></a>
 													<ul>
 														<logic:iterate name="child" property="menuChildren" id="node">
 															<c:if test="${tm:ifMenuGranted(node.menuKey)}">
 																<li treeicon="${node.menuIcon}">
-																	<a href="${node.menuUrl}" target="navTab" rel="${node.menuKey}">
-																		${node.menuTitle}
+																	<a href="${node.menuUrl}" target="navTab" rel="${node.menuKey}" id="${node.menuKey}">
+																		${node.menuTitle} <logic:greaterThan name="node" property="itemNum" value="0">(${node.itemNum})</logic:greaterThan>
 																	</a>
 																</li>
 															</c:if>
@@ -47,8 +47,8 @@
 											</c:when>
 											<c:otherwise>
 												<li treeicon="${child.menuIcon}">
-													<a href="${child.menuUrl}" target="navTab" rel="${child.menuKey}">
-														${child.menuTitle}
+													<a href="${child.menuUrl}" target="navTab" rel="${child.menuKey}" id="${child.menuKey}">
+														${child.menuTitle} <logic:greaterThan name="child" property="itemNum" value="0">(${child.itemNum})</logic:greaterThan>
 													</a>
 												</li>
 											</c:otherwise>

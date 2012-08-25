@@ -526,6 +526,10 @@ extends BaseAppAction
 											}, 
 											ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
 										);
+										
+										// 推送数据至客户端...
+										messagePush.pushMessage(strIds, "", "", 1);
+										
 									}
 								}
 							}
