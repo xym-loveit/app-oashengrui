@@ -112,31 +112,63 @@
 			(request.getServerPort() == 80 ? "" : (":"+request.getServerPort())) +path+"/";  
 	%>
 	<script type="text/javascript">
+				
+		function messageNotify (ele_key, item_num, is_message) {
+			if ($("#" + ele_key).size() > 0) {
+				// element selector.
+				var ele = $("#" + ele_key).find("span.num");
+				
+				// initialization item number.
+				initItemNum(ele, item_num);
+				
+				if (is_message) {
+					if (parseInt(item_num) > 0) {
+						$.messager.show(
+							'<font style="color:#093">温馨提醒</font>', '<font style="font-size:9pt;font-weight:normal;">您收到1条新短消息,请注意查收.</font>',5000
+						);
+					}
+				} else {
+					var parents = ele.parents();
+					for (i = 0; i < parents.length; i++) {
+						var node = $(parents[i]);
+						if (node.hasClass("accordionContent")) {
+							var pre_node = node.prev();
+							if (pre_node.hasClass("accordionHeader") && pre_node.find("label.num").size() > 0) {
+								initItemNum(pre_node.find("label.num"), item_num);
+								break;
+							}
+						} else if (node.hasClass("sub")) {
+							initItemNum(node.find("label.num"), item_num);
+						}
+					}
+				}
+			}
+		}
 		
-		function messageNotify (affectedNum) {
-			var ele_msg = $("#elenum_msg").find("span.num");
-			var num = ele_msg.text() == "" ? 0 : ele_msg.text();
-			if (num.startsWith("(") && num.endsWith(")")) {
-				num = parseInt(num.substr(1, num.length - 2));
-			}
-			
-			var inc = parseInt(affectedNum) > 0 ? 1 : -1;
-			if (num + inc > 0) {
-				ele_msg.text("(" + (num + inc) + ")") ;
-			} else {
-				ele_msg.text("");
-			}
-			
-			if (inc > 0) {
-				$.messager.show(
-					'<font style="color:#093">温馨提醒</font>', '<font style="font-size:9pt;font-weight:normal;">您收到1条新短消息,请注意查收.</font>',5000
-				);
+		// 初始化菜单项的数字提醒
+		function initItemNum (ele, item_num) {
+			if (ele.size() > 0) {
+				var num = ele.text() == "" ? 0 : ele.text();
+				if (num.startsWith("(") && num.endsWith(")")) {
+					num = parseInt(num.substr(1, num.length - 2));
+				}
+				
+				var inc = parseInt(item_num) > 0 ? 1 : -1;
+				if (num + inc > 0) {
+					ele.text("(" + (num + inc) + ")") ;
+				} else {
+					ele.text("");
+				}
 			}
 		}
 		
 		var APP_BASE_PATH = "<%=basePath%>";
 		
 		$(function(){
+			
+			dwr.engine._errorHandler = function(message, ex) {
+				
+			}
 			
 			DWZ.init("resources/js/dwz/dwz.frag.xml", {
 				loginUrl:"loginDialog.jsp", loginTitle:"登录",	// 弹出登录对话框

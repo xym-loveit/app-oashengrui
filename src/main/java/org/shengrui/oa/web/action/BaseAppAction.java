@@ -2,7 +2,6 @@ package org.shengrui.oa.web.action;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -44,6 +43,7 @@ import org.shengrui.oa.service.system.ServiceSchoolDistrict;
 import org.shengrui.oa.service.system.ServiceSchoolPositionSet;
 import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
+import org.shengrui.oa.util.WebActionUtil;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
@@ -855,7 +855,8 @@ extends BaseAction
 								this.serviceInMessage.save(msgIn);
 								
 								// 推送消息给客户端.
-								messagePush.pushMessage(id, "messageNotify", 1);
+								messagePush.pushMessage(id, WebActionUtil.scriptMessageNotify, 
+										WebActionUtil.scriptArgMessageKey, 1, true);
 								
 								alreadySent.add(id);
 							}
@@ -1062,12 +1063,12 @@ extends BaseAction
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	protected List<String> getUserIdsAgainstGrantedResource (ModelApprovalVO vo,
+	protected Set<String> getUserIdsAgainstGrantedResource (ModelApprovalVO vo,
 			Class entityClass, String districtId, String depId)
 	{
 		try
 		{
-			List<String> userIds = new ArrayList<String>();
+			Set<String> userIds = new HashSet<String>();
 			
 			// 获取所有用户.
 			List<ModelAppUser> users = this.serviceAppUser.getAll();

@@ -125,7 +125,6 @@ extends BaseAppAction
 		
 		// loads all configured menus, aims to present the left menu items.
 		this.getRootMenus(request, affectedItems);
-		
 	}
 	
 }
