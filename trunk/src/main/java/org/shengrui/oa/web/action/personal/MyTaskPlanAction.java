@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -502,16 +503,17 @@ extends BaseAppAction
 							
 							this.serviceTaskPlan.save(entity);
 							
-							if (isCreation)
-							{
-								// 任务发布, 发送短消息给审批人...
-								List<String> auditorIds = this.getUserIdsAgainstGrantedResource(
+							// 获取审批人, 用于消息发送及数据推送.
+							Set<String> auditorIds = this.getUserIdsAgainstGrantedResource(
 									WebActionUtil.APPROVAL_ADMIN_TASK, 
 									ModelNewsMag.class, 
 									String.valueOf(entity.getTaskChargerDisId()), 
 									String.valueOf(entity.getTaskChargerDepId())
 								);
-								
+							
+							if (isCreation || entity.getAuditStatus() == null)
+							{
+								// 任务发布, 发送短消息给审批人...
 								if (auditorIds != null && auditorIds.size() > 0)
 								{
 									String strIds = UtilString.join(auditorIds, ",");
@@ -520,6 +522,7 @@ extends BaseAppAction
 										Map<String, Object> params = new HashMap<String, Object>();
 										params.put("entity", entity);
 										
+										
 										this.sendMessage("my.approval.audit.task", 
 											params, new Object[] {
 												strIds
@@ -527,8 +530,9 @@ extends BaseAppAction
 											ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
 										);
 										
-										// 推送数据至客户端...
-										messagePush.pushMessage(strIds, "", "", 1);
+										// 推送消息至客户端, 更新数字提醒...
+										this.messagePush.pushMessage(strIds, WebActionUtil.scriptMessageNotify, 
+												WebActionUtil.MENU_KEY_ADMIN_TASK, 1);
 										
 									}
 								}
@@ -565,6 +569,10 @@ extends BaseAppAction
 											ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
 										);
 									}
+									
+									// 推送消息至客户端, 更新数字提醒...
+									this.messagePush.pushMessage(UtilString.join(auditorIds, ","), 
+											WebActionUtil.scriptMessageNotify, WebActionUtil.MENU_KEY_ADMIN_TASK, -1);
 								}
 							}
 							

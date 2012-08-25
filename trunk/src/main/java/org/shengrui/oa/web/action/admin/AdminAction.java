@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -331,7 +332,7 @@ extends BaseAdminAction
 			this.serviceNewsManage.save(entity);
 			
 			// Added by Jeccy.Zhao on 23/08/2012: 短消息提醒新闻审批人..
-			List<String> auditorIds = this.getUserIdsAgainstGrantedResource(
+			Set<String> auditorIds = this.getUserIdsAgainstGrantedResource(
 				WebActionUtil.APPROVAL_ADMIN_NEWS, 
 				ModelNewsMag.class, 
 				String.valueOf(entity.getDistrictPost()), 

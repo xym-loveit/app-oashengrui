@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -415,7 +416,7 @@ extends BaseHrmAction
 					ModelHrmJobHireInfo.EJobHireStatus.TODO_HEAD.getValue().equals(entity.getStatus()))
 			{
 				// 待校区审批 or 待总部审批
-				List<String> auditorIds = this.getUserIdsAgainstGrantedResource(
+				Set<String> auditorIds = this.getUserIdsAgainstGrantedResource(
 						ModelHrmJobHireInfo.EJobHireStatus.TODO_ZONE.getValue().equals(entity.getStatus()) ? 
 								WebActionUtil.APPROVAL_HRM_JOB_ZOON : WebActionUtil.APPROVAL_HRM_JOB_MASTER, 
 					ModelNewsMag.class, 
