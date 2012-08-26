@@ -108,13 +108,13 @@ extends BaseHrmAction
 				});
 			}
 			else if (ContextUtil.getCurrentUser().getFunctionRights().indexOf(
-					WebActionUtil.APPROVAL_HRM_JOB_MASTER.getApprovalFuncKey()) > -1)
+					WebActionUtil.APPROVAL_HRM_JOB_MASTER.getKey()) > -1)
 			{
 				// 总部审批视图
 				formJobHireInfo.setStatus(ModelHrmJobHireInfo.EJobHireStatus.TODO_HEAD.getValue());
 			}
 			else if (ContextUtil.getCurrentUser().getFunctionRights().indexOf(
-					WebActionUtil.APPROVAL_HRM_JOB_ZOON.getApprovalFuncKey()) > -1)
+					WebActionUtil.APPROVAL_HRM_JOB_ZOON.getKey()) > -1)
 			{
 				// 校区审批视图 (暂时也适用于片区)
 				formJobHireInfo.setStatus(ModelHrmJobHireInfo.EJobHireStatus.TODO_ZONE.getValue());
