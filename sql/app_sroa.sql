@@ -3380,3 +3380,15 @@ ALTER TABLE `app_admin_news` ADD `auditor` BIGINT NULL COMMENT '审批人' AFTER
 ADD `audit_time` DATETIME NULL COMMENT '审批时间' AFTER `auditor`;
 
 update app_function set func_key = '_FUNCKEY_JOBAPPROVAL_SUBNODE', func_name = '岗位管理-岗位审批(校区)' WHERE func_key = '_FUNCKEY_HRM_JOBHIRE_JOB_APPROVAL';
+
+-------------------------------------------------------
+-- Added by Jeccy.Zhao on 27/08/2012
+-------------------------------------------------------
+ALTER TABLE `app_hrm_employee_develop` ADD `cproc_depid` BIGINT NULL COMMENT '当前审批环节部门ID' AFTER `entry_datetime` ,
+ADD `cproc_posid` BIGINT NULL COMMENT '当前审批岗位ID' AFTER `cproc_depid`;
+
+ALTER TABLE `app_finan_expense` ADD `cproc_depid` BIGINT NULL COMMENT '当前审批环节部门ID' AFTER `entry_datetime` ,
+ADD `cproc_posid` BIGINT NULL COMMENT '当前审批岗位ID' AFTER `cproc_depid`;
+
+ALTER TABLE `app_finan_contract` ADD `cproc_depid` BIGINT NULL COMMENT '当前审批环节部门ID' AFTER `entry_datetime` ,
+ADD `cproc_posid` BIGINT NULL COMMENT '当前审批岗位ID' AFTER `cproc_depid`;

@@ -147,6 +147,16 @@ extends ModelBase
 	protected Integer finalState;
 	
 	/**
+	 * 当前审批部门ID, 主要用于待办审批提醒.
+	 */
+	protected String currentProcDepId;
+	
+	/**
+	 * 当前审批校区ID, 主要用于待办审批提醒.
+	 */
+	protected String currentProcPosId;
+
+	/**
 	 * The enumeration of operation state
 	 * 
 	 * @author Jeccy.Zhao
@@ -461,5 +471,25 @@ extends ModelBase
 	public void setOperationState(Integer operationState)
 	{
 		this.operationState = operationState;
+	}
+
+	public String getCurrentProcDepId()
+	{
+		return currentProcDepId;
+	}
+
+	public void setCurrentProcDepId(String currentProcDepId)
+	{
+		this.currentProcDepId = currentProcDepId;
+	}
+
+	public String getCurrentProcPosId()
+	{
+		return currentProcPosId;
+	}
+
+	public void setCurrentProcPosId(String currentProcPosId)
+	{
+		this.currentProcPosId = currentProcPosId;
 	}
 }

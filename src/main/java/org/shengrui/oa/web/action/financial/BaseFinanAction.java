@@ -20,6 +20,7 @@ import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.info.ModelShortMessage;
 import org.shengrui.oa.service.finan.ServiceFinanContract;
 import org.shengrui.oa.service.finan.ServiceFinanExpense;
+import org.shengrui.oa.util.WebActionUtil;
 import org.shengrui.oa.web.action.flow.FlowBaseAction;
 
 import cn.trymore.core.bean.PairObject;
@@ -125,26 +126,56 @@ extends FlowBaseAction
 							return ajaxPrint(response, getErrorCallback("审批失败: 申请单号不存在或者非法..."));
 						}
 						
-						if (FIANA_CATKEY_EXPENSE.equals(catKey.toLowerCase()))
+						if (FIANA_CATKEY_EXPENSE.equalsIgnoreCase(catKey))
 						{
 							// 费用支出
 							ModelFinanExpense entity = this.serviceFinanExpense.getByFormNo(formNo);
 							if (entity.getApplyForm() == null || entity.getApplyForm().size() == 0)
 							{
 								entity.setAuditState(Integer.parseInt(procFormState));
-								this.serviceFinanExpense.save(entity);
 							}
+							
+							if (result.getRight() == null)
+							{
+								// 审批结束, 审批退回/不通过/通过
+								entity.setCurrentProcDepId(null);
+								entity.setCurrentProcPosId(null);
+							}
+							else
+							{
+								ModelProcessForm procForm = result.getRight();
+								entity.setCurrentProcDepId(procForm.getToDepartmentIds());
+								entity.setCurrentProcPosId(procForm.getToPositionIds());
+							}
+							
+							this.serviceFinanExpense.save(entity);
+							
 							baseEntity = entity;
 						}
-						else if (FIANA_CATKEY_CONTRACT.equals(catKey.toLowerCase()))
+						else if (FIANA_CATKEY_CONTRACT.equalsIgnoreCase(catKey))
 						{
 							// 合同申请
 							ModelFinanContract entity = this.serviceFinanContract.getByFormNo(formNo);
 							if (entity.getApplyForm() == null || entity.getApplyForm().size() == 0)
 							{
 								entity.setAuditState(Integer.parseInt(procFormState));
-								this.serviceFinanContract.save(entity);
 							}
+							
+							if (result.getRight() == null)
+							{
+								// 审批结束, 审批退回/不通过/通过
+								entity.setCurrentProcDepId(null);
+								entity.setCurrentProcPosId(null);
+							}
+							else
+							{
+								ModelProcessForm procForm = result.getRight();
+								entity.setCurrentProcDepId(procForm.getToDepartmentIds());
+								entity.setCurrentProcPosId(procForm.getToPositionIds());
+							}
+							
+							this.serviceFinanContract.save(entity);
+							
 							baseEntity = entity;
 						}
 						else
@@ -197,6 +228,34 @@ extends FlowBaseAction
 								}, 
 								ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
 							);
+							
+							// 服务器推送至下一个审批环节的审批人客户端.
+							this.messagePush.pushMessage(builder.toString(), 
+									WebActionUtil.scriptMessageNotify, FIANA_CATKEY_EXPENSE.equalsIgnoreCase(catKey) ? 
+											WebActionUtil.MENU_ITEM_FINA_EXPENSE.getKey() : WebActionUtil.MENU_ITEM_FINA_CONTRACT.getKey(), 1);
+							
+							builder = null;
+						}
+						
+						if (formEntity != null)
+						{
+							List<ModelHrmEmployee> preAuditors = this.serviceHrmEmployee.getByDepartmentAndPosition(
+									formEntity.getToDepartmentIds(), formEntity.getToPositionIds());
+							
+							StringBuilder sb = new StringBuilder();
+							for (int i = 0, size = preAuditors.size(); i <  size; i++)
+							{
+								ModelHrmEmployee employee = preAuditors.get(i);
+								sb.append(employee.getId());
+								sb.append(",");
+							}
+							
+							// 服务器推送至前一个环节审批人的客户端, 待办提醒数字减1
+							this.messagePush.pushMessage(sb.toString(), 
+									WebActionUtil.scriptMessageNotify, FIANA_CATKEY_EXPENSE.equalsIgnoreCase(catKey) ? 
+											WebActionUtil.MENU_ITEM_FINA_EXPENSE.getKey() : WebActionUtil.MENU_ITEM_FINA_CONTRACT.getKey(), -1);
+							
+							sb = null;
 						}
 						
 						return ajaxPrint(response, 

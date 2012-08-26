@@ -149,7 +149,9 @@
 		function initItemNum (ele, item_num) {
 			if (ele.size() > 0) {
 				var num = ele.text() == "" ? 0 : ele.text();
-				if (num.startsWith("(") && num.endsWith(")")) {
+				if (num == 0) {
+					// do nothing here...
+				} else if (num.startsWith("(") && num.endsWith(")")) {
 					num = parseInt(num.substr(1, num.length - 2));
 				}
 				

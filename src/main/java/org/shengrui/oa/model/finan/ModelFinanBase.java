@@ -103,6 +103,16 @@ extends ModelBase
 	protected Set<ModelProcessHistory> processHistory;
 	
 	/**
+	 * 当前审批部门ID, 主要用于待办审批提醒.
+	 */
+	protected String currentProcDepId;
+	
+	/**
+	 * 当前审批校区ID, 主要用于待办审批提醒.
+	 */
+	protected String currentProcPosId;
+	
+	/**
 	 * 最终审批结果 (仅用于前端页面显示...)
 	 */
 	protected Integer finalState;
@@ -376,5 +386,24 @@ extends ModelBase
 	{
 		return aclFilterFields;
 	}
+	
+	public String getCurrentProcDepId()
+	{
+		return currentProcDepId;
+	}
 
+	public void setCurrentProcDepId(String currentProcDepId)
+	{
+		this.currentProcDepId = currentProcDepId;
+	}
+
+	public String getCurrentProcPosId()
+	{
+		return currentProcPosId;
+	}
+
+	public void setCurrentProcPosId(String currentProcPosId)
+	{
+		this.currentProcPosId = currentProcPosId;
+	}
 }

@@ -386,6 +386,9 @@ extends FlowBaseAction
 									condValue, 
 									entity.getFormNo(), 
 									entity.getEmployee());
+							
+							entity.setCurrentProcDepId(procForm.getToDepartmentIds());
+							entity.setCurrentProcPosId(procForm.getToPositionIds());
 						}
 						
 						this.serviceHrmEmployeeDevelop.save(entity);
@@ -491,8 +494,22 @@ extends FlowBaseAction
 					if (entity.getApplyForm() == null || entity.getApplyForm().size() == 0)
 					{
 						entity.setAuditState(Integer.parseInt(procFormState));
-						this.serviceHrmEmployeeDevelop.save(entity);
 					}
+					
+					if (result.getRight() == null)
+					{
+						// 审批结束, 审批退回/不通过/通过
+						entity.setCurrentProcDepId(null);
+						entity.setCurrentProcPosId(null);
+					}
+					else
+					{
+						ModelProcessForm procForm = result.getRight();
+						entity.setCurrentProcDepId(procForm.getToDepartmentIds());
+						entity.setCurrentProcPosId(procForm.getToPositionIds());
+					}
+					
+					this.serviceHrmEmployeeDevelop.save(entity);
 					
 					if (result.getLeft())
 					{
@@ -538,6 +555,8 @@ extends FlowBaseAction
 							// 服务器推送至下一个审批环节的审批人客户端.
 							this.messagePush.pushMessage(builder.toString(), 
 									WebActionUtil.scriptMessageNotify, WebActionUtil.MENU_ITEM_HRM_DEVELOP.getKey(), 1);
+							
+							builder = null;
 						}
 						
 						if (formEntity != null)
@@ -557,6 +576,7 @@ extends FlowBaseAction
 							this.messagePush.pushMessage(sb.toString(), 
 									WebActionUtil.scriptMessageNotify, WebActionUtil.MENU_ITEM_HRM_DEVELOP.getKey(), -1);
 							
+							sb = null;
 						}
 						
 						return ajaxPrint(response, 

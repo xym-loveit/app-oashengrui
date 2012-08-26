@@ -36,6 +36,13 @@
             <column name="entry_datetime" />
         </property>
         
+        <property name="currentProcDepId" type="java.lang.String">
+            <column name="cproc_depid" />
+        </property>
+         <property name="currentProcPosId" type="java.lang.String">
+            <column name="cproc_posid" />
+        </property>
+        
         <many-to-one name="applyFormType" class="org.shengrui.oa.model.flow.ModelProcessType">
         	<column name="apply_form_type" />
         </many-to-one>
