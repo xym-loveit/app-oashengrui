@@ -26,7 +26,7 @@ import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
-import org.shengrui.oa.model.vo.ModelApprovalVO;
+import org.shengrui.oa.model.vo.ModelNotificationVO;
 import org.shengrui.oa.service.admin.ServiceConferenceInfo;
 import org.shengrui.oa.service.admin.ServiceTaskPlan;
 import org.shengrui.oa.service.finan.ServiceFinanContract;
@@ -1063,7 +1063,7 @@ extends BaseAction
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	protected Set<String> getUserIdsAgainstGrantedResource (ModelApprovalVO vo,
+	protected Set<String> getUserIdsAgainstGrantedResource (ModelNotificationVO vo,
 			Class entityClass, String districtId, String depId)
 	{
 		try
@@ -1123,16 +1123,16 @@ extends BaseAction
 	 */
 	@SuppressWarnings("rawtypes")
 	private boolean isResourceGranted (ModelAppUser user, 
-		ModelApprovalVO vo, Class entityClass, String districtId, String depId)
+		ModelNotificationVO vo, Class entityClass, String districtId, String depId)
 	{
 		// 判断功能是否被授权
-		if (UtilString.isNotEmpty(vo.getApprovalFuncKey()))
+		if (UtilString.isNotEmpty(vo.getKey()))
 		{
 			Set<String> funcKeys = user.getRights();
 			boolean isGranted = false;
 			for (String key : funcKeys)
 			{
-				if (key.equalsIgnoreCase(vo.getApprovalFuncKey()))
+				if (key.equalsIgnoreCase(vo.getKey()))
 				{
 					isGranted = true;
 					break;
@@ -1142,7 +1142,7 @@ extends BaseAction
 			if (isGranted)
 			{
 				// 判断是否被授予数据权限
-				if (dataPolicyQuery.isGrantedDataPolicy(vo.getApprovalURI(), user))
+				if (dataPolicyQuery.isGrantedDataPolicy(vo.getUri(), user))
 				{
 					String dataQuery = dataPolicyQuery.buildPolicyQuery(entityClass);
 					if (UtilString.isNotEmpty(dataQuery))

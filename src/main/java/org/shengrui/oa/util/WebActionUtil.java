@@ -1,6 +1,6 @@
 package org.shengrui.oa.util;
 
-import org.shengrui.oa.model.vo.ModelApprovalVO;
+import org.shengrui.oa.model.vo.ModelNotificationVO;
 
 public final class WebActionUtil
 {
@@ -12,25 +12,25 @@ public final class WebActionUtil
 	/**
 	 * 新闻发布审批操作
 	 */
-	public static final ModelApprovalVO APPROVAL_ADMIN_NEWS = new ModelApprovalVO(
+	public static final ModelNotificationVO APPROVAL_ADMIN_NEWS = new ModelNotificationVO(
 		"_FUNCKEY_ADMIN_NEWS_APPROVE", "app/admin/news.do?action=actionNewsEditOrSave");
 	
 	/**
 	 * 任务发布审批操作
 	 */
-	public static final ModelApprovalVO APPROVAL_ADMIN_TASK = new ModelApprovalVO(
+	public static final ModelNotificationVO APPROVAL_ADMIN_TASK = new ModelNotificationVO(
 		"_FUNCKEY_ADMIN_TASK_APPROVE", "app/personal/task.do?action=actionSaveTaskPlan");
 	
 	/**
 	 * 岗位发布审批操作 - 总部
 	 */
-	public static final ModelApprovalVO APPROVAL_HRM_JOB_MASTER = new ModelApprovalVO(
+	public static final ModelNotificationVO APPROVAL_HRM_JOB_MASTER = new ModelNotificationVO(
 		"_FUNCKEY_JOBAPPROVAL_SUBNODE", "app/hrm/hire.do?action=actionJobSave");
 	
 	/**
 	 * 岗位发布审批操作 - 校区
 	 */
-	public static final ModelApprovalVO APPROVAL_HRM_JOB_ZOON = new ModelApprovalVO(
+	public static final ModelNotificationVO APPROVAL_HRM_JOB_ZOON = new ModelNotificationVO(
 			"_FUNCKEY_JOBAPPROVAL_ROOT", "app/hrm/hire.do?action=actionJobSave");
 	
 	/**

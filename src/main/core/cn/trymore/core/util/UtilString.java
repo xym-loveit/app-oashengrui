@@ -1,8 +1,8 @@
 package cn.trymore.core.util;
 
 import java.security.MessageDigest;
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.codec.binary.Base64;
@@ -65,7 +65,7 @@ public class UtilString
 	 *          the charactor used to join the strings
 	 * @return the string joined with the separator ","
 	 */
-	public static String join (List<String> strs, String join)
+	public static String join (Collection<String> strs, String join)
 	{
 		return strs != null ? join (strs.toArray(), join) : null;
 	}
