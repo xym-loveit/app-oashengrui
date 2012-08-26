@@ -5,33 +5,75 @@ import org.shengrui.oa.model.vo.ModelNotificationVO;
 public final class WebActionUtil
 {
 	
-	public static final String MENU_KEY_ADMIN_TASK = "_menu_mod_admin_task";
-	
-	public static final String URI_KEY_ADMIN_TASK = "app/admin/task.do?action=pageTaskDelegateIndex";
-	
 	/**
 	 * 新闻发布审批操作
 	 */
-	public static final ModelNotificationVO APPROVAL_ADMIN_NEWS = new ModelNotificationVO(
-		"_FUNCKEY_ADMIN_NEWS_APPROVE", "app/admin/news.do?action=actionNewsEditOrSave");
+	public static final ModelNotificationVO<String, String> APPROVAL_ADMIN_NEWS = 
+			new ModelNotificationVO<String, String>("_FUNCKEY_ADMIN_NEWS_APPROVE", "app/admin/news.do?action=actionNewsEditOrSave");
 	
 	/**
 	 * 任务发布审批操作
 	 */
-	public static final ModelNotificationVO APPROVAL_ADMIN_TASK = new ModelNotificationVO(
-		"_FUNCKEY_ADMIN_TASK_APPROVE", "app/personal/task.do?action=actionSaveTaskPlan");
+	public static final ModelNotificationVO<String, String> APPROVAL_ADMIN_TASK = 
+			new ModelNotificationVO<String, String>("_FUNCKEY_ADMIN_TASK_APPROVE", "app/personal/task.do?action=actionSaveTaskPlan");
 	
 	/**
 	 * 岗位发布审批操作 - 总部
 	 */
-	public static final ModelNotificationVO APPROVAL_HRM_JOB_MASTER = new ModelNotificationVO(
-		"_FUNCKEY_JOBAPPROVAL_SUBNODE", "app/hrm/hire.do?action=actionJobSave");
+	public static final ModelNotificationVO<String, String> APPROVAL_HRM_JOB_MASTER = 
+			new ModelNotificationVO<String, String>("_FUNCKEY_JOBAPPROVAL_SUBNODE", "app/hrm/hire.do?action=actionJobSave");
 	
 	/**
 	 * 岗位发布审批操作 - 校区
 	 */
-	public static final ModelNotificationVO APPROVAL_HRM_JOB_ZOON = new ModelNotificationVO(
-			"_FUNCKEY_JOBAPPROVAL_ROOT", "app/hrm/hire.do?action=actionJobSave");
+	public static final ModelNotificationVO<String, String> APPROVAL_HRM_JOB_ZOON = 
+			new ModelNotificationVO<String, String>("_FUNCKEY_JOBAPPROVAL_ROOT", "app/hrm/hire.do?action=actionJobSave");
+	
+	/**
+	 * 人力资源发展审批
+	 */
+	public static final ModelNotificationVO<String, String> APPROVAL_HRM_JOB_DEVELOP = 
+			new ModelNotificationVO<String, String>("_FUNCKEY_HRM_DEVELOP_APPROVE", "app/personal/application_form.do?action=actionApproveProcess");
+	
+	/**
+	 * 费用支出申请审批
+	 */
+	public static final ModelNotificationVO<String, String> APPROVAL_FINA_EXPENSE = 
+			new ModelNotificationVO<String, String>("_FUNCKEY_FINAN_EXPENSE_APPROVE", "app/finan/contract.do?action=actionFinanApplicationApprove");
+
+	/**
+	 * 合同申请审批
+	 */
+	public static final ModelNotificationVO<String, String> APPROVAL_FINA_CONTRACT = 
+		new ModelNotificationVO<String, String>("_FUNCKEY_FINAN_CONTRACT_APPROVE", "app/finan/contract.do?action=actionFinanApplicationApprove");
+
+	/**
+	 * 任务委托管理菜单
+	 */
+	public static final ModelNotificationVO<String, ModelNotificationVO<String, String>> MENU_ITEM_ADMIN_TASK = 
+			new ModelNotificationVO<String, ModelNotificationVO<String, String>>("_menu_mod_admin_task", 
+					new ModelNotificationVO<String, String>(APPROVAL_ADMIN_TASK.getKey(), "app/admin/task.do?action=pageTaskDelegateIndex"));
+	
+	/**
+	 * 人力资源发展管理菜单
+	 */
+	public static final ModelNotificationVO<String, ModelNotificationVO<String, String>> MENU_ITEM_HRM_DEVELOP = 
+			new ModelNotificationVO<String, ModelNotificationVO<String, String>>("_menu_mod_admin_emp_develop", 
+					new ModelNotificationVO<String, String>(APPROVAL_HRM_JOB_DEVELOP.getKey(), "app/hrm/develop.do?action=actionDevelopLoadRecords"));
+	
+	/**
+	 * 费用支出申请菜单
+	 */
+	public static final ModelNotificationVO<String, ModelNotificationVO<String, String>> MENU_ITEM_FINA_EXPENSE = 
+			new ModelNotificationVO<String, ModelNotificationVO<String, String>>("_menu_mod_fina_exp_records", 
+					new ModelNotificationVO<String, String>(APPROVAL_FINA_EXPENSE.getKey(), "app/finan/expense.do?action=loadFinaExpenseRecords"));
+	
+	/**
+	 * 合同审批申请菜单
+	 */
+	public static final ModelNotificationVO<String, ModelNotificationVO<String, String>> MENU_ITEM_FINA_CONTRACT = 
+			new ModelNotificationVO<String, ModelNotificationVO<String, String>>("_menu_mod_fina_contract_records", 
+					new ModelNotificationVO<String, String>(APPROVAL_FINA_CONTRACT.getKey(), "app/finan/contract.do?action=loadFinaContractRecords"));
 	
 	/**
 	 * 消息更新Script

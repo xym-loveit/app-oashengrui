@@ -10,6 +10,7 @@ import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.model.ModelBase;
 import cn.trymore.core.service.ServiceGeneric;
+import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
@@ -205,7 +206,14 @@ implements ServiceGeneric<T>
 	{
 		try
 		{
-			return dao.getAffectedNumByQueryFilter(clas, whereCloud);
+			if (UtilString.isNotEmpty(whereCloud))
+			{
+				return dao.getAffectedNumByQueryFilter(clas, whereCloud);
+			}
+			else
+			{
+				return 0;
+			}
 		}
 		catch (DAOException e)
 		{

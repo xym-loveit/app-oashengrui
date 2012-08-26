@@ -24,6 +24,7 @@ import org.shengrui.oa.model.system.ModelSchoolDistrict;
 import org.shengrui.oa.service.hrm.ServiceHrmEmployeeDevelop;
 import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
+import org.shengrui.oa.util.WebActionUtil;
 import org.shengrui.oa.web.action.flow.FlowBaseAction;
 
 import cn.trymore.core.bean.PairObject;
@@ -413,6 +414,10 @@ extends FlowBaseAction
 								}, 
 								ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
 							);
+							
+							// 推送数据至客户端...
+							this.messagePush.pushMessage(builder.toString(), 
+									WebActionUtil.scriptMessageNotify, WebActionUtil.MENU_ITEM_HRM_DEVELOP.getKey(), 1);
 						}
 						
 						// 保存成功后, Dialog进行关闭
@@ -507,6 +512,7 @@ extends FlowBaseAction
 								}, 
 								ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
 							);
+							
 						}
 						else
 						{
@@ -528,6 +534,29 @@ extends FlowBaseAction
 								}, 
 								ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
 							);
+							
+							// 服务器推送至下一个审批环节的审批人客户端.
+							this.messagePush.pushMessage(builder.toString(), 
+									WebActionUtil.scriptMessageNotify, WebActionUtil.MENU_ITEM_HRM_DEVELOP.getKey(), 1);
+						}
+						
+						if (formEntity != null)
+						{
+							List<ModelHrmEmployee> preAuditors = this.serviceHrmEmployee.getByDepartmentAndPosition(
+									formEntity.getToDepartmentIds(), formEntity.getToPositionIds());
+							
+							StringBuilder sb = new StringBuilder();
+							for (int i = 0, size = preAuditors.size(); i <  size; i++)
+							{
+								ModelHrmEmployee employee = preAuditors.get(i);
+								sb.append(employee.getId());
+								sb.append(",");
+							}
+							
+							// 服务器推送至前一个环节审批人的客户端, 待办提醒数字减1
+							this.messagePush.pushMessage(sb.toString(), 
+									WebActionUtil.scriptMessageNotify, WebActionUtil.MENU_ITEM_HRM_DEVELOP.getKey(), -1);
+							
 						}
 						
 						return ajaxPrint(response, 

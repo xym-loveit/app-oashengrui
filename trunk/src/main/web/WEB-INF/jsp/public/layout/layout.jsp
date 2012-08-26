@@ -166,9 +166,7 @@
 		
 		$(function(){
 			
-			dwr.engine._errorHandler = function(message, ex) {
-				
-			}
+			dwr.engine._errorHandler = function(message, ex) {} 
 			
 			DWZ.init("resources/js/dwz/dwz.frag.xml", {
 				loginUrl:"loginDialog.jsp", loginTitle:"登录",	// 弹出登录对话框

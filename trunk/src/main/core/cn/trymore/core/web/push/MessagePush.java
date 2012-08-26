@@ -8,6 +8,7 @@ import org.directwebremoting.ScriptSession;
 import org.directwebremoting.ScriptSessionFilter;
 
 import cn.trymore.core.dwr.ScriptSessionManager;
+import cn.trymore.core.util.UtilString;
 
 /**
  * Push message to client from server once data updated.
@@ -54,33 +55,36 @@ public class MessagePush
 		
 		for (final String uid : uids)
 		{
-			Browser.withAllSessionsFiltered (new ScriptSessionFilter()
+			if (UtilString.isNotEmpty(uid))
 			{
-				public boolean match(ScriptSession session) 
+				Browser.withAllSessionsFiltered (new ScriptSessionFilter()
 				{
-					if (session.getAttribute(ScriptSessionManager.SS_UID) == null)
+					public boolean match(ScriptSession session) 
 					{
-						return false;
+						if (session.getAttribute(ScriptSessionManager.SS_UID) == null)
+						{
+							return false;
+						}
+						else
+						{
+							return (session.getAttribute(ScriptSessionManager.SS_UID)).equals(uid);
+						}
 					}
-					else
+				}, new Runnable() {
+					
+					private ScriptBuffer script = new ScriptBuffer();
+					
+					public void run() 
 					{
-						return (session.getAttribute(ScriptSessionManager.SS_UID)).equals(uid);
+						script.appendCall(scriptMethodName, args);
+						Collection<ScriptSession> sessions = Browser.getTargetSessions();
+						for (ScriptSession scriptSession : sessions) 
+						{
+							scriptSession.addScript(script);
+						}
 					}
-				}
-			}, new Runnable() {
-				
-				private ScriptBuffer script = new ScriptBuffer();
-				
-				public void run() 
-				{
-					script.appendCall(scriptMethodName, args);
-					Collection<ScriptSession> sessions = Browser.getTargetSessions();
-					for (ScriptSession scriptSession : sessions) 
-					{
-						scriptSession.addScript(script);
-					}
-				}
-			});
+				});
+			}
 		}
 	}
 	

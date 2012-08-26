@@ -1,16 +1,16 @@
 package org.shengrui.oa.model.vo;
 
-public class ModelNotificationVO
+public class ModelNotificationVO<K, T>
 {
 	/**
 	 * 通知项所对应的Key值
 	 */
-	private String key;
+	private K key;
 	
 	/**
 	 * 通知项所对应的审批操作链接
 	 */
-	private String uri;
+	private T object;
 	
 	/**
 	 * The sole constructor.
@@ -18,30 +18,30 @@ public class ModelNotificationVO
 	 * @param approvalFuncKey
 	 * @param approvalURI
 	 */
-	public ModelNotificationVO (String key, String uri)
+	public ModelNotificationVO (K key, T object)
 	{
 		this.key = key;
-		this.uri = uri;
+		this.setObject(object);
 	}
 	
-	public String getKey()
+	public K getKey()
 	{
 		return key;
 	}
 
-	public void setKey(String key)
+	public void setKey(K key)
 	{
 		this.key = key;
 	}
 
-	public String getUri()
+	public T getObject()
 	{
-		return uri;
+		return object;
 	}
 
-	public void setUri(String uri)
+	public void setObject(T object)
 	{
-		this.uri = uri;
+		this.object = object;
 	}
 	
 }
