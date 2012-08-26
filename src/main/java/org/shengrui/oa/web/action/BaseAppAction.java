@@ -943,6 +943,7 @@ extends BaseAction
 	/**
 	 * Obtains the model query condition.
 	 * 
+	 * @param funcKey
 	 * @param URI
 	 * @param entityClass
 	 * @param fieldNames
@@ -950,30 +951,76 @@ extends BaseAction
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	protected String getModelDataPolicyQuery(final String URI, 
-			final Class entityClass, final String[] conditions)
+	protected String getModelDataPolicyQuery(final String funcKey, 
+			final String URI, final Class entityClass, final String[] conditions)
 	{
-		StringBuilder builder = new StringBuilder();
+		return this.getModelDataPolicyQuery(ContextUtil.getCurrentUser(), funcKey, URI, entityClass, conditions);
+	}
+	
+	/**
+	 * Obtains the model query condition.
+	 * 
+	 * @param user
+	 * @param funcKey
+	 * @param URI
+	 * @param entityClass
+	 * @param conditions
+	 * @return
+	 */
+	@SuppressWarnings("rawtypes")
+	protected String getModelDataPolicyQuery(final ModelAppUser user, 
+			final String funcKey, final String URI, final Class entityClass, final String[] conditions)
+	{
+		boolean isGranted = true;
 		
-		if (dataPolicyQuery.isGrantedDataPolicy(URI))
+		if (UtilString.isNotEmpty(funcKey))
 		{
-			String query = dataPolicyQuery.buildPolicyQuery(entityClass);
-			if (UtilString.isNotEmpty(query))
+			Set<String> funcKeys = user.getRights();
+			boolean isFound = false;
+			for (String key : funcKeys)
 			{
-				builder.append(query);
+				if (key.equalsIgnoreCase(funcKey) || key.equalsIgnoreCase("__ALL"))
+				{
+					isFound = true;
+					break;
+				}
+			}
+			
+			if (!isFound)
+			{
+				isGranted = false;
 			}
 		}
 		
-		if (conditions != null)
+		if (isGranted)
 		{
-			for (String condition : conditions)
+			StringBuilder builder = new StringBuilder();
+			
+			if (dataPolicyQuery.isGrantedDataPolicy(URI))
 			{
-				builder.append(" AND ");
-				builder.append(condition);
+				String query = dataPolicyQuery.buildPolicyQuery(entityClass);
+				if (UtilString.isNotEmpty(query))
+				{
+					builder.append(query);
+				}
 			}
+			
+			if (conditions != null)
+			{
+				for (String condition : conditions)
+				{
+					builder.append(" AND ");
+					builder.append(condition);
+				}
+			}
+			
+			return builder.toString();
 		}
-		
-		return builder.toString();
+		else
+		{
+			return null;
+			// throw new Exception("The specified function key is not granted:" + funcKey);
+		}
 	}
 	
 	/**
@@ -1126,13 +1173,13 @@ extends BaseAction
 		ModelNotificationVO vo, Class entityClass, String districtId, String depId)
 	{
 		// 判断功能是否被授权
-		if (UtilString.isNotEmpty(vo.getKey()))
+		if (UtilString.isNotEmpty(vo.getKey().toString()))
 		{
 			Set<String> funcKeys = user.getRights();
 			boolean isGranted = false;
 			for (String key : funcKeys)
 			{
-				if (key.equalsIgnoreCase(vo.getKey()))
+				if (key.equalsIgnoreCase(vo.getKey().toString()))
 				{
 					isGranted = true;
 					break;
@@ -1142,7 +1189,7 @@ extends BaseAction
 			if (isGranted)
 			{
 				// 判断是否被授予数据权限
-				if (dataPolicyQuery.isGrantedDataPolicy(vo.getUri(), user))
+				if (dataPolicyQuery.isGrantedDataPolicy(vo.getObject(), user))
 				{
 					String dataQuery = dataPolicyQuery.buildPolicyQuery(entityClass);
 					if (UtilString.isNotEmpty(dataQuery))

@@ -532,7 +532,7 @@ extends BaseAppAction
 										
 										// 推送消息至客户端, 更新数字提醒...
 										this.messagePush.pushMessage(strIds, WebActionUtil.scriptMessageNotify, 
-												WebActionUtil.MENU_KEY_ADMIN_TASK, 1);
+												WebActionUtil.MENU_ITEM_ADMIN_TASK.getKey(), 1);
 										
 									}
 								}
@@ -572,7 +572,7 @@ extends BaseAppAction
 									
 									// 推送消息至客户端, 更新数字提醒...
 									this.messagePush.pushMessage(UtilString.join(auditorIds, ","), 
-											WebActionUtil.scriptMessageNotify, WebActionUtil.MENU_KEY_ADMIN_TASK, -1);
+											WebActionUtil.scriptMessageNotify, WebActionUtil.MENU_ITEM_ADMIN_TASK.getKey(), -1);
 								}
 							}
 							

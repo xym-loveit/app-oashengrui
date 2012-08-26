@@ -36,7 +36,7 @@
 														<logic:iterate name="child" property="menuChildren" id="node">
 															<c:if test="${tm:ifMenuGranted(node.menuKey)}">
 																<li treeicon="${node.menuIcon}">
-																	<a href="${node.menuUrl}" target="navTab" rel="${node.menuKey}" id="${node.menuKey}">
+																	<a href="${node.menuUrl}" target="navTab" rel="${node.menuKey}" id="${node.menuKey}" title="${node.menuTitle}">
 																		${node.menuTitle}<span class="num" style="display:inline;padding-left:2px"><logic:greaterThan name="node" property="itemNum" value="0">(${node.itemNum})</logic:greaterThan></span>
 																	</a>
 																</li>
@@ -47,7 +47,7 @@
 											</c:when>
 											<c:otherwise>
 												<li treeicon="${child.menuIcon}">
-													<a href="${child.menuUrl}" target="navTab" rel="${child.menuKey}" id="${child.menuKey}">
+													<a href="${child.menuUrl}" target="navTab" rel="${child.menuKey}" id="${child.menuKey}" title="${child.menuTitle}">
 														${child.menuTitle}<span class="num" style="display:inline;padding-left:2px"><logic:greaterThan name="child" property="itemNum" value="0">(${child.itemNum})</logic:greaterThan></span>
 													</a>
 												</li>
