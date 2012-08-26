@@ -19,6 +19,7 @@ import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.info.ModelShortMessage;
 import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
+import org.shengrui.oa.util.WebActionUtil;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.util.UtilBean;
@@ -307,6 +308,9 @@ extends BaseFinanAction
 						expenseInfo.getApplyAmt(), 
 						expenseInfo.getFormNo(), 
 						expenseInfo.getEmployee());
+				
+				expenseInfo.setCurrentProcDepId(procForm.getToDepartmentIds());
+				expenseInfo.setCurrentProcPosId(procForm.getToPositionIds());
 			}
 			else
 			{
@@ -342,6 +346,12 @@ extends BaseFinanAction
 					}, 
 					ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
 				);
+				
+				// 服务器推送至客户端
+				this.messagePush.pushMessage(builder.toString(), 
+						WebActionUtil.scriptMessageNotify, WebActionUtil.MENU_ITEM_FINA_EXPENSE.getKey(), 1);
+				
+				builder = null;
 			}
 			
 			return ajaxPrint(response, 

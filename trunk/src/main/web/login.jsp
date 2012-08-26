@@ -44,8 +44,6 @@
 	<script src="resources/js/dwz/jquery.validate.js" type="text/javascript"></script>
 	<script src="resources/js/dwz/jquery.bgiframe.js" type="text/javascript"></script>
 	<script src="resources/js/xheditor/xheditor-1.1.12-zh-cn.min.js" type="text/javascript"></script>
-	<script src="resources/js/uploadify//scripts/swfobject.js" type="text/javascript"></script>
-	<script src="resources/js/uploadify//scripts/jquery.resources/js/uploadify/.v2.1.0.js" type="text/javascript"></script>
 	
 	<script src="resources/js/dwz/dwz.core.js" type="text/javascript"></script>
 	<script src="resources/js/dwz/dwz.util.date.js" type="text/javascript"></script>
