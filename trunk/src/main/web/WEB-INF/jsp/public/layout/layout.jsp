@@ -114,31 +114,35 @@
 	<script type="text/javascript">
 				
 		function messageNotify (ele_key, item_num, is_message) {
-			if ($("#" + ele_key).size() > 0) {
-				// element selector.
-				var ele = $("#" + ele_key).find("span.num");
-				
-				// initialization item number.
-				initItemNum(ele, item_num);
-				
-				if (is_message) {
-					if (parseInt(item_num) > 0) {
-						$.messager.show(
-							'<font style="color:#093">温馨提醒</font>', '<font style="font-size:9pt;font-weight:normal;">您收到1条新短消息,请注意查收.</font>',5000
-						);
-					}
-				} else {
-					var parents = ele.parents();
-					for (i = 0; i < parents.length; i++) {
-						var node = $(parents[i]);
-						if (node.hasClass("accordionContent")) {
-							var pre_node = node.prev();
-							if (pre_node.hasClass("accordionHeader") && pre_node.find("label.num").size() > 0) {
-								initItemNum(pre_node.find("label.num"), item_num);
-								break;
+			
+			var ele_keys = ele_key.split(",");
+			for (index = 0; index < ele_keys.length; index++) {
+				if ($("#" + ele_keys[index]).size() > 0) {
+					// element selector.
+					var ele = $("#" + ele_keys[index]).find("span.num");
+					
+					// initialization item number.
+					initItemNum(ele, item_num);
+					
+					if (is_message) {
+						if (parseInt(item_num) > 0) {
+							$.messager.show(
+								'<font style="color:#093">温馨提醒</font>', '<font style="font-size:9pt;font-weight:normal;">您收到1条新短消息,请注意查收.</font>',5000
+							);
+						}
+					} else {
+						var parents = ele.parents();
+						for (i = 0; i < parents.length; i++) {
+							var node = $(parents[i]);
+							if (node.hasClass("accordionContent")) {
+								var pre_node = node.prev();
+								if (pre_node.hasClass("accordionHeader") && pre_node.find("label.num").size() > 0) {
+									initItemNum(pre_node.find("label.num"), item_num);
+									break;
+								}
+							} else if (node.hasClass("sub")) {
+								initItemNum(node.find("label.num"), item_num);
 							}
-						} else if (node.hasClass("sub")) {
-							initItemNum(node.find("label.num"), item_num);
 						}
 					}
 				}

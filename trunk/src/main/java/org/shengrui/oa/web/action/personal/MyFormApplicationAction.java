@@ -420,7 +420,11 @@ extends FlowBaseAction
 							
 							// 推送数据至客户端...
 							this.messagePush.pushMessage(builder.toString(), 
-									WebActionUtil.scriptMessageNotify, WebActionUtil.MENU_ITEM_HRM_DEVELOP.getKey(), 1);
+								WebActionUtil.scriptMessageNotify, 
+								WebActionUtil.MENU_ITEM_HRM_DEVELOP.getKey() + "," + 
+									WebActionUtil.MENU_KEY_APPROVAL_TODO, 
+								1
+							);
 						}
 						
 						// 保存成功后, Dialog进行关闭
@@ -554,7 +558,11 @@ extends FlowBaseAction
 							
 							// 服务器推送至下一个审批环节的审批人客户端.
 							this.messagePush.pushMessage(builder.toString(), 
-									WebActionUtil.scriptMessageNotify, WebActionUtil.MENU_ITEM_HRM_DEVELOP.getKey(), 1);
+								WebActionUtil.scriptMessageNotify, 
+								WebActionUtil.MENU_ITEM_HRM_DEVELOP.getKey() + "," + 
+									WebActionUtil.MENU_KEY_APPROVAL_TODO, 
+								1
+							);
 							
 							builder = null;
 						}
@@ -574,7 +582,11 @@ extends FlowBaseAction
 							
 							// 服务器推送至前一个环节审批人的客户端, 待办提醒数字减1
 							this.messagePush.pushMessage(sb.toString(), 
-									WebActionUtil.scriptMessageNotify, WebActionUtil.MENU_ITEM_HRM_DEVELOP.getKey(), -1);
+								WebActionUtil.scriptMessageNotify, 
+								WebActionUtil.MENU_ITEM_HRM_DEVELOP.getKey() + "," + 
+									WebActionUtil.MENU_KEY_APPROVAL_TODO, 
+								-1
+							);
 							
 							sb = null;
 						}

@@ -231,8 +231,12 @@ extends FlowBaseAction
 							
 							// 服务器推送至下一个审批环节的审批人客户端.
 							this.messagePush.pushMessage(builder.toString(), 
-									WebActionUtil.scriptMessageNotify, FIANA_CATKEY_EXPENSE.equalsIgnoreCase(catKey) ? 
-											WebActionUtil.MENU_ITEM_FINA_EXPENSE.getKey() : WebActionUtil.MENU_ITEM_FINA_CONTRACT.getKey(), 1);
+								WebActionUtil.scriptMessageNotify, 
+								(FIANA_CATKEY_EXPENSE.equalsIgnoreCase(catKey) ? 
+									WebActionUtil.MENU_ITEM_FINA_EXPENSE.getKey() : 
+										WebActionUtil.MENU_ITEM_FINA_CONTRACT.getKey()) + "," + WebActionUtil.MENU_KEY_APPROVAL_TODO, 
+								1
+							);
 							
 							builder = null;
 						}
@@ -252,8 +256,12 @@ extends FlowBaseAction
 							
 							// 服务器推送至前一个环节审批人的客户端, 待办提醒数字减1
 							this.messagePush.pushMessage(sb.toString(), 
-									WebActionUtil.scriptMessageNotify, FIANA_CATKEY_EXPENSE.equalsIgnoreCase(catKey) ? 
-											WebActionUtil.MENU_ITEM_FINA_EXPENSE.getKey() : WebActionUtil.MENU_ITEM_FINA_CONTRACT.getKey(), -1);
+								WebActionUtil.scriptMessageNotify, 
+								(FIANA_CATKEY_EXPENSE.equalsIgnoreCase(catKey) ? 
+									WebActionUtil.MENU_ITEM_FINA_EXPENSE.getKey() : 
+										WebActionUtil.MENU_ITEM_FINA_CONTRACT.getKey()) + "," + WebActionUtil.MENU_KEY_APPROVAL_TODO, 
+								-1
+							);
 							
 							sb = null;
 						}
