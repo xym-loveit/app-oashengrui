@@ -597,6 +597,25 @@ extends BaseHrmAction
 						
 						this.serviceHrmJobHireEntry.save(jobHireEntry);
 						
+						// 获取审批人, 用于数据推送.
+						Set<String> auditorIds = this.getUserIdsAgainstGrantedResource(
+							WebActionUtil.APPROVAL_HRM_ENTRY_ONBOARD, 
+							ModelHrmJobHireEntry.class, 
+							String.valueOf(jobHireEntry.getEntryDistrict().getId()), 
+							String.valueOf(jobHireEntry.getEntryDepartment().getId())
+						);
+						
+						if (auditorIds != null && auditorIds.size() > 0)
+						{
+							//推送至客户端, 进行菜单项的入职数字提醒.
+							this.messagePush.pushMessage(
+								UtilString.join(auditorIds, ","), 
+								WebActionUtil.scriptMessageNotify, 
+								WebActionUtil.MENU_ITEM_HRM_ENTRY.getKey(),
+								1
+							);
+						}
+						
 						// 保存成功后, Dialog进行关闭
 						return ajaxPrint(response, 
 								getSuccessCallback("入职安排成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));

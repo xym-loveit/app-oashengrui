@@ -975,15 +975,38 @@ extends BaseAction
 		
 		if (UtilString.isNotEmpty(funcKey))
 		{
+			String[] fkeys = funcKey.split(",");
+			
 			Set<String> funcKeys = user.getRights();
 			boolean isFound = false;
-			for (String key : funcKeys)
+			int matched = 0;
+			
+			for (String fkey : fkeys)
 			{
-				if (key.equalsIgnoreCase(funcKey) || key.equalsIgnoreCase("__ALL"))
+				for (String key : funcKeys)
 				{
-					isFound = true;
+					if (key.equalsIgnoreCase("__ALL"))
+					{
+						// 拥有所有操作权限.
+						isFound = true;
+						break;
+					}
+					
+					if (key.equalsIgnoreCase(fkey))
+					{
+						matched++;
+					}
+				}
+				
+				if(isFound)
+				{
 					break;
 				}
+			}
+			
+			if (matched == fkeys.length)
+			{
+				isFound = true;
 			}
 			
 			if (!isFound)

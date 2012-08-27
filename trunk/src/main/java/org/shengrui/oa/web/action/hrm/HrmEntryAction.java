@@ -2,6 +2,7 @@ package org.shengrui.oa.web.action.hrm;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,7 @@ import org.shengrui.oa.model.hrm.ModelHrmJobHireEntry;
 import org.shengrui.oa.model.hrm.ModelHrmResume;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.util.ContextUtil;
+import org.shengrui.oa.util.WebActionUtil;
 
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
@@ -270,6 +272,7 @@ extends BaseHrmAction
 								}
 								else
 								{
+									/* CODE REMOVED...
 									// 改变员工在职状态
 									ModelHrmEmployee employee = this.serviceHrmEmployee.get(request.getParameter("empId"));
 									if (employee != null)
@@ -293,10 +296,37 @@ extends BaseHrmAction
 									{
 										return ajaxPrint(response, getErrorCallback("员工数据不存在!"));
 									}
+									*/
 								}
 							}
 							
 							this.serviceHrmJobHireEntry.save(entry);
+							
+							if (!ModelHrmJobHireEntry.EHireEntryInspectStatus.INSPECTING.getValue().equals(
+									entry.getInspectStatus()))
+							{
+								// 入职操作： 考察状态进入待考察, 而入职状态变成已入职, 则数字提醒不变 (+1 -> -1 -> 0)
+								// 非入职操作： 待办提醒-1
+								
+								// 获取审批人, 用于数据推送.
+								Set<String> auditorIds = this.getUserIdsAgainstGrantedResource(
+									WebActionUtil.APPROVAL_HRM_ENTRY_ONBOARD, 
+									ModelHrmJobHireEntry.class, 
+									String.valueOf(entry.getEntryDistrict().getId()), 
+									String.valueOf(entry.getEntryDepartment().getId())
+								);
+								
+								if (auditorIds != null && auditorIds.size() > 0)
+								{
+									//推送至客户端, 进行菜单项的入职数字提醒.
+									this.messagePush.pushMessage(
+										UtilString.join(auditorIds, ","), 
+										WebActionUtil.scriptMessageNotify, 
+										WebActionUtil.MENU_ITEM_HRM_ENTRY.getKey(),
+										-1
+									);
+								}
+							}
 							
 							String archived = request.getParameter("archived");
 							if (UtilString.isNotEmpty(archived))
