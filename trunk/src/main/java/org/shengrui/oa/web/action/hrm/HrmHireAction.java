@@ -973,6 +973,14 @@ extends BaseHrmAction
 								ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
 							);
 							
+							// 推送至客户端, 进行数字提醒更新.
+							this.messagePush.pushMessage(
+								jobHireInterview.getInterviewer().getEmployee().getId(), 
+								WebActionUtil.scriptMessageNotify, 
+								WebActionUtil.MENU_ITEM_INTERVIEW_COMMIT.getKey(),
+								1
+							);
+							
 							return ajaxPrint(response, 
 									getSuccessCallback("招聘面试安排成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 						}

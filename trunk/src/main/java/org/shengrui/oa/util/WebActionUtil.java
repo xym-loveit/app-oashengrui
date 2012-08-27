@@ -60,6 +60,12 @@ public final class WebActionUtil
 		new ModelNotificationVO<String, String>("_FUNCKEY_HRM_ENTRY_OP_QUALIFY", "app/hrm/entry.do?action=actionEntrySave");
 	
 	/**
+	 * 我做伯乐-面试意见输入
+	 */
+	public static final ModelNotificationVO<String, String> APPROVAL_INTERVIEW_COMMIT = 
+		new ModelNotificationVO<String, String>("_FUNCKEY_PERSONAL_INTERVIEW_COMMIT", "app/personal/interview.do?action=actionDoComment");
+	
+	/**
 	 * 任务委托管理菜单, 必须具备审批操作权限.
 	 */
 	public static final ModelNotificationVO<String, ModelNotificationVO<String, String>> MENU_ITEM_ADMIN_TASK = 
@@ -104,6 +110,14 @@ public final class WebActionUtil
 							APPROVAL_FINA_CONTRACT.getKey(), 
 							"app/finan/contract.do?action=loadFinaContractRecords"));
 	
+	/**
+	 * 我做伯乐, 必须具备面试意见输入操作权限.
+	 */
+	public static final ModelNotificationVO<String, ModelNotificationVO<String, String>> MENU_ITEM_INTERVIEW_COMMIT = 
+		new ModelNotificationVO<String, ModelNotificationVO<String, String>>("_menu_mod_personal_invitation", 
+				new ModelNotificationVO<String, String>(
+						APPROVAL_INTERVIEW_COMMIT.getKey(), 
+						"app/personal/interview.do?action=actionDoComment"));
 	/**
 	 * 消息更新Script
 	 */

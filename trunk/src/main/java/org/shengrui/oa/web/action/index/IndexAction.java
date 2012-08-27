@@ -16,6 +16,7 @@ import org.shengrui.oa.model.finan.ModelFinanContract;
 import org.shengrui.oa.model.finan.ModelFinanExpense;
 import org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireEntry;
+import org.shengrui.oa.model.hrm.ModelHrmJobHireInterview;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.service.base.ServiceBase;
@@ -196,6 +197,25 @@ extends BaseAppAction
 					new String[] {
 						"(fstatus = " + ModelHrmJobHireEntry.EHireEntryFStatus.TODO.getValue() + " OR " + 
 							"inspect_status = " + ModelHrmJobHireEntry.EHireEntryInspectStatus.INSPECTING.getValue() + ")"
+					}
+				)
+			)
+		);
+		
+		// 获取`我做伯乐`(需输入面试意见)的数量.
+		affectedItems.put(WebActionUtil.MENU_ITEM_INTERVIEW_COMMIT.getKey(), 
+			this.serviceBase.getAffectedNumByQuery(ModelHrmJobHireInterview.class, 
+				this.getModelDataPolicyQuery(
+					WebActionUtil.MENU_ITEM_INTERVIEW_COMMIT.getObject().getKey(),
+					WebActionUtil.MENU_ITEM_INTERVIEW_COMMIT.getObject().getObject(),
+					ModelHrmJobHireInterview.class, 
+					new String[] {
+						"(state IN (" + 
+								ModelHrmJobHireInterview.EInterviewState.TODO.getValue() + "," + 
+								ModelHrmJobHireInterview.EInterviewState.ONGING.getValue() + 
+							") AND " + 
+								"interviewer_id = " + ContextUtil.getCurrentUser().getId() + 
+						")"
 					}
 				)
 			)
