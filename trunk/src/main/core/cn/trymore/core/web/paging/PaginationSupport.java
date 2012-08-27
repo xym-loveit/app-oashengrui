@@ -1,5 +1,6 @@
 package cn.trymore.core.web.paging;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,7 +15,12 @@ import java.util.List;
  * @param <T>
  */
 public class PaginationSupport<T> 
+implements Serializable 
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5592936710007088282L;
 
 	// ---------------------------------------------------------
 	// static variables
