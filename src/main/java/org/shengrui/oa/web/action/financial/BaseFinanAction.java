@@ -201,7 +201,7 @@ extends FlowBaseAction
 						if (result.getRight() == null)
 						{
 							// 审批结束, 审批退回/不通过/通过
-							this.sendMessage("my.application.audit", 
+							this.sendMessage("fina.audit.result", 
 								params, new Object[] {
 									baseEntity.getEmployee().getId()
 								}, 
