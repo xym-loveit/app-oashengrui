@@ -8,6 +8,7 @@ import java.util.Set;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.vo.ModelHrmJobHireInterviewVO;
 
+import cn.trymore.core.jstl.JstlTagDate;
 import cn.trymore.core.model.ModelBase;
 
 /**
@@ -43,6 +44,11 @@ extends ModelBase
 	private ModelHrmJobHireInfo jobHire;
 	
 	/**
+	 * 入职安排
+	 */
+	private ModelHrmJobHireEntry jobHireEntry;
+	
+	/**
 	 * 应聘简历
 	 */
 	private ModelHrmResume resume;
@@ -62,6 +68,10 @@ extends ModelBase
 	 */
 	private Map<String, ModelHrmJobHireInterviewVO> interviewStates;
 	
+	/**
+	 * 面试中标记
+	 */
+	private boolean isOnInterview = false;
 	
 	/**
 	 * The enumeration of job hire issue status
@@ -243,5 +253,36 @@ extends ModelBase
 	public void setCandidate(ModelAppUser candidate)
 	{
 		this.candidate = candidate;
+	}
+
+	public boolean isOnInterview()
+	{
+		if (interviewStates != null)
+		{
+			Date today = new Date();
+			for (Map.Entry<String, ModelHrmJobHireInterviewVO> entry : interviewStates.entrySet())
+			{
+				ModelHrmJobHireInterviewVO vo = entry.getValue();
+				
+				if (ModelHrmJobHireInterview.EInterviewState.ONGING.getValue().equals(vo.getInterviewState()) || 
+						JstlTagDate.getIntervalDays(today, vo.getInterviewDate()) <= 0)
+				{
+					isOnInterview = true;
+					break;
+				}
+			}
+		}
+		
+		return isOnInterview;
+	}
+
+	public void setJobHireEntry(ModelHrmJobHireEntry jobHireEntry)
+	{
+		this.jobHireEntry = jobHireEntry;
+	}
+
+	public ModelHrmJobHireEntry getJobHireEntry()
+	{
+		return jobHireEntry;
 	}
 }
