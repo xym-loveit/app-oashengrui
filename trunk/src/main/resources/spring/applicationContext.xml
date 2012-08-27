@@ -110,10 +110,6 @@
 		<property name="interceptorNames">
 			<list>
 				<value>timeHandler</value>
-				<!--
-				<value>methodCachePointCut</value>
-				<value>methodCachePointCutAdvice</value>
-				-->
 			</list> 
 		</property> 
 	</bean>
@@ -131,11 +127,13 @@
 	<!--  Base Transaction Proxy -->
 	<bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
 		<property name="beanNames"> 
-			<value>dao*</value> 
+			<value>dao*, service*</value> 
 		</property>
 		<property name="interceptorNames">
 			<list>
 				<value>aclAuthAdvice</value>
+				<value>methodCachePointCut</value>
+				<value>methodCachePointCutAdvice</value>
 			</list> 
 		</property> 
 	</bean>
