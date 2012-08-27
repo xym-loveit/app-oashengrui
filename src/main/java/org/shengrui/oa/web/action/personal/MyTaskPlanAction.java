@@ -505,11 +505,11 @@ extends BaseAppAction
 							
 							// 获取审批人, 用于消息发送及数据推送.
 							Set<String> auditorIds = this.getUserIdsAgainstGrantedResource(
-									WebActionUtil.APPROVAL_ADMIN_TASK, 
-									ModelNewsMag.class, 
-									String.valueOf(entity.getTaskChargerDisId()), 
-									String.valueOf(entity.getTaskChargerDepId())
-								);
+								WebActionUtil.APPROVAL_ADMIN_TASK, 
+								ModelNewsMag.class, 
+								String.valueOf(entity.getTaskChargerDisId()), 
+								String.valueOf(entity.getTaskChargerDepId())
+							);
 							
 							if (isCreation || entity.getAuditStatus() == null)
 							{

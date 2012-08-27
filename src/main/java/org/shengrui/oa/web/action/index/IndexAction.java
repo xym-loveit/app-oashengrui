@@ -15,6 +15,7 @@ import org.shengrui.oa.model.admin.ModelTaskPlan;
 import org.shengrui.oa.model.finan.ModelFinanContract;
 import org.shengrui.oa.model.finan.ModelFinanExpense;
 import org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop;
+import org.shengrui.oa.model.hrm.ModelHrmJobHireEntry;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.service.base.ServiceBase;
@@ -180,6 +181,21 @@ extends BaseAppAction
 						"(audit_state IS NULL and cproc_depid = " + 
 								ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
 								ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"
+					}
+				)
+			)
+		);
+		
+		// 获取招聘入职`待入职 & 考察中`数量...
+		affectedItems.put(WebActionUtil.MENU_ITEM_HRM_ENTRY.getKey(), 
+			this.serviceBase.getAffectedNumByQuery(ModelHrmJobHireEntry.class, 
+				this.getModelDataPolicyQuery(
+					WebActionUtil.MENU_ITEM_HRM_ENTRY.getObject().getKey(),
+					WebActionUtil.MENU_ITEM_HRM_ENTRY.getObject().getObject(),
+					ModelHrmJobHireEntry.class, 
+					new String[] {
+						"(fstatus = " + ModelHrmJobHireEntry.EHireEntryFStatus.TODO.getValue() + " OR " + 
+							"inspect_status = " + ModelHrmJobHireEntry.EHireEntryInspectStatus.INSPECTING.getValue() + ")"
 					}
 				)
 			)
