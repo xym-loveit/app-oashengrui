@@ -118,6 +118,12 @@ public final class WebActionUtil
 				new ModelNotificationVO<String, String>(
 						APPROVAL_INTERVIEW_COMMIT.getKey(), 
 						"app/personal/interview.do?action=actionDoComment"));
+	
+	/**
+	 * 待我审批菜单项Key值
+	 */
+	public static final String MENU_KEY_APPROVAL_TODO = "_menu_mod_personal_approval";
+	
 	/**
 	 * 消息更新Script
 	 */

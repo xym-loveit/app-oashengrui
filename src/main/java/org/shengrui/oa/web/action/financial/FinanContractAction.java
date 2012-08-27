@@ -344,7 +344,11 @@ extends BaseFinanAction
 				
 				// 服务器推送至客户端
 				this.messagePush.pushMessage(builder.toString(), 
-						WebActionUtil.scriptMessageNotify, WebActionUtil.MENU_ITEM_FINA_CONTRACT.getKey(), 1);
+					WebActionUtil.scriptMessageNotify, 
+					WebActionUtil.MENU_ITEM_FINA_CONTRACT.getKey() + "," +
+						WebActionUtil.MENU_KEY_APPROVAL_TODO, 
+					1
+				);
 				
 				builder = null;
 			}

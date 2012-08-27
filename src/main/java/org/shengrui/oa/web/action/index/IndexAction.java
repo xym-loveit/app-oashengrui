@@ -221,6 +221,15 @@ extends BaseAppAction
 			)
 		);
 		
+		// 获取待我审批数量
+		// TODO: 新闻审批和岗位审批目前并未实现.
+		affectedItems.put(WebActionUtil.MENU_KEY_APPROVAL_TODO, 
+			affectedItems.get(WebActionUtil.MENU_ITEM_ADMIN_TASK.getKey()) + 
+			affectedItems.get(WebActionUtil.MENU_ITEM_FINA_CONTRACT.getKey()) + 
+			affectedItems.get(WebActionUtil.MENU_ITEM_FINA_EXPENSE.getKey()) +
+			affectedItems.get(WebActionUtil.MENU_ITEM_HRM_DEVELOP.getKey())
+		);
+		
 		// loads all configured menus, aims to present the left menu items.
 		this.getRootMenus(request, affectedItems);
 	}
