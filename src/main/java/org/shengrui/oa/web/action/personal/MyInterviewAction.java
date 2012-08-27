@@ -13,6 +13,7 @@ import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.service.hrm.ServiceHrmJobHireInterview;
 import org.shengrui.oa.service.hrm.ServiceHrmJobHireIssue;
 import org.shengrui.oa.util.ContextUtil;
+import org.shengrui.oa.util.WebActionUtil;
 import org.shengrui.oa.web.action.BaseAppAction;
 
 import cn.trymore.core.exception.ServiceException;
@@ -212,6 +213,14 @@ extends BaseAppAction
 					this.handleFileAttachments(jobHireInterview, request);
 					
 					this.serviceHrmJobHireInterview.save(jobHireInterview);
+					
+					// 推送至客户端, 进行数字提醒更新.
+					this.messagePush.pushMessage(
+						jobHireInterview.getInterviewer().getEmployee().getId(), 
+						WebActionUtil.scriptMessageNotify, 
+						WebActionUtil.MENU_ITEM_INTERVIEW_COMMIT.getKey(),
+						-1
+					);
 					
 					// 保存后关闭dialog页面并刷新navTab.
 					return ajaxPrint(response, 
