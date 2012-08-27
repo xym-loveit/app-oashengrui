@@ -23,8 +23,8 @@
 			<logic:iterate name="dataList" property="items" id="entity" indexId="idx">
 				<tr id="dposet-${entity.id}">
 					<td>${idx+1}</td>
-					<td>${entity.posetName}</td>
-					<td>
+					<td style="text-align:left;">${entity.posetName}</td>
+					<td style="width: 80%; text-align:left;">
 						<logic:present name="entity" property="positions">
 							<logic:iterate name="entity" property="positions" id="pos">
 								${pos.positionName} (${pos.department.depOrgType eq 0 ? '总部' : (pos.department.depOrgType eq 1 ? '校区' : '片区')}${pos.department.depName})&nbsp;
