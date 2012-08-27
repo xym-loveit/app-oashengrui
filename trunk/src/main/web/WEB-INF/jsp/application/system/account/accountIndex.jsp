@@ -82,7 +82,7 @@
 						<td>${user.position ne null ? user.position.department.depName : '/'}</td>
 						<td>${user.position ne null ? user.position.positionName : '/'}</td>
 						<td>${user.status eq 1 ? '有效' : '已冻结'}</td>
-						<td>${user.mobile}</td>
+						<td>${user.employee.phoneNo}</td>
 						<td><fmt:formatDate  value="${user.lastLogonTime}" pattern="yyyy.MM.dd HH:mm:ss" /></td>
 						<td>${user.lastLogonIP}</td>
 						<td>
