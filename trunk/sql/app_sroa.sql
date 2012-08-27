@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2012 年 08 月 08 日 16:23
+-- 生成日期: 2012 年 08 月 27 日 23:21
 -- 服务器版本: 5.5.17
 -- PHP 版本: 5.3.8
 
@@ -73,6 +73,8 @@ CREATE TABLE IF NOT EXISTS `app_admin_attendance_view` (
 ,`meto` varchar(250)
 ,`attendance_result` varchar(1)
 ,`exception` varchar(1)
+,`dep_id` bigint(20)
+,`district_id` bigint(20)
 );
 -- --------------------------------------------------------
 
@@ -105,15 +107,6 @@ CREATE TABLE IF NOT EXISTS `app_admin_conference` (
   `attendances_ids` varchar(200) DEFAULT NULL COMMENT '参会人员ID',
   PRIMARY KEY (`conference_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='会议表' AUTO_INCREMENT=4 ;
-
---
--- 转存表中的数据 `app_admin_conference`
---
-
-INSERT INTO `app_admin_conference` (`conference_id`, `conference_name`, `conference_level`, `district_id`, `depart_id`, `address`, `start_day`, `start_hour`, `start_minute`, `end_day`, `end_hour`, `end_minute`, `attendances`, `count`, `contactor`, `phone`, `content`, `status`, `sponsor`, `summary`, `conference_type`, `attendances_ids`) VALUES
-(1, 'meeting3', '公司级别会议', 1, 15, '123', '2012-08-02', '08', '00', '2012-08-09', '08', '00', '管理员,刘苗芳,程聪', 3, '', '', '', '1', 1, NULL, 9, '1,24,29'),
-(2, 'meeting7', '公司级别会议', 3, 18, '地址', '2012-08-04', '08', '00', '2012-08-07', '10', '00', '管理员,罗佳驹,刘苗芳,梅杰,程聪', 6, '12312fadf', '123123fadf', 'afdd', '2', 1, 'summary', 9, '1,19,24,20,29'),
-(3, 'meeting8', '公司级别会议', 1, 15, '121323', '2012-08-03', '08', '00', '2012-08-03', '15', '00', '管理员,罗佳驹,梅杰', 3, '', '', '', '2', 1, '我的总结', 9, '1,19,20');
 
 -- --------------------------------------------------------
 
@@ -209,17 +202,21 @@ CREATE TABLE IF NOT EXISTS `app_admin_news` (
   `updateTime` datetime DEFAULT NULL COMMENT '最后更新时间',
   `top_index` int(11) DEFAULT NULL COMMENT '置顶序号',
   `status` smallint(6) NOT NULL COMMENT '0=草稿, 1=已发布并待审核, 2=审核通过, 3=审批退回',
+  `auditor` bigint(20) DEFAULT NULL COMMENT '审批人',
+  `audit_time` datetime DEFAULT NULL COMMENT '审批时间',
   PRIMARY KEY (`news_id`),
   KEY `type_id` (`type_dicid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='行政管理-新闻' AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='行政管理-新闻' AUTO_INCREMENT=8 ;
 
 --
 -- 转存表中的数据 `app_admin_news`
 --
 
-INSERT INTO `app_admin_news` (`news_id`, `type_dicid`, `news_subject`, `news_content`, `author_id`, `author_name`, `news_level`, `district_visible`, `district_post`, `dep_post`, `createtime`, `updateTime`, `top_index`, `status`) VALUES
-(1, 3, 'news1', 'news1<br />', 1, 'admin', 0, NULL, 1, 15, '2012-07-31 11:27:46', '2012-07-31 11:27:46', 0, 1),
-(3, 3, 'news2', '我的新闻_ 你好啊<br />', 19, '00001001', 0, NULL, 1, 15, '2012-07-31 14:21:21', '2012-08-03 14:09:08', 0, 1);
+INSERT INTO `app_admin_news` (`news_id`, `type_dicid`, `news_subject`, `news_content`, `author_id`, `author_name`, `news_level`, `district_visible`, `district_post`, `dep_post`, `createtime`, `updateTime`, `top_index`, `status`, `auditor`, `audit_time`) VALUES
+(4, 3, 'news1', 'test<br />', 1, 'admin', 0, NULL, 1, 15, '2012-08-23 11:25:49', '2012-08-23 11:25:49', 0, 1, NULL, NULL),
+(5, 3, 'news2', '', 1, 'admin', 0, NULL, 3, 18, '2012-08-23 11:26:17', '2012-08-23 11:26:17', 0, 1, NULL, NULL),
+(6, 3, 'new3', 'news3<br />', 21, '00003001', 0, NULL, 1, 15, '2012-08-23 13:04:49', '2012-08-23 13:04:49', 0, 1, NULL, NULL),
+(7, 3, 'news111', '', 1, 'admin', 0, NULL, 1, 15, '2012-08-23 15:47:32', '2012-08-23 15:47:32', 0, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -255,24 +252,22 @@ CREATE TABLE IF NOT EXISTS `app_admin_task` (
   `task_participant_names` varchar(250) DEFAULT NULL COMMENT '任务参与人名称列表',
   `task_status` tinyint(4) DEFAULT NULL COMMENT '任务状态',
   `approval_status` tinyint(4) DEFAULT NULL COMMENT '审批状态',
+  `auditor` bigint(20) DEFAULT NULL COMMENT '审批人',
+  `audit_time` datetime DEFAULT NULL COMMENT '审批时间',
   `create_time` datetime NOT NULL COMMENT '申请时间',
-  PRIMARY KEY (`task_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='行政管理-任务委托' AUTO_INCREMENT=14 ;
+  PRIMARY KEY (`task_id`),
+  KEY `approval_status` (`approval_status`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='行政管理-任务委托' AUTO_INCREMENT=18 ;
 
 --
 -- 转存表中的数据 `app_admin_task`
 --
 
-INSERT INTO `app_admin_task` (`task_id`, `type_dicid`, `task_name`, `task_originator`, `task_charger`, `task_charger_depid`, `task_charger_disid`, `task_planStartDate`, `task_planEndDate`, `task_actualFinishDate`, `task_desc`, `task_participant_ids`, `task_participant_names`, `task_status`, `approval_status`, `create_time`) VALUES
-(4, 7, 'task1', 36, 27, NULL, NULL, '2012-07-31', '2012-08-07', NULL, 'hi', NULL, NULL, 2, 2, '2012-07-31 21:39:58'),
-(5, 7, 'task2', 36, 27, NULL, NULL, '2012-07-29', '2012-08-02', '2012-08-03', '', NULL, NULL, 3, 4, '2012-08-01 11:20:20'),
-(6, 7, 'task', 19, 19, NULL, NULL, '2012-08-02', '2012-08-15', '2012-08-04', 'test21312', NULL, NULL, 3, NULL, '2012-08-02 17:00:00'),
-(7, 7, 'task2', 20, 19, NULL, NULL, '2012-08-01', '2012-08-04', NULL, 'test', NULL, NULL, 4, NULL, '2012-08-02 17:02:08'),
-(8, 8, 'task5', 19, 22, NULL, NULL, '2012-08-01', '2012-08-03', NULL, 'testfadfadf', NULL, NULL, NULL, 4, '2012-08-02 21:40:48'),
-(10, 7, 'task7', 19, 19, NULL, NULL, '2012-08-02', '2012-08-11', NULL, '12312fadffafds', NULL, NULL, 5, 2, '2012-08-02 23:14:02'),
-(11, 7, 'task_abcd', 19, 19, 15, 1, '2012-08-01', '2012-08-10', NULL, 'test', NULL, NULL, NULL, 2, '2012-08-08 14:03:31'),
-(12, 7, 'task_12', 19, 19, 15, 1, '2012-08-09', '2012-08-16', NULL, 'test', NULL, NULL, NULL, NULL, '2012-08-08 15:15:56'),
-(13, 7, '90u90', 19, 19, 15, 1, '2012-08-08', '2012-08-15', NULL, '', NULL, NULL, 5, 2, '2012-08-08 15:17:10');
+INSERT INTO `app_admin_task` (`task_id`, `type_dicid`, `task_name`, `task_originator`, `task_charger`, `task_charger_depid`, `task_charger_disid`, `task_planStartDate`, `task_planEndDate`, `task_actualFinishDate`, `task_desc`, `task_participant_ids`, `task_participant_names`, `task_status`, `approval_status`, `auditor`, `audit_time`, `create_time`) VALUES
+(14, 7, 'task1', 19, 20, 15, 1, '2012-08-23', '2012-08-24', NULL, '', '19,20', '罗佳驹,梅杰', NULL, 2, 21, '2012-08-23 11:51:07', '2012-08-23 11:35:25'),
+(15, 7, 'task2', 19, 19, 15, 1, '2012-08-23', '2012-08-23', NULL, '12123', '29,24', '程聪,刘苗芳', 2, 2, 19, '2012-08-23 16:29:14', '2012-08-23 12:01:01'),
+(16, 7, 'task3', 19, 19, 15, 1, '2012-08-23', '2012-08-27', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, '2012-08-23 16:33:36'),
+(17, 7, 'task4', 19, 19, 15, 1, '2012-08-07', '2012-08-09', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, '2012-08-23 16:36:02');
 
 -- --------------------------------------------------------
 
@@ -291,14 +286,7 @@ CREATE TABLE IF NOT EXISTS `app_admin_task_file` (
 --
 
 INSERT INTO `app_admin_task_file` (`task_id`, `file_id`) VALUES
-(6, 45),
-(7, 35),
-(8, 44),
-(10, 46),
-(12, 52),
-(12, 53),
-(13, 54),
-(13, 55);
+(16, 58);
 
 -- --------------------------------------------------------
 
@@ -317,38 +305,10 @@ CREATE TABLE IF NOT EXISTS `app_admin_task_participants` (
 --
 
 INSERT INTO `app_admin_task_participants` (`task_id`, `emp_id`) VALUES
-(3, 7),
-(3, 14),
-(4, 19),
-(4, 27),
-(4, 36),
-(5, 30),
-(6, 19),
-(6, 20),
-(6, 22),
-(6, 24),
-(7, 24),
-(7, 29),
-(8, 19),
-(8, 20),
-(8, 21),
-(8, 24),
-(8, 25),
-(8, 26),
-(8, 29),
-(10, 21),
-(10, 25),
-(10, 26),
-(11, 24),
-(11, 29),
-(12, 21),
-(12, 25),
-(12, 26),
-(12, 37),
-(13, 21),
-(13, 25),
-(13, 26),
-(13, 37);
+(14, 19),
+(14, 20),
+(15, 24),
+(15, 29);
 
 -- --------------------------------------------------------
 
@@ -367,23 +327,16 @@ CREATE TABLE IF NOT EXISTS `app_admin_task_tracks` (
   `task_auditFinalTime` date DEFAULT NULL COMMENT '审批确认完成/延期时间',
   `task_auditMeto` text COMMENT '审批描述',
   `task_auditTime` datetime DEFAULT NULL COMMENT '审批时间',
+  `auditor` bigint(20) DEFAULT NULL COMMENT '审批人',
   PRIMARY KEY (`track_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='任务委托审批记录' AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='任务委托审批记录' AUTO_INCREMENT=13 ;
 
 --
 -- 转存表中的数据 `app_admin_task_tracks`
 --
 
-INSERT INTO `app_admin_task_tracks` (`track_id`, `task_id`, `task_applyTime`, `task_applyType`, `task_applyFinalTime`, `task_applyMeto`, `task_auditState`, `task_auditFinalTime`, `task_auditMeto`, `task_auditTime`) VALUES
-(3, 3, '2012-07-26', 1, '2012-07-27', '', 1, '2012-07-26', '', '2012-07-26 14:58:49'),
-(4, 5, '2012-08-01', 1, '2012-08-02', '', 1, '2012-08-03', 'pass', '2012-08-01 11:25:11'),
-(5, 4, '2012-08-01', 0, '2012-08-07', '', 1, '2012-08-07', '123', '2012-08-01 11:24:59'),
-(6, 6, '2012-08-02', 1, '2012-08-03', '我要完成', 1, '2012-08-04', '通过完成', '2012-08-02 23:09:37'),
-(7, 7, '2012-08-02', 0, '2012-08-10', '我要延期', NULL, NULL, NULL, NULL),
-(8, 10, '2012-08-02', 1, '2012-08-03', '1213231212', 0, '2012-08-10', '交流交流分撒旦', '2012-08-02 23:15:50'),
-(9, 10, '2012-08-02', 0, '2012-08-17', '123123', NULL, NULL, NULL, NULL),
-(10, 10, '2012-08-03', 1, '2012-08-04', 'fadsf', NULL, NULL, NULL, NULL),
-(11, 13, '2012-08-08', 1, '2012-08-10', 'test', NULL, NULL, NULL, NULL);
+INSERT INTO `app_admin_task_tracks` (`track_id`, `task_id`, `task_applyTime`, `task_applyType`, `task_applyFinalTime`, `task_applyMeto`, `task_auditState`, `task_auditFinalTime`, `task_auditMeto`, `task_auditTime`, `auditor`) VALUES
+(12, 15, '2012-08-23', 0, '2012-08-24', '123', 1, '2012-08-23', '', '2012-08-23 16:31:27', 19);
 
 -- --------------------------------------------------------
 
@@ -405,11 +358,7 @@ CREATE TABLE IF NOT EXISTS `app_admin_workarrange` (
   PRIMARY KEY (`work_id`),
   KEY `PK_user` (`staff_id`),
   KEY `PK_type` (`work_type`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='行政管理-工作安排' AUTO_INCREMENT=1 ;
-
---
--- 转存表中的数据 `app_admin_workarrange`
---
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行政管理-工作安排' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -445,17 +394,6 @@ CREATE TABLE IF NOT EXISTS `app_conference_file` (
   PRIMARY KEY (`conference_id`,`file_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='会议文件';
 
---
--- 转存表中的数据 `app_conference_file`
---
-
-INSERT INTO `app_conference_file` (`conference_id`, `file_id`) VALUES
-(2, 47),
-(2, 48),
-(2, 49),
-(3, 50),
-(3, 51);
-
 -- --------------------------------------------------------
 
 --
@@ -475,68 +413,16 @@ CREATE TABLE IF NOT EXISTS `app_file_attach` (
   `file_bytes` int(11) NOT NULL COMMENT '文件总大小',
   `del_flag` smallint(6) DEFAULT '0' COMMENT '1=已删除, 0=未删除',
   PRIMARY KEY (`file_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='附件' AUTO_INCREMENT=56 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='附件' AUTO_INCREMENT=59 ;
 
 --
 -- 转存表中的数据 `app_file_attach`
 --
 
 INSERT INTO `app_file_attach` (`file_id`, `file_name`, `file_path`, `createtime`, `file_ext`, `file_type`, `note`, `creator`, `creator_id`, `file_bytes`, `del_flag`) VALUES
-(1, 'app_sroa.sql', 'others/201207/dd9c92d8daaf41aebd15b34ae6c990d1.sql', '2012-07-29 02:29:03', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(2, 'app_sroa.sql', 'others/201207/a7ec5fe0df0f4f498eb09931ae97157f.sql', '2012-07-29 02:31:35', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(3, 'app_sroa.sql', 'others/201207/80133f86d4dd4c36b4164c92eb459e09.sql', '2012-07-29 02:31:51', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(4, 'app_sroa.sql', 'others/201207/6cd5b2fd469344999692c939711f38f4.sql', '2012-07-29 02:32:25', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(5, 'app_sroa.sql', 'others/201207/e9d63b09f20b4c6fb23fecc58886945e.sql', '2012-07-29 02:33:04', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(6, 'app_sroa.sql', 'others/201207/272365e4438047818156c5331fcacb7a.sql', '2012-07-29 02:34:47', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(7, 'app_sroa.sql', 'others/201207/b8651629ff704724a14f4c5bdd24ea76.sql', '2012-07-29 02:38:20', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(8, 'app_sroa.sql', 'others/201207/d27c6b908edb4f3982430a64b0daf464.sql', '2012-07-29 02:38:35', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(9, 'app_sroa_2012-7-19.sql', 'others/201207/dffd3f76c09a4597b1bc3afbb1ee1a05.sql', '2012-07-29 02:39:18', 'sql', 'others', '77.66 KB', 'Unknow', NULL, 79524, 0),
-(10, 'app_sroa.sql', 'others/201207/af51d5e1e1254fbe861413ccacd0ba2e.sql', '2012-07-29 02:39:29', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(11, 'app_sroa.sql', 'others/201207/1bae96881dda463bb4ffe7f2050a08c2.sql', '2012-07-29 02:39:44', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(12, 'app_sroa_2012-7-19.sql', 'others/201207/43b14965662f438894239653359a4adc.sql', '2012-07-29 02:40:47', 'sql', 'others', '77.66 KB', 'Unknow', NULL, 79524, 0),
-(13, 'app_sroa.sql', 'others/201207/3cbb7bb7b6ce4558a87d7b7e1d32e3e1.sql', '2012-07-29 02:41:14', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(14, 'app_sroa.sql', 'others/201207/5f1791e1d41748bba4c6df4f6a858c73.sql', '2012-07-29 02:41:39', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(15, 'app_sroa.sql', 'others/201207/502ed14518324c88a9a1c63c0271cdb2.sql', '2012-07-29 02:43:14', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(16, 'app_sroa_2012-7-19.sql', 'others/201207/86e8e70ba0c046a2b6a52165889629f1.sql', '2012-07-29 02:44:10', 'sql', 'others', '77.66 KB', 'Unknow', NULL, 79524, 0),
-(17, 'app_sroa.sql', 'others/201207/e1edbcb9249944c98457821506bf8f92.sql', '2012-07-29 02:44:35', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(18, 'app_sroa.sql', 'others/201207/db2609b048c94d2e8decb73d39208834.sql', '2012-07-29 02:45:00', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(19, 'app_sroa.sql', 'others/201207/1cf6dc98a082454c99470f18e982fcb5.sql', '2012-07-29 02:47:10', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(20, 'app_sroa.sql', 'others/201207/93e821e68bbc46f7b7d8268cb1f0525a.sql', '2012-07-29 02:47:19', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(21, 'app_sroa.sql', 'others/201207/203e56a40d3f494fa80faaea53a39ef0.sql', '2012-07-29 02:47:59', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(22, 'app_sroa.sql', 'others/201207/0d04862981f047cba25b59f8a6d0701f.sql', '2012-07-29 02:48:44', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(23, 'app_sroa.sql', 'others/201207/a8aa5bb5e8ac4c8e805e22d2d78717f2.sql', '2012-07-29 02:50:02', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(24, 'app_sroa.sql', 'others/201207/4795f58efa8f4110b875200bba1fc22a.sql', '2012-07-29 02:56:49', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(25, 'app_sroa.sql', 'others/201207/390d031db6524f5fa3ffbc2398817d20.sql', '2012-07-29 02:57:04', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(26, 'app_sroa.sql', 'others/201207/987e31d6526c45848e589286830c7f55.sql', '2012-07-29 02:57:40', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(27, 'app_sroa.sql', 'others/201207/368214185a1d4ca3b26085ed316c2602.sql', '2012-07-29 02:57:59', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(28, 'app_sroa_2012-7-19.sql', 'others/201207/68493572b869426eaeb7adc38b6b9a36.sql', '2012-07-29 02:58:10', 'sql', 'others', '77.66 KB', 'Unknow', NULL, 79524, 0),
-(29, 'app_sroa.sql', 'others/201207/d2bc890776344d6083cd2fc5e1f6263b.sql', '2012-07-29 02:59:51', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(30, 'app_sroa.sql', 'others/201207/832bfc53a3f2452d9776e17d01d7ebee.sql', '2012-07-29 03:00:00', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(31, 'app_sroa_2012-7-19.sql', 'others/201207/f855d90364b54aee82ad0eff7e5a16e1.sql', '2012-07-29 03:00:45', 'sql', 'others', '77.66 KB', 'Unknow', NULL, 79524, 0),
-(32, 'app_sroa.sql', 'others/201207/3b0fa07934884d7e963be64713ad0f62.sql', '2012-07-29 03:01:32', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(33, 'app_sroa.sql', 'others/201207/b8adf07d0fc64d099825d9061c6afbcd.sql', '2012-07-29 03:02:36', 'sql', 'others', '93.60 KB', 'Unknow', NULL, 95846, 0),
-(34, '123.txt', 'others/201208/929c9d8ba8844a789d8aa7f6a3ccb7cd.txt', '2012-08-02 16:59:21', 'txt', 'others', '18.0 bytes', 'Unknow', NULL, 18, 0),
-(35, '123.txt', 'others/201208/a6398d78353f4f7b90589f9a962dcdc0.txt', '2012-08-02 17:02:05', 'txt', 'others', '18.0 bytes', 'Unknow', NULL, 18, 0),
-(36, '123.txt', 'others/201208/a73fb601202f40b4b6d5870a90bc869b.txt', '2012-08-02 20:25:36', 'txt', 'others', '18.0 bytes', 'Unknow', NULL, 18, 0),
-(37, '123.txt', 'others/201208/3c54b843ba9b49a1b58a3cc6ef3e2623.txt', '2012-08-02 20:57:18', 'txt', 'others', '18.0 bytes', 'Unknow', NULL, 18, 0),
-(38, '123.txt', 'others/201208/200ba3e3bfd04ef8ba33c1f717e8676d.txt', '2012-08-02 21:16:38', 'txt', 'others', '18.0 bytes', 'Unknow', NULL, 18, 0),
-(39, '123.txt', 'others/201208/a7ae11c9c24547b5b89f2df31c2e4bbb.txt', '2012-08-02 21:25:34', 'txt', 'others', '18.0 bytes', 'Unknow', NULL, 18, 0),
-(40, '123.txt', 'others/201208/5fa38a9305ce49e88d1a0bd8d3b05265.txt', '2012-08-02 21:26:29', 'txt', 'others', '18.0 bytes', 'Unknow', NULL, 18, 0),
-(41, '123.txt', 'others/201208/ce233a6058a94d9d99d8cae0930c39ca.txt', '2012-08-02 21:28:37', 'txt', 'others', '18.0 bytes', 'Unknow', NULL, 18, 0),
-(42, '123.txt', 'others/201208/e3d22090b10f4483abade6dfdf70748e.txt', '2012-08-02 21:30:13', 'txt', 'others', '18.0 bytes', 'Unknow', NULL, 18, 0),
-(43, '123.txt', 'others/201208/7db2628c0a6e4364b15a34c8728df503.txt', '2012-08-02 21:35:28', 'txt', 'others', '18.0 bytes', 'Unknow', NULL, 18, 0),
-(44, '123.txt', 'others/201208/b5e907f82055439b91e6f0c6409d4a36.txt', '2012-08-02 21:36:15', 'txt', 'others', '18.0 bytes', 'Unknow', NULL, 18, 0),
-(45, '123.txt', 'others/201208/c259594446084f74b320b7073d9d8102.txt', '2012-08-02 22:28:11', 'txt', 'others', '18.0 bytes', 'Unknow', NULL, 18, 0),
-(46, '123.txt', 'others/201208/6e88fc8c2fa0438dbf391bd6b76d05eb.txt', '2012-08-03 08:41:15', 'txt', 'others', '18.0 bytes', 'Unknow', NULL, 18, 0),
-(47, '123.txt', 'others/201208/e66347f1e8914aaa858c99779c6fbfc9.txt', '2012-08-03 09:14:46', 'txt', 'conference_process', '18.0 bytes', 'Unknow', NULL, 18, 0),
-(48, 'HrmEmployeeImportAction.java', 'others/201208/8bae8d21518f41cca2d6628d88f2e830.java', '2012-08-03 09:14:56', 'java', 'conference_attach', '1.58 KB', 'Unknow', NULL, 1622, 0),
-(49, '123.txt', 'others/201208/625f7a1fd2c54ffea994b1494ba00acc.txt', '2012-08-03 10:26:11', 'txt', 'conference_summary', '18.0 bytes', 'Unknow', NULL, 18, 0),
-(50, '123.txt', 'others/201208/07181a623b7a44819081e5bfe1d73278.txt', '2012-08-03 10:27:00', 'txt', 'conference_summary', '18.0 bytes', 'Unknow', NULL, 18, 0),
-(51, 'HrmEmployeeImportAction.java', 'others/201208/beecf12ccb614c7faabdd9532d0c1be7.java', '2012-08-03 10:27:08', 'java', 'conference_summary', '1.58 KB', 'Unknow', NULL, 1622, 0),
-(52, 'sql_alters.txt', 'others/201208/09cb2b3e4d7a44d4b34396870f5d8bd1.txt', '2012-08-08 15:15:24', 'txt', 'others', '307.0 bytes', 'Unknow', NULL, 307, 0),
-(53, '晟睿教育OA Product Backlog_popo.xls', 'others/201208/20a148b7819842e6b48ad04bad23d51f.xls', '2012-08-08 15:15:52', 'xls', 'others', '200.50 KB', 'Unknow', NULL, 205312, 0),
-(54, '操作多选列表框.htm', 'others/201208/a30c6c1d26a3460fb585662412bd2a4a.htm', '2012-08-08 15:17:06', 'htm', 'others', '3.42 KB', 'Unknow', NULL, 3505, 0),
-(55, 'search-bg-error.gif', 'others/201208/5c359bac99f045908535de1db1f91ec3.gif', '2012-08-08 15:32:12', 'gif', 'others', '577.0 bytes', 'Unknow', NULL, 577, 0);
+(56, '123.txt', 'others/201208/e1f0382e83114625a11e9a8675a41de6.txt', '2012-08-23 14:44:20', 'txt', 'others', '18.0 bytes', 'Unknow', NULL, 18, 0),
+(57, '123.txt', 'others/201208/6f748df172d44439bed769f424458fc9.txt', '2012-08-23 16:10:00', 'txt', 'others', '18.0 bytes', 'Unknow', NULL, 18, 0),
+(58, '123.txt', 'others/201208/46e60b47022c4ee0bc79e160de01cb03.txt', '2012-08-23 16:33:34', 'txt', 'others', '18.0 bytes', 'Unknow', NULL, 18, 0);
 
 -- --------------------------------------------------------
 
@@ -562,16 +448,18 @@ CREATE TABLE IF NOT EXISTS `app_finan_contract` (
   `audit_state` tinyint(4) DEFAULT NULL COMMENT '审核状态, 1=审核中, 2=审核通过 3=审核不通过, 4=审核被退回...',
   `entry_id` bigint(20) NOT NULL COMMENT '录入人员',
   `entry_datetime` datetime NOT NULL COMMENT '录入时间',
+  `cproc_depid` bigint(20) DEFAULT NULL COMMENT '当前审批环节部门ID',
+  `cproc_posid` bigint(20) DEFAULT NULL COMMENT '当前审批岗位ID',
   PRIMARY KEY (`contract_id`),
   KEY `apply_form_no` (`apply_form_no`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='合同申请' AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='合同申请' AUTO_INCREMENT=5 ;
 
 --
 -- 转存表中的数据 `app_finan_contract`
 --
 
-INSERT INTO `app_finan_contract` (`contract_id`, `apply_form_no`, `apply_form_type`, `emp_id`, `emp_district`, `emp_dep`, `emp_phone_no`, `apply_date`, `comments`, `apply_amt`, `contract_no`, `contract_parties`, `contract_parties_contact`, `pay_method`, `audit_state`, `entry_id`, `entry_datetime`) VALUES
-(3, 'FC20120803161623', 8, 19, 1, 15, '13575747066', '2012-08-03', '', 2000, '', '123', '12131232132', '', 2, 1, '2012-08-03 16:16:23');
+INSERT INTO `app_finan_contract` (`contract_id`, `apply_form_no`, `apply_form_type`, `emp_id`, `emp_district`, `emp_dep`, `emp_phone_no`, `apply_date`, `comments`, `apply_amt`, `contract_no`, `contract_parties`, `contract_parties_contact`, `pay_method`, `audit_state`, `entry_id`, `entry_datetime`, `cproc_depid`, `cproc_posid`) VALUES
+(4, 'FC20120823131534', 8, 19, 1, 15, '13575747066', '2012-08-23', '', 100, '', '123', '123123123', '', NULL, 1, '2012-08-23 13:15:34', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -605,8 +493,19 @@ CREATE TABLE IF NOT EXISTS `app_finan_expense` (
   `audit_state` bigint(20) DEFAULT NULL COMMENT '审核状态, 1=审核中, 2=审核通过 3=审核不通过, 4=审核被退回...',
   `entry_id` bigint(20) DEFAULT NULL,
   `entry_datetime` datetime DEFAULT NULL,
+  `cproc_depid` bigint(20) DEFAULT NULL COMMENT '当前审批环节部门ID',
+  `cproc_posid` bigint(20) DEFAULT NULL COMMENT '当前审批岗位ID',
   PRIMARY KEY (`expense_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- 转存表中的数据 `app_finan_expense`
+--
+
+INSERT INTO `app_finan_expense` (`expense_id`, `apply_form_no`, `apply_form_type`, `apply_date`, `comments`, `emp_id`, `emp_district`, `emp_dep`, `emp_phone_no`, `apply_amt`, `payer`, `contract_no`, `attach_count`, `audit_advance`, `asset_no`, `amt_receiver`, `amt_receiver_contact`, `pay_method`, `bank`, `account_name`, `account_no`, `status`, `audit_state`, `entry_id`, `entry_datetime`, `cproc_depid`, `cproc_posid`) VALUES
+(1, 'FE20120823131329', 7, '2012-08-23', '', 19, 1, 15, '13575747066', 100, NULL, '', '', NULL, '', '12', '1231213', 0, '', '', '', NULL, 3, 1, '2012-08-23 13:13:29', NULL, NULL),
+(2, 'FE20120823145140', 9, '2012-08-23', '', 25, 1, 17, '057188321763', 123, NULL, '133123', '', NULL, '', '12', '12323213', 1, '23', '132', '1223', NULL, 4, 25, '2012-08-23 14:51:40', NULL, NULL),
+(3, 'FE20120823150120', 7, '2012-08-23', '123', 21, 1, 17, '13968155954', 100, NULL, '', '', NULL, '', '123', '123123213', 0, '', '', '', NULL, 2, 1, '2012-08-23 15:01:20', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -625,7 +524,7 @@ CREATE TABLE IF NOT EXISTS `app_function` (
   PRIMARY KEY (`func_id`),
   UNIQUE KEY `func_key` (`func_key`),
   KEY `menu_id` (`menu_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能表' AUTO_INCREMENT=140 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能表' AUTO_INCREMENT=160 ;
 
 --
 -- 转存表中的数据 `app_function`
@@ -706,7 +605,7 @@ INSERT INTO `app_function` (`func_id`, `func_key`, `func_name`, `func_icon`, `fu
 (76, '_FUNCKEY_PERSONAL_INTERVIEW_JOBVIEW', '查看岗位信息', '', '查看岗位详细信息.', 36, NULL),
 (77, '_FUNCKEY_PERSONAL_INTERVIEW_RESUMEVIEW', '查看简历信息', '', '查看简历详细信息.', 36, NULL),
 (78, '_FUNCKEY_PERSONAL_TASK_VIEW', '任务详情查看', '', '查看任务详细信息.', 4, NULL),
-(79, '_FUNCKEY_PERSONAL_TASK_MYVIEW', '查看我发起的任务', '', '查看我发起的任务', 4, NULL),
+(79, '_FUNCKEY_PERSONAL_TASK_MYVIEW', '查看我发起的任务', '', '查看我发起的任务', 4, '5,4,2,1'),
 (80, '_FUNCKEY_PERSONAL_TASK_ADD', '任务新建', '', '新建任务', 4, NULL),
 (81, '_FUNCKEY_PERSONAL_TASK_EDIT', '任务编辑', '', '编辑发起的任务.', 4, NULL),
 (82, '_FUNCKEY_PERSONAL_TASK_APPROVES_VIEW', '任务审批记录查看', '', '查看任务审批记录详情.', 4, NULL),
@@ -729,7 +628,7 @@ INSERT INTO `app_function` (`func_id`, `func_key`, `func_name`, `func_icon`, `fu
 (99, '_FUNCKEY_PERSONAL_APPLICATION_POST', '申请单提交', '', '填写申请单数据并提交审核.', 37, NULL),
 (100, '_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_EDIT', '岗位编辑', '', '编辑部门岗位', 23, NULL),
 (101, '_FUNCKEY_FLOW_FINAN_PROC_TYPE_REMOVE', '申请类别删除', '', '删除申请类别数据. (功能链接待添加...)', 21, NULL),
-(102, '_FUNCKEY_PERSONAL_CONFERENCE_VIEW_MY_INITIAL_CONFERENCE', '查看我发起的所有会议', '', '查看我发起的会议', 32, NULL),
+(102, '_FUNCKEY_PERSONAL_CONFERENCE_VIEW_MY_INITIAL_CONFERENCE', '查看我发起的所有会议', '', '查看我发起的会议', 32, '5,4,2,1'),
 (103, '_FUNCKEY_PERSONAL_CONFERENCE_INITIAL_CONFERENCE', '发起新的会议', '', '发起新的会议', 32, NULL),
 (104, '_FUNCKEY_PERSONAL_CONFERENCE_CANCEL_CONFERENCE', '取消会议', '', '取消已经发起的会议', 32, NULL),
 (105, '_FUNCKEY_PERSONAL_CONFERENCE_ADJUST_CONFERENCE', '调整会议', '', '调整会议内容', 32, NULL),
@@ -765,7 +664,25 @@ INSERT INTO `app_function` (`func_id`, `func_key`, `func_name`, `func_icon`, `fu
 (136, '_FUNCKEY_ADMIN_ACCOUNT_LOCK', '冻结账号', '', '', 26, NULL),
 (137, '_FUNCKEY_ADMIN_ACCOUNT_ACTIVE', '激活账号', '', '', 26, NULL),
 (138, '_FUNCKEY_ADMIN_ACCOUNT_PASSWORD_RESET', '重置密码', '', '', 26, NULL),
-(139, '_FUNCKEY_HRM_JOBHIRE_JOB_LIST_VIEW', '岗位管理-岗位列表', '', '查看岗位列表..', 48, '5,4,2,1');
+(139, '_FUNCKEY_HRM_JOBHIRE_JOB_LIST_VIEW', '岗位管理-岗位列表', '', '查看岗位列表..', 48, '5,4,2,1'),
+(140, '_FUNCKEY_PERSONAL_TASK_DATA_LOAD', '我的任务数据加载', '', '数据加载', 4, '5,4,2,1'),
+(141, '_FUNCKEY_PERSONAL_CONFERENCE_DATA_LOAD', '我的会议数据加载', '', '', 32, '5,4,2,1'),
+(142, '_FUNCKEY_PERSONAL_TASK_MYVIEW_DATA_LOAD', '我发起的任务数据加载', '', '我发起的任务数据加载', 4, '5,4,2,1'),
+(143, '_FUNCKEY_PERSONAL_NEWS_DATA_LOAD', '新闻数据加载', '', '新闻数据加载', 33, NULL),
+(144, '_FUNCKEY_PERSONAL_DOCS_DATA_LOAD', '文档数据加载', '', '文档数据加载', 34, NULL),
+(145, '_FUNCKEY_PERSONAL_JOBAPPLY_DATA_LOAD', '岗位数据加载', '', '', 35, '5,4,2,1'),
+(146, '_FUNCKEY_PERSONAL_APPROVAL_DATA_LOAD', '待我审批数据加载', '', '待我审批数据加载', 38, NULL),
+(147, '_FUNCKEY_ADMIN_NEWS_DATA_LOAD', '新闻数据加载', '', '', 39, '5,4,2,1'),
+(148, '_FUNCKEY_ADMIN_TASK_DATA_LOAD', '任务数据加载', '', '', 40, '5,4,3,2,1'),
+(149, '_FUNCKEY_ADMIN_WORK_ARRANGE_DATA_LOAD', '工作安排数据加载', '', '', 43, '5,4,2,1'),
+(150, '_FUNCKEY_ADMIN_ATTENDANCE_DATA_LOAD', '员工考勤数据加载', '', '', 44, '5,4,2,1'),
+(151, '_FUNCKEY_ADMIN_DOC_DATA_LOAD', '文档数据加载', '', '', 42, '5,4,2,1'),
+(152, '_FUNCKEY_HRM_ENTRY_DATA_LOAD', '招聘入职数据加载', '', '', 50, '5,4,2,1'),
+(153, '_FUNCKEY_HRM_EMPLOYEE_DATA_LOAD', '员工数据加载', '', '', 51, '5,4,2,1'),
+(154, '_FUNCKEY_FINAN_EXPENSE_DATA_LOAD', '费用支出数据加载', '', '', 7, '5,4,2,1'),
+(155, '_FUNCKEY_FINAN_CONTRACT_DATA_LOAD', '合同审批数据加载', '', '', 30, '5,4,2,1'),
+(156, '_FUNCKEY_ADMIN_NEWS_APPROVE_DATA_LOAD', '新闻审批数据加载', '', '', 39, '5,4,2,1'),
+(159, '_FUNCKEY_ADMIN_ACCOUNT_DATA_LOAD', '用户数据加载', '', '', 26, '5,4,2,1');
 
 -- --------------------------------------------------------
 
@@ -779,17 +696,138 @@ CREATE TABLE IF NOT EXISTS `app_function_strategy` (
   `stg_type` tinyint(4) NOT NULL COMMENT '数据策略类型',
   PRIMARY KEY (`stg_id`),
   KEY `func_id` (`func_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能数据权限' AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能数据权限' AUTO_INCREMENT=144 ;
 
 --
 -- 转存表中的数据 `app_function_strategy`
 --
 
 INSERT INTO `app_function_strategy` (`stg_id`, `func_id`, `stg_type`) VALUES
-(19, 139, 5),
-(20, 139, 1),
-(21, 139, 4),
-(22, 139, 2);
+(19, NULL, 5),
+(20, NULL, 1),
+(21, NULL, 4),
+(22, NULL, 2),
+(23, 140, 1),
+(24, 140, 5),
+(25, 140, 2),
+(26, 140, 4),
+(27, NULL, 1),
+(28, NULL, 2),
+(29, NULL, 4),
+(30, NULL, 5),
+(31, NULL, 5),
+(32, NULL, 1),
+(33, NULL, 4),
+(34, NULL, 2),
+(35, 142, 4),
+(36, 142, 1),
+(37, 142, 2),
+(38, 142, 5),
+(39, NULL, 2),
+(40, NULL, 5),
+(41, NULL, 1),
+(42, NULL, 4),
+(43, NULL, 2),
+(44, NULL, 1),
+(45, NULL, 4),
+(46, NULL, 5),
+(47, 145, 5),
+(48, 145, 2),
+(49, 145, 1),
+(50, 145, 4),
+(51, NULL, 4),
+(52, NULL, 5),
+(53, NULL, 2),
+(54, NULL, 1),
+(55, 79, 2),
+(56, 79, 4),
+(57, 79, 1),
+(58, 79, 5),
+(59, NULL, 5),
+(60, NULL, 1),
+(61, NULL, 2),
+(62, NULL, 4),
+(63, 141, 2),
+(64, 141, 4),
+(65, 141, 1),
+(66, 141, 5),
+(67, 102, 4),
+(68, 102, 1),
+(69, 102, 2),
+(70, 102, 5),
+(71, 149, 2),
+(72, 149, 5),
+(73, 149, 1),
+(74, 149, 4),
+(75, 150, 4),
+(76, 150, 2),
+(77, 150, 1),
+(78, 150, 5),
+(79, 151, 4),
+(80, 151, 2),
+(81, 151, 1),
+(82, 151, 5),
+(83, 139, 1),
+(84, 139, 5),
+(85, 139, 4),
+(86, 139, 2),
+(87, 152, 2),
+(88, 152, 1),
+(89, 152, 4),
+(90, 152, 5),
+(91, NULL, 2),
+(92, NULL, 4),
+(93, NULL, 5),
+(94, NULL, 1),
+(95, 153, 1),
+(96, 153, 4),
+(97, 153, 5),
+(98, 153, 2),
+(99, 154, 4),
+(100, 154, 5),
+(101, 154, 1),
+(102, 154, 2),
+(103, 155, 5),
+(104, 155, 4),
+(105, 155, 1),
+(106, 155, 2),
+(107, 156, 1),
+(108, 156, 4),
+(109, 156, 2),
+(110, 156, 5),
+(111, NULL, 4),
+(112, NULL, 1),
+(113, NULL, 2),
+(114, NULL, 5),
+(115, NULL, 5),
+(116, NULL, 2),
+(117, NULL, 4),
+(118, NULL, 1),
+(119, NULL, 1),
+(120, NULL, 2),
+(121, NULL, 5),
+(122, NULL, 4),
+(123, NULL, 4),
+(124, NULL, 1),
+(125, NULL, 5),
+(126, NULL, 2),
+(127, 159, 5),
+(128, 159, 1),
+(129, 159, 2),
+(130, 159, 4),
+(131, NULL, 2),
+(132, NULL, 4),
+(133, NULL, 1),
+(134, NULL, 5),
+(135, 147, 1),
+(136, 147, 2),
+(137, 147, 5),
+(138, 147, 4),
+(139, 148, 1),
+(140, 148, 4),
+(141, 148, 5),
+(142, 148, 3),
+(143, 148, 2);
 
 -- --------------------------------------------------------
 
@@ -803,7 +841,7 @@ CREATE TABLE IF NOT EXISTS `app_function_url` (
   `url_path` varchar(120) NOT NULL COMMENT '功能链接',
   PRIMARY KEY (`url_id`),
   KEY `func_id` (`func_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能URL' AUTO_INCREMENT=313 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='功能URL' AUTO_INCREMENT=346 ;
 
 --
 -- 转存表中的数据 `app_function_url`
@@ -926,7 +964,6 @@ INSERT INTO `app_function_url` (`url_id`, `func_id`, `url_path`) VALUES
 (187, 77, 'app/hrm/hire.do?action=hrmPageJobResume'),
 (188, 75, 'app/personal/interview.do?action=dialogInterviewCommentPage'),
 (189, 75, 'app/personal/interview.do?action=actionDoComment'),
-(196, 79, 'app/personal/task.do?action=pageTaskLaunched'),
 (206, 84, 'app/personal/task.do?action=dialogApplyPage'),
 (207, 84, 'app/personal/task.do?action=actionSaveTaskApply'),
 (208, 83, 'app/personal/task.do?action=dialogApplyPage'),
@@ -963,7 +1000,6 @@ INSERT INTO `app_function_url` (`url_id`, `func_id`, `url_path`) VALUES
 (247, 54, 'app/flow/hrm.do?action=actionRemoveProcessTask'),
 (251, 104, 'app/personal/conference.do?action=actionCancelConference'),
 (253, 106, 'app/personal/conference.do?action=conferenceDetail'),
-(254, 102, 'app/personal/conference.do?action=myConferences'),
 (255, 107, 'app/personal/conference.do?action=actionActivateConference'),
 (257, 109, 'app/admin.do?action=dialogStaffWorkArrange'),
 (258, 110, 'app/admin.do?action=adminEditStaffWorkArrangeDialog'),
@@ -1003,13 +1039,33 @@ INSERT INTO `app_function_url` (`url_id`, `func_id`, `url_path`) VALUES
 (303, 136, 'app/system/account.do?action=actionUserStateChange'),
 (304, 137, 'app/system/account.do?action=actionUserStateChange'),
 (305, 138, 'app/system/account.do?action=actionUserPwdReset'),
-(306, 139, 'app/hrm/hire.do?action=hrmJobIndex'),
 (307, 91, 'app/hrm/hire.do?action=hrmPageJobResume'),
 (308, 91, 'app/hrm/hire/resume.do?action=actionJobApply'),
 (309, 90, 'app/hrm/hire.do?action=hrmPageJobResume'),
 (310, 90, 'app/hrm/hire/resume.do?action=actionJobApply'),
 (311, 127, 'app/admin.do?action=adminPageEntryDetail'),
-(312, 127, 'app/admin/news.do?action=actionNewsEditOrSave');
+(312, 127, 'app/admin/news.do?action=actionNewsEditOrSave'),
+(313, 140, 'app/personal/task.do?action=pageTaskIndex'),
+(316, 142, 'app/personal/task.do?action=pageTaskLaunched'),
+(318, 143, 'app/personal/news.do?action=pageMyNews'),
+(319, 144, 'app/personal/doc.do?action=pageMyDoc'),
+(321, 145, 'app/personal/jobapplication.do?action=pageJobOnHiring'),
+(322, 146, 'app/personal/approval.do?action=pageMyApproval'),
+(324, 79, 'app/personal/task.do?action=pageTaskLaunched'),
+(326, 141, 'app/personal/conference.do?action=myConferenceIndex'),
+(327, 102, 'app/personal/conference.do?action=myConferences'),
+(328, 149, 'app/admin.do?action=adminPageStaffWorkArrange'),
+(329, 150, 'app/admin/attendance/view.do?action=adminPageStaffAtt'),
+(330, 151, 'app/admin/doc.do?action=adminPageDocumentIndex'),
+(331, 139, 'app/hrm/hire.do?action=hrmJobIndex'),
+(332, 152, 'app/hrm/entry.do?action=hrmPageEntryIndex'),
+(334, 153, 'app/hrm/employee.do?action=hrmEmployeeDocIndex'),
+(335, 154, 'app/finan/expense.do?action=pageFinaExpenseIndex'),
+(336, 155, 'app/finan/contract.do?action=pageFinaContractIndex'),
+(337, 156, 'app/admin/news.do?action=adminPageEntryApprovalIndex'),
+(342, 159, 'app/system/account.do?action=pageAccountIndex'),
+(344, 147, 'app/admin/news.do?action=adminPageEntryIndex'),
+(345, 148, 'app/admin/task.do?action=pageTaskDelegateIndex');
 
 -- --------------------------------------------------------
 
@@ -1042,15 +1098,6 @@ CREATE TABLE IF NOT EXISTS `app_hrm_archive` (
   KEY `job_id` (`job_id`),
   KEY `resume_id` (`resume_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='公司人才库' AUTO_INCREMENT=7 ;
-
---
--- 转存表中的数据 `app_hrm_archive`
---
-
-INSERT INTO `app_hrm_archive` (`archive_id`, `resume_id`, `job_id`, `archive_source`, `archive_star`) VALUES
-(4, 30, 4, 2, 3),
-(5, 56, 10, 5, 3),
-(6, 57, 10, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1085,7 +1132,7 @@ CREATE TABLE IF NOT EXISTS `app_hrm_employee` (
   `bankNo` varchar(30) DEFAULT NULL COMMENT '银行账号',
   PRIMARY KEY (`emp_id`),
   UNIQUE KEY `emp_no` (`emp_no`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='员工档案表' AUTO_INCREMENT=38 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='员工档案表' AUTO_INCREMENT=39 ;
 
 --
 -- 转存表中的数据 `app_hrm_employee`
@@ -1110,7 +1157,8 @@ INSERT INTO `app_hrm_employee` (`emp_id`, `emp_no`, `dep_id`, `district_id`, `em
 (34, '00046001', 20, 6, '冯毓', 30, NULL, '15858332937', '', '', '', NULL, NULL, 2, NULL, NULL, NULL, NULL, 53, NULL, '2011-12-08', 1, '2012-07-31 13:21:08', NULL),
 (35, '00036001', 20, 5, '陈蕾红', 25, NULL, '13626868497', '', '', '', NULL, NULL, 2, NULL, NULL, NULL, NULL, 54, NULL, '2011-11-09', 1, '2012-07-31 13:21:50', NULL),
 (36, '00006002', 24, 1, 'ljx', 44, NULL, '28056121', '', '', '', NULL, NULL, 2, NULL, NULL, NULL, NULL, 55, NULL, '2012-07-31', 1, '2012-07-31 21:37:38', NULL),
-(37, '00003004', 17, 1, '林立', 16, NULL, '28056121', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, 28, NULL, '2012-08-03', 19, '2012-08-03 16:37:55', NULL);
+(37, '00003004', 17, 1, '林立', 16, NULL, '28056121', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, 28, NULL, '2012-08-03', 19, '2012-08-03 16:37:55', NULL),
+(38, '00002003', 16, 1, 'leo', 15, NULL, '123123123', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, 60, NULL, '2012-08-24', 19, '2012-08-23 16:04:32', NULL);
 
 -- --------------------------------------------------------
 
@@ -1137,16 +1185,19 @@ CREATE TABLE IF NOT EXISTS `app_hrm_employee_develop` (
   `op_state` tinyint(4) NOT NULL DEFAULT '0' COMMENT '操作状态, 0=未操作, 1=已操作 ',
   `entry_id` bigint(20) DEFAULT NULL,
   `entry_datetime` datetime DEFAULT NULL COMMENT '录入时间',
+  `cproc_depid` bigint(20) DEFAULT NULL COMMENT '当前审批环节部门ID',
+  `cproc_posid` bigint(20) DEFAULT NULL COMMENT '当前审批岗位ID',
   PRIMARY KEY (`develop_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='人资申请' AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='人资申请' AUTO_INCREMENT=6 ;
 
 --
 -- 转存表中的数据 `app_hrm_employee_develop`
 --
 
-INSERT INTO `app_hrm_employee_develop` (`develop_id`, `apply_form_no`, `apply_form_type`, `apply_date`, `comments`, `emp_id`, `onboard_date`, `from_district`, `from_dep`, `from_position`, `to_district`, `to_department`, `to_position`, `status`, `audit_state`, `op_state`, `entry_id`, `entry_datetime`) VALUES
-(1, 'HRM20120803162335', 4, '2012-08-03', '', 19, NULL, 1, 15, 26, 1, 16, 14, NULL, NULL, 0, 1, '2012-08-03 16:23:35'),
-(2, 'HRM20120803162615', 4, '2012-08-03', 'fdf', 19, NULL, 1, 15, 26, 1, 16, 14, NULL, 2, 1, 1, '2012-08-03 16:26:15');
+INSERT INTO `app_hrm_employee_develop` (`develop_id`, `apply_form_no`, `apply_form_type`, `apply_date`, `comments`, `emp_id`, `onboard_date`, `from_district`, `from_dep`, `from_position`, `to_district`, `to_department`, `to_position`, `status`, `audit_state`, `op_state`, `entry_id`, `entry_datetime`, `cproc_depid`, `cproc_posid`) VALUES
+(3, 'HRM20120823131913', 4, '2012-08-23', '', 21, NULL, 1, 17, 39, 1, 15, 13, NULL, NULL, 0, 21, '2012-08-23 13:19:13', NULL, NULL),
+(4, 'HRM20120823143646', 3, '2012-08-23', '12323', 25, NULL, 1, 17, 28, NULL, NULL, NULL, NULL, NULL, 0, 25, '2012-08-23 14:36:46', NULL, NULL),
+(5, 'HRM20120823143752', 3, '2012-08-23', '', 25, NULL, 1, 17, 28, NULL, NULL, NULL, NULL, NULL, 0, 25, '2012-08-23 14:37:52', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1180,7 +1231,7 @@ CREATE TABLE IF NOT EXISTS `app_hrm_employee_roadmap` (
   `type` tinyint(4) NOT NULL COMMENT '类型',
   `date` datetime NOT NULL COMMENT '发生时间',
   PRIMARY KEY (`roadmap_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='员工历程' AUTO_INCREMENT=38 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='员工历程' AUTO_INCREMENT=39 ;
 
 --
 -- 转存表中的数据 `app_hrm_employee_roadmap`
@@ -1206,7 +1257,8 @@ INSERT INTO `app_hrm_employee_roadmap` (`roadmap_id`, `emp_id`, `orginal_depid`,
 (34, 35, 20, 5, 25, NULL, NULL, NULL, 1, '2011-11-09 00:00:00'),
 (35, 36, 24, 1, 22, NULL, NULL, NULL, 1, '2012-07-31 00:00:00'),
 (36, 19, 15, 1, 26, 16, 1, 14, 3, '2012-08-03 16:27:00'),
-(37, 37, 17, 1, 16, NULL, NULL, NULL, 1, '2012-08-03 16:37:55');
+(37, 37, 17, 1, 16, NULL, NULL, NULL, 1, '2012-08-03 16:37:55'),
+(38, 38, 16, 1, 15, NULL, NULL, NULL, 1, '2012-08-23 16:04:32');
 
 -- --------------------------------------------------------
 
@@ -1227,20 +1279,14 @@ CREATE TABLE IF NOT EXISTS `app_hrm_hire_entries` (
   `cstatus` tinyint(4) NOT NULL COMMENT '当前状态',
   `fstatus` tinyint(4) DEFAULT NULL COMMENT '最终处理状态',
   PRIMARY KEY (`entry_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='员工入职安排表' AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='员工入职安排表' AUTO_INCREMENT=17 ;
 
 --
 -- 转存表中的数据 `app_hrm_hire_entries`
 --
 
 INSERT INTO `app_hrm_hire_entries` (`entry_id`, `issue_id`, `district_id`, `dep_id`, `position_id`, `charger_id`, `plan_date`, `act_date`, `inspect_status`, `cstatus`, `fstatus`) VALUES
-(9, 20, 1, 17, 16, 1, '2012-08-03 00:00:00', '2012-08-03 00:00:00', 0, 2, 1),
-(10, 21, 1, 16, 7, 1, '2012-07-26 00:00:00', '2012-07-26 00:00:00', 0, 2, 1),
-(11, 24, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0),
-(12, 25, 1, 15, 13, 20, '2012-08-08 14:00:00', NULL, NULL, 2, 2),
-(13, 26, 1, 15, 13, 20, '2012-08-16 22:56:07', NULL, NULL, 2, 2),
-(14, 27, 1, 15, 13, 20, '2012-08-15 00:00:00', NULL, NULL, 2, 0),
-(15, 28, 4, 18, 27, 23, '2012-08-27 00:00:00', NULL, NULL, 2, 0);
+(16, 29, 1, 16, 15, 19, '2012-08-24 16:07:55', '2012-08-24 16:09:16', 1, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -1259,14 +1305,14 @@ CREATE TABLE IF NOT EXISTS `app_hrm_hire_interviews` (
   `state` tinyint(4) DEFAULT NULL COMMENT '面试状态',
   `comments` varchar(150) DEFAULT NULL COMMENT '面试意见',
   PRIMARY KEY (`hw_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='招聘面试' AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='招聘面试' AUTO_INCREMENT=16 ;
 
 --
 -- 转存表中的数据 `app_hrm_hire_interviews`
 --
 
 INSERT INTO `app_hrm_hire_interviews` (`hw_id`, `hissue_id`, `interview_address`, `interview_date`, `interviewer_id`, `meto`, `session_sn`, `state`, `comments`) VALUES
-(14, 20, '教室1', '2012-07-27 00:00:00', 6, '', 1, 2, '很好');
+(15, 29, '111', '2012-08-23 15:15:49', 19, '', 1, 2, '');
 
 -- --------------------------------------------------------
 
@@ -1290,25 +1336,20 @@ CREATE TABLE IF NOT EXISTS `app_hrm_hire_issue` (
   `hissue_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `resume_id` bigint(20) NOT NULL COMMENT '简历ID',
   `hjob_id` bigint(20) NOT NULL COMMENT '应聘职位ID',
+  `hjobentry_id` bigint(20) DEFAULT NULL COMMENT '入职数据ID',
   `current_status` tinyint(4) NOT NULL COMMENT '当前状态',
   `final_result` tinyint(4) DEFAULT NULL COMMENT '最终处理结果',
   `user_id` bigint(20) DEFAULT NULL COMMENT '应聘者ID, 主要用于存员工申请 (包含自我申请, 推荐他人)',
   `apply_time` datetime NOT NULL COMMENT '申请时间',
   PRIMARY KEY (`hissue_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='当前招聘' AUTO_INCREMENT=29 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='当前招聘' AUTO_INCREMENT=30 ;
 
 --
 -- 转存表中的数据 `app_hrm_hire_issue`
 --
 
-INSERT INTO `app_hrm_hire_issue` (`hissue_id`, `resume_id`, `hjob_id`, `current_status`, `final_result`, `user_id`, `apply_time`) VALUES
-(20, 28, 4, 4, 1, 1, '2012-07-26 13:44:20'),
-(21, 29, 5, 4, 1, 1, '2012-07-26 14:06:11'),
-(24, 32, 5, 4, 1, 1, '2012-07-29 03:26:36'),
-(25, 56, 10, 4, 1, 20, '2012-08-06 22:23:30'),
-(26, 57, 10, 4, 1, 1, '2012-08-06 22:54:02'),
-(27, 58, 10, 4, 1, 1, '2012-08-06 22:58:19'),
-(28, 59, 10, 4, 1, 1, '2012-08-06 22:58:27');
+INSERT INTO `app_hrm_hire_issue` (`hissue_id`, `resume_id`, `hjob_id`, `hjobentry_id`, `current_status`, `final_result`, `user_id`, `apply_time`) VALUES
+(29, 60, 12, NULL, 4, 1, 1, '2012-08-23 15:58:46');
 
 -- --------------------------------------------------------
 
@@ -1342,7 +1383,7 @@ CREATE TABLE IF NOT EXISTS `app_hrm_hire_job` (
   `entry_id` bigint(20) DEFAULT NULL COMMENT '岗位发布人员ID',
   `entry_time` datetime DEFAULT NULL COMMENT '岗位发布时间',
   PRIMARY KEY (`hjob_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='招聘岗位发布' AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='招聘岗位发布' AUTO_INCREMENT=14 ;
 
 --
 -- 转存表中的数据 `app_hrm_hire_job`
@@ -1355,7 +1396,10 @@ INSERT INTO `app_hrm_hire_job` (`hjob_id`, `job_title`, `hjob_districtid`, `hjob
 (7, '行政助理', 1, 24, 1, NULL, '2012-08-02 00:00:00', 2, '', '', '', '', '管理员', '2012-07-31 14:56:59', NULL, NULL, NULL, NULL, NULL, 4, NULL, 1, NULL, NULL),
 (8, 'test', 1, 15, 1, NULL, '2012-07-31 00:00:00', 2, '', '', '', '', '管理员', '2012-07-31 16:23:54', NULL, NULL, NULL, NULL, NULL, 4, NULL, NULL, NULL, NULL),
 (9, 'abcd', 1, 15, 1, NULL, '2012-08-15 00:00:00', 12, '', '', '', '', '管理员', '2012-08-06 22:11:39', NULL, NULL, NULL, NULL, NULL, 3, NULL, NULL, 1, '2012-08-05 19:28:02'),
-(10, 'admin_job', 1, 15, 1, NULL, '2012-08-06 00:00:00', 12, '', '', '', '', '管理员', '2012-08-06 22:15:57', NULL, NULL, NULL, NULL, NULL, 4, NULL, 1, 1, '2012-08-06 22:15:44');
+(10, 'admin_job', 1, 15, 1, NULL, '2012-08-06 00:00:00', 12, '', '', '', '', '管理员', '2012-08-06 22:15:57', NULL, NULL, NULL, NULL, NULL, 4, NULL, 1, 1, '2012-08-06 22:15:44'),
+(11, 'test2', 1, 15, 1, NULL, '2012-08-29 00:00:00', 1, '', '', '', '', '管理员', '2012-08-23 15:56:06', NULL, NULL, NULL, NULL, NULL, 3, NULL, NULL, 1, '2012-08-23 13:11:16'),
+(12, 'job123', 1, 15, 1, NULL, '2012-08-31 00:00:00', 2, '', '', '', '', '管理员', '2012-08-23 15:55:04', NULL, NULL, NULL, NULL, NULL, 4, NULL, 1, 1, '2012-08-23 15:54:39'),
+(13, 'job111', 1, 15, 1, NULL, '2012-08-23 00:00:00', 2, '', '123', '', '', '管理员', '2012-08-23 15:57:18', NULL, NULL, NULL, NULL, NULL, 4, NULL, NULL, 1, '2012-08-23 15:56:46');
 
 -- --------------------------------------------------------
 
@@ -1368,13 +1412,6 @@ CREATE TABLE IF NOT EXISTS `app_hrm_hire_job_file` (
   `file_id` bigint(20) NOT NULL,
   PRIMARY KEY (`hjob_id`,`file_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='招聘岗位附件';
-
---
--- 转存表中的数据 `app_hrm_hire_job_file`
---
-
-INSERT INTO `app_hrm_hire_job_file` (`hjob_id`, `file_id`) VALUES
-(6, 33);
 
 -- --------------------------------------------------------
 
@@ -1420,7 +1457,7 @@ CREATE TABLE IF NOT EXISTS `app_hrm_resume` (
   `cn_level` tinyint(4) DEFAULT NULL COMMENT '普通话等级 1=一级甲等, 2=一级乙等, 3=二级甲等, 4=二级乙等, 5=三级甲等, 6=三级乙等, 7=无',
   `source` tinyint(4) DEFAULT NULL COMMENT '简历来源',
   PRIMARY KEY (`resume_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='简历管理' AUTO_INCREMENT=60 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='简历管理' AUTO_INCREMENT=61 ;
 
 --
 -- 转存表中的数据 `app_hrm_resume`
@@ -1464,7 +1501,8 @@ INSERT INTO `app_hrm_resume` (`resume_id`, `emp_id`, `fullname`, `age`, `birthda
 (56, NULL, '赵祥', NULL, NULL, '方家花苑', 1, NULL, 1, NULL, '13588064354', 'z405656232x@163.com', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 2),
 (57, NULL, '宇智波斑', NULL, NULL, '', 1, NULL, 1, NULL, '13588064354', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0),
 (58, NULL, '阿毛', NULL, NULL, '', 1, NULL, 1, NULL, '124124', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0),
-(59, NULL, '阿狗', NULL, NULL, '', 1, NULL, 1, NULL, '12421', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0);
+(59, NULL, '阿狗', NULL, NULL, '', 1, NULL, 1, NULL, '12421', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 0),
+(60, 38, 'leo', NULL, NULL, '', 1, NULL, 1, NULL, '123123123', '', NULL, NULL, 1, NULL, NULL, '', '', 1, '', 1, 1, NULL, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -1569,20 +1607,32 @@ CREATE TABLE IF NOT EXISTS `app_message_entity` (
   `send_time` datetime NOT NULL COMMENT '发送时间',
   PRIMARY KEY (`msg_id`),
   KEY `sender_id` (`sender_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='短消息' AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='短消息' AUTO_INCREMENT=39 ;
 
 --
 -- 转存表中的数据 `app_message_entity`
 --
 
 INSERT INTO `app_message_entity` (`msg_id`, `msg_subject`, `msg_content`, `sender_id`, `sender_name`, `msg_type`, `send_time`) VALUES
-(1, 'tesat', 'ttesta', 6, '罗家驹', 1, '2012-07-27 09:44:54'),
-(2, 'tesat', 'noimno', 6, '罗家驹', 1, '2012-07-27 10:13:44'),
-(3, '测试下....', 'test', 6, '罗家驹', 1, '2012-07-27 10:34:06'),
-(4, '消息测试', 'acae', 6, '罗家驹', 1, '2012-07-27 10:34:20'),
-(5, 'test', 'fawefwae', 6, '罗家驹', 1, '2012-07-27 12:34:48'),
-(6, 'test', 'test', 19, '罗佳驹', 1, '2012-08-01 20:18:39'),
-(7, 'hi', 'hello', 19, '罗佳驹', 1, '2012-08-02 17:43:54');
+(20, '[任务发起] 罗佳驹 发起任务 “task1 ” 审批通过，负责人为：梅杰', '<div style="line-height: 25px;">\r\n	<div>罗佳驹发起任务 “task1” 已审批通过.</div> \r\n	<div>------------------------------------------------------------------</div>\r\n	<div><b>任务负责人：</b> 梅杰</div>\r\n	<div><b>任务时间：</b> 2012-08-23 --- 2012-08-24 </div>\r\n	<div><b>任务参与人：</b> 罗佳驹,梅杰 </div>\r\n	<div><b>审批人：</b> 林菁菁 </div>\r\n	<div><b>详情点击：</b><a href="javascript:void(0);" \r\n		onclick="parent.$.pdialog.open(\r\n			''app/admin/task.do?action=dialogTaskPage&id=14&op=view'', \r\n			''task_view_14'',  \r\n			''`task1`任务详情'',\r\n			{width: 750, height: 530})">点击进入到任务查看界面</a></div>\r\n</div>', 21, '林菁菁', 2, '2012-08-23 11:51:09'),
+(21, '[待我审批] 00003001 提交的新闻 `new3` 有待审批', '<div style="line-height: 25px;">\r\n	<div> 00003001 提交的新闻 `new3` 有待审批 </div>\r\n	<div>------------------------------------------------------------------</div>\r\n	<div><b>申请时间：</b> 2012-08-23 01:04:49</div>\r\n	<div><b>详情点击：</b><a href="javascript:void(0);" \r\n		onclick="parent.$.pdialog.open(\r\n			''app/admin.do?action=adminPageEntryDetail&id=6&op=view'', \r\n			''news_view_6'',  \r\n			''查看‘new3’新闻内容'',\r\n			{width: 900, height: 500})">点击查看新闻详细</a></div>\r\n</div>', 21, '林菁菁', 2, '2012-08-23 13:04:50'),
+(22, '[待我审批] 罗佳驹 提交的 `工资薪资支出` 有待审批', '<div style="line-height: 25px;">\r\n	<div> 罗佳驹 提交的 `工资薪资支出` 有待审批 </div>\r\n	<div>------------------------------------------------------------------</div>\r\n	<div><b>申请内容描述：</b> </div>\r\n	<div><b>申请时间：</b> 2012-08-23</div>\r\n	<div><b>详情点击：</b><a href="javascript:void(0);" \r\n		onclick="parent.$.pdialog.open(\r\n			''app/finan/expense.do?action=diaglogFinaExpensePage&id=1&op=view'', \r\n			''approval_finan_1'',  \r\n			''查看‘罗佳驹’ 费用支出申请单-FE20120823131329'',\r\n			{width: 1150, height: 640})">点击查看申请单详细</a></div>\r\n</div>', 19, '罗佳驹', 2, '2012-08-23 13:13:30'),
+(23, '[待我审批] 罗佳驹 提交的 `房租合同` 有待审批', '<div style="line-height: 25px;">\r\n	<div> 罗佳驹 提交的 `房租合同` 有待审批 </div>\r\n	<div>------------------------------------------------------------------</div>\r\n	<div><b>申请内容描述：</b> </div>\r\n	<div><b>申请时间：</b> 2012-08-23</div>\r\n	<div><b>详情点击：</b><a href="javascript:void(0);" \r\n		onclick="parent.$.pdialog.open(\r\n			''app/finan/contract.do?action=diaglogFinaContractPage&id=4&op=view'', \r\n			''approval_finan_4'',  \r\n			''查看‘罗佳驹’ 合同申请单-FC20120823131534'',\r\n			{width: 1150, height: 640})">点击查看申请单详细</a></div>\r\n</div>', 19, '罗佳驹', 2, '2012-08-23 13:15:34'),
+(24, '[待我审批] 林菁菁 提交的 `调动申请审批` 有待审批', '<div style="line-height: 25px;">\r\n	<div> 林菁菁 提交的 `调动申请审批` 有待审批 </div>\r\n	<div>------------------------------------------------------------------</div>\r\n	<div><b>申请内容描述：</b> </div>\r\n	<div><b>申请时间：</b> 2012-08-23</div>\r\n	<div><b>详情点击：</b><a href="javascript:void(0);" \r\n		onclick="parent.$.pdialog.open(\r\n			''app/personal/application_form.do?action=dialogApplicationFormPage&formId=3&op=view'', \r\n			''approval_hrm_3'',  \r\n			''查看‘林菁菁’人资申请单-HRM20120823131913'',\r\n			{width: 1150, height: 640})">点击查看申请单详细</a></div>\r\n</div>', 21, '林菁菁', 2, '2012-08-23 13:19:14'),
+(25, '[待我审批] 周碧英 提交的 `转正申请审批` 有待审批', '<div style="line-height: 25px;">\r\n	<div> 周碧英 提交的 `转正申请审批` 有待审批 </div>\r\n	<div>------------------------------------------------------------------</div>\r\n	<div><b>申请内容描述：</b> 12323</div>\r\n	<div><b>申请时间：</b> 2012-08-23</div>\r\n	<div><b>详情点击：</b><a href="javascript:void(0);" \r\n		onclick="parent.$.pdialog.open(\r\n			''app/personal/application_form.do?action=dialogApplicationFormPage&formId=4&op=view'', \r\n			''approval_hrm_4'',  \r\n			''查看‘周碧英’人资申请单-HRM20120823143646'',\r\n			{width: 1150, height: 640})">点击查看申请单详细</a></div>\r\n</div>', 25, '周碧英', 2, '2012-08-23 14:36:46'),
+(26, '[待我审批] 周碧英 提交的 `转正申请审批` 有待审批', '<div style="line-height: 25px;">\r\n	<div> 周碧英 提交的 `转正申请审批` 有待审批 </div>\r\n	<div>------------------------------------------------------------------</div>\r\n	<div><b>申请内容描述：</b> </div>\r\n	<div><b>申请时间：</b> 2012-08-23</div>\r\n	<div><b>详情点击：</b><a href="javascript:void(0);" \r\n		onclick="parent.$.pdialog.open(\r\n			''app/personal/application_form.do?action=dialogApplicationFormPage&formId=5&op=view'', \r\n			''approval_hrm_5'',  \r\n			''查看‘周碧英’人资申请单-HRM20120823143752'',\r\n			{width: 1150, height: 640})">点击查看申请单详细</a></div>\r\n</div>', 25, '周碧英', 2, '2012-08-23 14:37:52'),
+(27, '[待我审批] 周碧英 提交的 `员工薪资` 有待审批', '<div style="line-height: 25px;">\r\n	<div> 周碧英 提交的 `员工薪资` 有待审批 </div>\r\n	<div>------------------------------------------------------------------</div>\r\n	<div><b>申请内容描述：</b> </div>\r\n	<div><b>申请时间：</b> 2012-08-23</div>\r\n	<div><b>详情点击：</b><a href="javascript:void(0);" \r\n		onclick="parent.$.pdialog.open(\r\n			''app/finan/expense.do?action=diaglogFinaExpensePage&id=2&op=view'', \r\n			''approval_finan_2'',  \r\n			''查看‘周碧英’ 费用支出申请单-FE20120823145140'',\r\n			{width: 1150, height: 640})">点击查看申请单详细</a></div>\r\n</div>', 25, '周碧英', 2, '2012-08-23 14:51:40'),
+(28, '[待我审批] 林菁菁 提交的 `工资薪资支出` 有待审批', '<div style="line-height: 25px;">\r\n	<div> 林菁菁 提交的 `工资薪资支出` 有待审批 </div>\r\n	<div>------------------------------------------------------------------</div>\r\n	<div><b>申请内容描述：</b> 123</div>\r\n	<div><b>申请时间：</b> 2012-08-23</div>\r\n	<div><b>详情点击：</b><a href="javascript:void(0);" \r\n		onclick="parent.$.pdialog.open(\r\n			''app/finan/expense.do?action=diaglogFinaExpensePage&id=3&op=view'', \r\n			''approval_finan_3'',  \r\n			''查看‘林菁菁’ 费用支出申请单-FE20120823150120'',\r\n			{width: 1150, height: 640})">点击查看申请单详细</a></div>\r\n</div>', 19, '罗佳驹', 2, '2012-08-23 15:01:20'),
+(29, '[待我审批] admin 提交的新闻 `news111` 有待审批', '<div style="line-height: 25px;">\r\n	<div> admin 提交的新闻 `news111` 有待审批 </div>\r\n	<div>------------------------------------------------------------------</div>\r\n	<div><b>申请时间：</b> 2012-08-23 03:47:32</div>\r\n	<div><b>详情点击：</b><a href="javascript:void(0);" \r\n		onclick="parent.$.pdialog.open(\r\n			''app/admin.do?action=adminPageEntryDetail&id=7&op=view'', \r\n			''news_view_7'',  \r\n			''查看‘news111’新闻内容'',\r\n			{width: 900, height: 500})">点击查看新闻详细</a></div>\r\n</div>', 19, '罗佳驹', 2, '2012-08-23 15:47:32'),
+(30, '[我做伯乐] leo 应聘 `job123`岗位, 进入面试环节\r\n', '<div style="line-height: 25px;">\r\n	<div> leo 应聘 `job123`岗位, 进入面试环节, 请注意面试安排.</div> \r\n	<div>------------------------------------------------------------------</div>\r\n	<div><b>面试时间：</b> 2012-08-23 15:15:49</div>\r\n	<div><b>面试地址：</b> 111</div>\r\n	<div><b>详情点击：</b><a href="javascript:void(0);" \r\n		onclick="parent.$.pdialog.open(\r\n			''app/personal/interview.do?action=dialogInterviewCommentPage&id=15&issueId=29'', \r\n			''interview_view_15'',  \r\n			''`leo - job123`面试意见'',\r\n			{width: 555, height: 445})">点击进入我的伯乐</a></div>\r\n</div>', 19, '罗佳驹', 2, '2012-08-23 15:59:37'),
+(31, '[任务审批退回] 罗佳驹 发起任务 “task2” 审批退回', '\r\n<div style="line-height: 25px;">\r\n	<div>罗佳驹发起任务 “task2” 审批被退回.</div> \r\n	<div>------------------------------------------------------------------</div>\r\n	<div><b>任务负责人：</b> 罗佳驹</div>\r\n	<div><b>任务时间：</b> 2012-08-23 --- 2012-08-24 </div>\r\n	<div><b>任务参与人：</b> 程聪,刘苗芳 </div>\r\n	<div><b>审批人：</b> 罗佳驹 </div>\r\n	<div><b>详情点击：</b><a href="javascript:void(0);" \r\n		onclick="parent.$.pdialog.open(\r\n			''app/admin/task.do?action=dialogTaskPage&id=15&op=view'', \r\n			''task_view_15'',  \r\n			''`task2`任务详情'',\r\n			{width: 750, height: 530})">点击进入到任务查看界面</a></div>\r\n</div>', 19, '罗佳驹', 2, '2012-08-23 16:28:09'),
+(32, '[任务审批退回] 罗佳驹 发起任务 “task2” 审批退回', '\r\n<div style="line-height: 25px;">\r\n	<div>罗佳驹发起任务 “task2” 审批被退回.</div> \r\n	<div>------------------------------------------------------------------</div>\r\n	<div><b>任务负责人：</b> 罗佳驹</div>\r\n	<div><b>任务时间：</b> 2012-08-23 --- 2012-08-24 </div>\r\n	<div><b>任务参与人：</b> 程聪,刘苗芳 </div>\r\n	<div><b>审批人：</b> 罗佳驹 </div>\r\n	<div><b>详情点击：</b><a href="javascript:void(0);" \r\n		onclick="parent.$.pdialog.open(\r\n			''app/admin/task.do?action=dialogTaskPage&id=15&op=view'', \r\n			''task_view_15'',  \r\n			''`task2`任务详情'',\r\n			{width: 750, height: 530})">点击进入到任务查看界面</a></div>\r\n</div>', 19, '罗佳驹', 2, '2012-08-23 16:28:10'),
+(33, '[任务发起] 罗佳驹 发起任务 “task2 ” 审批通过，负责人为：罗佳驹', '<div style="line-height: 25px;">\r\n	<div>罗佳驹发起任务 “task2” 已审批通过.</div> \r\n	<div>------------------------------------------------------------------</div>\r\n	<div><b>任务负责人：</b> 罗佳驹</div>\r\n	<div><b>任务时间：</b> 2012-08-23 --- 2012-08-24 </div>\r\n	<div><b>任务参与人：</b> 程聪,刘苗芳 </div>\r\n	<div><b>审批人：</b> 罗佳驹 </div>\r\n	<div><b>详情点击：</b><a href="javascript:void(0);" \r\n		onclick="parent.$.pdialog.open(\r\n			''app/admin/task.do?action=dialogTaskPage&id=15&op=view'', \r\n			''task_view_15'',  \r\n			''`task2`任务详情'',\r\n			{width: 750, height: 530})">点击进入到任务查看界面</a></div>\r\n</div>', 19, '罗佳驹', 2, '2012-08-23 16:29:14'),
+(34, '[任务发起] 罗佳驹 发起任务 “task2 ” 审批通过，负责人为：罗佳驹', '<div style="line-height: 25px;">\r\n	<div>罗佳驹发起任务 “task2” 已审批通过.</div> \r\n	<div>------------------------------------------------------------------</div>\r\n	<div><b>任务负责人：</b> 罗佳驹</div>\r\n	<div><b>任务时间：</b> 2012-08-23 --- 2012-08-24 </div>\r\n	<div><b>任务参与人：</b> 程聪,刘苗芳 </div>\r\n	<div><b>审批人：</b> 罗佳驹 </div>\r\n	<div><b>详情点击：</b><a href="javascript:void(0);" \r\n		onclick="parent.$.pdialog.open(\r\n			''app/admin/task.do?action=dialogTaskPage&id=15&op=view'', \r\n			''task_view_15'',  \r\n			''`task2`任务详情'',\r\n			{width: 750, height: 530})">点击进入到任务查看界面</a></div>\r\n</div>', 19, '罗佳驹', 2, '2012-08-23 16:29:14'),
+(35, '[任务延期申请] 任务 “task2” 延期申请待审批', '\r\n<div style="line-height: 25px;">\r\n	<div>任务 “task2” 已提交延期申请, 有待审批.</div> \r\n	<div>------------------------------------------------------------------</div>\r\n	<div><b>任务负责人：</b> 罗佳驹</div>\r\n	<div><b>任务时间：</b> 2012-08-23 --- 2012-08-24 </div>\r\n	<div><b>申请延期时间：</b> 2012-08-24 </div>\r\n	<div><b>详情点击：</b><a href="javascript:void(0);" \r\n		onclick="parent.$.pdialog.open(\r\n			''app/personal/task.do?action=dialogAuditPage&taskId=15&type=0'', \r\n			''task_applyview_15'',  \r\n			''`task2`任务详情'',\r\n			{width: 555, height: 445})">点击进入到任务延期审批审批窗口</a></div>\r\n</div>', 19, '罗佳驹', 2, '2012-08-23 16:29:37'),
+(36, '[任务延期] 任务 “task2” 已延期, 延期时间为: 2012-08-23', '\r\n<div style="line-height: 25px;">\r\n	<div>任务 “task2” 所提交延期申请，审批通过.</div> \r\n	<div>------------------------------------------------------------------</div>\r\n	<div><b>任务负责人：</b> 罗佳驹</div>\r\n	<div><b>任务时间：</b> 2012-08-23 --- 2012-08-23 </div>\r\n	<div><b>申请延期时间：</b> 2012-08-24 </div>\r\n	<div><b>审批人：</b> 罗佳驹 </div>\r\n	<div><b>详情点击：</b><a href="javascript:void(0);" \r\n		onclick="parent.$.pdialog.open(\r\n			''app/personal/task.do?action=dialogAuditRecords&taskId=15'', \r\n			''task_applyview_15'',  \r\n			''`task2`任务详情'',\r\n			{width: 900, height: 300})">点击进入到任务延期审批审批窗口</a></div>\r\n</div>', 19, '罗佳驹', 2, '2012-08-23 16:31:27'),
+(37, '[待我审批] 罗佳驹 发起的任务委托 `task3` 有待审批', '<div style="line-height: 25px;">\r\n	<div> 罗佳驹 发起的任务委托 `task3` 有待审批 </div>\r\n	<div>------------------------------------------------------------------</div>\r\n	<div><b>任务时间：</b> 2012-08-23 --- 2012-08-27</div>\r\n	<div><b>任务描述：</b> </div>\r\n	<div><b>详情点击：</b><a href="javascript:void(0);" \r\n		onclick="parent.$.pdialog.open(\r\n			''app/admin/task.do?action=dialogTaskPage&id=16&op=audit'', \r\n			''task_view_16'',  \r\n			''查看‘task3’任务委托内容'',\r\n			{width: 1080, height: 380})">点击查看任务委托详细</a></div>\r\n</div>', 19, '罗佳驹', 2, '2012-08-23 16:33:36'),
+(38, '[待我审批] 罗佳驹 发起的任务委托 `task4` 有待审批', '<div style="line-height: 25px;">\r\n	<div> 罗佳驹 发起的任务委托 `task4` 有待审批 </div>\r\n	<div>------------------------------------------------------------------</div>\r\n	<div><b>任务时间：</b> 2012-08-07 --- 2012-08-09</div>\r\n	<div><b>任务描述：</b> </div>\r\n	<div><b>详情点击：</b><a href="javascript:void(0);" \r\n		onclick="parent.$.pdialog.open(\r\n			''app/admin/task.do?action=dialogTaskPage&id=17&op=audit'', \r\n			''task_view_17'',  \r\n			''查看‘task4’任务委托内容'',\r\n			{width: 1080, height: 380})">点击查看任务委托详细</a></div>\r\n</div>', 19, '罗佳驹', 2, '2012-08-23 16:36:02');
 
 -- --------------------------------------------------------
 
@@ -1600,27 +1650,59 @@ CREATE TABLE IF NOT EXISTS `app_message_in` (
   `receiv_time` datetime NOT NULL COMMENT '接收时间',
   PRIMARY KEY (`receive_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='收件箱' AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='收件箱' AUTO_INCREMENT=93 ;
 
 --
 -- 转存表中的数据 `app_message_in`
 --
 
 INSERT INTO `app_message_in` (`receive_id`, `msg_id`, `user_id`, `user_name`, `flag_read`, `flag_del`, `receiv_time`) VALUES
-(1, 1, 6, '罗家驹', 1, 0, '2012-07-27 09:44:55'),
-(2, 2, 6, '罗家驹', 1, 1, '2012-07-27 10:13:44'),
-(3, 3, 14, '教师1', 0, 0, '2012-07-27 10:34:06'),
-(4, 3, 6, '罗家驹', 0, 1, '2012-07-27 10:34:06'),
-(5, 3, 7, '张三', 0, 0, '2012-07-27 10:34:07'),
-(6, 4, 14, '教师1', 1, 0, '2012-07-27 10:34:21'),
-(7, 4, 6, '罗家驹', 1, 0, '2012-07-27 10:34:21'),
-(8, 4, 7, '张三', 0, 0, '2012-07-27 10:34:21'),
-(9, 4, 8, '李四', 0, 0, '2012-07-27 10:34:21'),
-(10, 5, 6, '罗家驹', 1, 0, '2012-07-27 12:34:48'),
-(11, 6, 20, '梅杰', 0, 0, '2012-08-01 20:18:39'),
-(12, 6, 19, '罗佳驹', 1, 0, '2012-08-01 20:18:39'),
-(13, 7, 20, '梅杰', 0, 0, '2012-08-02 17:43:54'),
-(14, 7, 19, '罗佳驹', 1, 0, '2012-08-02 17:43:54');
+(47, 20, 20, '梅杰', 1, 0, '2012-08-23 11:51:09'),
+(48, 20, 19, '罗佳驹', 1, 0, '2012-08-23 11:51:09'),
+(49, 21, 19, '罗佳驹', 1, 0, '2012-08-23 13:04:50'),
+(50, 21, 20, '梅杰', 0, 0, '2012-08-23 13:04:50'),
+(51, 21, 21, '林菁菁', 1, 0, '2012-08-23 13:04:50'),
+(52, 21, 32, '蔡晓喻', 0, 0, '2012-08-23 13:04:50'),
+(53, 21, 34, '冯毓', 0, 0, '2012-08-23 13:04:50'),
+(54, 21, 36, 'ljx', 0, 0, '2012-08-23 13:04:50'),
+(55, 22, 20, '梅杰', 0, 0, '2012-08-23 13:13:30'),
+(56, 23, 20, '梅杰', 1, 0, '2012-08-23 13:15:34'),
+(57, 24, 19, '罗佳驹', 1, 0, '2012-08-23 13:19:14'),
+(58, 25, 19, '罗佳驹', 0, 0, '2012-08-23 14:36:46'),
+(59, 26, 19, '罗佳驹', 0, 0, '2012-08-23 14:37:52'),
+(60, 27, 20, '梅杰', 1, 0, '2012-08-23 14:51:40'),
+(61, 28, 20, '梅杰', 1, 0, '2012-08-23 15:01:20'),
+(62, 29, 19, '罗佳驹', 0, 0, '2012-08-23 15:47:32'),
+(63, 29, 20, '梅杰', 0, 0, '2012-08-23 15:47:32'),
+(64, 29, 21, '林菁菁', 0, 0, '2012-08-23 15:47:32'),
+(65, 29, 32, '蔡晓喻', 0, 0, '2012-08-23 15:47:32'),
+(66, 29, 34, '冯毓', 0, 0, '2012-08-23 15:47:32'),
+(67, 29, 36, 'ljx', 0, 0, '2012-08-23 15:47:32'),
+(68, 30, 19, '罗佳驹', 1, 0, '2012-08-23 15:59:37'),
+(69, 31, 19, '罗佳驹', 0, 0, '2012-08-23 16:28:09'),
+(70, 32, 19, '罗佳驹', 0, 0, '2012-08-23 16:28:10'),
+(71, 33, 19, '罗佳驹', 0, 0, '2012-08-23 16:29:14'),
+(72, 33, 29, '程聪', 0, 0, '2012-08-23 16:29:14'),
+(73, 34, 19, '罗佳驹', 0, 0, '2012-08-23 16:29:14'),
+(74, 33, 24, '刘苗芳', 0, 0, '2012-08-23 16:29:14'),
+(75, 34, 29, '程聪', 0, 0, '2012-08-23 16:29:14'),
+(76, 34, 24, '刘苗芳', 0, 0, '2012-08-23 16:29:14'),
+(77, 35, 19, '罗佳驹', 0, 0, '2012-08-23 16:29:37'),
+(78, 36, 19, '罗佳驹', 0, 0, '2012-08-23 16:31:27'),
+(79, 36, 29, '程聪', 0, 0, '2012-08-23 16:31:27'),
+(80, 36, 24, '刘苗芳', 0, 0, '2012-08-23 16:31:27'),
+(81, 37, 19, '罗佳驹', 0, 0, '2012-08-23 16:33:36'),
+(82, 37, 20, '梅杰', 0, 0, '2012-08-23 16:33:36'),
+(83, 37, 21, '林菁菁', 0, 0, '2012-08-23 16:33:36'),
+(84, 37, 32, '蔡晓喻', 0, 0, '2012-08-23 16:33:36'),
+(85, 37, 34, '冯毓', 0, 0, '2012-08-23 16:33:36'),
+(86, 37, 36, 'ljx', 0, 0, '2012-08-23 16:33:36'),
+(87, 38, 19, '罗佳驹', 0, 0, '2012-08-23 16:36:02'),
+(88, 38, 20, '梅杰', 0, 0, '2012-08-23 16:36:02'),
+(89, 38, 21, '林菁菁', 0, 0, '2012-08-23 16:36:02'),
+(90, 38, 32, '蔡晓喻', 0, 0, '2012-08-23 16:36:02'),
+(91, 38, 34, '冯毓', 0, 0, '2012-08-23 16:36:02'),
+(92, 38, 36, 'ljx', 0, 0, '2012-08-23 16:36:02');
 
 -- --------------------------------------------------------
 
@@ -1739,7 +1821,7 @@ CREATE TABLE IF NOT EXISTS `app_process_form` (
   `audit_comments` text COMMENT '审核意见',
   PRIMARY KEY (`form_id`),
   KEY `form_no` (`form_no`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程表单, 存储保存在运行中的流程表单数据' AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程表单, 存储保存在运行中的流程表单数据' AUTO_INCREMENT=29 ;
 
 --
 -- 转存表中的数据 `app_process_form`
@@ -1747,7 +1829,12 @@ CREATE TABLE IF NOT EXISTS `app_process_form` (
 
 INSERT INTO `app_process_form` (`form_id`, `form_no`, `type_id`, `task_name`, `task_from`, `task_next`, `seq_sn`, `task_type`, `to_rolenames`, `to_distnames`, `to_depnames`, `to_posnames`, `to_usernames`, `audit_rolenames`, `audit_distnames`, `audit_depnames`, `audit_usernames`, `audit_posnames`, `to_userids`, `to_roleids`, `to_distids`, `to_depids`, `to_posids`, `audit_userids`, `audit_roleids`, `audit_distids`, `audit_depids`, `audit_posids`, `audit_date`, `audit_state`, `audit_comments`) VALUES
 (21, 'HRM20120803162335', 4, NULL, NULL, NULL, 1, 4, NULL, NULL, '总经办', '副总经理', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '15', '13', NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL),
-(22, 'HRM20120803162335', 4, NULL, NULL, NULL, 2, 4, NULL, NULL, '行政部', '行政总监', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '24', '22', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(22, 'HRM20120803162335', 4, NULL, NULL, NULL, 2, 4, NULL, NULL, '行政部', '行政总监', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '24', '22', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(24, 'FC20120823131534', 8, NULL, NULL, NULL, 1, 4, NULL, NULL, '总经办', '副总经理', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '15', '13', NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL),
+(25, 'HRM20120823131913', 4, NULL, NULL, NULL, 1, 4, NULL, NULL, '总经办', '总经理', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '15', '26', NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL),
+(26, 'HRM20120823143646', 3, NULL, NULL, NULL, 1, 4, NULL, NULL, '总经办', '总经理', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '15', '26', NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL),
+(27, 'HRM20120823143752', 3, NULL, NULL, NULL, 1, 4, NULL, NULL, '总经办', '总经理', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '15', '26', NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL),
+(28, 'FE20120823145140', 9, NULL, NULL, NULL, 1, 4, NULL, NULL, '总经办', '副总经理', NULL, NULL, '杭州总部', '总经办', '梅杰', '副总经理', NULL, NULL, NULL, '15', '13', '20', NULL, '1', '15', '13', NULL, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -1789,7 +1876,7 @@ CREATE TABLE IF NOT EXISTS `app_process_history` (
   `audit_comments` text COMMENT '审核意见',
   PRIMARY KEY (`history_id`),
   KEY `form_no` (`form_no`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程表单, 存储保存在运行中的流程表单数据' AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程表单, 存储保存在运行中的流程表单数据' AUTO_INCREMENT=10 ;
 
 --
 -- 转存表中的数据 `app_process_history`
@@ -1797,7 +1884,10 @@ CREATE TABLE IF NOT EXISTS `app_process_history` (
 
 INSERT INTO `app_process_history` (`history_id`, `form_no`, `type_id`, `task_name`, `task_from`, `task_next`, `task_type`, `seq_sn`, `to_rolenames`, `to_distnames`, `to_depnames`, `to_posnames`, `to_usernames`, `audit_rolenames`, `audit_distnames`, `audit_depnames`, `audit_usernames`, `audit_posnames`, `to_userids`, `to_roleids`, `to_distids`, `to_depids`, `to_posids`, `audit_userids`, `audit_roleids`, `audit_distids`, `audit_depids`, `audit_posids`, `audit_date`, `audit_state`, `audit_comments`) VALUES
 (4, 'FC20120803161623', 8, NULL, NULL, NULL, 4, NULL, NULL, NULL, '总经办', '副总经理', NULL, NULL, '杭州总部', '总经办', '梅杰', '副总经理', NULL, NULL, NULL, '15', '13', '20', NULL, '1', '15', '13', '2012-08-03 16:17:26', 2, ''),
-(6, 'HRM20120803162615', 4, NULL, NULL, NULL, 4, NULL, NULL, NULL, '总经办', '副总经理', NULL, NULL, '杭州总部', '总经办', '梅杰', '副总经理', NULL, NULL, NULL, '15', '13', '20', NULL, '1', '15', '13', '2012-08-03 16:26:46', 2, '');
+(6, 'HRM20120803162615', 4, NULL, NULL, NULL, 4, NULL, NULL, NULL, '总经办', '副总经理', NULL, NULL, '杭州总部', '总经办', '梅杰', '副总经理', NULL, NULL, NULL, '15', '13', '20', NULL, '1', '15', '13', '2012-08-03 16:26:46', 2, ''),
+(7, 'FE20120823150120', 7, NULL, NULL, NULL, 4, NULL, NULL, NULL, '总经办', '副总经理', NULL, NULL, '杭州总部', '总经办', '梅杰', '副总经理', NULL, NULL, NULL, '15', '13', '20', NULL, '1', '15', '13', '2012-08-23 15:11:42', 2, 'test'),
+(8, 'FE20120823131329', 7, NULL, NULL, NULL, 4, NULL, NULL, NULL, '总经办', '副总经理', NULL, NULL, '杭州总部', '总经办', '梅杰', '副总经理', NULL, NULL, NULL, '15', '13', '20', NULL, '1', '15', '13', '2012-08-23 15:31:16', 3, ''),
+(9, 'FE20120823145140', 9, NULL, NULL, NULL, 4, NULL, NULL, NULL, '总经办', '副总经理', NULL, NULL, '杭州总部', '总经办', '梅杰', '副总经理', NULL, NULL, NULL, '15', '13', '20', NULL, '1', '15', '13', '2012-08-23 15:31:34', 4, '');
 
 -- --------------------------------------------------------
 
@@ -1824,7 +1914,7 @@ CREATE TABLE IF NOT EXISTS `app_process_task` (
   `task_type` tinyint(4) DEFAULT NULL COMMENT '活动类型',
   PRIMARY KEY (`task_id`),
   KEY `def_id` (`def_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程任务设置' AUTO_INCREMENT=50 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='流程任务设置' AUTO_INCREMENT=51 ;
 
 --
 -- 转存表中的数据 `app_process_task`
@@ -1878,7 +1968,8 @@ INSERT INTO `app_process_task` (`task_id`, `def_id`, `task_name`, `task_from`, `
 (46, 52, NULL, NULL, NULL, 1, NULL, '总经办', '总经理', NULL, NULL, NULL, '15', '26', NULL, 4),
 (47, 51, NULL, NULL, NULL, 1, NULL, '总经办', '副总经理', NULL, NULL, NULL, '15', '13', NULL, 4),
 (48, 51, NULL, NULL, NULL, 2, NULL, '财务部', '财务总监', NULL, NULL, NULL, '17', '39', NULL, 4),
-(49, 18, NULL, NULL, NULL, 2, NULL, '财务部', '财务总监', NULL, NULL, NULL, '17', '39', NULL, 4);
+(49, 18, NULL, NULL, NULL, 2, NULL, '财务部', '财务总监', NULL, NULL, NULL, '17', '39', NULL, 4),
+(50, 21, NULL, NULL, NULL, 2, NULL, '发展部', '区长', NULL, NULL, NULL, '27', '53', NULL, 4);
 
 -- --------------------------------------------------------
 
@@ -1928,16 +2019,16 @@ CREATE TABLE IF NOT EXISTS `app_role` (
   `role_edit` tinyint(4) NOT NULL DEFAULT '1' COMMENT '角色是否可以进行修改, 1=可以, 0=不可以',
   PRIMARY KEY (`role_id`),
   UNIQUE KEY `role_key` (`role_key`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='角色表' AUTO_INCREMENT=65 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='角色表' AUTO_INCREMENT=73 ;
 
 --
 -- 转存表中的数据 `app_role`
 --
 
 INSERT INTO `app_role` (`role_id`, `role_name`, `role_key`, `role_desc`, `role_status`, `role_rights`, `role_type`, `role_edit`) VALUES
-(7, '基础权限（总部）', 'ROLE_EMPLOYEE_HEADOFFICE', '基础权限（总部）', 1, '_FUNCKEY_PERSONAL_TASK_VIEW,_FUNCKEY_PERSONAL_CONFERENCE_VIEW_CONFERENCE,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_APPLY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_RECOMMEND,_FUNCKEY_PERSONAL_JOBAPPLY_HISTORY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_VIEW,_FUNCKEY_PERSONAL_JOBAPPLY_RESUME_VIEW,_FUNCKEY_PERSONAL_APPLICATION_POST,_FUNCKEY_PERSONAL_APPLICATION_VIEW,_FUNCKEY_FINAN_EXPENSE_APPROVE,_FUNCKEY_FINAN_EXPENSE_APPLY,_FUNCKEY_FINAN_CONTRACT_APPROVE,_FUNCKEY_FINAN_CONTRACT_APPLY', 0, 1),
-(8, '基础权限(校区)', 'ROLE_EMPLOYEE_SCHOOL', '基础权限(校区)', 1, '_FUNCKEY_PERSONAL_TASK_VIEW,_FUNCKEY_PERSONAL_CONFERENCE_VIEW_CONFERENCE,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_APPLY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_RECOMMEND,_FUNCKEY_PERSONAL_JOBAPPLY_HISTORY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_VIEW,_FUNCKEY_PERSONAL_JOBAPPLY_RESUME_VIEW,_FUNCKEY_PERSONAL_APPLICATION_POST,_FUNCKEY_PERSONAL_APPLICATION_VIEW', 1, 1),
-(9, '管理员', 'ROLE_ADMIN', '', 1, '_FUNCKEY_PERSONAL_TASK_ACCOMPLISH_APPROVE,_FUNCKEY_PERSONAL_TASK_ACCOMPLISH,_FUNCKEY_PERSONAL_TASK_APPROVES_VIEW,_FUNCKEY_PERSONAL_TASK_POSTPONE_APPROVE,_FUNCKEY_PERSONAL_TASK_POSTPONE,_FUNCKEY_PERSONAL_TASK_ADD,_FUNCKEY_PERSONAL_TASK_EDIT,_FUNCKEY_PERSONAL_TASK_VIEW,_FUNCKEY_PERSONAL_TASK_MYVIEW,_FUNCKEY_PERSONAL_CONFERENCE_INITIAL_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_CANCEL_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_SUMMARY_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_VIEW_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_VIEW_MY_INITIAL_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_ACTIVATE_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_ADJUST_CONFERENCE,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_APPLY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_RECOMMEND,_FUNCKEY_PERSONAL_JOBAPPLY_HISTORY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_VIEW,_FUNCKEY_PERSONAL_JOBAPPLY_RESUME_VIEW,_FUNCKEY_PERSONAL_INTERVIEW_HISTORY,_FUNCKEY_PERSONAL_INTERVIEW_COMMIT,_FUNCKEY_PERSONAL_INTERVIEW_JOBVIEW,_FUNCKEY_PERSONAL_INTERVIEW_RESUMEVIEW,_FUNCKEY_PERSONAL_INTERVIEW_RECORDS_VIEW,_FUNCKEY_PERSONAL_APPLICATION_POST,_FUNCKEY_PERSONAL_APPLICATION_VIEW,_FUNCKEY_ADMIN_NEWS_DELETE,_FUNCKEY_ADMIN_NEWS_ADD,_FUNCKEY_ADMIN_NEWS_APPROVING,_FUNCKEY_ADMIN_NEWS_APPROVE,_FUNCKEY_ADMIN_NEWS_TOP,_FUNCKEY_ADMIN_NEWS_EDIT,_FUNCKEY_ADMIN_TASK_REMOVE,_FUNCKEY_ADMIN_TASK_APPROVE,_FUNCKEY_ADMIN_TASK_VIEW,_FUNCKEY_ADMIN_TASK_EDIT,_FUNCKEY_ADMIN_IMPORT_WORK_ARRANGE,_FUNCKEY_ADMIN_REMOVE_WORK_ARRANGE,_FUNCKEY_ADMIN_VIEW_WORK_ARRANGE,_FUNCKEY_ADMIN_ADD_WORK_ARRANGE,_FUNCKEY_ADMIN_EDIT_WORK_ARRANGE,_FUNCKEY_ADMIN_ADJUST_WORK_ARRANGE,_FUNCKEY_ADMIN_DOC_ADD,_FUNCKEY_ADMIN_DOC_REMOVE,_FUNCKEY_ADMIN_DOC_EDIT,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_ARRANGE,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_RESUME_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_INTERVIEW_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY,_FUNCKEY_HRM_JOBHIRE_JOB_POST,_FUNCKEY_HRM_JOBHIRE_JOB_APPROVAL,_FUNCKEY_HRM_JOBHIRE_JOB_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_EDIT,_FUNCKEY_HRM_JOBHIRE_JOB_OPENCTRL,_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ENTILE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_ABSENCE,_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ELIMINATE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_ARRANGE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_RESUME_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER,_FUNCKEY_HRM_ARCHIVE_RESUME_REMOVE,_FUNCKEY_HRM_ARCHIVE_RESUME_VIEW,_FUNCKEY_HRM_ENTRY_OP_ONBOARD,_FUNCKEY_HRM_ENTRY_OP_ABSENCE,_FUNCKEY_HRM_ENTRY_OP_QUALIFY,_FUNCKEY_HRM_EMPLOYEE_REMOVE,_FUNCKEY_HRM_EMPLOYEE_UPDATE,_FUNCKEY_HRM_EMPLOYEE_VIEW,_FUNCKEY_HRM_EMPLOYEE_ADD,_FUNCKEY_HRM_DEVELOP_VIEWDATA,_FUNCKEY_HRM_DEVELOP_FINALIZE,_FUNCKEY_HRM_DEVELOP_VIEWAPPROVALS,_FUNCKEY_HRM_DEVELOP_APPROVE,_FUNCKEY_FINAN_EXPENSE_APPROVE,_FUNCKEY_FINAN_EXPENSE_VIEW,_FUNCKEY_FINAN_EXPENSE_APPLY,_FUNCKEY_FINAN_EXPENSE_RECORD_VIEW,_FUNCKEY_FINAN_CONTRACT_APPROVE,_FUNCKEY_FINAN_CONTRACT_APPLY,_FUNCKEY_FINAN_CONTRACT_VIEW,_FUNCKEY_FINAN_CONTRACT_RECORD_VIEW,_FUNCKEY_ADMIN_ACCOUNT_LOCK,_FUNCKEY_ADMIN_ACCOUNT_ACTIVE,_FUNCKEY_ADMIN_ACCOUNT_PASSWORD_RESET,_FUNCKEY_SYSTEM_DELETE_DICTIONARY,_FUNCKEY_SYSTEM_ADD_DICTIONARY,_FUNCKEY_SYSTEM_EDIT_DICTIONARY,_FUNCKEY_SYSTEM_TEMPLATE_ACTIVATE,_FUNCKEY_SYSTEM_TEMPLATE_WORK_ADD,_FUNCKEY_SYSTEM_DELETE_WORK_CONTENT,_FUNCKEY_SYSTEM_DELETE_WORK_TIME,_FUNCKEY_SYSTEM_ADD_WORK_CONTENT,_FUNCKEY_SYSTEM_ADD_WORK_TIME,_FUNCKEY_SYSTEM_EDIT_WORK_CONTENT,_FUNCKEY_SYSTEM_EDIT_WORK_TIME,_FUNCKEY_FLOW_HRM_PROCESS_REMOVE,_FUNCKEY_FLOW_HRM_PROCESS_REFRESH,_FUNCKEY_FLOW_HRM_PROCESS_CONFIGURE,_FUNCKEY_FLOW_HRM_TYPE_REFRESH,_FUNCKEY_FLOW_FINAN_PROC_APPROVE,_FUNCKEY_FLOW_FINAN_TYPE_REFRESH,_FUNCKEY_FLOW_FINAN_PROC_TYPE_REMOVE,_FUNCKEY_FLOW_FINAN_PROC_TYPE_REFRESH,_FUNCKEY_FLOW_FINAN_PROC_TYPE_ADD,_FUNCKEY_FLOW_FINAN_PROC_TYPE_EDIT,_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_REMOVE,_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_ADD,_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_EDIT,_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_REMOVE,_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_REFRESH,_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_ADD,_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_EDIT,_FUNCKEY_SYSTEM_SCHOOL_DEP_REMOVE,_FUNCKEY_SYSTEM_SCHOOL_DEP_REFRESH,_FUNCKEY_SYSTEM_SCHOOL_DEP_ADD,_FUNCKEY_SYSTEM_SCHOOL_DEP_EDIT,_FUNCKEY_SYSTEM_SCHOOL_POSET_REMOVE,_FUNCKEY_SYSTEM_SCHOOL_POSET_ADD,_FUNCKEY_SYSTEM_SCHOOL_POSET_EDIT,_FUNCKEY_SYSTEM_ROLE_REMOVE,_FUNCKEY_SYSTEM_ROLE_VIEW,_FUNCKEY_SYSTEM_ROLE_ADD,_FUNCKEY_SYSTEM_ROLE_EDIT,_FUNCKEY_SYSTEM_MENU_FUNC_REMOVE,_FUNCKEY_SYSTEM_MENU_FUNC_REFRESH,_FUNCKEY_SYSTEM_MENU_FUNC_ADD,_FUNCKEY_SYSTEM_MENU_FUNC_EDIT,_FUNCKEY_SYSTEM_MENU_REFRESH,_FUNCKEY_SYSTEM_MENU_ADD,_FUNCKEY_SYSTEM_MENU_EDIT', 0, 1),
+(7, '基础权限（总部）', 'ROLE_EMPLOYEE_HEADOFFICE', '基础权限（总部）', 1, '_FUNCKEY_PERSONAL_TASK_VIEW,_FUNCKEY_PERSONAL_TASK_DATA_LOAD,_FUNCKEY_PERSONAL_CONFERENCE_DATA_LOAD,_FUNCKEY_PERSONAL_CONFERENCE_VIEW_CONFERENCE,_FUNCKEY_PERSONAL_NEWS_DATA_LOAD,_FUNCKEY_PERSONAL_DOCS_DATA_LOAD,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_APPLY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_RECOMMEND,_FUNCKEY_PERSONAL_JOBAPPLY_DATA_LOAD,_FUNCKEY_PERSONAL_JOBAPPLY_HISTORY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_VIEW,_FUNCKEY_PERSONAL_JOBAPPLY_RESUME_VIEW,_FUNCKEY_PERSONAL_APPLICATION_POST,_FUNCKEY_PERSONAL_APPLICATION_VIEW,_FUNCKEY_ADMIN_NEWS_ADD,_FUNCKEY_FINAN_EXPENSE_APPROVE,_FUNCKEY_FINAN_EXPENSE_DATA_LOAD,_FUNCKEY_FINAN_EXPENSE_APPLY,_FUNCKEY_FINAN_CONTRACT_DATA_LOAD,_FUNCKEY_FINAN_CONTRACT_APPROVE,_FUNCKEY_FINAN_CONTRACT_APPLY,_FUNCKEY_PERSONAL_TASK_DATA_LOAD,_FUNCKEY_PERSONAL_CONFERENCE_DATA_LOAD,_FUNCKEY_PERSONAL_JOBAPPLY_DATA_LOAD,_FUNCKEY_ADMIN_NEWS_DATA_LOAD,_FUNCKEY_FINAN_EXPENSE_DATA_LOAD,_FUNCKEY_FINAN_CONTRACT_DATA_LOAD', 0, 1),
+(8, '基础权限(校区)', 'ROLE_EMPLOYEE_SCHOOL', '基础权限(校区)', 1, '_FUNCKEY_PERSONAL_TASK_VIEW,_FUNCKEY_PERSONAL_CONFERENCE_VIEW_CONFERENCE,_FUNCKEY_PERSONAL_NEWS_DATA_LOAD,_FUNCKEY_PERSONAL_DOCS_DATA_LOAD,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_APPLY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_RECOMMEND,_FUNCKEY_PERSONAL_JOBAPPLY_DATA_LOAD,_FUNCKEY_PERSONAL_JOBAPPLY_HISTORY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_VIEW,_FUNCKEY_PERSONAL_JOBAPPLY_RESUME_VIEW,_FUNCKEY_PERSONAL_APPLICATION_POST,_FUNCKEY_PERSONAL_APPLICATION_VIEW,_FUNCKEY_FINAN_EXPENSE_VIEW,_FUNCKEY_FINAN_EXPENSE_APPLY,_FUNCKEY_FINAN_CONTRACT_APPROVE,_FUNCKEY_FINAN_CONTRACT_APPLY,_FUNCKEY_FINAN_CONTRACT_VIEW,_FUNCKEY_PERSONAL_TASK_DATA_LOAD,_FUNCKEY_PERSONAL_CONFERENCE_DATA_LOAD,_FUNCKEY_FINAN_EXPENSE_DATA_LOAD,_FUNCKEY_FINAN_CONTRACT_DATA_LOAD', 1, 1),
+(9, '管理员', 'ROLE_ADMIN', '', 1, '_FUNCKEY_PERSONAL_TASK_ACCOMPLISH_APPROVE,_FUNCKEY_PERSONAL_TASK_ACCOMPLISH,_FUNCKEY_PERSONAL_TASK_APPROVES_VIEW,_FUNCKEY_PERSONAL_TASK_POSTPONE_APPROVE,_FUNCKEY_PERSONAL_TASK_POSTPONE,_FUNCKEY_PERSONAL_TASK_ADD,_FUNCKEY_PERSONAL_TASK_EDIT,_FUNCKEY_PERSONAL_TASK_VIEW,_FUNCKEY_PERSONAL_TASK_MYVIEW_DATA_LOAD,_FUNCKEY_PERSONAL_TASK_DATA_LOAD,_FUNCKEY_PERSONAL_TASK_MYVIEW,_FUNCKEY_PERSONAL_CONFERENCE_INITIAL_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_CANCEL_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_DATA_LOAD,_FUNCKEY_PERSONAL_CONFERENCE_SUMMARY_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_VIEW_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_VIEW_MY_INITIAL_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_ACTIVATE_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_ADJUST_CONFERENCE,_FUNCKEY_PERSONAL_NEWS_DATA_LOAD,_FUNCKEY_PERSONAL_DOCS_DATA_LOAD,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_APPLY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_RECOMMEND,_FUNCKEY_PERSONAL_JOBAPPLY_DATA_LOAD,_FUNCKEY_PERSONAL_JOBAPPLY_HISTORY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_VIEW,_FUNCKEY_PERSONAL_JOBAPPLY_RESUME_VIEW,_FUNCKEY_PERSONAL_INTERVIEW_HISTORY,_FUNCKEY_PERSONAL_INTERVIEW_COMMIT,_FUNCKEY_PERSONAL_INTERVIEW_JOBVIEW,_FUNCKEY_PERSONAL_INTERVIEW_RESUMEVIEW,_FUNCKEY_PERSONAL_INTERVIEW_RECORDS_VIEW,_FUNCKEY_PERSONAL_APPLICATION_POST,_FUNCKEY_PERSONAL_APPLICATION_VIEW,_FUNCKEY_PERSONAL_APPROVAL_DATA_LOAD,_FUNCKEY_ADMIN_NEWS_DELETE,_FUNCKEY_ADMIN_NEWS_ADD,_FUNCKEY_ADMIN_NEWS_APPROVING,_FUNCKEY_ADMIN_NEWS_APPROVE_DATA_LOAD,_FUNCKEY_ADMIN_NEWS_DATA_LOAD,_FUNCKEY_ADMIN_NEWS_APPROVE,_FUNCKEY_ADMIN_NEWS_TOP,_FUNCKEY_ADMIN_NEWS_EDIT,_FUNCKEY_ADMIN_TASK_REMOVE,_FUNCKEY_ADMIN_TASK_APPROVE,_FUNCKEY_ADMIN_TASK_VIEW,_FUNCKEY_ADMIN_TASK_EDIT,_FUNCKEY_ADMIN_TASK_DATA_LOAD,_FUNCKEY_ADMIN_IMPORT_WORK_ARRANGE,_FUNCKEY_ADMIN_REMOVE_WORK_ARRANGE,_FUNCKEY_ADMIN_WORK_ARRANGE_DATA_LOAD,_FUNCKEY_ADMIN_VIEW_WORK_ARRANGE,_FUNCKEY_ADMIN_ADD_WORK_ARRANGE,_FUNCKEY_ADMIN_EDIT_WORK_ARRANGE,_FUNCKEY_ADMIN_ADJUST_WORK_ARRANGE,_FUNCKEY_ADMIN_ATTENDANCE_DATA_LOAD,_FUNCKEY_ADMIN_DOC_ADD,_FUNCKEY_ADMIN_DOC_REMOVE,_FUNCKEY_ADMIN_DOC_DATA_LOAD,_FUNCKEY_ADMIN_DOC_EDIT,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_ARRANGE,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_RESUME_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_INTERVIEW_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY,_FUNCKEY_HRM_JOBHIRE_JOB_LIST_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_POST,_FUNCKEY_HRM_JOBHIRE_JOB_APPROVAL,_FUNCKEY_HRM_JOBHIRE_JOB_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_EDIT,_FUNCKEY_HRM_JOBHIRE_JOB_OPENCTRL,_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ENTILE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_ABSENCE,_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ELIMINATE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_ARRANGE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_RESUME_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER,_FUNCKEY_HRM_ARCHIVE_RESUME_REMOVE,_FUNCKEY_HRM_ARCHIVE_RESUME_VIEW,_FUNCKEY_HRM_ENTRY_OP_ONBOARD,_FUNCKEY_HRM_ENTRY_DATA_LOAD,_FUNCKEY_HRM_ENTRY_OP_ABSENCE,_FUNCKEY_HRM_ENTRY_OP_QUALIFY,_FUNCKEY_HRM_EMPLOYEE_REMOVE,_FUNCKEY_HRM_EMPLOYEE_DATA_LOAD,_FUNCKEY_HRM_EMPLOYEE_UPDATE,_FUNCKEY_HRM_EMPLOYEE_VIEW,_FUNCKEY_HRM_EMPLOYEE_ADD,_FUNCKEY_HRM_DEVELOP_VIEWDATA,_FUNCKEY_HRM_DEVELOP_FINALIZE,_FUNCKEY_HRM_DEVELOP_VIEWAPPROVALS,_FUNCKEY_HRM_DEVELOP_APPROVE,_FUNCKEY_FINAN_EXPENSE_APPROVE,_FUNCKEY_FINAN_EXPENSE_DATA_LOAD,_FUNCKEY_FINAN_EXPENSE_VIEW,_FUNCKEY_FINAN_EXPENSE_APPLY,_FUNCKEY_FINAN_EXPENSE_RECORD_VIEW,_FUNCKEY_FINAN_CONTRACT_DATA_LOAD,_FUNCKEY_FINAN_CONTRACT_APPROVE,_FUNCKEY_FINAN_CONTRACT_APPLY,_FUNCKEY_FINAN_CONTRACT_VIEW,_FUNCKEY_FINAN_CONTRACT_RECORD_VIEW,_FUNCKEY_ADMIN_ACCOUNT_LOCK,_FUNCKEY_ADMIN_ACCOUNT_ACTIVE,_FUNCKEY_ADMIN_ACCOUNT_DATA_LOAD,_FUNCKEY_ADMIN_ACCOUNT_PASSWORD_RESET,_FUNCKEY_SYSTEM_DELETE_DICTIONARY,_FUNCKEY_SYSTEM_ADD_DICTIONARY,_FUNCKEY_SYSTEM_EDIT_DICTIONARY,_FUNCKEY_SYSTEM_TEMPLATE_ACTIVATE,_FUNCKEY_SYSTEM_TEMPLATE_WORK_ADD,_FUNCKEY_SYSTEM_DELETE_WORK_CONTENT,_FUNCKEY_SYSTEM_DELETE_WORK_TIME,_FUNCKEY_SYSTEM_ADD_WORK_CONTENT,_FUNCKEY_SYSTEM_ADD_WORK_TIME,_FUNCKEY_SYSTEM_EDIT_WORK_CONTENT,_FUNCKEY_SYSTEM_EDIT_WORK_TIME,_FUNCKEY_FLOW_HRM_PROCESS_REMOVE,_FUNCKEY_FLOW_HRM_PROCESS_REFRESH,_FUNCKEY_FLOW_HRM_PROCESS_CONFIGURE,_FUNCKEY_FLOW_HRM_TYPE_REFRESH,_FUNCKEY_FLOW_FINAN_PROC_APPROVE,_FUNCKEY_FLOW_FINAN_TYPE_REFRESH,_FUNCKEY_FLOW_FINAN_PROC_TYPE_REMOVE,_FUNCKEY_FLOW_FINAN_PROC_TYPE_REFRESH,_FUNCKEY_FLOW_FINAN_PROC_TYPE_ADD,_FUNCKEY_FLOW_FINAN_PROC_TYPE_EDIT,_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_REMOVE,_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_ADD,_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_EDIT,_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_REMOVE,_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_REFRESH,_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_ADD,_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_EDIT,_FUNCKEY_SYSTEM_SCHOOL_DEP_REMOVE,_FUNCKEY_SYSTEM_SCHOOL_DEP_REFRESH,_FUNCKEY_SYSTEM_SCHOOL_DEP_ADD,_FUNCKEY_SYSTEM_SCHOOL_DEP_EDIT,_FUNCKEY_SYSTEM_SCHOOL_POSET_REMOVE,_FUNCKEY_SYSTEM_SCHOOL_POSET_ADD,_FUNCKEY_SYSTEM_SCHOOL_POSET_EDIT,_FUNCKEY_SYSTEM_ROLE_REMOVE,_FUNCKEY_SYSTEM_ROLE_VIEW,_FUNCKEY_SYSTEM_ROLE_ADD,_FUNCKEY_SYSTEM_ROLE_EDIT,_FUNCKEY_SYSTEM_MENU_FUNC_REMOVE,_FUNCKEY_SYSTEM_MENU_FUNC_REFRESH,_FUNCKEY_SYSTEM_MENU_FUNC_ADD,_FUNCKEY_SYSTEM_MENU_FUNC_EDIT,_FUNCKEY_SYSTEM_MENU_REFRESH,_FUNCKEY_SYSTEM_MENU_ADD,_FUNCKEY_SYSTEM_MENU_EDIT,', 0, 1),
 (14, '校区管理员', 'ROLE_SCHOOL_ADMIN', '', 1, '_FUNCKEY_PERSONAL_TASK_ACCOMPLISH_APPROVE,_FUNCKEY_PERSONAL_TASK_ACCOMPLISH,_FUNCKEY_PERSONAL_TASK_APPROVES_VIEW,_FUNCKEY_PERSONAL_TASK_POSTPONE_APPROVE,_FUNCKEY_PERSONAL_TASK_POSTPONE,_FUNCKEY_PERSONAL_TASK_ADD,_FUNCKEY_PERSONAL_TASK_EDIT,_FUNCKEY_PERSONAL_TASK_VIEW,_FUNCKEY_PERSONAL_TASK_MYVIEW,_FUNCKEY_PERSONAL_CONFERENCE_INITIAL_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_CANCEL_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_SUMMARY_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_VIEW_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_VIEW_MY_INITIAL_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_ACTIVATE_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_ADJUST_CONFERENCE,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_APPLY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_RECOMMEND,_FUNCKEY_PERSONAL_JOBAPPLY_HISTORY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_VIEW,_FUNCKEY_PERSONAL_JOBAPPLY_RESUME_VIEW,_FUNCKEY_PERSONAL_INTERVIEW_HISTORY,_FUNCKEY_PERSONAL_INTERVIEW_COMMIT,_FUNCKEY_PERSONAL_INTERVIEW_JOBVIEW,_FUNCKEY_PERSONAL_INTERVIEW_RESUMEVIEW,_FUNCKEY_PERSONAL_INTERVIEW_RECORDS_VIEW,_FUNCKEY_PERSONAL_APPLICATION_POST,_FUNCKEY_PERSONAL_APPLICATION_VIEW,_FUNCKEY_ADMIN_NEWS_DELETE,_FUNCKEY_ADMIN_NEWS_ADD,_FUNCKEY_ADMIN_NEWS_APPROVING,_FUNCKEY_ADMIN_NEWS_APPROVE,_FUNCKEY_ADMIN_NEWS_TOP,_FUNCKEY_ADMIN_NEWS_EDIT,_FUNCKEY_ADMIN_TASK_REMOVE,_FUNCKEY_ADMIN_TASK_APPROVE,_FUNCKEY_ADMIN_TASK_VIEW,_FUNCKEY_ADMIN_TASK_EDIT,_FUNCKEY_ADMIN_IMPORT_WORK_ARRANGE,_FUNCKEY_ADMIN_REMOVE_WORK_ARRANGE,_FUNCKEY_ADMIN_VIEW_WORK_ARRANGE,_FUNCKEY_ADMIN_ADD_WORK_ARRANGE,_FUNCKEY_ADMIN_EDIT_WORK_ARRANGE,_FUNCKEY_ADMIN_ADJUST_WORK_ARRANGE,_FUNCKEY_ADMIN_DOC_ADD,_FUNCKEY_ADMIN_DOC_REMOVE,_FUNCKEY_ADMIN_DOC_EDIT,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_ARRANGE,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_RESUME_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_INTERVIEW_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY,_FUNCKEY_HRM_JOBHIRE_JOB_POST,_FUNCKEY_HRM_JOBHIRE_JOB_APPROVAL,_FUNCKEY_HRM_JOBHIRE_JOB_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_EDIT,_FUNCKEY_HRM_JOBHIRE_JOB_OPENCTRL,_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ENTILE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_ABSENCE,_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ELIMINATE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_ARRANGE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_RESUME_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER,_FUNCKEY_HRM_ARCHIVE_RESUME_REMOVE,_FUNCKEY_HRM_ARCHIVE_RESUME_VIEW,_FUNCKEY_HRM_ENTRY_OP_ONBOARD,_FUNCKEY_HRM_ENTRY_OP_ABSENCE,_FUNCKEY_HRM_ENTRY_OP_QUALIFY,_FUNCKEY_HRM_EMPLOYEE_REMOVE,_FUNCKEY_HRM_EMPLOYEE_UPDATE,_FUNCKEY_HRM_EMPLOYEE_VIEW,_FUNCKEY_HRM_EMPLOYEE_ADD,_FUNCKEY_HRM_DEVELOP_VIEWDATA,_FUNCKEY_HRM_DEVELOP_FINALIZE,_FUNCKEY_HRM_DEVELOP_VIEWAPPROVALS,_FUNCKEY_HRM_DEVELOP_APPROVE,_FUNCKEY_FINAN_EXPENSE_APPROVE,_FUNCKEY_FINAN_EXPENSE_VIEW,_FUNCKEY_FINAN_EXPENSE_APPLY,_FUNCKEY_FINAN_EXPENSE_RECORD_VIEW,_FUNCKEY_FINAN_CONTRACT_APPROVE,_FUNCKEY_FINAN_CONTRACT_APPLY,_FUNCKEY_FINAN_CONTRACT_VIEW,_FUNCKEY_FINAN_CONTRACT_RECORD_VIEW,_FUNCKEY_ADMIN_ACCOUNT_LOCK,_FUNCKEY_ADMIN_ACCOUNT_ACTIVE,_FUNCKEY_ADMIN_ACCOUNT_PASSWORD_RESET,_FUNCKEY_SYSTEM_TEMPLATE_ACTIVATE,_FUNCKEY_SYSTEM_TEMPLATE_WORK_ADD,_FUNCKEY_SYSTEM_DELETE_WORK_CONTENT,_FUNCKEY_SYSTEM_DELETE_WORK_TIME,_FUNCKEY_SYSTEM_ADD_WORK_CONTENT,_FUNCKEY_SYSTEM_ADD_WORK_TIME,_FUNCKEY_SYSTEM_EDIT_WORK_CONTENT,_FUNCKEY_SYSTEM_EDIT_WORK_TIME', 1, 1),
 (22, '新闻发布与管理（总部）', 'ROLE_ADMIN_NEWS_PUBLISH', '新闻发布与管理（总部）', 1, '_FUNCKEY_ADMIN_NEWS_DELETE,_FUNCKEY_ADMIN_NEWS_ADD,_FUNCKEY_ADMIN_NEWS_EDIT', 0, 1),
 (23, '新闻审批与管理（总部）', 'ROLE_ADMIN_NEWS_APPROVE', '', 1, '_FUNCKEY_ADMIN_NEWS_APPROVING,_FUNCKEY_ADMIN_NEWS_APPROVE,_FUNCKEY_ADMIN_NEWS_TOP', 0, 1),
@@ -1970,7 +2061,7 @@ INSERT INTO `app_role` (`role_id`, `role_name`, `role_key`, `role_desc`, `role_s
 (53, '员工档案-删除', 'ROLE_ADMIN_HRM_EMPLOYEE_DELETE', '', 1, '_FUNCKEY_HRM_EMPLOYEE_REMOVE', 0, 1),
 (54, '员工档案-查看', 'ROLE_ADMIN_HRM_EMPLOYEE_VIEW', '', 1, '_FUNCKEY_HRM_EMPLOYEE_VIEW', 0, 1),
 (55, '人力发展-审批', 'ROLE_ADMIN_HRM_DEVELOP_APPROVE', '流程审批', 1, '_FUNCKEY_HRM_DEVELOP_VIEWDATA,_FUNCKEY_HRM_DEVELOP_APPROVE', 0, 1),
-(56, '人力发展-审批记录查看', 'ROLE_ADMIN_HRM_DEVELOP_VIEWAPPROVA', '', 1, '_FUNCKEY_HRM_DEVELOP_VIEWAPPROVALS', 0, 1),
+(56, '人力发展-审批记录查看', 'ROLE_ADMIN_HRM_DEVELOP_VIEWAPPROVA', '', 1, '_FUNCKEY_HRM_DEVELOP_VIEWDATA,_FUNCKEY_HRM_DEVELOP_VIEWAPPROVALS,', 0, 1),
 (57, '人力发展-落实操作', 'ROLE_ADMIN_HRM_DEVELOP_FINALIZE', '主要是针对员工, 转正、晋升、离职、调动等状态转换操作.', 1, '_FUNCKEY_HRM_DEVELOP_FINALIZE', 0, 1),
 (58, '财务-费用支出申请', 'ROLE_ADMIN_FINAN_EXPENSE_APPLY', '', 1, '_FUNCKEY_FINAN_EXPENSE_VIEW,_FUNCKEY_FINAN_EXPENSE_APPLY', 0, 1),
 (59, '财务-费用支出审核', 'ROLE_ADMIN_FINAN_EXPENSE_APPROVE', '', 1, '_FUNCKEY_FINAN_EXPENSE_APPROVE,_FUNCKEY_FINAN_EXPENSE_RECORD_VIEW', 0, 1),
@@ -1978,7 +2069,13 @@ INSERT INTO `app_role` (`role_id`, `role_name`, `role_key`, `role_desc`, `role_s
 (61, '财务-合同审批', 'ROLE_ADMIN_FINAN_CONTRACT_APPROVE', '', 1, '_FUNCKEY_FINAN_CONTRACT_APPROVE,_FUNCKEY_FINAN_CONTRACT_RECORD_VIEW', 0, 1),
 (62, '用户管理', 'ROLE_ADMIN_ACCOUNT_MANAGE', '', 1, '_FUNCKEY_ADMIN_ACCOUNT_LOCK,_FUNCKEY_ADMIN_ACCOUNT_ACTIVE,_FUNCKEY_ADMIN_ACCOUNT_PASSWORD_RESET', 0, 1),
 (63, '系统日志', 'ROLE_ADMIN_SYSTEM_LOG', '', 1, '', 0, 1),
-(64, '系统设置', 'ROLE_ADMIN_SYSTEM_MANAGE', '', 1, '_FUNCKEY_SYSTEM_DELETE_DICTIONARY,_FUNCKEY_SYSTEM_ADD_DICTIONARY,_FUNCKEY_SYSTEM_EDIT_DICTIONARY,_FUNCKEY_SYSTEM_TEMPLATE_ACTIVATE,_FUNCKEY_SYSTEM_TEMPLATE_WORK_ADD,_FUNCKEY_SYSTEM_DELETE_WORK_CONTENT,_FUNCKEY_SYSTEM_DELETE_WORK_TIME,_FUNCKEY_SYSTEM_ADD_WORK_CONTENT,_FUNCKEY_SYSTEM_ADD_WORK_TIME,_FUNCKEY_SYSTEM_EDIT_WORK_CONTENT,_FUNCKEY_SYSTEM_EDIT_WORK_TIME,_FUNCKEY_FLOW_HRM_PROCESS_REMOVE,_FUNCKEY_FLOW_HRM_PROCESS_REFRESH,_FUNCKEY_FLOW_HRM_PROCESS_CONFIGURE,_FUNCKEY_FLOW_HRM_TYPE_REFRESH,_FUNCKEY_FLOW_FINAN_PROC_APPROVE,_FUNCKEY_FLOW_FINAN_TYPE_REFRESH,_FUNCKEY_FLOW_FINAN_PROC_TYPE_REMOVE,_FUNCKEY_FLOW_FINAN_PROC_TYPE_REFRESH,_FUNCKEY_FLOW_FINAN_PROC_TYPE_ADD,_FUNCKEY_FLOW_FINAN_PROC_TYPE_EDIT,_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_REMOVE,_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_ADD,_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_EDIT,_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_REMOVE,_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_REFRESH,_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_ADD,_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_EDIT,_FUNCKEY_SYSTEM_SCHOOL_DEP_REMOVE,_FUNCKEY_SYSTEM_SCHOOL_DEP_REFRESH,_FUNCKEY_SYSTEM_SCHOOL_DEP_ADD,_FUNCKEY_SYSTEM_SCHOOL_DEP_EDIT,_FUNCKEY_SYSTEM_SCHOOL_POSET_REMOVE,_FUNCKEY_SYSTEM_SCHOOL_POSET_ADD,_FUNCKEY_SYSTEM_SCHOOL_POSET_EDIT,_FUNCKEY_SYSTEM_ROLE_REMOVE,_FUNCKEY_SYSTEM_ROLE_VIEW,_FUNCKEY_SYSTEM_ROLE_ADD,_FUNCKEY_SYSTEM_ROLE_EDIT,_FUNCKEY_SYSTEM_MENU_FUNC_REMOVE,_FUNCKEY_SYSTEM_MENU_FUNC_REFRESH,_FUNCKEY_SYSTEM_MENU_FUNC_ADD,_FUNCKEY_SYSTEM_MENU_FUNC_EDIT,_FUNCKEY_SYSTEM_MENU_REFRESH,_FUNCKEY_SYSTEM_MENU_ADD,_FUNCKEY_SYSTEM_MENU_EDIT', 0, 1);
+(64, '系统设置', 'ROLE_ADMIN_SYSTEM_MANAGE', '', 1, '_FUNCKEY_SYSTEM_DELETE_DICTIONARY,_FUNCKEY_SYSTEM_ADD_DICTIONARY,_FUNCKEY_SYSTEM_EDIT_DICTIONARY,_FUNCKEY_SYSTEM_TEMPLATE_ACTIVATE,_FUNCKEY_SYSTEM_TEMPLATE_WORK_ADD,_FUNCKEY_SYSTEM_DELETE_WORK_CONTENT,_FUNCKEY_SYSTEM_DELETE_WORK_TIME,_FUNCKEY_SYSTEM_ADD_WORK_CONTENT,_FUNCKEY_SYSTEM_ADD_WORK_TIME,_FUNCKEY_SYSTEM_EDIT_WORK_CONTENT,_FUNCKEY_SYSTEM_EDIT_WORK_TIME,_FUNCKEY_FLOW_HRM_PROCESS_REMOVE,_FUNCKEY_FLOW_HRM_PROCESS_REFRESH,_FUNCKEY_FLOW_HRM_PROCESS_CONFIGURE,_FUNCKEY_FLOW_HRM_TYPE_REFRESH,_FUNCKEY_FLOW_FINAN_PROC_APPROVE,_FUNCKEY_FLOW_FINAN_TYPE_REFRESH,_FUNCKEY_FLOW_FINAN_PROC_TYPE_REMOVE,_FUNCKEY_FLOW_FINAN_PROC_TYPE_REFRESH,_FUNCKEY_FLOW_FINAN_PROC_TYPE_ADD,_FUNCKEY_FLOW_FINAN_PROC_TYPE_EDIT,_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_REMOVE,_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_ADD,_FUNCKEY_SYSTEM_SCHOOL_DISTRICT_EDIT,_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_REMOVE,_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_REFRESH,_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_ADD,_FUNCKEY_SYSTEM_SCHOOL_DEP_POS_EDIT,_FUNCKEY_SYSTEM_SCHOOL_DEP_REMOVE,_FUNCKEY_SYSTEM_SCHOOL_DEP_REFRESH,_FUNCKEY_SYSTEM_SCHOOL_DEP_ADD,_FUNCKEY_SYSTEM_SCHOOL_DEP_EDIT,_FUNCKEY_SYSTEM_SCHOOL_POSET_REMOVE,_FUNCKEY_SYSTEM_SCHOOL_POSET_ADD,_FUNCKEY_SYSTEM_SCHOOL_POSET_EDIT,_FUNCKEY_SYSTEM_ROLE_REMOVE,_FUNCKEY_SYSTEM_ROLE_VIEW,_FUNCKEY_SYSTEM_ROLE_ADD,_FUNCKEY_SYSTEM_ROLE_EDIT,_FUNCKEY_SYSTEM_MENU_FUNC_REMOVE,_FUNCKEY_SYSTEM_MENU_FUNC_REFRESH,_FUNCKEY_SYSTEM_MENU_FUNC_ADD,_FUNCKEY_SYSTEM_MENU_FUNC_EDIT,_FUNCKEY_SYSTEM_MENU_REFRESH,_FUNCKEY_SYSTEM_MENU_ADD,_FUNCKEY_SYSTEM_MENU_EDIT,', 0, 1),
+(67, '测试账号', 'ROLE_TEST', '', 1, '_FUNCKEY_PERSONAL_TASK_ACCOMPLISH_APPROVE,_FUNCKEY_PERSONAL_TASK_ACCOMPLISH,_FUNCKEY_PERSONAL_TASK_APPROVES_VIEW,_FUNCKEY_PERSONAL_TASK_POSTPONE_APPROVE,_FUNCKEY_PERSONAL_TASK_POSTPONE,_FUNCKEY_PERSONAL_TASK_ADD,_FUNCKEY_PERSONAL_TASK_EDIT,_FUNCKEY_PERSONAL_TASK_VIEW,_FUNCKEY_PERSONAL_TASK_MYVIEW_DATA_LOAD,_FUNCKEY_PERSONAL_TASK_DATA_LOAD,_FUNCKEY_PERSONAL_TASK_MYVIEW,_FUNCKEY_PERSONAL_CONFERENCE_INITIAL_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_CANCEL_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_DATA_LOAD,_FUNCKEY_PERSONAL_CONFERENCE_SUMMARY_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_VIEW_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_VIEW_MY_INITIAL_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_ACTIVATE_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_ADJUST_CONFERENCE,_FUNCKEY_PERSONAL_NEWS_DATA_LOAD,_FUNCKEY_PERSONAL_DOCS_DATA_LOAD,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_APPLY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_RECOMMEND,_FUNCKEY_PERSONAL_JOBAPPLY_DATA_LOAD,_FUNCKEY_PERSONAL_JOBAPPLY_HISTORY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_VIEW,_FUNCKEY_PERSONAL_JOBAPPLY_RESUME_VIEW,_FUNCKEY_PERSONAL_INTERVIEW_HISTORY,_FUNCKEY_PERSONAL_INTERVIEW_COMMIT,_FUNCKEY_PERSONAL_INTERVIEW_JOBVIEW,_FUNCKEY_PERSONAL_INTERVIEW_RESUMEVIEW,_FUNCKEY_PERSONAL_INTERVIEW_RECORDS_VIEW,_FUNCKEY_PERSONAL_APPLICATION_POST,_FUNCKEY_PERSONAL_APPLICATION_VIEW,_FUNCKEY_PERSONAL_APPROVAL_DATA_LOAD,_FUNCKEY_ADMIN_NEWS_DELETE,_FUNCKEY_ADMIN_NEWS_ADD,_FUNCKEY_ADMIN_NEWS_APPROVING,_FUNCKEY_ADMIN_NEWS_APPROVE_DATA_LOAD,_FUNCKEY_ADMIN_NEWS_DATA_LOAD,_FUNCKEY_ADMIN_NEWS_APPROVE,_FUNCKEY_ADMIN_NEWS_TOP,_FUNCKEY_ADMIN_NEWS_EDIT,_FUNCKEY_ADMIN_TASK_REMOVE,_FUNCKEY_ADMIN_TASK_APPROVE,_FUNCKEY_ADMIN_TASK_VIEW,_FUNCKEY_ADMIN_TASK_EDIT,_FUNCKEY_ADMIN_TASK_DATA_LOAD,_FUNCKEY_ADMIN_NEWS_APPROVE_DATA_LOAD,_FUNCKEY_ADMIN_NEWS_DATA_LOAD,_FUNCKEY_ADMIN_TASK_DATA_LOAD', 0, 1),
+(68, '校区办管理权限', 'ROLE_SCHOOL_HEADMASTER', '', 1, '_FUNCKEY_PERSONAL_TASK_DATA_LOAD,_FUNCKEY_PERSONAL_CONFERENCE_INITIAL_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_CANCEL_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_DATA_LOAD,_FUNCKEY_PERSONAL_CONFERENCE_SUMMARY_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_VIEW_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_VIEW_MY_INITIAL_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_ACTIVATE_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_ADJUST_CONFERENCE,_FUNCKEY_PERSONAL_NEWS_DATA_LOAD,_FUNCKEY_PERSONAL_DOCS_DATA_LOAD,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_APPLY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_RECOMMEND,_FUNCKEY_PERSONAL_JOBAPPLY_DATA_LOAD,_FUNCKEY_PERSONAL_JOBAPPLY_HISTORY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_VIEW,_FUNCKEY_PERSONAL_JOBAPPLY_RESUME_VIEW,_FUNCKEY_PERSONAL_INTERVIEW_HISTORY,_FUNCKEY_PERSONAL_INTERVIEW_COMMIT,_FUNCKEY_PERSONAL_INTERVIEW_JOBVIEW,_FUNCKEY_PERSONAL_INTERVIEW_RESUMEVIEW,_FUNCKEY_PERSONAL_INTERVIEW_RECORDS_VIEW,_FUNCKEY_PERSONAL_APPLICATION_POST,_FUNCKEY_PERSONAL_APPLICATION_VIEW,_FUNCKEY_PERSONAL_APPROVAL_DATA_LOAD,_FUNCKEY_ADMIN_NEWS_APPROVING,_FUNCKEY_ADMIN_NEWS_APPROVE,_FUNCKEY_ADMIN_NEWS_TOP,_FUNCKEY_ADMIN_NEWS_EDIT,_FUNCKEY_ADMIN_VIEW_WORK_ARRANGE,_FUNCKEY_ADMIN_DOC_ADD,_FUNCKEY_ADMIN_DOC_DATA_LOAD,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_RESUME_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_INTERVIEW_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY,_FUNCKEY_HRM_JOBHIRE_JOB_LIST_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_POST,_FUNCKEY_HRM_JOBHIRE_JOB_APPROVAL,_FUNCKEY_HRM_JOBHIRE_JOB_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_OPENCTRL,_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ENTILE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_ABSENCE,_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ELIMINATE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_RESUME_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER,_FUNCKEY_HRM_ARCHIVE_RESUME_VIEW,_FUNCKEY_HRM_EMPLOYEE_DATA_LOAD,_FUNCKEY_HRM_EMPLOYEE_UPDATE,_FUNCKEY_HRM_EMPLOYEE_VIEW,_FUNCKEY_HRM_DEVELOP_VIEWDATA,_FUNCKEY_HRM_DEVELOP_FINALIZE,_FUNCKEY_HRM_DEVELOP_VIEWAPPROVALS,_FUNCKEY_HRM_DEVELOP_APPROVE,_FUNCKEY_FINAN_EXPENSE_APPROVE,_FUNCKEY_FINAN_EXPENSE_DATA_LOAD,_FUNCKEY_FINAN_EXPENSE_VIEW,_FUNCKEY_FINAN_EXPENSE_APPLY,_FUNCKEY_FINAN_EXPENSE_RECORD_VIEW,_FUNCKEY_FINAN_CONTRACT_DATA_LOAD,_FUNCKEY_FINAN_CONTRACT_APPROVE,_FUNCKEY_FINAN_CONTRACT_APPLY,_FUNCKEY_FINAN_CONTRACT_VIEW,_FUNCKEY_FINAN_CONTRACT_RECORD_VIEW,_FUNCKEY_ADMIN_ACCOUNT_LOCK,_FUNCKEY_ADMIN_ACCOUNT_ACTIVE,_FUNCKEY_ADMIN_ACCOUNT_PASSWORD_RESET,_FUNCKEY_PERSONAL_CONFERENCE_VIEW_MY_INITIAL_CONFERENCE,_FUNCKEY_ADMIN_NEWS_APPROVE_DATA_LOAD,_FUNCKEY_ADMIN_NEWS_DATA_LOAD,_FUNCKEY_ADMIN_WORK_ARRANGE_DATA_LOAD,_FUNCKEY_ADMIN_DOC_DATA_LOAD,_FUNCKEY_HRM_JOBHIRE_JOB_LIST_VIEW,_FUNCKEY_HRM_EMPLOYEE_DATA_LOAD,_FUNCKEY_FINAN_EXPENSE_DATA_LOAD,_FUNCKEY_FINAN_CONTRACT_DATA_LOAD,_FUNCKEY_ADMIN_ACCOUNT_DATA_LOAD', 1, 1),
+(69, '校区行政管理权限', 'ROLE_SCHOOL_CLERICAL_MANAGE', '', 1, '_FUNCKEY_ADMIN_NEWS_DELETE,_FUNCKEY_ADMIN_NEWS_ADD,_FUNCKEY_ADMIN_NEWS_APPROVING,_FUNCKEY_ADMIN_NEWS_APPROVE_DATA_LOAD,_FUNCKEY_ADMIN_NEWS_DATA_LOAD,_FUNCKEY_ADMIN_NEWS_APPROVE,_FUNCKEY_ADMIN_NEWS_TOP,_FUNCKEY_ADMIN_NEWS_EDIT,_FUNCKEY_ADMIN_IMPORT_WORK_ARRANGE,_FUNCKEY_ADMIN_REMOVE_WORK_ARRANGE,_FUNCKEY_ADMIN_WORK_ARRANGE_DATA_LOAD,_FUNCKEY_ADMIN_VIEW_WORK_ARRANGE,_FUNCKEY_ADMIN_ADD_WORK_ARRANGE,_FUNCKEY_ADMIN_EDIT_WORK_ARRANGE,_FUNCKEY_ADMIN_ADJUST_WORK_ARRANGE,_FUNCKEY_ADMIN_ATTENDANCE_DATA_LOAD,_FUNCKEY_ADMIN_DOC_ADD,_FUNCKEY_ADMIN_DOC_REMOVE,_FUNCKEY_ADMIN_DOC_DATA_LOAD,_FUNCKEY_ADMIN_DOC_EDIT,_FUNCKEY_ADMIN_NEWS_APPROVE_DATA_LOAD,_FUNCKEY_ADMIN_NEWS_DATA_LOAD,_FUNCKEY_ADMIN_WORK_ARRANGE_DATA_LOAD,_FUNCKEY_ADMIN_ATTENDANCE_DATA_LOAD,_FUNCKEY_ADMIN_DOC_DATA_LOAD', 1, 1),
+(70, '校区财务管理权限', 'ROLE_SCHOOL_FINANCE_MANAGE', '', 1, '_FUNCKEY_FINAN_EXPENSE_APPROVE,_FUNCKEY_FINAN_EXPENSE_DATA_LOAD,_FUNCKEY_FINAN_EXPENSE_VIEW,_FUNCKEY_FINAN_EXPENSE_APPLY,_FUNCKEY_FINAN_EXPENSE_RECORD_VIEW,_FUNCKEY_FINAN_CONTRACT_DATA_LOAD,_FUNCKEY_FINAN_CONTRACT_APPROVE,_FUNCKEY_FINAN_CONTRACT_APPLY,_FUNCKEY_FINAN_CONTRACT_VIEW,_FUNCKEY_FINAN_CONTRACT_RECORD_VIEW,_FUNCKEY_FINAN_EXPENSE_DATA_LOAD,_FUNCKEY_FINAN_CONTRACT_DATA_LOAD', 1, 1),
+(71, '校区人资管理权限', 'ROLE_SCHOOL_HR_MANAGE', '', 1, '_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_ARRANGE,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_RESUME_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY_INTERVIEW_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY,_FUNCKEY_HRM_JOBHIRE_JOB_POST,_FUNCKEY_HRM_JOBHIRE_JOB_APPROVAL,_FUNCKEY_HRM_JOBHIRE_JOB_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_EDIT,_FUNCKEY_HRM_JOBHIRE_JOB_OPENCTRL,_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ENTILE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_ABSENCE,_FUNCKEY_HRM_JOBHIRE_JOB_EMP_ELIMINATE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_ARRANGE,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_RESUME_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER_INTERVIEW_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_OFFER,_FUNCKEY_HRM_ARCHIVE_RESUME_VIEW,_FUNCKEY_HRM_ENTRY_OP_ONBOARD,_FUNCKEY_HRM_ENTRY_OP_ABSENCE,_FUNCKEY_HRM_ENTRY_OP_QUALIFY,_FUNCKEY_HRM_EMPLOYEE_UPDATE,_FUNCKEY_HRM_EMPLOYEE_VIEW,_FUNCKEY_HRM_EMPLOYEE_ADD,_FUNCKEY_HRM_DEVELOP_VIEWDATA,_FUNCKEY_HRM_DEVELOP_FINALIZE,_FUNCKEY_HRM_DEVELOP_VIEWAPPROVALS,_FUNCKEY_HRM_DEVELOP_APPROVE,_FUNCKEY_HRM_JOBHIRE_JOB_LIST_VIEW,_FUNCKEY_HRM_ENTRY_DATA_LOAD,_FUNCKEY_HRM_EMPLOYEE_DATA_LOAD', 1, 1),
+(72, '片区办管理权限', 'ROLE_AREA_MANAGE', '', 1, '_FUNCKEY_PERSONAL_TASK_ADD,_FUNCKEY_PERSONAL_TASK_EDIT,_FUNCKEY_PERSONAL_TASK_VIEW,_FUNCKEY_PERSONAL_TASK_MYVIEW_DATA_LOAD,_FUNCKEY_PERSONAL_TASK_DATA_LOAD,_FUNCKEY_PERSONAL_CONFERENCE_INITIAL_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_CANCEL_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_DATA_LOAD,_FUNCKEY_PERSONAL_CONFERENCE_SUMMARY_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_VIEW_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_VIEW_MY_INITIAL_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_ACTIVATE_CONFERENCE,_FUNCKEY_PERSONAL_CONFERENCE_ADJUST_CONFERENCE,_FUNCKEY_PERSONAL_NEWS_DATA_LOAD,_FUNCKEY_PERSONAL_DOCS_DATA_LOAD,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_APPLY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_RECOMMEND,_FUNCKEY_PERSONAL_JOBAPPLY_DATA_LOAD,_FUNCKEY_PERSONAL_JOBAPPLY_HISTORY,_FUNCKEY_PERSONAL_JOBAPPLY_JOB_VIEW,_FUNCKEY_PERSONAL_JOBAPPLY_RESUME_VIEW,_FUNCKEY_PERSONAL_INTERVIEW_HISTORY,_FUNCKEY_PERSONAL_INTERVIEW_COMMIT,_FUNCKEY_PERSONAL_INTERVIEW_JOBVIEW,_FUNCKEY_PERSONAL_INTERVIEW_RESUMEVIEW,_FUNCKEY_PERSONAL_INTERVIEW_RECORDS_VIEW,_FUNCKEY_PERSONAL_APPLICATION_POST,_FUNCKEY_PERSONAL_APPLICATION_VIEW,_FUNCKEY_PERSONAL_APPROVAL_DATA_LOAD,_FUNCKEY_HRM_JOBHIRE_JOB_LIST_VIEW,_FUNCKEY_HRM_JOBHIRE_JOB_POST,_FUNCKEY_HRM_DEVELOP_VIEWDATA,_FUNCKEY_HRM_DEVELOP_FINALIZE,_FUNCKEY_HRM_DEVELOP_VIEWAPPROVALS,_FUNCKEY_HRM_DEVELOP_APPROVE,_FUNCKEY_FINAN_EXPENSE_APPROVE,_FUNCKEY_FINAN_EXPENSE_DATA_LOAD,_FUNCKEY_FINAN_EXPENSE_VIEW,_FUNCKEY_FINAN_EXPENSE_APPLY,_FUNCKEY_FINAN_EXPENSE_RECORD_VIEW,_FUNCKEY_FINAN_CONTRACT_DATA_LOAD,_FUNCKEY_FINAN_CONTRACT_APPROVE,_FUNCKEY_FINAN_CONTRACT_APPLY,_FUNCKEY_FINAN_CONTRACT_VIEW,_FUNCKEY_FINAN_CONTRACT_RECORD_VIEW,', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -1997,12 +2094,226 @@ CREATE TABLE IF NOT EXISTS `app_role_dac` (
 --
 
 INSERT INTO `app_role_dac` (`role_id`, `stg_id`) VALUES
-(7, 20),
-(7, 22),
-(9, 19),
-(9, 20),
-(9, 21),
-(9, 22);
+(7, 23),
+(7, 47),
+(7, 65),
+(7, 101),
+(7, 105),
+(7, 135),
+(8, 23),
+(8, 47),
+(8, 48),
+(8, 49),
+(8, 50),
+(8, 65),
+(8, 101),
+(8, 105),
+(9, 23),
+(9, 24),
+(9, 25),
+(9, 26),
+(9, 35),
+(9, 36),
+(9, 37),
+(9, 38),
+(9, 47),
+(9, 48),
+(9, 49),
+(9, 50),
+(9, 55),
+(9, 56),
+(9, 57),
+(9, 58),
+(9, 63),
+(9, 64),
+(9, 65),
+(9, 66),
+(9, 67),
+(9, 68),
+(9, 69),
+(9, 70),
+(9, 71),
+(9, 72),
+(9, 73),
+(9, 74),
+(9, 75),
+(9, 76),
+(9, 77),
+(9, 78),
+(9, 79),
+(9, 80),
+(9, 81),
+(9, 82),
+(9, 83),
+(9, 84),
+(9, 85),
+(9, 86),
+(9, 87),
+(9, 88),
+(9, 89),
+(9, 90),
+(9, 95),
+(9, 96),
+(9, 97),
+(9, 98),
+(9, 99),
+(9, 100),
+(9, 101),
+(9, 102),
+(9, 103),
+(9, 104),
+(9, 105),
+(9, 106),
+(9, 107),
+(9, 108),
+(9, 109),
+(9, 110),
+(9, 127),
+(9, 128),
+(9, 129),
+(9, 130),
+(9, 135),
+(9, 136),
+(9, 137),
+(9, 138),
+(9, 139),
+(9, 140),
+(9, 141),
+(9, 142),
+(9, 143),
+(67, 23),
+(67, 24),
+(67, 25),
+(67, 26),
+(67, 35),
+(67, 36),
+(67, 37),
+(67, 38),
+(67, 47),
+(67, 48),
+(67, 49),
+(67, 50),
+(67, 55),
+(67, 56),
+(67, 57),
+(67, 58),
+(67, 63),
+(67, 64),
+(67, 65),
+(67, 66),
+(67, 67),
+(67, 68),
+(67, 69),
+(67, 70),
+(67, 107),
+(67, 108),
+(67, 135),
+(67, 138),
+(67, 139),
+(68, 23),
+(68, 24),
+(68, 25),
+(68, 26),
+(68, 47),
+(68, 48),
+(68, 49),
+(68, 50),
+(68, 63),
+(68, 64),
+(68, 65),
+(68, 66),
+(68, 67),
+(68, 68),
+(68, 69),
+(68, 71),
+(68, 73),
+(68, 74),
+(68, 79),
+(68, 80),
+(68, 81),
+(68, 83),
+(68, 85),
+(68, 86),
+(68, 95),
+(68, 96),
+(68, 98),
+(68, 99),
+(68, 101),
+(68, 102),
+(68, 104),
+(68, 105),
+(68, 106),
+(68, 107),
+(68, 108),
+(68, 109),
+(68, 128),
+(68, 129),
+(68, 130),
+(68, 135),
+(68, 136),
+(68, 138),
+(69, 71),
+(69, 73),
+(69, 74),
+(69, 75),
+(69, 76),
+(69, 77),
+(69, 79),
+(69, 80),
+(69, 81),
+(69, 107),
+(69, 108),
+(69, 109),
+(69, 135),
+(69, 136),
+(69, 138),
+(70, 99),
+(70, 101),
+(70, 102),
+(70, 104),
+(70, 105),
+(70, 106),
+(71, 83),
+(71, 85),
+(71, 86),
+(71, 87),
+(71, 88),
+(71, 89),
+(71, 95),
+(71, 96),
+(71, 98),
+(72, 23),
+(72, 24),
+(72, 25),
+(72, 26),
+(72, 35),
+(72, 36),
+(72, 37),
+(72, 38),
+(72, 47),
+(72, 48),
+(72, 49),
+(72, 50),
+(72, 63),
+(72, 64),
+(72, 65),
+(72, 66),
+(72, 67),
+(72, 68),
+(72, 69),
+(72, 70),
+(72, 83),
+(72, 84),
+(72, 85),
+(72, 86),
+(72, 99),
+(72, 100),
+(72, 101),
+(72, 102),
+(72, 103),
+(72, 104),
+(72, 105),
+(72, 106);
 
 -- --------------------------------------------------------
 
@@ -2036,6 +2347,20 @@ INSERT INTO `app_role_func` (`role_id`, `func_id`) VALUES
 (7, 98),
 (7, 99),
 (7, 106),
+(7, 127),
+(7, 140),
+(7, 141),
+(7, 143),
+(7, 144),
+(7, 145),
+(7, 147),
+(7, 154),
+(7, 155),
+(8, 32),
+(8, 33),
+(8, 35),
+(8, 36),
+(8, 37),
 (8, 73),
 (8, 78),
 (8, 88),
@@ -2045,6 +2370,165 @@ INSERT INTO `app_role_func` (`role_id`, `func_id`) VALUES
 (8, 98),
 (8, 99),
 (8, 106),
+(8, 140),
+(8, 141),
+(8, 143),
+(8, 144),
+(8, 145),
+(8, 154),
+(8, 155),
+(9, 5),
+(9, 6),
+(9, 7),
+(9, 8),
+(9, 9),
+(9, 10),
+(9, 11),
+(9, 12),
+(9, 13),
+(9, 14),
+(9, 15),
+(9, 16),
+(9, 17),
+(9, 18),
+(9, 19),
+(9, 20),
+(9, 21),
+(9, 22),
+(9, 23),
+(9, 24),
+(9, 25),
+(9, 26),
+(9, 27),
+(9, 28),
+(9, 29),
+(9, 30),
+(9, 31),
+(9, 32),
+(9, 33),
+(9, 34),
+(9, 35),
+(9, 36),
+(9, 37),
+(9, 38),
+(9, 39),
+(9, 40),
+(9, 41),
+(9, 42),
+(9, 43),
+(9, 44),
+(9, 45),
+(9, 46),
+(9, 47),
+(9, 48),
+(9, 49),
+(9, 50),
+(9, 51),
+(9, 52),
+(9, 53),
+(9, 54),
+(9, 55),
+(9, 56),
+(9, 57),
+(9, 58),
+(9, 59),
+(9, 60),
+(9, 61),
+(9, 62),
+(9, 63),
+(9, 64),
+(9, 65),
+(9, 66),
+(9, 67),
+(9, 68),
+(9, 69),
+(9, 70),
+(9, 71),
+(9, 72),
+(9, 73),
+(9, 74),
+(9, 75),
+(9, 76),
+(9, 77),
+(9, 78),
+(9, 79),
+(9, 80),
+(9, 81),
+(9, 82),
+(9, 83),
+(9, 84),
+(9, 85),
+(9, 86),
+(9, 87),
+(9, 88),
+(9, 89),
+(9, 90),
+(9, 91),
+(9, 92),
+(9, 93),
+(9, 94),
+(9, 95),
+(9, 96),
+(9, 97),
+(9, 98),
+(9, 99),
+(9, 100),
+(9, 101),
+(9, 102),
+(9, 103),
+(9, 104),
+(9, 105),
+(9, 106),
+(9, 107),
+(9, 108),
+(9, 109),
+(9, 110),
+(9, 111),
+(9, 112),
+(9, 113),
+(9, 114),
+(9, 115),
+(9, 116),
+(9, 117),
+(9, 119),
+(9, 120),
+(9, 121),
+(9, 122),
+(9, 123),
+(9, 124),
+(9, 125),
+(9, 126),
+(9, 127),
+(9, 128),
+(9, 129),
+(9, 130),
+(9, 131),
+(9, 132),
+(9, 133),
+(9, 134),
+(9, 135),
+(9, 136),
+(9, 137),
+(9, 138),
+(9, 139),
+(9, 140),
+(9, 141),
+(9, 142),
+(9, 143),
+(9, 144),
+(9, 145),
+(9, 146),
+(9, 147),
+(9, 148),
+(9, 149),
+(9, 150),
+(9, 151),
+(9, 152),
+(9, 153),
+(9, 154),
+(9, 155),
+(9, 156),
+(9, 159),
 (14, 5),
 (14, 6),
 (14, 7),
@@ -2211,6 +2695,7 @@ INSERT INTO `app_role_func` (`role_id`, `func_id`) VALUES
 (54, 28),
 (55, 31),
 (55, 96),
+(56, 31),
 (56, 97),
 (57, 30),
 (58, 32),
@@ -2402,7 +2887,231 @@ INSERT INTO `app_role_func` (`role_id`, `func_id`) VALUES
 (65, 135),
 (65, 136),
 (65, 137),
-(65, 138);
+(65, 138),
+(67, 73),
+(67, 74),
+(67, 75),
+(67, 76),
+(67, 77),
+(67, 78),
+(67, 79),
+(67, 80),
+(67, 81),
+(67, 82),
+(67, 83),
+(67, 84),
+(67, 85),
+(67, 86),
+(67, 87),
+(67, 88),
+(67, 89),
+(67, 90),
+(67, 91),
+(67, 92),
+(67, 93),
+(67, 94),
+(67, 95),
+(67, 98),
+(67, 99),
+(67, 102),
+(67, 103),
+(67, 104),
+(67, 105),
+(67, 106),
+(67, 107),
+(67, 108),
+(67, 127),
+(67, 128),
+(67, 129),
+(67, 130),
+(67, 131),
+(67, 132),
+(67, 140),
+(67, 141),
+(67, 142),
+(67, 143),
+(67, 144),
+(67, 145),
+(67, 146),
+(67, 147),
+(67, 148),
+(67, 156),
+(68, 5),
+(68, 6),
+(68, 8),
+(68, 9),
+(68, 10),
+(68, 11),
+(68, 13),
+(68, 14),
+(68, 15),
+(68, 16),
+(68, 17),
+(68, 18),
+(68, 19),
+(68, 21),
+(68, 28),
+(68, 29),
+(68, 30),
+(68, 31),
+(68, 32),
+(68, 33),
+(68, 34),
+(68, 35),
+(68, 36),
+(68, 37),
+(68, 38),
+(68, 39),
+(68, 73),
+(68, 74),
+(68, 75),
+(68, 76),
+(68, 77),
+(68, 87),
+(68, 88),
+(68, 89),
+(68, 90),
+(68, 91),
+(68, 96),
+(68, 97),
+(68, 98),
+(68, 99),
+(68, 102),
+(68, 103),
+(68, 104),
+(68, 105),
+(68, 106),
+(68, 107),
+(68, 108),
+(68, 114),
+(68, 128),
+(68, 130),
+(68, 131),
+(68, 132),
+(68, 133),
+(68, 136),
+(68, 137),
+(68, 138),
+(68, 139),
+(68, 140),
+(68, 141),
+(68, 143),
+(68, 144),
+(68, 145),
+(68, 146),
+(68, 147),
+(68, 149),
+(68, 151),
+(68, 153),
+(68, 154),
+(68, 155),
+(68, 156),
+(68, 159),
+(69, 109),
+(69, 110),
+(69, 111),
+(69, 112),
+(69, 113),
+(69, 114),
+(69, 127),
+(69, 128),
+(69, 129),
+(69, 130),
+(69, 131),
+(69, 132),
+(69, 133),
+(69, 134),
+(69, 135),
+(69, 147),
+(69, 149),
+(69, 150),
+(69, 151),
+(69, 156),
+(70, 32),
+(70, 33),
+(70, 34),
+(70, 35),
+(70, 36),
+(70, 37),
+(70, 38),
+(70, 39),
+(70, 154),
+(70, 155),
+(71, 5),
+(71, 6),
+(71, 7),
+(71, 8),
+(71, 9),
+(71, 10),
+(71, 11),
+(71, 12),
+(71, 13),
+(71, 14),
+(71, 15),
+(71, 16),
+(71, 17),
+(71, 18),
+(71, 19),
+(71, 20),
+(71, 21),
+(71, 23),
+(71, 24),
+(71, 25),
+(71, 26),
+(71, 28),
+(71, 29),
+(71, 30),
+(71, 31),
+(71, 96),
+(71, 97),
+(71, 139),
+(71, 152),
+(71, 153),
+(72, 6),
+(72, 30),
+(72, 31),
+(72, 32),
+(72, 33),
+(72, 34),
+(72, 35),
+(72, 36),
+(72, 37),
+(72, 38),
+(72, 39),
+(72, 73),
+(72, 74),
+(72, 75),
+(72, 76),
+(72, 77),
+(72, 78),
+(72, 80),
+(72, 81),
+(72, 87),
+(72, 88),
+(72, 89),
+(72, 90),
+(72, 91),
+(72, 96),
+(72, 97),
+(72, 98),
+(72, 99),
+(72, 102),
+(72, 103),
+(72, 104),
+(72, 105),
+(72, 106),
+(72, 107),
+(72, 108),
+(72, 139),
+(72, 140),
+(72, 141),
+(72, 142),
+(72, 143),
+(72, 144),
+(72, 145),
+(72, 146),
+(72, 154),
+(72, 155);
 
 -- --------------------------------------------------------
 
@@ -2427,20 +3136,80 @@ INSERT INTO `app_role_menu` (`role_id`, `menu_id`) VALUES
 (7, 6),
 (7, 7),
 (7, 9),
+(7, 17),
+(7, 28),
 (7, 29),
 (7, 30),
+(7, 31),
 (7, 32),
+(7, 33),
+(7, 34),
 (7, 35),
 (7, 37),
+(7, 39),
 (8, 3),
 (8, 4),
+(8, 5),
+(8, 6),
+(8, 7),
 (8, 9),
 (8, 25),
+(8, 29),
+(8, 30),
 (8, 32),
 (8, 33),
 (8, 34),
 (8, 35),
 (8, 37),
+(9, 3),
+(9, 4),
+(9, 5),
+(9, 6),
+(9, 7),
+(9, 8),
+(9, 9),
+(9, 10),
+(9, 11),
+(9, 12),
+(9, 13),
+(9, 14),
+(9, 15),
+(9, 16),
+(9, 17),
+(9, 18),
+(9, 19),
+(9, 20),
+(9, 21),
+(9, 22),
+(9, 23),
+(9, 24),
+(9, 25),
+(9, 26),
+(9, 27),
+(9, 28),
+(9, 29),
+(9, 30),
+(9, 31),
+(9, 32),
+(9, 33),
+(9, 34),
+(9, 35),
+(9, 36),
+(9, 37),
+(9, 38),
+(9, 39),
+(9, 40),
+(9, 41),
+(9, 42),
+(9, 43),
+(9, 44),
+(9, 45),
+(9, 46),
+(9, 47),
+(9, 48),
+(9, 49),
+(9, 50),
+(9, 51),
 (14, 3),
 (14, 4),
 (14, 5),
@@ -2570,7 +3339,13 @@ INSERT INTO `app_role_menu` (`role_id`, `menu_id`) VALUES
 (55, 8),
 (55, 47),
 (56, 8),
+(56, 45),
+(56, 46),
 (56, 47),
+(56, 48),
+(56, 49),
+(56, 50),
+(56, 51),
 (57, 8),
 (57, 47),
 (58, 5),
@@ -2653,7 +3428,96 @@ INSERT INTO `app_role_menu` (`role_id`, `menu_id`) VALUES
 (65, 48),
 (65, 49),
 (65, 50),
-(65, 51);
+(65, 51),
+(67, 3),
+(67, 4),
+(67, 17),
+(67, 32),
+(67, 33),
+(67, 34),
+(67, 35),
+(67, 36),
+(67, 37),
+(67, 38),
+(67, 39),
+(67, 40),
+(67, 41),
+(67, 43),
+(67, 44),
+(68, 3),
+(68, 4),
+(68, 5),
+(68, 6),
+(68, 7),
+(68, 8),
+(68, 9),
+(68, 17),
+(68, 25),
+(68, 26),
+(68, 28),
+(68, 29),
+(68, 30),
+(68, 31),
+(68, 32),
+(68, 33),
+(68, 34),
+(68, 35),
+(68, 36),
+(68, 37),
+(68, 38),
+(68, 39),
+(68, 41),
+(68, 42),
+(68, 43),
+(68, 45),
+(68, 46),
+(68, 47),
+(68, 48),
+(68, 49),
+(68, 51),
+(69, 17),
+(69, 39),
+(69, 41),
+(69, 42),
+(69, 43),
+(69, 44),
+(70, 5),
+(70, 6),
+(70, 7),
+(70, 28),
+(70, 29),
+(70, 30),
+(70, 31),
+(71, 8),
+(71, 45),
+(71, 46),
+(71, 47),
+(71, 48),
+(71, 49),
+(71, 50),
+(71, 51),
+(72, 3),
+(72, 4),
+(72, 5),
+(72, 6),
+(72, 7),
+(72, 8),
+(72, 9),
+(72, 25),
+(72, 28),
+(72, 29),
+(72, 30),
+(72, 31),
+(72, 32),
+(72, 33),
+(72, 34),
+(72, 35),
+(72, 36),
+(72, 37),
+(72, 38),
+(72, 45),
+(72, 47),
+(72, 48);
 
 -- --------------------------------------------------------
 
@@ -2670,7 +3534,7 @@ CREATE TABLE IF NOT EXISTS `app_school_department` (
   `dep_eqid` bigint(20) DEFAULT NULL COMMENT '对口部门',
   `dep_orgtype` tinyint(4) NOT NULL COMMENT '部门结构类型 0=总部, 1=校区, 2=片区',
   PRIMARY KEY (`dep_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='学校部门设置' AUTO_INCREMENT=27 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='学校部门设置' AUTO_INCREMENT=29 ;
 
 --
 -- 转存表中的数据 `app_school_department`
@@ -2680,15 +3544,17 @@ INSERT INTO `app_school_department` (`dep_id`, `dep_no`, `dep_name`, `dep_desc`,
 (15, '1', '总经办', '', 0, NULL, 0),
 (16, '2', '市场部', '', 0, 15, 0),
 (17, '3', '财务部', '', 0, 15, 0),
-(18, '1', '总监室', '', 0, 15, 1),
+(18, '1', '校区办', '', 0, 15, 1),
 (19, '5', '教务部', '', 0, 23, 1),
 (20, '6', '行政部', '', 0, 24, 1),
-(21, '2', '市场部', '', 0, 16, 1),
+(21, '2', '咨询部', '', 0, 16, 1),
 (22, '4', '运营部', '', 0, 15, 0),
-(23, '5', '教务部', '', 0, 15, 0),
+(23, '5', '教研部', '', 0, 15, 0),
 (24, '6', '行政部', '', 0, 15, 0),
 (25, '5', '财务部', '', 0, 17, 1),
-(26, '7', '人资部', '', 0, 15, 0);
+(26, '7', '人资部', '', 0, 15, 0),
+(27, '8', '发展部', '', 0, 15, 0),
+(28, '1', '片区办', '', 0, 27, 2);
 
 -- --------------------------------------------------------
 
@@ -2702,41 +3568,50 @@ CREATE TABLE IF NOT EXISTS `app_school_department_position` (
   `pos_desc` varchar(250) DEFAULT NULL COMMENT '岗位描述',
   `pos_leadership` tinyint(4) DEFAULT '1' COMMENT '是否领导, 0=是, 1=不是',
   `dep_id` bigint(20) NOT NULL COMMENT '部门ID',
-  `pos_roleRights` varchar(500) DEFAULT NULL COMMENT '岗位角色权限',
+  `pos_roleRights` text COMMENT '岗位角色权限',
   PRIMARY KEY (`pos_id`),
   KEY `dep_id` (`dep_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='部门岗位' AUTO_INCREMENT=48 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='部门岗位' AUTO_INCREMENT=57 ;
 
 --
 -- 转存表中的数据 `app_school_department_position`
 --
 
 INSERT INTO `app_school_department_position` (`pos_id`, `pos_name`, `pos_desc`, `pos_leadership`, `dep_id`, `pos_roleRights`) VALUES
-(13, '副总经理', '', 0, 15, 'ROLE_ADMIN'),
-(14, '市场总监', '', 0, 16, 'ROLE_EMPLOYEE_HEADOFFICE,ROLE_PERSONAL_TASK_PUBLISH,ROLE_PERSONAL_CONFERENCE_MANAGE,ROLE_PERSONAL_CONFERENCE_SUMMARY'),
+(13, '副总经理', '', 0, 15, 'ROLE_EMPLOYEE_HEADOFFICE,ROLE_ADMIN_NEWS_PUBLISH,ROLE_PERSONAL_NEWS_READ,ROLE_PERSONAL_TASK_PUBLISH,ROLE_PERSONAL_TASK_READ,ROLE_ADMIN_DOC_UPLOAD,ROLE_PERSONAL_DOC_DOWNLOAD,ROLE_PERSONAL_CONFERENCE_MANAGE,ROLE_PERSONAL_CONFERENCE_SUMMARY,ROLE_PERSONAL_CONFERENCE_READ,ROLE_ADMIN_HRM_JOB_PUBLISH,ROLE_ADMIN_HRM_ONBOARD_REVIEW,ROLE_ADMIN_HRM_RECRUIT_REVIEW,ROLE_ADMIN_HRM_ARCHIVE_RESUME_VIEW,ROLE_ADMIN_HRM_EMPLOYEE_VIEW,ROLE_ADMIN_HRM_DEVELOP_APPROVE,ROLE_ADMIN_HRM_DEVELOP_VIEWAPPROVA,ROLE_ADMIN_HRM_DEVELOP_FINALIZE,ROLE_ADMIN_FINAN_EXPENSE_APPLY,ROLE_ADMIN_FINAN_EXPENSE_APPROVE,ROLE_ADMIN_FINAN_CONTRACT_APPLY,ROLE_ADMIN_FINAN_CONTRACT_APPROVE'),
+(14, '市场总监', '', 0, 16, 'ROLE_EMPLOYEE_HEADOFFICE,ROLE_ADMIN_NEWS_PUBLISH,ROLE_PERSONAL_NEWS_READ,ROLE_PERSONAL_TASK_PUBLISH,ROLE_PERSONAL_TASK_READ,ROLE_ADMIN_DOC_UPLOAD,ROLE_PERSONAL_DOC_DOWNLOAD,ROLE_PERSONAL_CONFERENCE_MANAGE,ROLE_PERSONAL_CONFERENCE_SUMMARY,ROLE_PERSONAL_CONFERENCE_READ,ROLE_ADMIN_HRM_JOB_PUBLISH,ROLE_ADMIN_HRM_ONBOARD_REVIEW,ROLE_ADMIN_HRM_ARCHIVE_RESUME_VIEW,ROLE_ADMIN_HRM_DEVELOP_APPROVE,ROLE_ADMIN_HRM_DEVELOP_VIEWAPPROVA,ROLE_ADMIN_FINAN_EXPENSE_APPLY,ROLE_ADMIN_FINAN_EXPENSE_APPROVE,ROLE_ADMIN_FINAN_CONTRACT_APPLY,ROLE_ADMIN_FINAN_CONTRACT_APPROVE'),
 (15, '市场专员', '', 1, 16, 'ROLE_EMPLOYEE_HEADOFFICE'),
-(17, '财务专员', '', 1, 17, 'ROLE_EMPLOYEE_HEADOFFICE,ROLE_ADMIN_FINAN_EXPENSE_APPLY,ROLE_ADMIN_FINAN_CONTRACT_APPLY'),
+(17, '财务专员', '', 1, 17, 'ROLE_EMPLOYEE_HEADOFFICE,ROLE_ADMIN_FINAN_EXPENSE_APPLY,ROLE_ADMIN_FINAN_EXPENSE_APPROVE,ROLE_ADMIN_FINAN_CONTRACT_APPLY,ROLE_ADMIN_FINAN_CONTRACT_APPROVE'),
 (25, '校区行政', '', 1, 20, 'ROLE_EMPLOYEE_SCHOOL'),
-(26, '总经理', '', 0, 15, 'ROLE_ADMIN'),
-(27, '校长', '', 0, 18, 'ROLE_SCHOOL_ADMIN'),
-(28, '会计', '', 1, 17, 'ROLE_EMPLOYEE_HEADOFFICE'),
+(26, '总经理', '', 0, 15, 'ROLE_EMPLOYEE_HEADOFFICE,ROLE_ADMIN_SYSTEM_MANAGE'),
+(27, '校长', '', 0, 18, 'ROLE_SCHOOL_HEADMASTER'),
+(28, '会计', '', 1, 17, 'ROLE_EMPLOYEE_HEADOFFICE,ROLE_ADMIN_FINAN_EXPENSE_APPLY,ROLE_ADMIN_FINAN_EXPENSE_APPROVE,ROLE_ADMIN_FINAN_CONTRACT_APPLY,ROLE_ADMIN_FINAN_CONTRACT_APPROVE'),
 (29, '美工设计', '', 1, 16, 'ROLE_EMPLOYEE_HEADOFFICE'),
-(30, '行政主管', '', 0, 20, 'ROLE_SCHOOL_ADMIN'),
+(30, '行政主管', '', 0, 20, 'ROLE_EMPLOYEE_SCHOOL,ROLE_SCHOOL_CLERICAL_MANAGE'),
 (33, '教务主管', '', 0, 19, 'ROLE_EMPLOYEE_SCHOOL'),
 (34, '教务助理', '', 1, 19, 'ROLE_EMPLOYEE_SCHOOL'),
 (35, '教师', '', 1, 19, 'ROLE_EMPLOYEE_SCHOOL'),
 (36, '学科组长', '', 1, 19, 'ROLE_EMPLOYEE_SCHOOL'),
 (37, '市场专员', '', 1, 21, 'ROLE_EMPLOYEE_SCHOOL'),
-(38, '财务', '', 1, 25, 'ROLE_EMPLOYEE_SCHOOL'),
-(39, '财务总监', '', 0, 17, 'ROLE_EMPLOYEE_HEADOFFICE,ROLE_PERSONAL_TASK_PUBLISH,ROLE_PERSONAL_CONFERENCE_MANAGE,ROLE_PERSONAL_CONFERENCE_SUMMARY,ROLE_ADMIN_FINAN_EXPENSE_APPLY,ROLE_ADMIN_FINAN_EXPENSE_APPROVE,ROLE_ADMIN_FINAN_CONTRACT_APPLY,ROLE_ADMIN_FINAN_CONTRACT_APPROVE'),
-(40, '运营总监', '', 0, 22, 'ROLE_EMPLOYEE_HEADOFFICE,ROLE_PERSONAL_TASK_PUBLISH,ROLE_PERSONAL_CONFERENCE_MANAGE,ROLE_PERSONAL_CONFERENCE_SUMMARY'),
+(38, '财务', '', 1, 25, 'ROLE_EMPLOYEE_SCHOOL,ROLE_SCHOOL_FINANCE_MANAGE'),
+(39, '财务总监', '', 0, 17, 'ROLE_EMPLOYEE_HEADOFFICE,ROLE_ADMIN_NEWS_PUBLISH,ROLE_PERSONAL_NEWS_READ,ROLE_PERSONAL_TASK_PUBLISH,ROLE_PERSONAL_TASK_READ,ROLE_ADMIN_DOC_UPLOAD,ROLE_PERSONAL_DOC_DOWNLOAD,ROLE_PERSONAL_CONFERENCE_MANAGE,ROLE_PERSONAL_CONFERENCE_SUMMARY,ROLE_PERSONAL_CONFERENCE_READ,ROLE_ADMIN_HRM_JOB_PUBLISH,ROLE_ADMIN_HRM_ONBOARD_REVIEW,ROLE_ADMIN_HRM_ARCHIVE_RESUME_VIEW,ROLE_ADMIN_HRM_DEVELOP_APPROVE,ROLE_ADMIN_HRM_DEVELOP_VIEWAPPROVA,ROLE_ADMIN_FINAN_EXPENSE_APPLY,ROLE_ADMIN_FINAN_EXPENSE_APPROVE,ROLE_ADMIN_FINAN_CONTRACT_APPLY,ROLE_ADMIN_FINAN_CONTRACT_APPROVE'),
+(40, '运营总监', '', 0, 22, 'ROLE_EMPLOYEE_HEADOFFICE,ROLE_ADMIN_NEWS_PUBLISH,ROLE_PERSONAL_NEWS_READ,ROLE_PERSONAL_TASK_PUBLISH,ROLE_PERSONAL_TASK_READ,ROLE_ADMIN_DOC_UPLOAD,ROLE_PERSONAL_DOC_DOWNLOAD,ROLE_PERSONAL_CONFERENCE_MANAGE,ROLE_PERSONAL_CONFERENCE_SUMMARY,ROLE_PERSONAL_CONFERENCE_READ,ROLE_ADMIN_HRM_JOB_PUBLISH,ROLE_ADMIN_HRM_ONBOARD_REVIEW,ROLE_ADMIN_HRM_ARCHIVE_RESUME_VIEW,ROLE_ADMIN_HRM_DEVELOP_APPROVE,ROLE_ADMIN_HRM_DEVELOP_VIEWAPPROVA,ROLE_ADMIN_FINAN_EXPENSE_APPLY,ROLE_ADMIN_FINAN_EXPENSE_APPROVE,ROLE_ADMIN_FINAN_CONTRACT_APPLY,ROLE_ADMIN_FINAN_CONTRACT_APPROVE'),
 (41, '运营专员', '', 1, 22, 'ROLE_EMPLOYEE_HEADOFFICE'),
-(42, '教务总监', '', 0, 23, 'ROLE_EMPLOYEE_HEADOFFICE,ROLE_PERSONAL_TASK_PUBLISH,ROLE_PERSONAL_CONFERENCE_MANAGE,ROLE_PERSONAL_CONFERENCE_SUMMARY'),
+(42, '教务总监', '', 0, 23, 'ROLE_EMPLOYEE_HEADOFFICE,ROLE_ADMIN_NEWS_PUBLISH,ROLE_PERSONAL_NEWS_READ,ROLE_PERSONAL_TASK_PUBLISH,ROLE_PERSONAL_TASK_READ,ROLE_ADMIN_DOC_UPLOAD,ROLE_PERSONAL_DOC_DOWNLOAD,ROLE_PERSONAL_CONFERENCE_MANAGE,ROLE_PERSONAL_CONFERENCE_SUMMARY,ROLE_PERSONAL_CONFERENCE_READ,ROLE_ADMIN_HRM_JOB_PUBLISH,ROLE_ADMIN_HRM_ONBOARD_REVIEW,ROLE_ADMIN_HRM_ARCHIVE_RESUME_VIEW,ROLE_ADMIN_HRM_DEVELOP_APPROVE,ROLE_ADMIN_HRM_DEVELOP_VIEWAPPROVA,ROLE_ADMIN_FINAN_EXPENSE_APPLY,ROLE_ADMIN_FINAN_EXPENSE_APPROVE,ROLE_ADMIN_FINAN_CONTRACT_APPLY,ROLE_ADMIN_FINAN_CONTRACT_APPROVE'),
 (43, '教务专员', '', 1, 23, 'ROLE_EMPLOYEE_HEADOFFICE'),
-(44, '行政总监', '', 0, 24, 'ROLE_EMPLOYEE_HEADOFFICE,ROLE_ADMIN_NEWS_PUBLISH,ROLE_ADMIN_NEWS_APPROVE,ROLE_ADMIN_TASK_APPROVE,ROLE_PERSONAL_TASK_PUBLISH,ROLE_ADMIN_WORKPLAN_ADD,ROLE_ADMIN_WORKPLAN_ADJUST,ROLE_ADMIN_WORKPLAN_READ,ROLE_ADMIN_DOC_UPLOAD,ROLE_PERSONAL_CONFERENCE_MANAGE,ROLE_PERSONAL_CONFERENCE_SUMMARY,ROLE_PERSONAL_CONFERENCE_READ'),
-(45, '行政专员', '', 1, 24, 'ROLE_EMPLOYEE_HEADOFFICE'),
-(46, '人资总监', '', 0, 26, 'ROLE_ADMIN_HRM_JOB_PUBLISH,ROLE_ADMIN_HRM_JOB_MANAGE,ROLE_ADMIN_HRM_ONBOARD,ROLE_ADMIN_HRM_RECRUIT_REVIEW,ROLE_ADMIN_HRM_RECRUITING,ROLE_ADMIN_HRM_RECRUIT_RESULT,ROLE_ADMIN_HRM_ENTRY_OP_ONBOARD,ROLE_ADMIN_HRM_ENTRY_OP_QUALIFY,ROLE_ADMIN_HRM_EMPLOYEE_ADD,ROLE_ADMIN_HRM_EMPLOYEE_DELETE,ROLE_ADMIN_HRM_DEVELOP_APPROVE,ROLE_ADMIN_HRM_DEVELOP_FINALIZE'),
-(47, '人资专员', '', 1, 26, 'ROLE_EMPLOYEE_HEADOFFICE');
+(44, '行政总监', '', 0, 24, 'ROLE_EMPLOYEE_HEADOFFICE,ROLE_ADMIN_NEWS_PUBLISH,ROLE_ADMIN_NEWS_APPROVE,ROLE_PERSONAL_NEWS_READ,ROLE_ADMIN_TASK_APPROVE,ROLE_PERSONAL_TASK_PUBLISH,ROLE_PERSONAL_TASK_READ,ROLE_ADMIN_WORKPLAN_ADD,ROLE_ADMIN_WORKPLAN_ADJUST,ROLE_ADMIN_WORKPLAN_READ,ROLE_ADMIN_ATTENDANCE_MANAGE,ROLE_ADMIN_DOC_UPLOAD,ROLE_PERSONAL_DOC_DOWNLOAD,ROLE_PERSONAL_CONFERENCE_MANAGE,ROLE_PERSONAL_CONFERENCE_SUMMARY,ROLE_PERSONAL_CONFERENCE_READ,ROLE_ADMIN_HRM_JOB_PUBLISH,ROLE_ADMIN_HRM_ONBOARD_REVIEW,ROLE_ADMIN_HRM_ARCHIVE_RESUME_VIEW,ROLE_ADMIN_HRM_DEVELOP_APPROVE,ROLE_ADMIN_HRM_DEVELOP_VIEWAPPROVA,ROLE_ADMIN_FINAN_EXPENSE_APPLY,ROLE_ADMIN_FINAN_EXPENSE_APPROVE,ROLE_ADMIN_FINAN_CONTRACT_APPLY,ROLE_ADMIN_FINAN_CONTRACT_APPROVE'),
+(45, '行政专员', '', 1, 24, 'ROLE_EMPLOYEE_HEADOFFICE,ROLE_ADMIN_NEWS_PUBLISH,ROLE_PERSONAL_TASK_READ,ROLE_ADMIN_WORKPLAN_ADD,ROLE_ADMIN_WORKPLAN_ADJUST,ROLE_ADMIN_WORKPLAN_READ,ROLE_ADMIN_ATTENDANCE_MANAGE,ROLE_ADMIN_DOC_UPLOAD,ROLE_PERSONAL_DOC_DOWNLOAD'),
+(46, '人资总监', '', 0, 26, 'ROLE_EMPLOYEE_HEADOFFICE,ROLE_ADMIN_NEWS_PUBLISH,ROLE_PERSONAL_NEWS_READ,ROLE_PERSONAL_TASK_PUBLISH,ROLE_PERSONAL_TASK_READ,ROLE_ADMIN_DOC_UPLOAD,ROLE_PERSONAL_DOC_DOWNLOAD,ROLE_PERSONAL_CONFERENCE_MANAGE,ROLE_PERSONAL_CONFERENCE_SUMMARY,ROLE_PERSONAL_CONFERENCE_READ,ROLE_ADMIN_HRM_JOB_PUBLISH,ROLE_ADMIN_HRM_JOB_APPROVE,ROLE_ADMIN_HRM_JOB_MANAGE,ROLE_ADMIN_HRM_ONBOARD_REVIEW,ROLE_ADMIN_HRM_ONBOARD,ROLE_ADMIN_HRM_RECRUIT_REVIEW,ROLE_ADMIN_HRM_RECRUITING,ROLE_ADMIN_HRM_RECRUIT_RESULT,ROLE_ADMIN_HRM_ARCHIVE_RESUME_REMOVE,ROLE_ADMIN_HRM_ARCHIVE_RESUME_VIEW,ROLE_ADMIN_HRM_ENTRY_OP_ONBOARD,ROLE_ADMIN_HRM_ENTRY_OP_QUALIFY,ROLE_ADMIN_HRM_EMPLOYEE_ADD,ROLE_ADMIN_HRM_EMPLOYEE_DELETE,ROLE_ADMIN_HRM_EMPLOYEE_VIEW,ROLE_ADMIN_HRM_DEVELOP_APPROVE,ROLE_ADMIN_HRM_DEVELOP_VIEWAPPROVA,ROLE_ADMIN_HRM_DEVELOP_FINALIZE,ROLE_ADMIN_FINAN_EXPENSE_APPLY,ROLE_ADMIN_FINAN_EXPENSE_APPROVE,ROLE_ADMIN_FINAN_CONTRACT_APPLY,ROLE_ADMIN_FINAN_CONTRACT_APPROVE'),
+(47, '人资专员', '', 1, 26, 'ROLE_EMPLOYEE_HEADOFFICE,ROLE_ADMIN_HRM_JOB_PUBLISH,ROLE_ADMIN_HRM_ONBOARD_REVIEW,ROLE_ADMIN_HRM_ONBOARD,ROLE_ADMIN_HRM_RECRUIT_REVIEW,ROLE_ADMIN_HRM_RECRUITING,ROLE_ADMIN_HRM_ARCHIVE_RESUME_VIEW,ROLE_ADMIN_HRM_ENTRY_OP_ONBOARD,ROLE_ADMIN_HRM_EMPLOYEE_ADD,ROLE_ADMIN_HRM_EMPLOYEE_VIEW,ROLE_ADMIN_HRM_DEVELOP_VIEWAPPROVA'),
+(48, '校长助理', '', 1, 18, 'ROLE_EMPLOYEE_SCHOOL'),
+(49, '发展总监', '', 0, 27, 'ROLE_EMPLOYEE_HEADOFFICE,ROLE_ADMIN_NEWS_PUBLISH,ROLE_PERSONAL_NEWS_READ,ROLE_PERSONAL_TASK_PUBLISH,ROLE_PERSONAL_TASK_READ,ROLE_ADMIN_DOC_UPLOAD,ROLE_PERSONAL_DOC_DOWNLOAD,ROLE_PERSONAL_CONFERENCE_MANAGE,ROLE_PERSONAL_CONFERENCE_SUMMARY,ROLE_PERSONAL_CONFERENCE_READ,ROLE_ADMIN_HRM_JOB_PUBLISH,ROLE_ADMIN_HRM_ONBOARD_REVIEW,ROLE_ADMIN_HRM_ARCHIVE_RESUME_VIEW,ROLE_ADMIN_HRM_DEVELOP_APPROVE,ROLE_ADMIN_HRM_DEVELOP_VIEWAPPROVA,ROLE_ADMIN_FINAN_EXPENSE_APPLY,ROLE_ADMIN_FINAN_EXPENSE_APPROVE,ROLE_ADMIN_FINAN_CONTRACT_APPLY,ROLE_ADMIN_FINAN_CONTRACT_APPROVE'),
+(50, '发展专员', '', 1, 27, 'ROLE_EMPLOYEE_HEADOFFICE'),
+(51, '咨询师', '', 1, 21, 'ROLE_EMPLOYEE_SCHOOL'),
+(52, '学管师', '', 1, 19, 'ROLE_EMPLOYEE_SCHOOL'),
+(53, '区长', '', 0, 27, 'ROLE_EMPLOYEE_HEADOFFICE,ROLE_ADMIN_NEWS_PUBLISH,ROLE_PERSONAL_NEWS_READ,ROLE_PERSONAL_TASK_PUBLISH,ROLE_PERSONAL_TASK_READ,ROLE_ADMIN_DOC_UPLOAD,ROLE_PERSONAL_DOC_DOWNLOAD,ROLE_PERSONAL_CONFERENCE_MANAGE,ROLE_PERSONAL_CONFERENCE_SUMMARY,ROLE_PERSONAL_CONFERENCE_READ,ROLE_ADMIN_HRM_JOB_PUBLISH,ROLE_ADMIN_HRM_ONBOARD_REVIEW,ROLE_ADMIN_HRM_ARCHIVE_RESUME_VIEW,ROLE_ADMIN_HRM_DEVELOP_APPROVE,ROLE_ADMIN_HRM_DEVELOP_VIEWAPPROVA,ROLE_ADMIN_FINAN_EXPENSE_APPLY,ROLE_ADMIN_FINAN_EXPENSE_APPROVE,ROLE_ADMIN_FINAN_CONTRACT_APPLY,ROLE_ADMIN_FINAN_CONTRACT_APPROVE'),
+(54, '咨询主管', '', 0, 21, 'ROLE_EMPLOYEE_SCHOOL'),
+(55, '行政人资主管', '', 0, 20, 'ROLE_EMPLOYEE_SCHOOL,ROLE_SCHOOL_CLERICAL_MANAGE,ROLE_SCHOOL_HR_MANAGE'),
+(56, '区长', '', 0, 28, 'ROLE_AREA_MANAGE');
 
 -- --------------------------------------------------------
 
@@ -2755,71 +3630,217 @@ CREATE TABLE IF NOT EXISTS `app_school_department_position_role` (
 --
 
 INSERT INTO `app_school_department_position_role` (`pos_id`, `role_id`) VALUES
-(13, 9),
+(13, 7),
+(13, 22),
+(13, 24),
+(13, 27),
+(13, 28),
+(13, 33),
+(13, 34),
+(13, 35),
+(13, 36),
+(13, 37),
+(13, 38),
+(13, 42),
+(13, 44),
+(13, 49),
+(13, 54),
+(13, 55),
+(13, 56),
+(13, 57),
+(13, 58),
+(13, 59),
+(13, 60),
+(13, 61),
 (14, 7),
+(14, 22),
+(14, 24),
 (14, 27),
+(14, 28),
+(14, 33),
+(14, 34),
 (14, 35),
 (14, 36),
+(14, 37),
+(14, 38),
+(14, 42),
+(14, 49),
+(14, 55),
+(14, 56),
+(14, 58),
+(14, 59),
+(14, 60),
+(14, 61),
 (15, 7),
 (17, 7),
 (17, 58),
+(17, 59),
 (17, 60),
+(17, 61),
 (25, 8),
-(26, 9),
-(27, 14),
+(27, 68),
 (28, 7),
+(28, 58),
+(28, 59),
+(28, 60),
+(28, 61),
 (29, 7),
-(30, 14),
 (33, 8),
 (34, 8),
 (35, 8),
 (36, 8),
 (37, 8),
-(38, 8),
 (39, 7),
+(39, 22),
+(39, 24),
 (39, 27),
+(39, 28),
+(39, 33),
+(39, 34),
 (39, 35),
 (39, 36),
+(39, 37),
+(39, 38),
+(39, 42),
+(39, 49),
+(39, 55),
+(39, 56),
 (39, 58),
 (39, 59),
 (39, 60),
 (39, 61),
 (40, 7),
+(40, 22),
+(40, 24),
 (40, 27),
+(40, 28),
+(40, 33),
+(40, 34),
 (40, 35),
 (40, 36),
+(40, 37),
+(40, 38),
+(40, 42),
+(40, 49),
+(40, 55),
+(40, 56),
+(40, 58),
+(40, 59),
+(40, 60),
+(40, 61),
 (41, 7),
 (42, 7),
+(42, 22),
+(42, 24),
 (42, 27),
+(42, 28),
+(42, 33),
+(42, 34),
 (42, 35),
 (42, 36),
+(42, 37),
+(42, 38),
+(42, 42),
+(42, 49),
+(42, 55),
+(42, 56),
+(42, 58),
+(42, 59),
+(42, 60),
+(42, 61),
 (43, 7),
 (44, 7),
 (44, 22),
 (44, 23),
+(44, 24),
 (44, 26),
 (44, 27),
+(44, 28),
 (44, 29),
 (44, 30),
 (44, 31),
+(44, 32),
 (44, 33),
+(44, 34),
 (44, 35),
 (44, 36),
 (44, 37),
+(44, 38),
+(44, 42),
+(44, 49),
+(44, 55),
+(44, 56),
+(44, 58),
+(44, 59),
+(44, 60),
+(44, 61),
 (45, 7),
-(46, 38),
-(46, 41),
-(46, 43),
-(46, 44),
-(46, 45),
-(46, 46),
-(46, 50),
-(46, 51),
-(46, 52),
-(46, 53),
-(46, 55),
-(46, 57),
-(47, 7);
+(45, 22),
+(45, 28),
+(45, 29),
+(45, 30),
+(45, 31),
+(45, 32),
+(45, 33),
+(45, 34),
+(47, 7),
+(47, 38),
+(47, 42),
+(47, 43),
+(47, 44),
+(47, 45),
+(47, 49),
+(47, 50),
+(47, 52),
+(47, 54),
+(47, 56),
+(48, 8),
+(49, 7),
+(49, 22),
+(49, 24),
+(49, 27),
+(49, 28),
+(49, 33),
+(49, 34),
+(49, 35),
+(49, 36),
+(49, 37),
+(49, 38),
+(49, 42),
+(49, 49),
+(49, 55),
+(49, 56),
+(49, 58),
+(49, 59),
+(49, 60),
+(49, 61),
+(50, 7),
+(51, 8),
+(52, 8),
+(53, 7),
+(53, 22),
+(53, 24),
+(53, 27),
+(53, 28),
+(53, 33),
+(53, 34),
+(53, 35),
+(53, 36),
+(53, 37),
+(53, 38),
+(53, 42),
+(53, 49),
+(53, 55),
+(53, 56),
+(53, 58),
+(53, 59),
+(53, 60),
+(53, 61),
+(54, 8),
+(55, 8),
+(55, 69),
+(55, 71),
+(56, 72);
 
 -- --------------------------------------------------------
 
@@ -2838,7 +3859,7 @@ CREATE TABLE IF NOT EXISTS `app_school_district` (
   PRIMARY KEY (`district_id`),
   UNIQUE KEY `district_no` (`district_no`),
   KEY `district_parent` (`district_parent`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='校区设置' AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='校区设置' AUTO_INCREMENT=11 ;
 
 --
 -- 转存表中的数据 `app_school_district`
@@ -2846,13 +3867,14 @@ CREATE TABLE IF NOT EXISTS `app_school_district` (
 
 INSERT INTO `app_school_district` (`district_id`, `district_no`, `district_name`, `district_type`, `district_address`, `district_phone`, `district_parent`) VALUES
 (1, '0000', '杭州总部', 0, '', '', NULL),
-(3, '0001', '绍兴解放路校区', 1, '', '', 1),
+(3, '0001', '绍兴解放路校区', 1, '', '', 10),
 (4, '0002', '绍兴迪荡校区', 1, '德清', '', 1),
 (5, '0003', '柯桥校区', 1, '', '', 1),
 (6, '0004', '嘉兴校区', 1, '', '', 1),
 (7, '0005', '湖州校区', 1, '', '', 1),
 (8, '0006', '萧山校区', 1, '', '', 1),
-(9, '0007', '德清校区', 1, '', '', 1);
+(9, '0007', '德清校区', 1, '', '', 1),
+(10, '0008', '萧绍片区', 2, '', '', 1);
 
 -- --------------------------------------------------------
 
@@ -2995,7 +4017,7 @@ CREATE TABLE IF NOT EXISTS `app_system_log` (
   `ip` varchar(128) DEFAULT NULL COMMENT '登录IP',
   `cost` bigint(20) DEFAULT NULL COMMENT '操作耗时',
   PRIMARY KEY (`log_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统日志' AUTO_INCREMENT=184 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统日志' AUTO_INCREMENT=292 ;
 
 --
 -- 转存表中的数据 `app_system_log`
@@ -3162,7 +4184,115 @@ INSERT INTO `app_system_log` (`log_id`, `user_name`, `user_id`, `createtime`, `o
 (180, '管理员', 1, '2012-08-06 22:44:28', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 310),
 (181, '管理员', 1, '2012-08-06 22:47:32', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 263),
 (182, '管理员', 1, '2012-08-08 13:51:01', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 173),
-(183, '管理员', 1, '2012-08-08 14:42:46', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 40);
+(183, '管理员', 1, '2012-08-08 14:42:46', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 40),
+(184, '管理员', 1, '2012-08-22 14:32:56', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 267),
+(185, '管理员', 1, '2012-08-22 14:37:36', '登录', '用户通过身份验证进入系统', '127.0.0.1', 183),
+(186, '管理员', 1, '2012-08-22 15:59:55', '登录', '用户通过身份验证进入系统', '127.0.0.1', 147),
+(187, '管理员', 1, '2012-08-22 16:55:25', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 149),
+(188, '管理员', 1, '2012-08-22 17:31:10', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 93),
+(189, '林菁菁', 21, '2012-08-22 18:19:31', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 102),
+(190, '管理员', 1, '2012-08-22 19:30:52', '登录', '用户通过身份验证进入系统', '127.0.0.1', 200),
+(191, '罗佳驹', 19, '2012-08-22 19:34:19', '登录', '用户通过身份验证进入系统', '127.0.0.1', 95),
+(192, '管理员', 1, '2012-08-22 19:35:20', '登录', '用户通过身份验证进入系统', '127.0.0.1', 53),
+(193, '罗佳驹', 19, '2012-08-22 19:36:02', '登录', '用户通过身份验证进入系统', '127.0.0.1', 193),
+(194, '罗佳驹', 19, '2012-08-22 19:39:31', '登录', '用户通过身份验证进入系统', '127.0.0.1', 208),
+(195, '管理员', 1, '2012-08-22 19:43:29', '登录', '用户通过身份验证进入系统', '127.0.0.1', 241),
+(196, '梅杰', 20, '2012-08-22 19:44:44', '登录', '用户通过身份验证进入系统', '127.0.0.1', 193),
+(197, '管理员', 1, '2012-08-22 19:51:25', '登录', '用户通过身份验证进入系统', '127.0.0.1', 44),
+(198, '管理员', 1, '2012-08-22 20:22:36', '登录', '用户通过身份验证进入系统', '127.0.0.1', 210),
+(199, '管理员', 1, '2012-08-22 20:35:25', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 158),
+(200, '管理员', 1, '2012-08-22 20:41:20', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 215),
+(201, '管理员', 1, '2012-08-22 20:45:51', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 157),
+(202, '管理员', 1, '2012-08-22 20:49:44', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 167),
+(203, '梅杰', 20, '2012-08-22 20:50:18', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 234),
+(204, '管理员', 1, '2012-08-22 20:59:35', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 188),
+(205, '管理员', 1, '2012-08-22 21:07:13', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 175),
+(206, '管理员', 1, '2012-08-22 21:34:18', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 142),
+(207, '梅杰', 20, '2012-08-22 21:35:00', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 281),
+(208, '管理员', 1, '2012-08-22 21:35:46', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 74),
+(209, '管理员', 1, '2012-08-23 09:34:30', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 2938),
+(210, '梅杰', 20, '2012-08-23 11:25:09', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 206),
+(211, '管理员', 1, '2012-08-23 11:25:25', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 46),
+(212, '梅杰', 20, '2012-08-23 11:26:38', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 48),
+(213, '管理员', 1, '2012-08-23 11:27:42', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 61),
+(214, '梅杰', 20, '2012-08-23 11:33:03', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 151),
+(215, '管理员', 1, '2012-08-23 11:33:29', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 61),
+(216, '梅杰', 20, '2012-08-23 11:36:47', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 63),
+(217, '林菁菁', 21, '2012-08-23 11:37:11', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 191),
+(218, '管理员', 1, '2012-08-23 11:47:36', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 133),
+(219, '梅杰', 20, '2012-08-23 11:48:43', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 62),
+(220, '林菁菁', 21, '2012-08-23 11:49:23', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 58),
+(221, '罗佳驹', 19, '2012-08-23 11:51:25', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 52),
+(222, '管理员', 1, '2012-08-23 11:57:56', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 47),
+(223, '林菁菁', 21, '2012-08-23 12:02:32', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 91),
+(224, '管理员', 1, '2012-08-23 12:03:30', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 43),
+(225, '林菁菁', 21, '2012-08-23 12:05:39', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 67),
+(226, '管理员', 1, '2012-08-23 12:11:08', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 44),
+(227, '管理员', 1, '2012-08-23 13:03:29', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 423),
+(228, '林菁菁', 21, '2012-08-23 13:03:59', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 111),
+(229, '管理员', 1, '2012-08-23 13:05:43', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 97),
+(230, '梅杰', 20, '2012-08-23 13:13:59', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 151),
+(231, '管理员', 1, '2012-08-23 13:14:42', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 58),
+(232, '梅杰', 20, '2012-08-23 13:15:52', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 145),
+(233, '管理员', 1, '2012-08-23 13:17:00', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 57),
+(234, '林菁菁', 21, '2012-08-23 13:18:41', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 124),
+(235, '管理员', 1, '2012-08-23 13:28:43', '登录', '用户通过身份验证进入系统', '0:0:0:0:0:0:0:1', 158),
+(236, '管理员', 1, '2012-08-23 13:36:28', '登录', '用户通过身份验证进入系统', '122.234.53.66', 26),
+(237, '管理员', 1, '2012-08-23 13:54:02', '登录', '用户通过身份验证进入系统', '218.108.223.218', 90),
+(238, '许玉凤', 22, '2012-08-23 14:05:42', '登录', '用户通过身份验证进入系统', '122.234.53.66', 75),
+(239, '罗佳驹', 19, '2012-08-23 14:07:00', '登录', '用户通过身份验证进入系统', '122.234.53.66', 51),
+(240, '管理员', 1, '2012-08-23 14:07:59', '登录', '用户通过身份验证进入系统', '122.234.53.66', 35),
+(241, '蔡晓喻', 32, '2012-08-23 14:09:29', '登录', '用户通过身份验证进入系统', '122.234.53.66', 133),
+(242, '章荷英', 33, '2012-08-23 14:12:11', '登录', '用户通过身份验证进入系统', '122.234.53.66', 53),
+(243, '冯毓', 34, '2012-08-23 14:14:43', '登录', '用户通过身份验证进入系统', '122.234.53.66', 135),
+(244, '管理员', 1, '2012-08-23 14:35:27', '登录', '用户通过身份验证进入系统', '122.234.53.66', 28),
+(245, '周碧英', 25, '2012-08-23 14:36:14', '登录', '用户通过身份验证进入系统', '122.234.53.66', 48),
+(246, '周碧英', 25, '2012-08-23 14:41:53', '登录', '用户通过身份验证进入系统', '122.234.53.66', 52),
+(247, '周碧英', 25, '2012-08-23 14:43:40', '登录', '用户通过身份验证进入系统', '122.234.53.66', 41),
+(248, '周碧英', 25, '2012-08-23 14:48:25', '登录', '用户通过身份验证进入系统', '122.234.53.66', 40),
+(249, '周碧英', 25, '2012-08-23 14:53:12', '登录', '用户通过身份验证进入系统', '122.234.53.66', 48),
+(250, '刘苗芳', 24, '2012-08-23 14:53:54', '登录', '用户通过身份验证进入系统', '122.234.53.66', 55),
+(251, '刘苗芳', 24, '2012-08-23 14:55:19', '登录', '用户通过身份验证进入系统', '122.234.53.66', 56),
+(252, '刘苗芳', 24, '2012-08-23 14:56:25', '登录', '用户通过身份验证进入系统', '122.234.53.66', 65),
+(253, '刘苗芳', 24, '2012-08-23 14:57:19', '登录', '用户通过身份验证进入系统', '122.234.53.66', 78),
+(254, '刘苗芳', 24, '2012-08-23 14:58:13', '登录', '用户通过身份验证进入系统', '122.234.53.66', 65),
+(255, '管理员', 1, '2012-08-23 15:00:13', '登录', '用户通过身份验证进入系统', '122.234.53.66', 25),
+(256, '梅杰', 20, '2012-08-23 15:01:39', '登录', '用户通过身份验证进入系统', '122.234.53.66', 65),
+(257, '管理员', 1, '2012-08-23 15:03:05', '登录', '用户通过身份验证进入系统', '122.234.53.66', 27),
+(258, '梅杰', 20, '2012-08-23 15:06:59', '登录', '用户通过身份验证进入系统', '122.234.53.66', 33),
+(259, '管理员', 1, '2012-08-23 15:07:14', '登录', '用户通过身份验证进入系统', '122.234.53.66', 32),
+(260, '管理员', 1, '2012-08-23 15:08:43', '登录', '用户通过身份验证进入系统', '122.234.53.66', 30),
+(261, '梅杰', 20, '2012-08-23 15:09:24', '登录', '用户通过身份验证进入系统', '122.234.53.66', 34),
+(262, '管理员', 1, '2012-08-23 15:09:41', '登录', '用户通过身份验证进入系统', '122.234.53.66', 28),
+(263, '梅杰', 20, '2012-08-23 15:10:45', '登录', '用户通过身份验证进入系统', '122.234.53.66', 141),
+(264, '管理员', 1, '2012-08-23 15:32:15', '登录', '用户通过身份验证进入系统', '122.234.53.66', 28),
+(265, '周碧英', 25, '2012-08-23 15:32:56', '登录', '用户通过身份验证进入系统', '122.234.53.66', 43),
+(266, '管理员', 1, '2012-08-23 15:39:37', '登录', '用户通过身份验证进入系统', '122.234.53.66', 28),
+(267, '罗佳驹', 19, '2012-08-23 15:59:57', '登录', '用户通过身份验证进入系统', '122.234.53.66', 112),
+(268, '管理员', 1, '2012-08-23 16:01:12', '登录', '用户通过身份验证进入系统', '122.234.53.66', 24),
+(269, '罗佳驹', 19, '2012-08-23 16:03:04', '登录', '用户通过身份验证进入系统', '122.234.53.66', 124),
+(270, 'leo', 38, '2012-08-23 16:05:26', '登录', '用户通过身份验证进入系统', '122.234.53.66', 38),
+(271, '管理员', 1, '2012-08-23 16:06:06', '登录', '用户通过身份验证进入系统', '122.234.53.66', 24),
+(272, 'leo', 38, '2012-08-23 16:19:54', '登录', '用户通过身份验证进入系统', '122.234.53.66', 40),
+(273, '管理员', 1, '2012-08-23 16:20:26', '登录', '用户通过身份验证进入系统', '122.234.53.66', 26),
+(274, '管理员', 1, '2012-08-24 12:28:38', '登录', '用户通过身份验证进入系统', '122.234.51.218', 49),
+(275, '管理员', 1, '2012-08-24 14:19:54', '登录', '用户通过身份验证进入系统', '122.234.51.218', 86),
+(276, '管理员', 1, '2012-08-24 14:43:23', '登录', '用户通过身份验证进入系统', '122.234.51.218', 24),
+(277, '管理员', 1, '2012-08-24 15:24:09', '登录', '用户通过身份验证进入系统', '122.234.51.218', 31),
+(278, '管理员', 1, '2012-08-24 15:59:12', '登录', '用户通过身份验证进入系统', '122.234.51.218', 25),
+(279, '管理员', 1, '2012-08-27 13:21:10', '登录', '用户通过身份验证进入系统', '218.108.223.68', 91),
+(280, '管理员', 1, '2012-08-27 13:44:17', '登录', '用户通过身份验证进入系统', '122.234.54.158', 41),
+(281, '管理员', 1, '2012-08-27 13:49:25', '登录', '用户通过身份验证进入系统', '122.234.54.158', 29),
+(282, '管理员', 1, '2012-08-27 15:00:47', '登录', '用户通过身份验证进入系统', '125.119.190.41', 24),
+(283, '罗佳驹', 19, '2012-08-27 15:04:20', '登录', '用户通过身份验证进入系统', '125.119.190.41', 67),
+(284, '管理员', 1, '2012-08-27 15:04:37', '登录', '用户通过身份验证进入系统', '125.119.190.41', 25),
+(285, '梅杰', 20, '2012-08-27 15:05:15', '登录', '用户通过身份验证进入系统', '125.119.190.41', 102),
+(286, '罗佳驹', 19, '2012-08-27 15:05:55', '登录', '用户通过身份验证进入系统', '125.119.190.41', 31),
+(287, '管理员', 1, '2012-08-27 15:06:11', '登录', '用户通过身份验证进入系统', '125.119.190.41', 30),
+(288, '管理员', 1, '2012-08-27 15:07:40', '登录', '用户通过身份验证进入系统', '125.119.190.41', 27),
+(289, '管理员', 1, '2012-08-27 15:08:31', '登录', '用户通过身份验证进入系统', '125.119.190.41', 25),
+(290, '管理员', 1, '2012-08-27 17:15:09', '登录', '用户通过身份验证进入系统', '125.119.190.41', 26),
+(291, '管理员', 1, '2012-08-27 18:56:41', '登录', '用户通过身份验证进入系统', '183.140.206.26', 21);
 
 -- --------------------------------------------------------
 
@@ -3279,33 +4409,34 @@ CREATE TABLE IF NOT EXISTS `app_user` (
   `logon_lastime` datetime DEFAULT NULL COMMENT '最后登录时间',
   PRIMARY KEY (`user_id`),
   KEY `FK_AU_R_DPT` (`dep_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='app_user\r\n用户表' AUTO_INCREMENT=38 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='app_user\r\n用户表' AUTO_INCREMENT=39 ;
 
 --
 -- 转存表中的数据 `app_user`
 --
 
 INSERT INTO `app_user` (`user_id`, `username`, `password`, `fullname`, `email`, `dep_id`, `pos_id`, `district_id`, `emp_id`, `phone`, `mobile`, `fax`, `address`, `zip`, `photo`, `status`, `del_flag`, `logon_lastip`, `logon_lastime`) VALUES
-(1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', '管理员', 'csx@jee-soft.cn', NULL, 26, 1, 19, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '0:0:0:0:0:0:0:1', '2012-08-08 14:42:46'),
-(19, '00001001', 'ro+N+ETeTFw+SYrc4TnIzXuXWwO93mUJgr0ArrsNPfk=', '罗佳驹', NULL, 15, 26, 1, 19, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '125.118.54.30', '2012-08-03 16:28:07'),
-(20, '00001002', 'YtwP6mUL0cqp45wC4yCgaYVYKkKWE4LUtMn1mqljowc=', '梅杰', NULL, 15, 13, 1, 20, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '125.118.54.30', '2012-08-03 16:26:32'),
-(21, '00003001', 'mxA4ujFL57JAzeke5W87Cujn+35uwD+aKrCuNK4f+6A=', '林菁菁', NULL, 17, 39, 1, 21, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL),
-(22, '00004001', 'p0TBRM7B1PaLy7I3j+aXC7xeOeBwzBU7pF6IxMFGLOg=', '许玉凤', NULL, 22, 40, 1, 22, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '0:0:0:0:0:0:0:1', '2012-07-31 13:23:25'),
+(1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', '管理员', 'csx@jee-soft.cn', NULL, 26, 1, 19, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '183.140.206.26', '2012-08-27 18:56:41'),
+(19, '00001001', 'ro+N+ETeTFw+SYrc4TnIzXuXWwO93mUJgr0ArrsNPfk=', '罗佳驹', NULL, 15, 26, 1, 19, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '125.119.190.41', '2012-08-27 15:05:55'),
+(20, '00001002', 'YtwP6mUL0cqp45wC4yCgaYVYKkKWE4LUtMn1mqljowc=', '梅杰', NULL, 15, 13, 1, 20, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '125.119.190.41', '2012-08-27 15:05:15'),
+(21, '00003001', 'mxA4ujFL57JAzeke5W87Cujn+35uwD+aKrCuNK4f+6A=', '林菁菁', NULL, 17, 39, 1, 21, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '0:0:0:0:0:0:0:1', '2012-08-23 13:18:41'),
+(22, '00004001', 'p0TBRM7B1PaLy7I3j+aXC7xeOeBwzBU7pF6IxMFGLOg=', '许玉凤', NULL, 22, 40, 1, 22, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '122.234.53.66', '2012-08-23 14:05:42'),
 (23, '00005001', 'B4aIJZIEodZjpMtGatbKbo46E2vBzRJBFmJPmW2frYI=', '王伟平', NULL, 23, 42, 1, 23, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '218.108.223.245', '2012-08-07 15:52:37'),
-(24, '00002001', '/4xWL9bhPAve03Tu5HeR7T0U6Qsmy6eYjLtZM4aAcFs=', '刘苗芳', NULL, 16, 14, 1, 24, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL),
-(25, '00003002', 'CqfBdfhjcLbqOIDd62kTxYiDhAbXBkgFrv8eH8/fpQw=', '周碧英', NULL, 17, 28, 1, 25, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '0:0:0:0:0:0:0:1', '2012-07-31 13:22:31'),
+(24, '00002001', '/4xWL9bhPAve03Tu5HeR7T0U6Qsmy6eYjLtZM4aAcFs=', '刘苗芳', NULL, 16, 14, 1, 24, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '122.234.53.66', '2012-08-23 14:58:13'),
+(25, '00003002', 'CqfBdfhjcLbqOIDd62kTxYiDhAbXBkgFrv8eH8/fpQw=', '周碧英', NULL, 17, 28, 1, 25, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '122.234.53.66', '2012-08-23 15:32:56'),
 (26, '00003003', '8t8/A0jkYHUyLfiJtVydFhZ0Q/X2xuJ1LGJUPHLs4Zk=', '蒋晓萍', NULL, 17, 17, 1, 26, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL),
 (27, '00006001', 'AdR3o6rcgoyXwyqu2QCIn/IbWgsYIfDIbybGB7ESK+k=', '杨琪', NULL, 24, 45, 1, 27, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '0:0:0:0:0:0:0:1', '2012-08-01 11:25:50'),
 (28, '00005002', 'VmQ2dhyZSxuzomLV9mx1T+y2Fl7rkdxAxIkbDN7dWT4=', '何滨', NULL, 23, 43, 1, 28, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL),
 (29, '00002002', 'VH4xR+A+M04zzSSzxg3T2osRhsB1+1gJYxVjJ38uk4E=', '程聪', NULL, 16, 29, 1, 29, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL),
 (30, '00005003', 'yFKhbyaKjjizMHXNo0w0Kp45bl/g3/5fRBNJKMmq8t0=', '苏斯翔', NULL, 23, 43, 1, 30, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '0:0:0:0:0:0:0:1', '2012-08-01 11:22:01'),
 (31, '00066001', 'rfm23G77+wfY8xG9pX4eAfGkp4XWzHxVXuy1HIyOApU=', '俞柏红', NULL, 20, 25, 8, 31, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '0:0:0:0:0:0:0:1', '2012-07-31 19:58:00'),
-(32, '00076001', 'anI9MmTiyrzAeGYpjdEtqIbc4+5HsOweg6X7o1JNQjA=', '蔡晓喻', NULL, 20, 30, 9, 32, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL),
-(33, '00056001', '5Rsppf8nmetp92hxvHFFEXJtj7V8d4z1CYA/bHSaXfM=', '章荷英', NULL, 20, 25, 7, 33, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL),
-(34, '00046001', '3pnDrR8cXanV8I/+PMniD+bMPmu4AFZjmRF+SCA73yQ=', '冯毓', NULL, 20, 30, 6, 34, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL),
+(32, '00076001', 'anI9MmTiyrzAeGYpjdEtqIbc4+5HsOweg6X7o1JNQjA=', '蔡晓喻', NULL, 20, 30, 9, 32, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '122.234.53.66', '2012-08-23 14:09:29'),
+(33, '00056001', '5Rsppf8nmetp92hxvHFFEXJtj7V8d4z1CYA/bHSaXfM=', '章荷英', NULL, 20, 25, 7, 33, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '122.234.53.66', '2012-08-23 14:12:11'),
+(34, '00046001', '3pnDrR8cXanV8I/+PMniD+bMPmu4AFZjmRF+SCA73yQ=', '冯毓', NULL, 20, 30, 6, 34, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '122.234.53.66', '2012-08-23 14:14:43'),
 (35, '00036001', 'XmV3a5D8g46S/4qJugvbYAy4y1z6wF+b1tzU3C/37P4=', '陈蕾红', NULL, 20, 25, 5, 35, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, NULL, NULL),
 (36, '00006002', 'gfbTaJlUYHQ1K6VFo1nJ+W4jxm7NEPtO9Kl3H4xm070=', 'ljx', NULL, 24, 44, 1, 36, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '218.108.223.245', '2012-08-07 15:45:57'),
-(37, '00003004', '8JxP5z5ukGlNHehkcTvpwUFoej2ycC+LHDt785I/Cos=', '林立', NULL, 17, 16, 1, 37, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '125.118.54.30', '2012-08-03 16:38:24');
+(37, '00003004', '8JxP5z5ukGlNHehkcTvpwUFoej2ycC+LHDt785I/Cos=', '林立', NULL, 17, 16, 1, 37, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '125.118.54.30', '2012-08-03 16:38:24'),
+(38, '00002003', 'o6jZ7Lxg57/kkJH9OePxJ3cC1T/2LlIqSvl7nktA2a0=', 'leo', NULL, 16, 15, 1, 38, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '122.234.53.66', '2012-08-23 16:19:54');
 
 -- --------------------------------------------------------
 
@@ -3326,7 +4457,7 @@ CREATE TABLE IF NOT EXISTS `app_user_role` (
 --
 DROP TABLE IF EXISTS `app_admin_attendance_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `app_admin_attendance_view` AS select 'attendance' AS `origin`,`app_admin_attendance`.`attend_id` AS `attendance_view_id`,`app_admin_attendance`.`work_date` AS `work_date`,`app_admin_attendance`.`work_time` AS `work_time`,`app_admin_attendance`.`offtime_shour` AS `offtime_shour`,`app_admin_attendance`.`offtime_ehour` AS `offtime_ehour`,`app_admin_attendance`.`offtime_smin` AS `offtime_smin`,`app_admin_attendance`.`offtime_emin` AS `offtime_emin`,`app_admin_attendance`.`staff_id` AS `staff_id`,`app_admin_attendance`.`staff_name` AS `staff_name`,`app_admin_attendance`.`work_type` AS `work_type`,`app_admin_attendance`.`work_status` AS `work_status`,`app_admin_attendance`.`leave_type` AS `leave_type`,`app_admin_attendance`.`staff_behalf_name` AS `staff_behalf_name`,`app_admin_attendance`.`staff_behalf_id` AS `staff_behalf_id`,`app_admin_attendance`.`meto` AS `meto`,`app_admin_attendance`.`attendance_result` AS `attendance_result`,`app_admin_attendance`.`exception` AS `exception`,`app_admin_attendance`.`dep_id` AS `dep_id`,`app_admin_attendance`.`district_id` AS `district_id` from `app_admin_attendance` union select 'arrange' AS `origin`,`app_admin_workarrange`.`work_id` AS `attendance_view_id`,`app_admin_workarrange`.`work_date` AS `work_date`,concat(`app_system_work_time`.`work_stime`,'-',`app_system_work_time`.`work_etime`) AS `work_time`,NULL AS `offtime_shour`,NULL AS `offtime_ehour`,NULL AS `offtime_smin`,NULL AS `offtime_emin`,`app_admin_workarrange`.`staff_id` AS `staff_id`,`app_admin_workarrange`.`staff_name` AS `staff_name`,`app_admin_workarrange`.`work_type` AS `work_type`,'0' AS `work_status`,NULL AS `leave_type`,NULL AS `staff_behalf_name`,NULL AS `staff_behalf_id`,NULL AS `meto`,'1' AS `attendance_result`,'0' AS `exception`,`app_admin_workarrange`.`dep_id` AS `dep_id`,`app_admin_workarrange`.`district_id` AS `district_id` from (`app_admin_workarrange` join `app_system_work_time`) where (isnull(`app_admin_workarrange`.`attend_id`) and (`app_admin_workarrange`.`work_time` = `app_system_work_time`.`worktm_id`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `app_admin_attendance_view` AS select 'attendance' AS `origin`,`app_admin_attendance`.`attend_id` AS `attendance_view_id`,`app_admin_attendance`.`work_date` AS `work_date`,`app_admin_attendance`.`work_time` AS `work_time`,`app_admin_attendance`.`offtime_shour` AS `offtime_shour`,`app_admin_attendance`.`offtime_ehour` AS `offtime_ehour`,`app_admin_attendance`.`offtime_smin` AS `offtime_smin`,`app_admin_attendance`.`offtime_emin` AS `offtime_emin`,`app_admin_attendance`.`staff_id` AS `staff_id`,`app_admin_attendance`.`staff_name` AS `staff_name`,`app_admin_attendance`.`work_type` AS `work_type`,`app_admin_attendance`.`work_status` AS `work_status`,`app_admin_attendance`.`leave_type` AS `leave_type`,`app_admin_attendance`.`staff_behalf_name` AS `staff_behalf_name`,`app_admin_attendance`.`staff_behalf_id` AS `staff_behalf_id`,`app_admin_attendance`.`meto` AS `meto`,`app_admin_attendance`.`attendance_result` AS `attendance_result`,`app_admin_attendance`.`exception` AS `exception`,`app_admin_attendance`.`dep_id` AS `dep_id`,`app_admin_attendance`.`district_id` AS `district_id` from `app_admin_attendance` union select 'arrange' AS `origin`,`app_admin_workarrange`.`work_id` AS `attendance_view_id`,`app_admin_workarrange`.`work_date` AS `work_date`,concat(`app_system_work_time`.`work_stime`,'-',`app_system_work_time`.`work_etime`) AS `work_time`,NULL AS `offtime_shour`,NULL AS `offtime_ehour`,NULL AS `offtime_smin`,NULL AS `offtime_emin`,`app_admin_workarrange`.`staff_id` AS `staff_id`,`app_admin_workarrange`.`staff_name` AS `staff_name`,`app_admin_workarrange`.`work_type` AS `work_type`,'0' AS `work_status`,NULL AS `leave_type`,NULL AS `staff_behalf_name`,NULL AS `staff_behalf_id`,NULL AS `meto`,'1' AS `attendance_result`,'0' AS `exception`,`app_admin_workarrange`.`dep_id` AS `dep_id`,`app_admin_workarrange`.`district_id` AS `district_id` from (`app_admin_workarrange` join `app_system_work_time`) where (isnull(`app_admin_workarrange`.`attend_id`) and (`app_admin_workarrange`.`work_time` = `app_system_work_time`.`worktm_id`));
 
 --
 -- 限制导出的表
@@ -3341,8 +4472,7 @@ ALTER TABLE `app_admin_doc`
   ADD CONSTRAINT `PK_department` FOREIGN KEY (`doc_postDepId`) REFERENCES `app_school_department` (`dep_id`),
   ADD CONSTRAINT `PK_district` FOREIGN KEY (`doc_postDistrictId`) REFERENCES `app_school_district` (`district_id`),
   ADD CONSTRAINT `PK_file` FOREIGN KEY (`file_id`) REFERENCES `app_file_attach` (`file_id`),
-  ADD CONSTRAINT `PK_level` FOREIGN KEY (`doc_level_id`) REFERENCES `app_admin_doc_level` (`id`),
-  ADD CONSTRAINT `PK_range` FOREIGN KEY (`doc_VisiableRange_id`) REFERENCES `app_admin_doc_visiable_range` (`id`);
+  ADD CONSTRAINT `PK_level` FOREIGN KEY (`doc_level_id`) REFERENCES `app_admin_doc_level` (`id`);
 
 --
 -- 限制表 `app_hrm_resume_file`
@@ -3365,35 +4495,3 @@ ALTER TABLE `app_process_task`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-ALTER TABLE `app_school_department_position` CHANGE `pos_roleRights` `pos_roleRights` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '岗位角色权限';
-
-ALTER TABLE `app_admin_doc` DROP FOREIGN KEY `PK_range`;
-ALTER TABLE `app_admin_task` ADD INDEX ( `approval_status` );
-
-ALTER TABLE  `app_admin_task` ADD  `auditor` BIGINT NULL COMMENT  '审批人' AFTER  `approval_status`;
-ALTER TABLE  `app_admin_task` ADD  `audit_time` DATETIME NULL COMMENT  '审批时间' AFTER  `auditor`;
-
-ALTER TABLE `app_admin_task_tracks` ADD `auditor` BIGINT NULL COMMENT '审批人' AFTER `task_auditTime` ;
-
-ALTER TABLE `app_admin_news` ADD `auditor` BIGINT NULL COMMENT '审批人' AFTER `status` ,
-ADD `audit_time` DATETIME NULL COMMENT '审批时间' AFTER `auditor`;
-
-update app_function set func_key = '_FUNCKEY_JOBAPPROVAL_SUBNODE', func_name = '岗位管理-岗位审批(校区)' WHERE func_key = '_FUNCKEY_HRM_JOBHIRE_JOB_APPROVAL';
-
--------------------------------------------------------
--- Added by Jeccy.Zhao on 27/08/2012
--------------------------------------------------------
-ALTER TABLE `app_hrm_employee_develop` ADD `cproc_depid` BIGINT NULL COMMENT '当前审批环节部门ID' AFTER `entry_datetime` ,
-ADD `cproc_posid` BIGINT NULL COMMENT '当前审批岗位ID' AFTER `cproc_depid`;
-
-ALTER TABLE `app_finan_expense` ADD `cproc_depid` BIGINT NULL COMMENT '当前审批环节部门ID' AFTER `entry_datetime` ,
-ADD `cproc_posid` BIGINT NULL COMMENT '当前审批岗位ID' AFTER `cproc_depid`;
-
-ALTER TABLE `app_finan_contract` ADD `cproc_depid` BIGINT NULL COMMENT '当前审批环节部门ID' AFTER `entry_datetime` ,
-ADD `cproc_posid` BIGINT NULL COMMENT '当前审批岗位ID' AFTER `cproc_depid`;
-
--------------------------------------------------------
--- Added by Jeccy.Zhao on 27/08/2012
--------------------------------------------------------
-ALTER TABLE `app_hrm_hire_issue` ADD `hjobentry_id` BIGINT NULL COMMENT '入职数据ID' AFTER `hjob_id`;
