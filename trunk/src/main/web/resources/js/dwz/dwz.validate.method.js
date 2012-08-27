@@ -13,7 +13,7 @@
 		}, "Letters only please"); 
 		
 		$.validator.addMethod("phone", function(value, element) {
-			return this.optional(element) || /^[0-9 \(\)]{7,30}$/.test(value);
+			return this.optional(element) || /^[0-9 \(\)\-]{5,30}$/.test(value);
 		}, "Please specify a valid phone number");
 		
 		$.validator.addMethod("postcode", function(value, element) {
