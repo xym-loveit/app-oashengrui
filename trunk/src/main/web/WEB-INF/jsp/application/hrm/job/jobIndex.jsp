@@ -182,7 +182,7 @@
 											<label class="opdisabled">入职安排</label>
 										</c:when>
 										<c:otherwise>
-											<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobEntryIndex&jobId=${entity.id}" target="navTab" title="入职安排-'${entity.jobHireTitle}'" rel="hrm_jobplan_entry${entity.id}">入职安排</a>
+											<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobEntryIndex&jobId=${entity.id}" target="navTab" title="入职安排-'${entity.jobHireTitle}'" rel="hrm_jobplan_entry${entity.id}">入职安排<logic:greaterThan name="entity" property="numHireEntry" value="0">(${entity.numHireEntry})</logic:greaterThan></a>
 										</c:otherwise>
 									</c:choose>
 								</c:when>
@@ -197,7 +197,7 @@
 											<label class="opdisabled">招聘安排</label>
 										</c:when>
 										<c:otherwise>
-											<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobOfferIndex&jobId=${entity.id}" target="navTab" title="招聘安排-'${entity.jobHireTitle}'" rel="hrm_jobpln_hire_${entity.id}">招聘安排</a>
+											<a class="oplink" href="app/hrm/hire.do?action=hrmPageJobOfferIndex&jobId=${entity.id}" target="navTab" title="招聘安排-'${entity.jobHireTitle}'" rel="hrm_jobpln_hire_${entity.id}">招聘安排<logic:greaterThan name="entity" property="numHireIssue" value="0">(${entity.numHireIssue})</logic:greaterThan></a>
 										</c:otherwise>
 									</c:choose>
 								</c:when>

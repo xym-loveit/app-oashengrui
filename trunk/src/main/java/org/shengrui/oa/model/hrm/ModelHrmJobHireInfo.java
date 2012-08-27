@@ -158,6 +158,16 @@ extends ModelBase
 	private String aclFilterFields;
 	
 	/**
+	 * 招聘入职(状态为待安排和面试中)的人员数
+	 */
+	private int numHireIssue;
+	
+	/**
+	 * 招聘入职(入职安排中状态为待安排人员数)
+	 */
+	private int numHireEntry;
+	
+	/**
 	 * The enumeration of job hire approval status
 	 * 
 	 * @author Jeccy.Zhao
@@ -477,6 +487,49 @@ extends ModelBase
 	public void setAclFilterFields(String aclFilterFields)
 	{
 		this.aclFilterFields = aclFilterFields;
+	}
+	
+	public int getNumHireIssue()
+	{
+		int num = 0;
+		
+		if (jobHireIssues != null && jobHireIssues.size() > 0)
+		{
+			for (ModelHrmJobHireIssue issue : jobHireIssues)
+			{
+				if (ModelHrmJobHireIssue.EJobHireIssueStatus.TOPLAN.getValue().equals(issue.getCurrentStatus())
+						|| issue.isOnInterview())
+				{
+					num++;
+				}
+			}
+		}
+		
+		numHireIssue = num;
+		
+		return numHireIssue;
+	}
+
+	public int getNumHireEntry()
+	{
+		int num = 0;
+		
+		if (jobHireIssues != null && jobHireIssues.size() > 0)
+		{
+			for (ModelHrmJobHireIssue issue : jobHireIssues)
+			{
+				if (issue.getJobHireEntry() != null 
+						&& issue.getJobHireEntry().getCurrentStatus().equals(
+								ModelHrmJobHireEntry.EHireEntryCStatus.TODO.getValue()))
+				{
+					num++;
+				}
+			}
+		}
+		
+		numHireEntry = num;
+		
+		return numHireEntry;
 	}
 	
 }

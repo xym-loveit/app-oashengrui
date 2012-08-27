@@ -727,6 +727,9 @@ extends BaseHrmAction
 						jobHireEntry.setEntryPosition(null);
 						
 						this.serviceHrmJobHireEntry.save(jobHireEntry);
+						
+						jobHireIssue.setJobHireEntry(jobHireEntry);
+						this.serviceHrmJobHireIssue.save(jobHireIssue);
 					}
 					else
 					{

@@ -3392,3 +3392,8 @@ ADD `cproc_posid` BIGINT NULL COMMENT '当前审批岗位ID' AFTER `cproc_depid`
 
 ALTER TABLE `app_finan_contract` ADD `cproc_depid` BIGINT NULL COMMENT '当前审批环节部门ID' AFTER `entry_datetime` ,
 ADD `cproc_posid` BIGINT NULL COMMENT '当前审批岗位ID' AFTER `cproc_depid`;
+
+-------------------------------------------------------
+-- Added by Jeccy.Zhao on 27/08/2012
+-------------------------------------------------------
+ALTER TABLE `app_hrm_hire_issue` ADD `hjobentry_id` BIGINT NULL COMMENT '入职数据ID' AFTER `hjob_id`;
