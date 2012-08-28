@@ -895,7 +895,8 @@ extends BaseAction
 		String level = request.getParameter("level");
 		try 
 		{
-			List<ModelAppDictionary> list = this.serviceAppDictionary.getByTypeAndLevel(type, level);
+			List<ModelAppDictionary> list = this.serviceAppDictionary.getByTypeAndLevel(
+					type, new String(level.getBytes("ISO-8859-1"),"UTF-8"));
 			if (list != null)
 			{
 				StringBuilder sb = new StringBuilder();
@@ -914,7 +915,7 @@ extends BaseAction
 				return ajaxPrint(response, sb.toString());
 			}
 		} 
-		catch (ServiceException e) 
+		catch (Exception e) 
 		{
 			LOGGER.error("Exception raised when load dictionary data...", e);
 		}
