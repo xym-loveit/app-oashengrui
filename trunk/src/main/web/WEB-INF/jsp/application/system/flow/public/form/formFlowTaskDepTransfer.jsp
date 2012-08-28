@@ -50,7 +50,7 @@
 			<div style="overflow:hidden; clear:both">
 				<div style="margin-bottom: 10px;"><b>请选择岗位：</b></div>
 				<div>
-					<input type="hidden" name="posName" value="" id="cmb_depId_dt_name" />
+					<input type="hidden" name="posName" value="" id="cmb_posId_dt_name" />
 					<select name="posId" class="combox" id="cmb_posId_dt" defOPKey="请选择岗位" defOPVal="">
 						<option value="-1">请选择岗位</option>
 						<logic:present name="pos">
