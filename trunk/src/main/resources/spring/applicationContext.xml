@@ -132,8 +132,10 @@
 		<property name="interceptorNames">
 			<list>
 				<value>aclAuthAdvice</value>
+				<!-- 
 				<value>methodCachePointCut</value>
 				<value>methodCachePointCutAdvice</value>
+				 -->
 			</list> 
 		</property> 
 	</bean>
