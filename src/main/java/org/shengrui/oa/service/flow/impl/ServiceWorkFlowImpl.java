@@ -494,8 +494,10 @@ implements ServiceWorkFlow
 	 * @see org.shengrui.oa.service.flow.ServiceWorkFlow#cleanProcess(java.lang.String)
 	 */
 	@Override
-	public void resetProcess (String procFormNo) throws ServiceException
+	public ModelProcessForm resetProcess (String procFormNo) throws ServiceException
 	{
+		ModelProcessForm fistFormNode = null;
+		
 		List<ModelProcessForm> forms = this.serviceProcessForm.getProcessFormsByFormNo(procFormNo);
 		if (forms != null)
 		{
@@ -511,6 +513,7 @@ implements ServiceWorkFlow
 				{
 					isFirstStep = true;
 					form.setAuditState(ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue());
+					fistFormNode = form;
 				}
 				else
 				{
@@ -523,6 +526,8 @@ implements ServiceWorkFlow
 				this.serviceProcessForm.save(form);
 			}
 		}
+		
+		return fistFormNode;
 	}
 	
 	/**

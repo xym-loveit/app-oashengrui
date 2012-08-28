@@ -100,7 +100,7 @@
 	</tr>
 	<tr>
 		<td class='field'>申请日期</td>
-		<td colspan="7"><input name="applyDate" type="text" class="<c:if test='${op eq null || op ne \'view\'}'>date</c:if> required" style="width: 96%;" value="${entity ne null ? entity.applyDate : ''}"  <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
+		<td colspan="7"><input name="applyDate" type="text" class="<c:if test='${op eq null || op ne \'view\'}'>date</c:if> required" style="width: 96%;" value="<c:choose><c:when test='${entity ne null}'><fmt:formatDate  value='${entity.applyDate}' pattern='yyyy-MM-dd' /></c:when><c:otherwise></c:otherwise></c:choose>"  <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
 	</tr>
 	<tr>
 		<td class='field'>请调报告</td>

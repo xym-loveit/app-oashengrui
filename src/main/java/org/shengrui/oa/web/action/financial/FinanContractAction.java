@@ -161,7 +161,9 @@ extends BaseFinanAction
 		{
 			// 审批中
 			formEntity.setAuditState(null);
-			formEntity.setCondAuditStates(new Integer[] {null});
+			formEntity.setCondAuditStates(new Integer[] {
+					ModelProcessForm.EProcessFormStatus.RETURNED.getValue()
+			});
 		}
 		else
 		{
@@ -173,8 +175,9 @@ extends BaseFinanAction
 			{
 				formEntity.setCondAuditStates(new Integer[] {
 					ModelProcessForm.EProcessFormStatus.APPROVED.getValue(), 
-					ModelProcessForm.EProcessFormStatus.NOTPASSED.getValue(),
-					ModelProcessForm.EProcessFormStatus.RETURNED.getValue()});
+					ModelProcessForm.EProcessFormStatus.NOTPASSED.getValue()
+					// ModelProcessForm.EProcessFormStatus.RETURNED.getValue()
+				});
 			}
 		}
 		
@@ -310,13 +313,13 @@ extends BaseFinanAction
 			else
 			{
 				// 重置流程...
-				this.serviceWorkFlow.resetProcess(contractInfo.getFormNo());
+				procForm = this.serviceWorkFlow.resetProcess(contractInfo.getFormNo());
 				contractInfo.setAuditState(ModelProcessForm.EProcessFormStatus.RETURNED.getValue());
 			}
 			
 			this.serviceFinanContract.save(contractInfo);
 			
-			if (isCreation && procForm != null)
+			if (procForm != null)
 			{
 				// 短消息提醒审批人..
 				Map<String, Object> params = new HashMap<String, Object>();

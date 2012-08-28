@@ -49,7 +49,7 @@
 		<td class='field'>到岗日期</td>
 		<td colspan="3"><input name="onboardTime" class="<c:if test='${op eq null || op ne \'view\'}'>date</c:if> required" type="text" style="width: 96%" value="<c:choose><c:when test='${entity ne null}'><fmt:formatDate  value='${entity.employee.onboardDate}' pattern='yyyy-MM-dd' /></c:when><c:otherwise><fmt:formatDate  value='${employee.onboardDate}' pattern='yyyy-MM-dd' /></c:otherwise></c:choose>"  <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
 		<td class='field'>申请日期</td>
-		<td colspan="3"><input name="applyDate" type="text" class="<c:if test='${op eq null || op ne \'view\'}'>date</c:if> required" style="width: 96%;" value="${entity ne null ? entity.applyDate : ''}"  <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
+		<td colspan="3"><input name="applyDate" type="text" class="<c:if test='${op eq null || op ne \'view\'}'>date</c:if> required" style="width: 96%;" value="<c:choose><c:when test='${entity ne null}'><fmt:formatDate  value='${entity.applyDate}' pattern='yyyy-MM-dd' /></c:when><c:otherwise></c:otherwise></c:choose>"  <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
 	</tr>
 	<tr>
 		<td class='field'>请辞报告</td>
