@@ -106,13 +106,35 @@
 		});
 	</script>  
 	<![endif]-->
+	
+	<!--[if lt IE 9]>  
+	<script type="text/javascript">  
+		$(function(){
+			$("a").live("click", function(e){
+				 e.preventDefault();
+			});
+			$("select").live("click", function(e){
+				 e.preventDefault();
+			});
+		});
+	</script>  
+	<![endif]-->
+	
 	<%  
 		String path = request.getContextPath();  
 		String basePath = request.getScheme()+"://"+request.getServerName()+
 			(request.getServerPort() == 80 ? "" : (":"+request.getServerPort())) +path+"/";  
 	%>
 	<script type="text/javascript">
-				
+		
+		var blnCheckUnload = true;
+		
+		window.onbeforeunload = function() { 
+			if (blnCheckUnload) {
+				return("确认要离开？");
+			}
+		}
+		
 		function messageNotify (ele_key, item_num, is_message) {
 			
 			var ele_keys = ele_key.split(",");
