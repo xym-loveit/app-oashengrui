@@ -208,7 +208,9 @@ extends BaseHrmAction
 		{
 			// 审批中
 			formEntity.setAuditState(null);
-			formEntity.setCondAuditStates(new Integer[] {null});
+			formEntity.setCondAuditStates(new Integer[] {
+					ModelProcessForm.EProcessFormStatus.RETURNED.getValue()
+			});
 		}
 		else
 		{
@@ -220,8 +222,9 @@ extends BaseHrmAction
 			{
 				formEntity.setCondAuditStates(new Integer[] {
 					ModelProcessForm.EProcessFormStatus.APPROVED.getValue(), 
-					ModelProcessForm.EProcessFormStatus.NOTPASSED.getValue(),
-					ModelProcessForm.EProcessFormStatus.RETURNED.getValue()});
+					ModelProcessForm.EProcessFormStatus.NOTPASSED.getValue()
+					// ModelProcessForm.EProcessFormStatus.RETURNED.getValue()
+				});
 			}
 		}
 		

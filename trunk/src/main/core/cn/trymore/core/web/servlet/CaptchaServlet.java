@@ -68,6 +68,7 @@ extends HttpServlet
 	{
 		Captcha localCaptcha = new Captcha.Builder(this._width, this._height).addText().addBackground().addNoise().build();
 		CaptchaServletUtil.writeImage(response, localCaptcha.getImage());
+		
 		request.getSession().setAttribute("simpleCaptcha", localCaptcha);
 	}
 	

@@ -2,6 +2,7 @@ package cn.trymore.core.web.push;
 
 import java.util.Collection;
 
+import org.apache.log4j.Logger;
 import org.directwebremoting.Browser;
 import org.directwebremoting.ScriptBuffer;
 import org.directwebremoting.ScriptSession;
@@ -18,6 +19,11 @@ import cn.trymore.core.util.UtilString;
  */
 public class MessagePush
 {
+	
+	/**
+	 * The LOGGER
+	 */
+	private static final Logger LOGGER = Logger.getLogger(MessagePush.class);
 	
 	/**
 	 * Push message to client
@@ -57,35 +63,47 @@ public class MessagePush
 		{
 			if (UtilString.isNotEmpty(uid))
 			{
-				Browser.withAllSessionsFiltered (new ScriptSessionFilter()
+				try
 				{
-					public boolean match(ScriptSession session) 
+					Browser.withAllSessionsFiltered (new ScriptSessionFilter()
 					{
-						if (session.getAttribute(ScriptSessionManager.SS_UID) == null)
+						public boolean match(ScriptSession session) 
 						{
-							return false;
+							if (session.getAttribute(ScriptSessionManager.SS_UID) == null)
+							{
+								return false;
+							}
+							else
+							{
+								return (session.getAttribute(ScriptSessionManager.SS_UID)).equals(uid);
+							}
 						}
-						else
+					}, new Runnable() {
+						
+						private ScriptBuffer script = new ScriptBuffer();
+						
+						public void run() 
 						{
-							return (session.getAttribute(ScriptSessionManager.SS_UID)).equals(uid);
+							script.appendCall(scriptMethodName, args);
+							Collection<ScriptSession> sessions = Browser.getTargetSessions();
+							for (ScriptSession scriptSession : sessions) 
+							{
+								scriptSession.addScript(script);
+							}
 						}
-					}
-				}, new Runnable() {
-					
-					private ScriptBuffer script = new ScriptBuffer();
-					
-					public void run() 
-					{
-						script.appendCall(scriptMethodName, args);
-						Collection<ScriptSession> sessions = Browser.getTargetSessions();
-						for (ScriptSession scriptSession : sessions) 
-						{
-							scriptSession.addScript(script);
-						}
-					}
-				});
+					});
+				}
+				catch (Exception e)
+				{
+					LOGGER.error("Exception raised when pushing message from server to client.", e);
+				}
 			}
 		}
+	}
+
+	public static Logger getLogger()
+	{
+		return LOGGER;
 	}
 	
 }

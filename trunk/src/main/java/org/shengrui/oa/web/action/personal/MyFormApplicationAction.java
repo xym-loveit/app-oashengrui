@@ -28,6 +28,7 @@ import org.shengrui.oa.util.WebActionUtil;
 import org.shengrui.oa.web.action.flow.FlowBaseAction;
 
 import cn.trymore.core.bean.PairObject;
+import cn.trymore.core.util.UtilBean;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
@@ -310,132 +311,141 @@ extends FlowBaseAction
 					{
 						// 创建
 						entity = formEntity;
-						
-						if (entity.getEmployee() != null && entity.getEmployee().getId() != null)
-						{
-							ModelHrmEmployee employee = this.serviceHrmEmployee.get(entity.getEmployee().getId());
-							if (employee != null)
-							{
-								entity.setEmployee(employee);
-								entity.setApplyFormType(procTypeEntity);
-								entity.setEntryId(ContextUtil.getCurrentUserId());
-								entity.setEntryDateTime(new Date());
-							}
-							else
-							{
-								return ajaxPrint(response, getErrorCallback("员工(id:" + entity.getEmployee().getId() + ")数据不存在...."));
-							}
-						}
-						else
-						{
-							return ajaxPrint(response, getErrorCallback("员工ID未传入...."));
-						}
-						
-						// 收集原校区等原数据
-						this.collectParameters(entity, 
-								request.getParameter("fromDistrictId"), 
-								request.getParameter("fromDepId"), 
-								request.getParameter("fromPosId"), true);
-						
-						// 收集目的校区等目的数据
-						boolean isTransfer = this.existsInstanceInAndOut(procTypeEntity.getProcessTypeKey());
-						if (isTransfer)
-						{
-							this.collectParameters(entity, 
-									request.getParameter("toDistrictId"), 
-									request.getParameter("toDepId"), 
-									request.getParameter("toPosId"), false);
-						}
-						
 						entity.setFormNo(AppUtil.genFormNo("HRM"));
-						
-						if (isCreation)
-						{
-							// 进入流程...
-							ModelSchoolDepartmentPosition filterPosition =  entity.getToPosition();
-							if (entity.getToPosition() == null)
-							{
-								filterPosition = entity.getFromPosition();
-							}
-							
-							Object condValue = null;
-							if (isTransfer)
-							{
-								ModelSchoolDistrict distDistrict = entity.getToDistrict();
-								if (entity.getToDistrict() == null)
-								{
-									distDistrict = entity.getFromDistrict();
-								}
-								
-								if (entity.getEmployee().getEmployeeDistrict().getId().equals(distDistrict.getId()))
-								{
-									// 校区内
-									condValue = 0;
-								}
-								else
-								{
-									// 跨校区
-									condValue = 1;
-								}
-							}
-							
-							procForm = this.serviceWorkFlow.doStartProcess(
-									entity.getApplyFormType().getId(), 
-									filterPosition,
-									entity.getToDistrict(),
-									condValue, 
-									entity.getFormNo(), 
-									entity.getEmployee());
-							
-							entity.setCurrentProcDepId(procForm.getToDepartmentIds());
-							entity.setCurrentProcPosId(procForm.getToPositionIds());
-						}
-						
-						this.serviceHrmEmployeeDevelop.save(entity);
-						
-						if (procForm != null)
-						{
-							// 短消息通知审批人
-							Map<String, Object> params = new HashMap<String, Object>();
-							params.put("entity", entity);
-							params.put("procForm", procForm);
-							
-							List<ModelHrmEmployee> employees = this.serviceHrmEmployee.getByDepartmentAndPosition(
-									procForm.getToDepartmentIds(), procForm.getToPositionIds());
-							
-							StringBuilder builder = new StringBuilder();
-							for (int i = 0, size = employees.size(); i <  size; i++)
-							{
-								ModelHrmEmployee employee = employees.get(i);
-								builder.append(employee.getId());
-								builder.append(",");
-							}
-							
-							this.sendMessage("my.approval.audit.hrm", 
-								params, new Object[] {
-									builder.toString()
-								}, 
-								ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
-							);
-							
-							// 推送数据至客户端...
-							this.messagePush.pushMessage(builder.toString(), 
-								WebActionUtil.scriptMessageNotify, 
-								WebActionUtil.MENU_ITEM_HRM_DEVELOP.getKey() + "," + 
-									WebActionUtil.MENU_KEY_APPROVAL_TODO, 
-								1
-							);
-						}
-						
-						// 保存成功后, Dialog进行关闭
-						return ajaxPrint(response, 
-								getSuccessCallback("人资申请保存成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 					}
 					else
 					{
-						// TODO: 修改操作暂时不用, 后续再补
-						return ajaxPrint(response, getErrorCallback("人资申请修改操作暂未实现...."));
+						// 编辑重新提交.
+						entity = this.serviceHrmEmployeeDevelop.get(formEntity.getId());
+						
+						formEntity.setProcessHistory(null);
+						UtilBean.copyNotNullProperties(entity, formEntity);
+						entity.setApplyDate(formEntity.getApplyDate());
 					}
+					
+					if (entity.getEmployee() != null && entity.getEmployee().getId() != null)
+					{
+						ModelHrmEmployee employee = this.serviceHrmEmployee.get(entity.getEmployee().getId());
+						if (employee != null)
+						{
+							entity.setEmployee(employee);
+							entity.setApplyFormType(procTypeEntity);
+							entity.setEntryId(ContextUtil.getCurrentUserId());
+							entity.setEntryDateTime(new Date());
+						}
+						else
+						{
+							return ajaxPrint(response, getErrorCallback("员工(id:" + entity.getEmployee().getId() + ")数据不存在...."));
+						}
+					}
+					else
+					{
+						return ajaxPrint(response, getErrorCallback("员工ID未传入...."));
+					}
+						
+					// 收集原校区等原数据
+					this.collectParameters(entity, 
+							request.getParameter("fromDistrictId"), 
+							request.getParameter("fromDepId"), 
+							request.getParameter("fromPosId"), true);
+					
+					// 收集目的校区等目的数据
+					boolean isTransfer = this.existsInstanceInAndOut(procTypeEntity.getProcessTypeKey());
+					if (isTransfer)
+					{
+						this.collectParameters(entity, 
+								request.getParameter("toDistrictId"), 
+								request.getParameter("toDepId"), 
+								request.getParameter("toPosId"), false);
+					}
+						
+					if (isCreation)
+					{
+						// 进入流程...
+						ModelSchoolDepartmentPosition filterPosition =  entity.getToPosition();
+						if (entity.getToPosition() == null)
+						{
+							filterPosition = entity.getFromPosition();
+						}
+						
+						Object condValue = null;
+						if (isTransfer)
+						{
+							ModelSchoolDistrict distDistrict = entity.getToDistrict();
+							if (entity.getToDistrict() == null)
+							{
+								distDistrict = entity.getFromDistrict();
+							}
+							
+							if (entity.getEmployee().getEmployeeDistrict().getId().equals(distDistrict.getId()))
+							{
+								// 校区内
+								condValue = 0;
+							}
+							else
+							{
+								// 跨校区
+								condValue = 1;
+							}
+						}
+						
+						procForm = this.serviceWorkFlow.doStartProcess(
+								entity.getApplyFormType().getId(), 
+								filterPosition,
+								entity.getToDistrict(),
+								condValue, 
+								entity.getFormNo(), 
+								entity.getEmployee());
+						
+						entity.setCurrentProcDepId(procForm.getToDepartmentIds());
+						entity.setCurrentProcPosId(procForm.getToPositionIds());
+					}
+					else
+					{
+						// 重置流程...
+						procForm = this.serviceWorkFlow.resetProcess(entity.getFormNo());
+						entity.setAuditState(ModelProcessForm.EProcessFormStatus.RETURNED.getValue());
+					}
+						
+					this.serviceHrmEmployeeDevelop.save(entity);
+						
+					if (procForm != null)
+					{
+						// 短消息通知审批人
+						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("entity", entity);
+						params.put("procForm", procForm);
+						
+						List<ModelHrmEmployee> employees = this.serviceHrmEmployee.getByDepartmentAndPosition(
+								procForm.getToDepartmentIds(), procForm.getToPositionIds());
+						
+						StringBuilder builder = new StringBuilder();
+						for (int i = 0, size = employees.size(); i <  size; i++)
+						{
+							ModelHrmEmployee employee = employees.get(i);
+							builder.append(employee.getId());
+							builder.append(",");
+						}
+						
+						this.sendMessage("my.approval.audit.hrm", 
+							params, new Object[] {
+								builder.toString()
+							}, 
+							ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+						);
+						
+						// 推送数据至客户端...
+						this.messagePush.pushMessage(builder.toString(), 
+							WebActionUtil.scriptMessageNotify, 
+							WebActionUtil.MENU_ITEM_HRM_DEVELOP.getKey() + "," + 
+								WebActionUtil.MENU_KEY_APPROVAL_TODO, 
+							1
+						);
+					}
+						
+					// 保存成功后, Dialog进行关闭
+					return ajaxPrint(response, 
+							getSuccessCallback("人资申请保存成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 				}
 				else
 				{

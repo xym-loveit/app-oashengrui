@@ -190,7 +190,7 @@ public interface ServiceWorkFlow
 	 *                    the process form no
 	 * @throws ServiceException
 	 */
-	void resetProcess (String procFormNo) throws ServiceException;
+	ModelProcessForm resetProcess (String procFormNo) throws ServiceException;
 	
 	/**
 	 * 
