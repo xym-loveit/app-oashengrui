@@ -132,14 +132,6 @@ extends ModelBase
 	 */
 	protected Integer[] condAuditStates;
 	
-	/**
-	 * 数据权限过滤
-	 */
-	@AclFilterAnnotation(
-		fieldNames ={"emp_district", "emp_dep", "entry_id"}, 
-		fieldTypes ={AppUtil.DATA_POLICY_DISTRICT, AppUtil.DATA_POLICY_DEPARTMENT, AppUtil.DATA_POLICY_PERSONAL}
-	)
-	private String aclFilterFields;
 	
 	/**
 	 * 当前审批环节
@@ -377,15 +369,6 @@ extends ModelBase
 		return this.finalState;
 	}
 
-	public void setAclFilterFields(String aclFilterFields)
-	{
-		this.aclFilterFields = aclFilterFields;
-	}
-
-	public String getAclFilterFields()
-	{
-		return aclFilterFields;
-	}
 	
 	public String getCurrentProcDepId()
 	{
