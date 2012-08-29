@@ -72,10 +72,13 @@
 		
 	</div>
 	
-	<!-- 审批记录 -->
-	<%@ include file="../data/dataTaskAuditRecords.jsp" %>
-	
 	<input type="hidden" name="auditType" value="${auditType}" /> 
 	<input type="hidden" name="trackId" value="${trackForm.id}" />
 	<input type="hidden" name="taskId" value="${entity.id}" />
+	
+	
+	<!-- 审批记录 -->
+	<%@ include file="../data/dataTaskAuditRecords.jsp" %>
+	
+
 </form>

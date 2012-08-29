@@ -52,9 +52,11 @@
 		</table>
 	</div>
 	
+	<input type="hidden" name="applyType" value="${applyType}" />
+	<input type="hidden" name="taskId" value="${entity.id}" />
+	
 	<!-- 审批记录 -->
 	<%@ include file="../data/dataTaskAuditRecords.jsp" %>
 	
-	<input type="hidden" name="applyType" value="${applyType}" />
-	<input type="hidden" name="taskId" value="${entity.id}" />
+
 </form>

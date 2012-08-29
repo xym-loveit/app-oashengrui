@@ -288,6 +288,13 @@ extends BaseAppAction
 						request.setAttribute("trackForm", currentTrackForm);
 						request.setAttribute("auditType", request.getParameter("type"));
 						
+						//申请表单中的审批记录显示
+						PagingBean pagingBean = this.getPagingBean(request);
+						PaginationSupport<ModelTaskPlanTrack> items =
+								this.serviceTaskPlanTrack.getPaginationByTaskId(taskId, pagingBean);
+						request.setAttribute("dataList", items);
+						request.setAttribute("page_type", "audit_records");
+						
 						return mapping.findForward("form.task.audit.page");
 					}
 					else
@@ -339,6 +346,14 @@ extends BaseAppAction
 							request.setAttribute("entity", taskPlan);
 							request.setAttribute("applyType", applyType);
 							request.setAttribute("today", new Date());
+							
+							//申请表单中的审批记录显示
+							PagingBean pagingBean = this.getPagingBean(request);
+							PaginationSupport<ModelTaskPlanTrack> items =
+									this.serviceTaskPlanTrack.getPaginationByTaskId(taskId, pagingBean);
+							request.setAttribute("dataList", items);
+							request.setAttribute("page_type", "audit_records");
+							
 							
 							return mapping.findForward("form.task.apply.page");
 						}
