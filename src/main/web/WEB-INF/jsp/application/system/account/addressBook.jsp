@@ -32,21 +32,23 @@
 </div>
 
 <div class="pageContent">
-<div class="pageFormContent" layoutH="56">
-<div style="float: right; width: 300px;">
-<div class="accordion">
-<div class="accordionHeader">
-<h2><span>icon</span>按校区</h2>
-</div>
-<div class="accordionContent" style="height: 200px"><%@ include
-	file="data/dataDistrictTree.jsp"%></div>
-<div class="accordionHeader">
-<h2><span>icon</span>按部门</h2>
-</div>
-<div class="accordionContent"><%@ include
-	file="data/dataDepartmentTree.jsp"%></div>
-</div>
-</div>
+	<div class="pageFormContent" layoutH="56">
+		<div style="float: right; width: 300px;">
+			<div class="accordion">
+				<div class="accordionHeader">
+					<h2><span>icon</span>按校区</h2>
+				</div>
+				<div class="accordionContent" style="height:380px;">
+					<%@ include file="data/dataDistrictTree.jsp"%>
+				</div>
+				<div class="accordionHeader">
+					<h2><span>icon</span>按部门</h2>
+				</div>
+				<div class="accordionContent" style="height:380px;">
+					<%@ include file="data/dataDepartmentTree.jsp"%>
+				</div>
+			</div>
+		</div>
 
 <div style="margin-right: 320px;border:1px solid green" id="addressbook_participants">
 	<table class="table" style="border-spacing: 12; width: 100%;"
@@ -67,12 +69,12 @@
 				<logic:iterate name="userInfo" property="items" id="userInfo">
 					<tr>
 						<td>${userInfo.fullName }</td>
-						<td>${userInfo.district.districtName }</td>
-						<td>${userInfo.department.depName }</td>
+						<td>${userInfo.employee.employeeDistrict.districtName }</td>
+						<td>${userInfo.employee.employeeDepartment.depName }</td>
 						<td>${userInfo.email }</td>
-						<td>${userInfo.phone }</td>
-						<td>${userInfo.mobile }</td>
-						<td>${userInfo.mobile }</td>
+						<td>${userInfo.employee.officePhone }</td>
+						<td>${userInfo.employee.shortNo }</td>
+						<td>${userInfo.employee.phoneNo }</td>
 					</tr>
 				</logic:iterate>
 			</logic:present>

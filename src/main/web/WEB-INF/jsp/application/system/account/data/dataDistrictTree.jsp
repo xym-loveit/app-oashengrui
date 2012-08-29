@@ -29,7 +29,7 @@
 <ul class="tree treeFolder">
 	<c:if test="${districts ne null}">
 		<c:forEach items="${districts}" var="entity">
-			<li class="expand"><a id="org_master"><c:out value="${entity.districtName}" /></a>
+			<li><a id="org_master"><c:out value="${entity.districtName}" /></a>
 				<ul>
 					<c:choose>
 						<c:when test="${entity.districtType eq 0}">
