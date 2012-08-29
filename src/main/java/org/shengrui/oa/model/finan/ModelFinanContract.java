@@ -84,5 +84,15 @@ extends ModelFinanBase
 	{
 		this.payMethod = payMethod;
 	}
+
+	public String getAclFilterFields()
+	{
+		return aclFilterFields;
+	}
+
+	public void setAclFilterFields(String aclFilterFields)
+	{
+		this.aclFilterFields = aclFilterFields;
+	}
 	
 }

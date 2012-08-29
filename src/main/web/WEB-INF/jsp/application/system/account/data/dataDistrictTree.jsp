@@ -14,13 +14,18 @@
 			$(this).bind("click", function(){
 				var depId = $(this).attr("depId");
 				var districtId = $(this).attr("districtId");
+				$("#addressbook_participants").loadUrl(
+					"app/personal/addressBook.do?action=loadEmployeeData", 
+					{"depId": depId, "districtId": districtId}, function(){});
+				/*
 				generic_ajax_op("app/base.do?action=actionLoadEmployeeByDepAndDistrict", "{'districtId':'" + districtId + "', 'depId':'" + depId + "'}", null, (function(rsp_msg){
-					if (rsp_msg) {
-						var json_obj = eval('(' + rsp_msg + ')');
-						$('#addressbook_participants').manifest('add', json_obj);
-					  };
-					}
+				if (rsp_msg) {
+					var json_obj = eval('(' + rsp_msg + ')');
+					$('#addressbook_participants').manifest('add', json_obj);
+				  };
+				}
 				));
+				*/
 			});
 		});
 	});

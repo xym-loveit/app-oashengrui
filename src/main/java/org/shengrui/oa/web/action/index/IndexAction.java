@@ -1,31 +1,28 @@
 package org.shengrui.oa.web.action.index;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.admin.ModelTaskPlan;
 import org.shengrui.oa.model.finan.ModelFinanContract;
 import org.shengrui.oa.model.finan.ModelFinanExpense;
+import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireEntry;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireInterview;
-import org.shengrui.oa.model.system.ModelAppUser;
-import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.service.base.ServiceBase;
-import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.util.WebActionUtil;
 import org.shengrui.oa.web.action.BaseAppAction;
 
-import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
@@ -38,6 +35,10 @@ import cn.trymore.core.web.paging.PagingBean;
 public class IndexAction 
 extends BaseAppAction
 {
+	/**
+	 * The LOGGER
+	 */
+	private static final Logger LOGGER = Logger.getLogger(IndexAction.class);
 	
 	/**
 	 * The service of HRM employee develop.
@@ -60,55 +61,73 @@ extends BaseAppAction
 		return mapping.findForward("index");
 	}
 	
-	@SuppressWarnings("unused")
+	/**
+	 * 通讯录
+	 */
 	public ActionForward addressBookInfo (ActionMapping mapping,ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 	{
-		ModelAppUser modelAppUser = (ModelAppUser) form;
-		PagingBean pagingBean = this.getPagingBean(request);
-		String id = request.getParameter("id");
-		String depId = request.getParameter("depId");
-		try {
-			modelAppUser.setDistrict(this.serviceSchoolDistrict.get(id));
-//			modelAppUser.setDepartment(this.serviceSchoolDepartment.get(depId));
-			PaginationSupport<ModelAppUser> userInfo = 
-				this.serviceAppUser.getUserPagination(modelAppUser, pagingBean);
-			request.setAttribute("userInfo", userInfo);
-			request.setAttribute("modelAppUser", modelAppUser);
-			request.setAttribute("districts" , this.getServiceSchoolDistrict().getAll());
-			// 获取按校区所有部门列表
-			Map<Integer, List<ModelSchoolDepartment>> departments = this.getAllDepartments(request, false);
-			if (departments != null)
-			{
-				List<Object> depNames = this.serviceSchoolDepartment.getDistinctDepartmentNames();
-				if (depNames != null)
-				{
-					request.setAttribute("depNames", depNames);
-					
-					Map<String, String> depSetIds = new HashMap<String, String>();
-					
-					// 总部部门
-					List<ModelSchoolDepartment> depMasters = departments.get(AppUtil.EAppSchoolType.HEADQUARTERS.getValue());
-					if (depMasters != null)
-					{
-						for (ModelSchoolDepartment dep : depMasters)
-						{
-							if (depNames.contains(dep.getDepName()))
-							{
-								// depSetIds.put(dep.getDepName(), value)
-							}
-						}
-					}
-					
-					// 校区部门
-					List<ModelSchoolDepartment> depCampus = departments.get(AppUtil.EAppSchoolType.AREA_CAMPUS.getValue());
-				}
-			}
-		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		try 
+		{
+			loadAddressData(request);
+			
+			// 加载校结构图
+			this.loadOrganizationTree(request);
+			
+			return mapping.findForward("personal.page.addressBook");
+		} 
+		catch (Exception e) 
+		{
+			LOGGER.error("Exception raised when loading address book page.", e);
+			return ajaxPrint(response, getErrorCallback("数据加载失败:" + e));
 		}
-		return mapping.findForward("personal.page.addressBook");
+	}
+	
+	/**
+	 * 加载用户员工数据列表
+	 */
+	public ActionForward loadEmployeeData (ActionMapping mapping,ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+	{
+		try
+		{
+			loadAddressData(request);
+			return mapping.findForward("data.addressbook.employee");
+		}
+		catch (Exception e)
+		{
+			LOGGER.error("Exception raised when load employee data..", e);
+			return ajaxPrint(response, getErrorCallback("数据加载失败:" + e));
+		}
+	}
+	
+	/**
+	 * 加载通讯录数据列表
+	 */
+	private void loadAddressData (HttpServletRequest request) throws Exception
+	{
+		String depId = request.getParameter("depId");
+		String districtId = request.getParameter("districtId");
+		String empName = request.getParameter("empName");
+		
+		PagingBean pagingBean = this.getPagingBean(request);
+		
+		try
+		{
+			PaginationSupport<ModelHrmEmployee> empInfo = 
+					this.serviceHrmEmployee.getEmployeeDataPage(depId, districtId, empName, pagingBean);
+			
+			request.setAttribute("empInfo", empInfo);
+			request.setAttribute("depId", depId);
+			request.setAttribute("districtId", districtId);
+			
+			// 输出分页信息至客户端
+			outWritePagination(request, pagingBean, empInfo);
+		}
+		catch (Exception e)
+		{
+			throw new Exception(e);
+		}
 	}
 	
 	/**

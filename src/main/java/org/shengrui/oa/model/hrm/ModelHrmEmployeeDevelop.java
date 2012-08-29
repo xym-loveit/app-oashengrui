@@ -504,4 +504,14 @@ extends ModelBase
 	{
 		this.currentProcPosId = currentProcPosId;
 	}
+
+	public String getAclFilterFields()
+	{
+		return aclFilterFields;
+	}
+
+	public void setAclFilterFields(String aclFilterFields)
+	{
+		this.aclFilterFields = aclFilterFields;
+	}
 }
