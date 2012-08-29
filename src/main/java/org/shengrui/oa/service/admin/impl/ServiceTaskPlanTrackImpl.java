@@ -53,7 +53,8 @@ extends ServiceGenericImpl<ModelTaskPlanTrack> implements ServiceTaskPlanTrack
 			
 			List<ModelTaskPlanTrack> result = this.daoTaskPlanTrack.getListByCriteria(criteria);
 			
-			return result != null && result.size() > 0 ? result.get(0) : null;
+			int n = result.size();
+			return result != null && result.size() > 0 ? result.get(n-1) : null;
 		}
 		catch (Exception e)
 		{
