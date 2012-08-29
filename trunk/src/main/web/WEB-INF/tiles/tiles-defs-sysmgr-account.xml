@@ -10,6 +10,10 @@
 		path="/WEB-INF/jsp/application/system/account/accountIndex.jsp"/>
 	
 	<!-- 通讯录 -->
-		<definition name="personal.page.addressBook" 
+	<definition name="personal.page.addressBook" 
 		path="/WEB-INF/jsp/application/system/account/addressBook.jsp"/>
+		
+	<definition name="data.addressbook.employee"
+		path="/WEB-INF/jsp/application/system/account/data/dataEmployeeInfo.jsp"/>
+	
 </tiles-definitions>

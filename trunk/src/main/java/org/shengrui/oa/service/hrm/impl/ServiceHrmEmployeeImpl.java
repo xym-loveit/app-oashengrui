@@ -8,6 +8,8 @@ import org.hibernate.criterion.Restrictions;
 
 import org.shengrui.oa.dao.hrm.DAOHrmEmployee;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
+import org.shengrui.oa.model.system.ModelSchoolDepartment;
+import org.shengrui.oa.model.system.ModelSchoolDistrict;
 import org.shengrui.oa.service.hrm.ServiceHrmEmployee;
 
 import cn.trymore.core.exception.DAOException;
@@ -96,6 +98,12 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 			{
 				criteria.createCriteria("employeeDistrict").add(Restrictions.eq("id", entity.getEmployeeDistrict().getId()));
 			}
+			
+			if (entity.getEmployeeDepartment() != null && entity.getEmployeeDepartment().getId() != null)
+			{
+				criteria.createCriteria("employeeDepartment").add(Restrictions.eq("id", entity.getEmployeeDepartment().getId()));
+			}
+			
 			
 			if (UtilString.isNotEmpty(entity.getEmpName()))
 			{
@@ -234,16 +242,6 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 		}
 	}
 	
-	public void setDaoHrmEmployee(DAOHrmEmployee daoHrmEmployee)
-	{
-		this.daoHrmEmployee = daoHrmEmployee;
-	}
-
-	public DAOHrmEmployee getDaoHrmEmployee()
-	{
-		return daoHrmEmployee;
-	}
-
 	@Override
 	public ModelHrmEmployee getEmployeeByEmpNo(String empNo)
 			throws ServiceException {
@@ -252,5 +250,51 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmEmployee#getEmployeeByDistrictIdAndDeptId(java.lang.String, java.lang.String, cn.trymore.core.web.paging.PagingBean)
+	 */
+	@Override
+	public PaginationSupport<ModelHrmEmployee> getEmployeeDataPage(String depId, 
+			String districtId, String empName, PagingBean pagingBean) throws ServiceException
+	{
+		ModelHrmEmployee entity = new ModelHrmEmployee();
+		
+		ModelSchoolDepartment dep = null;
+		ModelSchoolDistrict district = null;
+		
+		if (UtilString.isNotEmpty(depId))
+		{
+			dep = new ModelSchoolDepartment();
+			dep.setId(depId);
+		}
+		
+		if (UtilString.isNotEmpty(districtId))
+		{
+			district = new ModelSchoolDistrict();
+			district.setId(districtId);
+		}
+		
+		if (UtilString.isNotEmpty(empName))
+		{
+			entity.setEmpName(empName);
+		}
+		
+		entity.setEmployeeDepartment(dep);
+		entity.setEmployeeDistrict(district);
+		
+		return this.getAll(this.getCriterias(entity), pagingBean);
+	}
+	
+	public void setDaoHrmEmployee(DAOHrmEmployee daoHrmEmployee)
+	{
+		this.daoHrmEmployee = daoHrmEmployee;
+	}
+
+	public DAOHrmEmployee getDaoHrmEmployee()
+	{
+		return daoHrmEmployee;
 	}
 }

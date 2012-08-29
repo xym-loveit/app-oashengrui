@@ -9,9 +9,7 @@ import org.shengrui.oa.model.flow.ModelProcessType;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
-import org.shengrui.oa.util.AppUtil;
 
-import cn.trymore.core.acl.AclFilterAnnotation;
 import cn.trymore.core.model.ModelBase;
 
 /**

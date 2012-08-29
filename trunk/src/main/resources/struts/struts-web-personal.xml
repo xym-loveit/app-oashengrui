@@ -50,6 +50,7 @@
 				parameter="action"
 				type="org.springframework.web.struts.DelegatingActionProxy">
 			<forward name="personal.page.addressBook" path="personal.page.addressBook"></forward>
+			<forward name="data.addressbook.employee" path="data.addressbook.employee" />
 		</action>
 		
 	</action-mappings>

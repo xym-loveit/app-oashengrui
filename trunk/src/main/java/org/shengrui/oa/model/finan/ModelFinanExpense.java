@@ -81,7 +81,6 @@ extends ModelFinanBase
 	)
 	private String aclFilterFields;
 	
-	
 	public Integer getPayer()
 	{
 		return payer;
@@ -190,6 +189,16 @@ extends ModelFinanBase
 	public void setAccountNo(String accountNo)
 	{
 		this.accountNo = accountNo;
+	}
+
+	public String getAclFilterFields()
+	{
+		return aclFilterFields;
+	}
+
+	public void setAclFilterFields(String aclFilterFields)
+	{
+		this.aclFilterFields = aclFilterFields;
 	}
 	
 }
