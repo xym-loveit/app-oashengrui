@@ -31,7 +31,7 @@
 		<c:forEach items="${departments}" var="entry">
 			<c:if test="${entry.key eq 0}">
 				<c:forEach items="${entry.value}" var="entity">
-					<li class="expand"><a id=""><c:out value="${entity.depName}" /></a>
+					<li><a id=""><c:out value="${entity.depName}" /></a>
 					   <ul>
 						<c:if test="${districts ne null}">
 							<c:forEach items="${districts}" var="district">
