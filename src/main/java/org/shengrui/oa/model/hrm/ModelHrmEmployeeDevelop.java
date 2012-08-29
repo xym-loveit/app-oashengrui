@@ -10,7 +10,9 @@ import org.shengrui.oa.model.flow.ModelProcessType;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
+import org.shengrui.oa.util.AppUtil;
 
+import cn.trymore.core.acl.AclFilterAnnotation;
 import cn.trymore.core.model.ModelBase;
 
 /**
@@ -156,6 +158,16 @@ extends ModelBase
 	 */
 	protected String currentProcPosId;
 
+	/**
+	 * 数据权限过滤
+	 */
+	@AclFilterAnnotation(
+		fieldNames ={"from_district", "from_dep", "emp_id"}, 
+		fieldTypes ={AppUtil.DATA_POLICY_DISTRICT, AppUtil.DATA_POLICY_DEPARTMENT, AppUtil.DATA_POLICY_PERSONAL}
+	)
+	private String aclFilterFields;
+
+	
 	/**
 	 * The enumeration of operation state
 	 * 
