@@ -159,7 +159,7 @@
 		<div class="formBar">
 			<ul>
 				<c:if test="${op eq null || op ne 'view'}">
-					<c:if test="${tm:ifGranted('_FUNCKEY_FINAN_EXPENSE_APPROVE')}">
+					<c:if test="${tm:ifGranted('_FUNCKEY_FINAN_EXPENSE_APPLY')}">
 						<li><div class="buttonActive"><div class="buttonContent"><button type="submit">提交申请</button></div></div></li>
 					</c:if>
 				</c:if>

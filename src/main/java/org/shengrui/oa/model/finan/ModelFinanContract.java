@@ -1,5 +1,9 @@
 package org.shengrui.oa.model.finan;
 
+import org.shengrui.oa.util.AppUtil;
+
+import cn.trymore.core.acl.AclFilterAnnotation;
+
 /**
  * Model: 财务合同申请
  * 
@@ -32,6 +36,15 @@ extends ModelFinanBase
 	 */
 	private String payMethod;
 
+	/**
+	 * 数据权限过滤
+	 */
+	@AclFilterAnnotation(
+		fieldNames ={"emp_district", "emp_dep", "entry_id"}, 
+		fieldTypes ={AppUtil.DATA_POLICY_DISTRICT, AppUtil.DATA_POLICY_DEPARTMENT, AppUtil.DATA_POLICY_PERSONAL}
+	)
+	private String aclFilterFields;
+	
 	public String getContractNo()
 	{
 		return contractNo;
