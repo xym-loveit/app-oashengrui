@@ -331,7 +331,9 @@ extends BaseAppAction
 			if(request.getParameter("op")!=null && "edit".equals(request.getParameter("op"))){
 				request.setAttribute("conferenceType", this.serviceAppDictionary.getByType("conference"));
 			}
-			request.setAttribute("currentDistrictId", ContextUtil.getCurrentUser().getDistrict().getId());
+			request.setAttribute("currentDistrictId", ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getId());
+			request.setAttribute("currentDepId", ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId());
+			
 			return mapping.findForward("person.page.conference.detail");
 		}
 		catch (Exception e)
