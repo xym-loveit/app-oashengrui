@@ -118,7 +118,7 @@
 <body>
 	<div id="login">
 		<div id="login_header">
-			<h1 class="login_logo"><a href="http://www.xuezhicn.com/"><img src="resources/themes/default/images/logo.jpg" style="position: relative;top: -7px;"/></a></h1>
+			<h1 class="login_logo"><a href="http://www.xuezhicn.com/"><img src="resources/themes/default/images/logo.png" style="position: relative;top: -7px;"/></a></h1>
 			<div class="login_headerContent">
 				<div class="navList"></div>
 				<h2 class="login_title"><img src="resources/themes/default/images/login_title.png" /></h2>
