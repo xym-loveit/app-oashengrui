@@ -187,7 +187,7 @@
 	<tr>
 		<td>上传中心：</td>
 		<td><select class="combox" id="combox_doc_district"
-			name="district.id" style="width: 108px;" ref="combox_doc_dep" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
+			name="district.id" style="width: 108px;" ref="combox_doc_dep" refUrl="app/base.do?action=actionLoadDepartmentByOrg&districtId={value}">
 			<logic:present name="districts">
 				<logic:iterate name="districts" id="entity">
 					<option value="${entity.id}" ${formDoc ne

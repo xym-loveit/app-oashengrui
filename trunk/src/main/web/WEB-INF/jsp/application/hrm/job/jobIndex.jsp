@@ -37,7 +37,7 @@
 				<tr>
 					<td>
 						<label>招聘校区：</label>
-						<select class="combox" name="jobHireDistrict.id" id="combox_district_jindex" style="width:120px" ref="combox_dept_jindex" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
+						<select class="combox" name="jobHireDistrict.id" id="combox_district_jindex" style="width:120px" ref="combox_dept_jindex" refUrl="app/base.do?action=actionLoadDepartmentByOrg&districtId={value}">
 							<option value="-1">所有校区</option>
 							<logic:present name="districts">
 								<logic:iterate name="districts" id="district">

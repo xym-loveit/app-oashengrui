@@ -34,7 +34,7 @@
 				<tr>
 					<td>申请校区：</td>
 					<td>
-						<select class="combox required" name="toDistrictId" id="combox_district" style="width:100px" ref="combox_dept" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
+						<select class="combox required" name="toDistrictId" id="combox_district" style="width:100px" ref="combox_dept" refUrl="app/base.do?action=actionLoadDepartmentByOrg&districtId={value}">
 							<logic:present name="districts">
 								<logic:iterate name="districts" id="district">
 									<option value="${district.id}" ${employeeDevelopEntry ne null && employeeDevelopEntry.applyForm.toDistrictNames ne null && employeeDevelopEntry.applyForm.toDistrictNames eq district.districtName ? 'selected="selected"' : ''}>${district.districtName}</option>
