@@ -20,6 +20,7 @@ import org.shengrui.oa.service.hrm.ServiceHrmJobHireIssue;
 import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.web.action.BaseAppAction;
 
+import cn.trymore.core.util.UtilDate;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
@@ -67,43 +68,50 @@ extends BaseAppAction
 			PaginationSupport<ModelHrmJobHireInfo> jobHireInfos = 
 					 this.serviceHrmJobHireInfo.getPaginationByEntity(entity, pagingBean);
 			
-			request.setAttribute("entity.list", jobHireInfos);
-			
-			// 输出分页信息至客户端
-			outWritePagination(request, pagingBean, jobHireInfos);
-			
-			// 获取应聘记录, 主要用于标注"应聘","推荐"状态
-			PaginationSupport<ModelHrmJobHireIssue> myJobApplications = 
-					 this.serviceHrmJobHireIssue.getPaginationByUser(ContextUtil.getCurrentUser().getId(), pagingBean);
-			if (myJobApplications != null && myJobApplications.getItemCount() > 0)
+			if (request.getParameter("objOut") != null)
 			{
-				// 封装内部推荐及内部应聘Map
-				Map<String, Map<String, Boolean>> applicationMap = new HashMap<String, Map<String,Boolean>>();
-				applicationMap.put(ModelHrmResume.EResumeSource.APPLY_INNER.getValue().toString(), 
-						new HashMap<String, Boolean>());
+				response.getWriter().write(objectToString(jobHireInfos));
+				return null;
+			}
+			else
+			{
+				request.setAttribute("entity.list", jobHireInfos);
 				
-				// Q: 不可以进行重复推荐?
-				//applicationMap.put(ModelHrmResume.EResumeSource.APPLY_RECOMMEND.toString(), 
-				//		new HashMap<String, Boolean>());
+				// 输出分页信息至客户端
+				outWritePagination(request, pagingBean, jobHireInfos);
 				
-				List<ModelHrmJobHireIssue> applications = myJobApplications.getItems();
-				for (ModelHrmJobHireIssue application : applications)
+				// 获取应聘记录, 主要用于标注"应聘","推荐"状态
+				PaginationSupport<ModelHrmJobHireIssue> myJobApplications = 
+						 this.serviceHrmJobHireIssue.getPaginationByUser(ContextUtil.getCurrentUser().getId(), pagingBean);
+				if (myJobApplications != null && myJobApplications.getItemCount() > 0)
 				{
-					if (applicationMap.containsKey(application.getResume().getSource().toString()))
+					// 封装内部推荐及内部应聘Map
+					Map<String, Map<String, Boolean>> applicationMap = new HashMap<String, Map<String,Boolean>>();
+					applicationMap.put(ModelHrmResume.EResumeSource.APPLY_INNER.getValue().toString(), 
+							new HashMap<String, Boolean>());
+					
+					// Q: 不可以进行重复推荐?
+					//applicationMap.put(ModelHrmResume.EResumeSource.APPLY_RECOMMEND.toString(), 
+					//		new HashMap<String, Boolean>());
+					
+					List<ModelHrmJobHireIssue> applications = myJobApplications.getItems();
+					for (ModelHrmJobHireIssue application : applications)
 					{
-						ModelHrmJobHireInfo jobInfo = application.getJobHire();
-						if (jobInfo != null )
+						if (applicationMap.containsKey(application.getResume().getSource().toString()))
 						{
-							applicationMap.get(application.getResume().getSource().toString()).put(jobInfo.getId(), true);
+							ModelHrmJobHireInfo jobInfo = application.getJobHire();
+							if (jobInfo != null )
+							{
+								applicationMap.get(application.getResume().getSource().toString()).put(jobInfo.getId(), true);
+							}
 						}
 					}
+					
+					request.setAttribute("myJobApplications", applicationMap);
 				}
 				
-				request.setAttribute("myJobApplications", applicationMap);
+				return mapping.findForward("page.my.jobapplication.index");
 			}
-			
-			return mapping.findForward("page.my.jobapplication.index");
-			
 		}
 		catch (Exception e)
 		{
@@ -150,6 +158,30 @@ extends BaseAppAction
 			LOGGER.error("Exception raised when open the jobs under hiring page.", e);
 			return ajaxPrint(response, getErrorCallback("页面加载失败:" + e.getMessage()));
 		}
+	}
+	
+	/**
+	 * Converts object to table content
+	 * 
+	 * @param items
+	 * @return
+	 */
+	private String objectToString(PaginationSupport<ModelHrmJobHireInfo> items)
+	{
+		StringBuffer sb =new StringBuffer();
+		if(items != null)
+		{
+			for (ModelHrmJobHireInfo item : items.getItems()) 
+			{
+				sb.append("<tr><td style=\"display: none;\">");
+				sb.append(item.getId()+"</td><td>");
+				sb.append(item.getJobHireTitle()+"</td>");
+				sb.append("<td>"+item.getJobHireDistrict().getDistrictName()+"</td><td>");
+				sb.append(UtilDate.parseTime(item.getJobHireEndDate(), "yyyy-MM-dd")+"</td></tr>");
+			}
+			return sb.toString();
+		}
+		return "";
 	}
 	
 	public static Logger getLogger()

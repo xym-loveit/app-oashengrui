@@ -109,6 +109,17 @@ $(function(){
 	  	$('#doc tr').eq(i).find('td').eq(1).html(result);
 	  	}
 	},'text')
+	
+	$.post("app/personal/jobapplication.do?action=pageJobOnHiring&objOut",{},function(data){
+		$("#jobs").html(data)
+		var size=$('#jobs tr').size();
+	  	for(i=0;i<size;i++){
+	  		var id=$('#jobs tr').eq(i).find('td').eq(0).html();
+	  		var value=$('#jobs tr').eq(i).find('td').eq(1).html();
+	  		result='<a href="app/hrm/hire.do?action=hrmPageJobResume&jobId='+id+'&source=1" target="dialog" height="460" width="830" title="我要应聘`'+value+'`" rel="dsk_application_'+id+'">'+value+'</a>';
+			$('#jobs tr').eq(i).find('td').eq(1).html(result);
+	  	}
+	},'text')
 });
 //-->
 </script>
@@ -148,6 +159,24 @@ $(function(){
 		<tbody id="conference">
 		</tbody>
 		</table>
+			</div>
+		</div>
+		
+		<div class="panel" minH="60">
+			<h1><span class="icon-hrjobreg icon">我要应聘<label style="float:right;margin-top:9px;"><a href="app/personal/jobapplication.do?action=pageJobOnHiring" target="navTab">更多>></a></label></span></h1>
+			<div>
+				<table class="table" width="100%">
+					<thead>
+						<tr>
+							<th style="display: none;"></th>
+							<th align="center">岗位名称</th>
+							<th align="center">招聘校区</th>
+							<th align="center">截止时间</th>
+						</tr>
+					</thead>
+					<tbody id="jobs">
+					</tbody>
+				</table>
 			</div>
 		</div>
 		
