@@ -53,7 +53,7 @@
 					<option value="2" ${taskType ne null && taskType eq 2 ? "selected='selected'" : ""}>某部门(账号所在校区)</option>
 					<option value="3" ${taskType ne null && taskType eq 3 ? "selected='selected'" : ""}>总部对口部门</option>
 					<option value="4" ${taskType ne null && taskType eq 4 ? "selected='selected'" : ""}>总部某部门</option>
-					<c:if test="${typeSlug eq 'hrm' && istran ne null}">
+					<c:if test="${(typeSlug eq 'hrm' && istran ne null) || (taskType ne null && taskType eq 5)}">
 					<option value="5" ${taskType ne null && taskType eq 5 ? "selected='selected'" : ""}>调动/晋升校区</option>
 					</c:if>
 				</select>
