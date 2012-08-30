@@ -561,7 +561,7 @@ extends BaseAdminAction
 					// ModelDocVisiableRange range =this.getServiceDocVisiableRange().get(formDoc.getDocVisiableRange().getId());
 					ModelSchoolDistrict district=this.getServiceSchoolDistrict().get(formDoc.getDistrict().getId());
 					ModelSchoolDepartment dep   =this.getServiceSchoolDepartment().get(formDoc.getDepartment().getId());
-					ModelAppUser author         = this.getServiceAppUser().findByUserName((String)request.getSession().getAttribute("SPRING_SECURITY_LAST_USERNAME"));
+					ModelAppUser author         = ContextUtil.getCurrentUser(); //this.getServiceAppUser().findByUserName((String)request.getSession().getAttribute("SPRING_SECURITY_LAST_USERNAME"));
 					
 					formDoc.setType(type);
 					formDoc.setAuthor(author);

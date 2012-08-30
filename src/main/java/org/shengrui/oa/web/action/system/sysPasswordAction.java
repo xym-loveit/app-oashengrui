@@ -9,6 +9,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.service.system.ServiceAppUser;
+import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.web.action.BaseAppAction;
 
 import cn.trymore.core.util.UtilString;
@@ -50,7 +51,7 @@ extends BaseAppAction
 		String oldPassword = UtilString.encryptSha256(request.getParameter("oldPassword"));
 		String newPassword = UtilString.encryptSha256(request.getParameter("newPassword"));
 		String confirmPassword = UtilString.encryptSha256(request.getParameter("confirmPassword"));
-		String userName = (String) request.getSession().getAttribute("SPRING_SECURITY_LAST_USERNAME");
+		String userName = ContextUtil.getCurrentUser().getFullName(); //(String) request.getSession().getAttribute("SPRING_SECURITY_LAST_USERNAME");
 		//根据用户名获取用户密码
 		try {
 			 modelAppUser = serviceAppUser.getPasswordByUserName(userName);
