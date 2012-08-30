@@ -9,7 +9,7 @@
 	<div><b>审批人：</b> ${entity.auditor.empName} </div>
 	<div><b>详情点击：</b><a href="javascript:void(0);" 
 		onclick="parent.$.pdialog.open(
-			'app/admin/task.do?action=dialogTaskPage&id=${entity.id}&op=view', 
+			'app/personal/task.do?action=dialogTaskPage&id=${entity.id}&op=view', 
 			'task_view_${entity.id}',  
 			'`${entity.taskName}`任务详情',
 			{width: 750, height: 530})">点击进入到任务查看界面</a></div>
