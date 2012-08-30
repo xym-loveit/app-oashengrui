@@ -57,7 +57,7 @@
 				<tr>
 					<td class="field" align="right">所在校区：</td>
 					<td style="padding: 5px;">
-						<select class="required" name="employeeDistrict.id" id="combox_district_eindex" style="width:108px" ref="combox_dept_eindex" refUrl="app/base.do?action=actionLoadDepartmentByOrg&districtId={value}" disabled>
+						<select class="required" name="employeeDistrict.id" id="combox_district_eindex" style="width:108px" ref="combox_dept_eindex" refUrl="app/base.do?action=actionLoadDepartmentByOrg&districtId={value}" disabled >
 							<logic:present name="districts">
 								<logic:iterate name="districts" id="district">
 									<option value="${district.id}" ${employee ne null && employee.employeeDistrict ne null && employee.employeeDistrict.id eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
@@ -70,7 +70,7 @@
 						<select class="required" name="employeeDepartment.id" id="combox_dept_eindex" defOPKey="请选择部门" defOPVal="" style="width:108px" ref="combox_pos_eindex" refUrl="app/base.do?action=actionLoadPositionByDepartment&depId={value}" disabled>
 							<logic:present name="departments">
 								<logic:iterate name="departments" id="department">
-									<option value="${department.id}" ${employee ne null && entity.employeeDepartment ne null && employee.employeeDepartment.id eq department.id ? 'selected="selected"' : ''}>${department.depName}</option>
+									<option value="${department.id}" ${employee ne null && employee.employeeDepartment ne null && employee.employeeDepartment.id eq department.id ? 'selected="selected"' : ''}>${department.depName}</option>
 								</logic:iterate>
 							</logic:present>
 						</select>

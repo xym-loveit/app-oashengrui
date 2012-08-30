@@ -348,7 +348,7 @@ extends BaseHrmAction
 							this.serviceSchoolDistrict.getAll());
 					
 					request.setAttribute("departments", 
-							this.getDepartmentByOrganization(employeeInfo.getEmployeeDistrict().getId()));
+							this.getDepartmentByOrganization(employeeInfo.getEmployeeDistrict().getDistrictType().toString()));
 					
 					request.setAttribute("positions", 
 							this.getPositionByDepartment(employeeInfo.getEmployeeDepartment().getId()));
