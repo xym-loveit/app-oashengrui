@@ -56,6 +56,99 @@ function initLayout(){
 	$("#taskbar").css({top: iContentH + $("#header").height() + 5, width:$(window).width()});
 }
 
+function initATags(_box){
+	var $p = $(_box || document);
+
+	// navTab
+	$("a[target=navTab]", $p).each(function(){
+		$(this).click(function(event){
+			var $this = $(this);
+			var title = $this.attr("title") || $this.text();
+			var tabid = $this.attr("rel") || "_blank";
+			var fresh = eval($this.attr("fresh") || "true");
+			var external = eval($this.attr("external") || "false");
+			var url = unescape($this.attr("href")).replaceTmById($(event.target).parents(".unitBox:first"));
+			
+			// added by Jeccy.Zhao on 2012-05-24
+			var show_icon = $this.attr("treeicon") ? ($(this).attr("treeicon") + " icon") : 
+								($this.parent().parent().attr("treeicon") ? $this.parent().parent().attr("treeicon") + " icon" : ""); 
+			
+			DWZ.debug(url);
+			if (!url.isFinishedTm()) {
+				alertMsg.error($this.attr("warn") || DWZ.msg("alertSelectMsg"));
+				return false;
+			}
+			navTab.openTab(tabid, url,{title:title, fresh:fresh, external:external, icon:show_icon});
+
+			event.preventDefault();
+		});
+	});
+	
+	//dialogs
+	$("a[target=dialog]", $p).each(function(){
+		$(this).click(function(event){
+			var $this = $(this);
+			var title = $this.attr("title") || $this.text();
+			var rel = $this.attr("rel") || "_blank";
+			var options = {};
+			var w = $this.attr("width");
+			var h = $this.attr("height");
+			if (w) options.width = w;
+			if (h) options.height = h;
+			options.max = eval($this.attr("max") || "false");
+			options.mask = eval($this.attr("mask") || "false");
+			options.maxable = eval($this.attr("maxable") || "true");
+			options.minable = eval($this.attr("minable") || "true");
+			options.fresh = eval($this.attr("fresh") || "true");
+			options.resizable = eval($this.attr("resizable") || "true");
+			options.drawable = eval($this.attr("drawable") || "true");
+			options.close = eval($this.attr("close") || "");
+			options.param = $this.attr("param") || "";
+
+			var url = unescape($this.attr("href")).replaceTmById($(event.target).parents(".unitBox:first"));
+			DWZ.debug(url);
+			if (!url.isFinishedTm()) {
+				// added by Jeccy.Zhao on 05/31/2012, aims to double check the variable from current panel
+				url = url.replaceTmById($(navTab.getCurrentPanel()));
+				if (!url.isFinishedTm()) {
+					alertMsg.error($this.attr("warn") || DWZ.msg("alertSelectMsg"));
+					return false;
+				}
+			}
+			$.pdialog.open(url, rel, title, options);
+			
+			return false;
+		});
+	});
+	
+	// ajax
+	$("a[target=ajax]", $p).each(function(){
+		$(this).click(function(event){
+			var $this = $(this);
+			var rel = $this.attr("rel");
+			var callback = $this.attr("callback");
+			if (rel) {
+				// revised by Jeccy.Zhao on 09/08/2012, current panel should be pointed out.
+				var $rel = $(navTab.getCurrentPanel()).find("#"+rel);
+				// modified by Jeccy.Zhao
+				var url = $this.attr("href");
+				if ($this.hasClass("uvar")) {
+					url = unescape(url).replaceTmById($(navTab.getCurrentPanel()));
+					if (!url.isFinishedTm()) {
+						alertMsg.error($this.attr("warn") || DWZ.msg("alertSelectMsg"));
+						return false;
+					}
+				}
+				$rel.loadUrl(url, {}, [function(){
+					$rel.find("[layoutH]").layoutH();
+				}, callback]);
+			}
+
+			event.preventDefault();
+		});
+	});
+}
+
 function initUI(_box){
 	var $p = $(_box || document);
 
@@ -186,93 +279,8 @@ function initUI(_box){
 			$this.datepicker(opts);
 		});
 	}
-
-	// navTab
-	$("a[target=navTab]", $p).each(function(){
-		$(this).click(function(event){
-			var $this = $(this);
-			var title = $this.attr("title") || $this.text();
-			var tabid = $this.attr("rel") || "_blank";
-			var fresh = eval($this.attr("fresh") || "true");
-			var external = eval($this.attr("external") || "false");
-			var url = unescape($this.attr("href")).replaceTmById($(event.target).parents(".unitBox:first"));
-			
-			// added by Jeccy.Zhao on 2012-05-24
-			var show_icon = $this.attr("treeicon") ? ($(this).attr("treeicon") + " icon") : 
-								($this.parent().parent().attr("treeicon") ? $this.parent().parent().attr("treeicon") + " icon" : ""); 
-			
-			DWZ.debug(url);
-			if (!url.isFinishedTm()) {
-				alertMsg.error($this.attr("warn") || DWZ.msg("alertSelectMsg"));
-				return false;
-			}
-			navTab.openTab(tabid, url,{title:title, fresh:fresh, external:external, icon:show_icon});
-
-			event.preventDefault();
-		});
-	});
 	
-	//dialogs
-	$("a[target=dialog]", $p).each(function(){
-		$(this).click(function(event){
-			var $this = $(this);
-			var title = $this.attr("title") || $this.text();
-			var rel = $this.attr("rel") || "_blank";
-			var options = {};
-			var w = $this.attr("width");
-			var h = $this.attr("height");
-			if (w) options.width = w;
-			if (h) options.height = h;
-			options.max = eval($this.attr("max") || "false");
-			options.mask = eval($this.attr("mask") || "false");
-			options.maxable = eval($this.attr("maxable") || "true");
-			options.minable = eval($this.attr("minable") || "true");
-			options.fresh = eval($this.attr("fresh") || "true");
-			options.resizable = eval($this.attr("resizable") || "true");
-			options.drawable = eval($this.attr("drawable") || "true");
-			options.close = eval($this.attr("close") || "");
-			options.param = $this.attr("param") || "";
-
-			var url = unescape($this.attr("href")).replaceTmById($(event.target).parents(".unitBox:first"));
-			DWZ.debug(url);
-			if (!url.isFinishedTm()) {
-				// added by Jeccy.Zhao on 05/31/2012, aims to double check the variable from current panel
-				url = url.replaceTmById($(navTab.getCurrentPanel()));
-				if (!url.isFinishedTm()) {
-					alertMsg.error($this.attr("warn") || DWZ.msg("alertSelectMsg"));
-					return false;
-				}
-			}
-			$.pdialog.open(url, rel, title, options);
-			
-			return false;
-		});
-	});
-	$("a[target=ajax]", $p).each(function(){
-		$(this).click(function(event){
-			var $this = $(this);
-			var rel = $this.attr("rel");
-			var callback = $this.attr("callback");
-			if (rel) {
-				// revised by Jeccy.Zhao on 09/08/2012, current panel should be pointed out.
-				var $rel = $(navTab.getCurrentPanel()).find("#"+rel);
-				// modified by Jeccy.Zhao
-				var url = $this.attr("href");
-				if ($this.hasClass("uvar")) {
-					url = unescape(url).replaceTmById($(navTab.getCurrentPanel()));
-					if (!url.isFinishedTm()) {
-						alertMsg.error($this.attr("warn") || DWZ.msg("alertSelectMsg"));
-						return false;
-					}
-				}
-				$rel.loadUrl(url, {}, [function(){
-					$rel.find("[layoutH]").layoutH();
-				}, callback]);
-			}
-
-			event.preventDefault();
-		});
-	});
+	initATags($p);
 	
 	$("div.pagination", $p).each(function(){
 		var $this = $(this);
