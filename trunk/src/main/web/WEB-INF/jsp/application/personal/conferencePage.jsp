@@ -249,7 +249,16 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 										<option value="">请选择校区</option>
 										<logic:present name="districts">
 											<logic:iterate name="districts" id="district">
+											
+											<c:choose>
+											<c:when test="${op eq 'edit'}">
+												<option value="${district.id}" ${conference ne null && conference.district ne null && conference.district.id eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
+											</c:when>
+											<c:otherwise>
 												<option value="${district.id}" ${currentDistrictId ne null && currentDistrictId eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
+											</c:otherwise>
+											</c:choose>
+											
 											</logic:iterate>
 										</logic:present>
 									</select>
@@ -267,7 +276,14 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 										
 										<logic:present name="select_departments">
 											<logic:iterate name="select_departments" id="entity">
+											<c:choose>
+											<c:when test="${op eq 'edit'}">
 												<option value="${entity.id}" ${conference ne null && conference.department ne null && conference.department.id eq entity.id ? 'selected="selected"' : ''}>${entity.depName}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${entity.id}" ${currentDepId ne null && currentDepId eq entity.id ? 'selected="selected"' : ''}>${entity.depName}</option>
+											</c:otherwise>
+											</c:choose>
 											</logic:iterate>
 										</logic:present>
 									</select>

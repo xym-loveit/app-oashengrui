@@ -195,6 +195,9 @@ extends BaseAdminAction
 			request.setAttribute("departments", this.serviceSchoolDepartment.getAll());
 			request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
 			
+			request.setAttribute("currentDistrictId", ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getId());
+			request.setAttribute("currentDepId", ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId());
+			
 			request.setAttribute("newsTypes", this.getServiceAppDictionary().getByType(type));
 			request.setAttribute("op", request.getParameter("op"));
 		} catch (Exception e) {
