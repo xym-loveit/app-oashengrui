@@ -55,7 +55,7 @@ extends ServiceGenericImpl<ModelProcessTask> implements ServiceProcessTask
 		try
 		{
 			DetachedCriteria criteria = DetachedCriteria.forClass(ModelProcessTask.class);
-			criteria.add(Restrictions.gt("sortCode", seqOffset));
+			criteria.add(Restrictions.gt("id", seqOffset));
 			return this.daoProcessTask.getListByCriteria(criteria);
 		}
 		catch (Exception e)
