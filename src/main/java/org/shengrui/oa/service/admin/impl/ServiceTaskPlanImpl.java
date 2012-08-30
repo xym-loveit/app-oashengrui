@@ -89,7 +89,7 @@ extends ServiceGenericImpl<ModelTaskPlan> implements ServiceTaskPlan
 					if (entity.getTaskStatus().equals(ModelTaskPlan.ETaskStatus.NOTSTART.getValue()))
 					{
 						// 未开始
-						criteria.add(Restrictions.isNull("taskStatus"));
+						// criteria.add(Restrictions.isNull("taskStatus"));
 						criteria.add(Restrictions.sqlRestriction(
 								"task_planStartDate > ?", UtilDateTime.nowDateString(), Hibernate.STRING));
 					}

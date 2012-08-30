@@ -120,7 +120,7 @@ extends BaseAppAction
 		if(list != null){
 			for (ModelConference conference : list.getItems()) { 
 				sb.append("<tr><td style=\"display: none;\">");
-				sb.append(conference.getId()+"</td><td>");
+				sb.append(conference.getId()+"</td><td style='text-align:left'>");
 				sb.append(conference.getConferenceName()+"</td>");
 				sb.append("<td>"+format.format(conference.getStartDay())+" "+conference.getStartHour()+":"+conference.getStartMinute()+"</td><td>");
 				sb.append(ToString(conference.getStatus())+"</td></tr>");

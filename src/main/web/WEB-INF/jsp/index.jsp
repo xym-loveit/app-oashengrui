@@ -15,9 +15,10 @@ $(function(){
 	  	for(i=0;i<size;i++){
 	  		var id=$('#task tr').eq(i).find('td').eq(0).html();
 	  		var value=$('#task tr').eq(i).find('td').eq(1).html();
-	  		result='<a href="app/personal/task.do?action=dialogTaskPage&id='+id+'" target="dialog">'+value+'</a>';
-	  	$('#task tr').eq(i).find('td').eq(1).html(result);
+	  		result='<a href="app/personal/task.do?action=dialogTaskPage&id='+id+'&op=view" title="任务`' + value + '`-查看" target="dialog" rel="dsk_task_' + id + '" width="750" height="530">'+value+'</a>';
+			$('#task tr').eq(i).find('td').eq(1).html(result);
 	  	}
+		//initATags($("#task"));
 	},'text');
 	
 	//待我审批
@@ -27,8 +28,24 @@ $(function(){
 	  	for(i=0;i<size;i++){
 	  		var id=$('#approval tr').eq(i).find('td').eq(0).html();
 	  		var value=$('#approval tr').eq(i).find('td').eq(1).html();
-	  		result='<a href="app/admin/task.do?action=dialogTaskPage&id='+id+'&op=audit" target="dialog">'+value+'</a>';
-	  	$('#approval tr').eq(i).find('td').eq(1).html(result);
+			
+			result = '';
+			
+			type = $($('#approval tr').eq(i)).attr("alt");
+			if (type == "news") {
+				result='<a href="app/admin.do?action=adminPageEntryDetail&id='+id+'&op=view" target="dialog" width="900" height="500" rel="dsk_approval_news_'+id+'">'+value+'</a>';
+			} else if (type == "task") {
+				result='<a href="app/admin/task.do?action=dialogTaskPage&id='+id+'&op=audit" target="dialog" width="1080" height="380" rel="dsk_approval_task_'+id+'">'+value+'</a>';
+			} else if (type == "fina-expense") {
+				result='<a href="app/finan/expense.do?action=diaglogFinaExpensePage&id='+id+'&op=view" target="dialog" width="1150" height="640" rel="dsk_approval_fexp_'+id+'">'+value+'</a>';
+			} else if (type == "fina-contract") {
+				result='<a href="app/finan/contract.do?action=diaglogFinaContractPage&id='+id+'&op=view" target="dialog" width="1150" height="640" rel="dsk_approval_fctr_'+id+'">'+value+'</a>';
+			} else if (type == "hrm") {
+				result='<a href="app/personal/application_form.do?action=dialogApplicationFormPage&formId='+id+'&op=view" target="dialog" width="900" height="500" rel="dsk_approval_hrm_'+id+'">'+value+'</a>';
+			} else if (type == "job") {
+				result='<a href="app/hrm/hire.do?action=hrmPageJobDetail&id='+id+'&op=audit" target="dialog" width="960" height="420" rel="dsk_approval_job_'+id+'">'+value+'</a>';
+			}
+			$('#approval tr').eq(i).find('td').eq(1).html(result);
 	  	}
 	},'text');
 	
@@ -39,7 +56,7 @@ $(function(){
 	  	for(i=0;i<size;i++){
 	  		var id=$('#application tr').eq(i).find('td').eq(0).html();
 	  		var value=$('#application tr').eq(i).find('td').eq(1).html();
-	  		result='<a href="app/personal/application_form.do?action=dialogApplicationFormPage&formId='+id+'" target="dialog">'+value+'</a>';
+	  		result='<a href="app/personal/application_form.do?action=dialogApplicationFormPage&formId='+id+'&op=view" title="查看申请单`'+value+'`" height="640" width="1150" rel="dsk_application_'+id+'" target="dialog">'+value+'</a>';
 	  	$('#application tr').eq(i).find('td').eq(1).html(result);
 	  	}
 	},'text');
@@ -52,7 +69,7 @@ $(function(){
 	  		var id=$('#message tr').eq(i).find('td').eq(0).html();
 	  		var mId=$('#message tr').eq(i).find('td').eq(1).html();
 	  		var value=$('#message tr').eq(i).find('td').eq(2).html();
-	  		result='<a href="app/message.do?action=dialogMessagePage&msgId='+mId+'&msgInId='+id+'" target="dialog">'+value+'</a>';
+	  		result='<a href="app/message.do?action=dialogMessagePage&msgId='+mId+'&msgInId='+id+'" title="查看消息" height="380" width="640" target="dialog" rel="dsk_msg_'+id+'">'+value+'</a>';
 	  	$('#message tr').eq(i).find('td').eq(2).html(result);
 	  	}
 	},'text')
@@ -64,7 +81,7 @@ $(function(){
 	  	for(i=0;i<size;i++){
 	  		var id=$('#conference tr').eq(i).find('td').eq(0).html();
 	  		var value=$('#conference tr').eq(i).find('td').eq(1).html();
-	  		result='<a href="app/personal/conference.do?action=conferenceDetail&id='+id+'" target="dialog">'+value+'</a>';
+	  		result='<a href="app/personal/conference.do?action=conferenceDetail&id='+id+'&op=view" height="450" width="1150" title="查看会议`'+value+'`" target="dialog" rel="dsk_confer_'+id+'">'+value+'</a>';
 	  	$('#conference tr').eq(i).find('td').eq(1).html(result);
 	  	}
 	},'text')
@@ -76,7 +93,7 @@ $(function(){
 	  	for(i=0;i<size;i++){
 	  		var value=$('#news tr').eq(i).find('td').eq(2).html();
 	  		var id=$('#news tr').eq(i).find('td').eq(0).html();
-	  		result='<a href="app/admin/news.do?action=actionNewsScan&id='+id+'" target="dialog">'+value+'</a>';
+	  		result='<a href="app/admin/news.do?action=actionNewsScan&id='+id+'" height="650" width="900" title="查看新闻`'+value+'`" target="dialog" rel="dsk_news_'+id+'">'+value+'</a>';
 	  	$('#news tr').eq(i).find('td').eq(2).html(result);
 	  	}
 	},'text')
@@ -88,7 +105,7 @@ $(function(){
 	  	for(i=0;i<size;i++){
 	  		var id=$('#doc tr').eq(i).find('td').eq(0).html();
 	  		var value=$('#doc tr').eq(i).find('td').eq(1).html();
-	  		result='<a href="app/admin/doc.do?action=adminPageDocumentEditDetail&id='+id+'" target="dialog">'+value+'</a>';
+	  		result='<a href="app/admin/doc.do?action=adminPageDocumentEditDetail&id='+id+'" target="dialog" height="380" width="850" title="文档`'+value+'`-编辑" rel="dsk_doc_'+id+'">'+value+'</a>';
 	  	$('#doc tr').eq(i).find('td').eq(1).html(result);
 	  	}
 	},'text')
@@ -97,7 +114,7 @@ $(function(){
 </script>
 <div class="pageContent" layoutH="42" style="padding:5px" width="100%">
 	<!--<div class="sortDrag x-panel x-panel-right" width="100">-->
-	<div class="x-panel x-panel-left sortDrag" width="45%">
+	<div class="x-panel x-panel-left " width="45%">
 		<div class="panel" minH="60">
 			<h1><span class="icon-mymsg icon">个人消息<label style="float:right;margin-top:9px;"><a href="app/message.do?action=pageMessageReceivedIndex" target="navTab">更多>></a></label></span></h1>
 	        <div>
@@ -168,7 +185,7 @@ $(function(){
 		</div>
 	</div>
 	
-	<div class="x-panel x-panel-right sortDrag">
+	<div class="x-panel x-panel-right">
 		
 		<div class="panel" minH="60">
 			<h1><span class="icon-myapproval icon">待我审批<label style="float:right;margin-top:9px;"><a href="app/personal/approval.do?action=pageMyApproval" target="navTab">更多>></a></label></span></h1>

@@ -73,7 +73,7 @@ extends BaseAppAction
 			for (ModelInMessage message : list.getItems()) {
 				sb.append("<tr><td style=\"display: none;\">");
 				sb.append(message.getId()+"</td><td style=\"display: none;\">");
-				sb.append(message.getShortMessage().getId()+"</td><td>");
+				sb.append(message.getShortMessage().getId()+"</td><td style='text-align:left'>");
 				sb.append(message.getShortMessage().getSubject()+"</td>");
 				sb.append("<td>"+message.getShortMessage().getSender()+"</td><td>");
 				sb.append(message.getShortMessage().getSendTime()+"</td></tr>");

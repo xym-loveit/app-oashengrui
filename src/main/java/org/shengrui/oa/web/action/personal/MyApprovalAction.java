@@ -99,8 +99,8 @@ extends BaseAppAction
 		StringBuffer sb =new StringBuffer();
 		if(list != null){
 			for (ModelNewsMag news : list.getItems()) {
-				sb.append("<tr><td style=\"display: none;\">");
-				sb.append(news.getId()+"</td><td>");
+				sb.append("<tr alt='news'><td style=\"display: none;\">");
+				sb.append(news.getId()+"</td><td style='text-align:left'>");
 				sb.append("["+ news.getDictionary().getName() + "]"+"”" + news.getNewsSubject()+"“"+ "新闻发布审批"+"</td>");
 				sb.append("<td>"+news.getUser().getFullName()+"</td><td>");
 				sb.append(news.getUpdateTime()+"</td></tr>");
@@ -114,8 +114,8 @@ extends BaseAppAction
 		StringBuffer sb =new StringBuffer();
 		if(list != null){
 			for (ModelTaskPlan task : list.getItems()) {
-				sb.append("<tr><td style=\"display: none;\">");
-				sb.append(task.getId()+"</td><td>");
+				sb.append("<tr alt='task'><td style=\"display: none;\">");
+				sb.append(task.getId()+"</td><td style='text-align:left'>");
 				sb.append("["+task.getTaskType().getName()+"]"+ "”" + task.getTaskName() + "“"+ " 任务委托发布审批"+"</td>");
 				sb.append("<td>"+task.getTaskOriginator().getEmpName()+"</td><td>");
 				sb.append(task.getCreateTime()+"</td></tr>");
@@ -128,8 +128,8 @@ extends BaseAppAction
 		StringBuffer sb =new StringBuffer();
 		if(list != null){
 			for (ModelFinanExpense finan : list.getItems()) {
-				sb.append("<tr><td style=\"display: none;\">");
-				sb.append(finan.getId()+"</td><td>");
+				sb.append("<tr alt='fina-expense'><td style=\"display: none;\">");
+				sb.append(finan.getId()+"</td><td style='text-align:left'>");
 				sb.append(finan.getEmployee().getEmpName()+" "+ "<label style='color:red;'>"+finan.getEmpDistrict().getDistrictName()+"</label>&nbsp&nbsp&nbsp<label style='color:red;'>"+finan.getApplyAmt()+"</label>");
 				sb.append("<td>"+finan.getEmployee().getEmpName()+"</td><td>");
 				sb.append(finan.getApplyDate()+"</td></tr>");
@@ -142,8 +142,8 @@ extends BaseAppAction
 		StringBuffer sb =new StringBuffer();
 		if(list != null){
 			for (ModelFinanContract contract : list.getItems()) {
-				sb.append("<tr><td style=\"display: none;\">");
-				sb.append(contract.getId()+"</td><td>");
+				sb.append("<tr alt='fina-contract'><td style=\"display: none;\">");
+				sb.append(contract.getId()+"</td><td style='text-align:left'>");
 				sb.append("["+contract.getEmployee().getEmpName()+"]"+" "+ contract.getEmpDistrict().getDistrictName()+" "+contract.getApplyFormType().getProcessTypeName());
 				sb.append("<td>"+contract.getEmployee().getEmpName()+"</td><td>");
 				sb.append(contract.getApplyDate()+"</td></tr>");
@@ -156,8 +156,8 @@ extends BaseAppAction
 		StringBuffer sb =new StringBuffer();
 		if(list != null){
 			for (ModelHrmJobHireInfo hrm : list.getItems()) {
-				sb.append("<tr><td style=\"display: none;\">");
-				sb.append(hrm.getId()+"</td><td>");
+				sb.append("<tr alt='hrm'><td style=\"display: none;\">");
+				sb.append(hrm.getId()+"</td><td style='text-align:left'>");
 				sb.append("["+ hrm.getJobHireDepartment().getDepName()+" "+ hrm.getJobHireDistrict().getDistrictName()+"]" +"”"+hrm.getJobHireTitle()+"“" +"招聘");
 				sb.append("<td>"+hrm.getPostAuthorName()+"</td><td>");
 				sb.append(hrm.getPostDate()+"</td></tr>");
@@ -170,8 +170,8 @@ extends BaseAppAction
 		StringBuffer sb =new StringBuffer();
 		if(list != null){
 			for (ModelHrmEmployeeDevelop entry : list.getItems()) {
-				sb.append("<tr><td style=\"display: none;\">");
-				sb.append(entry.getId()+"</td><td>");
+				sb.append("<tr alt='job'><td style=\"display: none;\">");
+				sb.append(entry.getId()+"</td><td style='text-align:left'>");
 				sb.append(entry.getEmployee().getEmpName()+"岗位"+StrToString(entry.getApplyFormType().getId()));
 				sb.append("<td>"+entry.getEmployee().getEmpName()+"</td><td>");
 				sb.append(entry.getApplyDate()+"</td></tr>");
