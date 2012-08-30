@@ -33,7 +33,7 @@
 				
 				<tr>
     			    <td>上班类型：</td>
-	    				<td colspan="5"><select class="combox" name="jobHireDistrictId" id="combox_district" style="width:140px" ref="combox_dept" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
+	    				<td colspan="5"><select class="combox" name="jobHireDistrictId" id="combox_district" style="width:140px" ref="combox_dept" refUrl="app/base.do?action=actionLoadDepartmentByOrg&districtId={value}">
 									<option value="">请选择</option>
 									<logic:present name="workTypes">
 										<logic:iterate name="workTypes" id="workType">
@@ -46,7 +46,7 @@
 			    
 			    <tr>
     			    <td>上班时间：</td>
-	    				<td colspan="5"><select class="combox" name="jobHireDistrictId" id="combox_district" style="width:140px" ref="combox_dept" refUrl="app/hrm/hire.do?action=actionLoadDepartmentByOrg&districtId={value}">
+	    				<td colspan="5"><select class="combox" name="jobHireDistrictId" id="combox_district" style="width:140px" ref="combox_dept" refUrl="app/base.do?action=actionLoadDepartmentByOrg&districtId={value}">
 									<option value="">请选择</option>
 									<logic:present name="workTypes">
 										<logic:iterate name="workTypes" id="workType">

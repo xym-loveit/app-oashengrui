@@ -92,7 +92,7 @@
 			<li class="line">line</li>
 		</c:if>
 		<c:choose>
-			<c:when test="${tm:ifGranted('_FUNCKE_ADMIN_NEWS_DELETE') }">
+			<c:when test="${tm:ifGranted('_FUNCKEY_ADMIN_NEWS_DELETE') }">
 			<li><a class="delete" href="app/admin.do?action=adminOprEntryRemove&id={sid}" target="ajaxTodo" title="确定要删除吗?" callback="callback_funcRemove()"><span>删除</span></a></li>
 			</c:when>
 			<c:otherwise>
@@ -157,7 +157,7 @@
 					<td><c:if test="${news.updateTime ne null}"><fmt:formatDate value="${news.updateTime}" pattern="yyyy-MM-dd hh:mm:ss" /></c:if></td>
 					<td> 
 					<c:choose>
-						<c:when test="${tm:ifGranted('_FUNCKE_ADMIN_NEWS_DELETE') }">
+						<c:when test="${tm:ifGranted('_FUNCKEY_ADMIN_NEWS_DELETE') }">
 							<a href="app/admin.do?action=adminOprEntryRemove&id=${news.id}" target="ajaxTodo" title="确定要删除${news.newsSubject }吗?" callback="refresh()"><img class="opr" src="resources/images/icons/remove.png" /></a>&nbsp;
 						</c:when>
 						<c:otherwise>
