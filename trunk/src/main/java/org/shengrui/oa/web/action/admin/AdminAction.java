@@ -273,8 +273,8 @@ extends BaseAdminAction
 				{
 					modelNewsMag.setDictionary(this.serviceAppDictionary.get(request.getParameter("typeDicid")));
 				}
-				modelNewsMag.setUser(this.serviceAppUser.findByUserName((String) request.getSession().getAttribute("SPRING_SECURITY_LAST_USERNAME")));
-				modelNewsMag.setAuthorName((String) request.getSession().getAttribute("SPRING_SECURITY_LAST_USERNAME"));
+				modelNewsMag.setUser(ContextUtil.getCurrentUser());
+				modelNewsMag.setAuthorName(ContextUtil.getCurrentUser().getFullName());
 				modelNewsMag.setCreatetime(new Date());
 				modelNewsMag.setTopIndex(0);
 				modelNewsMag.setUpdateTime(new Date());
