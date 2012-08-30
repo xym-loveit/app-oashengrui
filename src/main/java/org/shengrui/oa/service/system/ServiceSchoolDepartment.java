@@ -39,6 +39,16 @@ extends ServiceGeneric<ModelSchoolDepartment>
 	 ModelSchoolDepartment getDepartmentByName(String departmentName) throws ServiceException;
 	 
 	 /**
+	  * 根据部门名称和所属校区类型获取部门
+	  * 
+	  * @param departmentName
+	  * @return
+	  * @throws ServiceException
+	  */
+	 ModelSchoolDepartment getDepartmentByName(String departmentName, 
+			 Integer districtType) throws ServiceException;
+	 
+	 /**
 	  * Obtains department ids with the specified department name
 	  * 
 	  * @param departmentName
