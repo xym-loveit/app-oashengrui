@@ -33,10 +33,6 @@
 			$("#formjob").submit();
 		});
 		
-		KISSY.use('gallery/form/1.2/uploader/queue/base', function (S, Queue) {
-			var queue = new Queue();
-		})
-
 		//加载上传组件入口文件
 		KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
 			var ru = new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue',{

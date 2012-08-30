@@ -137,7 +137,7 @@ KISSY.add('gallery/form/1.2/uploader/themes/default/index', function (S, Node, T
         fileTpl:{value:
             '<li id="queue-file-{id}" class="clearfix" data-name="{name}">' +
                 '<div class="f-l sprite file-icon"></div>' +
-                '<div class="f-l"><a href="/file-download?path=_sUrl_" target="_blank">{name}</a></div>' +
+                '<div class="f-l"><a href="file-download?path=_sUrl_" target="_blank">{name}</a></div>' +
                 '<div class="f-l status-wrapper J_FileStatus">' +
                     '<div class="status waiting-status">等待上传，<a class="J_Upload_{id}" href="#Upload">点此上传</a> </div>' +
                     '<div class="status start-status progress-status success-status clearfix">' +
