@@ -26,7 +26,7 @@ public class JstlTagDate
 		long ei=el-sl;
 		
 		//根据毫秒数计算间隔天数
-		return (int)(ei/(1000*60*60*24)) + 1;
+		return (int)(ei/(1000*60*60*24));
 	}
 	
 	/**
