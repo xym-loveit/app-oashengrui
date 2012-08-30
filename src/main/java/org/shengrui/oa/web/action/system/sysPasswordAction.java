@@ -8,7 +8,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.system.ModelAppUser;
-import org.shengrui.oa.service.system.ServiceAppUser;
 import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.web.action.BaseAppAction;
 
@@ -17,7 +16,6 @@ import cn.trymore.core.util.UtilString;
 public class sysPasswordAction 
 extends BaseAppAction
 {
-	private ServiceAppUser serviceAppUser;
 	/**
 	 * The LOGGER
 	 */
@@ -51,10 +49,10 @@ extends BaseAppAction
 		String oldPassword = UtilString.encryptSha256(request.getParameter("oldPassword"));
 		String newPassword = UtilString.encryptSha256(request.getParameter("newPassword"));
 		String confirmPassword = UtilString.encryptSha256(request.getParameter("confirmPassword"));
-		String userName = ContextUtil.getCurrentUser().getFullName(); //(String) request.getSession().getAttribute("SPRING_SECURITY_LAST_USERNAME");
+		// String userName = ContextUtil.getCurrentUser().getFullName(); //(String) request.getSession().getAttribute("SPRING_SECURITY_LAST_USERNAME");
 		//根据用户名获取用户密码
 		try {
-			 modelAppUser = serviceAppUser.getPasswordByUserName(userName);
+			modelAppUser = ContextUtil.getCurrentUser(); //serviceAppUser.getPasswordByUserName(userName);
 			String password = modelAppUser.getPassword();
 			//判断输入的原密码是否正确
 			if(!oldPassword.equals(UtilString.encryptSha256("")))
@@ -93,14 +91,5 @@ extends BaseAppAction
 		}
 		return ajaxPrint(response, getSuccessCallback("您的密码已修改成功，请使用新密码重新登录系统！", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 	}
-
-	public ServiceAppUser getServiceAppUser() {
-		return serviceAppUser;
-	}
-
-	public void setServiceAppUser(ServiceAppUser serviceAppUser) {
-		this.serviceAppUser = serviceAppUser;
-	}
-	
 	
 }
