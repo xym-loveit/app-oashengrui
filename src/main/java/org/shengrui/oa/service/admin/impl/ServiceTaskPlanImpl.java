@@ -89,13 +89,20 @@ extends ServiceGenericImpl<ModelTaskPlan> implements ServiceTaskPlan
 					if (entity.getTaskStatus().equals(ModelTaskPlan.ETaskStatus.NOTSTART.getValue()))
 					{
 						// 未开始
-						// criteria.add(Restrictions.isNull("taskStatus"));
+						criteria.add(Restrictions.or(
+								Restrictions.isNull("taskStatus"),
+								Restrictions.ne("taskStatus", ModelTaskPlan.ETaskStatus.DONE.getValue())
+						));
 						criteria.add(Restrictions.sqlRestriction(
 								"task_planStartDate > ?", UtilDateTime.nowDateString(), Hibernate.STRING));
 					}
 					else if (entity.getTaskStatus().equals(ModelTaskPlan.ETaskStatus.ONGOING.getValue()))
 					{
 						// 进行中
+						criteria.add(Restrictions.or(
+								Restrictions.isNull("taskStatus"),
+								Restrictions.ne("taskStatus", ModelTaskPlan.ETaskStatus.DONE.getValue())
+						));
 						criteria.add(Restrictions.sqlRestriction(
 								"task_planStartDate <= ? and task_planEndDate >= ? ", 
 								new Object[] {UtilDateTime.nowDateString(), UtilDateTime.nowDateString()}, 
@@ -104,6 +111,10 @@ extends ServiceGenericImpl<ModelTaskPlan> implements ServiceTaskPlan
 					else if (entity.getTaskStatus().equals(ModelTaskPlan.ETaskStatus.POSTPONED.getValue()))
 					{
 						// 已延期
+						criteria.add(Restrictions.or(
+								Restrictions.isNull("taskStatus"),
+								Restrictions.ne("taskStatus", ModelTaskPlan.ETaskStatus.DONE.getValue())
+						));
 						criteria.add(Restrictions.sqlRestriction(
 								"task_planEndDate < ?", UtilDateTime.nowDateString(), Hibernate.STRING));
 					} 
