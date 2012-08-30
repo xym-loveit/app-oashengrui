@@ -2,6 +2,8 @@ package org.shengrui.oa.service.system.impl;
 
 import java.util.List;
 
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.system.DAOSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.service.system.ServiceSchoolDepartment;
@@ -81,6 +83,31 @@ extends ServiceGenericImpl<ModelSchoolDepartment> implements ServiceSchoolDepart
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.system.ServiceSchoolDepartment#getDepartmentByName(java.lang.String, java.lang.Integer)
+	 */
+	@Override
+	 public ModelSchoolDepartment getDepartmentByName(String departmentName, 
+			 Integer districtType) throws ServiceException
+	{
+		try
+		{
+			 DetachedCriteria criteria = DetachedCriteria.forClass(ModelSchoolDepartment.class);
+			 
+			 criteria.add(Restrictions.eq("depName", departmentName));
+			 criteria.add(Restrictions.eq("depOrgType", districtType));
+			 
+			 List<ModelSchoolDepartment> result = this.daoSchoolDepartment.getListByCriteria(criteria);
+			 
+			 return result != null && result.size() > 0 ? result.get(0) : null;
+		}
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
+		 
+	}
 	/*
 	 * (non-Javadoc)
 	 * @see org.shengrui.oa.service.system.ServiceSchoolDepartment#getDepartmentIdsByName(java.lang.String)
