@@ -56,7 +56,7 @@
 										<logic:notEmpty name="child" property="menuChildren">
 											<ul>
 												<logic:iterate name="child" property="menuChildren" id="node">
-													<li treeicon="${node.menuIcon}"><a id="mtlink_${node.id}" href="javascript:void(0);" ${view ne null ? 'readonly' : ''} ${role ne null && tm:inRange(role.menuIds, root.id, ',') ? 'checked="true"': ''}>
+													<li treeicon="${node.menuIcon}"><a id="mtlink_${node.id}" href="javascript:void(0);" ${view ne null ? 'readonly' : ''} ${role ne null && tm:inRange(role.menuIds, node.id, ',') ? 'checked="true"': ''}>
 														<span type="menu" alt="${node.id}">${node.menuTitle}</span></a>
 														<logic:notEmpty name="node" property="functions">
 															<ul>
