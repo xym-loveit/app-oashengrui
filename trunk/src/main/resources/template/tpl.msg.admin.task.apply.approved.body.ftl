@@ -9,8 +9,8 @@
 	<div><b>审批人：</b> ${entity.taskAuditor.empName} </div>
 	<div><b>详情点击：</b><a href="javascript:void(0);" 
 		onclick="parent.$.pdialog.open(
-			'app/personal/task.do?action=dialogAuditRecords&taskId=${entity.task.id}', 
+			'app/personal/task.do?action=dialogTaskPage&id=${entity.task.id}&op=view', 
 			'task_applyview_${entity.task.id}',  
 			'`${entity.task.taskName}`任务详情',
-			{width: 900, height: 300})">点击进入到任务<#if entity.taskApplyType = 1>完成<#else>延期</#if>审批审批窗口</a></div>
+			{width: 750, height: 530})">点击查看任务<#if entity.taskApplyType = 1>完成<#else>延期</#if>审批详情</a></div>
 </div>

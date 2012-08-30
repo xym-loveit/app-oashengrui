@@ -82,12 +82,10 @@ function callback_funcRemove() {
 <!-- Body -->	
 <div class="pageContent">
 	<div class="panelBar">
-		<c:if test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.functionRights eq '__ALL' || tm:inRange(sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.functionRights, '_FUNCKEY_JOBAPPROVAL_SUBNODE', ',') || tm:inRange(sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.functionRights, '_FUNCKEY_JOBAPPROVAL_ROOT', ',')}">
 			<ul class="toolBar" style="float:right">
 				<c:if test="${noSummary ne null && noSummary ne 0 }"><li><span>你有${noSummary }个发起的会议需要总结，请点击下表总结链接进行总结</span></li></c:if>
 				<li><a treeicon="icon-edit" class="icon" href="app/personal/conference.do?action=myConferenceIndex" target="navTab" rel="_menu_mod_personal_conference"><span class="icon-edit">返回我参加的会议</span></a></li>
 			</ul>
-		</c:if>
 		<ul class="toolBar">
 		<c:if test="${tm:ifGranted('_FUNCKEY_PERSONAL_CONFERENCE_INITIAL_CONFERENCE') }">
 			<li><a class="add" href="app/personal/conference.do?action=conferenceDetail" target="dialog" title="发起会议" width="1150" height="420" rel="dia_hr_entryadd"><span>会议发起</span></a></li>

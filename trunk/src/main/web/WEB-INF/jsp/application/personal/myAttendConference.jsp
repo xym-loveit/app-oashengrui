@@ -107,7 +107,7 @@
 						<td>${entity.phone }</td>
 						<td>
 							<c:choose>
-								<c:when test="${tm:ifGranted('_FUNCKEY_HRM_JOBHIRE_JOB_VIEW')}">
+								<c:when test="${tm:ifGranted('_FUNCKEY_PERSONAL_CONFERENCE_VIEW_CONFERENCE')}">
 									<a class="oplink" href="app/personal/conference.do?action=conferenceDetail&id=${entity.id}&op=view" target="dialog" title="会议详细" width="1150" height="450">详细</a>
 								</c:when>
 								<c:otherwise><label class="opdisabled" title="您没有权限查看会议详细数据">详细</label></c:otherwise>
