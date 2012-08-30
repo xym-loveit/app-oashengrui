@@ -2,6 +2,7 @@ package org.shengrui.oa.service.hrm.impl;
 
 import java.util.List;
 
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
@@ -12,6 +13,7 @@ import org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop;
 import org.shengrui.oa.service.hrm.ServiceHrmEmployeeDevelop;
 
 import cn.trymore.core.exception.ServiceException;
+import cn.trymore.core.hibernate.HibernateUtils;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
@@ -116,14 +118,21 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 			}
 			else if (entity.getCondAuditStates() != null && entity.getCondAuditStates().length > 0)
 			{
-				if (entity.getCondAuditStates().length == 1 && entity.getCondAuditStates()[0] == null)
+				Criterion criterion = null;
+				
+				for (Integer state : entity.getCondAuditStates())
 				{
-					criteria.add(Restrictions.isNull("auditState"));
-				}	
-				else
-				{
-					criteria.add(Restrictions.in("auditState", entity.getCondAuditStates()));
+					if (state == null)
+					{
+						criterion = HibernateUtils.QBC_OR(criterion, Restrictions.isNull("auditState"));
+					}
+					else
+					{
+						criterion = HibernateUtils.QBC_OR(criterion, Restrictions.eq("auditState", state));
+					}
 				}
+				
+				criteria.add(criterion);
 			}
 		}
 		

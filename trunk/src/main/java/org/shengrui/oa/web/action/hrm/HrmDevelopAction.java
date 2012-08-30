@@ -207,9 +207,10 @@ extends BaseHrmAction
 		if (isOnApproval != null && isOnApproval)
 		{
 			// 审批中
-			formEntity.setAuditState(null);
+			// formEntity.setAuditState(null);
 			formEntity.setCondAuditStates(new Integer[] {
-					ModelProcessForm.EProcessFormStatus.RETURNED.getValue()
+					null
+					// ModelProcessForm.EProcessFormStatus.RETURNED.getValue()
 			});
 		}
 		else
