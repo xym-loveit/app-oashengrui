@@ -45,7 +45,7 @@ extends ModelBase
 	/**
 	 * 校区上级
 	 */
-	private ModelSchoolDistrict districtParent;
+	private transient ModelSchoolDistrict districtParent;
 	
 	/**
 	 * 数据权限过滤

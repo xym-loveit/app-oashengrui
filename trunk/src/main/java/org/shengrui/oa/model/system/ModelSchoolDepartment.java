@@ -55,7 +55,7 @@ extends ModelBase
 	 * 对口部门
 	 */
 	@Expose
-	protected ModelSchoolDepartment depEquivalentBranch;
+	protected transient ModelSchoolDepartment depEquivalentBranch;
 	
 	/**
 	 * 岗位职位
