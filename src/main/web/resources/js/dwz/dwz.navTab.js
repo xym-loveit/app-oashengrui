@@ -405,7 +405,7 @@ var navTab = {
 		this._scrollCurrent();
 		
 		// added by Jeccy.Zhao on 30/08/2012
-		if ($.pdialog.getCurrent().size() > 0 && $.pdialog.getCurrent().css("display") != "none") {
+		if ($.pdialog.getCurrent() != null && $.pdialog.getCurrent().size() > 0 && $.pdialog.getCurrent().css("display") != "none") {
 			$.pdialog.minimize($.pdialog.getCurrent());
 		}
 		
