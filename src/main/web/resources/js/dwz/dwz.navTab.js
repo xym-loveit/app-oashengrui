@@ -404,6 +404,11 @@ var navTab = {
 		this._init();
 		this._scrollCurrent();
 		
+		// added by Jeccy.Zhao on 30/08/2012
+		if ($.pdialog.getCurrent()) {
+			$.pdialog.minimize($.pdialog.getCurrent());
+		}
+		
 		this._getTabs().eq(this._currentIndex).attr("url", url);
 	}
 };
