@@ -1523,8 +1523,12 @@ extends BaseAdminAction
 			Date day = UtilDateTime.toDateByPattern(excelRowData.get(i).getRowData().get(4));
 			if(day == null)continue;
 			try {
-				ModelHrmEmployee emp = this.getServiceHrmEmployee().getEmployeeByEmpNo(excelRowData.get(i).getRowData().get(2));
-				if(!districtId.equals(emp.getEmployeeDistrict().getId()))continue;
+				List<ModelHrmEmployee> empList = this.getServiceHrmEmployee().findByFullName(excelRowData.get(i).getRowData().get(3));
+				ModelHrmEmployee emp = null;
+				if(empList!=null && empList.size()>=1)
+					emp = empList.get(0);//改用按名字查询,在重名情况下选择第一个.getEmployeeByEmpNo(excelRowData.get(i).getRowData().get(2));
+				if(emp == null)continue;//查无此人，为异常数据
+				if(!districtId.equals(emp.getEmployeeDistrict().getId()))continue;//校区不一致，为异常数据
 				ModelStaffAttendanceView entity = this.getServiceStaffAttendanceView().getRecordByCondition(emp.getId(), day, emp.getEmployeeDistrict().getId());
 				if(entity == null){//有考勤数据却没工作安排，为异常数据
 					continue;
