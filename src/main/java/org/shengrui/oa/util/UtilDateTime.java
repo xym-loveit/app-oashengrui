@@ -429,14 +429,14 @@ public class UtilDateTime {
     }
     
     public static java.util.Date toDateByPattern(String dateTime, String pattern) {
-    	if(dateTime == null || "".equals(dateTime))return null;
+    	if(dateTime == null || "".equals(dateTime) || "null".equalsIgnoreCase(dateTime))return null;
     	SimpleDateFormat sdf = new SimpleDateFormat(pattern);
     	try {
 			return sdf.parse(dateTime);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			return null;
 		}
-		return null;
     }
     /** Converts a date String and a time String into a Date
      * @param date The date String: MM/DD/YYYY
