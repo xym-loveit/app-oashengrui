@@ -69,7 +69,7 @@ ${tm:fileRestore(entity['attachFiles'])}
 </script>
 <div style="width:500px; height:100px">
 	<div style="float:left; width:270px;height:100px">
-		<form style="width:500px" method="post" action="app/admin/attendance/operation.do?action=actionImportAttendanceData" id="formImport" class="pageForm required-validate" onsubmit="return validateCallback(this);">
+		<form style="width:500px" method="post" action="app/admin/attendance/operation.do?action=actionImportAttendanceData" id="formImport" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 			<table class="searchContent">
 				<tr>
 					<td><label>所属校区：</label></td>
