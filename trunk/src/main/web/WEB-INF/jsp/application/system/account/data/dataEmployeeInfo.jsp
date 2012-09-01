@@ -33,13 +33,13 @@
 	<table class="list" style="border-spacing: 12; width: 100%;" cellspacing="10" cellpadding="10" >
 		<thead>
 			<tr>
-				<th align="center">姓名</th>
-				<th align="center">校区</th>
-				<th align="center">部门</th>
+				<th align="center" style="width:80px">姓名</th>
+				<th align="center" style="width:80px">校区</th>
+				<th align="center" style="width:80px">部门</th>
 				<th align="center">电子邮箱</th>
-				<th align="center">办公电话</th>
-				<th align="center">短号</th>
-				<th align="center">手机号码</th>
+				<th align="center" style="width:100px">办公电话</th>
+				<th align="center" style="width:70px">短号</th>
+				<th align="center" style="width:100px">手机号码</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -47,12 +47,12 @@
 				<logic:iterate name="empInfo" property="items" id="empInfo">
 					<tr>
 						<td>${empInfo.empName }</td>
-						<td>${empInfo.employeeDistrict.districtName }</td>
-						<td>${empInfo.employeeDepartment.depName }</td>
+						<td align="center">${empInfo.employeeDistrict.districtName }</td>
+						<td align="center">${empInfo.employeeDepartment.depName }</td>
 						<td>${empInfo.resume.email }</td>
-						<td>${empInfo.officePhone }</td>
-						<td>${empInfo.shortNo }</td>
-						<td>${empInfo.phoneNo }</td>
+						<td align="center">${empInfo.officePhone }</td>
+						<td align="center">${empInfo.shortNo }</td>
+						<td align="center">${empInfo.phoneNo }</td>
 					</tr>
 				</logic:iterate>
 			</logic:present>
