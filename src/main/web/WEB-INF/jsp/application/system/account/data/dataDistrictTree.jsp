@@ -15,7 +15,7 @@
 				var depId = $(this).attr("depId");
 				var districtId = $(this).attr("districtId");
 				$("#addressbook_participants").loadUrl(
-					"app/personal/addressBook.do?action=loadEmployeeData", 
+					"app/personal/addressBook.do?action=loadEmployeeData&byorder", 
 					{"depId": depId, "districtId": districtId}, function(){});
 				/*
 				generic_ajax_op("app/base.do?action=actionLoadEmployeeByDepAndDistrict", "{'districtId':'" + districtId + "', 'depId':'" + depId + "'}", null, (function(rsp_msg){
