@@ -95,6 +95,8 @@
 	<script src="resources/js/kindeditor/kindeditor.js" type="text/javascript"></script>
 	<script src="resources/js/kindeditor/lang/zh_CN.js" type="text/javascript"></script>
 	
+	<script src="resources/js/jquery/jprint/jquery.jPrintArea.js" type="text/javascript"></script>
+	
 	<script type="text/javascript" src="dwr/engine.js"></script>
 	<script type="text/javascript" src="dwr/util.js"></script>
 

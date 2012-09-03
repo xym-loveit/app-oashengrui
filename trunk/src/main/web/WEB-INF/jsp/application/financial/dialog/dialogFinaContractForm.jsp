@@ -31,8 +31,16 @@
 
 <div class="pageContent">
 	<form method="post" action="app/finan/contract.do?action=actionFinanContractFormSave" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
-		<div class="pageFormContent" layoutH="56">
-			<div style="padding: 10px 0px; border-bottom: 1px dotted #999; margin: 0 10px 15px 10px; overflow: auto; clear: both;">
+		
+		<c:if test="${entity.applyForm eq null || fn:length(entity.applyForm) == 0}">
+			<p align="center" style="display:none" id='topcont_title'>合同申请"${entity.formNo}"-审批流程表单</p>
+			<div align='right' style='margin:5px 10px 0px 0px;'>
+				<a class='btn_print' title="点击打印" href="javascript:print_export('#finacont_print_wrapper','#topcont_title');">打印</a>
+			</div>
+		</c:if>
+		
+		<div id="finacont_print_wrapper" class="pageFormContent" layoutH="56" style="border-top: none">
+			<div style="padding: 0px; border-bottom: 1px dotted #999; margin: 0 10px 15px 10px; overflow: auto; clear: both;">
 				<c:choose>
 					<c:when test="${op ne null && op eq 'view'}"><span style="float:left; color:#FF7300; line-height: 18px;">所选费用支出类型：<b>${entity.applyFormType.processTypeName}</b></span></c:when>
 					<c:otherwise>

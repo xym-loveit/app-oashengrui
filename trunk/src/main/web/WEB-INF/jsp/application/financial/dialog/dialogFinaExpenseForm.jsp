@@ -52,8 +52,16 @@
 
 <div class="pageContent">
 	<form method="post" action="app/finan/expense.do?action=actionFinanExpenseFormSave" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
-		<div class="pageFormContent" layoutH="56">
-			<div style="padding: 10px 0px; border-bottom: 1px dotted #999; margin: 0 10px 15px 10px; overflow: auto; clear: both;">
+		
+		<c:if test="${entity.applyForm eq null || fn:length(entity.applyForm) == 0}">
+			<p align="center" style="display:none" id='topexp_title'>费用支出申请"${entity.formNo}"-审批流程表单</p>
+			<div align='right' style='margin:5px 10px 0px 0px;'>
+				<a class='btn_print' title="点击打印" href="javascript:print_export('#finaexp_print_wrapper','#topexp_title');">打印</a>
+			</div>
+		</c:if>
+		
+		<div class="pageFormContent" id="finaexp_print_wrapper" layoutH="56" style="border-top: none">
+			<div style="padding: 0px; border-bottom: 1px dotted #999; margin: 0 10px 15px 10px; overflow: auto; clear: both;">
 				<c:choose>
 					<c:when test="${op ne null && op eq 'view'}"><span style="float:left; color:#FF7300; line-height: 18px;">所选费用支出类型：<b>${entity.applyFormType.processTypeName}</b></span></c:when>
 					<c:otherwise>
