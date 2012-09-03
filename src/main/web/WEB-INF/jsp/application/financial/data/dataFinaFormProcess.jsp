@@ -54,7 +54,7 @@
 	</c:if>
 </script>
 
-<div>
+<div id="fina_print_wrapper">
 	<!-- 审批状态 -->
 	<c:if test="${op ne null && op eq 'view'}">
 		<div style="padding: 10px 0px; border-bottom: 1px dotted #999; margin: 0 10px 15px 10px; overflow: auto; clear: both;">
