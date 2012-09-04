@@ -89,17 +89,26 @@
             .each(function(){
                     head += '<link type="text/css" rel="stylesheet" href="' + $(this).attr("href") + '" >';
                 });*/
-		head += '<style>';
-		head += "html,body,table,tr,td,span,label,div {margin:0; padding:0;font-size:9pt;font-family:arial;}";
-		head += "table {border-collapse:collapse;border-color:#444444;table-layout:fixed;}";
-		head += "table td{text-align:center;}table th{background-color:#DDD;}";
-		head += "#tblexp td.banner {line-height: '25px'};font-size: 18px; font-weight: bold; text-align: center; margin: 0;}";
-		head += "#tblexp td.field {background-color: #CFDBEC; line-height: '25px'; text-align: center; margin: 0; width: 120px; font-size: 9pt;}";
-		head += "#tblexp input.textInput {float:none;margin: 5px; width: 80px;}";
-		head += ".print_area{font-size:9pt;}";
-		head += ".print_toptitle{line-height: 30px; font-weight: bold; font-size: 130%;text-align:center;margin:15px 0;}";
+		head += "";
+		head += '<script src="resources/js/dwz/jquery-1.7.1.js" type="text/javascript"></script>';
+		head += '<script src="resources/js/app.util.js" type="text/javascript"></script>';
+		head += "<style>";
+		head += "html,body,table,tr,td,span,label,div {margin:0; padding:0;font-size:9pt;font-family:arial;} ";
+		head += "table {border-collapse:collapse;border-color:#444444;table-layout:fixed;} ";
+		head += "table td{text-align:center;} table th{background-color:#DDD;} ";
+		head += "#tblexp td.banner {line-height:'25px';font-size: 18px; font-weight: bold; text-align: center; margin: 0;} ";
+		head += "#tblexp td.field {background-color: #CFDBEC; line-height: '25px'; text-align: center; margin: 0; width: 120px; font-size: 9pt;} ";
+		head += "#tblexp input.textInput {float:none;margin: 5px; width: 80px;} ";
+		head += ".print_area{font-size:9pt;} ";
+		head += ".print_toptitle{line-height: 30px; font-weight: bold; font-size: 130%;text-align:center;margin:15px 0;} ";
 		head += '</style>';
-		head += '<link type="text/css" rel="stylesheet" href="resources/css/print.css" >';
+		//head += '<link type="text/css" rel="stylesheet" href="resources/css/print.css" >';
+		//head += '<link type="text/css" rel="stylesheet" href="resources/css/common.css" >';
+		head += "<script>";
+		head += "$(function(){";
+		head += '$("#cnRMB").val(Arabia_to_Chinese($("#enRMB").val()));'
+		head += "});";
+		head += "</script>";
         head += "</head>";
         return head;
     }

@@ -3,5 +3,9 @@ table {border-collapse:collapse;border-color:#444444;table-layout:fixed;}
 table td{text-align:center;}
 table th{background-color:#DDD;}
 
+#tblexp td.banner {line-height: '25px'};font-size: 18px; font-weight: bold; text-align: center; margin: 0;}
+#tblexp td.field {background-color: #CFDBEC; line-height: '25px'; text-align: center; margin: 0; width: 120px; font-size: 9pt;}
+#tblexp input.textInput {float:none;margin: 5px; width: 80px;}
+
 .print_area{font-size:9pt;}
 .print_toptitle{line-height: 30px; font-weight: bold; font-size: 130%;text-align:center;margin:15px 0;}

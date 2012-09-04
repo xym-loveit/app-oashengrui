@@ -542,3 +542,12 @@ li.item_file a {
 	color: blue;
 	text-decoration: underline;
 }
+
+a.btn_print {
+	background: url("../images/layout/print.png") no-repeat scroll 0 0 transparent;
+	color:#336699;
+	display:inline-block;
+	line-height:16px;
+	width:45px;
+	text-align:right;
+}
