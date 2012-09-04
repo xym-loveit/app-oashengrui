@@ -3,6 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="org.shengrui.oa.model.news">
 	<class name="ModelNewsMag" table="app_admin_news">
+		<cache usage="read-write" />
 		<id name="id" type="java.lang.String">
 			<column name="news_id" />
 			<generator class="native" />
@@ -63,6 +64,7 @@
         
         <set name="attachFiles" table="app_admin_news_file"
         	cascade="save-update" lazy="true"> 
+          <cache usage="read-write" />
 	      <key column="news_id"/>
 	      <many-to-many class="cn.trymore.oa.model.system.ModelFileAttach" column="file_id" />
 	    </set>

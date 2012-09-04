@@ -4,6 +4,7 @@
 
 <hibernate-mapping package="org.shengrui.oa.model.hrm">
     <class name="ModelHrmJobHireInfo" table="app_hrm_hire_job ">
+        <cache usage="read-write" />
         <id name="id" type="java.lang.String">
             <column name="hjob_id" />
             <generator class="native" />
@@ -86,12 +87,14 @@
         
         <set name="attachFiles" table="app_hrm_hire_job_file"
         	cascade="save-update" lazy="true"> 
+	      <cache usage="read-write" />
 	      <key column="hjob_id"/>  
 	      <many-to-many class="cn.trymore.oa.model.system.ModelFileAttach" column="file_id" />
 	    </set>
 	    
         <set name="jobHireIssues" table="app_hrm_hire_issue" 
         	cascade="save-update" inverse="false" lazy="true"> 
+	      <cache usage="read-write" />
 	      <key column="hjob_id"/>  
 	      <one-to-many class="ModelHrmJobHireIssue" />
 	    </set>
