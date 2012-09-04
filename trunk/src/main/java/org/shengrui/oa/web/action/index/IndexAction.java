@@ -23,6 +23,7 @@ import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.util.WebActionUtil;
 import org.shengrui.oa.web.action.BaseAppAction;
 
+import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
@@ -114,6 +115,14 @@ extends BaseAppAction
 		
 		try
 		{
+			// 姓名为空的时候, 查找所有用户数据.
+			if (!UtilString.isNotEmpty(empName) && 
+					request.getParameter(PAGING_PARAM_PAGENUM) == null && request.getParameter("byorder") == null)
+			{
+				depId = null;
+				districtId = null;
+			}
+			
 			PaginationSupport<ModelHrmEmployee> empInfo = 
 					this.serviceHrmEmployee.getEmployeeDataPage(depId, districtId, empName, pagingBean);
 			

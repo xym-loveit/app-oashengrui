@@ -60,7 +60,7 @@
 			</div>
 		</c:if>
 		
-		<div class="pageFormContent" id="finaexp_print_wrapper" layoutH="56" style="border-top: none">
+		<div class="pageFormContent" id="finaexp_print_wrapper" layoutH="75" style="border-top: none">
 			<div style="padding: 0px; border-bottom: 1px dotted #999; margin: 0 10px 15px 10px; overflow: auto; clear: both;">
 				<c:choose>
 					<c:when test="${op ne null && op eq 'view'}"><span style="float:left; color:#FF7300; line-height: 18px;">所选费用支出类型：<b>${entity.applyFormType.processTypeName}</b></span></c:when>
