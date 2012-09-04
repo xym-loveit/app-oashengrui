@@ -113,6 +113,12 @@
 			<fileset dir="${dir.src.resources}/template" />
 		</copy>
 		
+		<copy todir="${dir.out.web}/WEB-INF/classes" flatten="true">
+			<fileset dir="${dir.src.resources}/config">
+				<include name="ehcache.xml" />
+			</fileset>
+		</copy>
+		
 		<copy todir="${dir.out.web.lib}" flatten="true">
 			<fileset dir="${dir.out.web.jar}" includes="**/*.jar,**/*.dll" />
 		</copy>
