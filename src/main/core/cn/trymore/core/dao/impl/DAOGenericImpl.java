@@ -7,7 +7,9 @@ import java.sql.SQLException;
 import java.lang.reflect.ParameterizedType;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
@@ -171,7 +173,9 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 	public List<Object> findListByNativeSQL(final String nativeSql)
 			throws DAOException
 	{
-		return getSession().createSQLQuery(nativeSql).list();
+		SQLQuery query = getSession().createSQLQuery(nativeSql);
+		query.setCacheable(true);
+		return query.list();
 	}
 	
 	/*
@@ -182,7 +186,9 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 	public List findListByNativeSQL(final String nativeSql, 
 			Class<?> claz) throws DAOException
 	{
-		return getSession().createSQLQuery(nativeSql).addEntity(claz).list();
+		SQLQuery query = getSession().createSQLQuery(nativeSql);
+		query.setCacheable(true);
+		return query.addEntity(claz).list();
 	}
 	
 	/*
@@ -388,7 +394,7 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 		SingleTableEntityPersister entityPersister= 
 			(SingleTableEntityPersister)this.getSessionFactory().getClassMetadata(clas);
 		
-		StringBuilder nativeSql = new StringBuilder("SELECT COUNT(*) FROM ");
+		StringBuilder nativeSql = new StringBuilder("SELECT COUNT(*) as count FROM ");
 		nativeSql.append(entityPersister.getTableName());
 		nativeSql.append(" WHERE 1=1 ");
 		
@@ -397,10 +403,29 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 			nativeSql.append(whereCloud);
 		}
 		
-		List<Object> result = this.findListByNativeSQL(nativeSql.toString());
-		
-		return result != null && result.size() == 1 ? 
-				Integer.valueOf(result.get(0).toString()) : 0;
+		return getCountByNativeSQL(nativeSql.toString());
+	}
+	
+	/**
+	 * Obtains affected row count with the specified native SQL.
+	 * 
+	 * @param sql
+	 * @return
+	 */
+	private Integer getCountByNativeSQL( final  String sql)
+	{
+		return  (Integer) getHibernateTemplate().execute(
+			new  HibernateCallback() 
+			{
+				@Override
+				public Object doInHibernate(Session session) throws HibernateException,
+						SQLException
+				{
+					return (Integer) (session.createSQLQuery(sql).addScalar(
+							"count" , Hibernate.INTEGER).uniqueResult());
+				}
+			}
+		);
 	}
 	
 	@Override
