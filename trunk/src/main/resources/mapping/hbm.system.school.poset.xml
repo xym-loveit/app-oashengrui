@@ -4,6 +4,7 @@
 
 <hibernate-mapping package="org.shengrui.oa.model.system">
     <class name="ModelSchoolPositionSet" table="app_school_posets">
+        <cache usage="read-write" />
         <id name="id" type="java.lang.String">
             <column name="poset_id" />
             <generator class="native" />
@@ -14,6 +15,7 @@
         
         <set name="positions" table="app_school_posets_terms" 
         	lazy="true" cascade="save-update" sort="unsorted" order-by="pos_id asc"> 
+	      <cache usage="read-write" />
 	      <key column="poset_id"/>
 	      <many-to-many class="ModelSchoolDepartmentPosition" column="pos_id" /> 
 	    </set>

@@ -6,6 +6,7 @@
 -->
 <hibernate-mapping >
     <class name="org.shengrui.oa.model.admin.ModelDocVisiableRange" table="app_admin_doc_visiable_range">
+        <cache usage="read-write" />
         <id name="id" type="java.lang.String">
             <column name="id" />
             <generator class="native" />
@@ -16,6 +17,7 @@
             </column>
         </property>
         <set name="docs" inverse="true">
+            <cache usage="read-write" />
             <key>
                 <column name="doc_VisiableRange_id" not-null="true">
                 </column>

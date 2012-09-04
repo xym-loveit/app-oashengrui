@@ -4,6 +4,7 @@
 
 <hibernate-mapping package="org.shengrui.oa.model.flow">
     <class name="ModelProcessType" table="app_process_type">
+        <cache usage="read-write" />
         <id name="id" type="java.lang.String">
             <column name="type_id" />
             <generator class="native" />
@@ -26,13 +27,13 @@
         </many-to-one>
         
          <set name="processTypeChildren" inverse="true" cascade="delete" lazy="true" order-by="type_id asc">
-        	<!-- <cache usage="read-write" /> -->
+        	<cache usage="read-write" />
         	<key column="type_parent"/>
         	<one-to-many class="ModelProcessType"/>
         </set>
         
         <set name="processDefinitions" cascade="delete" lazy="true" order-by="createtime desc">
-        	<!-- <cache usage="read-write" /> -->
+        	<cache usage="read-write" />
         	<key column="type_id"/>
         	<one-to-many class="ModelProcessDefinition"/>
         </set>

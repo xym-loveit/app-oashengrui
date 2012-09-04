@@ -4,6 +4,7 @@
 
 <hibernate-mapping>
     <class name="cn.trymore.oa.model.system.ModelSystemLog" table="app_system_log">
+        <cache usage="read-write" />
         <id name="id" type="java.lang.String">
             <column name="log_id" />
             <generator class="native" />

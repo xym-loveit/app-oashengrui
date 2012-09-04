@@ -4,6 +4,7 @@
 
 <hibernate-mapping>
     <class name="org.shengrui.oa.model.system.ModelBaseWorkContent" table="app_system_work_content">
+        <cache usage="read-write" />
         <id name="id" type="java.lang.String">
             <column name="cnt_id" />
             <generator class="native" />

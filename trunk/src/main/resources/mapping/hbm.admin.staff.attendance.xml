@@ -6,6 +6,7 @@
 -->
 <hibernate-mapping >
     <class name="org.shengrui.oa.model.admin.ModelStaffAttendance" table="app_admin_attendance">
+        <cache usage="read-write" />
         <id name="id" type="java.lang.String">
             <column name="attend_id" />
             <generator class="native" />
