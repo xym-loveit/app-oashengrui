@@ -346,6 +346,24 @@ span.diaFuncMicon {
 	background: url("../images/menus/financial/contact-records.png") no-repeat left center;
 }
 
+.icon-finmproject,
+.tabsPage .tabsPageHeader li span.icon-finmproject,
+.tree div.icon-finmproject {
+	background: url("../images/menus/financial/prj.png") no-repeat left center;
+}
+
+.icon-finmprojectApply,
+.tabsPage .tabsPageHeader li span.icon-finmprojectApply,
+.tree div.icon-finmprojectApply {
+	background: url("../images/menus/financial/prj-apply.png") no-repeat left center;
+}
+
+.icon-finmprojectRecords,
+.tabsPage .tabsPageHeader li span.icon-finmprojectRecords,
+.tree div.icon-finmprojectRecords {
+	background: url("../images/menus/financial/prj-records.png") no-repeat left center;
+}
+
 /*----SETTINGS---*/
 #menu-settings,
 .icon-settings,

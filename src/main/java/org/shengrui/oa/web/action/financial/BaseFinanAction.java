@@ -20,6 +20,7 @@ import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.info.ModelShortMessage;
 import org.shengrui.oa.service.finan.ServiceFinanContract;
 import org.shengrui.oa.service.finan.ServiceFinanExpense;
+import org.shengrui.oa.service.finan.ServiceFinanProject;
 import org.shengrui.oa.util.WebActionUtil;
 import org.shengrui.oa.web.action.flow.FlowBaseAction;
 
@@ -51,6 +52,11 @@ extends FlowBaseAction
 	protected final static String FINAN_FORM_KEY_CONTRACT = "FC";
 	
 	/**
+	 * The form key for financial project
+	 */
+	protected final static String FINAN_FORM_KEY_PROJECT = "FP";
+	
+	/**
 	 * The category key for financial expense
 	 */
 	protected final static String FIANA_CATKEY_EXPENSE = "expense";
@@ -71,6 +77,11 @@ extends FlowBaseAction
 	protected final static String PROC_TYPE_FINAN_CONTRACT = "PROCESS_CONTRACT";
 	
 	/**
+	 * The process type key for financial project
+	 */
+	protected final static String PROC_TYPE_FINAN_PROJECT = "PROCESS_PROJECT";
+	
+	/**
 	 * The Expense service.
 	 */
 	@Resource
@@ -81,6 +92,12 @@ extends FlowBaseAction
 	 */
 	@Resource
 	protected ServiceFinanContract serviceFinanContract;
+	
+	/**
+	 * The contract service
+	 */
+	@Resource
+	protected ServiceFinanProject serviceFinanProject;
 	
 	/**
 	 * <b>[WebAction]</b> <br/>
@@ -307,5 +324,15 @@ extends FlowBaseAction
 	public void setServiceFinanContract(ServiceFinanContract serviceFinanContract)
 	{
 		this.serviceFinanContract = serviceFinanContract;
+	}
+	
+	public ServiceFinanProject getServiceFinanProject()
+	{
+		return serviceFinanProject;
+	}
+
+	public void setServiceFinanProject(ServiceFinanProject serviceFinanProject)
+	{
+		this.serviceFinanProject = serviceFinanProject;
 	}
 }

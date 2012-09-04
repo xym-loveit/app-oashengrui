@@ -254,7 +254,15 @@ extends BaseHrmAction
 			{
 				// 岗位发布, 选择列表校区头数据获取部门数据...
 				request.setAttribute("departments", 
-						this.getDepartmentByOrganization(districts.get(0).getDistrictType().toString()));
+						this.getDepartmentByOrganization(
+								String.valueOf(ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getDistrictType())));
+				
+				// 发布部门, 校区 - 默认显示为当前登录用户.
+				ModelHrmJobHireInfo jobHireInfo = new ModelHrmJobHireInfo();
+				jobHireInfo.setJobHireDistrict(
+						ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict());
+				jobHireInfo.setJobHireDepartment(
+						ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment());
 			}
 			
 			request.setAttribute("op", request.getParameter("op"));
