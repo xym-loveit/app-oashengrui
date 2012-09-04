@@ -106,7 +106,7 @@
 		//head += '<link type="text/css" rel="stylesheet" href="resources/css/common.css" >';
 		head += "<script>";
 		head += "$(function(){";
-		head += '$("#cnRMB").val(Arabia_to_Chinese($("#enRMB").val()));'
+		head += 'if($("#cnRMB").size() > 0) {$("#cnRMB").val(Arabia_to_Chinese($("#enRMB").val()))};'
 		head += "});";
 		head += "</script>";
         head += "</head>";
