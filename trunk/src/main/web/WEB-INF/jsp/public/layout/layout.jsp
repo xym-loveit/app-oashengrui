@@ -22,7 +22,6 @@
 	
 	<link href="resources/themes/default/style.css" rel="stylesheet" type="text/css" media="screen"/>
 	<link href="resources/themes/css/core.css" rel="stylesheet" type="text/css" media="screen"/>
-	<link href="resources/themes/css/print.css" rel="stylesheet" type="text/css" media="print"/>
 	<!--<link href="resources/js/uploadify/css/uploadify.css" rel="stylesheet" type="text/css" media="screen"/>-->
 	<link href="resources/css/common.css" rel="stylesheet" type="text/css" media="screen"/>
 	

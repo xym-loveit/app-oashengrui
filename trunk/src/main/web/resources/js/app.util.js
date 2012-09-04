@@ -801,6 +801,11 @@ function polish_js_page(page_id,page_total,page_size){
 	}
  }
  
+ function print_export(id_str, id_titlestr){
+	var _title = $(id_titlestr).text() || null;
+	$(id_str).printArea({popTitle : _title ? _title : ""}); 
+}
+ 
  function Arabia_to_Chinese(Num) {
 	for (i = Num.length - 1; i >= 0; i--) {
 		Num = Num.replace(",", "")//替换tomoney()中的“,”
