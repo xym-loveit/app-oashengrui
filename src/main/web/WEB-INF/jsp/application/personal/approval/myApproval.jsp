@@ -36,7 +36,7 @@
 						<td>
 							新闻发布审批
 						</td>
-						<td>
+						<td style="text-align:left">
 							[${news.dictionary.name}] &nbsp&nbsp&nbsp “${news.newsSubject}” &nbsp&nbsp&nbsp 新闻发布审批
 						</td>
 						<td>${news.user.fullName}</td>
@@ -52,7 +52,7 @@
 						<td>
 							岗位发布审批
 						</td>
-						<td>
+						<td style="text-align:left">
 							[${entity.jobHireDistrict.districtName}   ${entity.jobHireDepartment.depName}]&nbsp&nbsp “${entity.jobHireTitle}”&nbsp&nbsp招聘
 						</td>
 						<td>${entity.postAuthorName}</td>
@@ -68,7 +68,7 @@
 					<td>
 						任务委托审批
 					</td>
-					<td>
+					<td style="text-align:left">
 						[${task.taskType.name }] &nbsp&nbsp&nbsp “${task.taskName}” &nbsp&nbsp&nbsp 任务委托发布审批
 					</td>
 					<td>${task.taskOriginator.empName }</td>
@@ -83,8 +83,8 @@
 					<td>
 						费用支出申请审批
 					</td>
-					<td>
-						${finan.employee.empName } &nbsp&nbsp&nbsp <label style="color:red;">${finan.empDistrict.districtName}</label>&nbsp&nbsp&nbsp <label style="color:red;">${finan.applyAmt }</label>
+					<td style="text-align:left">
+						${finan.employee.empName } &nbsp&nbsp&nbsp <label style="color:red;">${finan.empDistrict.districtName}</label>&nbsp&nbsp&nbsp${finan.applyFormType.processTypeName}&nbsp&nbsp申请&nbsp&nbsp<label style="color:red;">${finan.applyAmt }</label>
 					</td>
 					<td>${finan.employee.empName }</td>
 					<td><c:if test="${finan.applyDate ne null}"><fmt:formatDate value="${finan.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
@@ -98,7 +98,7 @@
 					<td>
 						合同申请审批
 					</td>
-					<td>
+					<td style="text-align:left">
 						[${contract.employee.empName }] &nbsp&nbsp&nbsp ${contract.empDistrict.districtName} &nbsp&nbsp&nbsp ${contract.applyFormType.processTypeName}
 					</td>
 					<td>${contract.employee.empName }</td>
@@ -114,7 +114,7 @@
 					<td>
 						晋升申请审批
 					</td>
-					<td>
+					<td style="text-align:left">
 						${type.employee.empName} &nbsp&nbsp <label style="color:red;">${type.fromDistrict.districtName }_${type.fromDepartment.depName }_${type.fromPosition.positionName }</label>
 						&nbsp&nbsp 晋升 &nbsp&nbsp<label style="color:red;">${type.toDistrict.districtName }_${type.toDepartment.depName }_${type.toPosition.positionName }</label> &nbsp&nbsp申请
 					</td>
@@ -133,7 +133,7 @@
 					<td>
 						转正申请审批
 					</td>
-					<td>
+					<td style="text-align:left">
 						${type.employee.empName} &nbsp&nbsp<label style="color:red;">${type.fromDistrict.districtName }_${type.fromDepartment.depName }_${type.fromPosition.positionName }</label>&nbsp&nbsp转正申请
 					</td>
 					<td>${type.employee.empName }</td>
@@ -151,7 +151,7 @@
 					<td>
 						离职申请审批
 					</td>
-					<td>
+					<td style="text-align:left">
 						${type.employee.empName} &nbsp&nbsp<label style="color:red;">${type.fromDistrict.districtName }_${type.fromDepartment.depName }_${type.fromPosition.positionName }</label>&nbsp&nbsp离职申请
 					</td>
 					<td>${type.employee.empName }</td>
@@ -169,7 +169,7 @@
 					<td>
 						调动申请审批
 					</td>
-					<td>
+					<td style="text-align:left">
 						${type.employee.empName}&nbsp&nbsp<label style="color:red;">${type.fromDistrict.districtName }_${type.fromDepartment.depName }_${type.fromPosition.positionName }</label>&nbsp&nbsp调动 &nbsp&nbsp
 						<label style="color:red;">${type.toDistrict.districtName }_${type.toDepartment.depName }_${type.toPosition.positionName }</label>&nbsp&nbsp申请
 					</td>
