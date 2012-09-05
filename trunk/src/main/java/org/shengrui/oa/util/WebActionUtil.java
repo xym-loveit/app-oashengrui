@@ -48,6 +48,13 @@ public final class WebActionUtil
 		new ModelNotificationVO<String, String>("_FUNCKEY_FINAN_CONTRACT_APPROVE", "app/finan/contract.do?action=actionFinanApplicationApprove");
 	
 	/**
+	 * 新项目申请审批
+	 */
+	public static final ModelNotificationVO<String, String> APPROVAL_FINA_PROJECT = 
+		new ModelNotificationVO<String, String>("_FUNCKEY_FINAN_PROJECT_APPROVE", "app/finan/project.do?action=actionFinanApplicationApprove");
+	
+	
+	/**
 	 * 招聘入职-入职操作
 	 */
 	public static final ModelNotificationVO<String, String> APPROVAL_HRM_ENTRY_ONBOARD = 
@@ -109,6 +116,15 @@ public final class WebActionUtil
 					new ModelNotificationVO<String, String>(
 							APPROVAL_FINA_CONTRACT.getKey(), 
 							"app/finan/contract.do?action=loadFinaContractRecords"));
+	
+	/**
+	 * 新项目审批申请菜单, 必须具备审批操作权限.
+	 */
+	public static final ModelNotificationVO<String, ModelNotificationVO<String, String>> MENU_ITEM_FINA_PROJECT = 
+			new ModelNotificationVO<String, ModelNotificationVO<String, String>>("_menu_mod_fina_project_records", 
+					new ModelNotificationVO<String, String>(
+							APPROVAL_FINA_PROJECT.getKey(), 
+							"app/finan/project.do?action=loadFinaProjectRecords"));
 	
 	/**
 	 * 我做伯乐, 必须具备面试意见输入操作权限.

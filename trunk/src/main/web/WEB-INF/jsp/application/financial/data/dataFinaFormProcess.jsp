@@ -22,7 +22,7 @@
 </style>
 
 <script>
-	<c:if test="${(CATKEY eq 'contract' && tm:ifGranted('_FUNCKEY_FINAN_CONTRACT_APPROVE')) || (CATKEY eq 'expense' && tm:ifGranted('_FUNCKEY_FINAN_EXPENSE_APPROVE'))}">
+	<c:if test="${(CATKEY eq 'contract' && tm:ifGranted('_FUNCKEY_FINAN_CONTRACT_APPROVE')) || (CATKEY eq 'expense' && tm:ifGranted('_FUNCKEY_FINAN_EXPENSE_APPROVE')) || (CATKEY eq 'project' && tm:ifGranted('_FUNCKEY_FINAN_PROJECT_APPROVE'))}">
 	$(function(){
 		$("a[id^=auditPost]").unbind("click");
 		$("a[id^=auditPost]").click(function(){
@@ -42,7 +42,7 @@
 								navTab.reload(navTab.getCurrentTabUrl(), {navTabId: navTab.getCurrentTabId()});
 								// 重新加载当前弹框页面数据
 								if ($.pdialog._current != null) {
-									$.pdialog.reload("app/finan/${CATKEY}.do?action=diaglogFina${CATKEY eq 'contract' ? 'Contract' : 'Expense'}Page&id=${entity.id}&op=view")
+									$.pdialog.reload("app/finan/${CATKEY}.do?action=diaglogFina${CATKEY eq 'contract' ? 'Contract' : (CATKEY eq 'expense' ? 'Expense' : 'Project')}Page&id=${entity.id}&op=view")
 								}
 							}, "json");
 						}

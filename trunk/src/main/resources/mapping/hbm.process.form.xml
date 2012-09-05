@@ -4,7 +4,7 @@
 
 <hibernate-mapping package="org.shengrui.oa.model.flow">
     <class name="ModelProcessForm" table="app_process_form">
-        <cache usage="read-write" />
+        <!-- <cache usage="read-write" /> -->
         <id name="id" type="java.lang.String">
             <column name="form_id" />
             <generator class="native" />

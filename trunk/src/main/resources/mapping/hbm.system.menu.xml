@@ -4,7 +4,7 @@
 
 <hibernate-mapping package="org.shengrui.oa.model.system">
     <class name="ModelAppMenu" table="app_menu">
-    	<cache usage="read-write" />
+    	<!-- <cache usage="read-write" /> -->
         <id name="id" type="java.lang.String">
             <column name="menu_id" />
             <generator class="native" />
@@ -33,13 +33,13 @@
         </many-to-one>
         
         <set name="menuChildren" inverse="true" cascade="delete" lazy="true" order-by="menu_id asc">
-        	<cache usage="read-write" />
+        	<!-- <cache usage="read-write" /> -->
         	<key column="menu_parent"/>
         	<one-to-many class="ModelAppMenu"/>
         </set>
         
         <set name="functions" table="app_function" inverse="true" cascade="delete" lazy="true" order-by="func_name asc">
-        	<cache usage="read-write" />
+        	<!-- <cache usage="read-write" /> -->
         	<key column="menu_id"/>
         	<one-to-many class="ModelAppFunction"/>
         </set>

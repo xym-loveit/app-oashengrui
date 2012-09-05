@@ -67,6 +67,11 @@ extends FlowBaseAction
 	protected final static String FIANA_CATKEY_CONTRACT = "contract";
 	
 	/**
+	 * The category key for financial project
+	 */
+	protected final static String FIANA_CATKEY_PROJECT = "project";
+	
+	/**
 	 * The process type key for financial expense payment
 	 */
 	protected final static String PROC_TYPE_FINAN_PAYMENT = "PROCESS_PAYMENT";

@@ -412,7 +412,7 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 	 * @param sql
 	 * @return
 	 */
-	private Integer getCountByNativeSQL( final  String sql)
+	protected Integer getCountByNativeSQL( final  String sql)
 	{
 		return  (Integer) getHibernateTemplate().execute(
 			new  HibernateCallback() 

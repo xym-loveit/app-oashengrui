@@ -51,7 +51,7 @@
 </script>
 
 <div class="pageContent">
-	<form method="post" action="app/finan/expense.do?action=actionFinanExpenseFormSave" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<form method="post" action="app/finan/project.do?action=actionFinanProjectFormSave" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		
 		<c:if test="${entity ne null && (entity.applyForm eq null || fn:length(entity.applyForm) == 0)}">
 			<p align="center" style="display:none" id='topexp_title'>费用支出申请"${entity.formNo}"-审批流程表单</p>
@@ -65,7 +65,7 @@
 				<c:choose>
 					<c:when test="${op ne null && op eq 'view'}"><span style="float:left; color:#FF7300; line-height: 18px;">所选费用支出类型：<b>${entity.applyFormType.processTypeName}</b></span></c:when>
 					<c:otherwise>
-						<span style="float:left; color:#FF7300; line-height: 18px;">费用支出类型：</span>
+						<span style="float:left; color:#FF7300; line-height: 18px;">新项目费用支出类型：</span>
 						<select class="combox required" name="applyFormTypeId" id="expense_type">
 							<logic:present name="types">
 								<logic:iterate name="types" id="typeEntity">
@@ -78,7 +78,7 @@
 			</div>
 			<table id="tblexp" cellpadding="0" cellspacing="0" width="98%" border="1" style="border-collapse: collapse; border-color: #797979; margin: 0 auto;">
 				<tr>
-					<td width="${op eq null || op ne 'view' ? '72%' : '100%'}" colspan="10" class="banner">费用支出申请单</td>
+					<td width="${op eq null || op ne 'view' ? '72%' : '100%'}" colspan="10" class="banner">新项目费用支出申请单</td>
 					<c:if test="${op eq null || op ne 'view'}">
 					<td align="center" class="banner">填写说明</td>
 					</c:if>
@@ -113,33 +113,26 @@
 				</tr>
 				<tr>
 					<td class='field'>支出金额</td>
-					<td colspan="3"><input name="applyAmt" class="required number" id="enRMB" type="text" style="width: 80%" value="${entity ne null ? entity.applyAmt : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if> />￥小写</td>
-					<td colspan="3"><input id="cnRMB" readonly type="text" style="color: #999999;width: 80%" value="根据小写自动生成" />￥大写</td>
-					<td class='field'>付款方</td>
-					<td colspan="2">
-						<input type="radio" value="0" name="payer" ${entity ne null && entity.payer eq 0 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 本校区
-						<input type="radio" value="1" name="payer" ${entity ne null && entity.payer eq 1 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 总部
-					</td>
+					<td colspan="4"><input name="applyAmt" class="required number" id="enRMB" type="text" style="width: 80%" value="${entity ne null ? entity.applyAmt : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if> />￥小写</td>
+					<td colspan="5"><input id="cnRMB" readonly type="text" style="color: #999999;width: 80%" value="根据小写自动生成" />￥大写</td>
 				</tr>
 				<tr>
-					<td class='field'>合同编号</td>
-					<td colspan="4"><input name="contractNo" type="text" style="width: 96%" value="${entity ne null ? entity.contractNo : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
+					<td class='field'>所属项目</td>
+					<td colspan="4"><input name="projectCatalog" type="text" style="width: 96%" value="${entity ne null ? entity.projectCatalog : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
+					<td class='field'>项目负责人</td>
+					<td colspan="2">
+						<input id="inputEmpId" name="projectOwner.id" value="${entity ne null ? entity.projectOwner.id : ''}" type="hidden"/>
+						<input class="required" style="width: 86%" name="projectOwner.fullName" type="text" value="${entity ne null ? entity.projectOwner.empName : ''}" <c:choose><c:when test="${op ne null && (op eq 'view' || op eq 'edit')}">readonly</c:when> <c:otherwise>postField="fullName" suggestFields="fullName,districtName" suggestUrl="app/base.do?action=lookupEmployeeByName" lookupGroup="projectOwner" </c:otherwise></c:choose>/>
+					</td>
 					<td class='field'>附件张数</td>
 					<td><input name="attachCount" type="text" class="number" style="width: 80%;" value="${entity ne null ? entity.attachCount : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
-					<td class='field'>是否已事前审批</td>
-					<td colspan="2">
-						<input type="radio" value="1" name="auditAdvance" ${entity ne null && entity.auditAdvance eq 1 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 是
-						<input type="radio" value="0" name="auditAdvance" ${entity ne null && entity.auditAdvance eq 0 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 否
-					</td>
 				</tr>
 				<tr>
-					<td class='field'>固定资产编号</td>
-					<td colspan="4"><input name="assetNo"  type="text" style="width: 96%" value="${entity ne null ? entity.assetNo : ''}"  <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
-					<td class='field'>收款方姓名</td>
-					<td><input name="amtReceiver" type="text" class="required" style="width: 80%;" value="${entity ne null ? entity.amtReceiver : ''}"  <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
-					<td class='field'>收款方联系方式</td>
-					<td colspan="2">
-						<input name="amtReceiverContact" class="required phone" type="text" style="width: 90%;" value="${entity ne null ? entity.amtReceiverContact : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/>
+					<td class='field'>供应商姓名</td>
+					<td colspan="4"><input name="supplierName"  type="text" style="width: 96%" value="${entity ne null ? entity.supplierName : ''}"  <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
+					<td class='field'>供应商联系方式</td>
+					<td colspan="4">
+						<input name="supplierContact" class="phone" type="text" style="width: 90%;" value="${entity ne null ? entity.supplierContact : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/>
 					</td>
 				</tr>
 				<tr>

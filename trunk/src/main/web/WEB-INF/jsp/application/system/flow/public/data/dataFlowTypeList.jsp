@@ -27,9 +27,9 @@
 			<logic:iterate name="types" id="entity" indexId="idx">
 				<tr target="_var_ftypeid_sub" rel="${entity.id}" id="mfunc-${entity.id}">
 					<td>${idx+1}</td>
-					<td>${entity.processTypeName}</td>
-					<td>${entity.processTypeKey}</td>
-					<td>${entity.processTypeDesc}</td>
+					<td style="text-align:left;">${entity.processTypeName}</td>
+					<td style="text-align:left;">${entity.processTypeKey}</td>
+					<td style="text-align:left;">${entity.processTypeDesc}</td>
 					<td>
 						<c:choose>
 							<c:when test="${fn:length(entity.processDefinitions) gt 0}">已配置</c:when>

@@ -26,4 +26,15 @@
 		</property>
 	</bean>
 	
+	<bean id="daoFinanProject" class="org.shengrui.oa.dao.finan.impl.DAOFinanProjectImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceFinanProject" parent="baseTxProxy">
+		<property name="target">
+			<bean class=" org.shengrui.oa.service.finan.impl.ServiceFinanProjectImpl">
+				<constructor-arg index="0" ref="daoFinanProject"/>
+			</bean>
+		</property>
+	</bean>
+	
 </beans>

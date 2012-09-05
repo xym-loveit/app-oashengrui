@@ -3,7 +3,7 @@
 
 <hibernate-mapping package="org.shengrui.oa.model.system">
     <class name="ModelAppUser" table="app_user">
-        <cache usage="read-write" />
+        <!-- <cache usage="read-write" /> -->
         <id name="id" type="java.lang.String">
             <column name="user_id" />
             <generator class="native" />
@@ -68,7 +68,7 @@
         </many-to-one>
         	    
 	    <set name="roles" table="app_user_role" cascade="save-update" inverse="false" lazy="true"> 
-      		<cache usage="read-write" />
+      		<!-- <cache usage="read-write" /> -->
       		<key column="user_id"/>  
       		<many-to-many fetch="join" class="ModelAppRole" column="role_id"/> 
     	</set> 

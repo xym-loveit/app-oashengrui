@@ -6,8 +6,8 @@
 	<div><b>申请时间：</b> ${(entity.applyDate)?string("yyyy-MM-dd")}</div>
 	<div><b>详情点击：</b><a href="javascript:void(0);" 
 		onclick="parent.$.pdialog.open(
-			'app/finan/${type}.do?action=diaglogFina<#if type = "contract">Contract<#else>Expense</#if>Page&id=${entity.id}&op=view', 
+			'app/finan/${type}.do?action=diaglogFina<#if type = "contract">Contract</#if><#if type = "project">Project</#if><#if type = "expense">Expense</#if>Page&id=${entity.id}&op=view', 
 			'approval_finan_${entity.id}',  
-			'查看‘${entity.employee.empName}’ <#if type = "contract">合同<#else>费用支出</#if>申请单-${entity.formNo}',
+			'查看‘${entity.employee.empName}’ <#if type = "contract">合同</#if><#if type = "project">新合同</#if>费用支出申请单-${entity.formNo}',
 			{width: 1150, height: 640})">点击查看申请单详细</a></div>
 </div>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	
+	<form-beans>
+		<form-bean name="form.finan.project" type="org.shengrui.oa.model.finan.ModelFinanProject"></form-bean>
+	</form-beans>
+	
+	<global-forwards> 
+		<forward name="data.fina.application.list" path="data.fina.application.list" />
+		<forward name="dialog.fina.project.application.page" path="dialog.fina.project.application.page" />
+		<forward name="data.fina.application.records" path="data.fina.application.records" />
+	</global-forwards>
+	
+	<action-mappings>
+		
+		<!-- 人力发展管理-->
+		<action path="/app/finan/project"
+				name="form.finan.project"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="fina.application.list.index" path="fina.application.list.index" />
+			<forward name="fina.application.records.index" path="fina.application.records.index" />
+		</action>
+		
+	</action-mappings>
+
+</struts-config>

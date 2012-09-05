@@ -94,7 +94,7 @@
 			<logic:present name="dataList">
 				<logic:iterate name="dataList" property="items" id="entity">
 					<tr target="entry_id" rel="${entity.id}">
-						<td>${entity.taskType.name}</td>
+						<td>${entity.taskType.name}-${entity.taskStatus}</td>
 						<td>${entity.taskName}</td>
 						<td>${entity.taskOriginator.empName}</td>
 						<td>${entity.taskCharger.empName}</td>

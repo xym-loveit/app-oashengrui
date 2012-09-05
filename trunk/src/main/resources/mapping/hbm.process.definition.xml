@@ -4,7 +4,7 @@
 
 <hibernate-mapping package="org.shengrui.oa.model.flow">
     <class name="ModelProcessDefinition" table="app_process_definition">
-    	<cache usage="read-write" />
+    	<!-- <cache usage="read-write" /> -->
         <id name="id" type="java.lang.String">
             <column name="def_id" />
             <generator class="native" />
@@ -31,7 +31,7 @@
         </many-to-one>
         
          <set name="processTasks" cascade="delete" lazy="true" order-by="task_id asc">
-        	<cache usage="read-write" />
+        	<!-- <cache usage="read-write" /> -->
         	<key column="def_id"/>
         	<one-to-many class="ModelProcessTask"/>
         </set>

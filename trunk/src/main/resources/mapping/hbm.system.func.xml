@@ -4,7 +4,7 @@
 
 <hibernate-mapping package="org.shengrui.oa.model.system">
     <class name="ModelAppFunction" table="app_function">
-        <cache usage="read-write" />
+        <!-- <cache usage="read-write" /> -->
         <id name="id" type="java.lang.String">
             <column name="func_id" />
             <generator class="native" />
@@ -30,13 +30,13 @@
         </many-to-one>
         
         <set name="funcURLs" table="app_function_url" lazy="true" cascade="all-delete-orphan" sort="unsorted"> 
-	      <cache usage="read-write" />
+	      <!-- <cache usage="read-write" /> -->
 	      <key column="func_id"/>
 	      <one-to-many class="ModelAppFunctionUrl"/> 
 	    </set>
 	    
 	    <set name="funcDataStrategy" table="app_function_strategy" lazy="true" cascade="save-update" sort="unsorted" order-by="stg_type desc"> 
-	      <cache usage="read-write" />
+	      <!-- <cache usage="read-write" /> -->
 	      <key column="func_id"/>
 	      <one-to-many class="ModelAppFunctionDataStrategy"/> 
 	    </set>

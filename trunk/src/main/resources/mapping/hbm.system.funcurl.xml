@@ -4,7 +4,7 @@
 
 <hibernate-mapping package="org.shengrui.oa.model.system">
     <class name="ModelAppFunctionUrl" table="app_function_url">
-        <cache usage="read-write" />
+        <!-- <cache usage="read-write" /> -->
         <id name="id" type="java.lang.String">
             <column name="url_id" />
             <generator class="native" />
