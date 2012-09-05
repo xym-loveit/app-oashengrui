@@ -4,7 +4,7 @@
 
 <hibernate-mapping package="org.shengrui.oa.model.info">
     <class name="ModelShortMessage" table="app_message_entity">
-    	<cache usage="read-write" />
+    	<!-- <cache usage="read-write" /> -->
         <id name="id" type="java.lang.String">
             <column name="msg_id" />
             <generator class="native" />

@@ -4,7 +4,7 @@
 
 <hibernate-mapping package="org.shengrui.oa.model.system">
     <class name="ModelAppRole" table="app_role">
-        <cache usage="read-write" />
+        <!-- <cache usage="read-write" /> -->
         <id name="id" type="java.lang.String">
             <column name="role_id" />
             <generator class="native" />
@@ -39,14 +39,14 @@
 	    
 	    <set name="menus" table="app_role_menu" 
         	cascade="save-update" inverse="false" lazy="true"> 
-	      <cache usage="read-write" />
+	      <!-- <cache usage="read-write" /> -->
 	      <key column="role_id"/>  
 	      <many-to-many fetch="join" class="ModelAppMenu" column="menu_id"/> 
 	    </set>
 	    
 	    <set name="funcDataPermissions" table="app_role_dac" 
         	cascade="save-update" inverse="false" lazy="true"> 
-	      <cache usage="read-write" />
+	      <!-- <cache usage="read-write" /> -->
 	      <key column="role_id"/>  
 	      <many-to-many fetch="join" class="ModelAppFunctionDataStrategy" column="stg_id"/> 
 	    </set>

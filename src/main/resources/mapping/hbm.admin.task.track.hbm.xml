@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="org.shengrui.oa.model.admin">
     <class name="ModelTaskPlanTrack" table="app_admin_task_tracks">
-        <cache usage="read-write" />
+        <!-- <cache usage="read-write" /> -->
         <id name="id" type="java.lang.String">
             <column name="track_id" />
             <generator class="native" />

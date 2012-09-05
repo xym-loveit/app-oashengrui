@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<!-- 财务支出管理 -->	
+	<bean name="/app/finan/project" 
+			class="org.shengrui.oa.web.action.financial.FinanProjectAction" parent="base">
+		<property name="serviceFinanProject" ref="serviceFinanProject" />
+		<property name="serviceProcessType" ref="serviceProcessType" />
+		<property name="serviceWorkFlow" ref="serviceWorkFlow" />
+		<property name="serviceProcessForm" ref="serviceProcessForm" />
+	</bean>
+	
+</beans>

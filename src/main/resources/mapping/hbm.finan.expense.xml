@@ -4,7 +4,7 @@
 
 <hibernate-mapping package="org.shengrui.oa.model.finan">
     <class name="ModelFinanExpense" table="app_finan_expense">
-        <cache usage="read-write" />
+        <!-- <cache usage="read-write" /> -->
         <id name="id" type="java.lang.String">
             <column name="expense_id" />
             <generator class="native" />
@@ -95,14 +95,14 @@
         
         <set name="applyForm" table="app_process_form" 
         	lazy="true" cascade="all-delete-orphan" order-by="seq_sn asc"> 
-	      <cache usage="read-write" />
+	      <!-- <cache usage="read-write" /> -->
 	      <key column="form_no" property-ref="formNo"/>
 	      <one-to-many class="org.shengrui.oa.model.flow.ModelProcessForm"/> 
 	    </set>
 	    
         <set name="processHistory" table="app_process_history" 
         	lazy="true" cascade="all-delete-orphan" order-by="history_id asc"> 
-	      <cache usage="read-write" />
+	      <!-- <cache usage="read-write" /> -->
 	      <key column="form_no" property-ref="formNo"/>  
 	      <one-to-many class="org.shengrui.oa.model.flow.ModelProcessHistory" />
 	    </set>

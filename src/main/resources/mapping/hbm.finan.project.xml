@@ -3,10 +3,10 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="org.shengrui.oa.model.finan">
-    <class name="ModelFinanContract" table="app_finan_contract">
+    <class name="ModelFinanProject" table="app_finan_project">
         <!-- <cache usage="read-write" /> -->
         <id name="id" type="java.lang.String">
-            <column name="contract_id" />
+            <column name="project_id" />
             <generator class="native" />
         </id>
          <property name="formNo" type="java.lang.String">
@@ -24,18 +24,32 @@
         <property name="applyAmt" type="java.lang.Double">
             <column name="apply_amt" precision="22" scale="0" />
         </property>
-        <property name="contractNo" type="string">
-            <column name="contract_no" length="120" />
+        <property name="attachCount" type="string">
+            <column name="attach_count" length="120" />
         </property>
-        <property name="contractParties" type="string">
-            <column name="contract_parties" length="120" />
-        </property>
-        <property name="contractPartiesContact" type="string">
-            <column name="contract_parties_contact" length="120" />
-        </property>
-        <property name="payMethod" type="java.lang.String">
+        <property name="payMethod" type="java.lang.Integer">
             <column name="pay_method" />
         </property>
+        <property name="bank" type="string">
+            <column name="bank" length="120" />
+        </property>
+        <property name="accountName" type="string">
+            <column name="account_name" length="120" />
+        </property>
+        <property name="accountNo" type="string">
+            <column name="account_no" length="120" />
+        </property>
+        
+        <property name="projectCatalog" type="java.lang.String">
+            <column name="project_catalog" />
+        </property>
+        <property name="supplierName" type="java.lang.String">
+            <column name="supplier_name" />
+        </property>
+        <property name="supplierContact" type="java.lang.String">
+            <column name="supplier_contact" />
+        </property>
+        
          <property name="auditState" type="java.lang.Integer">
             <column name="audit_state" />
         </property>
@@ -60,6 +74,10 @@
         <many-to-one name="employee" class="org.shengrui.oa.model.hrm.ModelHrmEmployee">
         	<column name="emp_id" />
         </many-to-one>
+        
+       <many-to-one name="projectOwner" class="org.shengrui.oa.model.hrm.ModelHrmEmployee">
+        	<column name="project_owner" />
+        </many-to-one> 
         
         <many-to-one name="empDistrict" class="org.shengrui.oa.model.system.ModelSchoolDistrict">
         	<column name="emp_district" />

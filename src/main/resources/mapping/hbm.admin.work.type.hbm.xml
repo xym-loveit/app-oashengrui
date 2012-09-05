@@ -6,7 +6,7 @@
 -->
 <hibernate-mapping >
     <class name="org.shengrui.oa.model.admin.ModelAdminWorkType" table="app_admin_worktype">
-        <cache usage="read-write" />
+        <!-- <cache usage="read-write" /> -->
         <id name="id" type="java.lang.String">
             <column name="id" />
             <generator class="native" />

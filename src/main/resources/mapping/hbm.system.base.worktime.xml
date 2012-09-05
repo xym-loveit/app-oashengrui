@@ -4,7 +4,7 @@
 
 <hibernate-mapping>
     <class name="org.shengrui.oa.model.system.ModelBaseWorkTime" table="app_system_work_time">
-        <cache usage="read-write" />
+        <!-- <cache usage="read-write" /> -->
         <id name="id" type="java.lang.String">
             <column name="worktm_id" />
             <generator class="native" />

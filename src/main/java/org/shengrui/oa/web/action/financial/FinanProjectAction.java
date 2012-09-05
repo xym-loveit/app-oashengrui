@@ -16,8 +16,10 @@ import org.shengrui.oa.model.finan.ModelFinanProject;
 import org.shengrui.oa.model.flow.ModelProcessForm;
 import org.shengrui.oa.model.flow.ModelProcessType;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
+import org.shengrui.oa.model.info.ModelShortMessage;
 import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
+import org.shengrui.oa.util.WebActionUtil;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.util.UtilBean;
@@ -158,8 +160,8 @@ extends BaseFinanAction
 		if (isOnApproval != null && isOnApproval)
 		{
 			// 审批中
-			formEntity.setAuditState(null);
 			formEntity.setCondAuditStates(new Integer[] {
+					null,
 					ModelProcessForm.EProcessFormStatus.RETURNED.getValue()
 			});
 		}
@@ -225,9 +227,9 @@ extends BaseFinanAction
 			LOGGER.error("Exception raised when fetch expense detail.", e);
 		}
 		
-		request.setAttribute("CATKEY", "expense");
+		request.setAttribute("CATKEY", "project");
 		
-		return mapping.findForward("dialog.fina.expense.application.page");
+		return mapping.findForward("dialog.fina.project.application.page");
 	}
 	
 	/**
@@ -273,7 +275,7 @@ extends BaseFinanAction
 				isCreation = true;
 				
 				projectInfo = formEntity;
-				projectInfo.setFormNo(AppUtil.genFormNo(FINAN_FORM_KEY_EXPENSE));
+				projectInfo.setFormNo(AppUtil.genFormNo(FINAN_FORM_KEY_PROJECT));
 				projectInfo.setEntryDateTime(new Date());
 				projectInfo.setEntryId(ContextUtil.getCurrentUserId());
 				
@@ -292,7 +294,11 @@ extends BaseFinanAction
 			projectInfo.setEmpDistrict(
 					this.serviceSchoolDistrict.get(request.getParameter("emp.districtId")));
 			
-			projectInfo.setEmpPhoneNo(request.getParameter("emp.phoneNo"));
+			projectInfo.setProjectOwner(
+					this.serviceHrmEmployee.get(request.getParameter("projectOwner.id")));
+			
+			projectInfo.setEmpPhoneNo(
+					request.getParameter("emp.phoneNo"));
 			
 			if (isCreation)
 			{
@@ -322,7 +328,7 @@ extends BaseFinanAction
 				Map<String, Object> params = new HashMap<String, Object>();
 				params.put("entity", projectInfo);
 				params.put("procForm", procForm);
-				params.put("type", FINAN_FORM_KEY_PROJECT);
+				params.put("type", FIANA_CATKEY_PROJECT);
 				
 				List<ModelHrmEmployee> employees = this.serviceHrmEmployee.getByDepartmentAndPosition(
 						procForm.getToDepartmentIds(), procForm.getToPositionIds());
@@ -335,7 +341,6 @@ extends BaseFinanAction
 					builder.append(",");
 				}
 				
-				/*
 				this.sendMessage("my.approval.audit.fina", 
 					params, new Object[] {
 						builder.toString()
@@ -344,14 +349,12 @@ extends BaseFinanAction
 				);
 				
 				// 服务器推送至客户端
-				
 				this.messagePush.pushMessage(builder.toString(), 
 					WebActionUtil.scriptMessageNotify, 
-					WebActionUtil.MENU_ITEM_FINA_EXPENSE.getKey() + "," +
+					WebActionUtil.MENU_ITEM_FINA_PROJECT.getKey() + "," +
 						WebActionUtil.MENU_KEY_APPROVAL_TODO, 
 					1
 				);
-				*/
 				
 				builder = null;
 			}

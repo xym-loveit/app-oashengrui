@@ -4,7 +4,7 @@
 
 <hibernate-mapping package="org.shengrui.oa.model.hrm">
     <class name="ModelHrmJobHireEntry" table="app_hrm_hire_entries">
-        <cache usage="read-write" />
+        <!-- <cache usage="read-write" /> -->
         <id name="id" type="java.lang.String">
             <column name="entry_id" />
             <generator class="native" />

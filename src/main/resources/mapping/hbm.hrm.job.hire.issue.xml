@@ -4,7 +4,7 @@
 
 <hibernate-mapping package="org.shengrui.oa.model.hrm">
     <class name="ModelHrmJobHireIssue" table="app_hrm_hire_issue ">
-    	<cache usage="read-write" />
+    	<!-- <cache usage="read-write" /> -->
         <id name="id" type="java.lang.String">
             <column name="hissue_id" />
             <generator class="native" />
@@ -37,7 +37,7 @@
         
         <set name="interviews" table="app_hrm_hire_interviews" 
         	cascade="save-update" inverse="true" lazy="true" order-by="session_sn asc">
-          <cache usage="read-write" /> 
+          <!-- <cache usage="read-write" /> --> 
 	      <key column="hissue_id"/>  
 	      <one-to-many class="ModelHrmJobHireInterview" /> 
 	    </set>
