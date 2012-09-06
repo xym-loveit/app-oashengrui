@@ -174,7 +174,7 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 			throws DAOException
 	{
 		SQLQuery query = getSession().createSQLQuery(nativeSql);
-		query.setCacheable(true);
+		// query.setCacheable(true);
 		return query.list();
 	}
 	
@@ -187,7 +187,7 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 			Class<?> claz) throws DAOException
 	{
 		SQLQuery query = getSession().createSQLQuery(nativeSql);
-		query.setCacheable(true);
+		// query.setCacheable(true);
 		return query.addEntity(claz).list();
 	}
 	
