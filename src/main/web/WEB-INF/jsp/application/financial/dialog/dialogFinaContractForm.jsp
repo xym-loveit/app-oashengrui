@@ -80,117 +80,119 @@ ${tm:fileRestore(entity['attachFiles'])}
 <div class="pageContent">
 	<form method="post" action="app/finan/contract.do?action=actionFinanContractFormSave" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		
-		<c:if test="${entity ne null && (entity.applyForm eq null || fn:length(entity.applyForm) == 0)}">
+		<div class="pageFormContent" layoutH="50" style="border-top: none">
+			
 			<p align="center" style="display:none" id='topcont_title'>合同申请"${entity.formNo}"-审批流程表单</p>
 			<div align='right' style='margin:5px 10px 0px 0px;'>
 				<a class='btn_print' title="点击打印" href="javascript:print_export('#finacont_print_wrapper','#topcont_title');">打印</a>
 			</div>
-		</c:if>
-		
-		<div id="finacont_print_wrapper" class="pageFormContent" layoutH="50" style="border-top: none">
-			<div style="padding: 5px 0px; border-bottom: 1px dotted #999; margin: 0 10px 15px 10px; overflow: auto; clear: both;">
-				<c:choose>
-					<c:when test="${op ne null && op eq 'view'}"><span style="float:left; color:#FF7300; line-height: 18px;">所选费用支出类型：<b>${entity.applyFormType.processTypeName}</b></span></c:when>
-					<c:otherwise>
-						<span style="float:left; color:#FF7300; line-height: 18px;">合同类型：</span>
-						<select class="combox required" name="applyFormTypeId" id="expense_type">
-							<logic:present name="types">
-								<logic:iterate name="types" id="typeEntity">
-									<option value="${typeEntity.id}" ${entity ne null && entity.applyFormType ne null && entity.applyFormType.id eq typeEntity.id ? "selected='selected'" : ""}>${typeEntity.processTypeName}</option>
-								</logic:iterate>
-							</logic:present>
-						</select>
-					</c:otherwise>
-				</c:choose>
-			</div>
-			<table id="tblexp" cellpadding="0" cellspacing="0" width="98%" border="1" style="border-collapse: collapse; border-color: #797979; margin: 0 auto;">
-				<tr>
-					<td width="${op eq null || op ne 'view' ? '72%' : '100%'}" colspan="10" class="banner">合同审批申请单</td>
-					<c:if test="${op eq null || op ne 'view'}">
-					<td align="center" class="banner">合同说明</td>
-					</c:if>
-				</tr>
-				<tr>
-					<td class='field'>经办人</td>
-					<td>
-						<input id="inputEmpId" name="emp.id" value="${entity ne null ? entity.employee.id : ''}" type="hidden"/>
-						<input class="required" name="emp.fullName" type="text" value="${entity ne null ? entity.employee.empName : ''}" <c:choose><c:when test="${op ne null && (op eq 'view' || op eq 'edit')}">readonly</c:when> <c:otherwise>postField="fullName" suggestFields="fullName,districtName" suggestUrl="app/base.do?action=lookupEmployeeByName" lookupGroup="emp" </c:otherwise></c:choose>/>
-					</td>
-					<td class='field'>日期</td>
-					<td><input name="applyDate" class="<c:if test='${op eq null || op ne \'view\'}'>date</c:if> required textInput" format="yyyy-MM-dd" type="text" value="<c:if test='${entity ne null}'><fmt:formatDate value='${entity.applyDate}' pattern='yyyy-MM-dd' /></c:if>" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>></td>
-					<td class='field'>所属校区</td>
-					<td>
-						<input name="emp.districtName" readonly type="text" value="${entity ne null ? entity.empDistrict.districtName : ''}"/>
-						<input id="inputEmpDisId" name="emp.districtId" value="${entity ne null ? entity.empDistrict.id : ''}" type="hidden"/>
-					</td>
-					<td class='field'>所属部门</td>
-					<td>
-						<input name="emp.depName" readonly type="text" value="${entity ne null ? entity.empDepartment.depName : ''}"/>
-						<input id="inputEmpDepId" name="emp.depId" value="${entity ne null ? entity.empDepartment.id : ''}" type="hidden"/>
-					</td>
-					<td class='field'>联系电话</td>
-					<td><input name="emp.phoneNo" class="required phone" type="text" value="${entity ne null ? entity.empPhoneNo : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
-					<c:if test="${op eq null || op ne 'view'}">
-					<td rowspan="5" style="line-height: 20px; padding: 0 4px;">业务招待费指用于业务及相关活动的应酬费用，如餐费、礼品费等。</td>
-					</c:if>
-				</tr>
-				<tr>
-					<td class='field'>合同事项说明</td>
-					<td colspan="9"><textarea name="comments" rows="1" style="width: 98%; height: 80px; margin: 5px;" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>>${entity ne null ? entity.comments : ''}</textarea></td>
-				</tr>
-				<tr>
-					<td class='field'>合同总金额</td>
-					<td colspan="4"><input name="applyAmt" class="required number" id="enRMB" type="text" style="width: 83%" value="${entity ne null ? entity.applyAmt : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if> />￥小写</td>
-					<td colspan="5"><input id="cnRMB" readonly type="text" style="color: #999999;width: 83%" value="根据小写自动生成" />￥大写</td>
-				</tr>
-				<tr>
-					<td class='field'>合同编号</td>
-					<td colspan="4"><input name="contractNo" type="text" style="width: 95%" value="${entity ne null ? entity.contractNo : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
-					<td class='field'>签约方</td>
-					<td><input name="contractParties" type="text" class="required" style="" value="${entity ne null ? entity.contractParties : ''}"  <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
-					<td class='field'>签约方联系方式</td>
-					<td colspan="2">
-						<input name="contractPartiesContact" class="required phone" type="text" style="width: 157px;" value="${entity ne null ? entity.contractPartiesContact : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/>
-					</td>
-				</tr>
-				<tr>
-					<td class='field'>付款方式</td>
-					<td colspan="9"><textarea name="payMethod" rows="1" style="width: 98%; height: 80px; margin: 5px;" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>>${entity ne null ? entity.payMethod : ''}</textarea></td>
-				</tr>
-				<tr>
-					<td class='field'>附件</td>
-					<td colspan="9" style="padding: 5px;">
-						<div>
-							<c:choose>
-								<c:when test="${op eq null || op ne 'view'}">
-									<!-- 上传按钮，组件配置请写在data-config内 -->
-									<a id="jp_DFC_UploaderBtn" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件 </a>
-									<!-- 文件上传队列 -->
-									<ul id="jp_DFC_UploaderQueue"></ul>
-									<div id="J_Panel" class="event-panel"></div>
-									<input type="hidden" name="fileUrls" id="fileUrls" />
-									<input type="hidden" name="fileIds" id="fileIds" />
-								</c:when>
-								<c:otherwise>
-									<c:choose>
-										<c:when test="${entity ne null && fn:length(entity.attachFiles) gt 0}">
-											<ul>
-												<logic:iterate name="entity" property="attachFiles" id="file">
-													<li class="item_file"><a title="点击下载`${file.fileName}`文件" href="file-download?path=${file.filePath}" target="_blank">${file.fileName}</a></li>
-												</logic:iterate>
-											</ul>
-										</c:when>
-										<c:otherwise>暂未上传任何附件..</c:otherwise>
-									</c:choose>
-								</c:otherwise>
-							</c:choose>
-						</div>
-					</td>
-				</tr>
-			</table>
 			
-			<!-- 审批状态 -->
-			<%@ include file="../data/dataFinaFormProcess.jsp" %>
+			<div id="finacont_print_wrapper">
+				<div style="padding: 5px 0px; border-bottom: 1px dotted #999; margin: 0 10px 15px 10px; overflow: auto; clear: both;">
+					<c:choose>
+						<c:when test="${op ne null && op eq 'view'}"><span style="float:left; color:#FF7300; line-height: 18px;">所选费用支出类型：<b>${entity.applyFormType.processTypeName}</b></span></c:when>
+						<c:otherwise>
+							<span style="float:left; color:#FF7300; line-height: 18px;">合同类型：</span>
+							<select class="combox required" name="applyFormTypeId" id="expense_type">
+								<logic:present name="types">
+									<logic:iterate name="types" id="typeEntity">
+										<option value="${typeEntity.id}" ${entity ne null && entity.applyFormType ne null && entity.applyFormType.id eq typeEntity.id ? "selected='selected'" : ""}>${typeEntity.processTypeName}</option>
+									</logic:iterate>
+								</logic:present>
+							</select>
+						</c:otherwise>
+					</c:choose>
+				</div>
+				<table id="tblexp" cellpadding="0" cellspacing="0" width="98%" border="1" style="border-collapse: collapse; border-color: #797979; margin: 0 auto;">
+					<tr>
+						<td width="${op eq null || op ne 'view' ? '72%' : '100%'}" colspan="10" class="banner">合同审批申请单</td>
+						<c:if test="${op eq null || op ne 'view'}">
+						<td align="center" class="banner">合同说明</td>
+						</c:if>
+					</tr>
+					<tr>
+						<td class='field'>经办人</td>
+						<td>
+							<input id="inputEmpId" name="emp.id" value="${entity ne null ? entity.employee.id : ''}" type="hidden"/>
+							<input class="required" name="emp.fullName" type="text" value="${entity ne null ? entity.employee.empName : ''}" <c:choose><c:when test="${op ne null && (op eq 'view' || op eq 'edit')}">readonly</c:when> <c:otherwise>postField="fullName" suggestFields="fullName,districtName" suggestUrl="app/base.do?action=lookupEmployeeByName" lookupGroup="emp" </c:otherwise></c:choose>/>
+						</td>
+						<td class='field'>日期</td>
+						<td><input name="applyDate" class="<c:if test='${op eq null || op ne \'view\'}'>date</c:if> required textInput" format="yyyy-MM-dd" type="text" value="<c:if test='${entity ne null}'><fmt:formatDate value='${entity.applyDate}' pattern='yyyy-MM-dd' /></c:if>" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>></td>
+						<td class='field'>所属校区</td>
+						<td>
+							<input name="emp.districtName" readonly type="text" value="${entity ne null ? entity.empDistrict.districtName : ''}"/>
+							<input id="inputEmpDisId" name="emp.districtId" value="${entity ne null ? entity.empDistrict.id : ''}" type="hidden"/>
+						</td>
+						<td class='field'>所属部门</td>
+						<td>
+							<input name="emp.depName" readonly type="text" value="${entity ne null ? entity.empDepartment.depName : ''}"/>
+							<input id="inputEmpDepId" name="emp.depId" value="${entity ne null ? entity.empDepartment.id : ''}" type="hidden"/>
+						</td>
+						<td class='field'>联系电话</td>
+						<td><input name="emp.phoneNo" class="required phone" type="text" value="${entity ne null ? entity.empPhoneNo : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
+						<c:if test="${op eq null || op ne 'view'}">
+						<td rowspan="5" style="line-height: 20px; padding: 0 4px;">业务招待费指用于业务及相关活动的应酬费用，如餐费、礼品费等。</td>
+						</c:if>
+					</tr>
+					<tr>
+						<td class='field'>合同事项说明</td>
+						<td colspan="9"><textarea name="comments" rows="1" style="width: 98%; height: 80px; margin: 5px;" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>>${entity ne null ? entity.comments : ''}</textarea></td>
+					</tr>
+					<tr>
+						<td class='field'>合同总金额</td>
+						<td colspan="4"><input name="applyAmt" class="required number" id="enRMB" type="text" style="width: 83%" value="${entity ne null ? entity.applyAmt : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if> />￥小写</td>
+						<td colspan="5"><input id="cnRMB" readonly type="text" style="color: #999999;width: 83%" value="根据小写自动生成" />￥大写</td>
+					</tr>
+					<tr>
+						<td class='field'>合同编号</td>
+						<td colspan="4"><input name="contractNo" type="text" style="width: 95%" value="${entity ne null ? entity.contractNo : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
+						<td class='field'>签约方</td>
+						<td><input name="contractParties" type="text" class="required" style="" value="${entity ne null ? entity.contractParties : ''}"  <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
+						<td class='field'>签约方联系方式</td>
+						<td colspan="2">
+							<input name="contractPartiesContact" class="required phone" type="text" style="width: 157px;" value="${entity ne null ? entity.contractPartiesContact : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/>
+						</td>
+					</tr>
+					<tr>
+						<td class='field'>付款方式</td>
+						<td colspan="9"><textarea name="payMethod" rows="1" style="width: 98%; height: 80px; margin: 5px;" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>>${entity ne null ? entity.payMethod : ''}</textarea></td>
+					</tr>
+					<tr>
+						<td class='field'>附件</td>
+						<td colspan="9" style="padding: 5px;">
+							<div>
+								<c:choose>
+									<c:when test="${op eq null || op ne 'view'}">
+										<!-- 上传按钮，组件配置请写在data-config内 -->
+										<a id="jp_DFC_UploaderBtn" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件 </a>
+										<!-- 文件上传队列 -->
+										<ul id="jp_DFC_UploaderQueue"></ul>
+										<div id="J_Panel" class="event-panel"></div>
+										<input type="hidden" name="fileUrls" id="fileUrls" />
+										<input type="hidden" name="fileIds" id="fileIds" />
+									</c:when>
+									<c:otherwise>
+										<c:choose>
+											<c:when test="${entity ne null && fn:length(entity.attachFiles) gt 0}">
+												<ul>
+													<logic:iterate name="entity" property="attachFiles" id="file">
+														<li class="item_file"><a title="点击下载`${file.fileName}`文件" href="file-download?path=${file.filePath}" target="_blank">${file.fileName}</a></li>
+													</logic:iterate>
+												</ul>
+											</c:when>
+											<c:otherwise>暂未上传任何附件..</c:otherwise>
+										</c:choose>
+									</c:otherwise>
+								</c:choose>
+							</div>
+						</td>
+					</tr>
+				</table>
+				
+				<!-- 审批状态 -->
+				<%@ include file="../data/dataFinaFormProcess.jsp" %>
+				
+			</div>
 			
 		</div>
 		
