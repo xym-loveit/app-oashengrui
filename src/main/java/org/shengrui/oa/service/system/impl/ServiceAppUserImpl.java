@@ -102,6 +102,7 @@ extends ServiceGenericImpl<ModelAppUser> implements ServiceAppUser
 			{
 				criteria.add(Restrictions.like("fullName", entity.getFullName(), MatchMode.ANYWHERE));
 			}
+			
 		}
 		
 		// 过滤已删除的用户账号...

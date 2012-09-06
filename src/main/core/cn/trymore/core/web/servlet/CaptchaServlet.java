@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import nl.captcha.Captcha;
 import nl.captcha.servlet.CaptchaServletUtil;
 
@@ -22,6 +24,11 @@ extends HttpServlet
 
 	private static final long serialVersionUID = 6387714068021116303L;
 	
+	/**
+	 * The LOGGER
+	 */
+	private static final Logger LOGGER = Logger.getLogger(CaptchaServlet.class);
+			
 	/**
 	 * The parameter for height
 	 */
@@ -69,7 +76,14 @@ extends HttpServlet
 		Captcha localCaptcha = new Captcha.Builder(this._width, this._height).addText().addBackground().addNoise().build();
 		CaptchaServletUtil.writeImage(response, localCaptcha.getImage());
 		
-		request.getSession().setAttribute("simpleCaptcha", localCaptcha);
+		try
+		{
+			request.getSession().setAttribute("simpleCaptcha", localCaptcha);
+		}
+		catch (Exception e)
+		{
+			LOGGER.error("Captcha code cannot be stored into session...", e);
+		}
 	}
 	
 }

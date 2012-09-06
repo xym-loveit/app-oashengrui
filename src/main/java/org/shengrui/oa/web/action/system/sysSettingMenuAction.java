@@ -247,10 +247,34 @@ extends sysSettingBaseAction
 		{
 			try
 			{
-				this.serviceAppFunc.remove(funcId);
+				ModelAppFunction func = this.serviceAppFunc.get(funcId);
 				
-				return ajaxPrint(response, 
+				if (func != null)
+				{
+					ModelAppMenu menu = func.getMenu();
+					if (menu != null && menu.getFunctions() != null)
+					{
+						Iterator<ModelAppFunction> itorFuncs = menu.getFunctions().iterator();
+						while (itorFuncs.hasNext())
+						{
+							ModelAppFunction funcItem = itorFuncs.next();
+							if (funcItem.getId().equals(funcId))
+							{
+								itorFuncs.remove();
+								break;
+							}
+						}
+						this.serviceAppMenu.save(menu);
+					}
+					
+					this.serviceAppFunc.remove(funcId);
+					return ajaxPrint(response, 
 						getSuccessCallbackAndReloadCurrent("菜单功能项删除成功."));
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("菜单功能项删除失败: 功能项不存在"));
+				}
 			} 
 			catch (ServiceException e)
 			{
@@ -275,9 +299,10 @@ extends sysSettingBaseAction
 			ModelAppFunction formModelAppFunc = (ModelAppFunction) form;
 			ModelAppFunction entity = null;
 			
+			ModelAppMenu funcMenu = null;
 			if (this.isObjectIdValid(menuId))
 			{
-				ModelAppMenu funcMenu = this.serviceAppMenu.get(menuId);
+				funcMenu = this.serviceAppMenu.get(menuId);
 				if (funcMenu != null)
 				{
 					if (this.isObjectIdValid(formModelAppFunc.getId()))
@@ -299,6 +324,11 @@ extends sysSettingBaseAction
 					{
 						// 新建
 						entity = formModelAppFunc;
+						
+						if (funcMenu != null)
+						{
+							funcMenu.getFunctions().add(entity);
+						}
 					}
 				}
 				
@@ -397,6 +427,11 @@ extends sysSettingBaseAction
 				
 				this.serviceAppFunc.save(entity);
 				
+				if (funcMenu != null)
+				{
+					this.serviceAppMenu.save(funcMenu);
+				}
+				
 				return ajaxPrint(response, getSuccessCallbackAndReloadCurrent("菜单功能项保存成功."));
 			}
 		} 
@@ -422,10 +457,33 @@ extends sysSettingBaseAction
 		{
 			try
 			{
-				this.serviceAppMenu.remove(menuId);
-				
-				return ajaxPrint(response, 
+				ModelAppMenu menu = this.serviceAppMenu.get(menuId);
+				if (menu != null)
+				{
+					ModelAppMenu parent = menu.getMenuParent();
+					if (parent != null)
+					{
+						Iterator<ModelAppMenu> itorMenus = parent.getMenuChildren().iterator();
+						while (itorMenus.hasNext())
+						{
+							ModelAppMenu menuItem = itorMenus.next();
+							if (menuItem.getId().equals(menuId))
+							{
+								itorMenus.remove();
+								break;
+							}
+						}
+						this.serviceAppMenu.save(menu);
+					}
+					
+					this.serviceAppMenu.remove(menu);
+					return ajaxPrint(response, 
 						getSuccessCallbackAndReloadCurrent("菜单项删除成功."));
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("菜单删除失败: 菜单不存在..."));
+				}
 			} 
 			catch (ServiceException e)
 			{
@@ -474,18 +532,22 @@ extends sysSettingBaseAction
 			}
 			
 			// 倘若父菜单更换, 则进行更新
+			ModelAppMenu rootMenu = null;
 			if (UtilString.isNotEmpty(rootMenuKey))
 			{
 				if (entity.getMenuParent() == null || 
 						(entity.getMenuParent() != null && !entity.getMenuParent().getMenuKey().equals(rootMenuKey)))
 				{
 					// 获取父菜单实体
-					ModelAppMenu rootMenu = this.serviceAppMenu.getMenuByKey(rootMenuKey);
+					rootMenu = this.serviceAppMenu.getMenuByKey(rootMenuKey);
 					
 					if (rootMenu != null)
 					{
 						entity.setMenuParent(rootMenu);
 					}
+					
+					rootMenu.getMenuChildren().add(entity);
+					
 				}
 			}
 			else
@@ -494,6 +556,11 @@ extends sysSettingBaseAction
 			}
 			
 			this.serviceAppMenu.save(entity);
+			
+			if (rootMenu != null)
+			{
+				this.serviceAppMenu.save(rootMenu);
+			}
 			
 			if (isCreation)
 			{
