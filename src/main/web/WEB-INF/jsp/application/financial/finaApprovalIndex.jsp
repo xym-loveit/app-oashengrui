@@ -84,17 +84,17 @@
 					<c:choose>
 						<c:when test="${PAGE_TYPE eq 'FE'}">
 							<c:if test="${tm:ifGranted('_FUNCKEY_FINAN_EXPENSE_APPLY')}">
-								<a class="add" href="app/finan/expense.do?action=diaglogFinaExpensePage" target="dialog" title="财务申请" width="1150" height="500" rel="dia_finexp_add"><span>财务申请</span></a>
+								<a class="add" href="app/finan/expense.do?action=diaglogFinaExpensePage" target="dialog" title="财务申请" width="1150" height="550" rel="dia_finexp_add"><span>财务申请</span></a>
 							</c:if>
 						</c:when>
 						<c:when test="${PAGE_TYPE eq 'FC'}">
 							<c:if test="${tm:ifGranted('_FUNCKEY_FINAN_CONTRACT_APPLY')}">
-								<a class="add" href="app/finan/contract.do?action=diaglogFinaContractPage" target="dialog" title="合同申请" width="1150" height="500" rel="dia_fincta_add"><span>合同申请</span></a>
+								<a class="add" href="app/finan/contract.do?action=diaglogFinaContractPage" target="dialog" title="合同申请" width="1150" height="550" rel="dia_fincta_add"><span>合同申请</span></a>
 							</c:if>
 						</c:when>	
 						<c:when test="${PAGE_TYPE eq 'FP'}">
 							<c:if test="${tm:ifGranted('_FUNCKEY_FINAN_PROJECT_APPLY')}">
-								<a class="add" href="app/finan/project.do?action=diaglogFinaProjectPage" target="dialog" title="新项目申请" width="1150" height="500" rel="dia_finprj_add"><span>新项目申请</span></a>
+								<a class="add" href="app/finan/project.do?action=diaglogFinaProjectPage" target="dialog" title="新项目申请" width="1150" height="550" rel="dia_finprj_add"><span>新项目申请</span></a>
 							</c:if>
 						</c:when>	
 					</c:choose>

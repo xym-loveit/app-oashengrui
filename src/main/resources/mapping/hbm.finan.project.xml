@@ -100,5 +100,13 @@
 	      <key column="form_no" property-ref="formNo"/>  
 	      <one-to-many class="org.shengrui.oa.model.flow.ModelProcessHistory" />
 	    </set>
+	    
+	    <set name="attachFiles" table="app_finan_files" 
+        	lazy="true" cascade="all-delete-orphan" order-by="file_id asc"> 
+	      <!-- <cache usage="read-write" /> -->
+	      <key column="form_no" property-ref="formNo"/>  
+	      <many-to-many class="cn.trymore.oa.model.system.ModelFileAttach" column="file_id" />
+	    </set>
+	    
 	</class>
 </hibernate-mapping>
