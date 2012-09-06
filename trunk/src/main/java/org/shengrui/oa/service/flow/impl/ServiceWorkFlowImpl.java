@@ -134,7 +134,8 @@ implements ServiceWorkFlow
 				
 				for (ModelProcessTask task : tasks)
 				{
-					ModelProcessForm form = this.convertTaskToForm(task, processTypeId, formNo, employee, isFirstStep);
+					ModelProcessForm form = this.convertTaskToForm(task, 
+							processTypeId, formNo, employee, isFirstStep);
 					
 					// 判断当前Form是否被设置为第一个审批节点..
 					if (ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue().equals(form.getAuditState())

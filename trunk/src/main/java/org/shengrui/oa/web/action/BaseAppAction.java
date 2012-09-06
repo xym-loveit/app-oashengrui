@@ -896,7 +896,7 @@ extends BaseAction
 		try 
 		{
 			List<ModelAppDictionary> list = this.serviceAppDictionary.getByTypeAndLevel(
-					type, new String(level.getBytes("ISO-8859-1"),"UTF-8"));
+					type, new String(level.getBytes("ISO-8859-1"),"U"));
 			if (list != null)
 			{
 				StringBuilder sb = new StringBuilder();

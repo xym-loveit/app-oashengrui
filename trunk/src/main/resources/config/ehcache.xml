@@ -11,4 +11,11 @@
 	<cache name="DICT_CACHE" maxElementsInMemory="10000"
 		eternal="false" timeToIdleSeconds="300000" timeToLiveSeconds="600000"
 		overflowToDisk="true" />
+	
+	<cache name="org.hibernate.cache.UpdateTimestampsCache" maxElementsInMemory="5000"
+		eternal="true" overflowToDisk="true"/>
+	
+	<cache name="org.hibernate.cache.StandardQueryCache" maxElementsInMemory="10000"
+		eternal="false" timeToLiveSeconds="120" overflowToDisk="true"/>
+
 </ehcache>

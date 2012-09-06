@@ -40,6 +40,7 @@
 				<prop key="hibernate.cache.use_query_cache">${hibernate.cache.use_query_cache}</prop>
 				<prop key="hibernate.cache.provider_class">${hibernate.cache.provider_class}</prop>
 				<prop key="hibernate.query.substitutions">true 1,false 0</prop>
+				<prop key="hibernate.cache.provider_configuration_file_resource_path">config/ehcache.xml</prop>
 			</props>
 		</property>
 	</bean>

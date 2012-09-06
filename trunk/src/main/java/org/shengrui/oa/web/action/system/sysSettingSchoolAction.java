@@ -1,5 +1,7 @@
 package org.shengrui.oa.web.action.system;
 
+import java.util.Iterator;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -717,9 +719,10 @@ extends sysSettingBaseAction
 			ModelSchoolDepartmentPosition entity = null;
 			String originalPositionRights = null;
 			
+			ModelSchoolDepartment department = null;
 			if (this.isObjectIdValid(depId))
 			{
-				ModelSchoolDepartment department = this.serviceSchoolDepartment.get(depId);
+				department = this.serviceSchoolDepartment.get(depId);
 				if (department != null)
 				{
 					boolean isPositionEdit = this.isObjectIdValid(formMPosition.getId());
@@ -745,6 +748,11 @@ extends sysSettingBaseAction
 					{
 						// 新建
 						entity = formMPosition;
+						
+						if (department != null)
+						{
+							department.getPositions().add(entity);
+						}
 					}
 					
 					entity.setDepartment(department);
@@ -769,6 +777,11 @@ extends sysSettingBaseAction
 					entity.setPositionRoleRights(positionRights);
 					
 					this.serviceSchoolDepartmentPosition.save(entity);
+					
+					if (department != null)
+					{
+						this.serviceSchoolDepartment.save(department);
+					}
 					
 					// 保存成功后, Dialog进行关闭
 					return ajaxPrint(response, 
@@ -803,10 +816,35 @@ extends sysSettingBaseAction
 		{
 			try
 			{
-				this.serviceSchoolDepartmentPosition.remove(posId);
+				ModelSchoolDepartmentPosition position = this.serviceSchoolDepartmentPosition.get(posId);
 				
-				return ajaxPrint(response, 
-						getSuccessCallbackAndReloadCurrent("岗位删除成功."));
+				if (position != null)
+				{
+					ModelSchoolDepartment department = position.getDepartment();
+					if (department != null)
+					{
+						Iterator<ModelSchoolDepartmentPosition> itorPositions = department.getPositions().iterator();
+						while (itorPositions.hasNext())
+						{
+							ModelSchoolDepartmentPosition positionItem = itorPositions.next();
+							if (positionItem.getId().equals(posId))
+							{
+								itorPositions.remove();
+								break;
+							}
+						}
+						this.serviceSchoolDepartment.save(department);
+					}
+					
+					this.serviceSchoolDepartmentPosition.remove(position);
+					
+					return ajaxPrint(response, 
+							getSuccessCallbackAndReloadCurrent("岗位删除成功."));
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("岗位删除失败: 岗位不存在..."));
+				}
 			} 
 			catch (ServiceException e)
 			{
