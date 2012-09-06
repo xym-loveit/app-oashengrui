@@ -317,6 +317,9 @@ extends BaseFinanAction
 				contractInfo.setAuditState(ModelProcessForm.EProcessFormStatus.RETURNED.getValue());
 			}
 			
+			// 设置岗位附件
+			this.handleFileAttachments(contractInfo, request);
+						
 			this.serviceFinanContract.save(contractInfo);
 			
 			if (procForm != null)

@@ -320,6 +320,9 @@ extends BaseFinanAction
 				projectInfo.setAuditState(ModelProcessForm.EProcessFormStatus.RETURNED.getValue());
 			}
 			
+			// 设置附件
+			this.handleFileAttachments(projectInfo, request);
+						
 			this.serviceFinanProject.save(projectInfo);
 			
 			if (procForm != null)

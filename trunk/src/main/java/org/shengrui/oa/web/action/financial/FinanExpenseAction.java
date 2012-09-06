@@ -322,6 +322,9 @@ extends BaseFinanAction
 				expenseInfo.setAuditState(ModelProcessForm.EProcessFormStatus.RETURNED.getValue());
 			}
 			
+			// 设置岗位附件
+			this.handleFileAttachments(expenseInfo, request);
+						
 			this.serviceFinanExpense.save(expenseInfo);
 			
 			if (procForm != null)

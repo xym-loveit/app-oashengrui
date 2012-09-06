@@ -26,8 +26,56 @@
 			$("#cnRMB").val(Arabia_to_Chinese("${entity.applyAmt}"));
 		</logic:present>
 		
+		<c:if test="${op eq null || op ne 'view'}">
+		//加载上传组件入口文件
+		KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
+			var ru = new RenderUploader('#jp_DFC_UploaderBtn', '#jp_DFC_UploaderQueue',{
+				 //服务器端配置
+				serverConfig:{
+					//处理上传的服务器端脚本路径
+					action:"file-upload"
+				},
+				// 文件域
+				name:"Filedata",
+				//用于放服务器端返回的url的隐藏域
+				urlsInputName:"fileUrls"
+				<c:if test="${jobHire ne null && fn:length(jobHire.attachFiles) gt 0}">
+				// 用于数据展现
+				,restoreHook:"#jp_DFC_UploaderRestore"
+				</c:if>
+			});
+			
+			ru.on('init', function (ev) {
+				//上传组件实例
+				var uploader = ev.uploader;
+				//上传按钮实例
+				var button = uploader.get('button');
+				
+				uploader.on('success', function (ev) {
+					var feedback = ev.result;
+					var file_id = feedback.data.id;
+					if (file_id) {
+						$("#fileIds").val($("#fileIds").val() == "" ? file_id : ($("#fileIds").val() + "," + file_id));
+					}
+				});
+				
+				uploader.on('error', function (ev) {
+					alert("文件上传失败:" + ev.result.message);
+				});
+				
+			});
+		});
+		</c:if>
+		
 	});
 </script>
+
+<!--- 生成需要展现文件的JSON -->
+<c:if test="${(op eq null || op ne 'view') && (entity ne null && fn:length(entity.attachFiles) gt 0)}">
+<script type="text/uploader-restore" id="jp_DFC_UploaderRestore">
+${tm:fileRestore(entity['attachFiles'])}
+</script>
+</c:if>
 
 <div class="pageContent">
 	<form method="post" action="app/finan/contract.do?action=actionFinanContractFormSave" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
@@ -39,7 +87,7 @@
 			</div>
 		</c:if>
 		
-		<div id="finacont_print_wrapper" class="pageFormContent" layoutH="75" style="border-top: none">
+		<div id="finacont_print_wrapper" class="pageFormContent" layoutH="50" style="border-top: none">
 			<div style="padding: 5px 0px; border-bottom: 1px dotted #999; margin: 0 10px 15px 10px; overflow: auto; clear: both;">
 				<c:choose>
 					<c:when test="${op ne null && op eq 'view'}"><span style="float:left; color:#FF7300; line-height: 18px;">所选费用支出类型：<b>${entity.applyFormType.processTypeName}</b></span></c:when>
@@ -108,6 +156,36 @@
 				<tr>
 					<td class='field'>付款方式</td>
 					<td colspan="9"><textarea name="payMethod" rows="1" style="width: 98%; height: 80px; margin: 5px;" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>>${entity ne null ? entity.payMethod : ''}</textarea></td>
+				</tr>
+				<tr>
+					<td class='field'>附件</td>
+					<td colspan="9" style="padding: 5px;">
+						<div>
+							<c:choose>
+								<c:when test="${op eq null || op ne 'view'}">
+									<!-- 上传按钮，组件配置请写在data-config内 -->
+									<a id="jp_DFC_UploaderBtn" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件 </a>
+									<!-- 文件上传队列 -->
+									<ul id="jp_DFC_UploaderQueue"></ul>
+									<div id="J_Panel" class="event-panel"></div>
+									<input type="hidden" name="fileUrls" id="fileUrls" />
+									<input type="hidden" name="fileIds" id="fileIds" />
+								</c:when>
+								<c:otherwise>
+									<c:choose>
+										<c:when test="${entity ne null && fn:length(entity.attachFiles) gt 0}">
+											<ul>
+												<logic:iterate name="entity" property="attachFiles" id="file">
+													<li class="item_file"><a title="点击下载`${file.fileName}`文件" href="file-download?path=${file.filePath}" target="_blank">${file.fileName}</a></li>
+												</logic:iterate>
+											</ul>
+										</c:when>
+										<c:otherwise>暂未上传任何附件..</c:otherwise>
+									</c:choose>
+								</c:otherwise>
+							</c:choose>
+						</div>
+					</td>
 				</tr>
 			</table>
 			
