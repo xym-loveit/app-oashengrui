@@ -14,10 +14,12 @@ import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.admin.ModelTaskPlan;
 import org.shengrui.oa.model.finan.ModelFinanContract;
 import org.shengrui.oa.model.finan.ModelFinanExpense;
+import org.shengrui.oa.model.finan.ModelFinanProject;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireEntry;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireInterview;
+import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.service.base.ServiceBase;
 import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.util.WebActionUtil;
@@ -140,6 +142,48 @@ extends BaseAppAction
 	}
 	
 	/**
+	 * 根据校区及部门, 加载用户列表数据
+	 * @return
+	 */
+	public ActionForward loadUserDataByDepartmentAndDistrict (ActionMapping mapping,
+			ActionForm form, HttpServletRequest request, HttpServletResponse response)
+	{
+		try
+		{
+			ModelAppUser modelAppUser = (ModelAppUser) form;
+			PagingBean pagingBean = this.getPagingBean(request);
+			
+			String depId = request.getParameter("depId");
+			String disId = request.getParameter("districtId");
+			
+			if (UtilString.isNotEmpty(depId, disId))
+			{
+				modelAppUser.setDepartment(this.serviceSchoolDepartment.get(depId));
+				modelAppUser.setDistrict(this.serviceSchoolDistrict.get(disId));
+			}
+			else
+			{
+				// 加载所有用户数据.
+			}
+			
+			PaginationSupport<ModelAppUser> userInfo = 
+				this.serviceAppUser.getUserPagination(modelAppUser, pagingBean);
+			
+			request.setAttribute("userInfo", userInfo);
+			
+			// 输出分页信息至客户端
+			outWritePagination(request, pagingBean, userInfo);
+			
+			return null;
+		}
+		catch (Exception e)
+		{
+			LOGGER.error("Exception raised when loading user data...", e);
+			return ajaxPrint(response, getErrorCallback("加载数据异常, 请再一次尝试!"));
+		}
+	}
+	
+	/**
 	 * Initialization for current logon user
 	 * 
 	 * @param request
@@ -215,6 +259,22 @@ extends BaseAppAction
 			)
 		);
 		
+		// 获取新项目审批申请`审批中`数量...
+		affectedItems.put(WebActionUtil.MENU_ITEM_FINA_PROJECT.getKey(), 
+			this.serviceBase.getAffectedNumByQuery(ModelFinanProject.class, 
+				this.getModelDataPolicyQuery(
+					WebActionUtil.MENU_ITEM_FINA_PROJECT.getObject().getKey(),
+					WebActionUtil.MENU_ITEM_FINA_PROJECT.getObject().getObject(),
+					ModelFinanProject.class, 
+					new String[] {
+						"(audit_state IS NULL and cproc_depid = " + 
+								ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
+								ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"
+					}
+				)
+			)
+		);
+		
 		// 获取招聘入职`待入职 & 考察中`数量...
 		affectedItems.put(WebActionUtil.MENU_ITEM_HRM_ENTRY.getKey(), 
 			this.serviceBase.getAffectedNumByQuery(ModelHrmJobHireEntry.class, 
@@ -255,7 +315,8 @@ extends BaseAppAction
 			affectedItems.get(WebActionUtil.MENU_ITEM_ADMIN_TASK.getKey()) + 
 			affectedItems.get(WebActionUtil.MENU_ITEM_FINA_CONTRACT.getKey()) + 
 			affectedItems.get(WebActionUtil.MENU_ITEM_FINA_EXPENSE.getKey()) +
-			affectedItems.get(WebActionUtil.MENU_ITEM_HRM_DEVELOP.getKey())
+			affectedItems.get(WebActionUtil.MENU_ITEM_HRM_DEVELOP.getKey()) + 
+			affectedItems.get(WebActionUtil.MENU_ITEM_FINA_PROJECT.getKey())
 		);
 		
 		// loads all configured menus, aims to present the left menu items.

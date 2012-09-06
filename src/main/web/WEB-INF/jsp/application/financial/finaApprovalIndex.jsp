@@ -93,7 +93,7 @@
 							</c:if>
 						</c:when>	
 						<c:when test="${PAGE_TYPE eq 'FP'}">
-							<c:if test="${tm:ifGranted('_FUNCKEY_FINAN_CONTRACT_APPLY')}">
+							<c:if test="${tm:ifGranted('_FUNCKEY_FINAN_PROJECT_APPLY')}">
 								<a class="add" href="app/finan/project.do?action=diaglogFinaProjectPage" target="dialog" title="新项目申请" width="1150" height="500" rel="dia_finprj_add"><span>新项目申请</span></a>
 							</c:if>
 						</c:when>	
