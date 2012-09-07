@@ -45,21 +45,28 @@ public class FileDownloadServlet extends HttpServlet {
 	protected void service(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
 
-		//  服务器相对路径    
+		// 服务器相对路径    
 		String path = req.getParameter("path");
 		
+		// 获取文件名
 		String fileName = req.getParameter("filename");
+		
+		// 获取文件编码
+		String charset = req.getParameter("charset");
+		
+		if (UtilString.isNotEmpty(charset))
+		{
+			charset = "UTF-8";
+		}
 		
 		//  服务器绝对路径    
 		path = servletConfig.getServletContext().getRealPath("/uploads/")+"/"+path;
-		
-		System.out.println(path);
 
 		//  检查文件是否存在   
 		File obj = new File(path);
 
 		if (!obj.exists()) {
-			res.setContentType("text/html;charset=GBK");
+			res.setContentType("text/html;charset=" + charset);
 			res.getWriter().print("指定文件不存在！");
 			return;
 		}
