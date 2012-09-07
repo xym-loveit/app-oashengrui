@@ -84,7 +84,7 @@ extends BaseAppAction
 				os.write(content.getBytes("UTF-8"));
 				os.close();
 				
-				return ajaxPrint(response, "{status:200, file:'" + "temp/" + newFileName + "', name:'" + fileName + "'}");
+				return ajaxPrint(response, "{status:200, file:'" + "temp/" + newFileName + "', name:'" + fileName + ".html'}");
 			}
 			catch (Exception e)
 			{
