@@ -103,9 +103,9 @@ ${tm:fileRestore(entity['attachFiles'])}
 		
 		<div class="pageFormContent" id="" layoutH="50" style="border-top: none">
 			
-			<p align="center" style="display:none" id='topexp_title'>费用支出申请"${entity.formNo}"-审批流程表单</p>
+			<p align="center" style="display:none" id='topexp_title'>费用支出申请`${entity.formNo}`-审批流程表单</p>
 			<div align='right' style='margin:5px 10px 0px 0px;'>
-				<a class='btn_print' title="点击打印" href="javascript:print_export('#finaexp_print_wrapper','#topexp_title');">打印</a>
+				<a class='btn_print' title="点击打印" href="javascript:export2Html('#finaexp_print_wrapper','#topexp_title');">导出</a>
 			</div>
 			
 			<div id="finaexp_print_wrapper">

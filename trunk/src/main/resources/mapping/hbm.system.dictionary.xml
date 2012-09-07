@@ -4,7 +4,7 @@
 
 <hibernate-mapping>
     <class name="org.shengrui.oa.model.system.ModelAppDictionary" table="app_system_dictionary">
-        <!-- <cache usage="read-write" /> -->
+        <cache usage="read-write" />
         <id name="id" type="java.lang.String">
             <column name="id" />
             <generator class="native" />
