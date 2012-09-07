@@ -82,9 +82,9 @@ ${tm:fileRestore(entity['attachFiles'])}
 		
 		<div class="pageFormContent" layoutH="50" style="border-top: none">
 			
-			<p align="center" style="display:none" id='topcont_title'>合同申请"${entity.formNo}"-审批流程表单</p>
+			<p align="center" style="display:none" id='topcont_title'>合同申请`${entity.formNo}`-审批流程表单</p>
 			<div align='right' style='margin:5px 10px 0px 0px;'>
-				<a class='btn_print' title="点击打印" href="javascript:print_export('#finacont_print_wrapper','#topcont_title');">打印</a>
+				<a class='btn_print' title="点击打印" href="javascript:export2Html('#finacont_print_wrapper','#topcont_title');">导出</a>
 			</div>
 			
 			<div id="finacont_print_wrapper">

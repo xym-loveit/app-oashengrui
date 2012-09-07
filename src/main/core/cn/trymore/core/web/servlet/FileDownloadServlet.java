@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.trymore.core.util.UtilString;
+
 /**
  * 文档下载
  * @author Tang
@@ -45,6 +47,9 @@ public class FileDownloadServlet extends HttpServlet {
 
 		//  服务器相对路径    
 		String path = req.getParameter("path");
+		
+		String fileName = req.getParameter("filename");
+		
 		//  服务器绝对路径    
 		path = servletConfig.getServletContext().getRealPath("/uploads/")+"/"+path;
 		
@@ -60,8 +65,13 @@ public class FileDownloadServlet extends HttpServlet {
 		}
 		//  读取文件名：用于设置客户端保存时指定默认文件名   
 		int index = path.lastIndexOf("/");
+		
 		//  前提：传入的path字符串以“\”表示目录分隔符    
-		String fileName = path.substring(index + 1);
+		if (!UtilString.isNotEmpty(fileName))
+		{
+			fileName = path.substring(index + 1);
+		}
+		
 		//  写流文件到前端浏览器    
 		ServletOutputStream out = res.getOutputStream();
 		res.setHeader("Content-disposition", "attachment;filename=" + fileName);

@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="org.shengrui.oa.model.admin">
     <class name="ModelTaskPlan" table="app_admin_task">
-        <!-- <cache usage="read-write" /> -->
+        <cache usage="read-write" />
         <id name="id" type="java.lang.String">
             <column name="task_id" />
             <generator class="native" />
@@ -68,14 +68,14 @@
         
         <set name="attachFiles" table="app_admin_task_file"
         	cascade="save-update" lazy="true"> 
-	      <!-- <cache usage="read-write" /> -->
+	      <cache usage="read-write" />
 	      <key column="task_id"/>  
 	      <many-to-many class="cn.trymore.oa.model.system.ModelFileAttach" column="file_id" />
 	    </set>
 	    
 	    <set name="taskParticipants" table="app_admin_task_participants"
         	cascade="save-update" lazy="true"> 
-	      <!-- <cache usage="read-write" /> -->
+	      <cache usage="read-write" />
 	      <key column="task_id"/>  
 	      <many-to-many class="org.shengrui.oa.model.hrm.ModelHrmEmployee" column="emp_id" />
 	    </set>

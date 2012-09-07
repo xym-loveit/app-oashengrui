@@ -800,12 +800,7 @@ function polish_js_page(page_id,page_total,page_size){
 		return json_obj;
 	}
  }
- 
- function print_export(id_str, id_titlestr){
-	var _title = $(id_titlestr).text() || null;
-	$(id_str).printArea({popTitle : _title ? _title : ""}); 
-}
- 
+  
  function Arabia_to_Chinese(Num) {
 	for (i = Num.length - 1; i >= 0; i--) {
 		Num = Num.replace(",", "")//替换tomoney()中的“,”
@@ -891,4 +886,72 @@ function polish_js_page(page_id,page_total,page_size){
   //  document.write(newchar);
 	return newchar;
 
+}
+
+function export2Html(wrapper_id, id_title)
+{
+	var title = $(id_title).text() || "";
+	var html = getHtmlContent(wrapper_id, title);
+	
+	$.post("app/export.do?action=exportToHtml", {"html": html, "title": title}, function(rsp){
+		var feedback = eval('(' + rsp + ')');
+		if (feedback.status && feedback.status == 200) {
+			var windowAttr = "location=yes,statusbar=no,directories=no,menubar=no,titlebar=no,toolbar=no,dependent=no,resizable=yes,personalbar=no,scrollbars=yes"; 
+			window.open("file-download?path="+feedback.file+"&filename="+feedback.name, "_blank",  windowAttr);
+		} else {
+			
+		}
+	});
+	
+}
+
+function getHtmlContent(wrapper_id, title)
+{
+	var html = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>";
+	html += "<html>";
+	html += "<head>";
+	html += "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />";
+	html += "<title>" + title + "</title>";
+	html += "<style>";
+	html += "html,body,table,tr,td,span,label,div {margin:0; padding:0;font-family:Arial,sans-serif;font-size:12px;line-height:100%}";
+	html += "table {border-collapse:collapse;border-color:#444444;table-layout:fixed;} ";
+	html += "table th{background-color:#DDD;} ";
+	html += "#tblexp td.banner {line-height:35px;font-size: 18px; font-weight: bold; text-align: center; margin: 0;} ";
+	html += "#tblexp td.field {background-color: #CFDBEC; line-height: 35px; text-align: center; margin: 0; width: 120px; font-size: 9pt;} ";
+	html += "#tblexp input.textInput {float:none;margin: 5px; width: 80px;} ";
+	html += ".print_toptitle{line-height: 30px; font-weight: bold; font-size: 130%;text-align:center;margin:15px 0;} ";
+	html += "li {display: inline;}";
+	html += "</style>";
+	html += "</head>"
+	html += "<body>";
+	html += getTopText(title);
+	html += trimFormElement($(wrapper_id).clone());
+	html += "</body>";
+	html += "</html>";
+	return html.replace(/"/g,"'");
+}
+
+function getTopText(top_title)
+{
+	return top_title != "" ? ("<h1 class='print_toptitle'>" + top_title + "</h1>") : "";
+}
+
+function trimFormElement($body)
+{
+	$body.find("select").each(function(){
+		var parent = $(this).parent();
+		parent.text($(this).val() + ($.trim(parent.text()) != "" ? (" (" + $.trim(parent.text()) + ")"): "")).css("padding", "5px");
+	});
+	
+	$body.find("input.textInput").each(function(){
+		var parent = $(this).parent();
+		parent.text($(this).val() + ($.trim(parent.text()) != "" ? (" (" + $.trim(parent.text()) + ")"): "")).css("padding", "5px");
+	});
+	
+	$body.find("textarea").each(function(){
+		var parent = $(this).parent();
+		parent.text($(this).val() + ($.trim(parent.text()) != "" ? (" (" + $.trim(parent.text()) + ")"): "")).css("padding", "5px");
+	});
+	
+	return $body.html().replace(/[\n|\r|\r\n]/g, "").replace(/>\s*</g,"><");
 }
