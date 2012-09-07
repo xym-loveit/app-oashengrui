@@ -938,14 +938,25 @@ function getTopText(top_title)
 
 function trimFormElement($body)
 {
-	$body.find("select").each(function(){
+	$body.find("select").each(function() {
 		var parent = $(this).parent();
-		parent.text($(this).val() + ($.trim(parent.text()) != "" ? (" (" + $.trim(parent.text()) + ")"): "")).css("padding", "5px");
+		if ($(this).css("display") == "none" && $(this).hasClass("required")) {
+			parent.html("<select>" + $(this).html() + "</select>");
+		} else {
+			parent.text($(this).val() + ($.trim(parent.text()) != "" ? (" (" + $.trim(parent.text()) + ")"): "")).css("padding", "5px");
+		}
 	});
 	
 	$body.find("input.textInput").each(function(){
 		var parent = $(this).parent();
 		parent.text($(this).val() + ($.trim(parent.text()) != "" ? (" (" + $.trim(parent.text()) + ")"): "")).css("padding", "5px");
+	});
+	
+	$body.find("input.file-input").each(function(){
+		var ele_parents = $(this).parentsUntil("tr");
+		if (ele_parents.size() > 0) {
+			$(ele_parents.parent()[0]).remove();
+		}
 	});
 	
 	$body.find("textarea").each(function(){
