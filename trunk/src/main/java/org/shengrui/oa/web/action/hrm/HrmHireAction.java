@@ -122,7 +122,7 @@ extends BaseHrmAction
 			
 			PagingBean pagingBean = this.getPagingBean(request);
 			PaginationSupport<ModelHrmJobHireInfo> hireJobs =
-					this.serviceHrmJobHireInfo.getPaginationByEntity(formJobHireInfo, pagingBean);
+					this.serviceHrmJobHireInfo.getPaginationByEntity(formJobHireInfo, false, pagingBean);
 			
 			request.setAttribute("hireJobs", hireJobs);
 			request.setAttribute("hireJobForm", formJobHireInfo);
@@ -394,12 +394,12 @@ extends BaseHrmAction
 				entity.setJobHireDepartment(this.serviceSchoolDepartment.get(depId));
 			}
 			
-			String districtVisibleId = request.getParameter("jobHireVisibleDistrictId");
-			if (this.isObjectIdValid(districtVisibleId) && (entity.getJobHireVisibleDistrict() == null || 
-					!districtVisibleId.equals(entity.getJobHireVisibleDistrict().getId())))
-			{
-				entity.setJobHireVisibleDistrict(this.serviceSchoolDistrict.get(districtVisibleId));
-			}
+//			String districtVisibleId = request.getParameter("jobHireVisibleDistrictId");
+//			if (this.isObjectIdValid(districtVisibleId) && (entity.getJobHireVisibleDistrict() == null || 
+//					!districtVisibleId.equals(entity.getJobHireVisibleDistrict().getId())))
+//			{
+//				entity.setJobHireVisibleDistrict(this.serviceSchoolDistrict.get(districtVisibleId));
+//			}
 			
 			// 设置审批状态
 			this.applyApprovalStatus(entity, isCreation, request);

@@ -966,3 +966,47 @@ function trimFormElement($body)
 	
 	return $body.html().replace(/[\n|\r|\r\n]/g, "").replace(/>\s*</g,"><");
 }
+
+function multi_visible(multi_id, input_id) 
+{
+	$("#" + multi_id).multiselect({
+		noneSelectedText: '选择可见范围校区',
+		minWidth: 280,
+		selectedList: 3,
+		header: false,
+		click: function(event, ui){
+			if (ui.value == "") {
+				var eles = $(this).multiselect("widget").find("input");
+				if (eles.size() > 0) {
+					for (i = 0; i < eles.length; i++) {
+						if (eles.get(i).value != "") {
+							if ($(ui).attr("checked")) {
+								$(eles.get(i)).attr("disabled", "disabled").removeAttr("checked");
+							} else {
+								$(eles.get(i)).removeAttr("disabled");
+							}
+						}
+					}
+				}
+			} else {
+				if ($(this).multiselect("widget").find("input:checked").length > 0 ){
+					var eles = $(this).multiselect("widget").find("input:checked");
+					var ids = "";
+					for (i = 0; i < eles.length; i++) {
+						value = $(eles.get(i)).attr("value");
+						if (value == "") {
+							ids = "";
+							break;
+						} else {
+							ids = $(eles.get(i)).attr("value") + "," + ids;
+						}
+					}
+					if (ids != "") {
+						ids = ids.substr(0, ids.length - 1);
+					}
+					$("#" + input_id).val(ids);
+				}
+			}
+		}
+	});
+}

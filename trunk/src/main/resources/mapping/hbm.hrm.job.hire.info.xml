@@ -80,10 +80,16 @@
         	<column name="hjob_districtid" />
         </many-to-one>
         
+        <!--
         <many-to-one not-found="ignore" name="jobHireVisibleDistrict" 
         	class="org.shengrui.oa.model.system.ModelSchoolDistrict">
         	<column name="hjob_visible_districtid" />
         </many-to-one>
+        -->
+        
+        <property name="jobHireVisibleDistrictIds" type="java.lang.String">
+            <column name="hjob_visible_districtid" />
+        </property>
         
         <set name="attachFiles" table="app_hrm_hire_job_file"
         	cascade="save-update" lazy="true"> 

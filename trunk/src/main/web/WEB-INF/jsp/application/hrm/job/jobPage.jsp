@@ -10,6 +10,11 @@
 <%@ taglib uri="/tags/trymore" prefix="tm"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
+<link rel="stylesheet" type="text/css" href="resources/js/jquery/jmultiselect/jquery.multiselect.css" />
+<link rel="stylesheet" type="text/css" href="resources/js/jquery/jmultiselect/jquery-ui.css" />
+<script type="text/javascript" src="resources/js/jquery/jmultiselect/jquery-ui.min.js"></script>
+<script type="text/javascript" src="resources/js/jquery/jmultiselect/jquery.multiselect.js"></script>
+	
 <style>
 	.item_file {
 		background: url("resources/images/icons/fit_icon.png") no-repeat scroll 0 0 transparent;
@@ -49,6 +54,8 @@
 			$("#formjob").submit();
 			return false;
 		});
+		
+		multi_visible("combox_districtvisible", "jobHireVisibleDistrictIds");
 		
 		<c:if test="${op eq null || op ne 'view'}">
 		//加载上传组件入口文件
@@ -165,21 +172,15 @@ ${tm:fileRestore(jobHire['attachFiles'])}
 					<td><input name="jobHireCount" type="text"  class="required" value="${jobHire ne null ? jobHire.jobHireCount : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 					<td class="field">可见范围：</td>
 					<td colspan="7" style="padding: 5px;">
-						<c:choose>
-							<c:when test="${op eq null || op ne 'view'}">
-								<select class="combox" name="jobHireVisibleDistrictId" id="combox_districtvisible" style="width:120px">
-									<option value="">所有校区</option>
-									<logic:present name="districts">
-										<logic:iterate name="districts" id="district">
-											<option value="${district.id}" ${jobHire ne null && jobHire.jobHireVisibleDistrict ne null && jobHire.jobHireVisibleDistrict.id eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
-										</logic:iterate>
-									</logic:present>
-								</select>
-							</c:when>
-							<c:otherwise>
-								<input name="jobHireVisibleDistrictId" type="text"  value="${jobHire ne null && jobHire.jobHireVisibleDistrict ne null ? jobHire.jobHireVisibleDistrict.districtName : '所有校区'}" readonly />
-							</c:otherwise>
-						</c:choose>
+						<select class="" multiple="multiple" size="${fn:length(districts) + 1}" name="jobHireVisibleDistrictId" id="combox_districtvisible" style="width:120px">
+							<option value="">所有校区</option>
+							<logic:present name="districts">
+								<logic:iterate name="districts" id="district">
+									<option value="${district.id}" ${jobHire ne null && jobHire.jobHireVisibleDistrictIds ne null && tm:inRange(jobHire.jobHireVisibleDistrictIds, district.id , ',') ? 'selected="selected"' : ''}>${district.districtName}</option>
+								</logic:iterate>
+							</logic:present>
+						</select>
+						<input type="hidden" name="jobHireVisibleDistrictIds" id="jobHireVisibleDistrictIds" value="${jobHire ne null && jobHire.jobHireVisibleDistrictIds ne null ? jobHire.jobHireVisibleDistrictIds : ''}"/>
 					</td>
 				</tr>
 				<tr>
