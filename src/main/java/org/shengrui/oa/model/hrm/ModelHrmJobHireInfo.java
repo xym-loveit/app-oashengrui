@@ -126,7 +126,12 @@ extends ModelBase
 	/**
 	 * 可见校区范围
 	 */
-	private ModelSchoolDistrict jobHireVisibleDistrict;
+	// private ModelSchoolDistrict jobHireVisibleDistrict;
+	
+	/**
+	 * 可见校区范围ID集合.
+	 */
+	private String jobHireVisibleDistrictIds;
 	
 	/**
 	 * 应聘记录
@@ -349,15 +354,15 @@ extends ModelBase
 		this.jobHireDistrict = jobHireDistrict;
 	}
 
-	public ModelSchoolDistrict getJobHireVisibleDistrict()
-	{
-		return jobHireVisibleDistrict;
-	}
-
-	public void setJobHireVisibleDistrict(ModelSchoolDistrict jobHireVisibleDistrict)
-	{
-		this.jobHireVisibleDistrict = jobHireVisibleDistrict;
-	}
+//	public ModelSchoolDistrict getJobHireVisibleDistrict()
+//	{
+//		return jobHireVisibleDistrict;
+//	}
+//
+//	public void setJobHireVisibleDistrict(ModelSchoolDistrict jobHireVisibleDistrict)
+//	{
+//		this.jobHireVisibleDistrict = jobHireVisibleDistrict;
+//	}
 
 	public String getPostAuthorName()
 	{
@@ -530,6 +535,16 @@ extends ModelBase
 		numHireEntry = num;
 		
 		return numHireEntry;
+	}
+
+	public String getJobHireVisibleDistrictIds()
+	{
+		return jobHireVisibleDistrictIds;
+	}
+
+	public void setJobHireVisibleDistrictIds(String jobHireVisibleDistrictIds)
+	{
+		this.jobHireVisibleDistrictIds = jobHireVisibleDistrictIds;
 	}
 	
 }

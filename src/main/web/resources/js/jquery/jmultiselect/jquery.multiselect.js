@@ -136,7 +136,7 @@ $.widget("ech.multiselect", {
 				labelClasses = [ 'ui-corner-all' ],
 				liClasses = (isDisabled ? 'ui-multiselect-disabled ' : ' ') + this.className,
 				optLabel;
-
+			
 			// is this an optgroup?
 			if( parent.tagName === 'OPTGROUP' ){
 				optLabel = parent.getAttribute( 'label' );

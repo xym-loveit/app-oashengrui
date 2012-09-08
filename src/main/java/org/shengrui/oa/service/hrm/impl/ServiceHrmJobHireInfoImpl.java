@@ -39,7 +39,19 @@ extends ServiceGenericImpl<ModelHrmJobHireInfo> implements ServiceHrmJobHireInfo
 			ModelHrmJobHireInfo entity, PagingBean pagingBean)
 			throws ServiceException
 	{
-		return this.getAll(this.getCriterias(entity), pagingBean);
+		return this.getPaginationByEntity(entity, true, pagingBean);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmJobHireInfo#getPaginationByEntity(org.shengrui.oa.model.hrm.ModelHrmJobHireInfo, boolean, cn.trymore.core.web.paging.PagingBean)
+	 */
+	@Override
+	public PaginationSupport<ModelHrmJobHireInfo> getPaginationByEntity(
+			ModelHrmJobHireInfo entity, boolean visibility,
+			PagingBean pagingBean) throws ServiceException
+	{
+		return this.getAll(this.getCriterias(entity, visibility), pagingBean);
 	}
 	
 	/**
@@ -48,7 +60,7 @@ extends ServiceGenericImpl<ModelHrmJobHireInfo> implements ServiceHrmJobHireInfo
 	 * @param entity
 	 * @return
 	 */
-	private DetachedCriteria getCriterias(ModelHrmJobHireInfo entity)
+	private DetachedCriteria getCriterias(ModelHrmJobHireInfo entity, boolean visiblity)
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmJobHireInfo.class);
 		
@@ -97,9 +109,12 @@ extends ServiceGenericImpl<ModelHrmJobHireInfo> implements ServiceHrmJobHireInfo
 		}
 		
 		// 招聘范围过滤...
-		criteria.add(Restrictions.or(
-				Restrictions.isNull("jobHireVisibleDistrict"), 
-				Restrictions.sqlRestriction("hjob_visible_districtid = ?", Integer.valueOf(ContextUtil.getCurrentUser().getDistrictId()), Hibernate.INTEGER)));
+		if (visiblity)
+		{
+			criteria.add(Restrictions.or(
+				Restrictions.sqlRestriction("hjob_visible_districtid IS NULL"), 
+				Restrictions.sqlRestriction("FIND_IN_SET( ?, `hjob_visible_districtid` ) > 0", ContextUtil.getCurrentUser().getDistrictId(), Hibernate.STRING)));
+		}
 		
 		criteria.addOrder(Order.desc("jobHireEndDate"));
 		
@@ -122,4 +137,5 @@ extends ServiceGenericImpl<ModelHrmJobHireInfo> implements ServiceHrmJobHireInfo
 	{
 		this.daoHrmJobHireInfo = daoHrmJobHireInfo;
 	}
+	
 }
