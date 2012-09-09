@@ -10,6 +10,7 @@ import org.shengrui.oa.util.AppUtil;
 
 import cn.trymore.core.acl.AclFilterAnnotation;
 import cn.trymore.core.model.ModelBase;
+import cn.trymore.core.util.UtilString;
 
 /**
  * Model: 招聘岗位
@@ -539,7 +540,7 @@ extends ModelBase
 
 	public String getJobHireVisibleDistrictIds()
 	{
-		return jobHireVisibleDistrictIds;
+		return UtilString.isNotEmpty(jobHireVisibleDistrictIds) ? jobHireVisibleDistrictIds : null;
 	}
 
 	public void setJobHireVisibleDistrictIds(String jobHireVisibleDistrictIds)

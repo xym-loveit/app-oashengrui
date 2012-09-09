@@ -42,9 +42,17 @@
             <column name="dep_post" not-null="true">
             </column>
         </many-to-one>
+        
+        <!--
         <many-to-one not-found="ignore" name="newsDistrictVisible" class="org.shengrui.oa.model.system.ModelSchoolDistrict">
         	<column name="district_visible" />
         </many-to-one>
+        -->
+        
+        <property name="newsDistrictVisibleIds" type="java.lang.String">
+			<column name="district_visible"  />
+		</property>
+        
      	<many-to-one name="dictionary" class="org.shengrui.oa.model.system.ModelAppDictionary" fetch="select">
             <column name="type_dicid" not-null="true">
             </column>

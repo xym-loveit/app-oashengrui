@@ -26,13 +26,27 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 		super(dao);
 		this.daoNewsManage = dao;
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.news.ServiceNewsManage#getPaginationByNews(org.shengrui.oa.model.news.ModelNewsMag, cn.trymore.core.web.paging.PagingBean)
+	 */
 	@Override
 	public PaginationSupport<ModelNewsMag> getPaginationByNews(
 			ModelNewsMag news, PagingBean pagingBean) throws ServiceException
 	{
-		return this.getAll(this.getCriteria(news), pagingBean);
-		
+		return this.getPaginationByNews(news, true, pagingBean);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.news.ServiceNewsManage#getPaginationByNews(org.shengrui.oa.model.news.ModelNewsMag, boolean, cn.trymore.core.web.paging.PagingBean)
+	 */
+	@Override
+	public PaginationSupport<ModelNewsMag> getPaginationByNews(
+			ModelNewsMag news, boolean visibility, PagingBean pagingBean) throws ServiceException
+	{
+		return this.getAll(this.getCriteria(news, visibility), pagingBean);
 	}
 	
 	@Override
@@ -72,7 +86,7 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 		return this.getAll(criteria, pagingBean);
 	}
 	
-	private DetachedCriteria getCriteria(ModelNewsMag news)
+	private DetachedCriteria getCriteria(ModelNewsMag news, boolean visiblity)
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelNewsMag.class);
 		if(news != null)
@@ -107,9 +121,11 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 		}
 		
 		// 可见校区过滤...
-		criteria.add(Restrictions.or(
-				Restrictions.isNull("newsDistrictVisible"), 
-				Restrictions.sqlRestriction("district_visible = ?", Integer.valueOf(ContextUtil.getCurrentUser().getDistrictId()), Hibernate.INTEGER)));
+		if (visiblity)
+		{
+			criteria.add(Restrictions.sqlRestriction(
+					"district_visible IS NULL OR district_visible = '' OR FIND_IN_SET( ?, `district_visible` ) > 0", ContextUtil.getCurrentUser().getDistrictId(), Hibernate.STRING));
+		}
 		
 		criteria.addOrder(Order.desc("topIndex"))
 				.addOrder(Order.desc("updateTime"));

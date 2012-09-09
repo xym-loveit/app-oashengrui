@@ -9,6 +9,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
+<link rel="stylesheet" type="text/css" href="resources/js/jquery/jmultiselect/jquery.multiselect.css" />
+<link rel="stylesheet" type="text/css" href="resources/js/jquery/jmultiselect/jquery-ui.css" />
+<script type="text/javascript" src="resources/js/jquery/jmultiselect/jquery-ui.min.js"></script>
+<script type="text/javascript" src="resources/js/jquery/jmultiselect/jquery.multiselect.js"></script>
+
 <script>
 $(function(){
 	$("#pass").unbind("click");
@@ -95,6 +100,8 @@ $(function(){
 			
 		});
 	});
+	
+	multi_visible("combox_districtvisible_news", "newsDistrictVisibleIds");
 });
 </script>
 
@@ -125,27 +132,21 @@ ${tm:fileRestore(news['attachFiles'])}
 							</select>
 						</c:when>
 						<c:otherwise>
-							<input type="text" value="<c:if test='${news.newsLevel ne null && news.newsLevel eq "0" }'>公司新闻</c:if><c:if test='${news.newsLevel ne null && news.newsLevel eq "1"}'>校区新闻</c:if>" readonly />
+							<input type="text" value="<c:if test='${news.newsLevel ne null && news.newsLevel eq \"0\" }'>公司新闻</c:if><c:if test='${news.newsLevel ne null && news.newsLevel eq \"1\"}'>校区新闻</c:if>" readonly />
 						</c:otherwise>
 					</c:choose>
 					</td>
 					<td>可见校区：</td>
 					<td>
-						<c:choose>
-							<c:when test="${op eq null || op ne 'view'}">
-								<select class="combox" name="districtVisible" style="width:120px" refUrl="app/base.do?action=actionLoadDepartmentByOrg&districtId={value}">
-									<option value="">所有校区</option>
-									<logic:present name="districts">
-										<logic:iterate name="districts" id="district">
-											<option value="${district.id}" ${news ne null && news.newsDistrictVisible ne null && news.newsDistrictVisible.id eq district.id? 'selected="selected"' : ''}>${district.districtName}</option>
-										</logic:iterate>
-									</logic:present>
-								</select>
-							</c:when>
-							<c:otherwise>
-								<input type="text"  value="${news ne null && news.newsDistrictVisible ne null ? news.newsDistrictVisible.districtName:'所有校区'}" readonly />
-							</c:otherwise>
-						</c:choose>
+						<select class="" multiple="multiple" size="${fn:length(districts) + 1}" name="districtVisible" style="width:120px" id="combox_districtvisible_news">
+							<option value="">所有校区</option>
+							<logic:present name="districts">
+								<logic:iterate name="districts" id="district">
+									<option value="${district.id}" ${news ne null && news.newsDistrictVisibleIds ne null && tm:inRange(news.newsDistrictVisibleIds, district.id , ',') ? 'selected="selected"' : ''}>${district.districtName}</option>
+								</logic:iterate>
+							</logic:present>
+						</select>
+						<input type="hidden" name="newsDistrictVisibleIds" id="newsDistrictVisibleIds" value="${news ne null && news.newsDistrictVisibleIds ne null ? news.newsDistrictVisibleIds : ''}" />
 					</td>
 				</tr>
 				<tr>

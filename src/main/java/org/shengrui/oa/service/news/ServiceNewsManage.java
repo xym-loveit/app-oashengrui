@@ -13,6 +13,21 @@ extends ServiceGeneric<ModelNewsMag>
 	PaginationSupport<ModelNewsMag> getPaginationByNews(ModelNewsMag news,
 			PagingBean pagingBean)throws ServiceException;
 	
+	/**
+	 * Obtains pagination of news entities
+	 * 
+	 * @param news
+	 * @param visibility
+	 * @param pagingBean
+	 * @return
+	 * @throws ServiceException
+	 * 
+	 * @author Jeccy.Zhao
+	 * 
+	 */
+	PaginationSupport<ModelNewsMag> getPaginationByNews(
+			ModelNewsMag news, boolean visibility, PagingBean pagingBean) throws ServiceException;
+
 	PaginationSupport<ModelNewsMag> getPaginationFilert(ModelNewsMag news,
 			PagingBean pagingBean)throws ServiceException;
 	
