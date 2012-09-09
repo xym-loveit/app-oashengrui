@@ -233,8 +233,8 @@ extends BaseAdminAction
 				{
 					String districtPost = request.getParameter("districtPost");
 					entity.setDistrict(this.serviceSchoolDistrict.get(districtPost));
-					String districtVisible = request.getParameter("districtVisible");
-					entity.setNewsDistrictVisible(this.serviceSchoolDistrict.get(districtVisible));
+					// String districtVisible = request.getParameter("districtVisible");
+					// entity.setNewsDistrictVisible(this.serviceSchoolDistrict.get(districtVisible));
 					String depPost = request.getParameter("depPost");
 					entity.setDepartment(this.serviceSchoolDepartment.get(depPost));
 					String typeDicid = request.getParameter("typeDicid");
@@ -266,7 +266,7 @@ extends BaseAdminAction
 				//创建一条新闻
 				entity = modelNewsMag;
 				modelNewsMag.setDistrict(this.serviceSchoolDistrict.get(request.getParameter("districtPost")));
-				modelNewsMag.setNewsDistrictVisible(this.serviceSchoolDistrict.get(request.getParameter("districtVisible")));
+				// modelNewsMag.setNewsDistrictVisible(this.serviceSchoolDistrict.get(request.getParameter("districtVisible")));
 				modelNewsMag.setDepartment(this.serviceSchoolDepartment.get(request.getParameter("depPost")));
 				if (request.getParameter("typeDicid") == null)
 				{

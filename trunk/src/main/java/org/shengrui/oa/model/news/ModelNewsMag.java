@@ -12,6 +12,7 @@ import org.shengrui.oa.util.AppUtil;
 
 import cn.trymore.core.acl.AclFilterAnnotation;
 import cn.trymore.core.model.ModelBase;
+import cn.trymore.core.util.UtilString;
 /**
  * 新闻管理
  * 
@@ -101,7 +102,10 @@ extends ModelBase
 	
 	private ModelAppUser user;
 	
-	private ModelSchoolDistrict newsDistrictVisible;
+	/**
+	 * 可见校区
+	 */
+	private String newsDistrictVisibleIds;
 	
 	/**
 	 * 主要用于多状态集合搜索,超级用户
@@ -288,12 +292,6 @@ extends ModelBase
 	public void setUser(ModelAppUser user) {
 		this.user = user;
 	}
-	public ModelSchoolDistrict getNewsDistrictVisible() {
-		return newsDistrictVisible;
-	}
-	public void setNewsDistrictVisible(ModelSchoolDistrict newsDistrictVisible) {
-		this.newsDistrictVisible = newsDistrictVisible;
-	}
 	public void setAclFilterFields(String aclFilterFields)
 	{
 		this.aclFilterFields = aclFilterFields;
@@ -318,6 +316,15 @@ extends ModelBase
 	{
 		return auditTime;
 	}
-
+	
+	public String getNewsDistrictVisibleIds()
+	{
+		return UtilString.isNotEmpty(newsDistrictVisibleIds) ? newsDistrictVisibleIds : null;
+	}
+	
+	public void setNewsDistrictVisibleIds(String newsDistrictVisibleIds)
+	{
+		this.newsDistrictVisibleIds = newsDistrictVisibleIds;
+	}
 	
 }
