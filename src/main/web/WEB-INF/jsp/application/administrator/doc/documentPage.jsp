@@ -6,6 +6,7 @@
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <link rel="stylesheet" type="text/css" href="resources/js/jquery/jmultiselect/jquery.multiselect.css" />
 <link rel="stylesheet" type="text/css" href="resources/js/jquery/jmultiselect/jquery-ui.css" />
@@ -166,19 +167,17 @@
 	</tr>
 	<tr>
 		<td>文档范围：</td>
-		<td colspan="3"><select class="" id="combox_doc_range"
+		<td colspan="3"><select class="" multiple="multiple" size="${fn:length(districts) + 1}" id="combox_doc_range"
 			name="docVisiableRange" style="width: 108px;">
-			<option value="-1" ${formDoc ne null && formDoc.docVisiableRange eq -1 ? 'selected="selected"' : ''}>全校可见</option>
-			<option value="0" ${formDoc ne null && formDoc.docVisiableRange eq 0 ? 'selected="selected"' : ''}>设置个人可见</option>
+			<option value="-1" ${formDoc ne null && formDoc.docVisiableRangeIds eq "-1" ? 'selected="selected"' : ''}>全校可见</option>
+			<option value="0" ${formDoc ne null && formDoc.docVisiableRangeIds eq "0" ? 'selected="selected"' : ''}>设置个人可见</option>
 			<logic:present name="districts">
 				<logic:iterate name="districts" id="entity">
-					<option value="${entity.id}" ${formDoc ne
-						null && formDoc.docVisiableRange eq
-						entity.id ? 'selected="selected"' : ''}>${entity.districtName}</option>
+					<option value="${entity.id}" ${formDoc ne null && tm:inRange(formDoc.docVisiableRangeIds,entity.id,",") ? 'selected="selected"' : ''}>${entity.districtName}</option>
 				</logic:iterate>
 			</logic:present>
 			</select>
-			<input type="hidden" name="docVisiableRangeIds" id="docVisiableRangeIds" />
+			<input type="hidden" name="docVisiableRangeIds" id="docVisiableRangeIds" value="${formDoc ne null && formDoc.docVisiableRangeIds ne null ? formDoc.docVisiableRangeIds : ''}"/>
 		</td>
 	</tr>
 	<tr>
