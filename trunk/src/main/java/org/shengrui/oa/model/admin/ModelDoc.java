@@ -31,7 +31,7 @@ extends ModelBase {
 	/**
 	 * 文档范围
 	 */
-	private Integer docVisiableRange;
+	private String docVisiableRangeIds;
 	
 	@Expose
 	protected ModelSchoolDistrict district = new ModelSchoolDistrict();
@@ -195,7 +195,7 @@ extends ModelBase {
 				+ ((docUserNames == null) ? 0 : docUserNames.hashCode());
 		result = prime
 				* result
-				+ ((docVisiableRange == null) ? 0 : docVisiableRange.hashCode());
+				+ ((docVisiableRangeIds == null) ? 0 : docVisiableRangeIds.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
@@ -246,10 +246,10 @@ extends ModelBase {
 				return false;
 		} else if (!docUserNames.equals(other.docUserNames))
 			return false;
-		if (docVisiableRange == null) {
-			if (other.docVisiableRange != null)
+		if (docVisiableRangeIds == null) {
+			if (other.docVisiableRangeIds != null)
 				return false;
-		} else if (!docVisiableRange.equals(other.docVisiableRange))
+		} else if (!docVisiableRangeIds.equals(other.docVisiableRangeIds))
 			return false;
 		if (type == null) {
 			if (other.type != null)
@@ -267,16 +267,6 @@ extends ModelBase {
 		this.file = file;
 	}
 
-	public Integer getDocVisiableRange()
-	{
-		return docVisiableRange;
-	}
-
-	public void setDocVisiableRange(Integer docVisiableRange)
-	{
-		this.docVisiableRange = docVisiableRange;
-	}
-
 	public void setAclFilterFields(String aclFilterFields)
 	{
 		this.aclFilterFields = aclFilterFields;
@@ -285,5 +275,15 @@ extends ModelBase {
 	public String getAclFilterFields()
 	{
 		return aclFilterFields;
+	}
+
+	public void setDocVisiableRangeIds(String docVisiableRangeIds)
+	{
+		this.docVisiableRangeIds = docVisiableRangeIds;
+	}
+
+	public String getDocVisiableRangeIds()
+	{
+		return docVisiableRangeIds;
 	}
 }

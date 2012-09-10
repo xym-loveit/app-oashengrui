@@ -7,3 +7,8 @@ ALTER TABLE `app_hrm_hire_job` CHANGE `hjob_visible_districtid` `hjob_visible_di
 -- Added by Jeccy.Zhao on 2012-09-09
 --
 ALTER TABLE `app_admin_news` CHANGE `district_visible` `district_visible` VARCHAR( 120 ) NULL DEFAULT NULL COMMENT '可见校区'
+
+--
+-- Added by Jeccy.Zhao on 2012-09-10
+--
+ALTER TABLE `app_admin_doc` CHANGE `doc_VisiableRange_id` `doc_VisiableRange_id` VARCHAR( 120 ) NULL DEFAULT NULL COMMENT '文档范围'
