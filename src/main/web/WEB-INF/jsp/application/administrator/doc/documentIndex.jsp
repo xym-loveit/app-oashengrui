@@ -58,7 +58,7 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 		<c:if test="${tm:ifGranted('_FUNCKEY_ADMIN_DOC_ADD')}">
-			<li><a class="add" href="app/admin/doc.do?action=adminPageDocumentDetail&op=loading" target="dialog" title="文档上传" width="850" height="380" rel="dia_admin_entryadd"><span>文档上传
+			<li><a class="add" href="app/admin/doc.do?action=adminPageDocumentDetail&op=loading" target="dialog" title="文档上传" width="880" height="540" rel="dia_admin_entryadd"><span>文档上传
 
 </span></a></li>
 		</c:if>
