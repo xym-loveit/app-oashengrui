@@ -888,6 +888,24 @@ function polish_js_page(page_id,page_total,page_size){
 
 }
 
+/**
+ * Exports and saves as a HTML file.
+ * Here're the behaviors:
+ * 1. Builds the HTML content firstly via Javascript. [F]
+ * 2. Sends ajax requests to server with the parameter of above generated HTML content. [F]
+ * 3. Server receives the HTML content and saves as a HTML file in temp folder and responsed to client with the finalized file path. [S]
+ * 4. It receives the path from response and opens a window to download the file. [F]
+ *
+ * Appendix:
+ * [F]: Handled by front-side
+ * [B]: Handled by server-side
+ * 
+ * @param wrapper_id: the tag id that holds the body content.
+ * @param id_title: the tag id that holds the title text.
+ *
+ * @author Jeccy.Zhao
+ *
+ **/
 function export2Html(wrapper_id, id_title)
 {
 	var title = $(id_title).text() || "";
@@ -895,16 +913,30 @@ function export2Html(wrapper_id, id_title)
 	
 	$.post("app/export.do?action=exportToHtml", {"html": html, "title": title}, function(rsp){
 		var feedback = eval('(' + rsp + ')');
-		if (feedback.status && feedback.status == 200) {
+		if (feedback.status && feedback.status == 200) 
+		{
 			var windowAttr = "location=yes,statusbar=no,directories=no,menubar=no,titlebar=no,toolbar=no,dependent=no,resizable=yes,personalbar=no,scrollbars=yes"; 
 			window.open("file-download?path="+feedback.file+"&filename="+feedback.name, "_blank",  windowAttr);
-		} else {
-			
+		} 
+		else 
+		{
+			// error message migtht be raised here.
+			alert(feedback.message);
 		}
 	});
 	
 }
 
+/**
+ * Obtains HTML content from the specified wrapper.
+ * Mostly, it will be used to export as HTML file or take as a print service.
+ * 
+ * @param wrapper_id: the tag id that the inside HTML content will be taken into use as body.
+ * @param title: title of document.
+ *
+ * @author Jeccy.Zhao
+ *
+ **/
 function getHtmlContent(wrapper_id, title)
 {
 	var html = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>";
@@ -931,35 +963,59 @@ function getHtmlContent(wrapper_id, title)
 	return html.replace(/"/g,"'");
 }
 
+/**
+ * Wrappers the title with header tag (H1).
+ * 
+ * @param top_title: title of document.
+ *
+ * @author Jeccy.Zhao
+ *
+ **/
 function getTopText(top_title)
 {
 	return top_title != "" ? ("<h1 class='print_toptitle'>" + top_title + "</h1>") : "";
 }
 
+/**
+ * Escapes form elements and converts value to plain text. 
+ * 
+ * @param $body: the wrapper jquery object that to be handled.
+ *
+ * @author Jeccy.Zhao
+ *
+ **/ 
 function trimFormElement($body)
 {
-	$body.find("select").each(function() {
+	$body.find("select").each(function() 
+	{
 		var parent = $(this).parent();
-		if ($(this).css("display") == "none" && $(this).hasClass("required")) {
+		if ($(this).css("display") == "none" && $(this).hasClass("required")) 
+		{
 			parent.html("<select>" + $(this).html() + "</select>");
-		} else {
+		} 
+		else 
+		{
 			parent.text($(this).val() + ($.trim(parent.text()) != "" ? (" (" + $.trim(parent.text()) + ")"): "")).css("padding", "5px");
 		}
 	});
 	
-	$body.find("input.textInput").each(function(){
+	$body.find("input.textInput").each(function()
+	{
 		var parent = $(this).parent();
 		parent.text($(this).val() + ($.trim(parent.text()) != "" ? (" (" + $.trim(parent.text()) + ")"): "")).css("padding", "5px");
 	});
 	
-	$body.find("input.file-input").each(function(){
+	$body.find("input.file-input").each(function()
+	{
 		var ele_parents = $(this).parentsUntil("tr");
-		if (ele_parents.size() > 0) {
+		if (ele_parents.size() > 0) 
+		{
 			$(ele_parents.parent()[0]).remove();
 		}
 	});
 	
-	$body.find("textarea").each(function(){
+	$body.find("textarea").each(function()
+	{
 		var parent = $(this).parent();
 		parent.text($(this).val() + ($.trim(parent.text()) != "" ? (" (" + $.trim(parent.text()) + ")"): "")).css("padding", "5px");
 	});
@@ -967,41 +1023,74 @@ function trimFormElement($body)
 	return $body.html().replace(/[\n|\r|\r\n]/g, "").replace(/>\s*</g,"><");
 }
 
-function multi_visible(multi_id, input_id) 
+/**
+ * Enables select element with multi-selection with wrapped checkbox.
+ * jquery-muliti-select.js should be imported in previous before invoking this method.
+ * 
+ * @param multi_id: id of orginal select element
+ * @param input_id: id of input element with type of hidden, used to hold the checked values.
+ * @param filter_values: array of filter values, used to disable other options if selected value is found in the list.
+ * @param select_title: the shown text on select element if no value selected.
+ *
+ * @author Jeccy.Zhao
+ *
+ **/
+function multi_visible(multi_id, input_id, filter_values, select_title) 
 {
+	var _filters = filter_values || [""];
+	var _title = select_title || "选择可见范围校区";
+	
 	$("#" + multi_id).multiselect({
-		noneSelectedText: '选择可见范围校区',
+		noneSelectedText: _title,
 		minWidth: 280,
 		selectedList: 3,
 		header: false,
-		click: function(event, ui){
-			if (ui.value == "") {
+		click: function(event, ui) 
+		{
+			matched_value = get_matched_value(ui.value, _filters);
+			if (matched_value != null) 
+			{
 				var eles = $(this).multiselect("widget").find("input");
-				if (eles.size() > 0) {
-					for (i = 0; i < eles.length; i++) {
-						if (eles.get(i).value != "") {
-							if ($(ui).attr("checked")) {
+				if (eles.size() > 0) 
+				{
+					for (i = 0; i < eles.length; i++) 
+					{
+						if (eles.get(i).value != matched_value) 
+						{
+							if ($(ui).attr("checked")) 
+							{
 								$(eles.get(i)).attr("disabled", "disabled").removeAttr("checked");
-							} else {
+							} 
+							else 
+							{
 								$(eles.get(i)).removeAttr("disabled");
 							}
 						}
 					}
 				}
-			} else {
-				if ($(this).multiselect("widget").find("input:checked").length > 0 ){
+			} 
+			else 
+			{
+				if ($(this).multiselect("widget").find("input:checked").length > 0 ) 
+				{
 					var eles = $(this).multiselect("widget").find("input:checked");
 					var ids = "";
-					for (i = 0; i < eles.length; i++) {
+					for (i = 0; i < eles.length; i++) 
+					{
 						value = $(eles.get(i)).attr("value");
-						if (value == "") {
-							ids = "";
+						if (value == matched_value) 
+						{
+							ids = matched_value;
 							break;
-						} else {
+						} 
+						else 
+						{
 							ids = $(eles.get(i)).attr("value") + "," + ids;
 						}
 					}
-					if (ids != "") {
+					
+					if (ids != matched_value) 
+					{
 						ids = ids.substr(0, ids.length - 1);
 					}
 					$("#" + input_id).val(ids);
@@ -1009,4 +1098,29 @@ function multi_visible(multi_id, input_id)
 			}
 		}
 	});
+}
+
+/**
+ * Obtains matched value from the specified list of values.
+ *
+ * @param val: value to be searched from list
+ * @param val_list: array of values
+ * 
+ * @return the matched value will be returned if found, otherwise null returned.
+ *
+ * @author Jeccy.Zhao
+ **/
+function get_matched_value (val, val_lsit)
+{
+	if (val_list && val_list.length > 0) 
+	{
+		for (i = 0; i < val_list.length; i++) 
+		{
+			if (val == val_list[i]) 
+			{
+				return val;
+			}
+		}
+	}
+	return null;
 }
