@@ -1110,7 +1110,7 @@ function multi_visible(multi_id, input_id, filter_values, select_title)
  *
  * @author Jeccy.Zhao
  **/
-function get_matched_value (val, val_lsit)
+function get_matched_value (val, val_list)
 {
 	if (val_list && val_list.length > 0) 
 	{
