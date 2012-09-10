@@ -56,6 +56,16 @@ extends ServiceGenericImpl<ModelHrmJobHireIssue> implements ServiceHrmJobHireIss
 		}
 		return null;
 	}
+	
+	public void getNumHireEntry() 
+	{
+		// SELECT count(*) as count FROM `app_hrm_hire_issue` h left join `app_hrm_hire_entries` e on h.hissue_id = e.issue_id WHERE e.cstatus = 1
+	}
+	
+	public void getNumHireIssue()
+	{
+		// SELECT count(*) as count FROM `app_hrm_hire_issue` h left join `app_hrm_hire_interviews` i on h.hissue_id = i.hissue_id WHERE (h.current_status = 1 or (i.state = 1 or i.interview_date >= '2012-09-10 00:00:00'))
+	}
 
 	public void setDaoHrmJobHireIssue(DAOHrmJobHireIssue daoHrmJobHireIssue)
 	{
