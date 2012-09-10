@@ -395,7 +395,7 @@ extends BaseAdminAction
 					Map<String, List<String>> paramEmpIds = this.getAllRequestParameters(request, new String[] {"empid"});
 					
 					//封装设置个人可见数据
-					if(ModelDoc.EDocVisibleRange.PERSONALS.getValue().equals(formDoc.getDocVisiableRange()) && 
+					if(ModelDoc.EDocVisibleRange.PERSONALS.getValue().equals(formDoc.getDocVisiableRangeIds()) && 
 							paramEmpIds != null && paramEmpIds.size() > 0)
 					{
 						
@@ -430,7 +430,7 @@ extends BaseAdminAction
 						
 					}
 					else if (!ModelDoc.EDocVisibleRange.PERSONALS.getValue().equals(
-							formDoc.getDocVisiableRange()) && paramEmpIds != null && paramEmpIds.size() > 0)
+							formDoc.getDocVisiableRangeIds()) && paramEmpIds != null && paramEmpIds.size() > 0)
 					{
 						return ajaxPrint(response, getErrorCallback("当前不是设置为个人可见!"));
 					}
@@ -516,7 +516,7 @@ extends BaseAdminAction
 				{
 					//封装设置个人可见数据
 					if(ModelDoc.EDocVisibleRange.PERSONALS.getValue().equals(
-							formDoc.getDocVisiableRange()) && UtilString.isNotEmpty(formDoc.getDocUserNames()))
+							formDoc.getDocVisiableRangeIds()) && UtilString.isNotEmpty(formDoc.getDocUserNames()))
 					{
 						
 						try {
@@ -546,7 +546,7 @@ extends BaseAdminAction
 						
 						
 					}
-					else if (!ModelDoc.EDocVisibleRange.PERSONALS.getValue().equals(formDoc.getDocVisiableRange()) && 
+					else if (!ModelDoc.EDocVisibleRange.PERSONALS.getValue().equals(formDoc.getDocVisiableRangeIds()) && 
 							UtilString.isNotEmpty(formDoc.getDocUserNames()))
 					{
 						return ajaxPrint(response, getErrorCallback("当前不是设置为个人可见!"));
