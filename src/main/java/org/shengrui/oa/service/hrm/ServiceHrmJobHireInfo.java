@@ -39,4 +39,13 @@ extends ServiceGeneric<ModelHrmJobHireInfo>
 	 */
 	PaginationSupport<ModelHrmJobHireInfo> getPaginationByEntity (ModelHrmJobHireInfo entity, boolean visibility,  
 			PagingBean pagingBean) throws ServiceException;
+	
+	/**
+	 * 获取审核中的岗位数量
+	 * 
+	 * @return
+	 * @throws ServiceException
+	 */
+	int getNumApprovals () throws ServiceException;
+	
 }

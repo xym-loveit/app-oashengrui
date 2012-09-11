@@ -264,4 +264,12 @@ public interface DAOGeneric<T extends ModelBase>
 	 */
 	abstract void setQueryFilter (String query);
 	
+	/**
+	 * Obtains affected row count with the specified native SQL.
+	 * 
+	 * @param sql
+	 * @return
+	 */
+	Integer getCountByNativeSQL( final  String sql);
+	
 }
