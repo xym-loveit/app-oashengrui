@@ -1,14 +1,19 @@
 package org.shengrui.oa.service.hrm.impl;
 
+import java.util.Date;
+
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.hrm.DAOHrmJobHireIssue;
+import org.shengrui.oa.model.hrm.ModelHrmJobHireEntry;
+import org.shengrui.oa.model.hrm.ModelHrmJobHireInterview;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireIssue;
 import org.shengrui.oa.service.hrm.ServiceHrmJobHireIssue;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
+import cn.trymore.core.util.UtilDate;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
@@ -57,14 +62,33 @@ extends ServiceGenericImpl<ModelHrmJobHireIssue> implements ServiceHrmJobHireIss
 		return null;
 	}
 	
-	public void getNumHireEntry() 
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmJobHireIssue#getNumHireEntry()
+	 */
+	@Override
+	public int getNumHireEntry()  throws ServiceException
 	{
-		// SELECT count(*) as count FROM `app_hrm_hire_issue` h left join `app_hrm_hire_entries` e on h.hissue_id = e.issue_id WHERE e.cstatus = 1
+		String sql = "SELECT count(*) as count FROM `app_hrm_hire_issue` h " +
+							"LEFT JOIN `app_hrm_hire_entries` e ON h.hissue_id = e.issue_id WHERE e.cstatus = " + ModelHrmJobHireEntry.EHireEntryCStatus.TODO.getValue();
+		
+		return this.daoHrmJobHireIssue.getCountByNativeSQL(sql);
 	}
 	
-	public void getNumHireIssue()
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmJobHireIssue#getNumHireIssue()
+	 */
+	@Override
+	public int getNumHireIssue()  throws ServiceException
 	{
-		// SELECT count(*) as count FROM `app_hrm_hire_issue` h left join `app_hrm_hire_interviews` i on h.hissue_id = i.hissue_id WHERE (h.current_status = 1 or (i.state = 1 or i.interview_date >= '2012-09-10 00:00:00'))
+		String sql = "SELECT count(*) as count FROM `app_hrm_hire_issue` h LEFT JOIN "+
+							"`app_hrm_hire_interviews` i ON h.hissue_id = i.hissue_id " +
+							"WHERE (h.current_status = " + ModelHrmJobHireIssue.EJobHireIssueStatus.TOPLAN.getValue() + 
+								" OR (i.state = " + ModelHrmJobHireInterview.EInterviewState.ONGING.getValue() + 
+								" OR i.interview_date >= '" + UtilDate.parseTime(new Date(), "yyyy-MM-dd") + " 00:00:00'))";
+		
+		return this.daoHrmJobHireIssue.getCountByNativeSQL(sql);
 	}
 
 	public void setDaoHrmJobHireIssue(DAOHrmJobHireIssue daoHrmJobHireIssue)

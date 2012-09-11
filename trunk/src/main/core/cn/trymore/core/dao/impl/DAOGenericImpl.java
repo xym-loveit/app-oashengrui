@@ -406,13 +406,12 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 		return getCountByNativeSQL(nativeSql.toString());
 	}
 	
-	/**
-	 * Obtains affected row count with the specified native SQL.
-	 * 
-	 * @param sql
-	 * @return
+	/*
+	 * (non-Javadoc)
+	 * @see cn.trymore.core.dao.DAOGeneric#getCountByNativeSQL(java.lang.String)
 	 */
-	protected Integer getCountByNativeSQL( final  String sql)
+	@Override
+	public Integer getCountByNativeSQL( final  String sql)
 	{
 		return  (Integer) getHibernateTemplate().execute(
 			new  HibernateCallback() 

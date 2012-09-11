@@ -39,7 +39,7 @@ extends ServiceGenericImpl<ModelHrmJobHireInfo> implements ServiceHrmJobHireInfo
 			ModelHrmJobHireInfo entity, PagingBean pagingBean)
 			throws ServiceException
 	{
-		return this.getPaginationByEntity(entity, true, pagingBean);
+		return this.getPaginationByEntity(entity, false, pagingBean);
 	}
 	
 	/*
@@ -118,6 +118,21 @@ extends ServiceGenericImpl<ModelHrmJobHireInfo> implements ServiceHrmJobHireInfo
 		criteria.addOrder(Order.desc("jobHireEndDate"));
 		
 		return criteria;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmJobHireInfo#getNumApprovals()
+	 */
+	@Override
+	public int getNumApprovals () throws ServiceException
+	{
+		String sql = "SELECT count(*) as count FROM ` app_hrm_hire_job` j " +
+				"WHERE j.status IN (" + 
+					ModelHrmJobHireInfo.EJobHireStatus.TODO_ZONE.getValue() + "," + 
+					ModelHrmJobHireInfo.EJobHireStatus.TODO_HEAD.getValue() + ")";
+		
+		return this.daoHrmJobHireInfo.getCountByNativeSQL(sql);
 	}
 	
 	public ServiceHrmJobHireInfoImpl(DAOHrmJobHireInfo dao)

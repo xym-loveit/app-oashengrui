@@ -60,4 +60,15 @@ extends ServiceGeneric<ModelDoc>
 	 */
 	PaginationSupport<ModelDoc> getPaginationByEntity (ModelDoc entity, 
 			PagingBean pagingBean) throws ServiceException;
+	
+	/**
+	 * 根据信息查分页数据
+	 * 
+	 * @param entity
+	 * @param pagingBean
+	 * @return
+	 * @throws ServiceException
+	 */
+	PaginationSupport<ModelDoc> getPaginationByEntity (ModelDoc entity, 
+			boolean visibility, PagingBean pagingBean) throws ServiceException;
 }

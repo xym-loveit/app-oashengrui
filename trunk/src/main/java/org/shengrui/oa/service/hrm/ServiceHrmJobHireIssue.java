@@ -32,4 +32,20 @@ extends ServiceGeneric<ModelHrmJobHireIssue>
 	 */
 	PaginationSupport<ModelHrmJobHireIssue> getPaginationByUser (String userId, 
 			PagingBean pagingBean) throws ServiceException;
+	
+	/**
+	 * 获取招聘安排数量
+	 * 
+	 * @return
+	 * @throws ServiceException
+	 */
+	int getNumHireEntry() throws ServiceException;
+	
+	/**
+	 * 获取入职安排数量
+	 * 
+	 * @return
+	 * @throws ServiceException
+	 */
+	int getNumHireIssue() throws ServiceException;
 }

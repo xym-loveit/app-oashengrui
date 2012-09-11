@@ -35,7 +35,7 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 	public PaginationSupport<ModelNewsMag> getPaginationByNews(
 			ModelNewsMag news, PagingBean pagingBean) throws ServiceException
 	{
-		return this.getPaginationByNews(news, true, pagingBean);
+		return this.getPaginationByNews(news, false, pagingBean);
 	}
 	
 	/*
@@ -176,6 +176,10 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 		criteria.add(Restrictions.eq("status", 2));
 		criteria.addOrder(Order.desc("topIndex"))
 		.addOrder(Order.desc("updateTime"));
+		
+		criteria.add(Restrictions.sqlRestriction(
+				"district_visible IS NULL OR district_visible = '' OR FIND_IN_SET( ?, `district_visible` ) > 0", ContextUtil.getCurrentUser().getDistrictId(), Hibernate.STRING));
+		
 		return this.getAll(criteria, pagingBean);
 	}
 
@@ -187,6 +191,10 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 		criteria.add(Restrictions.eq("status", 2));
 		criteria.addOrder(Order.desc("topIndex"))
 		.addOrder(Order.desc("updateTime"));
+		
+		criteria.add(Restrictions.sqlRestriction(
+				"district_visible IS NULL OR district_visible = '' OR FIND_IN_SET( ?, `district_visible` ) > 0", ContextUtil.getCurrentUser().getDistrictId(), Hibernate.STRING));
+		
 		return this.getAll(criteria, pagingBean);
 	}
 

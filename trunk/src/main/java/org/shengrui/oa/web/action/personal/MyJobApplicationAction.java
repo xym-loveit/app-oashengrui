@@ -66,7 +66,7 @@ extends BaseAppAction
 			entity.setIsOpen(ModelHrmJobHireInfo.EJobHireOpen.OPEN.getValue());
 			
 			PaginationSupport<ModelHrmJobHireInfo> jobHireInfos = 
-					 this.serviceHrmJobHireInfo.getPaginationByEntity(entity, pagingBean);
+					 this.serviceHrmJobHireInfo.getPaginationByEntity(entity, true, pagingBean);
 			
 			if (request.getParameter("objOut") != null)
 			{
