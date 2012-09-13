@@ -226,6 +226,24 @@ extends BaseAdminAction
 			// 获取所有校区
 			request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
 			
+			// added by Jeccy.Zhao on 2012/09/13
+			if (!this.isObjectIdValid(id))
+			{
+				// 文档发布, 选择列表校区头数据获取部门数据...
+				request.setAttribute("deps", 
+						this.getDepartmentByOrganization(
+								String.valueOf(ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getDistrictType())));
+				
+				// 发布部门, 校区 - 默认显示为当前登录用户.
+				ModelDoc doc = new ModelDoc();
+				doc.setDistrict(
+						ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict());
+				doc.setDepartment(
+						ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment());
+				
+				request.setAttribute("formDoc", doc);
+			}
+			
 			// 获取按校区所有部门列表
 			Map<Integer, List<ModelSchoolDepartment>> departments = this.getAllDepartments(request, false);
 			
