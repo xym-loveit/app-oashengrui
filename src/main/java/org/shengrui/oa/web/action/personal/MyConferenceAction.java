@@ -263,6 +263,25 @@ extends BaseAppAction
 			// 获取所有校区
 			request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
 			
+			// added by Jeccy.Zhao on 2012/09/13
+			if (!this.isObjectIdValid(id))
+			{
+				// 会议发布, 选择列表校区头数据获取部门数据...
+				request.setAttribute("select_departments", 
+						this.getDepartmentByOrganization(
+								String.valueOf(ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getDistrictType())));
+				
+				// 发布部门, 校区 - 默认显示为当前登录用户.
+				ModelConference confInfo = new ModelConference();
+				confInfo.setDistrict(
+						ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict());
+				confInfo.setDepartment(
+						ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment());
+				
+				request.setAttribute("conference", confInfo);
+				
+			}
+			
 			// 获取按校区所有部门列表
 			Map<Integer, List<ModelSchoolDepartment>> departments = this.getAllDepartments(request, false);
 			

@@ -42,8 +42,6 @@ import cn.trymore.core.util.excel.PoiExcelParser;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
-
-
 /**
  * The administrator web action.
  * 
@@ -182,8 +180,10 @@ extends BaseAdminAction
 			HttpServletRequest request, HttpServletResponse response) 
 	{
 		String newsId = request.getParameter("id");
-		try {
-			if(this.isObjectIdValid(newsId)){
+		try 
+		{
+			if (this.isObjectIdValid(newsId))
+			{
 				ModelNewsMag modelNewsMag = this.serviceNewsManage.getModelNewsMag(newsId);
 				if(modelNewsMag != null && modelNewsMag.getDistrictPost() != null)
 				{
@@ -195,12 +195,32 @@ extends BaseAdminAction
 			request.setAttribute("departments", this.serviceSchoolDepartment.getAll());
 			request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
 			
+			// added by Jeccy.Zhao on 2012/09/13
+			if (!this.isObjectIdValid(newsId))
+			{
+				// 新闻发布, 选择列表校区头数据获取部门数据...
+				request.setAttribute("departments", 
+						this.getDepartmentByOrganization(
+								String.valueOf(ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getDistrictType())));
+				
+				// 发布部门, 校区 - 默认显示为当前登录用户.
+				ModelNewsMag modelNewsMag = new ModelNewsMag();
+				modelNewsMag.setDistrict(
+						ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict());
+				modelNewsMag.setDepartment(
+						ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment());
+				
+				request.setAttribute("news", modelNewsMag);
+			}
+			
 			request.setAttribute("currentDistrictId", ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getId());
 			request.setAttribute("currentDepId", ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId());
 			
 			request.setAttribute("newsTypes", this.getServiceAppDictionary().getByType(type));
 			request.setAttribute("op", request.getParameter("op"));
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 			e.printStackTrace();
 			LOGGER.error("Exception raised when open the archive index page.", e);
 			return ajaxPrint(response, getErrorCallback("进入新闻编辑页面失败 由于：" + e.getMessage())); 

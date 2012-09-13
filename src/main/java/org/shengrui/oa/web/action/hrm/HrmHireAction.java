@@ -263,6 +263,8 @@ extends BaseHrmAction
 						ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict());
 				jobHireInfo.setJobHireDepartment(
 						ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment());
+				
+				request.setAttribute("jobHire", jobHireInfo);
 			}
 			
 			request.setAttribute("op", request.getParameter("op"));
