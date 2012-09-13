@@ -1068,6 +1068,7 @@ function multi_visible(multi_id, input_id, filter_values, select_title)
 						}
 					}
 				}
+				$("#" + input_id).val(matched_value);
 			} 
 			else 
 			{

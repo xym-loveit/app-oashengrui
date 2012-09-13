@@ -112,7 +112,7 @@ extends ServiceGenericImpl<ModelHrmJobHireInfo> implements ServiceHrmJobHireInfo
 		if (visiblity)
 		{
 			criteria.add(Restrictions.sqlRestriction(
-					"hjob_visible_districtid IS NULL OR hjob_visible_districtid = '' OR FIND_IN_SET( ?, `hjob_visible_districtid` ) > 0", ContextUtil.getCurrentUser().getDistrictId(), Hibernate.STRING));
+					"(hjob_visible_districtid IS NULL OR hjob_visible_districtid = '' OR FIND_IN_SET( ?, `hjob_visible_districtid` ) > 0)", ContextUtil.getCurrentUser().getDistrictId(), Hibernate.STRING));
 		}
 		
 		criteria.addOrder(Order.desc("jobHireEndDate"));
