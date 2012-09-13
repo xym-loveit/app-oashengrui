@@ -53,7 +53,6 @@ public final class WebActionUtil
 	public static final ModelNotificationVO<String, String> APPROVAL_FINA_PROJECT = 
 		new ModelNotificationVO<String, String>("_FUNCKEY_FINAN_PROJECT_APPROVE", "app/finan/project.do?action=actionFinanApplicationApprove");
 	
-	
 	/**
 	 * 招聘入职-入职操作
 	 */
@@ -67,10 +66,23 @@ public final class WebActionUtil
 		new ModelNotificationVO<String, String>("_FUNCKEY_HRM_ENTRY_OP_QUALIFY", "app/hrm/entry.do?action=actionEntrySave");
 	
 	/**
+	 * 当前招聘管理 - 入职安排
+	 */
+	public static final ModelNotificationVO<String, String> APPROVAL_HRMCTRL_JOB_ENTRY = 
+		new ModelNotificationVO<String, String>("_FUNCKEY_HRM_JOBHIRE_JOB_ENTRY", "app/hrm/hire.do?action=hrmPageJobEntryIndext");
+	
+	/**
+	 * 当前招聘管理 - 入职安排
+	 */
+	public static final ModelNotificationVO<String, String> APPROVAL_HRMCTRL_JOB_OFFER = 
+		new ModelNotificationVO<String, String>("_FUNCKEY_HRM_JOBHIRE_JOB_OFFER", "app/personal/interview.do?action=actionDoComment");
+
+	/**
 	 * 我做伯乐-面试意见输入
 	 */
 	public static final ModelNotificationVO<String, String> APPROVAL_INTERVIEW_COMMIT = 
 		new ModelNotificationVO<String, String>("_FUNCKEY_PERSONAL_INTERVIEW_COMMIT", "app/personal/interview.do?action=actionDoComment");
+
 	
 	/**
 	 * 任务委托管理菜单, 必须具备审批操作权限.

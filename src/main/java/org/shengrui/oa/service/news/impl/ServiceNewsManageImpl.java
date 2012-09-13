@@ -124,7 +124,7 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 		if (visiblity)
 		{
 			criteria.add(Restrictions.sqlRestriction(
-					"district_visible IS NULL OR district_visible = '' OR FIND_IN_SET( ?, `district_visible` ) > 0", ContextUtil.getCurrentUser().getDistrictId(), Hibernate.STRING));
+					"(district_visible IS NULL OR district_visible = '' OR FIND_IN_SET( ?, `district_visible` ) > 0)", ContextUtil.getCurrentUser().getDistrictId(), Hibernate.STRING));
 		}
 		
 		criteria.addOrder(Order.desc("topIndex"))
@@ -178,7 +178,7 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 		.addOrder(Order.desc("updateTime"));
 		
 		criteria.add(Restrictions.sqlRestriction(
-				"district_visible IS NULL OR district_visible = '' OR FIND_IN_SET( ?, `district_visible` ) > 0", ContextUtil.getCurrentUser().getDistrictId(), Hibernate.STRING));
+				"(district_visible IS NULL OR district_visible = '' OR FIND_IN_SET( ?, `district_visible` ) > 0)", ContextUtil.getCurrentUser().getDistrictId(), Hibernate.STRING));
 		
 		return this.getAll(criteria, pagingBean);
 	}
@@ -193,7 +193,7 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 		.addOrder(Order.desc("updateTime"));
 		
 		criteria.add(Restrictions.sqlRestriction(
-				"district_visible IS NULL OR district_visible = '' OR FIND_IN_SET( ?, `district_visible` ) > 0", ContextUtil.getCurrentUser().getDistrictId(), Hibernate.STRING));
+				"(district_visible IS NULL OR district_visible = '' OR FIND_IN_SET( ?, `district_visible` ) > 0)", ContextUtil.getCurrentUser().getDistrictId(), Hibernate.STRING));
 		
 		return this.getAll(criteria, pagingBean);
 	}
