@@ -34,7 +34,7 @@ extends ServiceGeneric<ModelTaskPlan>
 	 * @author pyc
 	 * */
 	PaginationSupport<ModelTaskPlan> getTaskPlanApproval (ModelTaskPlan entity, 
-			PagingBean pagingBean) throws ServiceException;
+			String query, PagingBean pagingBean) throws ServiceException;
 	
 	/**
 	 * 

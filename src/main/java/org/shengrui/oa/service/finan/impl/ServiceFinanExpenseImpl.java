@@ -14,6 +14,7 @@ import org.shengrui.oa.service.finan.ServiceFinanExpense;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.hibernate.HibernateUtils;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
+import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
@@ -121,35 +122,51 @@ extends ServiceGenericImpl<ModelFinanExpense> implements ServiceFinanExpense
 		
 		return criteria;
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.finan.ServiceFinanExpense#getfinanApproval(org.shengrui.oa.model.finan.ModelFinanExpense, java.lang.String, cn.trymore.core.web.paging.PagingBean)
+	 */
+	@Override
+	public PaginationSupport<ModelFinanExpense> getfinanApproval(ModelFinanExpense entity, 
+			String query, PagingBean pagingBean) throws ServiceException 
+	{
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanExpense.class);
+		criteria.add(Restrictions.isNull("auditState"));
+		
+		if (UtilString.isNotEmpty(query))
+		{
+			if (query.trim().toLowerCase().startsWith("and"))
+			{
+				query = query.toLowerCase().replaceFirst("and", "");
+			}
+			
+			criteria.add(Restrictions.sqlRestriction(query));
+		}
+		
+		return this.getAll(criteria, pagingBean);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.finan.ServiceFinanExpense#getfinanApprovalRec(org.shengrui.oa.model.finan.ModelFinanExpense, cn.trymore.core.web.paging.PagingBean)
+	 */
+	@Override
+	public PaginationSupport<ModelFinanExpense> getfinanApprovalRec(ModelFinanExpense entity, 
+			PagingBean pagingBean) throws ServiceException 
+	{
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanExpense.class);
+		criteria.add(Restrictions.in("auditState", new Integer[]{2,3,4}));
+		return this.getAll(criteria, pagingBean);
+	}
+	
 	public DAOFinanExpense getDaoFinanExpense()
 	{
 		return daoFinanExpense;
 	}
 
-
-
 	public void setDaoFinanExpense(DAOFinanExpense daoFinanExpense)
 	{
 		this.daoFinanExpense = daoFinanExpense;
 	}
-
-	@Override
-	public PaginationSupport<ModelFinanExpense> getfinanApproval(
-			ModelFinanExpense entity, PagingBean pagingBean)
-			throws ServiceException {
-		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanExpense.class);
-		criteria.add(Restrictions.isNull("auditState"));
-		return this.getAll(criteria, pagingBean);
-	}
-
-	@Override
-	public PaginationSupport<ModelFinanExpense> getfinanApprovalRec(
-			ModelFinanExpense entity, PagingBean pagingBean)
-			throws ServiceException {
-		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanExpense.class);
-		criteria.add(Restrictions.in("auditState", new Integer[]{2,3,4}));
-		return this.getAll(criteria, pagingBean);
-	}
-
 }

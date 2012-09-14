@@ -27,14 +27,9 @@ import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 import org.shengrui.oa.model.vo.ModelNotificationVO;
-import org.shengrui.oa.service.admin.ServiceConferenceInfo;
-import org.shengrui.oa.service.admin.ServiceTaskPlan;
-import org.shengrui.oa.service.finan.ServiceFinanContract;
-import org.shengrui.oa.service.finan.ServiceFinanExpense;
 import org.shengrui.oa.service.hrm.ServiceHrmEmployee;
 import org.shengrui.oa.service.info.ServiceInMessage;
 import org.shengrui.oa.service.info.ServiceShortMessage;
-import org.shengrui.oa.service.news.ServiceNewsManage;
 import org.shengrui.oa.service.system.ServiceAppDictionary;
 import org.shengrui.oa.service.system.ServiceAppUser;
 import org.shengrui.oa.service.system.ServiceSchoolDepartment;
@@ -179,16 +174,6 @@ extends BaseAction
 	 */
 	@Resource
 	protected MessagePush messagePush;
-	
-	protected ServiceConferenceInfo serviceConference;
-
-	protected ServiceNewsManage serviceNewsManage;
-	
-	protected ServiceTaskPlan serviceTaskPlan;
-	
-	protected ServiceFinanExpense serviceFinanExpense;
-	
-	protected ServiceFinanContract serviceFinanContract;
 	
 	/**
 	 * 获取所有校区
@@ -1363,58 +1348,12 @@ extends BaseAction
 		return serviceFileAttach;
 	}
 
-	public ServiceNewsManage getServiceNewsManage() {
-		return serviceNewsManage;
-	}
-
-	public void setServiceNewsManage(ServiceNewsManage serviceNewsManage) {
-		this.serviceNewsManage = serviceNewsManage;
-	}
-
 	public ServiceAppDictionary getServiceAppDictionary() {
 		return serviceAppDictionary;
 	}
 
 	public void setServiceAppDictionary(ServiceAppDictionary serviceAppDictionary) {
 		this.serviceAppDictionary = serviceAppDictionary;
-	}
-
-	/**
-	 * @return the serviceConference
-	 */
-	public ServiceConferenceInfo getServiceConference() {
-		return serviceConference;
-	}
-
-	/**
-	 * @param serviceConference the serviceConference to set
-	 */
-	public void setServiceConference(ServiceConferenceInfo serviceConference) {
-		this.serviceConference = serviceConference;
-	}
-
-	public ServiceTaskPlan getServiceTaskPlan() {
-		return serviceTaskPlan;
-	}
-
-	public void setServiceTaskPlan(ServiceTaskPlan serviceTaskPlan) {
-		this.serviceTaskPlan = serviceTaskPlan;
-	}
-
-	public ServiceFinanExpense getServiceFinanExpense() {
-		return serviceFinanExpense;
-	}
-
-	public void setServiceFinanExpense(ServiceFinanExpense serviceFinanExpense) {
-		this.serviceFinanExpense = serviceFinanExpense;
-	}
-
-	public ServiceFinanContract getServiceFinanContract() {
-		return serviceFinanContract;
-	}
-
-	public void setServiceFinanContract(ServiceFinanContract serviceFinanContract) {
-		this.serviceFinanContract = serviceFinanContract;
 	}
 
 	public ServiceShortMessage getServiceShortMessage()

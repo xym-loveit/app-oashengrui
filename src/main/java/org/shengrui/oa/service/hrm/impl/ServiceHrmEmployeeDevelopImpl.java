@@ -141,6 +141,43 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 		return criteria;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmEmployeeDevelop#getfinanHr(org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop, java.lang.String, cn.trymore.core.web.paging.PagingBean)
+	 */
+	@Override
+	public PaginationSupport<ModelHrmEmployeeDevelop> getfinanHr(ModelHrmEmployeeDevelop entity, 
+			String query, PagingBean pagingBean) throws ServiceException 
+	{
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployeeDevelop.class);
+		criteria.add(Restrictions.isNull("auditState"));
+		
+		if (UtilString.isNotEmpty(query))
+		{
+			if (query.trim().toLowerCase().startsWith("and"))
+			{
+				query = query.toLowerCase().replaceFirst("and", "");
+			}
+			
+			criteria.add(Restrictions.sqlRestriction(query));
+		}
+		
+		return this.getAll(criteria, pagingBean);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmEmployeeDevelop#getfinanHrRec(org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop, cn.trymore.core.web.paging.PagingBean)
+	 */
+	@Override
+	public PaginationSupport<ModelHrmEmployeeDevelop> getfinanHrRec(ModelHrmEmployeeDevelop entity, 
+			PagingBean pagingBean) throws ServiceException 
+	{
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployeeDevelop.class);
+		criteria.add(Restrictions.in("auditState", new Integer[]{2,3,4}));
+		return this.getAll(criteria, pagingBean);
+	}
+	
 	public void setdaoHrmEmployeeDevelop(DAOHrmEmployeeDevelop daoHrmEmployeeDevelop)
 	{
 		this.daoHrmEmployeeDevelop = daoHrmEmployeeDevelop;
@@ -149,24 +186,5 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 	public DAOHrmEmployeeDevelop getdaoHrmEmployeeDevelop()
 	{
 		return daoHrmEmployeeDevelop;
-	}
-
-	@Override
-	public PaginationSupport<ModelHrmEmployeeDevelop> getfinanHr(
-			ModelHrmEmployeeDevelop entity, PagingBean pagingBean)
-			throws ServiceException {
-		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployeeDevelop.class);
-		criteria.add(Restrictions.isNull("auditState"));
-		
-		return this.getAll(criteria, pagingBean);
-	}
-
-	@Override
-	public PaginationSupport<ModelHrmEmployeeDevelop> getfinanHrRec(
-			ModelHrmEmployeeDevelop entity, PagingBean pagingBean)
-			throws ServiceException {
-		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployeeDevelop.class);
-		criteria.add(Restrictions.in("auditState", new Integer[]{2,3,4}));
-		return this.getAll(criteria, pagingBean);
 	}
 }

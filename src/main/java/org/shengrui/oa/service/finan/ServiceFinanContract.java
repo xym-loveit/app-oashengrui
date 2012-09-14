@@ -43,7 +43,7 @@ extends ServiceGeneric<ModelFinanContract>
 	 * @author pyc
 	 * */
 	PaginationSupport<ModelFinanContract> finanContract (ModelFinanContract entity, 
-			PagingBean pagingBean) throws ServiceException;
+			String query, PagingBean pagingBean) throws ServiceException;
 	
 	/**
 	 * 

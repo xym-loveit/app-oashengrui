@@ -181,6 +181,21 @@
 					</tr>
 				</logic:iterate>
 			</logic:present>
+			<logic:present name="projects">
+				<logic:iterate id="project" name="projects" property="items">
+					<tr>
+					<td>
+						新项目申请审批
+					</td>
+					<td style="text-align:left">
+						[${project.employee.empName }] &nbsp&nbsp&nbsp ${project.empDistrict.districtName} &nbsp&nbsp&nbsp ${project.applyFormType.processTypeName}
+					</td>
+					<td>${project.employee.empName }</td>
+					<td><c:if test="${project.applyDate ne null}"><fmt:formatDate value="${project.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
+					<td><a class="oplink" href="app/finan/project.do?action=diaglogFinaProjectPage&id=${project.id}&op=view" target="dialog" title="查看‘${project.employee.empName}’新项目申请单-${project.formNo}" width="1150" height="640" rel="approval_project_${project.id}">审批</a></td>
+					</tr>
+				</logic:iterate>
+			</logic:present>
 		</tbody>
 	</table>
 			<div class="panelBar">

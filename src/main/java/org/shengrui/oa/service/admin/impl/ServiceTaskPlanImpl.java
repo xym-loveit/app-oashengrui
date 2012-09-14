@@ -163,6 +163,43 @@ extends ServiceGenericImpl<ModelTaskPlan> implements ServiceTaskPlan
 		return criteria;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.admin.ServiceTaskPlan#getTaskPlanApproval(org.shengrui.oa.model.admin.ModelTaskPlan, java.lang.String, cn.trymore.core.web.paging.PagingBean)
+	 */
+	@Override
+	public PaginationSupport<ModelTaskPlan> getTaskPlanApproval(ModelTaskPlan entity, 
+			String query, PagingBean pagingBean) throws ServiceException 
+	{
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelTaskPlan.class);
+		criteria.add(Restrictions.isNull("auditStatus"));
+		
+		if (UtilString.isNotEmpty(query))
+		{
+			if (query.trim().toLowerCase().startsWith("and"))
+			{
+				query = query.toLowerCase().replaceFirst("and", "");
+			}
+			
+			criteria.add(Restrictions.sqlRestriction(query));
+		}
+		
+		return this.getAll(criteria, pagingBean);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.admin.ServiceTaskPlan#getTaskPlanApprovalRec(org.shengrui.oa.model.admin.ModelTaskPlan, cn.trymore.core.web.paging.PagingBean)
+	 */
+	@Override
+	public PaginationSupport<ModelTaskPlan> getTaskPlanApprovalRec(ModelTaskPlan entity, 
+			PagingBean pagingBean) throws ServiceException 
+	{
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelTaskPlan.class);
+		criteria.add(Restrictions.in("auditStatus", new Integer[]{2,3,4}));
+		return this.getAll(criteria, pagingBean);
+	}
+	
 	public void setDaoTaskPlan(DAOTaskPlan daoTaskPlan)
 	{
 		this.daoTaskPlan = daoTaskPlan;
@@ -171,23 +208,5 @@ extends ServiceGenericImpl<ModelTaskPlan> implements ServiceTaskPlan
 	public DAOTaskPlan getDaoTaskPlan()
 	{
 		return daoTaskPlan;
-	}
-
-	@Override
-	public PaginationSupport<ModelTaskPlan> getTaskPlanApproval(
-			ModelTaskPlan entity, PagingBean pagingBean)
-			throws ServiceException {
-		DetachedCriteria criteria = DetachedCriteria.forClass(ModelTaskPlan.class);
-		criteria.add(Restrictions.isNull("auditStatus"));
-		return this.getAll(criteria, pagingBean);
-	}
-
-	@Override
-	public PaginationSupport<ModelTaskPlan> getTaskPlanApprovalRec(
-			ModelTaskPlan entity, PagingBean pagingBean)
-			throws ServiceException {
-		DetachedCriteria criteria = DetachedCriteria.forClass(ModelTaskPlan.class);
-		criteria.add(Restrictions.in("auditStatus", new Integer[]{2,3,4}));
-		return this.getAll(criteria, pagingBean);
 	}
 }

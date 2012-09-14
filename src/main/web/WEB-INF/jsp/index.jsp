@@ -9,7 +9,7 @@
 <script type="text/javascript">
 $(function(){
 	//我的任务
-	$.post("app/personal/task.do?action=pageTaskIndex1",{},function(data){
+	$.post("app/personal/task.do?action=pageTaskIndex1&numPerPage=5",{},function(data){
 		$("#task").html(data);
 		var size=$('#task tr').size();
 	  	for(i=0;i<size;i++){
@@ -22,7 +22,7 @@ $(function(){
 	},'text');
 	
 	//待我审批
-	$.post("app/personal/approval.do?action=pageMyApproval1",{},function(data){
+	$.post("app/personal/approval.do?action=pageMyApproval&objOut&numPerPage=5",{},function(data){
 		$("#approval").html(data);
 		var size=$('#approval tr').size();
 	  	for(i=0;i<size;i++){
@@ -44,13 +44,15 @@ $(function(){
 				result='<a href="app/personal/application_form.do?action=dialogApplicationFormPage&formId='+id+'&op=view" target="dialog" width="900" height="500" rel="dsk_approval_hrm_'+id+'">'+value+'</a>';
 			} else if (type == "job") {
 				result='<a href="app/hrm/hire.do?action=hrmPageJobDetail&id='+id+'&op=audit" target="dialog" width="960" height="420" rel="dsk_approval_job_'+id+'">'+value+'</a>';
+			} else if (type == "fina-project") {
+				result='<a href="app/finan/project.do?action=diaglogFinaProjectPage&id='+id+'&op=view" target="dialog" width="1150" height="640" rel="dsk_approval_fprj_'+id+'">'+value+'</a>';
 			}
 			$('#approval tr').eq(i).find('td').eq(1).html(result);
 	  	}
 	},'text');
 	
 	//我的申请
-	$.post("app/personal/application_form.do?action=pageMyApplicationIndex1",{},function(data){
+	$.post("app/personal/application_form.do?action=pageMyApplicationIndex1&numPerPage=5",{},function(data){
 		$("#application").html(data);
 		var size=$('#application tr').size();
 	  	for(i=0;i<size;i++){
@@ -62,7 +64,7 @@ $(function(){
 	},'text');
 	
 	//我的信息
-	$.post("app/message.do?action=pageMessageReceivedIndex1",{},function(data){
+	$.post("app/message.do?action=pageMessageReceivedIndex1&numPerPage=5",{},function(data){
 		$("#message").html(data);
 		var size=$('#message tr').size();
 	  	for(i=0;i<size;i++){
@@ -75,7 +77,7 @@ $(function(){
 	},'text')
 	
 	//我的会议
-	$.post("app/personal/conference.do?action=myConferenceIndex1",{},function(data){
+	$.post("app/personal/conference.do?action=myConferenceIndex1&numPerPage=5",{},function(data){
 		$("#conference").html(data);
 		var size=$('#conference tr').size();
 	  	for(i=0;i<size;i++){
@@ -87,7 +89,7 @@ $(function(){
 	},'text')
 	
 	//我的新闻
-	$.post("app/admin/news.do?action=adminPageEntryIndex1",{},function(data){
+	$.post("app/admin/news.do?action=adminPageEntryIndex1&numPerPage=5",{},function(data){
 		$("#news").html(data);
 		var size=$('#news tr').size();
 	  	for(i=0;i<size;i++){
@@ -99,7 +101,7 @@ $(function(){
 	},'text')
 	
 	//我的文档
-	$.post("app/admin/doc.do?action=adminPageDocumentIndex1",{},function(data){
+	$.post("app/admin/doc.do?action=adminPageDocumentIndex1&numPerPage=5",{},function(data){
 		$("#doc").html(data)
 		var size=$('#doc tr').size();
 	  	for(i=0;i<size;i++){
@@ -110,7 +112,7 @@ $(function(){
 	  	}
 	},'text')
 	
-	$.post("app/personal/jobapplication.do?action=pageJobOnHiring&objOut",{},function(data){
+	$.post("app/personal/jobapplication.do?action=pageJobOnHiring&objOut&numPerPage=5",{},function(data){
 		$("#jobs").html(data)
 		var size=$('#jobs tr').size();
 	  	for(i=0;i<size;i++){

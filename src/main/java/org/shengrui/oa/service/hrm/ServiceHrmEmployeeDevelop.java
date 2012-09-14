@@ -41,7 +41,7 @@ extends ServiceGeneric<ModelHrmEmployeeDevelop>
 	 * @author cqx
 	 * */
 	PaginationSupport<ModelHrmEmployeeDevelop> getfinanHr (ModelHrmEmployeeDevelop entity, 
-			PagingBean pagingBean) throws ServiceException;
+			String query, PagingBean pagingBean) throws ServiceException;
 	
 	/**
 	 * 

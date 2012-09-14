@@ -12,6 +12,7 @@
 		<property name="serviceFinanContract" ref="serviceFinanContract" />
 		<property name="serviceHrmJobHireInfo" ref="serviceHrmJobHireInfo" />
 		<property name="serviceHrmEmployeeDevelop" ref="serviceHrmEmployeeDevelop" />
+		<property name="serviceFinanProject" ref="serviceFinanProject" />
 	</bean>
 	
 </beans>
