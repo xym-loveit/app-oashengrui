@@ -12,6 +12,7 @@ import org.shengrui.oa.service.finan.ServiceFinanContract;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
+import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
@@ -113,6 +114,43 @@ extends ServiceGenericImpl<ModelFinanContract> implements ServiceFinanContract
 		return criteria;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.finan.ServiceFinanContract#finanContract(org.shengrui.oa.model.finan.ModelFinanContract, java.lang.String, cn.trymore.core.web.paging.PagingBean)
+	 */
+	@Override
+	public PaginationSupport<ModelFinanContract> finanContract(ModelFinanContract entity, 
+			String query, PagingBean pagingBean) throws ServiceException 
+	{
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanContract.class);
+		criteria.add(Restrictions.isNull("auditState"));
+		
+		if (UtilString.isNotEmpty(query))
+		{
+			if (query.trim().toLowerCase().startsWith("and"))
+			{
+				query = query.toLowerCase().replaceFirst("and", "");
+			}
+			
+			criteria.add(Restrictions.sqlRestriction(query));
+		}
+		
+		return this.getAll(criteria, pagingBean);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.finan.ServiceFinanContract#finanContractRec(org.shengrui.oa.model.finan.ModelFinanContract, cn.trymore.core.web.paging.PagingBean)
+	 */
+	@Override
+	public PaginationSupport<ModelFinanContract> finanContractRec(ModelFinanContract entity, 
+			PagingBean pagingBean) throws ServiceException 
+	{
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanContract.class);
+		criteria.add(Restrictions.in("auditState", new Integer[]{2,3,4}));
+		return this.getAll(criteria, pagingBean);
+	}
+	
 	public DAOFinanContract getDaoFinanContract()
 	{
 		return daoFinanContract;
@@ -122,24 +160,4 @@ extends ServiceGenericImpl<ModelFinanContract> implements ServiceFinanContract
 	{
 		this.daoFinanContract = daoFinanContract;
 	}
-
-	@Override
-	public PaginationSupport<ModelFinanContract> finanContract(
-			ModelFinanContract entity, PagingBean pagingBean)
-			throws ServiceException {
-		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanContract.class);
-		criteria.add(Restrictions.isNull("auditState"));
-		
-		return this.getAll(criteria, pagingBean);
-	}
-
-	@Override
-	public PaginationSupport<ModelFinanContract> finanContractRec(
-			ModelFinanContract entity, PagingBean pagingBean)
-			throws ServiceException {
-		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanContract.class);
-		criteria.add(Restrictions.in("auditState", new Integer[]{2,3,4}));
-		return this.getAll(criteria, pagingBean);
-	}
-
 }

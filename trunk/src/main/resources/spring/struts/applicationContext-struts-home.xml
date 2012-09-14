@@ -5,7 +5,6 @@
 
 	<bean name="/app/index" 
 			class="org.shengrui.oa.web.action.index.IndexAction" parent="base">
-		<property name="serviceTaskPlan" ref="serviceTaskPlan" />
 		<property name="serviceBase" ref="serviceBase" />
 	</bean>
 	

@@ -1,9 +1,11 @@
 package cn.trymore.core.service.impl;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 
 import cn.trymore.core.dao.DAOGeneric;
 import cn.trymore.core.exception.DAOException;
@@ -151,6 +153,43 @@ implements ServiceGeneric<T>
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see cn.trymore.core.service.ServiceGeneric#getByQuery(java.lang.String, cn.trymore.core.web.paging.PagingBean)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public PaginationSupport<T> getByQuery (final String nativeSql, 
+			final PagingBean pagingBean) throws ServiceException
+	{
+		try
+		{
+			Class<T> entityClass = (Class<T>) ((ParameterizedType) getClass()
+					.getGenericSuperclass()).getActualTypeArguments()[0];
+			
+			DetachedCriteria criteria = DetachedCriteria.forClass(entityClass);
+			
+			if (UtilString.isNotEmpty(nativeSql))
+			{
+				if (nativeSql.trim().toLowerCase().startsWith("and"))
+				{
+					criteria.add(Restrictions.sqlRestriction(
+							nativeSql.toLowerCase().replaceFirst("and", "")));
+				}
+				else
+				{
+					criteria.add(Restrictions.sqlRestriction(nativeSql));
+				}
+			}
+			
+			return dao.findPageByCriteria(criteria, pagingBean);
+		}
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see cn.trymore.core.service.ServiceGeneric#remove(java.lang.String)

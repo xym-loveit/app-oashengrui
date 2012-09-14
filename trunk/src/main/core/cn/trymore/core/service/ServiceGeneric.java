@@ -65,13 +65,29 @@ public interface ServiceGeneric<T extends ModelBase>
 	List<T> getAll() throws ServiceException;
 	
 	/**
+	 * Obtains all entities with pagination
 	 * 
 	 * @param criteria
+	 *           query criteria
 	 * @param pagingBean
-	 * @return
+	 *           paging bean object
+	 * @return pagination of entities
 	 * @throws ServiceException
 	 */
 	PaginationSupport<T> getAll(final DetachedCriteria criteria,
+			final PagingBean pagingBean) throws ServiceException;
+	
+	/**
+	 * Obtains entities with pagination by the specified native SQL 
+	 * 
+	 * @param nativeSql
+	 *          native SQL
+	 * @param pagingBean
+	 *          paging bean object
+	 * @return entities with pagination
+	 * @throws ServiceException
+	 */
+	PaginationSupport<T> getByQuery (final String nativeSql, 
 			final PagingBean pagingBean) throws ServiceException;
 	
 	/**
@@ -94,15 +110,19 @@ public interface ServiceGeneric<T extends ModelBase>
 
 	/**
 	 * Flushes current database session.
+	 * 
 	 * @throws ServiceException
 	 */
 	void flush() throws ServiceException;
 	
 	/**
+	 * Obtains affected entity row count with the specified query
 	 * 
 	 * @param clas
+	 *          entity object
 	 * @param whereCloud
-	 * @return
+	 *          native SQL query
+	 * @return affected entity row count
 	 * @throws ServiceException
 	 */
 	@SuppressWarnings("rawtypes")

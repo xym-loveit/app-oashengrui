@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,6 +20,7 @@ import org.shengrui.oa.model.admin.ModelConference;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.info.ModelShortMessage;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
+import org.shengrui.oa.service.admin.ServiceConferenceInfo;
 import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.util.UtilDateTime;
@@ -44,6 +46,12 @@ extends BaseAppAction
 	 * The LOGGER
 	 */
 	private static final Logger LOGGER = Logger.getLogger(ConferenceAction.class);
+	
+	/**
+	 * The service of conference
+	 */
+	@Resource
+	protected ServiceConferenceInfo serviceConference;
 	
 	/**
 	 * 首页显示我的会议
@@ -747,5 +755,19 @@ extends BaseAppAction
 			// TODO Auto-generated catch block
 			return ajaxPrint(response,getErrorCallback("会议总结提交失败"+e.getMessage()));
 		}
+	}
+	
+	/**
+	 * @return the serviceConference
+	 */
+	public ServiceConferenceInfo getServiceConference() {
+		return serviceConference;
+	}
+
+	/**
+	 * @param serviceConference the serviceConference to set
+	 */
+	public void setServiceConference(ServiceConferenceInfo serviceConference) {
+		this.serviceConference = serviceConference;
 	}
 }
