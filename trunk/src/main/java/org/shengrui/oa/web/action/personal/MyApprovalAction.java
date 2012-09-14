@@ -25,7 +25,7 @@ import cn.trymore.core.web.paging.PagingBean;
 /**
  * WebAction: 待我审批
  * 
- * @author Jeccy.Zhao
+ * @author intern (unknown name)
  *
  */
 public class MyApprovalAction
