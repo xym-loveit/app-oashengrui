@@ -29,7 +29,7 @@ $(function(){
 		$("#formnews").submit();
 		return false;
 	});
-	<c:if test="${news eq null}">
+	<c:if test="${news eq null || news.id eq null}">
 	$("#app").unbind("click");
 	$("#app").bind("click", function() { 
 		$("#formadd").val("2");
@@ -44,7 +44,7 @@ $(function(){
 		return false;
 	});
 	</c:if>
-	<c:if test="${news ne null}">
+	<c:if test="${news ne null && news.id ne null}">
 	$("#app").unbind("click");
 	$("#app").bind("click", function() { 
 		$("#formedit").val("4");
@@ -74,7 +74,7 @@ $(function(){
 			name:"Filedata",
 			//用于放服务器端返回的url的隐藏域
 			urlsInputName:"fileUrls"
-			<c:if test="${news ne null && fn:length(news.attachFiles) gt 0}">
+			<c:if test="${news ne null && news.id ne null && fn:length(news.attachFiles) gt 0}">
 			// 用于数据展现
 			,restoreHook:"#jp_J_UploaderRestoreNews"
 			</c:if>
@@ -258,16 +258,16 @@ ${tm:fileRestore(news['attachFiles'])}
 				</li>
 			</ul>
 		</div>
-		<c:if test="${news ne null}">
+		<c:if test="${news ne null && news.id ne null}">
 			<input type="hidden" id="formAction" name="formAction" value="" />
 		</c:if>
-		<c:if test="${news eq null}">
+		<c:if test="${news eq null || news.id eq null}">
 			<input type="hidden" id="formadd" name="formadd" value="" />
 		</c:if>
-		<c:if test="${news ne null}">
+		<c:if test="${news ne null && news.id ne null}">
 			<input type="hidden" id="formedit" name="formedit" value="" />
 		</c:if>
-		<input type="hidden" name="id" value="${news ne null ? news.id : '-1'}" />
+		<input type="hidden" name="id" value="${news ne null && news.id ne null ? news.id : '-1'}" />
 	<!--  	<input type="hidden" name="status" value="${news.status}" />
 		<input type="hidden" name="op" value="view" /> -->
 	</form>

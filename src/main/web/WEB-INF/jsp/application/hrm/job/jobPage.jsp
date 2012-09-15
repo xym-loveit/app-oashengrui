@@ -70,7 +70,7 @@
 				name:"Filedata",
 				//用于放服务器端返回的url的隐藏域
 				urlsInputName:"fileUrls"
-				<c:if test="${jobHire ne null && fn:length(jobHire.attachFiles) gt 0}">
+				<c:if test="${jobHire ne null && jobHire.id ne null && fn:length(jobHire.attachFiles) gt 0}">
 				// 用于数据展现
 				,restoreHook:"#jp_J_UploaderRestore"
 				</c:if>
@@ -258,9 +258,9 @@ ${tm:fileRestore(jobHire['attachFiles'])}
 				</li>
 			</ul>
 		</div>
-		<c:if test="${jobHire ne null}">
+		<c:if test="${jobHire ne null && jobHire.id ne null}">
 			<input type="hidden" id="formAction" name="formAction" value="" />
 		</c:if>
-		<input type="hidden" name="id" value="${jobHire ne null ? jobHire.id : '-1'}" />
+		<input type="hidden" name="id" value="${jobHire ne null && jobHire.id ne null ? jobHire.id : '-1'}" />
 	</form>
 </div>
