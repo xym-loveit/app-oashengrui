@@ -253,7 +253,7 @@
 	</li>
 </ul>
 </div>
-<input type="hidden" name="id" value="${formDoc ne null ? formDoc.id : '-1'}" />
+<input type="hidden" name="id" value="${formDoc ne null && formDoc.id ne null ? formDoc.id : '-1'}" />
 
 </form>
 </div>
