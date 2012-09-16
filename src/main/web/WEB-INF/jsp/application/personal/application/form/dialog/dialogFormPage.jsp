@@ -44,33 +44,35 @@
 
 <div class="pageContent">
 	<form method="post" action="app/personal/application_form.do?action=actionSaveApplication" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
-		<c:if test="${entity.applyForm eq null || fn:length(entity.applyForm) == 0}">
-			<p align="center" style="display:none" id='tophrm_title'>人资申请"${entity.formNo}"-审批流程表单</p>
-			<div align='right' style='margin:5px 10px 0px 0px;'>
-				<a class='btn_print' title="点击打印" href="javascript:print_export('#hrm_print_wrapper','#tophrm_title');">打印</a>
-			</div>
-		</c:if>
+		
 		<div class="pageFormContent" id="hrm_print_wrapper" layoutH="75" style="border-top: none">
-			<div style="padding: 0px; border-bottom: 1px dotted #999; margin: 0 10px 15px 10px; overflow: auto; clear: both;">
-				<c:choose>
-					<c:when test="${op ne null && op eq 'view'}"><span style="float:left; color:#FF7300; line-height: 18px;">所选人资申请类型：<b>${entity.applyFormType.processTypeName}</b></span></c:when>
-					<c:otherwise>
-						<span style="float:left; color:#FF7300; line-height: 18px;">人资申请类型：</span>
-						<select class="combox required" name="applyFormTypeId" id="hrm_apply_type">
-							<option value="">请选择申请类型</option>
-							<logic:present name="types">
-								<logic:iterate name="types" id="typeEntity">
-									<option value="${typeEntity.id}" ${((procTypeId ne null && procTypeId eq typeEntity.id) || (entity ne null && entity.applyFormType ne null && entity.applyFormType.id eq typeEntity.id)) ? "selected='selected'" : ""}>${typeEntity.processTypeName}</option>
-								</logic:iterate>
-							</logic:present>
-						</select>
-					</c:otherwise>
-				</c:choose>
+			
+			<p align="center" style="display:none" id='tophrm_title'><c:choose><c:when test="${entity ne null}">人资申请"${entity.formNo}"-审批流程表单</c:when><c:otherwise>人资申请单</c:otherwise></c:choose></p>
+			<div align='right' style='margin:5px 10px 0px 0px;'>
+				<a class='btn_print' title="点击打印" href="javascript:export2Html('#hrmapp_print_wrapper','#tophrm_title');">导出</a>
 			</div>
 			
-			<!-- 申请单 -->
-			<div id="form_box"></div>
-			
+			<div id="hrmapp_print_wrapper">
+				<div style="padding: 0px; border-bottom: 1px dotted #999; margin: 0 10px 15px 10px; overflow: auto; clear: both;">
+					<c:choose>
+						<c:when test="${op ne null && op eq 'view'}"><span style="float:left; color:#FF7300; line-height: 18px;">所选人资申请类型：<b>${entity.applyFormType.processTypeName}</b></span></c:when>
+						<c:otherwise>
+							<span style="float:left; color:#FF7300; line-height: 18px;">人资申请类型：</span>
+							<select class="combox required" name="applyFormTypeId" id="hrm_apply_type">
+								<option value="">请选择申请类型</option>
+								<logic:present name="types">
+									<logic:iterate name="types" id="typeEntity">
+										<option value="${typeEntity.id}" ${((procTypeId ne null && procTypeId eq typeEntity.id) || (entity ne null && entity.applyFormType ne null && entity.applyFormType.id eq typeEntity.id)) ? "selected='selected'" : ""}>${typeEntity.processTypeName}</option>
+									</logic:iterate>
+								</logic:present>
+							</select>
+						</c:otherwise>
+					</c:choose>
+				</div>
+				
+				<!-- 申请单 -->
+				<div id="form_box"></div>
+			</div>
 		</div>
 		
 		<div class="formBar">

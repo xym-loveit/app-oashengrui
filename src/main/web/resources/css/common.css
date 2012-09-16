@@ -569,3 +569,16 @@ a.btn_print {
 	width:45px;
 	text-align:right;
 }
+
+.tblcolor td.field {
+	background-color: #CFDBEC; 
+	line-height: 35px; 
+	text-align: center; 
+	margin: 0; 
+	font-size: 9pt;
+}
+
+.tblcolor  input.textInput {
+	float:none;
+	margin-left: 5px; 
+}
