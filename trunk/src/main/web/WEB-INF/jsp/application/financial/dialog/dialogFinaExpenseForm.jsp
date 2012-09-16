@@ -172,10 +172,10 @@ ${tm:fileRestore(entity['attachFiles'])}
 						<td colspan="4"><input name="contractNo" type="text" style="width: 96%" value="${entity ne null ? entity.contractNo : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
 						<td class='field'>附件张数</td>
 						<td><input name="attachCount" type="text" class="number" style="width: 80%;" value="${entity ne null ? entity.attachCount : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
-						<td class='field'>是否已事前审批</td>
-						<td colspan="2">
-							<input type="radio" value="1" name="auditAdvance" ${entity ne null && entity.auditAdvance eq 1 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 是
-							<input type="radio" value="0" name="auditAdvance" ${entity ne null && entity.auditAdvance eq 0 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 否
+						<td class='field'>是否已事前审批(*)</td>
+						<td colspan="2" style="padding-left: 3px;">
+							<input type="radio" value="1" name="auditAdvance" class="required" ${entity ne null && entity.auditAdvance eq 1 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 是
+							<input type="radio" value="0" name="auditAdvance" class="required" ${entity ne null && entity.auditAdvance eq 0 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 否
 						</td>
 					</tr>
 					<tr>

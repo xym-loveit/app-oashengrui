@@ -153,10 +153,22 @@
 			name="docLevel.id" style="width: 108px;">
 			<logic:present name="docLevels">
 				<logic:iterate name="docLevels" id="entity">
-					<option value="${entity.id}" ${formDoc ne
-						null && formDoc.docLevel ne
-						null && formDoc.docLevel.id eq
-						entity.id ? 'selected="selected"' : ''}>${entity.levelName}</option>
+					<c:choose>
+						<c:when test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.districtType eq 1}">
+							<c:if test="${fn:indexOf(entity.levelName, '校区') > -1}">
+								<option value="${entity.id}" ${formDoc ne
+									null && formDoc.docLevel ne
+									null && formDoc.docLevel.id eq
+									entity.id ? 'selected="selected"' : ''}>${entity.levelName}</option>
+							</c:if>
+						</c:when>
+						<c:otherwise>
+							<option value="${entity.id}" ${formDoc ne
+								null && formDoc.docLevel ne
+								null && formDoc.docLevel.id eq
+								entity.id ? 'selected="selected"' : ''}>${entity.levelName}</option>
+						</c:otherwise>
+					</c:choose>
 				</logic:iterate>
 			</logic:present>
 		</select></td>

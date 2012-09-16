@@ -211,6 +211,11 @@ extends ModelBase implements UserDetails
 	private String districtId;
 	
 	/**
+	 * 校区类型.
+	 */
+	private int districtType;
+	
+	/**
 	 * The enumeration of user status
 	 * 
 	 * @author Jeccy.Zhao
@@ -530,6 +535,23 @@ extends ModelBase implements UserDetails
 				this.getFunctionRights().indexOf(ModelAppRole.SUPER_RIGHTS) > -1;
 	}
 	
+	/**
+	 * Returns true if owned school district as slave.
+	 * 
+	 * @return
+	 */
+	public boolean isSlaveDistrict ()
+	{
+		ModelSchoolDistrict district = this.getDistrict();
+		
+		if (this.employee != null && this.employee.getEmployeeDistrict() != null)
+		{
+			district = this.employee.getEmployeeDistrict();
+		}
+		
+		return !district.getDistrictType().equals(AppUtil.EAppSchoolType.HEADQUARTERS.getValue());
+	}
+	
 	public String getUsername()
 	{
 		return username;
@@ -789,5 +811,31 @@ extends ModelBase implements UserDetails
 	public void setRightsURLs(Set<String> rightsURLs)
 	{
 		this.rightsURLs = rightsURLs;
+	}
+	
+	public int getDistrictType()
+	{
+		ModelSchoolDistrict district = this.getDistrict();
+		
+		if (this.employee != null && this.employee.getEmployeeDistrict() != null)
+		{
+			district = this.employee.getEmployeeDistrict();
+		}
+		
+		if (district.getDistrictType().equals(AppUtil.EAppSchoolType.HEADQUARTERS.getValue()))
+		{
+			districtType = AppUtil.EAppSchoolType.HEADQUARTERS.getValue();
+		}
+		else
+		{
+			districtType = AppUtil.EAppSchoolType.AREA_CAMPUS.getValue();
+		}
+		
+		return districtType;
+	}
+
+	public void setDistrictType(int districtType)
+	{
+		this.districtType = districtType;
 	}
 }
