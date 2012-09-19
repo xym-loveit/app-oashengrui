@@ -400,6 +400,11 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 		
 		if (UtilString.isNotEmpty(whereCloud))
 		{
+			if (!whereCloud.trim().toLowerCase().startsWith("and"))
+			{
+				nativeSql.append(" AND ");
+			}
+			
 			nativeSql.append(whereCloud);
 		}
 		

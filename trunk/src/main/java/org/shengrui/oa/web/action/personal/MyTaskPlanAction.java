@@ -19,7 +19,6 @@ import org.shengrui.oa.model.admin.ModelTaskPlan;
 import org.shengrui.oa.model.admin.ModelTaskPlanTrack;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.info.ModelShortMessage;
-import org.shengrui.oa.model.news.ModelNewsMag;
 import org.shengrui.oa.model.system.ModelAppDictionary;
 import org.shengrui.oa.service.admin.ServiceTaskPlan;
 import org.shengrui.oa.service.admin.ServiceTaskPlanTrack;
@@ -521,7 +520,7 @@ extends BaseAppAction
 							// 获取审批人, 用于消息发送及数据推送.
 							Set<String> auditorIds = this.getUserIdsAgainstGrantedResource(
 								WebActionUtil.APPROVAL_ADMIN_TASK, 
-								ModelNewsMag.class, 
+								ModelTaskPlan.class, 
 								String.valueOf(entity.getTaskChargerDisId()), 
 								String.valueOf(entity.getTaskChargerDepId())
 							);
