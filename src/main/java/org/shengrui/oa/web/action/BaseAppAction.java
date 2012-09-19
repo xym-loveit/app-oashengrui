@@ -1005,9 +1005,9 @@ extends BaseAction
 		{
 			StringBuilder builder = new StringBuilder();
 			
-			if (dataPolicyQuery.isGrantedDataPolicy(URI))
+			if (dataPolicyQuery.isGrantedDataPolicy(URI, user))
 			{
-				String query = dataPolicyQuery.buildPolicyQuery(entityClass);
+				String query = dataPolicyQuery.buildPolicyQuery(entityClass, URI, user);
 				if (UtilString.isNotEmpty(query))
 				{
 					builder.append(query);
@@ -1140,6 +1140,13 @@ extends BaseAction
 					}
 					else
 					{
+						
+						// only for debug testing...
+						// if (!user.getEmployee().getEmpNo().equals("00071001"))
+						// {
+						//	 continue;
+						// }
+						
 						// 初始化用户拥有的资源
 						user.initMenuRights();
 						
@@ -1200,12 +1207,19 @@ extends BaseAction
 				// 判断是否被授予数据权限
 				if (dataPolicyQuery.isGrantedDataPolicy(vo.getObject(), user))
 				{
-					String dataQuery = dataPolicyQuery.buildPolicyQuery(entityClass);
-					if (UtilString.isNotEmpty(dataQuery))
+					String dataQuery = dataPolicyQuery.buildPolicyQuery(entityClass, 
+							vo.getObject().toString(), user);
+					if (dataQuery != null && !"".equals(dataQuery)) //UtilString.isNotEmpty(dataQuery))
 					{
 						// 获取AclFilterAnnotation
-						AclFilterAnnotation annotation = (AclFilterAnnotation) UtilAnnotation.getAnnotationFromEntityFields(
+						AclFilterAnnotation annotation = (AclFilterAnnotation) UtilAnnotation.getSingleAnnotationFromEntity(
 								entityClass, AclFilterAnnotation.class);
+						
+						if (annotation == null)
+						{
+							// It always returns true if AclFilter not provided.
+							return true;
+						}
 						
 						// 获取AclFilter过滤的字段
 						String[] aclFieldNames = annotation.fieldNames();

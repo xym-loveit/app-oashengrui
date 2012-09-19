@@ -33,6 +33,33 @@ public class DataPolicyQuery
 	@SuppressWarnings("rawtypes")
 	public String buildPolicyQuery (Class entity)
 	{
+		return buildPolicyQuery(entity, DataPolicyEngine.get().toString(), ContextUtil.getCurrentUser());
+	}
+	
+	/**
+	 * Builds the policy query filter with the specified entity.
+	 * 
+	 * @param entity
+	 * @param URI·
+	 * @return
+	 */
+	@SuppressWarnings("rawtypes")
+	public String buildPolicyQuery (Class entity, String URI)
+	{
+		return buildPolicyQuery(entity, URI, ContextUtil.getCurrentUser());
+	}
+	
+	/**
+	 * Builds the policy query filter with the specified entity.
+	 * 
+	 * @param entity
+	 * @param URI
+	 * @param user
+	 * @return
+	 */
+	@SuppressWarnings("rawtypes")
+	public String buildPolicyQuery (Class entity, String URI, ModelAppUser user)
+	{
 		Field[] fields = entity.getDeclaredFields();
 		if (fields != null)
 		{
@@ -43,7 +70,7 @@ public class DataPolicyQuery
 					AclFilterAnnotation aclFilter = field.getAnnotation(AclFilterAnnotation.class);
 					if (validateAnnotation(aclFilter))
 					{
-						return buildQueryFilter(DataPolicyEngine.get().toString(), aclFilter);
+						return buildQueryFilter(URI, aclFilter, user);
 					}
 					else
 					{
@@ -110,9 +137,10 @@ public class DataPolicyQuery
 	 * 
 	 * @param aclFilter
 	 *          the annotation of ACL filter
+	 * @param user
 	 * @return query native SQL
 	 */
-	private String buildQueryFilter (String URI, AclFilterAnnotation aclFilter)
+	private String buildQueryFilter (String URI, AclFilterAnnotation aclFilter, ModelAppUser user)
 	{
 		if (aclFilter != null)
 		{
@@ -129,7 +157,7 @@ public class DataPolicyQuery
 					String fieldType = fieldTypes[i];
 					if (UtilString.isNotEmpty(fieldType))
 					{
-						String strategy = obtainDataStrategy(URI, fieldType);
+						String strategy = obtainDataStrategy(URI, fieldType, user);
 						if (strategy != null)
 						{
 							if ("__ALL".equals(strategy))
@@ -162,13 +190,14 @@ public class DataPolicyQuery
 	 * 
 	 * @param URI
 	 * @param fieldType
+	 * @param user
 	 * @return
 	 */
-	private String obtainDataStrategy (String URI, String fieldType)
+	private String obtainDataStrategy (String URI, String fieldType, final ModelAppUser user)
 	{
-		ModelAppUser logonUser = ContextUtil.getCurrentUser();
+		ModelAppUser logonUser = user; //ContextUtil.getCurrentUser();
 		
-		Integer dataPolicy = ContextUtil.getCurrentUser().getDataPermissions().get(URI.toString());
+		Integer dataPolicy = user.getDataPermissions().get(URI.toString());
 		
 		if (AppUtil.EDataPermissions.DP_DIS_WHOLE.getValue().equals(dataPolicy)
 				&& AppUtil.EDataPermissions.DP_DIS_WHOLE.getType().equals(fieldType))

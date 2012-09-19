@@ -153,6 +153,11 @@ public final class WebActionUtil
 	public static final String MENU_KEY_APPROVAL_TODO = "_menu_mod_personal_approval";
 	
 	/**
+	 * 当前招聘管理
+	 */
+	public static final String MENU_KEY_JOB_MGR = "_menu_mod_hrm_jobhire_cmgr";
+	
+	/**
 	 * 消息更新Script
 	 */
 	public static final String scriptMessageNotify = "messageNotify";
