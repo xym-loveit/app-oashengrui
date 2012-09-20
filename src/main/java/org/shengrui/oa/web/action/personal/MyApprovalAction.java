@@ -186,9 +186,10 @@ extends BaseAppAction
 					ModelHrmEmployeeDevelop.class, 
 					new String[] {
 						"(audit_state IS NULL and cproc_depid = " + 
-								ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
-								ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"
-					}
+						ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
+						ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId() + " and " +
+						"(to_district IS NULL OR to_district = " + 
+							ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getId() + "))"					}
 				),
 				pagingBean
 			);

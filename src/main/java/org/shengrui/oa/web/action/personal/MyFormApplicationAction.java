@@ -423,8 +423,14 @@ extends FlowBaseAction
 						for (int i = 0, size = employees.size(); i <  size; i++)
 						{
 							ModelHrmEmployee employee = employees.get(i);
-							builder.append(employee.getId());
-							builder.append(",");
+							
+							// ensures specified district equals the district of employee.
+							if (entity.getToDistrict() == null || 
+									entity.getToDistrict().getId().equals(employee.getEmployeeDistrict().getId()))
+							{
+								builder.append(employee.getId());
+								builder.append(",");
+							}
 						}
 						
 						this.sendMessage("my.approval.audit.hrm", 
