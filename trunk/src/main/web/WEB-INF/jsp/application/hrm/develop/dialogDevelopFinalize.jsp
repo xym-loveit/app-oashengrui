@@ -14,12 +14,12 @@
 </style>
 
 <div class="pageContent" id="tree_rolefuncs">
-	<form id="offerFinalize" method="post" action="app/hrm/entry.do?action=actionEntrySave" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<form id="offerFinalize" method="post" action="app/hrm/develop.do?action=actionDevelopFinalize&state=${state}&id=${employeeDevelopEntry.id}" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent" layoutH="56">
 			<c:choose>
-				<c:when test="${op eq 'departure'}">
+				<c:when test="${state eq '4'}">
 					<div style="line-height: 30px;">
-								您确定'<span class="fblue">${employeeDevelopEntry ne null ? employeeDevelopEntry.employee.resume.fullName : ''}</span>'<span class="fred"><span class="fred">离职</span>吗？
+						您确定'<span class="fblue">${employeeDevelopEntry ne null ? employeeDevelopEntry.employee.resume.fullName : ''}</span>'<span class="fred"><span class="fred">离职</span>吗？
 					</div>
 					<div style="line-height: 30px;">
 						<span style="float:left;">
@@ -33,75 +33,74 @@
 						</select>
 					</div>
 				</c:when>
-				<c:when test="${op eq 'transfer'}">
+				<c:when test="${state eq '3'}">
 					<div style="line-height: 30px;">
-								您确定'<span class="fblue">${employeeDevelopEntry ne null ? employeeDevelopEntry.employee.resume.fullName : ''}</span>'<span class="fred"><span class="fred">调动</span>吗？
+						您确定'<span class="fblue">${employeeDevelopEntry ne null ? employeeDevelopEntry.employee.resume.fullName : ''}</span>'<span class="fred"><span class="fred">调动</span>吗？
 					</div>
-					
 					<div style="line-height: 30px;">
-						<table style="width:100%">
+						<table style="width:100%" cellpadding="10" cellspacing="10">
 							<tr>
 								<td>原校区：</td>
-								<td><input name="fromDistrict"  type="text" style="width:120px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.fromDistrict.districtName : ''}" readonly/></td>
+								<td><input name="fromDistrict"  type="text" style="width:80px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.fromDistrict.districtName : ''}" readonly/></td>
 								<td>原部门：</td>
-								<td><input name="fromDepartment"  type="text" style="width:120px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.fromDepartment.depName : ''}" readonly/></td>
+								<td><input name="fromDepartment"  type="text" style="width:80px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.fromDepartment.depName : ''}" readonly/></td>
 								<td>原职位：</td>
-								<td colspan="4"><input name="fromPosition"  type="text" style="width:120px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.fromPosition.positionName : ''}" readonly/></td>
+								<td colspan="4"><input name="fromPosition"  type="text" style="width:80px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.fromPosition.positionName : ''}" readonly/></td>
 							</tr>
 							<tr>
 								<td>调动校区：</td>
-								<td><input name="fromDistrict"  type="text" style="width:120px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.applyForm.toDistrictNames : ''}" readonly/></td>
+								<td><input name="fromDistrict"  type="text" style="width:80px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.toDistrict.districtName : ''}" readonly/></td>
 								<td>调动部门：</td>
-								<td><input name="fromDepartment"  type="text" style="width:120px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.applyForm.toDepartmentNames : ''}" readonly/></td>
+								<td><input name="fromDepartment"  type="text" style="width:80px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.toDepartment.depName : ''}" readonly/></td>
 								<td>调动职务：</td>
-								<td colspan="4"><input name="fromPosition"  type="text" style="width:120px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.applyForm.toPositionNames : ''}" readonly/></td>
+								<td colspan="4"><input name="fromPosition"  type="text" style="width:80px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.toPosition.positionName : ''}" readonly/></td>
 							</tr>
 							<tr>
 							<td>调动时间：</td>
-							<td colspan = "5"><input name="transferDate" class="date textInput" yearstart="-80" yearend="0" style="width:120px" value='' /></td>
+							<td colspan = "5"><input name="transferDate" class="date textInput required" yearstart="-80" yearend="0" style="width:80px" value='' /></td>
 							</tr>
 						</table>
 					</div>
 				</c:when>
-				<c:when test="${op eq 'promote'}">
+				<c:when test="${state eq '6'}">
 					<div style="line-height: 30px;">
-								您确定'<span class="fblue">${employeeDevelopEntry ne null ? employeeDevelopEntry.employee.resume.fullName : ''}</span>'<span class="fred"><span class="fred">晋升</span>吗？
+						您确定'<span class="fblue">${employeeDevelopEntry ne null ? employeeDevelopEntry.employee.resume.fullName : ''}</span>'<span class="fred"><span class="fred">晋升</span>吗？
 					</div>
 					
 					<div style="line-height: 30px;">
 						<table style="width:100%">
 							<tr>
 								<td>原校区：</td>
-								<td><input name="fromDistrict"  type="text" style="width:120px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.fromDistrict.districtName : ''}" readonly/></td>
+								<td><input name="fromDistrict"  type="text" style="width:80px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.fromDistrict.districtName : ''}" readonly/></td>
 								<td>原部门：</td>
-								<td><input name="fromDepartment"  type="text" style="width:120px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.fromDepartment.depName : ''}" readonly/></td>
+								<td><input name="fromDepartment"  type="text" style="width:80px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.fromDepartment.depName : ''}" readonly/></td>
 								<td>原职位：</td>
-								<td colspan="4"><input name="fromPosition"  type="text" style="width:120px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.fromPosition.positionName : ''}" readonly/></td>
+								<td colspan="4"><input name="fromPosition"  type="text" style="width:80px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.fromPosition.positionName : ''}" readonly/></td>
 							</tr>
 							<tr>
 								<td>晋升校区：</td>
-								<td><input name="fromDistrict"  type="text" style="width:120px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.applyForm.toDistrictNames : ''}" readonly/></td>
+								<td><input name="fromDistrict"  type="text" style="width:80px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.toDistrict.districtName : ''}" readonly/></td>
 								<td>晋升部门：</td>
-								<td><input name="fromDepartment"  type="text" style="width:120px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.applyForm.toDepartmentNames : ''}" readonly/></td>
+								<td><input name="fromDepartment"  type="text" style="width:80px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.toDepartment.depName : ''}" readonly/></td>
 								<td>晋升职务：</td>
-								<td colspan="4"><input name="fromPosition"  type="text" style="width:120px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.applyForm.toPositionNames : ''}" readonly/></td>
+								<td colspan="4"><input name="fromPosition"  type="text" style="width:80px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.toPosition.positionName : ''}" readonly/></td>
 							</tr>
 							<tr>
 							<td>晋升时间：</td>
-							<td colspan = "5"><input name="transferDate" class="date textInput" yearstart="-80" yearend="0" style="width:120px" value='' /></td>
+							<td colspan = "5"><input name="transferDate" class="date textInput required" yearstart="-80" yearend="0" style="width:80px" value='' /></td>
 							</tr>
 						</table>
 					</div>
 				</c:when>
-				<c:when test="${op eq 'positive'}">
+				<c:when test="${state eq '2'}">
 					<div style="line-height: 30px;">
-								您确定'<span class="fblue">${employeeDevelopEntry ne null ? employeeDevelopEntry.employee.resume.fullName : ''}</span>'<span class="fred"><span class="fred">转正</span>吗？
+						您确定'<span class="fblue">${employeeDevelopEntry ne null ? employeeDevelopEntry.employee.resume.fullName : ''}</span>'<span class="fred"><span class="fred">转正</span>吗？
 					</div>
 					<div style="line-height: 30px;">
 						<span style="float:left;">
 							转正时间：
 						</span>
-						<input name="postiveDate" class="date textInput" yearstart="-80" yearend="0" style="width:120px" value='' />
+						<input name="postiveDate" class="date textInput required" yearstart="-80" yearend="0" style="width:80px" value='' />
 					</div>
 				</c:when>
 			</c:choose>
