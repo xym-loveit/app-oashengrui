@@ -93,25 +93,25 @@
 								<c:choose>
 									<c:when test="${entity.applyFormType.processTypeKey eq 'PROCESS_MEMBER_BERGULAR'}">
 										<c:choose>
-											<c:when test="${entity.auditState eq 2 && entity.operationState eq 0}"><a target="ajaxTodo" href="app/hrm/develop.do?action=actionDevelopFinalize&id=${entity.id}&state=2" class="op_enable" title="确定要进行转正操作吗?" callback="callback_finalizeDone()">转正</a></c:when>
+											<c:when test="${entity.auditState eq 2 && entity.operationState eq 0}"><a target="dialog" href="app/hrm/develop.do?action=actionDevelopFinalize&id=${entity.id}&state=2&op=dialog" class="op_enable" title="确定要进行转正操作吗?" callback="callback_finalizeDone()" mask="true">转正</a></c:when>
 											<c:otherwise><a href="javascript:void(0);" class="op_disable">转正</a></c:otherwise>
 										</c:choose>
 									</c:when>
 									<c:when test="${entity.applyFormType.processTypeKey eq 'PROCESS_MEMBER_PROMOTION'}">
 										<c:choose>
-											<c:when test="${entity.auditState eq 2 && entity.operationState eq 0}"><a target="ajaxTodo" href="app/hrm/develop.do?action=actionDevelopFinalize&id=${entity.id}&state=6" class="op_enable" title="确定要进行晋升操作吗?">晋升</a></c:when>
+											<c:when test="${entity.auditState eq 2 && entity.operationState eq 0}"><a target="dialog" href="app/hrm/develop.do?action=actionDevelopFinalize&id=${entity.id}&state=6&op=dialog" class="op_enable" title="确定要进行晋升操作吗?" mask="true">晋升</a></c:when>
 											<c:otherwise><a href="javascript:void(0);" class="op_disable">晋升</a></c:otherwise>
 										</c:choose>
 									</c:when>
 									<c:when test="${entity.applyFormType.processTypeKey eq 'PROCESS_MEMBER_FAIRWELL'}">
 										<c:choose>
-											<c:when test="${entity.auditState eq 2 && entity.operationState eq 0}"><a target="ajaxTodo" href="app/hrm/develop.do?action=actionDevelopFinalize&id=${entity.id}&state=4" class="op_enable" title="确定要进行离职操作吗?">离职</a></c:when>
+											<c:when test="${entity.auditState eq 2 && entity.operationState eq 0}"><a target="dialog" href="app/hrm/develop.do?action=actionDevelopFinalize&id=${entity.id}&state=4&op=dialog" class="op_enable" title="确定要进行离职操作吗?" mask="true">离职</a></c:when>
 											<c:otherwise><a href="javascript:void(0);" class="op_disable">离职</a></c:otherwise>
 										</c:choose>
 									</c:when>
 									<c:when test="${entity.applyFormType.processTypeKey eq 'PROCESS_MEMBER_TRANSFER'}">
 										<c:choose>
-											<c:when test="${entity.auditState eq 2 && entity.operationState eq 0}"><a target="ajaxTodo" href="app/hrm/develop.do?action=actionDevelopFinalize&id=${entity.id}&state=3" class="op_enable" title="点击进行调动操作...">调动</a></c:when>
+											<c:when test="${entity.auditState eq 2 && entity.operationState eq 0}"><a target="dialog" href="app/hrm/develop.do?action=actionDevelopFinalize&id=${entity.id}&state=3&op=dialog" class="op_enable" title="点击进行调动操作..." mask="true">调动</a></c:when>
 											<c:otherwise><a href="javascript:void(0);" class="op_disable">调动</a></c:otherwise>
 										</c:choose>
 									</c:when>

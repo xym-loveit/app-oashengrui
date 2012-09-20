@@ -17,6 +17,7 @@ import org.shengrui.oa.model.hrm.ModelHrmEmployeeRoadMap;
 import org.shengrui.oa.service.flow.ServiceProcessType;
 
 import cn.trymore.core.exception.ServiceException;
+import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
@@ -123,6 +124,16 @@ extends BaseHrmAction
 					ModelHrmEmployeeDevelop developInfo = this.serviceHrmEmployeeDevelop.get(developId);
 					if (developInfo != null)
 					{
+						
+						String operation = request.getParameter("op");
+						if (!UtilString.isNotEmpty(operation) || operation.equals("dialog"))
+						{
+							request.setAttribute("state", state);
+							request.setAttribute("employeeDevelopEntry", developInfo);
+							
+							return mapping.findForward("dialog.hrm.form.state." + state);
+						}
+						
 						// 保存操作
 						developInfo.setOperationState(1);
 						this.serviceHrmEmployeeDevelop.save(developInfo);
