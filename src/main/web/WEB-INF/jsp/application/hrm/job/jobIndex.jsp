@@ -84,7 +84,7 @@
 	<div class="panelBar">
 		<c:if test="${tm:ifGranted('__ALL,_FUNCKEY_JOBAPPROVAL_SUBNODE,_FUNCKEY_JOBAPPROVAL_ROOT')}">
 			<ul class="toolBar" style="float:right">
-				<li><a treeicon="icon-edit" class="icon" href="app/hrm/hire.do?action=hrmPageJobApprovalIndex" target="navTab" rel="hr_approval"><span class="icon-edit">待我审批</span></a></li>
+				<li><a treeicon="icon-edit" class="icon" href="app/hrm/hire.do?action=hrmPageJobApprovalIndex" target="navTab" rel="hr_approval"><span class="icon-edit">待我审批<c:if test="${numJobsToApproval ne null && numJobsToApproval gt 0}">(${numJobsToApproval})</c:if></span></a></li>
 			</ul>
 		</c:if>
 		<ul class="toolBar">

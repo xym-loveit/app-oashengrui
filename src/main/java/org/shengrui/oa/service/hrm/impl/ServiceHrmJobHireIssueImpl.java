@@ -67,12 +67,44 @@ extends ServiceGenericImpl<ModelHrmJobHireIssue> implements ServiceHrmJobHireIss
 	 * @see org.shengrui.oa.service.hrm.ServiceHrmJobHireIssue#getNumHireEntry()
 	 */
 	@Override
-	public int getNumHireEntry()  throws ServiceException
+	public int getNumHireEntry()
 	{
-		String sql = "SELECT count(*) as count FROM `app_hrm_hire_issue` h " +
+		return this.getNumHireEntry(null, true);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmJobHireIssue#getNumHireEntry(java.lang.String, boolean)
+	 */
+	@Override
+	public int getNumHireEntry(String whereCloud, boolean accessIfCondEmpty)
+	{
+		try
+		{
+			String sql = "SELECT count(*) as count FROM `app_hrm_hire_issue` h " +
 							"LEFT JOIN `app_hrm_hire_entries` e ON h.hissue_id = e.issue_id WHERE e.cstatus = " + ModelHrmJobHireEntry.EHireEntryCStatus.TODO.getValue();
+			
+			if (UtilString.isNotEmpty(whereCloud))
+			{
+				if (!whereCloud.toLowerCase().trim().startsWith("and"))
+				{
+					sql = sql + " AND ";
+				}
+				
+				sql = sql + whereCloud;
+			}
+			
+			if (accessIfCondEmpty || whereCloud != null)
+			{
+				return this.daoHrmJobHireIssue.getCountByNativeSQL(sql);
+			}
+		}
+		catch (Exception e)
+		{
+			// do nothing here..
+		}
 		
-		return this.daoHrmJobHireIssue.getCountByNativeSQL(sql);
+		return 0;
 	}
 	
 	/*
@@ -80,15 +112,47 @@ extends ServiceGenericImpl<ModelHrmJobHireIssue> implements ServiceHrmJobHireIss
 	 * @see org.shengrui.oa.service.hrm.ServiceHrmJobHireIssue#getNumHireIssue()
 	 */
 	@Override
-	public int getNumHireIssue()  throws ServiceException
+	public int getNumHireIssue()
 	{
-		String sql = "SELECT count(*) as count FROM `app_hrm_hire_issue` h LEFT JOIN "+
+		return this.getNumHireIssue(null, true);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmJobHireIssue#getNumHireIssue(java.lang.String, boolean)
+	 */
+	@Override
+	public int getNumHireIssue(String whereCloud, boolean accessIfCondEmpty)
+	{
+		try
+		{
+			String sql = "SELECT count(*) as count FROM `app_hrm_hire_issue` h LEFT JOIN "+
 							"`app_hrm_hire_interviews` i ON h.hissue_id = i.hissue_id " +
-							"WHERE (h.current_status = " + ModelHrmJobHireIssue.EJobHireIssueStatus.TOPLAN.getValue() + 
-								" OR (i.state = " + ModelHrmJobHireInterview.EInterviewState.ONGING.getValue() + 
-								" OR i.interview_date >= '" + UtilDate.parseTime(new Date(), "yyyy-MM-dd") + " 00:00:00'))";
+								"WHERE (h.current_status = " + ModelHrmJobHireIssue.EJobHireIssueStatus.TOPLAN.getValue() + 
+									" OR (i.state = " + ModelHrmJobHireInterview.EInterviewState.ONGING.getValue() + 
+										" OR i.interview_date >= '" + UtilDate.parseTime(new Date(), "yyyy-MM-dd") + " 00:00:00'))";
+			
+			if (UtilString.isNotEmpty(whereCloud))
+			{
+				if (!whereCloud.toLowerCase().trim().startsWith("and"))
+				{
+					sql = sql + " AND ";
+				}
+				
+				sql = sql + whereCloud;
+			}
+			
+			if (accessIfCondEmpty || whereCloud != null)
+			{
+				return this.daoHrmJobHireIssue.getCountByNativeSQL(sql);
+			}
+		}
+		catch (Exception e)
+		{
+			// do nothing here.
+		}
 		
-		return this.daoHrmJobHireIssue.getCountByNativeSQL(sql);
+		return 0;
 	}
 
 	public void setDaoHrmJobHireIssue(DAOHrmJobHireIssue daoHrmJobHireIssue)

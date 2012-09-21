@@ -236,7 +236,7 @@ ${tm:fileRestore(jobHire['attachFiles'])}
 			<ul>
 				<c:if test="${op eq null || op ne 'view'}">
 					<c:choose>
-						<c:when test="${jobHire ne null && op ne 'edit'}">
+						<c:when test="${jobHire ne null && jobHire.id ne null && op ne 'edit'}">
 							<c:choose>
 								<c:when test="${jobHire.status eq 1}">
 									<li><div class="buttonActive"><div class="buttonContent"><button id="btnapproval" type="submit">提交总部审核</button></div></div></li>

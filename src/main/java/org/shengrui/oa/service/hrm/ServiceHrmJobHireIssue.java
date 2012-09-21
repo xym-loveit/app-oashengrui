@@ -39,7 +39,17 @@ extends ServiceGeneric<ModelHrmJobHireIssue>
 	 * @return
 	 * @throws ServiceException
 	 */
-	int getNumHireEntry() throws ServiceException;
+	int getNumHireEntry();
+	
+	/**
+	 * 获取招聘安排数量
+	 * 
+	 * @param whereCloud
+	 * @param accessIfCondEmpty
+	 * @return
+	 * @throws ServiceException
+	 */
+	int getNumHireEntry(String whereCloud, boolean accessIfCondEmpty);
 	
 	/**
 	 * 获取入职安排数量
@@ -47,5 +57,15 @@ extends ServiceGeneric<ModelHrmJobHireIssue>
 	 * @return
 	 * @throws ServiceException
 	 */
-	int getNumHireIssue() throws ServiceException;
+	int getNumHireIssue();
+	
+	/**
+	 * 获取招聘安排数量
+	 * 
+	 * @param whereCloud
+	 * @param accessIfCondEmpty
+	 * @return
+	 * @throws ServiceException
+	 */
+	int getNumHireIssue(String whereCloud, boolean accessIfCondEmpty);
 }

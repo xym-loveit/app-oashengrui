@@ -128,4 +128,17 @@ public interface ServiceGeneric<T extends ModelBase>
 	@SuppressWarnings("rawtypes")
 	int getAffectedNumByQuery (final Class clas, 
 			String whereCloud);
+	
+	/**
+	 * Obtains affected entity row count with the specified native query
+	 * 
+	 * @param clas
+	 *          entity object
+	 * @param whereCloud
+	 *          native SQL query
+	 * @return affected entity row count
+	 * @throws ServiceException
+	 */
+	int getAffectedNumByQuery (final String nativeSql, 
+			String whereCloud);
 }

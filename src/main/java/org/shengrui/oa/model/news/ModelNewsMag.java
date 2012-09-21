@@ -130,7 +130,7 @@ extends ModelBase
 	 * */
 	public static enum newsStatus{
 		TODO_DRAFT(0, "todo_draft"),	// 草稿
-		TODO_HEAD(1, "todo_inhead"),	// 已发布并待审核
+		TODO_APPROVE(1, "todo_inhead"),	// 已发布并待审核
 		APPROVED(2, "approved"),		// 审核通过
 		RETURNED(3, "returned");		// 审核退回
 		

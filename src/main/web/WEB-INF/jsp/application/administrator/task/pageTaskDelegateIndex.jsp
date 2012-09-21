@@ -26,9 +26,14 @@
 	}
 </script>
 
+<form id="pagerForm" method="post" action="app/admin/task.do?action=pageTaskDelegateIndex">
+	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
+	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
+</form>
+
 <!-- SearchBar -->
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="app/admin/task.do?action=pageTaskDelegateIndex" method="post">
+	<form onsubmit="return navTabSearch(this);" action="app/admin/task.do?action=pageTaskDelegateIndex" method="post" rel="pagerForm">
 		<div class="searchBar">
 			<table class="searchContent">
 				<tr>

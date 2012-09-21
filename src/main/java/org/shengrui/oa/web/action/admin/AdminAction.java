@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -28,12 +29,14 @@ import org.shengrui.oa.model.system.ModelBaseWorkTime;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 import org.shengrui.oa.model.system.ModelWorkTemplate;
+import org.shengrui.oa.service.base.ServiceBase;
 import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.util.UtilDateTime;
 import org.shengrui.oa.util.WebActionUtil;
 import org.springframework.beans.BeanUtils;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.exception.WebException;
+import cn.trymore.core.jstl.JstlTagSecurity;
 import cn.trymore.core.util.UtilBean;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.util.excel.AbstractExcelParser;
@@ -63,6 +66,12 @@ extends BaseAdminAction
 	private static final String ACTION_FORM_FLAG_RETURNED = "2";
 	
 	private static final String type = "news";
+	
+	/**
+	 * The basic service
+	 */
+	@Resource
+	private ServiceBase serviceBase;
 
 	/**
 	 * 首页显示我的新闻
@@ -116,7 +125,8 @@ extends BaseAdminAction
 	public ActionForward adminPageEntryIndex (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) 
 	{
-		try {
+		try 
+		{
 			ModelNewsMag formNews = (ModelNewsMag) form;
 			PagingBean pagingBean = this.getPagingBean(request);
 			String id = request.getParameter("type");
@@ -130,8 +140,26 @@ extends BaseAdminAction
 			// 输出分页信息至客户端
 			outWritePagination(request, pagingBean, news);
 			
-		} catch (Exception e) {
-			e.printStackTrace();
+			// 判断是否被赋予审批权限
+			if (JstlTagSecurity.ifGranted(WebActionUtil.APPROVAL_ADMIN_NEWS.getKey()))
+			{
+				request.setAttribute("numNewsToApprove", 
+					this.serviceBase.getAffectedNumByQuery(ModelNewsMag.class, 
+						this.getModelDataPolicyQuery(
+							WebActionUtil.MENU_ITEM_ADMIN_NEWS.getObject().getKey(),
+							WebActionUtil.MENU_ITEM_ADMIN_NEWS.getObject().getObject(),
+							ModelNewsMag.class, 
+							new String[] {
+								"(status = " + ModelNewsMag.newsStatus.TODO_APPROVE.getValue() + ")"
+							}
+						)
+					)
+				);
+			}
+			
+		} 
+		catch (Exception e) 
+		{
 			LOGGER.error("Exception raised when open the archive index page.", e);
 			return ajaxPrint(response, getErrorCallback("加载新闻发布与管理数据失败:" + e.getMessage()));
 		}
@@ -1656,4 +1684,14 @@ extends BaseAdminAction
 	      }
 	      return "";
 	   }
+	   
+	public ServiceBase getServiceBase()
+	{
+		return serviceBase;
+	}
+
+	public void setServiceBase(ServiceBase serviceBase)
+	{
+		this.serviceBase = serviceBase;
+	}
 }

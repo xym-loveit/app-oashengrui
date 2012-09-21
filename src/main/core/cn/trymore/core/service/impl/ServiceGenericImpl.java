@@ -266,6 +266,31 @@ implements ServiceGeneric<T>
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see cn.trymore.core.service.ServiceGeneric#getAffectedNumByQuery(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public int getAffectedNumByQuery (final String nativeSql, 
+			String whereCloud)
+	{
+		try
+		{
+			String sql = nativeSql;
+			if (UtilString.isNotEmpty(whereCloud))
+			{
+				sql = sql + " " + whereCloud;
+			}
+			
+			return dao.getCountByNativeSQL(sql);
+		}
+		catch (Exception e)
+		{
+			LOGGER.error("Affected number cannot be obtained.");
+			return 0;
+		}
+	}
+	
 	public DAOGeneric<T> getDao()
 	{
 		return dao;

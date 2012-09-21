@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.shengrui.oa.model.system.ModelAppRole;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.service.system.ServiceSchoolDepartment;
 import org.shengrui.oa.util.AppUtil;
@@ -33,7 +34,8 @@ public class DataPolicyQuery
 	@SuppressWarnings("rawtypes")
 	public String buildPolicyQuery (Class entity)
 	{
-		return buildPolicyQuery(entity, DataPolicyEngine.get().toString(), ContextUtil.getCurrentUser());
+		return buildPolicyQuery(entity, DataPolicyEngine.get().toString(), 
+				ContextUtil.getCurrentUser(), null);
 	}
 	
 	/**
@@ -46,7 +48,7 @@ public class DataPolicyQuery
 	@SuppressWarnings("rawtypes")
 	public String buildPolicyQuery (Class entity, String URI)
 	{
-		return buildPolicyQuery(entity, URI, ContextUtil.getCurrentUser());
+		return buildPolicyQuery(entity, URI, ContextUtil.getCurrentUser(), null);
 	}
 	
 	/**
@@ -58,7 +60,24 @@ public class DataPolicyQuery
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	public String buildPolicyQuery (Class entity, String URI, ModelAppUser user)
+	public String buildPolicyQuery (Class entity, final String URI, 
+			final ModelAppUser user)
+	{
+		return this.buildPolicyQuery(entity, URI, user, null);
+	}
+	
+	/**
+	 * Builds the policy query filter with the specified entity.
+	 * 
+	 * @param entity
+	 * @param URI
+	 * @param user
+	 * @param tableAlias
+	 * @return
+	 */
+	@SuppressWarnings("rawtypes")
+	public String buildPolicyQuery (Class entity, final String URI, 
+			final ModelAppUser user, final String tableAlias)
 	{
 		Field[] fields = entity.getDeclaredFields();
 		if (fields != null)
@@ -70,7 +89,7 @@ public class DataPolicyQuery
 					AclFilterAnnotation aclFilter = field.getAnnotation(AclFilterAnnotation.class);
 					if (validateAnnotation(aclFilter))
 					{
-						return buildQueryFilter(URI, aclFilter, user);
+						return buildQueryFilter(URI, aclFilter, user, tableAlias);
 					}
 					else
 					{
@@ -135,12 +154,15 @@ public class DataPolicyQuery
 	/**
 	 * Builds the query filter with the specified ACL filter annotation.
 	 * 
+	 * @param URI
 	 * @param aclFilter
 	 *          the annotation of ACL filter
 	 * @param user
+	 * @param tableAlias
 	 * @return query native SQL
 	 */
-	private String buildQueryFilter (String URI, AclFilterAnnotation aclFilter, ModelAppUser user)
+	private String buildQueryFilter (final String URI, 
+			final AclFilterAnnotation aclFilter, final ModelAppUser user, final String tableAlias)
 	{
 		if (aclFilter != null)
 		{
@@ -160,7 +182,7 @@ public class DataPolicyQuery
 						String strategy = obtainDataStrategy(URI, fieldType, user);
 						if (strategy != null)
 						{
-							if ("__ALL".equals(strategy))
+							if (ModelAppRole.SUPER_RIGHTS.equals(strategy))
 							{
 								// 全校数据
 								return null;
@@ -169,6 +191,11 @@ public class DataPolicyQuery
 							if (multiCloud)
 							{
 								builder.append(" OR ");
+							}
+							
+							if (UtilString.isNotEmpty(tableAlias))
+							{
+								builder.append(tableAlias + ".");
 							}
 							builder.append(fieldNames[i]);
 							builder.append(" IN (");
@@ -203,7 +230,7 @@ public class DataPolicyQuery
 				&& AppUtil.EDataPermissions.DP_DIS_WHOLE.getType().equals(fieldType))
 		{
 			// 全校数据, 可以访问所有数据
-			return "__ALL";
+			return ModelAppRole.SUPER_RIGHTS;
 		}
 		else if (AppUtil.EDataPermissions.DP_DIS_CURRENT.getValue().equals(dataPolicy)
 				&& AppUtil.EDataPermissions.DP_DIS_CURRENT.getType().equals(fieldType))

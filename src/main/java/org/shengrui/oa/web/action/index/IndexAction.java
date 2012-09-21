@@ -18,9 +18,13 @@ import org.shengrui.oa.model.finan.ModelFinanProject;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireEntry;
+import org.shengrui.oa.model.hrm.ModelHrmJobHireInfo;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireInterview;
+import org.shengrui.oa.model.hrm.ModelHrmJobHireIssue;
+import org.shengrui.oa.model.news.ModelNewsMag;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.service.base.ServiceBase;
+import org.shengrui.oa.service.hrm.ServiceHrmJobHireIssue;
 import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.util.WebActionUtil;
 import org.shengrui.oa.web.action.BaseAppAction;
@@ -49,6 +53,11 @@ extends BaseAppAction
 	@Resource
 	private ServiceBase serviceBase;
 	
+	/**
+	 * The service of HRM job hire issue
+	 */
+	@Resource
+	private ServiceHrmJobHireIssue serviceHrmJobHireIssue;
 	
 	/**
 	 * <b>[WebAction]</b> 
@@ -197,6 +206,20 @@ extends BaseAppAction
 		
 		Map<String, Integer> affectedItems = new HashMap<String, Integer>();
 		
+		// 获取新闻待审批数量...
+		affectedItems.put(WebActionUtil.MENU_ITEM_ADMIN_NEWS.getKey(), 
+			this.serviceBase.getAffectedNumByQuery(ModelNewsMag.class, 
+				this.getModelDataPolicyQuery(
+					WebActionUtil.MENU_ITEM_ADMIN_NEWS.getObject().getKey(),
+					WebActionUtil.MENU_ITEM_ADMIN_NEWS.getObject().getObject(),
+					ModelNewsMag.class, 
+					new String[] {
+						"(status = " + ModelNewsMag.newsStatus.TODO_APPROVE.getValue() + ")"
+					}
+				)
+			)
+		);
+		
 		// 获取待审批委托任务数量...
 		affectedItems.put(WebActionUtil.MENU_ITEM_ADMIN_TASK.getKey(), 
 			this.serviceBase.getAffectedNumByQuery(ModelTaskPlan.class, 
@@ -311,14 +334,63 @@ extends BaseAppAction
 			)
 		);
 		
+		// 获取岗位审批(待总部审批)数量...
+		int numJobOnMaster = this.serviceBase.getAffectedNumByQuery(ModelHrmJobHireInfo.class, 
+			this.getModelDataPolicyQuery(
+				WebActionUtil.APPROVAL_HRM_JOB_MASTER.getKey(),
+				WebActionUtil.APPROVAL_HRM_JOB_MASTER.getObject(),
+				ModelHrmJobHireInfo.class, 
+				new String[] {
+					"(status = " + ModelHrmJobHireInfo.EJobHireStatus.TODO_HEAD.getValue() + ")"
+				}
+			)
+		);
+		
+		// 获取岗位审批(待校区审批)数量...
+		int numJobOnZone = this.serviceBase.getAffectedNumByQuery(ModelHrmJobHireInfo.class, 
+			this.getModelDataPolicyQuery(
+				WebActionUtil.APPROVAL_HRM_JOB_ZOON.getKey(),
+				WebActionUtil.APPROVAL_HRM_JOB_ZOON.getObject(),
+				ModelHrmJobHireInfo.class, 
+				new String[] {
+					"(status = " + ModelHrmJobHireInfo.EJobHireStatus.TODO_ZONE.getValue() + ")"
+				}
+			)
+		);
+		
+		// 获取`入职安排`数量
+		int numJobEntryIssue = this.serviceHrmJobHireIssue.getNumHireEntry( 
+			this.getModelDataPolicyQuery(
+				WebActionUtil.ENTRY_GATE_HRM_JOB_ENTRY.getKey(),
+				WebActionUtil.ENTRY_GATE_HRM_JOB_ENTRY.getObject(),
+				ModelHrmJobHireIssue.class, 
+				null
+			), false
+		);
+		
+		// 获取`入职安排`数量
+		int numJobHireIssue = this.serviceHrmJobHireIssue.getNumHireIssue(
+			this.getModelDataPolicyQuery(
+				WebActionUtil.ENTRY_GATE_HRM_JOB_OFFER.getKey(),
+				WebActionUtil.ENTRY_GATE_HRM_JOB_OFFER.getObject(),
+				ModelHrmJobHireIssue.class, 
+				null
+			), false
+		);
+		
+		// 获取当前招聘管理待办提醒数字...
+		affectedItems.put(WebActionUtil.MENU_KEY_JOB_MGR, 
+				numJobOnMaster + numJobOnZone + numJobHireIssue + numJobEntryIssue);
+		
 		// 获取待我审批数量
-		// TODO: 新闻审批和岗位审批目前并未实现.
 		affectedItems.put(WebActionUtil.MENU_KEY_APPROVAL_TODO, 
-			affectedItems.get(WebActionUtil.MENU_ITEM_ADMIN_TASK.getKey()) + 
-			affectedItems.get(WebActionUtil.MENU_ITEM_FINA_CONTRACT.getKey()) + 
-			affectedItems.get(WebActionUtil.MENU_ITEM_FINA_EXPENSE.getKey()) +
-			affectedItems.get(WebActionUtil.MENU_ITEM_HRM_DEVELOP.getKey()) + 
-			affectedItems.get(WebActionUtil.MENU_ITEM_FINA_PROJECT.getKey())
+			affectedItems.get(WebActionUtil.MENU_ITEM_ADMIN_TASK.getKey()) 		+ 
+			affectedItems.get(WebActionUtil.MENU_ITEM_FINA_CONTRACT.getKey()) 	+ 
+			affectedItems.get(WebActionUtil.MENU_ITEM_FINA_EXPENSE.getKey()) 	+
+			affectedItems.get(WebActionUtil.MENU_ITEM_HRM_DEVELOP.getKey()) 	+ 
+			affectedItems.get(WebActionUtil.MENU_ITEM_FINA_PROJECT.getKey()) 	+
+			affectedItems.get(WebActionUtil.MENU_ITEM_ADMIN_NEWS.getKey())		+ 
+			(numJobOnMaster + numJobOnZone)
 		);
 		
 		// loads all configured menus, aims to present the left menu items.
@@ -333,6 +405,16 @@ extends BaseAppAction
 	public void setServiceBase(ServiceBase serviceBase)
 	{
 		this.serviceBase = serviceBase;
+	}
+
+	public void setServiceHrmJobHireIssue(ServiceHrmJobHireIssue serviceHrmJobHireIssue)
+	{
+		this.serviceHrmJobHireIssue = serviceHrmJobHireIssue;
+	}
+
+	public ServiceHrmJobHireIssue getServiceHrmJobHireIssue()
+	{
+		return serviceHrmJobHireIssue;
 	}
 	
 }
