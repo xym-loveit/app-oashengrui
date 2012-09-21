@@ -172,7 +172,7 @@
 </script>
 
 <!--- 生成需要展现文件的JSON -->
-<c:if test="${(op eq null || op ne 'view') && (conference ne null && fn:length(conference.attachFiles) gt 0)}">
+<c:if test="${(op eq null || op ne 'view') && (conference ne null && conference.id ne null && fn:length(conference.attachFiles) gt 0)}">
 <script type="text/uploader-restore" id="jp_J_UploaderRestore">
 ${tm:fileRestoreByType(conference['attachFiles'],"conference_attach")}
 </script>
@@ -206,7 +206,7 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 				<table cellspacing="10" cellpadding="10" style="border-spacing:15; border-collapse:collapse;" border="1" id="tbljob">
 					<tr>
 						<td nowrap class="field">会议名称：</td>
-						<td colspan="5"><input name="conferenceName" type="text" class="required" value="${conference ne null ? conference.conferenceName : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
+						<td colspan="5"><input name="conferenceName" type="text" class="required" value="${conference ne null && conference.id ne null ? conference.conferenceName : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''}/></td>
 						<td nowrap class="field">会议级别：</td>
 						<td style="padding: 5px;">
 							<c:choose>
@@ -233,7 +233,7 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 									<select class="combox" name="type.id" id="combox_cof_type" defOPKey="请选择会议类型" defOPVal="" style="width:120px">
 										<logic:present name="conferenceType">
 											<logic:iterate name="conferenceType" id="entity">
-												<option value="${entity.id}" ${conference ne null && conference.type ne null && conference.type.id eq entity.id ? 'selected="selected"' : ''}>${entity.name}</option>
+												<option value="${entity.id}" ${conference ne null && conference.id ne null && conference.type ne null && conference.type.id eq entity.id ? 'selected="selected"' : ''}>${entity.name}</option>
 											</logic:iterate>
 										</logic:present>
 									</select>
@@ -254,7 +254,7 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 											
 											<c:choose>
 											<c:when test="${op eq 'edit'}">
-												<option value="${district.id}" ${conference ne null && conference.district ne null && conference.district.id eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
+												<option value="${district.id}" ${conference ne null && conference.id ne null && conference.district ne null && conference.district.id eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
 											</c:when>
 											<c:otherwise>
 												<option value="${district.id}" ${currentDistrictId ne null && currentDistrictId eq district.id ? 'selected="selected"' : ''}>${district.districtName}</option>
@@ -266,7 +266,7 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 									</select>
 								</c:when>
 								<c:otherwise>
-									<input type="text"  value="${conference ne null && conference.district ne null ? conference.district.districtName : ''}" readonly />
+									<input type="text"  value="${conference ne null && conference.id ne null && conference.district ne null ? conference.district.districtName : ''}" readonly />
 								</c:otherwise>
 							</c:choose>
 						</td>
@@ -280,7 +280,7 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 											<logic:iterate name="select_departments" id="entity">
 											<c:choose>
 											<c:when test="${op eq 'edit'}">
-												<option value="${entity.id}" ${conference ne null && conference.department ne null && conference.department.id eq entity.id ? 'selected="selected"' : ''}>${entity.depName}</option>
+												<option value="${entity.id}" ${conference ne null && conference.id ne null && conference.department ne null && conference.department.id eq entity.id ? 'selected="selected"' : ''}>${entity.depName}</option>
 											</c:when>
 											<c:otherwise>
 												<option value="${entity.id}" ${currentDepId ne null && currentDepId eq entity.id ? 'selected="selected"' : ''}>${entity.depName}</option>
@@ -291,7 +291,7 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 									</select>
 								</c:when>
 								<c:otherwise>
-									<input name="department.id" type="text"  value="${conference ne null && conference.department ne null ? conference.department.depName : ''}" readonly />
+									<input name="department.id" type="text"  value="${conference ne null && conference.id ne null && conference.department ne null ? conference.department.depName : ''}" readonly />
 								</c:otherwise>
 							</c:choose>
 						</td>
@@ -305,21 +305,21 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 							<c:choose>
 								<c:when test="${op eq null || op ne 'view'}">
 									<select name="startHour" style="margin-left:5px;float:none">
-										<option value="08" ${conference ne null && conference.startHour eq '08' ? 'selected="selected"':'' }>08</option>
-										<option value="09" ${conference ne null && conference.startHour eq '09' ? 'selected="selected"':'' }>09</option>
-										<option value="10" ${conference ne null && conference.startHour eq '10' ? 'selected="selected"':'' }>10</option>
-										<option value="11" ${conference ne null && conference.startHour eq '11' ? 'selected="selected"':'' }>11</option>
-										<option value="12" ${conference ne null && conference.startHour eq '12' ? 'selected="selected"':'' }>12</option>
-										<option value="13" ${conference ne null && conference.startHour eq '13' ? 'selected="selected"':'' }>13</option>
-										<option value="14" ${conference ne null && conference.startHour eq '14' ? 'selected="selected"':'' }>14</option>
-										<option value="15" ${conference ne null && conference.startHour eq '15' ? 'selected="selected"':'' }>15</option>
-										<option value="16" ${conference ne null && conference.startHour eq '16' ? 'selected="selected"':'' }>16</option>
-										<option value="17" ${conference ne null && conference.startHour eq '17' ? 'selected="selected"':'' }>17</option>
-										<option value="18" ${conference ne null && conference.startHour eq '18' ? 'selected="selected"':'' }>18</option>
-										<option value="19" ${conference ne null && conference.startHour eq '19' ? 'selected="selected"':'' }>19</option>
-										<option value="20" ${conference ne null && conference.startHour eq '20' ? 'selected="selected"':'' }>20</option>
-										<option value="21" ${conference ne null && conference.startHour eq '21' ? 'selected="selected"':'' }>21</option>
-										<option value="22" ${conference ne null && conference.startHour eq '22' ? 'selected="selected"':'' }>22</option>
+										<option value="08" ${conference ne null && conference.id ne null && conference.startHour eq '08' ? 'selected="selected"':'' }>08</option>
+										<option value="09" ${conference ne null && conference.id ne null && conference.startHour eq '09' ? 'selected="selected"':'' }>09</option>
+										<option value="10" ${conference ne null && conference.id ne null && conference.startHour eq '10' ? 'selected="selected"':'' }>10</option>
+										<option value="11" ${conference ne null && conference.id ne null && conference.startHour eq '11' ? 'selected="selected"':'' }>11</option>
+										<option value="12" ${conference ne null && conference.id ne null && conference.startHour eq '12' ? 'selected="selected"':'' }>12</option>
+										<option value="13" ${conference ne null && conference.id ne null && conference.startHour eq '13' ? 'selected="selected"':'' }>13</option>
+										<option value="14" ${conference ne null && conference.id ne null && conference.startHour eq '14' ? 'selected="selected"':'' }>14</option>
+										<option value="15" ${conference ne null && conference.id ne null && conference.startHour eq '15' ? 'selected="selected"':'' }>15</option>
+										<option value="16" ${conference ne null && conference.id ne null && conference.startHour eq '16' ? 'selected="selected"':'' }>16</option>
+										<option value="17" ${conference ne null && conference.id ne null && conference.startHour eq '17' ? 'selected="selected"':'' }>17</option>
+										<option value="18" ${conference ne null && conference.id ne null && conference.startHour eq '18' ? 'selected="selected"':'' }>18</option>
+										<option value="19" ${conference ne null && conference.id ne null && conference.startHour eq '19' ? 'selected="selected"':'' }>19</option>
+										<option value="20" ${conference ne null && conference.id ne null && conference.startHour eq '20' ? 'selected="selected"':'' }>20</option>
+										<option value="21" ${conference ne null && conference.id ne null && conference.startHour eq '21' ? 'selected="selected"':'' }>21</option>
+										<option value="22" ${conference ne null && conference.id ne null && conference.startHour eq '22' ? 'selected="selected"':'' }>22</option>
 									</select>
 								</c:when>
 								<c:otherwise>
@@ -330,12 +330,12 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 							<c:choose>
 								<c:when test="${op eq null || op ne 'view'}">
 									<select name="startMinute" style="margin-left:5px;float:none">
-										<option value="00" ${conference ne null && conference.startMinute eq '00' ? 'selected="selected"':''}>00</option>
-										<option value="10" ${conference ne null && conference.startMinute eq '10' ? 'selected="selected"':''}>10</option>
-										<option value="20" ${conference ne null && conference.startMinute eq '20' ? 'selected="selected"':''}>20</option>
-										<option value="30" ${conference ne null && conference.startMinute eq '30' ? 'selected="selected"':''}>30</option>
-										<option value="40" ${conference ne null && conference.startMinute eq '40' ? 'selected="selected"':''}>40</option>
-										<option value="50" ${conference ne null && conference.startMinute eq '50' ? 'selected="selected"':''}>50</option>
+										<option value="00" ${conference ne null && conference.id ne null && conference.startMinute eq '00' ? 'selected="selected"':''}>00</option>
+										<option value="10" ${conference ne null && conference.id ne null && conference.startMinute eq '10' ? 'selected="selected"':''}>10</option>
+										<option value="20" ${conference ne null && conference.id ne null && conference.startMinute eq '20' ? 'selected="selected"':''}>20</option>
+										<option value="30" ${conference ne null && conference.id ne null && conference.startMinute eq '30' ? 'selected="selected"':''}>30</option>
+										<option value="40" ${conference ne null && conference.id ne null && conference.startMinute eq '40' ? 'selected="selected"':''}>40</option>
+										<option value="50" ${conference ne null && conference.id ne null && conference.startMinute eq '50' ? 'selected="selected"':''}>50</option>
 									</select>
 								</c:when>
 								<c:otherwise>
@@ -349,21 +349,21 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 							<c:choose>
 								<c:when test="${op eq null || op ne 'view'}">
 									<select name="endHour" style="margin-left:5px;float:none">
-										<option value="08" ${conference ne null && conference.endHour eq '08' ? 'selected="selected"':'' }>08</option>
-										<option value="09" ${conference ne null && conference.endHour eq '09' ? 'selected="selected"':'' }>09</option>
-										<option value="10" ${conference ne null && conference.endHour eq '10' ? 'selected="selected"':'' }>10</option>
-										<option value="11" ${conference ne null && conference.endHour eq '11' ? 'selected="selected"':'' }>11</option>
-										<option value="12" ${conference ne null && conference.endHour eq '12' ? 'selected="selected"':'' }>12</option>
-										<option value="13" ${conference ne null && conference.endHour eq '13' ? 'selected="selected"':'' }>13</option>
-										<option value="14" ${conference ne null && conference.endHour eq '14' ? 'selected="selected"':'' }>14</option>
-										<option value="15" ${conference ne null && conference.endHour eq '15' ? 'selected="selected"':'' }>15</option>
-										<option value="16" ${conference ne null && conference.endHour eq '16' ? 'selected="selected"':'' }>16</option>
-										<option value="17" ${conference ne null && conference.endHour eq '17' ? 'selected="selected"':'' }>17</option>
-										<option value="18" ${conference ne null && conference.endHour eq '18' ? 'selected="selected"':'' }>18</option>
-										<option value="19" ${conference ne null && conference.endHour eq '19' ? 'selected="selected"':'' }>19</option>
-										<option value="20" ${conference ne null && conference.endHour eq '20' ? 'selected="selected"':'' }>20</option>
-										<option value="21" ${conference ne null && conference.endHour eq '21' ? 'selected="selected"':'' }>21</option>
-										<option value="22" ${conference ne null && conference.endHour eq '22' ? 'selected="selected"':'' }>22</option>
+										<option value="08" ${conference ne null && conference.id ne null && conference.endHour eq '08' ? 'selected="selected"':'' }>08</option>
+										<option value="09" ${conference ne null && conference.id ne null && conference.endHour eq '09' ? 'selected="selected"':'' }>09</option>
+										<option value="10" ${conference ne null && conference.id ne null && conference.endHour eq '10' ? 'selected="selected"':'' }>10</option>
+										<option value="11" ${conference ne null && conference.id ne null && conference.endHour eq '11' ? 'selected="selected"':'' }>11</option>
+										<option value="12" ${conference ne null && conference.id ne null && conference.endHour eq '12' ? 'selected="selected"':'' }>12</option>
+										<option value="13" ${conference ne null && conference.id ne null && conference.endHour eq '13' ? 'selected="selected"':'' }>13</option>
+										<option value="14" ${conference ne null && conference.id ne null && conference.endHour eq '14' ? 'selected="selected"':'' }>14</option>
+										<option value="15" ${conference ne null && conference.id ne null && conference.endHour eq '15' ? 'selected="selected"':'' }>15</option>
+										<option value="16" ${conference ne null && conference.id ne null && conference.endHour eq '16' ? 'selected="selected"':'' }>16</option>
+										<option value="17" ${conference ne null && conference.id ne null && conference.endHour eq '17' ? 'selected="selected"':'' }>17</option>
+										<option value="18" ${conference ne null && conference.id ne null && conference.endHour eq '18' ? 'selected="selected"':'' }>18</option>
+										<option value="19" ${conference ne null && conference.id ne null && conference.endHour eq '19' ? 'selected="selected"':'' }>19</option>
+										<option value="20" ${conference ne null && conference.id ne null && conference.endHour eq '20' ? 'selected="selected"':'' }>20</option>
+										<option value="21" ${conference ne null && conference.id ne null && conference.endHour eq '21' ? 'selected="selected"':'' }>21</option>
+										<option value="22" ${conference ne null && conference.id ne null && conference.endHour eq '22' ? 'selected="selected"':'' }>22</option>
 									</select>
 								</c:when>
 								<c:otherwise>
@@ -374,12 +374,12 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 							<c:choose>
 								<c:when test="${op eq null || op ne 'view'}">
 									<select name="endMinute" style="margin-left:5px;float:none">
-										<option value="00" ${conference ne null && conference.endMinute eq '00' ? 'selected="selected"':''}>00</option>
-										<option value="10" ${conference ne null && conference.endMinute eq '10' ? 'selected="selected"':''}>10</option>
-										<option value="20" ${conference ne null && conference.endMinute eq '20' ? 'selected="selected"':''}>20</option>
-										<option value="30" ${conference ne null && conference.endMinute eq '30' ? 'selected="selected"':''}>30</option>
-										<option value="40" ${conference ne null && conference.endMinute eq '40' ? 'selected="selected"':''}>40</option>
-										<option value="50" ${conference ne null && conference.endMinute eq '50' ? 'selected="selected"':''}>50</option>
+										<option value="00" ${conference ne null && conference.id ne null && conference.endMinute eq '00' ? 'selected="selected"':''}>00</option>
+										<option value="10" ${conference ne null && conference.id ne null && conference.endMinute eq '10' ? 'selected="selected"':''}>10</option>
+										<option value="20" ${conference ne null && conference.id ne null && conference.endMinute eq '20' ? 'selected="selected"':''}>20</option>
+										<option value="30" ${conference ne null && conference.id ne null && conference.endMinute eq '30' ? 'selected="selected"':''}>30</option>
+										<option value="40" ${conference ne null && conference.id ne null && conference.endMinute eq '40' ? 'selected="selected"':''}>40</option>
+										<option value="50" ${conference ne null && conference.id ne null && conference.endMinute eq '50' ? 'selected="selected"':''}>50</option>
 									</select>
 								</c:when>
 								<c:otherwise>
@@ -392,23 +392,23 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 						<td class="field">参会人员：</td>
 						<td colspan="5"><input id="conferene_attendances" name="attendances" type="text" style="width: 100%;${op ne null && op eq 'view' ? 'display:none': ''}" /></td>
 						<td class="field">参会人数：</td>
-						<td><input id="attendances_count" type="text" name="count" value="${conference ne null ? conference.count : '' }" style="width:70px;float:left;margin:0" ${op ne null && op eq 'view' ? 'readonly' : ''}/>人	</td>
+						<td><input id="attendances_count" type="text" name="count" value="${conference ne null && conference.id ne null ? conference.count : '' }" style="width:70px;float:left;margin:0" ${op ne null && op eq 'view' ? 'readonly' : ''}/>人	</td>
 					</tr>
 					<tr>
 						<td class="field">联系人：</td>
 						<td colspan="3">
 						<!--input name="contactor" type="text" value="${conference ne null ? conference.contactor : ''}" ${op ne null && op eq 'view' ? 'readonly' : ''} /-->
 						<input id="inputEmpId" name="emp.id" value="" type="hidden"/>
-						<input class="required" name="emp.fullName" type="text" value="${conference ne null ? conference.contactor : ''}" <c:choose><c:when test="${op ne null && op eq 'view'}">readonly</c:when> <c:otherwise>postField="fullName" suggestFields="fullName,phoneNo" suggestUrl="app/base.do?action=lookupEmployeeByName" lookupGroup="emp" </c:otherwise></c:choose>/>
+						<input class="required" name="emp.fullName" type="text" value="${conference ne null && conference.id ne null ? conference.contactor : ''}" <c:choose><c:when test="${op ne null && op eq 'view'}">readonly</c:when> <c:otherwise>postField="fullName" suggestFields="fullName,phoneNo" suggestUrl="app/base.do?action=lookupEmployeeByName" lookupGroup="emp" </c:otherwise></c:choose>/>
 						</td>
 						<td class="field" style="vertical-align: top;">联系电话：</td>
-						<td colspan="3"><input name="emp.phoneNo" type="text" value="${conference ne null ? conference.phone : ''}"  ${op ne null && op eq 'view' ? 'readonly' : ''} /></td>
+						<td colspan="3"><input name="emp.phoneNo" type="text" value="${conference ne null && conference.id ne null ? conference.phone : ''}"  ${op ne null && op eq 'view' ? 'readonly' : ''} /></td>
 					</tr>
 					<tr>
 						<td class="field" style="vertical-align: top;">会议内容：</td>
 						<td colspan="7"><textarea name="content" rows="3" ${op ne null && op eq 'view' ? 'readonly' : ''}>${conference ne null ? conference.content : ''}</textarea></td>
 					</tr>
-					<c:if test="${conference ne null }">
+					<c:if test="${conference ne null && conference.id ne null}">
 						<tr>
 							<td class="field" style="vertical-align: top;">会议总结：</td>
 							<td colspan="7"><textarea rows="3" ${op ne null && op eq 'view' ? 'readonly' : ''}>${conference ne null ? conference.summary : ''}</textarea></td>
@@ -429,7 +429,7 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 									</c:when>
 									<c:otherwise>
 										<c:choose>
-											<c:when test="${conference ne null && fn:length(conference.attachFiles) gt 0}">
+											<c:when test="${conference ne null && conference.id ne null && fn:length(conference.attachFiles) gt 0}">
 												<ul>
 													<logic:iterate name="conference" property="attachFiles" id="file">
 														<c:if test="${file.fileType eq 'conference_process' }">
@@ -446,7 +446,7 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 							<!--<a class="oplink" href="app/hrm.do?action=hrmPageJobDetail&id=1" target="dialog" title="上传附件">上传附件</a>-->
 						</td>
 					</tr>
-					<c:if test="${op ne null && op eq 'view'  && (conference ne null && conference.summary ne null) }">
+					<c:if test="${op ne null && op eq 'view'  && (conference ne null && conference.id ne null && conference.summary ne null) }">
 					<tr>
 						<td class="field" style="vertical-align: top;">会议记录：</td>
 						<td colspan="7" style="padding: 5px;">
@@ -479,7 +479,7 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 									</c:when>
 									<c:otherwise>
 										<c:choose>
-											<c:when test="${conference ne null && fn:length(conference.attachFiles) gt 0}">
+											<c:when test="${conference ne null && conference.id ne null && fn:length(conference.attachFiles) gt 0}">
 												<ul>
 													<logic:iterate name="conference" property="attachFiles" id="file">
 														<c:if test="${file.fileType eq 'conference_attach' }">
@@ -507,7 +507,7 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 					</c:when>
 					<c:otherwise>
 						<c:choose>
-							<c:when test="${conference eq null }">
+							<c:when test="${conference eq null || conference.id eq null}">
 								<li><div class="buttonActive"><div class="buttonContent"><button type="submit">会议发起</button></div></div></li>
 							</c:when>
 						</c:choose>
@@ -518,7 +518,7 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 				</li>
 			</ul>
 		</div>
-		<input type="hidden" name="id" value="${conference ne null ? conference.id : '-1'}" />
-		<input type="hidden" name="status" value="${conference ne null ? conference.status : '1' }" />
+		<input type="hidden" name="id" value="${conference ne null && conference.id ne null ? conference.id : '-1'}" />
+		<input type="hidden" name="status" value="${conference ne null && conference.id ne null ? conference.status : '1' }" />
 	</form>
 </div>
