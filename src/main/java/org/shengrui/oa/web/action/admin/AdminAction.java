@@ -330,7 +330,15 @@ extends BaseAdminAction
 				modelNewsMag.setTopIndex(0);
 				modelNewsMag.setUpdateTime(new Date());
 			}
-
+			
+			// Added by Jeccy.Zhao on 23/08/2012: 短消息提醒新闻审批人..
+			Set<String> auditorIds = this.getUserIdsAgainstGrantedResource(
+				WebActionUtil.APPROVAL_ADMIN_NEWS, 
+				ModelNewsMag.class, 
+				String.valueOf(entity.getDistrictPost()), 
+				String.valueOf(entity.getDepPost())
+			);
+			
 			//审核
 			if(UtilString.isNotEmpty(formAction))
 			{
@@ -360,6 +368,14 @@ extends BaseAdminAction
 					ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
 				);
 				
+				// 服务器推送至客户端.
+				this.messagePush.pushMessage(UtilString.join(auditorIds, ","), 
+					WebActionUtil.scriptMessageNotify, 
+					WebActionUtil.MENU_ITEM_ADMIN_NEWS.getKey() + "," + 
+						WebActionUtil.MENU_KEY_APPROVAL_TODO,
+					-1
+				);
+				
 				return ajaxPrint(response, 
 						getSuccessCallback(formAction.equals("0") ? "新闻审核通过." : "新闻审批退回.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 			}
@@ -382,14 +398,6 @@ extends BaseAdminAction
 			
 			this.serviceNewsManage.save(entity);
 			
-			// Added by Jeccy.Zhao on 23/08/2012: 短消息提醒新闻审批人..
-			Set<String> auditorIds = this.getUserIdsAgainstGrantedResource(
-				WebActionUtil.APPROVAL_ADMIN_NEWS, 
-				ModelNewsMag.class, 
-				String.valueOf(entity.getDistrictPost()), 
-				String.valueOf(entity.getDepPost())
-			);
-			
 			if (auditorIds != null && auditorIds.size() > 0)
 			{
 				String strIds = UtilString.join(auditorIds, ",");
@@ -403,6 +411,14 @@ extends BaseAdminAction
 							strIds
 						}, 
 						ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+					);
+					
+					// 服务器推送至客户端.
+					this.messagePush.pushMessage(strIds, 
+						WebActionUtil.scriptMessageNotify, 
+						WebActionUtil.MENU_ITEM_ADMIN_NEWS.getKey() + "," + 
+							WebActionUtil.MENU_KEY_APPROVAL_TODO,
+						1
 					);
 				}
 			}
