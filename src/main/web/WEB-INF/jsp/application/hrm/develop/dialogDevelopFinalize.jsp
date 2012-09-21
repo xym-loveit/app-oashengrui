@@ -57,7 +57,7 @@
 							</tr>
 							<tr>
 							<td>调动时间：</td>
-							<td colspan = "5"><input name="transferDate" class="date textInput required" yearstart="-80" yearend="0" style="width:80px" value='' /></td>
+							<td colspan = "5"><input name="finalizedDate" class="date textInput required" yearstart="-80" yearend="0" style="width:80px" value='' /></td>
 							</tr>
 						</table>
 					</div>
@@ -87,7 +87,7 @@
 							</tr>
 							<tr>
 							<td>晋升时间：</td>
-							<td colspan = "5"><input name="transferDate" class="date textInput required" yearstart="-80" yearend="0" style="width:80px" value='' /></td>
+							<td colspan = "5"><input name="finalizedDate" class="date textInput required" yearstart="-80" yearend="0" style="width:80px" value='' /></td>
 							</tr>
 						</table>
 					</div>
@@ -100,7 +100,7 @@
 						<span style="float:left;">
 							转正时间：
 						</span>
-						<input name="postiveDate" class="date textInput required" yearstart="-80" yearend="0" style="width:80px" value='' />
+						<input name="finalizedDate" class="date textInput required" yearstart="-80" yearend="0" style="width:80px" value='' />
 					</div>
 				</c:when>
 			</c:choose>

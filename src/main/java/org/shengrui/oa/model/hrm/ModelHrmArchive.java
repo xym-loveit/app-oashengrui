@@ -42,11 +42,11 @@ extends ModelBase
 	 */
 	public static enum EArchiveSource
 	{
-		OFFERDROPED(1, "offer_dropped"),			// 入职未到 
-		ELIMINATED(2, "eliminated"),					// 淘汰
-		ABSENCE(3, "absence"),							// 未面试
-		FAIRWELL(4, "fairewell"),						// 离职
-		OUTOFPROBATION(5, "outofprobation");	//考察期未通过
+		OFFERDROPED(1, "offer_dropped"),			// 入职未到
+		ELIMINATED(2, "eliminated"),				// 淘汰
+		ABSENCE(3, "absence"),						// 未面试
+		FAIRWELL(4, "fairewell"),					// 离职
+		OUTOFPROBATION(5, "outofprobation");		// 考察期未通过
 		
 		private Integer value;
 		private String text;
