@@ -20,7 +20,6 @@ import org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireEntry;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireInfo;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireInterview;
-import org.shengrui.oa.model.hrm.ModelHrmJobHireIssue;
 import org.shengrui.oa.model.news.ModelNewsMag;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.service.base.ServiceBase;
@@ -358,6 +357,7 @@ extends BaseAppAction
 			)
 		);
 		
+		/*
 		// 获取`入职安排`数量
 		int numJobEntryIssue = this.serviceHrmJobHireIssue.getNumHireEntry( 
 			this.getModelDataPolicyQuery(
@@ -377,10 +377,11 @@ extends BaseAppAction
 				null
 			), false
 		);
+		*/
 		
 		// 获取当前招聘管理待办提醒数字...
 		affectedItems.put(WebActionUtil.MENU_KEY_JOB_MGR, 
-				numJobOnMaster + numJobOnZone + numJobHireIssue + numJobEntryIssue);
+				numJobOnMaster + numJobOnZone); // + numJobHireIssue + numJobEntryIssue);
 		
 		// 获取待我审批数量
 		affectedItems.put(WebActionUtil.MENU_KEY_APPROVAL_TODO, 
