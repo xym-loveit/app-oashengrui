@@ -465,18 +465,19 @@ extends BaseHrmAction
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("entity", entity);
 			
+			// 获取`待校区审批` or `待总部审批`相关的审批人
+			Set<String> auditorIds = this.getUserIdsAgainstGrantedResource(
+					ModelHrmJobHireInfo.EJobHireStatus.TODO_ZONE.getValue().equals(entity.getStatus()) ? 
+							WebActionUtil.APPROVAL_HRM_JOB_ZOON : WebActionUtil.APPROVAL_HRM_JOB_MASTER, 
+				ModelNewsMag.class, 
+				entity.getJobHireDistrict().getId(), 
+				entity.getJobHireDepartment().getId()
+			);
+			
+			
 			if (ModelHrmJobHireInfo.EJobHireStatus.TODO_ZONE.getValue().equals(entity.getStatus()) || 
 					ModelHrmJobHireInfo.EJobHireStatus.TODO_HEAD.getValue().equals(entity.getStatus()))
 			{
-				// 待校区审批 or 待总部审批
-				Set<String> auditorIds = this.getUserIdsAgainstGrantedResource(
-						ModelHrmJobHireInfo.EJobHireStatus.TODO_ZONE.getValue().equals(entity.getStatus()) ? 
-								WebActionUtil.APPROVAL_HRM_JOB_ZOON : WebActionUtil.APPROVAL_HRM_JOB_MASTER, 
-					ModelNewsMag.class, 
-					entity.getJobHireDistrict().getId(), 
-					entity.getJobHireDepartment().getId()
-				);
-				
 				if (auditorIds != null && auditorIds.size() > 0)
 				{
 					String strIds = UtilString.join(auditorIds, ",");
@@ -487,6 +488,14 @@ extends BaseHrmAction
 								strIds
 							}, 
 							ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+						);
+						
+						// 服务器推送至客户端.
+						this.messagePush.pushMessage(strIds, 
+							WebActionUtil.scriptMessageNotify, 
+							WebActionUtil.MENU_KEY_JOB_MGR + "," + 
+								WebActionUtil.MENU_KEY_APPROVAL_TODO,
+							1
 						);
 					}
 				}
@@ -501,6 +510,18 @@ extends BaseHrmAction
 					}, 
 					ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
 				);
+				
+				String strIds = UtilString.join(auditorIds, ",");
+				if (UtilString.isNotEmpty(strIds))
+				{
+					// 服务器推送至客户端.
+					this.messagePush.pushMessage(strIds, 
+						WebActionUtil.scriptMessageNotify, 
+						WebActionUtil.MENU_KEY_JOB_MGR + "," + 
+							WebActionUtil.MENU_KEY_APPROVAL_TODO,
+						-1
+					);
+				}
 			}
 			
 			// 保存成功后, Dialog进行关闭
