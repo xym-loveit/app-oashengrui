@@ -501,6 +501,9 @@ ${tm:fileRestoreByType(conference['attachFiles'],"conference_process")}
 		</div>
 		<div class="formBar">
 			<ul>
+				<c:if test="${conference ne null && conference.id ne null && conference.status eq '1'}">
+					<a target="dialog" href="app/message.do?action=dialogMessagePage" mask="true" width="880" height="400" class="buttonActive"><span>参加反馈</span></a>
+				</c:if>
 				<c:choose>
 					<c:when test="${op eq 'edit'}">
 						<li><div class="buttonActive"><div class="buttonContent"><button type="submit">会议调整</button></div></div></li>
