@@ -41,23 +41,23 @@
 						<table style="width:100%" cellpadding="10" cellspacing="10">
 							<tr>
 								<td>原校区：</td>
-								<td><input name="fromDistrict"  type="text" style="width:80px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.fromDistrict.districtName : ''}" readonly/></td>
+								<td><input name="fromDistrict"  type="text" style="width:90px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.fromDistrict.districtName : ''}" readonly/></td>
 								<td>原部门：</td>
-								<td><input name="fromDepartment"  type="text" style="width:80px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.fromDepartment.depName : ''}" readonly/></td>
+								<td><input name="fromDepartment"  type="text" style="width:90px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.fromDepartment.depName : ''}" readonly/></td>
 								<td>原职位：</td>
-								<td colspan="4"><input name="fromPosition"  type="text" style="width:80px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.fromPosition.positionName : ''}" readonly/></td>
+								<td colspan="4"><input name="fromPosition"  type="text" style="width:90px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.fromPosition.positionName : ''}" readonly/></td>
 							</tr>
 							<tr>
 								<td>调动校区：</td>
-								<td><input name="fromDistrict"  type="text" style="width:80px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.toDistrict.districtName : ''}" readonly/></td>
+								<td><input name="fromDistrict"  type="text" style="width:90px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.toDistrict.districtName : ''}" readonly/></td>
 								<td>调动部门：</td>
-								<td><input name="fromDepartment"  type="text" style="width:80px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.toDepartment.depName : ''}" readonly/></td>
+								<td><input name="fromDepartment"  type="text" style="width:90px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.toDepartment.depName : ''}" readonly/></td>
 								<td>调动职务：</td>
-								<td colspan="4"><input name="fromPosition"  type="text" style="width:80px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.toPosition.positionName : ''}" readonly/></td>
+								<td colspan="4"><input name="fromPosition"  type="text" style="width:90px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.toPosition.positionName : ''}" readonly/></td>
 							</tr>
 							<tr>
 							<td>调动时间：</td>
-							<td colspan = "5"><input name="finalizedDate" class="date textInput required" yearstart="-80" yearend="0" style="width:80px" value='' /></td>
+							<td colspan = "5"><input name="finalizedDate" class="date textInput required" yearstart="-80" yearend="0" style="width:90px" value='' /></td>
 							</tr>
 						</table>
 					</div>
@@ -71,23 +71,23 @@
 						<table style="width:100%">
 							<tr>
 								<td>原校区：</td>
-								<td><input name="fromDistrict"  type="text" style="width:80px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.fromDistrict.districtName : ''}" readonly/></td>
+								<td><input name="fromDistrict"  type="text" style="width:90px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.fromDistrict.districtName : ''}" readonly/></td>
 								<td>原部门：</td>
-								<td><input name="fromDepartment"  type="text" style="width:80px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.fromDepartment.depName : ''}" readonly/></td>
+								<td><input name="fromDepartment"  type="text" style="width:90px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.fromDepartment.depName : ''}" readonly/></td>
 								<td>原职位：</td>
-								<td colspan="4"><input name="fromPosition"  type="text" style="width:80px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.fromPosition.positionName : ''}" readonly/></td>
+								<td colspan="4"><input name="fromPosition"  type="text" style="width:90px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.fromPosition.positionName : ''}" readonly/></td>
 							</tr>
 							<tr>
 								<td>晋升校区：</td>
-								<td><input name="fromDistrict"  type="text" style="width:80px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.toDistrict.districtName : ''}" readonly/></td>
+								<td><input name="fromDistrict"  type="text" style="width:90px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.toDistrict.districtName : ''}" readonly/></td>
 								<td>晋升部门：</td>
-								<td><input name="fromDepartment"  type="text" style="width:80px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.toDepartment.depName : ''}" readonly/></td>
+								<td><input name="fromDepartment"  type="text" style="width:90px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.toDepartment.depName : ''}" readonly/></td>
 								<td>晋升职务：</td>
-								<td colspan="4"><input name="fromPosition"  type="text" style="width:80px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.toPosition.positionName : ''}" readonly/></td>
+								<td colspan="4"><input name="fromPosition"  type="text" style="width:90px" value="${employeeDevelopEntry ne null ? employeeDevelopEntry.toPosition.positionName : ''}" readonly/></td>
 							</tr>
 							<tr>
 							<td>晋升时间：</td>
-							<td colspan = "5"><input name="finalizedDate" class="date textInput required" yearstart="-80" yearend="0" style="width:80px" value='' /></td>
+							<td colspan = "5"><input name="finalizedDate" class="date textInput required" yearstart="-80" yearend="0" style="width:90px" value='' /></td>
 							</tr>
 						</table>
 					</div>
@@ -100,7 +100,7 @@
 						<span style="float:left;">
 							转正时间：
 						</span>
-						<input name="finalizedDate" class="date textInput required" yearstart="-80" yearend="0" style="width:80px" value='' />
+						<input name="finalizedDate" class="date textInput required" yearstart="-80" yearend="0" style="width:90px" value='' />
 					</div>
 				</c:when>
 			</c:choose>
