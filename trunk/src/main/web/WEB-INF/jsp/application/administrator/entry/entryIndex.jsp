@@ -83,7 +83,7 @@
 	<div class="panelBar">
 		<ul class="toolBar" style="float:right">
 		<c:if test="${tm:ifGranted('_FUNCKEY_ADMIN_NEWS_APPROVE')}">
-			<li><a treeicon="icon-edit" class="icon" href="app/admin/news.do?action=adminPageEntryApprovalIndex" target="navTab" rel="admin_entrycheck"><span class="icon-edit">新闻审批和管理</span></a></li>
+			<li><a treeicon="icon-edit" class="icon" href="app/admin/news.do?action=adminPageEntryApprovalIndex" target="navTab" rel="admin_entrycheck"><span class="icon-edit">新闻审批和管理<c:if test="${numNewsToApprove ne null && numNewsToApprove gt 0}">${numNewsToApprove}</c:if></span></a></li>
 		</c:if>
 		</ul>
 		<ul class="toolBar">

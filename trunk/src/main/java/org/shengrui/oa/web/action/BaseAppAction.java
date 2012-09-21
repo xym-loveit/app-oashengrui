@@ -940,7 +940,28 @@ extends BaseAction
 	protected String getModelDataPolicyQuery(final String funcKey, 
 			final String URI, final Class entityClass, final String[] conditions)
 	{
-		return this.getModelDataPolicyQuery(ContextUtil.getCurrentUser(), funcKey, URI, entityClass, conditions);
+		return this.getModelDataPolicyQuery(ContextUtil.getCurrentUser(), 
+				funcKey, URI, entityClass, conditions, null);
+	}
+	
+	/**
+	 * Obtains the model query condition.
+	 * 
+	 * @param funcKey
+	 * @param URI
+	 * @param entityClass
+	 * @param fieldNames
+	 * @param fieldValues
+	 * @param tableAlias
+	 * @return
+	 */
+	@SuppressWarnings("rawtypes")
+	protected String getModelDataPolicyQuery(final String funcKey, 
+			final String URI, final Class entityClass, 
+			final String[] conditions, final String tableAlias)
+	{
+		return this.getModelDataPolicyQuery(ContextUtil.getCurrentUser(), 
+				funcKey, URI, entityClass, conditions, tableAlias);
 	}
 	
 	/**
@@ -951,11 +972,13 @@ extends BaseAction
 	 * @param URI
 	 * @param entityClass
 	 * @param conditions
+	 * @param tableAlias
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
 	protected String getModelDataPolicyQuery(final ModelAppUser user, 
-			final String funcKey, final String URI, final Class entityClass, final String[] conditions)
+			final String funcKey, final String URI, 
+			final Class entityClass, final String[] conditions, final String tableAlias)
 	{
 		boolean isGranted = true;
 		
@@ -971,7 +994,7 @@ extends BaseAction
 			{
 				for (String key : funcKeys)
 				{
-					if (key.equalsIgnoreCase("__ALL"))
+					if (key.equalsIgnoreCase(ModelAppRole.SUPER_RIGHTS))
 					{
 						// 拥有所有操作权限.
 						isFound = true;
@@ -1007,7 +1030,7 @@ extends BaseAction
 			
 			if (dataPolicyQuery.isGrantedDataPolicy(URI, user))
 			{
-				String query = dataPolicyQuery.buildPolicyQuery(entityClass, URI, user);
+				String query = dataPolicyQuery.buildPolicyQuery(entityClass, URI, user, tableAlias);
 				if (UtilString.isNotEmpty(query))
 				{
 					builder.append(query);

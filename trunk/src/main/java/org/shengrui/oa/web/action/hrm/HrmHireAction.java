@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,13 +24,16 @@ import org.shengrui.oa.model.hrm.ModelHrmJobHireIssue;
 import org.shengrui.oa.model.hrm.ModelHrmResume;
 import org.shengrui.oa.model.info.ModelShortMessage;
 import org.shengrui.oa.model.news.ModelNewsMag;
+import org.shengrui.oa.model.system.ModelAppRole;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
+import org.shengrui.oa.service.base.ServiceBase;
 import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.util.WebActionUtil;
 
 import cn.trymore.core.exception.ServiceException;
+import cn.trymore.core.jstl.JstlTagSecurity;
 import cn.trymore.core.util.UtilBean;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
@@ -53,6 +57,12 @@ extends BaseHrmAction
 	
 	private static final String ACTION_FORM_FLAG_RETURNED = "0";
 	
+	/**
+	 * The service of HRM employee develop.
+	 */
+	@Resource
+	private ServiceBase serviceBase;
+
 	/**
 	 * <b>[WebAction]</b> <br/>
 	 * 岗位发布与管理
@@ -78,6 +88,39 @@ extends BaseHrmAction
 			// 输出分页信息至客户端
 			outWritePagination(request, pagingBean, hireJobs);
 			
+			// 判断是否被赋予审批权限
+			if (JstlTagSecurity.ifGranted(
+				WebActionUtil.APPROVAL_HRM_JOB_MASTER.getKey() + "," + 
+				WebActionUtil.APPROVAL_HRM_JOB_ZOON.getKey() + 
+				ModelAppRole.SUPER_RIGHTS))
+			{
+				// 获取岗位审批(待总部审批)数量...
+				int numJobOnMaster = this.serviceBase.getAffectedNumByQuery(ModelHrmJobHireInfo.class, 
+					this.getModelDataPolicyQuery(
+						WebActionUtil.APPROVAL_HRM_JOB_MASTER.getKey(),
+						WebActionUtil.APPROVAL_HRM_JOB_MASTER.getObject(),
+						ModelHrmJobHireInfo.class, 
+						new String[] {
+							"(status = " + ModelHrmJobHireInfo.EJobHireStatus.TODO_HEAD.getValue() + ")"
+						}
+					)
+				);
+				
+				// 获取岗位审批(待校区审批)数量...
+				int numJobOnZone = this.serviceBase.getAffectedNumByQuery(ModelHrmJobHireInfo.class, 
+					this.getModelDataPolicyQuery(
+						WebActionUtil.APPROVAL_HRM_JOB_ZOON.getKey(),
+						WebActionUtil.APPROVAL_HRM_JOB_ZOON.getObject(),
+						ModelHrmJobHireInfo.class, 
+						new String[] {
+							"(status = " + ModelHrmJobHireInfo.EJobHireStatus.TODO_ZONE.getValue() + ")"
+						}
+					)
+				);
+				
+				request.setAttribute("numJobsToApproval", numJobOnMaster + numJobOnZone);
+			}
+			
 		} 
 		catch (ServiceException e)
 		{
@@ -99,7 +142,7 @@ extends BaseHrmAction
 		{
 			ModelHrmJobHireInfo formJobHireInfo = (ModelHrmJobHireInfo) form;
 			
-			if (ContextUtil.getCurrentUser().getFunctionRights().indexOf("__ALL") > -1)
+			if (ContextUtil.getCurrentUser().getFunctionRights().indexOf(ModelAppRole.SUPER_RIGHTS) > -1)
 			{
 				// 超级管理员, 拥有校区和总部审批双视图
 				formJobHireInfo.setSearchStatusCondition(new Integer[] { 
@@ -1231,4 +1274,14 @@ extends BaseHrmAction
 		
 	}
 	
+
+	public ServiceBase getServiceBase()
+	{
+		return serviceBase;
+	}
+
+	public void setServiceBase(ServiceBase serviceBase)
+	{
+		this.serviceBase = serviceBase;
+	}
 }

@@ -6,6 +6,7 @@
 	<bean name="/app/index" 
 			class="org.shengrui.oa.web.action.index.IndexAction" parent="base">
 		<property name="serviceBase" ref="serviceBase" />
+		<property name="serviceHrmJobHireIssue" ref="serviceHrmJobHireIssue" />
 	</bean>
 	
 </beans>
