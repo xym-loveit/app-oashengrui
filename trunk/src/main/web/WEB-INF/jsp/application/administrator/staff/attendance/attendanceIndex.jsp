@@ -7,6 +7,7 @@
 <%@ taglib uri="/tags/struts-bean" prefix="bean"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="/tags/trymore" prefix="tm"%>
 
 <style>
 	label {width: auto;}
@@ -73,7 +74,9 @@
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
+		<c:if test="${tm:ifGranted('_FUNCKEY_ADMIN_ATTENDANCE_INPORT')}">
 			<li><a class="icon" width="400" height="180" href="app/admin/attendance/operation.do?action=actionShowImportAttendanceDataDialog" target="dialog" title="导入考勤数据" rel="_menu_mod_admin_staff_attendance"><span>导入考勤数据</span></a></li>
+		</c:if>
 		</ul>
 	</div>
 	<table class="table" width="100%" layoutH="138">

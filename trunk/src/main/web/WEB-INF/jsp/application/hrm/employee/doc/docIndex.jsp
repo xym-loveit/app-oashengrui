@@ -96,9 +96,12 @@
 					<li><a class="add" href="app/hrm/employee/data.do?action=dialogHrmEmployeeAdd" target="dialog" title="添加新员工信息" width="1080" height="500" rel="dia_hr_empadd"><span>添加新员工</span></a></li>
 					<li class="line">line</li>
 				</c:if>
+				
+				<c:if test="${tm:ifGranted('_FUNCKEY_HRM_EMPLOYEE_IMPORT')}">
 				<li>
 					<a class="add" href="app/hrm/employee/import.do?action=actionEmpImport" target="dialog" title="导入员工信息" width="380" height="180" rel="dia_admin_entryadd"><span>导入员工信息</span></a>
 				</li>
+				</c:if>
 			</ul>
 		</div>
 		<table class="table" width="100%" layoutH="168">
