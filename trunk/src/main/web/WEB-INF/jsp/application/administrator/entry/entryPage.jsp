@@ -126,8 +126,8 @@ ${tm:fileRestore(news['attachFiles'])}
 					<c:choose>
 						<c:when test="${op eq null || op ne 'view'}">
 							<select class="combox" name="newsLevel" id="entry_level" style="width:150px" ref="news_type1" refUrl="app/base.do?action=actionLoadByTypeAndLevel&type=news&level={value}">
+								<option value="">请选择新闻级别</option>
 								<c:if test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.districtType ne 1}">
-									<option value="">请选择新闻级别</option>
 									<option value="公司总部新闻" ${news.newsLevel ne null && news.newsLevel eq '0' ? 'selected="selected"' : '' }>公司新闻</option>
 								</c:if>
 								<option value="分校区新闻" ${news.newsLevel ne null && news.newsLevel eq '1' ? 'selected="selected"' : '' }>校区新闻</option>
