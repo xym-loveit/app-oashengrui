@@ -12,9 +12,11 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.flow.ModelProcessForm;
 import org.shengrui.oa.model.flow.ModelProcessType;
+import org.shengrui.oa.model.hrm.ModelHrmArchive;
 import org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop;
 import org.shengrui.oa.model.hrm.ModelHrmEmployeeRoadMap;
 import org.shengrui.oa.service.flow.ServiceProcessType;
+import org.shengrui.oa.util.UtilDateTime;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.util.UtilString;
@@ -124,7 +126,7 @@ extends BaseHrmAction
 					ModelHrmEmployeeDevelop developInfo = this.serviceHrmEmployeeDevelop.get(developId);
 					if (developInfo != null)
 					{
-						
+						// 状态确认弹框
 						String operation = request.getParameter("op");
 						if (!UtilString.isNotEmpty(operation) || operation.equals("dialog"))
 						{
@@ -134,13 +136,25 @@ extends BaseHrmAction
 							return mapping.findForward("dialog.hrm.form.state." + state);
 						}
 						
+						// 状态确认日期
+						Date finalizedDate = null;
+						String paramDate = request.getParameter("finalizedDate");
+						if (UtilString.isNotEmpty(paramDate))
+						{
+							finalizedDate = UtilDateTime.toDateByPattern(paramDate);
+						}
+						else
+						{
+							finalizedDate = new Date();
+						}
+						
 						// 保存操作
 						developInfo.setOperationState(1);
 						this.serviceHrmEmployeeDevelop.save(developInfo);
 
 						// 记录至员工晟睿旅程
 						ModelHrmEmployeeRoadMap roadMap = new ModelHrmEmployeeRoadMap();
-						roadMap.setDate(new Date());
+						roadMap.setDate(finalizedDate);
 						roadMap.setEmployee(developInfo.getEmployee());
 						roadMap.setOrginalDistrict(developInfo.getFromDistrict());
 						roadMap.setOrginalDepartmentPosition(developInfo.getFromPosition());
@@ -151,6 +165,21 @@ extends BaseHrmAction
 						roadMap.setType(Integer.valueOf(state));
 						
 						this.serviceHrmEmployeeRoadMap.save(roadMap);
+						
+						// 淘汰或未面试
+						String archived = request.getParameter("archived");
+						if (UtilString.isNotEmpty(archived))
+						{
+							// 移入人才库
+							String archiveStar = request.getParameter("archiveStar");
+							
+							ModelHrmArchive hrmArchive = new ModelHrmArchive();
+							hrmArchive.setJobHireInfo(null);
+							hrmArchive.setResume(developInfo.getEmployee().getResume());
+							hrmArchive.setSource(ModelHrmArchive.EArchiveSource.FAIRWELL.getValue());
+							hrmArchive.setStarLevel(Integer.parseInt(archiveStar));
+							this.serviceHrmArchive.save(hrmArchive);
+						}
 						
 						// 保存成功后, Dialog进行关闭
 						return ajaxPrint(response, 
