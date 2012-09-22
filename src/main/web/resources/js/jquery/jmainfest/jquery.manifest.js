@@ -599,7 +599,7 @@
 		var ele_val = options.formatValue.call($input, value, $value, $item, $mpItem);
 		var ele_id = (options.valuesName || $input.attr('name')) + ele_val;
 		
-		if (ele_val != undefined && $("#" + ele_id).size() == 0) {
+		if (ele_val != undefined && $.pdialog.getCurrent().find("#"+ele_id).size() == 0) {
 			$value = $('<input type="hidden" class="mf_value" id="' + ele_id + '" />');
 			
 			if (options.valuesName) {

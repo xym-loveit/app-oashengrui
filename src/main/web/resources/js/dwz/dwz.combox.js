@@ -105,7 +105,7 @@
 						var $ref = $("#"+ref);
 						if ($ref.size() == 0) return false;
 						$.ajax({
-							type:'GET', dataType:"json", url:refUrl.replace("{value}", $this.attr("value")), cache: false,
+							type:'GET', dataType:"json", url:refUrl.replace("{value}", $this.attr("value")).replace("{text}", $this.find("option:selected").text()), cache: false,
 							data:{},
 							success: function(json){
 								if (!json) return;

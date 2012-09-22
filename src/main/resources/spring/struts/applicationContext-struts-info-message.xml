@@ -6,6 +6,7 @@
 	<!-- 短消息管理 -->
 	<bean name="/app/message" 
 			class="org.shengrui.oa.web.action.info.InfoMessageAction" parent="base">
+		<property name="serviceConference" ref="serviceConference" />
 	</bean>
 	
 </beans>

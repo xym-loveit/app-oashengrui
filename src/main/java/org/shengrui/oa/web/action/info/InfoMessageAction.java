@@ -3,6 +3,7 @@ package org.shengrui.oa.web.action.info;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,8 +11,11 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.shengrui.oa.model.admin.ModelConference;
+import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.info.ModelInMessage;
 import org.shengrui.oa.model.info.ModelShortMessage;
+import org.shengrui.oa.service.admin.ServiceConferenceInfo;
 import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.web.action.BaseAppAction;
 
@@ -32,6 +36,12 @@ extends BaseAppAction
 	 * The LOGGER
 	 */
 	private static final Logger LOGGER = Logger.getLogger(InfoMessageAction.class);
+	
+	 /**
+	 * The service of conference
+	 */
+	@Resource
+	private ServiceConferenceInfo serviceConference;
 	
 	/**
 	 * 首页显示个人信息
@@ -218,6 +228,55 @@ extends BaseAppAction
 		}
 		else
 		{
+			
+			// 填充短消息内容...
+			String msgSubject = request.getParameter("msubject");
+			if (UtilString.isNotEmpty(msgSubject))
+			{
+				if (msgSubject.indexOf("msg.subject.conference") == -1)
+				{
+					request.setAttribute("subject", 
+							this.getMessageFromResource(request, msgSubject, null));
+				}
+				else
+				{
+					String conferenceName = null;
+					String mid = request.getParameter("mid");
+					if (this.isObjectIdValid(mid))
+					{
+						try
+						{
+							ModelConference conference = this.serviceConference.get(mid);
+							if (conference != null)
+							{
+								conferenceName = conference.getConferenceName();
+								
+								ModelHrmEmployee employee = conference.getSponsor().getEmployee();
+								String receiver = "{\"id\":\"" + employee.getId() + "\", \"empName\":\"" + employee.getEmpName()+"\", \"empNo\":\"" + employee.getEmpNo() + "\"}";
+								request.setAttribute("receiver", receiver);
+							}
+						}
+						catch (Exception e)
+						{
+							LOGGER.error("Exception raised when fetching conference object.", e);
+						}
+					}
+					
+					request.setAttribute("subject", 
+						this.getMessageFromResource(request, msgSubject, 
+								new Object[] { 
+									ContextUtil.getCurrentUser().getEmployee().getEmpName() ,
+									conferenceName}));
+				}
+				
+				String msgBody = request.getParameter("mbody");
+				if (UtilString.isNotEmpty(msgBody))
+				{
+					request.setAttribute("body", 
+							this.getMessageFromResource(request, msgBody));
+				}
+			}
+			
 			try
 			{
 				// 设置为个人消息发送
@@ -343,5 +402,13 @@ extends BaseAppAction
 	public static Logger getLogger()
 	{
 		return LOGGER;
+	}
+	public ServiceConferenceInfo getServiceConference()
+	{
+		return serviceConference;
+	}
+	public void setServiceConference(ServiceConferenceInfo serviceConference)
+	{
+		this.serviceConference = serviceConference;
 	}
 }
