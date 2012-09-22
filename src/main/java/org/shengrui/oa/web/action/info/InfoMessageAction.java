@@ -252,8 +252,15 @@ extends BaseAppAction
 								conferenceName = conference.getConferenceName();
 								
 								ModelHrmEmployee employee = conference.getSponsor().getEmployee();
-								String receiver = "{\"id\":\"" + employee.getId() + "\", \"empName\":\"" + employee.getEmpName()+"\", \"empNo\":\"" + employee.getEmpNo() + "\"}";
-								request.setAttribute("receiver", receiver);
+								
+								StringBuilder receiver = new StringBuilder();
+								receiver.append("[");
+								receiver.append("{\"id\":\"" + employee.getId() + "\", \"empName\":\"" + employee.getEmpName() + "\", \"empNo\":\"" + employee.getEmpNo() + "\"}");
+								receiver.append(",");
+								receiver.append("{\"id\":\"-1\", \"empName\":\"" + conference.getContactor() + "\"}");
+								receiver.append("]");
+								
+								request.setAttribute("receiver", receiver.toString());
 							}
 						}
 						catch (Exception e)
