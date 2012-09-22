@@ -60,7 +60,13 @@
 			<logic:present name="msgId">
 			,readonlyMode : true
 			</logic:present>
+			
 		});
+		
+		<c:if test="${receiver ne null}">
+			$('#task_participants').manifest("add",${receiver});
+		</c:if>
+		
 	});
 	
 </script>
@@ -92,7 +98,7 @@
 				<table cellspacing="10" cellpadding="10" style="border-spacing: 12; width: 100%;">
 					<tr>
 						<td style="line-height: 25px;">消息标题：</td>
-						<td><input type="text" name="subject" class="required" style="width:100%;"  value="${entity ne null ? entity.subject : ''}" ${entity ne null ? 'readonly' : ''}/></td>
+						<td><input type="text" name="subject" class="required" style="width:100%;"  value="${entity ne null ? entity.subject : (subject ne null ? subject : '')}" ${entity ne null ? 'readonly' : ''}/></td>
 					</tr>
 					<logic:notPresent name="msgId">
 					<tr>
@@ -103,7 +109,7 @@
 					<tr>
 						<td style="line-height: 25px;vertical-align: top">消息内容：</td>
 						<td>
-							<textarea name="content" class="" rows="8" cols="60" style="width: 100%" ${entity ne null ? 'readonly' : ''}>${entity ne null ? entity.content : ''}</textarea>
+							<textarea name="content" class="" rows="8" cols="60" style="width: 100%" ${entity ne null ? 'readonly' : ''}>${entity ne null ? entity.content : (body ne null ? body : '')}</textarea>
 						</td>
 					</tr>
 				</table>
