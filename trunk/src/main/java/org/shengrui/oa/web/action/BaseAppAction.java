@@ -409,7 +409,15 @@ extends BaseAction
 		try
 		{
 			StringBuilder builder = new StringBuilder();
-			List<ModelAppUser> result = this.serviceAppUser.findByFullName(fullName, true);
+			
+			String localDistrictId = null;
+			if (ContextUtil.getCurrentUser().getDistrictType() == 
+					AppUtil.EAppSchoolType.AREA_CAMPUS.getValue())
+			{
+				localDistrictId = ContextUtil.getCurrentUser().getDistrictId();
+			}
+			
+			List<ModelAppUser> result = this.serviceAppUser.findByFullName(fullName, localDistrictId, true);
 			if (result != null && result.size() > 0)
 			{
 				int count = 0;
@@ -453,7 +461,15 @@ extends BaseAction
 		try
 		{
 			StringBuilder builder = new StringBuilder();
-			List<ModelHrmEmployee> result = this.serviceHrmEmployee.findByFullName(fullName, true);
+			
+			String localDistrictId = null;
+			if (ContextUtil.getCurrentUser().getDistrictType() == 
+					AppUtil.EAppSchoolType.AREA_CAMPUS.getValue())
+			{
+				localDistrictId = ContextUtil.getCurrentUser().getDistrictId();
+			}
+			
+			List<ModelHrmEmployee> result = this.serviceHrmEmployee.findByFullName(fullName, localDistrictId, true);
 			if (result != null && result.size() > 0)
 			{
 				int count = 0;

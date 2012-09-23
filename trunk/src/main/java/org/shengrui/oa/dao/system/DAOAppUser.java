@@ -39,6 +39,21 @@ extends DAOGeneric<ModelAppUser>
 	List<ModelAppUser> findByFullName (String fullName, boolean fetchAll) throws DAOException;
 	
 	/**
+	 * Obtains the user with the specified user full name.
+	 * 
+	 * @param userName
+	 *                 the user full name
+	 * @param localDistrictId
+	 *                 the local district id
+	 * @param fetchAll
+	 *                 fetch all if the user full name not given
+	 * @return user entity if existed with the name; null returned otherwise.
+	 * @throws DAOException
+	 */
+	List<ModelAppUser> findByFullName(final String fullName, 
+			final String localDistrictId, boolean fetchAll) throws DAOException;
+	
+	/**
 	 * 根据用户帐号查询用户密码 用做验证密码是否正确
 	 * @param userName
 	 * @return String password

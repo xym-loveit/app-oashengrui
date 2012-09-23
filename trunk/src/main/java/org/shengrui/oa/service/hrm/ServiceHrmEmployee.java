@@ -39,7 +39,23 @@ extends ServiceGeneric<ModelHrmEmployee>
 	 * @return list of employee entities if existed with the specified full name; null returned otherwise.
 	 * @throws ServiceException
 	 */
-	List<ModelHrmEmployee> findByFullName (String fullName, boolean fetchAll) throws ServiceException;
+	List<ModelHrmEmployee> findByFullName (String fullName, 
+			boolean fetchAll) throws ServiceException;
+	
+	/**
+	 * Obtains employees with the specified full name.
+	 * 
+	 * @param fullName
+	 *             the employee full name
+	 * @param localDistrictId
+	 *             the local district id
+	 * @param fetchAll
+	 *             fetch all if the full name not given
+	 * @return list of employee entities if existed with the specified full name; null returned otherwise.
+	 * @throws ServiceException
+	 */
+	List<ModelHrmEmployee> findByFullName (String fullName, 
+			String localDistrictId, boolean fetchAll) throws ServiceException;
 	
 	/**
 	 * 根据员工信息查分页数据

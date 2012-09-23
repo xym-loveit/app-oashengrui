@@ -53,13 +53,32 @@ extends DAOGenericImpl<ModelAppUser> implements DAOAppUser, UserDetailsService
 	 * @see org.shengrui.oa.dao.system.DAOAppUser#getUserByName(java.lang.String)
 	 */
 	@Override
-	public List<ModelAppUser> findByFullName(String fullName, boolean fetchAll) throws DAOException
+	public List<ModelAppUser> findByFullName(String fullName, 
+			boolean fetchAll) throws DAOException
+	{
+		return findByFullName(fullName, null, fetchAll);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.dao.system.DAOAppUser#findByFullName(java.lang.String, java.lang.String, boolean)
+	 */
+	@Override
+	public List<ModelAppUser> findByFullName(final String fullName, 
+			final String localDistrictId, boolean fetchAll) throws DAOException
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelAppUser.class);
 		if (UtilString.isNotEmpty(fullName) || fetchAll)
 		{
 			criteria.add(Restrictions.like("fullName", fullName, MatchMode.ANYWHERE));
 		}
+		
+		// 过滤本校区用户
+		if (UtilString.isNotEmpty(localDistrictId))
+		{
+			criteria.createCriteria("employee").createCriteria("employeeDistrict").add(Restrictions.eq("id", localDistrictId));
+		}
+		
 		
 		// 过滤已删除的用户账号...
 		criteria.add(Restrictions.or(
@@ -68,6 +87,8 @@ extends DAOGenericImpl<ModelAppUser> implements DAOAppUser, UserDetailsService
 		
 		return this.getListByCriteria(criteria);
 	}
+	
+	
 	
 	/*
 	 * (non-Javadoc)

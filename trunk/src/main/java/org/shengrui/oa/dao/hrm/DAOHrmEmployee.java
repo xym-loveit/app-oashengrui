@@ -20,7 +20,23 @@ extends DAOGeneric<ModelHrmEmployee>
 	 * @return user entity if existed with the name; null returned otherwise.
 	 * @throws DAOException
 	 */
-	List<ModelHrmEmployee> findByFullName (String fullName, boolean fetchAll) throws DAOException;
+	List<ModelHrmEmployee> findByFullName (String fullName, 
+			boolean fetchAll) throws DAOException;
+	
+	/**
+	 * Obtains the user with the specified user full name.
+	 * 
+	 * @param userName
+	 *                 the user full name
+	 * @param localDistrictId
+	 *                 the local district id
+	 * @param fetchAll
+	 *                 fetch all if the user full name not given
+	 * @return user entity if existed with the name; null returned otherwise.
+	 * @throws DAOException
+	 */
+	List<ModelHrmEmployee> findByFullName (String fullName, 
+			String localDistrictId, boolean fetchAll) throws DAOException;
 	
 	/**
 	 * 

@@ -147,12 +147,22 @@
 
 							$.each(response, function(i){
 								var liAttr = '', liLabel = '';
-								
+								var spaces = "";
 								// modified by Jeccy.Zhao on 12/07/2012, all of looup attributes should be stored.
 								for (var j=0; j<suggestFields.length; j++){
 									var str = this[suggestFields[j]];
 									if (str) {
-										if (liLabel) liLabel += ' - ';
+										if (spaces == "") {
+											var seed = Math.abs(str.length - 4);											
+											for (var sd = 0; sd < seed; sd++) {
+												spaces += "　";
+											}
+										}
+										
+										if (liLabel) {
+											liLabel += spaces + ' -&nbsp;&nbsp;&nbsp;';
+										}
+										
 										liLabel += str;
 									}
 								}
