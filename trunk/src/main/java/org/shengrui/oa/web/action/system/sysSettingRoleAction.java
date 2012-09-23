@@ -237,7 +237,7 @@ extends sysSettingBaseAction
 					
 					// 用表单输入的值覆盖实体中的属性值
 					BeanUtils.copyProperties(formAppRole, entity, 
-							new String[] {"roleStatus", "functions", "menus", "users"});
+							new String[] {"roleStatus", "functions", "menus", "users", "funcDataPermissions"});
 				}
 				else
 				{
