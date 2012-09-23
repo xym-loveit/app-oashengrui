@@ -61,9 +61,20 @@ extends ServiceGenericImpl<ModelAppUser> implements ServiceAppUser
 	@Override
 	public List<ModelAppUser> findByFullName(String fullName, boolean fetchAll) throws ServiceException
 	{
+		return findByFullName(fullName, null, fetchAll);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.system.ServiceAppUser#findByFullName(java.lang.String, java.lang.String, boolean)
+	 */
+	@Override
+	public List<ModelAppUser> findByFullName (String fullName, 
+			String localDistrictId, boolean fetchAll) throws ServiceException
+	{
 		try
 		{
-			return this.daoAppUser.findByFullName(fullName, fetchAll);
+			return this.daoAppUser.findByFullName(fullName, localDistrictId, fetchAll);
 		} 
 		catch (Exception e)
 		{

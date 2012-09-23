@@ -23,10 +23,27 @@ extends DAOGenericImpl<ModelHrmEmployee> implements DAOHrmEmployee
 	public List<ModelHrmEmployee> findByFullName(String fullName,
 			boolean fetchAll) throws DAOException
 	{
+		return findByFullName(fullName, null, fetchAll);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.dao.hrm.DAOHrmEmployee#findByFullName(java.lang.String, boolean, boolean)
+	 */
+	@Override
+	public List<ModelHrmEmployee> findByFullName (String fullName, 
+			String localDistrictId, boolean fetchAll) throws DAOException
+	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployee.class);
 		if (UtilString.isNotEmpty(fullName) || fetchAll)
 		{
 			criteria.add(Restrictions.like("empName", fullName, MatchMode.ANYWHERE));
+		}
+		
+		// 过滤本校区员工
+		if (UtilString.isNotEmpty(localDistrictId))
+		{
+			criteria.createCriteria("employeeDistrict").add(Restrictions.eq("id", localDistrictId));
 		}
 		
 		// 过滤被删除的员工档案

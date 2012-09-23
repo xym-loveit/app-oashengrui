@@ -60,9 +60,20 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 	public List<ModelHrmEmployee> findByFullName(String fullName,
 			boolean fetchAll) throws ServiceException
 	{
+		return findByFullName(fullName, null, fetchAll);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmEmployee#findByFullName(java.lang.String, boolean, boolean)
+	 */
+	@Override
+	public List<ModelHrmEmployee> findByFullName (String fullName, 
+			String localDistrictId, boolean fetchAll) throws ServiceException
+	{
 		try
 		{
-			return this.daoHrmEmployee.findByFullName(fullName, fetchAll);
+			return this.daoHrmEmployee.findByFullName(fullName, localDistrictId, fetchAll);
 		} 
 		catch (Exception e)
 		{

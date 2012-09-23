@@ -51,6 +51,21 @@ extends ServiceGeneric<ModelAppUser>
 	List<ModelAppUser> findByFullName (String fullName, boolean fetchAll) throws ServiceException;
 	
 	/**
+	 * Obtains user with the specified user full name.
+	 * 
+	 * @param fullName
+	 *                the user full name
+	 * @param localDistrictId
+	 *                the local district id
+	 * @param fetchAll
+	 *                fetch all if the user name not given
+	 * @return user entity if existed with the specified user name; null returned otherwise.
+	 * @throws ServiceException
+	 */
+	List<ModelAppUser> findByFullName (String fullName, 
+			String localDistrictId, boolean fetchAll) throws ServiceException;
+	
+	/**
 	 * 根据用户名获取用户密码
 	 * @param userName
 	 * */
