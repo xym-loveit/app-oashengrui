@@ -117,7 +117,7 @@
 									<c:choose>
 										<c:when test="${entity.auditState eq 1}">
 											<c:if test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.positionId eq entity.toPositionIds && tm:ifGranted('_FUNCKEY_HRM_DEVELOP_APPROVE')}">
-												${entity.toDistrictIds} ${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.districtId}<c:if test="${entity.toDistrictIds eq null || sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.districtId eq entity.toDistrictIds}">
+												<c:if test="${entity.toDistrictIds eq null || sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.districtId eq entity.toDistrictIds}">
 													<table style="padding:5px 0; width:100%;" cellpadding="0" cellspacing="0" id="auditForm${entity.id}">
 														<tr>
 															<td width="90%"><textarea style="width: 99%; height: 40px;"></textarea></td>

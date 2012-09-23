@@ -150,6 +150,27 @@ extends ServiceGenericImpl<ModelAppRole> implements ServiceAppRole
 	
 	/*
 	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.system.ServiceAppRole#getRolesByFuncKey(java.lang.String)
+	 */
+	@Override
+	public List<ModelAppRole> getRolesByFuncId (final String funcId) throws ServiceException
+	{
+		try
+		{
+			DetachedCriteria criteria = DetachedCriteria.forClass(ModelAppRole.class);
+			criteria.createCriteria("functions").add(Restrictions.eq("id", funcId));
+		
+			return this.daoAppRole.getListByCriteria(criteria);
+		}
+		catch (Exception e)
+		{
+			throw new ServiceException(e);
+		}
+	}
+	
+	
+	/*
+	 * (non-Javadoc)
 	 * @see org.shengrui.oa.service.system.ServiceAppRole#getRolePagination(org.shengrui.oa.model.system.ModelAppRole, cn.trymore.core.web.paging.PagingBean)
 	 */
 	public PaginationSupport<ModelAppRole> getRolePagination (ModelAppRole entity, 

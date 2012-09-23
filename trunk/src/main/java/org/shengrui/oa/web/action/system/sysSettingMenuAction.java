@@ -2,6 +2,7 @@ package org.shengrui.oa.web.action.system;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import org.shengrui.oa.model.system.ModelAppFunction;
 import org.shengrui.oa.model.system.ModelAppFunctionDataStrategy;
 import org.shengrui.oa.model.system.ModelAppFunctionUrl;
 import org.shengrui.oa.model.system.ModelAppMenu;
+import org.shengrui.oa.model.system.ModelAppRole;
 import org.shengrui.oa.service.system.ServiceAppFunctionDataStrategy;
 import org.springframework.beans.BeanUtils;
 
@@ -251,6 +253,7 @@ extends sysSettingBaseAction
 				
 				if (func != null)
 				{
+					// 解耦功能项与菜单项之间的关联.
 					ModelAppMenu menu = func.getMenu();
 					if (menu != null && menu.getFunctions() != null)
 					{
@@ -267,7 +270,28 @@ extends sysSettingBaseAction
 						this.serviceAppMenu.save(menu);
 					}
 					
-					this.serviceAppFunc.remove(funcId);
+					// 解耦功能项与角色权限之间的关联.
+					List<ModelAppRole> roles = this.serviceAppRole.getRolesByFuncId(func.getId());
+					if (roles != null)
+					{
+						for (ModelAppRole role : roles)
+						{
+							Iterator<ModelAppFunction> itorFuncs = role.getFunctions().iterator();
+							while (itorFuncs.hasNext())
+							{
+								ModelAppFunction funcItem = itorFuncs.next();
+								if (funcItem.getId().equals(funcId))
+								{
+									itorFuncs.remove();
+									break;
+								}
+							}
+							this.serviceAppRole.save(role);
+						}
+					}
+					
+					this.serviceAppFunc.remove(func);
+					
 					return ajaxPrint(response, 
 						getSuccessCallbackAndReloadCurrent("菜单功能项删除成功."));
 				}

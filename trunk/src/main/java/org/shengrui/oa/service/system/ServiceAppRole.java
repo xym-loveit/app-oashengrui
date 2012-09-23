@@ -60,6 +60,16 @@ extends ServiceGeneric<ModelAppRole>
 	List<ModelAppRole> getRolesByType (Integer roleType) throws ServiceException;
 	
 	/**
+	 * 根据功能项Id获取角色列表
+	 * 
+	 * @param funcKey
+	 *                  功能项Key
+	 * @return
+	 * @throws ServiceException
+	 */
+	List<ModelAppRole> getRolesByFuncId (final String funcId) throws ServiceException;
+	 
+	/**
 	 * 获取分页数据
 	 * 
 	 * @param entity
