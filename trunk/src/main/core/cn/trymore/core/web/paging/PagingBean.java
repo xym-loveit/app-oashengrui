@@ -1,33 +1,85 @@
 package cn.trymore.core.web.paging;
 
+/**
+ * Bean class for pagination.
+ * It aims to receive the parameters from HttpRequest and wrappers as bean object.
+ * 
+ * @author Jeccy.Zhao
+ *
+ */
 public class PagingBean
 {
-	
+	/**
+	 * The default page size
+	 */
 	public static Integer DEFAULT_PAGE_SIZE = Integer.valueOf(20);
+	
+	/**
+	 * The default page size1?? (who's the owner that adds this property here?????)
+	 */
 	public static Integer DEFAULT_PAGE_SIZE1 = Integer.valueOf(4);
 	
+	/**
+	 * The default shown page count 
+	 */
 	public static final int DEFAULT_SHOW_PAGES = 10;
 	
+	/**
+	 * The default target type in DWZ.
+	 */
 	public static final String DEFAULT_TARGET_TYPE = "navTab";
 	
+	/**
+	 * The start index offset, by default as 0.
+	 */
 	private Integer startIndex = 0;
 	
+	/**
+	 * The page size
+	 */
 	private Integer pageSize = DEFAULT_PAGE_SIZE;
 	
+	/**
+	 * The total entity item number
+	 */
 	private Integer totalItems = 0;
 	
+	/**
+	 * The current page number
+	 */
 	private Integer currentPage = 1;
 	
+	/**
+	 * The shown page number
+	 */
 	private Integer pageNumShown = DEFAULT_SHOW_PAGES;
 	
+	/**
+	 * The target type in DWZ
+	 */
 	private String targetType = DEFAULT_TARGET_TYPE;
 	
+	/**
+	 * The total pages
+	 */
 	private Integer totalPages = 0;
 	
+	/**
+	 * The default constructor
+	 */
 	public PagingBean ()
 	{
+		
 	}
 	
+	/**
+	 * The sole constructor
+	 * 
+	 * @param currentPage
+	 *          the current page
+	 * @param pageSize
+	 *          the page size
+	 */
 	public PagingBean (int currentPage, int pageSize)
 	{
 		this.currentPage = currentPage;
