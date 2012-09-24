@@ -2,6 +2,7 @@ package org.shengrui.oa.web.action.flow;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -665,6 +666,8 @@ extends BaseAppAction
 							// 设置节点步骤序列号
 							procTaskEntity.setSortCode(
 									procDefEntity.getProcessTasks() != null ? procDefEntity.getProcessTasks().size() + 1 : 1);
+							
+							procDefEntity.getProcessTasks().add(procTaskEntity);
 						}
 						else
 						{
@@ -697,6 +700,11 @@ extends BaseAppAction
 						procTaskEntity.setProcessDefinition(procDefEntity);
 						
 						this.serviceProcessTask.save(procTaskEntity);
+						
+						if (procDefEntity != null)
+						{
+							this.serviceProcessDefinition.save(procDefEntity);
+						}
 						
 						// 保存成功后, Dialog进行关闭
 						return ajaxPrint(response, 
@@ -743,6 +751,7 @@ extends BaseAppAction
 				if (entity != null)
 				{
 					// 更新其他节点的步骤序列号
+					/*
 					Integer procSeq = entity.getSortCode();
 					List<ModelProcessTask> slibingProcTasks = this.serviceProcessTask.getProcessTaskNodesByOffset(procSeq);
 					if (slibingProcTasks != null && slibingProcTasks.size() > 0)
@@ -750,10 +759,28 @@ extends BaseAppAction
 						for (ModelProcessTask slibingProcTask : slibingProcTasks)
 						{
 							slibingProcTask.setSortCode(slibingProcTask.getSortCode() - 1);
-							
 							// TODO: 这里是否可以考虑实现为batch update?
 							this.serviceProcessTask.save(slibingProcTask);
 						}
+					}
+					*/
+					
+					// 解耦操作...
+					ModelProcessDefinition definition = entity.getProcessDefinition();
+					if (definition != null)
+					{
+						Set<ModelProcessTask> tasks = definition.getProcessTasks();
+						Iterator<ModelProcessTask> itor = tasks.iterator();
+						while (itor.hasNext())
+						{
+							ModelProcessTask task = itor.next();
+							if (entity.getId().equals(task.getId()))
+							{
+								itor.remove();
+								break;
+							}
+						}
+						this.serviceProcessDefinition.save(definition);
 					}
 					
 					// 移除节点
