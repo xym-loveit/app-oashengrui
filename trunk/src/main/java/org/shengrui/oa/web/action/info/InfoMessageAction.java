@@ -257,8 +257,15 @@ extends BaseAppAction
 								receiver.append("[");
 								receiver.append("{\"id\":\"" + employee.getId() + "\", \"empName\":\"" + employee.getEmpName() + "\", \"empNo\":\"" + employee.getEmpNo() + "\"}");
 								receiver.append(",");
-								receiver.append("{\"id\":\"-1\", \"empName\":\"" + conference.getContactor() + "\"}");
-								receiver.append("]");
+								
+								// Temporary solution and it should be enhanced in the future. 
+								// (Regarding to the entity field not defined employee object).
+								List<ModelHrmEmployee> contractor = this.serviceHrmEmployee.findByFullName(conference.getContactor());
+								if (contractor != null && contractor.size() > 0)
+								{
+									receiver.append("{\"id\":\"" + contractor.get(0).getId() + "\", \"empName\":\"" + contractor.get(0).getEmpName() + "\"}");
+									receiver.append("]");
+								}
 								
 								request.setAttribute("receiver", receiver.toString());
 							}
