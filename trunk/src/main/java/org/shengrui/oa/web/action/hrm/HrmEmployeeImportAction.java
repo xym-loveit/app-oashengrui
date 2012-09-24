@@ -60,7 +60,13 @@ extends BaseHrmAction
 				UtilResources.getWebRootPath() + Constants.RES_UPLOAD + "/" + path);
 		List<ExcelRowData> excelRowData = poiExcelParser.getRowData(0);
 		
-		for(int i = 3; i <excelRowData.size();i++)
+		if (excelRowData.size() < 4)
+		{
+			return ajaxPrint(response, 
+					getErrorCallback("所导入的文件并不存在任何员工数据!"));
+		}
+		
+		for(int i = 3; i < excelRowData.size();i++)
 		{
 			boolean empExisted = false;
 			

@@ -99,7 +99,7 @@
 				
 				<c:if test="${tm:ifGranted('_FUNCKEY_HRM_EMPLOYEE_IMPORT')}">
 				<li>
-					<a class="add" href="app/hrm/employee/import.do?action=actionEmpImport" target="dialog" title="导入员工信息" width="380" height="180" rel="dia_admin_entryadd"><span>导入员工信息</span></a>
+					<a class="add" href="app/hrm/employee/import.do?action=actionEmpImport" target="dialog" title="导入员工信息" width="450" height="160" rel="dia_admin_entryadd"><span>导入员工信息</span></a>
 				</li>
 				</c:if>
 			</ul>
