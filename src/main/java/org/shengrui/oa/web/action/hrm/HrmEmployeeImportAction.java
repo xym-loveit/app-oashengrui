@@ -62,6 +62,8 @@ extends BaseHrmAction
 		
 		for(int i = 3; i <excelRowData.size();i++)
 		{
+			boolean empExisted = false;
+			
 			ModelHrmEmployee employee = new ModelHrmEmployee();
 			ModelHrmResume resume = new ModelHrmResume();
 
@@ -74,13 +76,17 @@ extends BaseHrmAction
 				}
 				resume.setFullName(excelRowData.get(i).getRowData().get(1));
 				
-				if(this.serviceSchoolDistrict.getDistrictByName(excelRowData.get(i).getRowData().get(2)).equals("null") || this.serviceSchoolDepartment.getDepartmentByName(excelRowData.get(i).getRowData().get(3)).equals("null"))
+				if(this.serviceSchoolDistrict.getDistrictByName(
+						excelRowData.get(i).getRowData().get(2)).equals("null") || 
+							this.serviceSchoolDepartment.getDepartmentByName(
+								excelRowData.get(i).getRowData().get(3)).equals("null"))
 				{
 					return ajaxPrint(response, getErrorCallback("您还没配置校区或部门，请先在系统里配置在导入员工信息！"));
 				}
 				
 				employee.setEmployeeDistrict(
-						this.serviceSchoolDistrict.getDistrictByName(excelRowData.get(i).getRowData().get(2)));
+						this.serviceSchoolDistrict.getDistrictByName(
+							excelRowData.get(i).getRowData().get(2)));
 				
 				employee.setEmployeeDepartment(
 						this.serviceSchoolDepartment.getDepartmentByName(
@@ -96,7 +102,8 @@ extends BaseHrmAction
 				if(!excelRowData.get(i).getRowData().get(4).equals("null"))
 				{
 					employee.setEmployeePosition(
-							this.serviceSchoolDepartmentPosition.getPositionByName(excelRowData.get(i).getRowData().get(4)));
+							this.serviceSchoolDepartmentPosition.getPositionByName(
+									excelRowData.get(i).getRowData().get(4)));
 				}
 				
 				if(!excelRowData.get(i).getRowData().get(5).equals( "null"))
@@ -109,30 +116,36 @@ extends BaseHrmAction
 					String onBoardStatus = excelRowData.get(i).getRowData().get(6);
 					if ("正式".equals(onBoardStatus))
 					{
-						employee.setOnboardStatus(ModelHrmEmployee.EOnBoardStatus.ONREGULAR.getValue());
+						employee.setOnboardStatus(
+								ModelHrmEmployee.EOnBoardStatus.ONREGULAR.getValue());
 					}
 					else if ("试用".equals(onBoardStatus))
 					{
-						employee.setOnboardStatus(ModelHrmEmployee.EOnBoardStatus.ONINSPECT.getValue());
+						employee.setOnboardStatus(
+								ModelHrmEmployee.EOnBoardStatus.ONINSPECT.getValue());
 					}
 					else if ("离职".equals(onBoardStatus))
 					{
-						employee.setOnboardStatus(ModelHrmEmployee.EOnBoardStatus.FAIRWELL.getValue());
+						employee.setOnboardStatus(
+								ModelHrmEmployee.EOnBoardStatus.FAIRWELL.getValue());
 					}
 					else if ("辞退".equals(onBoardStatus))
 					{
-						employee.setOnboardStatus(ModelHrmEmployee.EOnBoardStatus.FIRED.getValue());
+						employee.setOnboardStatus(
+								ModelHrmEmployee.EOnBoardStatus.FIRED.getValue());
 					}
 				}
 				
 				if(!excelRowData.get(i).getRowData().get(7).equals( "null"))
 				{
-					employee.setOnboardDate(UtilDate.toDate(excelRowData.get(i).getRowData().get(7)));
+					employee.setOnboardDate(UtilDate.toDate(
+							excelRowData.get(i).getRowData().get(7)));
 				}
 				
 				if(!excelRowData.get(i).getRowData().get(8).equals( "null"))
 				{
-					employee.setContractEndDate(UtilDate.toDate(excelRowData.get(i).getRowData().get(8)));
+					employee.setContractEndDate(UtilDate.toDate(
+							excelRowData.get(i).getRowData().get(8)));
 				}
 				
 				if(!excelRowData.get(i).getRowData().get(9).equals("null"))
@@ -180,7 +193,8 @@ extends BaseHrmAction
 					String columnAge = excelRowData.get(i).getRowData().get(13);
 					if (columnAge.indexOf(".") > -1)
 					{
-						resume.setAge(Integer.parseInt(columnAge.substring(0, columnAge.indexOf("."))));
+						resume.setAge(Integer.parseInt(
+								columnAge.substring(0, columnAge.indexOf("."))));
 					}
 					else
 					{
@@ -190,7 +204,8 @@ extends BaseHrmAction
 				
 				if(!excelRowData.get(i).getRowData().get(14).equals("null"))
 				{
-					employee.setBirthdate(UtilDate.toDate(excelRowData.get(i).getRowData().get(14)));
+					employee.setBirthdate(UtilDate.toDate(
+							excelRowData.get(i).getRowData().get(14)));
 				}
 				
 				if(!excelRowData.get(i).getRowData().get(15).equals("null"))
@@ -334,11 +349,14 @@ extends BaseHrmAction
 				//如果导入时xls文件里有员工编号 判断是否已存在该员工并执行更新
 				if(!excelRowData.get(i).getRowData().get(0).equals("null"))
 				{
-					ModelHrmEmployee modelHrmEmployee = this.serviceHrmEmployee.getEmployeeByEmpNo(excelRowData.get(i).getRowData().get(0));
+					ModelHrmEmployee modelHrmEmployee = 
+						this.serviceHrmEmployee.getEmployeeByEmpNo(
+								excelRowData.get(i).getRowData().get(0));
 					if (modelHrmEmployee != null)
 					{
 						UtilBean.copyNotNullProperties(modelHrmEmployee,employee);
-						ModelHrmResume model1 = this.serviceHrmResume.get(modelHrmEmployee.getResume().getId());
+						ModelHrmResume model1 = this.serviceHrmResume.get(
+								modelHrmEmployee.getResume().getId());
 						if(model1 == null)
 						{
 							this.serviceHrmResume.save(resume);
@@ -349,6 +367,7 @@ extends BaseHrmAction
 						}
 						resume.setEmployeeId(Integer.valueOf(modelHrmEmployee.getId()));
 						this.serviceHrmEmployee.save(modelHrmEmployee);
+						empExisted = true;
 					}
 					else
 					{
@@ -358,19 +377,29 @@ extends BaseHrmAction
 				
 				
 				//判断记录是否已存在 存在执行更新
-				if(this.serviceHrmEmployee.findByFullName(excelRowData.get(i).getRowData().get(1)).size() > 0 )
+				List<ModelHrmEmployee> employees = this.serviceHrmEmployee.findByFullName(
+						excelRowData.get(i).getRowData().get(1));
+				if(employees.size() > 0 )
 				{
-					for(int j = 0;j<this.serviceHrmEmployee.findByFullName(excelRowData.get(i).getRowData().get(1)).size();j++)
+					for(int j = 0; j < employees.size(); j++)
 					{
-						String districtId = this.serviceHrmEmployee.findByFullName(excelRowData.get(i).getRowData().get(1)).get(j).getEmployeeDistrict().getId();
-						String depId      = this.serviceHrmEmployee.findByFullName(excelRowData.get(i).getRowData().get(1)).get(j).getEmployeeDepartment().getId();
-						String posId      = this.serviceHrmEmployee.findByFullName(excelRowData.get(i).getRowData().get(1)).get(j).getEmployeePosition().getId();
-						if(districtId.equals(this.serviceSchoolDistrict.getDistrictByName(excelRowData.get(i).getRowData().get(2)).getId())
-								&&	depId.equals(this.serviceSchoolDepartment.getDepartmentByName(excelRowData.get(i).getRowData().get(3)).getId())	
-								&& posId.equals(this.serviceSchoolDepartmentPosition.getPositionByName(excelRowData.get(i).getRowData().get(4)).getId())) 
+						String districtId = this.serviceHrmEmployee.findByFullName(
+								excelRowData.get(i).getRowData().get(1)).get(j).getEmployeeDistrict().getId();
+						String depId      = this.serviceHrmEmployee.findByFullName(
+								excelRowData.get(i).getRowData().get(1)).get(j).getEmployeeDepartment().getId();
+						String posId      = this.serviceHrmEmployee.findByFullName(
+								excelRowData.get(i).getRowData().get(1)).get(j).getEmployeePosition().getId();
+						if(districtId.equals(this.serviceSchoolDistrict.getDistrictByName(
+								excelRowData.get(i).getRowData().get(2)).getId())
+								&&	depId.equals(this.serviceSchoolDepartment.getDepartmentByName(
+										excelRowData.get(i).getRowData().get(3)).getId())	
+								&& posId.equals(this.serviceSchoolDepartmentPosition.getPositionByName(
+										excelRowData.get(i).getRowData().get(4)).getId())) 
 						{
-							employee.setEmpNo(this.serviceHrmEmployee.findByFullName(excelRowData.get(i).getRowData().get(1)).get(j).getEmpNo());
-							ModelHrmEmployee model = this.serviceHrmEmployee.findByFullName(excelRowData.get(i).getRowData().get(1)).get(j);
+							employee.setEmpNo(this.serviceHrmEmployee.findByFullName(
+									excelRowData.get(i).getRowData().get(1)).get(j).getEmpNo());
+							ModelHrmEmployee model = this.serviceHrmEmployee.findByFullName(
+									excelRowData.get(i).getRowData().get(1)).get(j);
 							ModelHrmResume model1 = this.serviceHrmResume.get(model.getResume().getId());
 							UtilBean.copyNotNullProperties(model,employee);
 							
@@ -383,9 +412,14 @@ extends BaseHrmAction
 								UtilBean.copyNotNullProperties(model1, resume);
 							}
 							this.serviceHrmEmployee.merge(model);
-							return ajaxPrint(response, getSuccessCallback("导入员工信息成功")); 
+							empExisted = true;
 						}
 					}
+				}
+				
+				if (empExisted)
+				{
+					continue;
 				}
 				
 				this.serviceHrmResume.save(resume);
