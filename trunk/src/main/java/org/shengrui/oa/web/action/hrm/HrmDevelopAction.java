@@ -13,6 +13,7 @@ import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.flow.ModelProcessForm;
 import org.shengrui.oa.model.flow.ModelProcessType;
 import org.shengrui.oa.model.hrm.ModelHrmArchive;
+import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop;
 import org.shengrui.oa.model.hrm.ModelHrmEmployeeRoadMap;
 import org.shengrui.oa.service.flow.ServiceProcessType;
@@ -128,7 +129,7 @@ extends BaseHrmAction
 					{
 						// 状态确认弹框
 						String operation = request.getParameter("op");
-						if (!UtilString.isNotEmpty(operation) || operation.equals("dialog"))
+						if (UtilString.isNotEmpty(operation) && "dialog".equals(operation))
 						{
 							request.setAttribute("state", state);
 							request.setAttribute("employeeDevelopEntry", developInfo);
@@ -179,6 +180,18 @@ extends BaseHrmAction
 							hrmArchive.setSource(ModelHrmArchive.EArchiveSource.FAIRWELL.getValue());
 							hrmArchive.setStarLevel(Integer.parseInt(archiveStar));
 							this.serviceHrmArchive.save(hrmArchive);
+						}
+						
+						// 更新员工所在校区/部门/岗位
+						if (ModelHrmEmployeeRoadMap.ERoadMapType.PROMOTION.getValue().equals(Integer.valueOf(state)) 
+								|| ModelHrmEmployeeRoadMap.ERoadMapType.TRANSFER.getValue().equals(Integer.valueOf(state)))
+						{
+							ModelHrmEmployee employee = developInfo.getEmployee();
+							employee.setEmployeeDistrict(developInfo.getToDistrict());
+							employee.setEmployeePosition(developInfo.getToPosition());
+							employee.setEmployeeDepartment(developInfo.getToDepartment());
+							
+							this.serviceHrmEmployee.save(employee);
 						}
 						
 						// 保存成功后, Dialog进行关闭
