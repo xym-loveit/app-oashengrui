@@ -556,7 +556,14 @@ $.extend($.validator, {
 			for ( var i = 0; this.errorList[i]; i++ ) {
 				var error = this.errorList[i];
 				this.settings.highlight && this.settings.highlight.call( this, error.element, this.settings.errorClass, this.settings.validClass );
-				this.showLabel( error.element, error.message );
+				
+				// added by Jeccy.Zhao on 24/09/2012
+				var error_message = error.message;
+				if ($(error.element).attr("error_message")) {
+					error_message = $(error.element).attr("error_message");
+				}
+				
+				this.showLabel( error.element, error_message );
 			}
 			if( this.errorList.length ) {
 				this.toShow = this.toShow.add( this.containers );
