@@ -22,8 +22,14 @@ extends DAOGeneric<ModelInMessage>
 	 * 根据用户ID获取发送短信分页数据
 	 * 
 	 * @param userId
+	 *           用户ID
+	 * @param entity
+	 *           短消息对象
+	 * @param readFlag
+	 *           读取标志
 	 * @param pagingBean
-	 * @return
+	 *           分页对象
+	 * @return 短信分页数据
 	 * @throws DAOException
 	 */
 	PaginationSupport<ModelInMessage> getPaginationByUser (String userId, 
@@ -33,7 +39,8 @@ extends DAOGeneric<ModelInMessage>
 	 * 根据用户ID获取未读短信数量
 	 * 
 	 * @param userId
-	 * @return
+	 *          用户ID
+	 * @return 未读短信数量
 	 * @throws DAOException
 	 */
 	int getUnreadMessageCountByUser (String userId) throws DAOException;

@@ -6,10 +6,18 @@ import org.shengrui.oa.service.base.ServiceBase;
 import cn.trymore.core.model.ModelBase;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
 
+/**
+ * Base service definition.
+ * 
+ * @author Jeccy.Zhao
+ *
+ */
 public class ServiceBaseImpl
 extends ServiceGenericImpl<ModelBase> implements ServiceBase
 {
-	
+	/**
+	 * The base repository. 
+	 */
 	private DAOBase daoBase;
 	
 	public ServiceBaseImpl(DAOBase dao)
