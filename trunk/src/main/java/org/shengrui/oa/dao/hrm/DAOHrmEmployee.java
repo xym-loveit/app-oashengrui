@@ -7,6 +7,12 @@ import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import cn.trymore.core.dao.DAOGeneric;
 import cn.trymore.core.exception.DAOException;
 
+/**
+ * The repository for HRM employee.
+ * 
+ * @author Jeccy.Zhao
+ *
+ */
 public interface DAOHrmEmployee
 extends DAOGeneric<ModelHrmEmployee>
 {

@@ -7,14 +7,24 @@ import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
+/**
+ * The repository for HRM archive.
+ * 
+ * @author Jeccy.Zhao
+ *
+ */
 public interface DAOHrmArchive
 extends DAOGeneric<ModelHrmArchive>
 {
 	
 	/**
+	 * Obtains archive entities with pagination wrapper. 
+	 * 
 	 * @param entity
+	 *          the archive entity that used for criteria
 	 * @param pagingBean
-	 * @return
+	 *          the paging bean object
+	 * @return pagination of archive entities
 	 * @throws DAOException
 	 */
 	PaginationSupport<ModelHrmArchive> getPagination (ModelHrmArchive entity, 

@@ -20,8 +20,10 @@ extends DAOGeneric<ModelShortMessage>
 	 * 根据用户ID获取发送短信分页数据
 	 * 
 	 * @param senderId
+	 *          发送用户ID
 	 * @param pagingBean
-	 * @return
+	 *          分页对象
+	 * @return 短信分页数据
 	 * @throws DAOException
 	 */
 	PaginationSupport<ModelShortMessage> getPaginationByUser (String senderId, 
