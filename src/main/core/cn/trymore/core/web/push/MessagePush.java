@@ -45,7 +45,7 @@ public class MessagePush
 	}
 	
 	/**
-	 * Push message to client
+	 * Push message to browser client
 	 * 
 	 * @param userId
 	 *          the user id
@@ -65,6 +65,7 @@ public class MessagePush
 			{
 				try
 				{
+					// script session filter
 					Browser.withAllSessionsFiltered (new ScriptSessionFilter()
 					{
 						public boolean match(ScriptSession session) 
@@ -84,6 +85,7 @@ public class MessagePush
 						
 						public void run() 
 						{
+							// calls the script that defined in the browser client
 							script.appendCall(scriptMethodName, args);
 							Collection<ScriptSession> sessions = Browser.getTargetSessions();
 							for (ScriptSession scriptSession : sessions) 
