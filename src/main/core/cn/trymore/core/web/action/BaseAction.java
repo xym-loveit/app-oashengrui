@@ -138,6 +138,7 @@ extends DispatchAction
 			"\"navTabId\"      : \"#navTabId#\"," +
 			" \"forwardUrl\"    : \"#forwardUrl#\", " +
 			"\"callbackType\" : \"#callbackType#\"," +
+			"\"json_data\" : \"#json_data#\"," +
 			"\"formClear\"      : \"#formClear#\"}";
 	
 	/**
@@ -488,11 +489,29 @@ extends DispatchAction
 	 * @param callbackType
 	 * @param navTabId
 	 * @param forwardURL
+	 * @param formClear
 	 * @return
 	 */
-	protected String getSuccessCallback (String message, String callbackType, String navTabId, String forwardURL, boolean formClear)
+	protected String getSuccessCallback (String message, 
+			String callbackType, String navTabId, String forwardURL, boolean formClear)
 	{
-		return generateCallbackJson(STATUS_CODE_SUCCESS, message, callbackType, navTabId, forwardURL, formClear);
+		return getSuccessCallback(message, callbackType, navTabId, forwardURL, null, formClear);
+	}
+	
+	/**
+	 * 
+	 * @param message
+	 * @param callbackType
+	 * @param navTabId
+	 * @param forwardURL
+	 * @param data
+	 * @param formClear
+	 * @return
+	 */
+	protected String getSuccessCallback (String message, 
+			String callbackType, String navTabId, String forwardURL, String data, boolean formClear)
+	{
+		return generateCallbackJson(STATUS_CODE_SUCCESS, message, callbackType, navTabId, forwardURL, data, formClear);
 	}
 	
 	/**
@@ -530,10 +549,32 @@ extends DispatchAction
 	 * @param callbackType
 	 * @param navTabId
 	 * @param forwardURL
+	 * @param formClear
 	 * @return
 	 */
 	private String generateCallbackJson (Integer statusCode, 
 			String message, String callbackType, String navTabId, String forwardURL, boolean formClear)
+	{
+		return generateCallbackJson(statusCode, message, callbackType, navTabId, forwardURL, null, formClear);
+	}
+	
+	/**
+	 * Generates the callback JSON string regarding to the callback JSON template,
+	 * it looks like, <br/>
+	 * 
+	 *{"statusCode":"200", "message":"操作成功", "navTabId":"navNewsLi", "forwardUrl":"", "callbackType":"closeCurrent"}
+	 *
+	 * @param statusCode
+	 * @param message
+	 * @param callbackType
+	 * @param navTabId
+	 * @param forwardURL
+	 * @param data
+	 * @param formClear
+	 * @return
+	 */
+	private String generateCallbackJson (Integer statusCode, 
+			String message, String callbackType, String navTabId, String forwardURL, String data, boolean formClear)
 	{
 		String callbackJson = DWZ_CALLBACK_AJAXDONE_JSON;
 		
@@ -551,6 +592,9 @@ extends DispatchAction
 		
 		callbackJson = callbackJson.replace("#forwardUrl#", 
 				((CALLBACK_TYPE_FORWARD.equals(callbackType) || CALLBACK_TYPE_FORWARD_CONFIRM.equals(callbackType)) && UtilString.isNotEmpty(forwardURL)) ? forwardURL : "");
+		
+		callbackJson = callbackJson.replace("#json_data#", 
+				UtilString.isNotEmpty(data) ? data : "");
 		
 		callbackJson = callbackJson.replace("#formClear#", 
 				formClear ? "true" : "false");
