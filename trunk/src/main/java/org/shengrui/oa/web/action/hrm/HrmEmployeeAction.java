@@ -87,26 +87,37 @@ extends BaseHrmAction
 			String teachSubjectArray[] = request.getParameterValues("teachSubject");
 			String teachClass = "";
 			String teachSubject = "";
-			if(teachClassArray!=null){
+			
+			if (teachClassArray != null)
+			{
 				for (String tc : teachClassArray)
 				{
-					if(UtilString.isNotEmpty(teachClass)){
+					if (UtilString.isNotEmpty(teachClass))
+					{
 						teachClass += "," + tc;
-					}else{
+					}
+					else
+					{
 						teachClass = tc;
 					}
 				}
 			}
-			if(teachSubjectArray!=null){
+			
+			if (teachSubjectArray != null)
+			{
 				for (String ts : teachSubjectArray)
 				{
-					if(UtilString.isNotEmpty(teachSubject)){
+					if (UtilString.isNotEmpty(teachSubject))
+					{
 						teachSubject += "," + ts;
-					}else{
+					}
+					else
+					{
 						teachSubject = ts;
 					}
 				}
 			}
+			
 			if (this.isObjectIdValid(employeeId))
 			{
 				ModelHrmEmployee employeeInfo = this.serviceHrmEmployee.get(employeeId);
@@ -121,6 +132,16 @@ extends BaseHrmAction
 					employeeInfo.setPositiveDueDate(formEntity.getPositiveDueDate());
 					employeeInfo.setContractEndDate(formEntity.getContractEndDate());
 					employeeInfo.setOfficePhone(formEntity.getOfficePhone());
+					employeeInfo.setOnboardStatus(Integer.parseInt(request.getParameter("onboardStatus")));
+					
+					employeeInfo.setEmployeeDistrict(
+							this.serviceSchoolDistrict.get(request.getParameter("employeeDistrict.id")));
+					
+					employeeInfo.setEmployeePosition(
+							this.serviceSchoolDepartmentPosition.get(request.getParameter("employeePosition.id")));
+					
+					employeeInfo.setEmployeeDepartment(
+							this.serviceSchoolDepartment.get(request.getParameter("employeeDepartment.id")));
 					
 					this.serviceHrmEmployee.save(employeeInfo);
 					
