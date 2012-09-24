@@ -155,7 +155,12 @@ function dialogAjaxDone(json){
 				tabUrl = navTab.getCurrentTabUrl();
 			}
 			
-			navTab.reload(tabUrl, {navTabId: tabId});
+			var navData = {};
+			if (json.json_data != "") {
+				navData = eval('(' + json.json_data + ')');
+			}
+			
+			navTab.reload(tabUrl, {navTabId: tabId, data: navData});
 			
 			// clears the form input if true returned
 			if (json.formClear) {

@@ -59,6 +59,14 @@ public class sysSettingWorkAction extends sysSettingBaseAction {
          String[] zam = { "", "", "", "", "", "", "", "" };
          String[] zpm = { "", "", "", "", "", "", "", "" };
          for (ModelWorkTemplate entity : listWorkTemplate) {
+        	
+        	// added by Jeccy.Zhao on 24/09/2012, aims to check the nullpointer exception.
+        	if (entity.getWorkTime() == null) 
+        	{
+        		continue;
+        	}
+        	 
+        	 
             if ("周一".equals(entity.getWorkDay())) {
                if ("AM".equals(checkWorkTime(entity.getWorkTime()
                      .getWorkEtime())))
@@ -345,7 +353,9 @@ public class sysSettingWorkAction extends sysSettingBaseAction {
 				this.serviceWorkTemplate.batchInsert(list);
 		         // 保存成功后, Dialog进行关闭
 		         return ajaxPrint(response, 
-		               getSuccessCallback("添加工作安排成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+		               getSuccessCallback("添加工作安排成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, 
+		            		   "{'district.id': '" + request.getParameter("district.id") + "', " +
+		            		   	 "'templateId': '" + request.getParameter("templateId") + "'}", false));
 			} catch (ServiceException e) {
 				// TODO Auto-generated catch block
 				return ajaxPrint(response,"提交的数据异常");
