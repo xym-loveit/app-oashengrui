@@ -128,7 +128,7 @@ public class DataPolicyQuery
 			Map<String, Integer> dataPerms = user.getDataPermissions();
 			if (dataPerms != null && getStrategyByURI(URI, dataPerms) != null)
 			{
-				return dataPerms.get(URI) != null;
+				return true;
 			}
 		}
 		return false;
