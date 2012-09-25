@@ -18,6 +18,7 @@ extends ServiceGeneric<ModelHrmEmployeeDevelop>
 {
 	
 	/**
+	 * Obtains employee develop entity with the specified form no.
 	 * 
 	 * @param formNo
 	 * @return
@@ -29,12 +30,24 @@ extends ServiceGeneric<ModelHrmEmployeeDevelop>
 	 * 人力资源发展查分页数据
 	 * 
 	 * @param entity
-	 * @param pagingBen
+	 * @param pagingBean
 	 * @return
 	 * @throws ServiceException
 	 */
 	PaginationSupport<ModelHrmEmployeeDevelop> getEmployeeDevelopInfoPagination (ModelHrmEmployeeDevelop entity, 
-			PagingBean pagingBen) throws ServiceException;
+			PagingBean pagingBean) throws ServiceException;
+	
+	/**
+	 * 人力资源发展查分页数据
+	 * 
+	 * @param entity
+	 * @param empId
+	 * @param pagingBean
+	 * @return
+	 * @throws ServiceException
+	 */
+	PaginationSupport<ModelHrmEmployeeDevelop> getEmployeeDevelopInfoPagination (ModelHrmEmployeeDevelop entity, 
+			String empId, PagingBean pagingBean) throws ServiceException;
 
 	/**
 	 * 查询未审批过的人资申请

@@ -63,7 +63,8 @@ extends FlowBaseAction
 		{
 			PagingBean pagingBean = this.getPagingBean1(request);
 			PaginationSupport<ModelHrmEmployeeDevelop> items =
-					this.serviceHrmEmployeeDevelop.getEmployeeDevelopInfoPagination(null, pagingBean);
+					this.serviceHrmEmployeeDevelop.getEmployeeDevelopInfoPagination(
+							null, ContextUtil.getCurrentUser().getEmployeeId(), pagingBean);
 			
 			request.setAttribute("dataList", items);
 			
@@ -122,7 +123,8 @@ extends FlowBaseAction
 		{
 			PagingBean pagingBean = this.getPagingBean(request);
 			PaginationSupport<ModelHrmEmployeeDevelop> items =
-					this.serviceHrmEmployeeDevelop.getEmployeeDevelopInfoPagination(null, pagingBean);
+					this.serviceHrmEmployeeDevelop.getEmployeeDevelopInfoPagination(
+							null, ContextUtil.getCurrentUser().getEmployeeId(), pagingBean);
 			
 			request.setAttribute("dataList", items);
 			
