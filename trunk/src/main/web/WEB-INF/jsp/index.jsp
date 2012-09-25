@@ -8,8 +8,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script type="text/javascript">
 $(function(){
+	
 	//我的任务
-	$.post("app/personal/task.do?action=pageTaskIndex1&numPerPage=5",{},function(data){
+	$.post("app/personal/task.do?action=pageTaskIndex&objOut&numPerPage=5",{},function(data){
 		$("#task").html(data);
 		var size=$('#task tr').size();
 	  	for(i=0;i<size;i++){
@@ -52,7 +53,7 @@ $(function(){
 	},'text');
 	
 	//我的申请
-	$.post("app/personal/application_form.do?action=pageMyApplicationIndex1&numPerPage=5",{},function(data){
+	$.post("app/personal/application_form.do?action=pageMyApplicationIndex&objOut&numPerPage=5",{},function(data){
 		$("#application").html(data);
 		var size=$('#application tr').size();
 	  	for(i=0;i<size;i++){
@@ -64,7 +65,7 @@ $(function(){
 	},'text');
 	
 	//我的信息
-	$.post("app/message.do?action=pageMessageReceivedIndex1&numPerPage=5",{},function(data){
+	$.post("app/message.do?action=pageMessageReceivedIndex&objOut&numPerPage=5",{},function(data){
 		$("#message").html(data);
 		var size=$('#message tr').size();
 	  	for(i=0;i<size;i++){
@@ -74,10 +75,10 @@ $(function(){
 	  		result='<a href="app/message.do?action=dialogMessagePage&msgId='+mId+'&msgInId='+id+'" title="查看消息" height="380" width="640" target="dialog" rel="dsk_msg_'+id+'">'+value+'</a>';
 	  	$('#message tr').eq(i).find('td').eq(2).html(result);
 	  	}
-	},'text')
+	},'text');
 	
 	//我的会议
-	$.post("app/personal/conference.do?action=myConferenceIndex1&numPerPage=5",{},function(data){
+	$.post("app/personal/conference.do?action=myConferenceIndex&objOut&numPerPage=5",{},function(data){
 		$("#conference").html(data);
 		var size=$('#conference tr').size();
 	  	for(i=0;i<size;i++){
@@ -86,10 +87,11 @@ $(function(){
 	  		result='<a href="app/personal/conference.do?action=conferenceDetail&id='+id+'&op=view" height="450" width="1150" title="查看会议`'+value+'`" target="dialog" rel="dsk_confer_'+id+'">'+value+'</a>';
 	  	$('#conference tr').eq(i).find('td').eq(1).html(result);
 	  	}
-	},'text')
+	},'text');
+	
 	
 	//我的新闻
-	$.post("app/admin/news.do?action=adminPageEntryIndex1&numPerPage=5",{},function(data){
+	$.post("app/admin/news.do?action=adminPageEntryIndex&objOut&numPerPage=5",{},function(data){
 		$("#news").html(data);
 		var size=$('#news tr').size();
 	  	for(i=0;i<size;i++){
@@ -98,10 +100,11 @@ $(function(){
 	  		result='<a href="app/admin/news.do?action=actionNewsScan&id='+id+'" height="650" width="900" title="查看新闻`'+value+'`" target="dialog" rel="dsk_news_'+id+'">'+value+'</a>';
 	  	$('#news tr').eq(i).find('td').eq(2).html(result);
 	  	}
-	},'text')
+	},'text');
+	
 	
 	//我的文档
-	$.post("app/admin/doc.do?action=adminPageDocumentIndex1&numPerPage=5",{},function(data){
+	$.post("app/admin/doc.do?action=adminPageDocumentIndex&objOut&numPerPage=5",{},function(data){
 		$("#doc").html(data)
 		var size=$('#doc tr').size();
 	  	for(i=0;i<size;i++){
@@ -110,7 +113,7 @@ $(function(){
 	  		result='<a href="app/admin/doc.do?action=adminPageDocumentEditDetail&id='+id+'" target="dialog" height="380" width="850" title="文档`'+value+'`-编辑" rel="dsk_doc_'+id+'">'+value+'</a>';
 	  	$('#doc tr').eq(i).find('td').eq(1).html(result);
 	  	}
-	},'text')
+	},'text');
 	
 	$.post("app/personal/jobapplication.do?action=pageJobOnHiring&objOut&numPerPage=5",{},function(data){
 		$("#jobs").html(data)
@@ -121,7 +124,8 @@ $(function(){
 	  		result='<a href="app/hrm/hire.do?action=hrmPageJobResume&jobId='+id+'&source=1" target="dialog" height="460" width="830" title="我要应聘`'+value+'`" rel="dsk_application_'+id+'">'+value+'</a>';
 			$('#jobs tr').eq(i).find('td').eq(1).html(result);
 	  	}
-	},'text')
+	},'text');
+	
 });
 //-->
 </script>

@@ -74,49 +74,6 @@ extends BaseAdminAction
 	private ServiceBase serviceBase;
 
 	/**
-	 * 首页显示我的新闻
-	 * */
-	public ActionForward adminPageEntryIndex1 (ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) 
-	{
-		try {
-			ModelNewsMag formNews = (ModelNewsMag) form;
-			PagingBean pagingBean = this.getPagingBean1(request);
-			String id = request.getParameter("type");
-			formNews.setDictionary(this.serviceAppDictionary.get(id));
-			PaginationSupport<ModelNewsMag> news = 
-				this.serviceNewsManage.getPaginationByNews(formNews, pagingBean);
-			request.setAttribute("news", news);
-			request.setAttribute("formNews", formNews);
-			request.setAttribute("newsTypes", this.getServiceAppDictionary().getByType(type));
-			request.setAttribute("op", request.getParameter("op"));
-			// 输出分页信息至客户端
-			outWritePagination(request, pagingBean, news);
-			response.getWriter().write(ObjectToString(news));
-		} catch (Exception e) {
-			e.printStackTrace();
-			LOGGER.error("Exception raised when open the archive index page.", e);
-			return ajaxPrint(response, getErrorCallback("加载新闻发布与管理数据失败:" + e.getMessage()));
-		}
-		return null;
-	}
-	
-	private String ObjectToString(PaginationSupport<ModelNewsMag> list){
-		StringBuffer sb =new StringBuffer();
-		if(list != null){
-			for (ModelNewsMag news : list.getItems()) {
-				sb.append("<tr><td style=\"display: none;\">");
-				sb.append(news.getId()+"</td><td>");
-				sb.append(news.getDictionary().getName()+"</td>");
-				sb.append("<td>"+news.getNewsSubject()+"</td><td>");
-				sb.append(news.getUpdateTime()+"</td></tr>");
-			}
-			return sb.toString();
-		}
-		return "";
-	}
-	
-	/**
 	 * <b>[WebAction]</b> 
 	 * <br/>
 	 * 新闻发布与管理
@@ -137,6 +94,13 @@ extends BaseAdminAction
 			request.setAttribute("formNews", formNews);
 			request.setAttribute("newsTypes", this.getServiceAppDictionary().getByType(type));
 			request.setAttribute("op", request.getParameter("op"));
+			
+			if (request.getParameter("objOut") != null)
+			{
+				response.getWriter().write(ObjectToString(news));
+				return null;
+			}
+			
 			// 输出分页信息至客户端
 			outWritePagination(request, pagingBean, news);
 			
@@ -1686,7 +1650,21 @@ extends BaseAdminAction
 	{
 		return mapping.findForward("admin.page.document.detail");
 	}
-    
+	
+	private String ObjectToString(PaginationSupport<ModelNewsMag> list){
+		StringBuffer sb =new StringBuffer();
+		if(list != null){
+			for (ModelNewsMag news : list.getItems()) {
+				sb.append("<tr><td style=\"display: none;\">");
+				sb.append(news.getId()+"</td><td>");
+				sb.append(news.getDictionary().getName()+"</td>");
+				sb.append("<td>"+news.getNewsSubject()+"</td><td>");
+				sb.append(news.getUpdateTime()+"</td></tr>");
+			}
+			return sb.toString();
+		}
+		return "";
+	}
 
 	   public String checkWorkTime(String time) {
 	      if (time == null || "".equals(time))

@@ -158,11 +158,17 @@ extends BaseAppAction
 			
 			request.setAttribute("dataList", items);
 			request.setAttribute("formEntity", formEntity);
+			request.setAttribute("today", new Date());
+			
+			// 首页任务加载视图渲染...
+			if (request.getParameter("objOut") != null)
+			{
+				response.getWriter().write(ObjectToString(items));
+				return null;
+			}
 			
 			// 输出分页信息至客户端
 			outWritePagination(request, pagingBean, items);
-			
-			request.setAttribute("today", new Date());
 			
 			return mapping.findForward("page.task.index");
 		} 

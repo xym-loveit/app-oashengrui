@@ -1,6 +1,5 @@
 package org.shengrui.oa.web.action.admin;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -53,61 +52,6 @@ extends BaseAdminAction
 	private static final String ACTION_FORM_FLAG_RETURNED = "2";
 	
 	/**
-	 * 首页显示我的文档
-	 * */
-	public ActionForward adminPageDocumentIndex1 (ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) throws WebException, ServiceException 
-	{
-		try
-		{
-				ModelDoc formDoc = (ModelDoc) form;
-				
-				if(formDoc.getType().getId()!=null && formDoc.getType().getId()!="-1") {
-					formDoc.setType(this.getServiceAppDictionary().get(formDoc.getType().getId()));
-				}
-
-				PagingBean pagingBean = this.getPagingBean1(request);
-				PaginationSupport<ModelDoc> docs =
-					this.getServiceDocManage().getPaginationByEntity(formDoc, pagingBean);
-				
-				request.setAttribute("docs", docs);
-				request.setAttribute("formDoc", formDoc);
-				try {
-					response.getWriter().write(ObjectToString(docs));
-				} catch (IOException e) { 
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				// 输出分页信息至客户端
-				outWritePagination(request, pagingBean, docs);
-				request.setAttribute("docTypes", this.getServiceAppDictionary().getByType("docType"));
-			
-			
-		} 
-		catch (ServiceException e)
-		{
-			LOGGER.error("Exception raised when fetch all doc manages.", e);
-		}
-		
-		
-		return null;
-	}
-	
-	private String ObjectToString(PaginationSupport<ModelDoc> list){
-		StringBuffer sb =new StringBuffer();
-		if(list != null){
-			for (ModelDoc doc : list.getItems()) {
-				sb.append("<tr><td style=\"display: none;\">");
-				sb.append(doc.getId()+"</td><td>");
-				sb.append(doc.getType().getValue()+"</td>");
-				sb.append("<td>"+doc.getCreateTime()+"</td></tr>");
-			}
-			return sb.toString();
-		}
-		return "";
-	}
-	
-	/**
 	 * <b>[WebAction]</b> 
 	 * <br/>
 	 * 文档上传与管理主界面
@@ -132,15 +76,23 @@ extends BaseAdminAction
 				request.setAttribute("docs", docs);
 				request.setAttribute("formDoc", formDoc);
 				
+				// 首页我的会议加载视图渲染...
+				if (request.getParameter("objOut") != null)
+				{
+					response.getWriter().write(ObjectToString(docs));
+					return null;
+				}
+				
 				// 输出分页信息至客户端
 				outWritePagination(request, pagingBean, docs);
 				request.setAttribute("docTypes", this.getServiceAppDictionary().getByType("docType"));
 			
 			
 		} 
-		catch (ServiceException e)
+		catch (Exception e)
 		{
 			LOGGER.error("Exception raised when fetch all doc manages.", e);
+			return ajaxPrint(response, getErrorCallback("页面加载失败:" + e.getMessage()));
 		}
 		
 		
@@ -627,5 +579,18 @@ extends BaseAdminAction
 			return ajaxPrint(response, getErrorCallback("文档编辑失败."));
 		}
 	}
-
+	
+	private String ObjectToString(PaginationSupport<ModelDoc> list){
+		StringBuffer sb =new StringBuffer();
+		if(list != null){
+			for (ModelDoc doc : list.getItems()) {
+				sb.append("<tr><td style=\"display: none;\">");
+				sb.append(doc.getId()+"</td><td>");
+				sb.append(doc.getType().getValue()+"</td>");
+				sb.append("<td>"+doc.getCreateTime()+"</td></tr>");
+			}
+			return sb.toString();
+		}
+		return "";
+	}
 }
