@@ -88,13 +88,14 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployeeDevelop.class);
 
+		if (UtilString.isNotEmpty(empId))
+		{
+			criteria.createCriteria("employee").add(Restrictions.eq("id", empId));
+		}
+		
 		if (entity != null)
 		{
-			if (UtilString.isNotEmpty(empId))
-			{
-				criteria.createCriteria("employee").add(Restrictions.eq("id", empId));
-			}
-			else if (entity.getEmployee() != null)
+			if (entity.getEmployee() != null && !UtilString.isNotEmpty(empId))
 			{
 				if (entity.getEmployee().getId() != null)
 				{
