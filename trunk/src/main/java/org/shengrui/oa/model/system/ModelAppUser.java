@@ -552,6 +552,16 @@ extends ModelBase implements UserDetails
 		return !district.getDistrictType().equals(AppUtil.EAppSchoolType.HEADQUARTERS.getValue());
 	}
 	
+	/**
+	 * Obtains the employee identity
+	 * 
+	 * @return employee identity
+	 */
+	public String getEmployeeId ()
+	{
+		return this.getEmployee().getId();
+	}
+	
 	public String getUsername()
 	{
 		return username;

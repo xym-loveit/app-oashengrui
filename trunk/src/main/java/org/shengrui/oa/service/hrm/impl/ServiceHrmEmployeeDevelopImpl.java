@@ -41,7 +41,18 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 			ModelHrmEmployeeDevelop entity, PagingBean pagingBean)
 			throws ServiceException
 	{
-		return this.getAll(this.getCriterias(entity), pagingBean);
+		return getEmployeeDevelopInfoPagination(entity, null, pagingBean);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmEmployeeDevelop#getEmployeeDevelopInfoPagination(org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop, java.lang.String, cn.trymore.core.web.paging.PagingBean)
+	 */
+	@Override
+	public PaginationSupport<ModelHrmEmployeeDevelop> getEmployeeDevelopInfoPagination (ModelHrmEmployeeDevelop entity, 
+			String empId, PagingBean pagingBean) throws ServiceException
+	{
+		return this.getAll(this.getCriterias(entity, empId), pagingBean);
 	}
 	
 	/*
@@ -70,15 +81,20 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 	 * Returns the criteria with the specified entity. 
 	 * 
 	 * @param entity
+	 * @param empId
 	 * @return
 	 */
-	private DetachedCriteria getCriterias(ModelHrmEmployeeDevelop entity)
+	private DetachedCriteria getCriterias(ModelHrmEmployeeDevelop entity, String empId)
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployeeDevelop.class);
 
 		if (entity != null)
 		{
-			if (entity.getEmployee() != null)
+			if (UtilString.isNotEmpty(empId))
+			{
+				criteria.createCriteria("employee").add(Restrictions.eq("id", empId));
+			}
+			else if (entity.getEmployee() != null)
 			{
 				if (entity.getEmployee().getId() != null)
 				{
