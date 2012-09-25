@@ -44,55 +44,6 @@ extends BaseAppAction
 	private ServiceConferenceInfo serviceConference;
 	
 	/**
-	 * 首页显示个人信息
-	 * */
-	public ActionForward pageMessageReceivedIndex1 (ActionMapping mapping,
-			ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) 
-	{
-		try
-		{
-			ModelShortMessage formEntity = (ModelShortMessage) form;
-			
-			PagingBean pagingBean = this.getPagingBean1(request);
-			PaginationSupport<ModelInMessage> inMsgs = 
-					this.serviceInMessage.getPaginationByUser(
-							ContextUtil.getCurrentUser().getEmployee().getId(), 
-							formEntity,
-							request.getParameter("readFlag"),
-							pagingBean);
-			
-			request.setAttribute("dataList", inMsgs);
-			request.setAttribute("formEntity", formEntity);
-			request.setAttribute("readFlag", request.getParameter("readFlag"));
-			response.getWriter().write(ObjectToString(inMsgs));
-			// 输出分页信息至客户端
-			outWritePagination(request, pagingBean, inMsgs);
-			
-			return null;
-		}
-		catch (Exception e)
-		{
-			LOGGER.error("Exception raised when open my received message page..", e);
-			return ajaxPrint(response, getErrorCallback("页面加载失败:" + e.getMessage()));
-		}
-	}
-	private String ObjectToString(PaginationSupport<ModelInMessage> list){
-		StringBuffer sb =new StringBuffer();
-		if(list != null){
-			for (ModelInMessage message : list.getItems()) {
-				sb.append("<tr><td style=\"display: none;\">");
-				sb.append(message.getId()+"</td><td style=\"display: none;\">");
-				sb.append(message.getShortMessage().getId()+"</td><td style='text-align:left'>");
-				sb.append(message.getShortMessage().getSubject()+"</td>");
-				sb.append("<td>"+message.getShortMessage().getSender()+"</td><td>");
-				sb.append(message.getShortMessage().getSendTime()+"</td></tr>");
-			}
-			return sb.toString();
-		}
-		return "";
-	}
-	/**
 	 * <b>[WebAction]</b> <br/>
 	 * 收到的消息
 	 */
@@ -115,6 +66,13 @@ extends BaseAppAction
 			request.setAttribute("dataList", inMsgs);
 			request.setAttribute("formEntity", formEntity);
 			request.setAttribute("readFlag", request.getParameter("readFlag"));
+			
+			// 首页我的消息加载视图渲染...
+			if (request.getParameter("objOut") != null)
+			{
+				response.getWriter().write(ObjectToString(inMsgs));
+				return null;
+			}
 			
 			// 输出分页信息至客户端
 			outWritePagination(request, pagingBean, inMsgs);
@@ -411,6 +369,31 @@ extends BaseAppAction
 			LOGGER.error("Exception raised when getting unread message count.", e);
 			return ajaxPrint(response, "0");
 		}
+	}
+	
+	/**
+	 * 
+	 * @param list
+	 * @return
+	 * @author unknown
+	 */
+	private String ObjectToString(PaginationSupport<ModelInMessage> list)
+	{
+		StringBuffer sb =new StringBuffer();
+		if(list != null)
+		{
+			for (ModelInMessage message : list.getItems()) 
+			{
+				sb.append("<tr><td style=\"display: none;\">");
+				sb.append(message.getId()+"</td><td style=\"display: none;\">");
+				sb.append(message.getShortMessage().getId()+"</td><td style='text-align:left'>");
+				sb.append(message.getShortMessage().getSubject()+"</td>");
+				sb.append("<td>"+message.getShortMessage().getSender()+"</td><td>");
+				sb.append(message.getShortMessage().getSendTime()+"</td></tr>");
+			}
+			return sb.toString();
+		}
+		return "";
 	}
 	
 	public static Logger getLogger()
