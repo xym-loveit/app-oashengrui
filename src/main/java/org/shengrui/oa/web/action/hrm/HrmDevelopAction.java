@@ -182,15 +182,29 @@ extends BaseHrmAction
 							this.serviceHrmArchive.save(hrmArchive);
 						}
 						
-						// 更新员工所在校区/部门/岗位
+						ModelHrmEmployee employee = developInfo.getEmployee();
+						
+						// 更新员工所在校区/部门/岗位 (调动/晋升)
 						if (ModelHrmEmployeeRoadMap.ERoadMapType.PROMOTION.getValue().equals(Integer.valueOf(state)) 
 								|| ModelHrmEmployeeRoadMap.ERoadMapType.TRANSFER.getValue().equals(Integer.valueOf(state)))
 						{
-							ModelHrmEmployee employee = developInfo.getEmployee();
 							employee.setEmployeeDistrict(developInfo.getToDistrict());
 							employee.setEmployeePosition(developInfo.getToPosition());
 							employee.setEmployeeDepartment(developInfo.getToDepartment());
-							
+							this.serviceHrmEmployee.save(employee);
+						}
+						
+						// 转正 -> 更新员工状态
+						if (ModelHrmEmployeeRoadMap.ERoadMapType.BEREGULAR.getValue().equals(Integer.valueOf(state)))
+						{
+							employee.setOnboardStatus(ModelHrmEmployee.EOnBoardStatus.ONREGULAR.getValue());
+							this.serviceHrmEmployee.save(employee);
+						}
+						
+						// 离职 -> 更新员工状态
+						if (ModelHrmEmployeeRoadMap.ERoadMapType.FAIRWELL.getValue().equals(Integer.valueOf(state)))
+						{
+							employee.setOnboardStatus(ModelHrmEmployee.EOnBoardStatus.FAIRWELL.getValue());
 							this.serviceHrmEmployee.save(employee);
 						}
 						
