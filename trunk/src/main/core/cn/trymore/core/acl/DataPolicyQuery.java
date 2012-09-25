@@ -3,6 +3,7 @@ package cn.trymore.core.acl;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.shengrui.oa.model.system.ModelAppRole;
@@ -125,12 +126,51 @@ public class DataPolicyQuery
 		if (ContextUtil.getCurrentUser() != null && URI != null)
 		{
 			Map<String, Integer> dataPerms = user.getDataPermissions();
-			if (dataPerms != null && dataPerms.containsKey(URI))
+			if (dataPerms != null && getStrategyByURI(URI, dataPerms) != null)
 			{
 				return dataPerms.get(URI) != null;
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Obtains strategy with the specified URI matched from the URI pool.
+	 * 
+	 * @param URI
+	 * @param uriPool
+	 * @return
+	 */
+	private Integer getStrategyByURI (final Object URI, final Map<String, Integer> uriPool)
+	{
+		Integer strategy = null;
+		
+		final String strURI = URI.toString().toLowerCase();
+		final Set<String> keySet = uriPool.keySet();
+		
+		// matches directly with the full URI
+		if (uriPool != null && uriPool.size() > 0)
+		{
+			if (keySet.contains(strURI))
+			{
+				strategy = uriPool.get(strURI);
+			}
+		}
+		
+		if (strategy == null)
+		{
+			// try to match without the parameters if provided.
+			for (final String res : keySet)
+			{
+				if (strURI.indexOf(res.toLowerCase()) > -1)
+				{
+					strategy = uriPool.get(res);
+					break;
+				}
+			}
+		}
+		
+		return strategy;
 	}
 	
 	/**
@@ -224,7 +264,7 @@ public class DataPolicyQuery
 	{
 		ModelAppUser logonUser = user; //ContextUtil.getCurrentUser();
 		
-		Integer dataPolicy = user.getDataPermissions().get(URI.toString());
+		Integer dataPolicy = getStrategyByURI(URI, user.getDataPermissions());
 		
 		if (AppUtil.EDataPermissions.DP_DIS_WHOLE.getValue().equals(dataPolicy)
 				&& AppUtil.EDataPermissions.DP_DIS_WHOLE.getType().equals(fieldType))
