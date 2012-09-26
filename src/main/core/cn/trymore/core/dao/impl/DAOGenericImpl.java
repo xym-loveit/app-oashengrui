@@ -128,20 +128,29 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 	 * (non-Javadoc)
 	 * @see cn.trymore.core.dao.DAOGeneric#getAll()
 	 */
-	@SuppressWarnings("unchecked")
 	public List<T> getAll()
 			throws DAOException
 	{
+		return getAll(true);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see cn.trymore.core.dao.DAOGeneric#getAll(boolean)
+	 */
+	@SuppressWarnings("unchecked")
+	public List<T> getAll(final boolean filter)
+			throws DAOException
+	{	
 		return (List<T>)getHibernateTemplate().execute(new HibernateCallback()
 		{
-			
 			@Override
 			public Object doInHibernate(Session paramSession) throws HibernateException,
 					SQLException
 			{
 				DetachedCriteria criteria = DetachedCriteria.forClass(DAOGenericImpl.this.entityClass);
 				
-				if (UtilString.isNotEmpty(DAOGenericImpl.this.getQueryFilter()))
+				if (filter && UtilString.isNotEmpty(DAOGenericImpl.this.getQueryFilter()))
 				{
 					criteria.add(Restrictions.sqlRestriction(DAOGenericImpl.this.getQueryFilter()));
 					DAOGenericImpl.this.setQueryFilter(null);

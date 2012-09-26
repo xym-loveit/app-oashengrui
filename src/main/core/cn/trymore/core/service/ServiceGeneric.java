@@ -65,6 +65,16 @@ public interface ServiceGeneric<T extends ModelBase>
 	List<T> getAll() throws ServiceException;
 	
 	/**
+	 * Get all of available objects
+	 * 
+	 * @param filter
+	 *                the query will be applied only when it's true.
+	 * @return all available objects
+	 * @throws ServiceException
+	 */
+	List<T> getAll(final boolean filter) throws ServiceException;
+	
+	/**
 	 * Obtains all entities with pagination
 	 * 
 	 * @param criteria
