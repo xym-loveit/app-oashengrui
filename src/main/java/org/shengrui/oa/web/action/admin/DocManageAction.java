@@ -580,12 +580,17 @@ extends BaseAdminAction
 		}
 	}
 	
-	private String ObjectToString(PaginationSupport<ModelDoc> list){
+	private String ObjectToString(PaginationSupport<ModelDoc> list)
+	{
 		StringBuffer sb =new StringBuffer();
-		if(list != null){
-			for (ModelDoc doc : list.getItems()) {
+		if (list != null)
+		{
+			for (ModelDoc doc : list.getItems()) 
+			{
 				sb.append("<tr><td style=\"display: none;\">");
-				sb.append(doc.getId()+"</td><td>");
+				sb.append(doc.getId()+"</td><td alt=\"" + doc.getFile().getFilePath() + "\">");
+				sb.append(doc.getDocName());
+				sb.append("</td><td>");
 				sb.append(doc.getType().getValue()+"</td>");
 				sb.append("<td>"+doc.getCreateTime()+"</td></tr>");
 			}
