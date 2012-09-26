@@ -162,7 +162,11 @@ extends BaseAppAction
 					pagingBean
 			);
 			
-			if (hireJobsZone != null && hireJobsZone.getItemCount() > 0)
+			if (hireJobs == null)
+			{
+				hireJobs = hireJobsZone;
+			}
+			else if (hireJobsZone != null)
 			{
 				hireJobs.getItems().addAll(hireJobsZone.getItems());
 			}
