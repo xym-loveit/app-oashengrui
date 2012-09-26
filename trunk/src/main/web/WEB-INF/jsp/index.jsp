@@ -109,9 +109,12 @@ $(function(){
 		var size=$('#doc tr').size();
 	  	for(i=0;i<size;i++){
 	  		var id=$('#doc tr').eq(i).find('td').eq(0).html();
-	  		var value=$('#doc tr').eq(i).find('td').eq(1).html();
-	  		result='<a href="app/admin/doc.do?action=adminPageDocumentEditDetail&id='+id+'" target="dialog" height="380" width="850" title="文档`'+value+'`-编辑" rel="dsk_doc_'+id+'">'+value+'</a>';
-	  	$('#doc tr').eq(i).find('td').eq(1).html(result);
+	  		var doc_path = $('#doc tr').eq(i).find('td').eq(1).attr("alt");
+			var doc_name = $('#doc tr').eq(i).find('td').eq(1).html();
+			var doc_type = $('#doc tr').eq(i).find('td').eq(2).html();
+			// value=$('#doc tr').eq(i).find('td').eq(1).html();
+	  		var result='<a href="file-download?path=' + doc_path + '" target="_blank" height="380" width="850" title="文档`'+doc_name+'`下载" rel="dsk_doc_'+id+'">'+doc_name+'</a>';
+			$('#doc tr').eq(i).find('td').eq(1).html(result);
 	  	}
 	},'text');
 	
@@ -210,6 +213,7 @@ $(function(){
 		<thead>
 			<tr>
 			    <th style="display: none;"></th>
+				<th align="center">文档名称</th>
 				<th align="center">文档类型</th>
 				<th align="center">文档时间</th>
 			</tr>
