@@ -299,8 +299,8 @@ extends BaseAdminAction
 			Set<String> auditorIds = this.getUserIdsAgainstGrantedResource(
 				WebActionUtil.APPROVAL_ADMIN_NEWS, 
 				ModelNewsMag.class, 
-				String.valueOf(entity.getDistrictPost()), 
-				String.valueOf(entity.getDepPost())
+				String.valueOf(entity.getDistrict().getId()), 
+				String.valueOf(entity.getDepartment().getId())
 			);
 			
 			//审核
