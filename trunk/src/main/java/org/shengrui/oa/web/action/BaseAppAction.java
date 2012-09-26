@@ -1189,6 +1189,12 @@ extends BaseAction
 						// 初始化用户拥有的资源
 						user.initMenuRights();
 						
+						// only for testing...
+						if (!"00071001".equals(user.getEmployee().getEmpNo()))
+						{
+							continue;
+						}
+						
 						// 普通用户
 						if (this.isResourceGranted(user, vo, entityClass, districtId, depId))
 						{
@@ -1283,7 +1289,8 @@ extends BaseAction
 								String aclFieldName = aclFieldNames[i];
 								String aclFieldType = aclFieldTypes[i];
 								
-								if (aclFieldName.equals(fieldName))
+								if (aclFieldName.equals(fieldName) || 
+										(Constants.DEFAULT_TABLE_ALIAS_IN_HIBERNATE + "." + aclFieldName).equals(fieldName))
 								{
 									if (AppUtil.DATA_POLICY_DISTRICT.equals(aclFieldType))
 									{
