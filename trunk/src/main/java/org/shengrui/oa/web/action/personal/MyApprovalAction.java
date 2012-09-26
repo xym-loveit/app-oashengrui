@@ -29,6 +29,7 @@ import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.util.WebActionUtil;
 import org.shengrui.oa.web.action.BaseAppAction;
 
+import cn.trymore.core.common.Constants;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
@@ -119,13 +120,50 @@ extends BaseAppAction
 		try 
 		{
 			//新闻发布审批
-			PaginationSupport<ModelNewsMag> news = 
-				this.serviceNewsManage.getNewsRec(newsInfo, pagingBean);
+			PaginationSupport<ModelNewsMag> news = this.serviceNewsManage.getNewsRec(
+				newsInfo, 
+				this.getModelDataPolicyQuery(
+					WebActionUtil.MENU_ITEM_ADMIN_NEWS.getObject().getKey(),
+					WebActionUtil.MENU_ITEM_ADMIN_NEWS.getObject().getObject(),
+					ModelNewsMag.class, 
+					new String[] {
+						"(" + Constants.DEFAULT_TABLE_ALIAS_IN_HIBERNATE + ".status = " + ModelNewsMag.newsStatus.TODO_APPROVE.getValue() + ")"
+					}
+				),
+				pagingBean
+			);
 			request.setAttribute("news", news);
 			
-			//岗位发布审批
-			PaginationSupport<ModelHrmJobHireInfo> hireJobs = 
-				this.serviceHrmJobHireInfo.getPaginationByEntity(formJobHireInfo, pagingBean);
+			// 岗位发布审批 (待总部审批)
+			PaginationSupport<ModelHrmJobHireInfo> hireJobs = this.serviceHrmJobHireInfo.getPaginationByEntity(
+					formJobHireInfo, 
+					this.getModelDataPolicyQuery(
+						WebActionUtil.APPROVAL_HRM_JOB_MASTER.getKey(),
+						WebActionUtil.APPROVAL_HRM_JOB_MASTER.getObject(),
+						ModelHrmJobHireInfo.class, 
+						new String[] {
+							"("  + Constants.DEFAULT_TABLE_ALIAS_IN_HIBERNATE + ".status = " + ModelHrmJobHireInfo.EJobHireStatus.TODO_HEAD.getValue() + ")"
+						}
+					),
+					pagingBean
+			);
+			
+			// 岗位发布审批 (待校区审批)
+			PaginationSupport<ModelHrmJobHireInfo> hireJobsZone = this.serviceHrmJobHireInfo.getPaginationByEntity(
+					formJobHireInfo, 
+					this.getModelDataPolicyQuery(
+						WebActionUtil.APPROVAL_HRM_JOB_ZOON.getKey(),
+						WebActionUtil.APPROVAL_HRM_JOB_ZOON.getObject(),
+						ModelHrmJobHireInfo.class, 
+						new String[] {
+							"("  + Constants.DEFAULT_TABLE_ALIAS_IN_HIBERNATE + ".status = " + ModelHrmJobHireInfo.EJobHireStatus.TODO_ZONE.getValue() + ")"
+						}
+					),
+					pagingBean
+			);
+			
+			hireJobs.getItems().addAll(hireJobsZone.getItems());
+			
 			request.setAttribute("hireJobs", hireJobs);
 			
 			//任务委托审批
