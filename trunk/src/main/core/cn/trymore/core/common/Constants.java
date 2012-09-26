@@ -155,4 +155,9 @@ public final class Constants
 	 */
 	public static final String SESSION_KEY_USER_POSITION = "POSITION";
 	
+	/**
+	 * the default table alias in Hibernate
+	 */
+	public static final String DEFAULT_TABLE_ALIAS_IN_HIBERNATE= "this_";
+	
 }

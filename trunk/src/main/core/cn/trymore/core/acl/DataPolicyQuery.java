@@ -12,6 +12,7 @@ import org.shengrui.oa.service.system.ServiceSchoolDepartment;
 import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
 
+import cn.trymore.core.common.Constants;
 import cn.trymore.core.util.UtilString;
 
 public class DataPolicyQuery
@@ -36,7 +37,7 @@ public class DataPolicyQuery
 	public String buildPolicyQuery (Class entity)
 	{
 		return buildPolicyQuery(entity, DataPolicyEngine.get().toString(), 
-				ContextUtil.getCurrentUser(), null);
+				ContextUtil.getCurrentUser(), Constants.DEFAULT_TABLE_ALIAS_IN_HIBERNATE);
 	}
 	
 	/**
@@ -49,7 +50,7 @@ public class DataPolicyQuery
 	@SuppressWarnings("rawtypes")
 	public String buildPolicyQuery (Class entity, String URI)
 	{
-		return buildPolicyQuery(entity, URI, ContextUtil.getCurrentUser(), null);
+		return buildPolicyQuery(entity, URI, ContextUtil.getCurrentUser(), Constants.DEFAULT_TABLE_ALIAS_IN_HIBERNATE);
 	}
 	
 	/**
@@ -64,7 +65,7 @@ public class DataPolicyQuery
 	public String buildPolicyQuery (Class entity, final String URI, 
 			final ModelAppUser user)
 	{
-		return this.buildPolicyQuery(entity, URI, user, null);
+		return this.buildPolicyQuery(entity, URI, user, Constants.DEFAULT_TABLE_ALIAS_IN_HIBERNATE);
 	}
 	
 	/**
