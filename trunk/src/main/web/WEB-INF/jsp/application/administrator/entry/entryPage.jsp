@@ -157,11 +157,16 @@ ${tm:fileRestore(news['attachFiles'])}
 					<c:choose>
 						<c:when test="${op eq null || op ne 'view'}">
 							<select class="combox" name="typeDicid" id="news_type1" defOPKey="请选择新闻类别" defOPVal="" style="width:150px">
-							  	<logic:present name="newsTypes">
-									<logic:iterate name="newsTypes" id="newsType">
-										<option value="${newsType.id}" ${news ne null && news.dictionary.id eq newsType.id? 'selected="selected"' : ''}>${newsType.name}</option>
-									</logic:iterate>
+								<logic:present name="news" property="dictionary">
+									<logic:present name="newsTypes">
+										<logic:iterate name="newsTypes" id="newsType">
+											<option value="${newsType.id}" ${news ne null && news.dictionary.id eq newsType.id? 'selected="selected"' : ''}>${newsType.name}</option>
+										</logic:iterate>
+									</logic:present>
 								</logic:present>
+								<logic:notPresent name="news" property="dictionary">
+									<option value="">请选择新闻类别</option>
+								</logic:notPresent>
 							</select>
 						</c:when>
 						<c:otherwise>
