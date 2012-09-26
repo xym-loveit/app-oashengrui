@@ -162,7 +162,10 @@ extends BaseAppAction
 					pagingBean
 			);
 			
-			hireJobs.getItems().addAll(hireJobsZone.getItems());
+			if (hireJobsZone != null && hireJobsZone.getItemCount() > 0)
+			{
+				hireJobs.getItems().addAll(hireJobsZone.getItems());
+			}
 			
 			request.setAttribute("hireJobs", hireJobs);
 			
