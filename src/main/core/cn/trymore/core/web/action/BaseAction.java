@@ -637,31 +637,14 @@ extends DispatchAction
 		try
 		{
 			return new PagingBean(
-					Integer.parseInt(request.getParameter(PAGING_PARAM_PAGENUM)), 
-					Integer.parseInt(request.getParameter(PAGING_PARAM_PAGESIZE)));
+					request.getParameter(PAGING_PARAM_PAGENUM) != null ? 
+							Integer.parseInt(request.getParameter(PAGING_PARAM_PAGENUM)) : 1, 
+					request.getParameter(PAGING_PARAM_PAGESIZE) != null ? Integer.parseInt(
+							request.getParameter(PAGING_PARAM_PAGESIZE)) : PagingBean.DEFAULT_PAGE_SIZE);
 		}
 		catch (Exception e)
 		{
 			return new PagingBean(0, PagingBean.DEFAULT_PAGE_SIZE);
-		}
-	}
-	/**
-	 * Obtains the paging bean from request
-	 * 
-	 * @param request
-	 * @return
-	 */
-	protected PagingBean getPagingBean1 (HttpServletRequest request)
-	{
-		try
-		{
-			return new PagingBean(
-					Integer.parseInt(request.getParameter(PAGING_PARAM_PAGENUM)), 
-					Integer.parseInt(request.getParameter(PAGING_PARAM_PAGESIZE)));
-		}
-		catch (Exception e)
-		{
-			return new PagingBean(0, PagingBean.DEFAULT_PAGE_SIZE1);
 		}
 	}
 	
