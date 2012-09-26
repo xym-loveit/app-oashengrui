@@ -39,7 +39,18 @@ extends ServiceGenericImpl<ModelHrmJobHireInfo> implements ServiceHrmJobHireInfo
 			ModelHrmJobHireInfo entity, PagingBean pagingBean)
 			throws ServiceException
 	{
-		return this.getPaginationByEntity(entity, false, pagingBean);
+		return this.getPaginationByEntity(entity, false, null, pagingBean);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmJobHireInfo#getPaginationByEntity(org.shengrui.oa.model.hrm.ModelHrmJobHireInfo, java.lang.String, cn.trymore.core.web.paging.PagingBean)
+	 */
+	@Override
+	public PaginationSupport<ModelHrmJobHireInfo> getPaginationByEntity (ModelHrmJobHireInfo entity, 
+			String query, PagingBean pagingBean) throws ServiceException
+	{
+		return this.getPaginationByEntity(entity, false, query, pagingBean);
 	}
 	
 	/*
@@ -51,16 +62,30 @@ extends ServiceGenericImpl<ModelHrmJobHireInfo> implements ServiceHrmJobHireInfo
 			ModelHrmJobHireInfo entity, boolean visibility,
 			PagingBean pagingBean) throws ServiceException
 	{
-		return this.getAll(this.getCriterias(entity, visibility), pagingBean);
+		return this.getAll(this.getCriterias(entity, visibility, null), pagingBean);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmJobHireInfo#getPaginationByEntity(org.shengrui.oa.model.hrm.ModelHrmJobHireInfo, boolean, cn.trymore.core.web.paging.PagingBean)
+	 */
+	@Override
+	public PaginationSupport<ModelHrmJobHireInfo> getPaginationByEntity(
+			ModelHrmJobHireInfo entity, boolean visibility,
+			String query, PagingBean pagingBean) throws ServiceException
+	{
+		return this.getAll(this.getCriterias(entity, visibility, query), pagingBean);
 	}
 	
 	/**
 	 * Returns the criteria with the specified entity. 
 	 * 
 	 * @param entity
+	 * @param visibility
+	 * @param query
 	 * @return
 	 */
-	private DetachedCriteria getCriterias(ModelHrmJobHireInfo entity, boolean visiblity)
+	private DetachedCriteria getCriterias(ModelHrmJobHireInfo entity, boolean visiblity, String query)
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmJobHireInfo.class);
 		
@@ -113,6 +138,16 @@ extends ServiceGenericImpl<ModelHrmJobHireInfo> implements ServiceHrmJobHireInfo
 		{
 			criteria.add(Restrictions.sqlRestriction(
 					"(hjob_visible_districtid IS NULL OR hjob_visible_districtid = '' OR FIND_IN_SET( ?, `hjob_visible_districtid` ) > 0)", ContextUtil.getCurrentUser().getDistrictId(), Hibernate.STRING));
+		}
+		
+		if (UtilString.isNotEmpty(query))
+		{
+			if (query.trim().toLowerCase().startsWith("and"))
+			{
+				query = query.toLowerCase().replaceFirst("and", "");
+			}
+			
+			criteria.add(Restrictions.sqlRestriction(query));
 		}
 		
 		criteria.addOrder(Order.desc("jobHireEndDate"));

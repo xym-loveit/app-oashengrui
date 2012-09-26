@@ -200,9 +200,20 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 
 	@Override
 	public PaginationSupport<ModelNewsMag> getNewsRec(ModelNewsMag news,
-			PagingBean pagingBean) throws ServiceException {
+			String query, PagingBean pagingBean) throws ServiceException {
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelNewsMag.class);
 		criteria.add(Restrictions.eq("status", 1));
+		
+		if (UtilString.isNotEmpty(query))
+		{
+			if (query.trim().toLowerCase().startsWith("and"))
+			{
+				query = query.toLowerCase().replaceFirst("and", "");
+			}
+			
+			criteria.add(Restrictions.sqlRestriction(query));
+		}
+		
 		return this.getAll(criteria, pagingBean);
 	}
 

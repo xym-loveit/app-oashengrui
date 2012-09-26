@@ -125,7 +125,7 @@ ${tm:fileRestore(news['attachFiles'])}
 					<td>
 					<c:choose>
 						<c:when test="${op eq null || op ne 'view'}">
-							<select class="combox" name="newsLevel" id="entry_level" style="width:150px" ref="news_type1" refUrl="app/base.do?action=actionLoadByTypeAndLevel&type=news&level={text}">
+							<select class="combox required" name="newsLevel" id="entry_level" style="width:150px" ref="news_type1" refUrl="app/base.do?action=actionLoadByTypeAndLevel&type=news&level={text}">
 								<option value="">请选择新闻级别</option>
 								<c:if test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.districtType ne 1}">
 									<option value="0" ${news.newsLevel ne null && news.newsLevel eq 0 ? 'selected="selected"' : '' }>公司总部新闻</option>
@@ -156,7 +156,7 @@ ${tm:fileRestore(news['attachFiles'])}
 					<td>
 					<c:choose>
 						<c:when test="${op eq null || op ne 'view'}">
-							<select class="combox" name="typeDicid" id="news_type1" defOPKey="请选择新闻类别" defOPVal="" style="width:150px">
+							<select class="combox required" name="typeDicid" id="news_type1" defOPKey="请选择新闻类别" defOPVal="" style="width:150px">
 								<logic:present name="news" property="dictionary">
 									<logic:present name="newsTypes">
 										<logic:iterate name="newsTypes" id="newsType">

@@ -32,6 +32,18 @@ extends ServiceGeneric<ModelHrmJobHireInfo>
 	 * 根据岗位信息查分页数据
 	 * 
 	 * @param entity
+	 * @param query
+	 * @param pagingBean
+	 * @return
+	 * @throws ServiceException
+	 */
+	PaginationSupport<ModelHrmJobHireInfo> getPaginationByEntity (ModelHrmJobHireInfo entity, 
+			String query, PagingBean pagingBean) throws ServiceException;
+	
+	/**
+	 * 根据岗位信息查分页数据
+	 * 
+	 * @param entity
 	 * @param visibility
 	 * @param pagingBean
 	 * @return
@@ -39,6 +51,18 @@ extends ServiceGeneric<ModelHrmJobHireInfo>
 	 */
 	PaginationSupport<ModelHrmJobHireInfo> getPaginationByEntity (ModelHrmJobHireInfo entity, boolean visibility,  
 			PagingBean pagingBean) throws ServiceException;
+	
+	/**
+	 * 根据岗位信息查分页数据
+	 * 
+	 * @param entity
+	 * @param visibility
+	 * @param pagingBean
+	 * @return
+	 * @throws ServiceException
+	 */
+	PaginationSupport<ModelHrmJobHireInfo> getPaginationByEntity (ModelHrmJobHireInfo entity, boolean visibility,  
+			String query, PagingBean pagingBean) throws ServiceException;
 	
 	/**
 	 * 获取审核中的岗位数量
