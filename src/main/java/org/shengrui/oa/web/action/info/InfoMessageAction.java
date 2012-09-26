@@ -15,8 +15,10 @@ import org.shengrui.oa.model.admin.ModelConference;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.info.ModelInMessage;
 import org.shengrui.oa.model.info.ModelShortMessage;
+import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.service.admin.ServiceConferenceInfo;
 import org.shengrui.oa.util.ContextUtil;
+import org.shengrui.oa.util.WebActionUtil;
 import org.shengrui.oa.web.action.BaseAppAction;
 
 import cn.trymore.core.util.UtilString;
@@ -153,9 +155,17 @@ extends BaseAppAction
 										msgIn.setReadFlag(ModelInMessage.FLAG_READ);
 										this.serviceInMessage.save(msgIn);
 										
-										// 消息推送, 减少消息提醒数量
-										this.messagePush.pushMessage(
-												String.valueOf(msgIn.getUserId()), "messageNotify", -1);
+										ModelAppUser user = this.serviceAppUser.get(String.valueOf(msgIn.getUserId()));
+										if (user != null)
+										{
+											// 消息推送, 减少消息提醒数量
+											this.messagePush.pushMessage(
+												user.getEmployeeId(),  
+												WebActionUtil.scriptMessageNotify, 
+												WebActionUtil.scriptArgMessageKey, 
+												-1
+											);
+										}
 									}
 								}
 							}
