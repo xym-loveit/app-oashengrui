@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import nl.captcha.Captcha;
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.Logger;
@@ -67,6 +65,7 @@ extends BaseAppAction
 	/**
 	 * The parameter for the checking code.
 	 */
+	@SuppressWarnings("unused")
 	private static final String PARAM_CHECKCODE = "checkCode";
 	
 	/**
@@ -96,6 +95,7 @@ extends BaseAppAction
 			String userName = request.getParameter(PARAM_USER_NAME);
 			String userPwd = request.getParameter(PARAM_USER_PWD);
 			
+			/*
 			String checkCode = request.getParameter(PARAM_CHECKCODE);
 			Captcha localCaptcha = (Captcha) request.getSession().getAttribute("simpleCaptcha");
 			
@@ -111,65 +111,64 @@ extends BaseAppAction
 				}
 				else
 				{
-					if (UtilString.isNotEmpty(userName))
+			*/
+			if (UtilString.isNotEmpty(userName))
+			{
+				ModelAppUser user = this.serviceAppUser.findByUserName(userName);
+				if (user != null)
+				{
+					if (user.getStatus().equals(ModelAppUser.EUserStatus.FROZEN.getValue()))
 					{
-						ModelAppUser user = this.serviceAppUser.findByUserName(userName);
-						if (user != null)
+						msgBuffer.append("账号已被冻结, 请联系管理员进行解冻操作!");
+					}
+					else
+					{
+						String encodedPwd = UtilString.encryptSha256(userPwd);
+						if (user.getPassword().equalsIgnoreCase(encodedPwd))
 						{
-							if (user.getStatus().equals(ModelAppUser.EUserStatus.FROZEN.getValue()))
+							// 更新用戶最後登录时间和IP地址
+							String reqIp = UtilApp.getRequetIpAddr(request);
+							user.setLastLogonIP(reqIp);
+							user.setLastLogonTime(new Date());
+							this.serviceAppUser.save(user);
+							
+							// 初始化功能权限
+							user.initMenuRights();
+							
+							// stores the authentication to spring security
+							UsernamePasswordAuthenticationToken authToken = 
+								new UsernamePasswordAuthenticationToken(userName, userPwd);
+							SecurityContext securityContext = SecurityContextHolder.getContext();
+							if (securityContext.getAuthentication().getDetails() != null)
 							{
-								msgBuffer.append("账号已被冻结, 请联系管理员进行解冻操作!");
+								authToken.setDetails(securityContext.getAuthentication().getDetails());
 							}
-							else
+							securityContext.setAuthentication(this.authenticationManager.authenticate(authToken));
+							SecurityContextHolder.setContext(securityContext);
+							
+							// initialize user session.
+							this.initUserSession(request.getSession(), user);
+							
+							String rememberMe = request.getParameter("_spring_security_remember_me");
+							if (rememberMe != null && "on".equalsIgnoreCase(rememberMe))
 							{
-								String encodedPwd = UtilString.encryptSha256(userPwd);
-								if (user.getPassword().equalsIgnoreCase(encodedPwd))
-								{
-									// 更新用戶最後登录时间和IP地址
-									String reqIp = UtilApp.getRequetIpAddr(request);
-									user.setLastLogonIP(reqIp);
-									user.setLastLogonTime(new Date());
-									this.serviceAppUser.save(user);
-									
-									// 初始化功能权限
-									user.initMenuRights();
-									
-									// stores the authentication to spring security
-									UsernamePasswordAuthenticationToken authToken = 
-										new UsernamePasswordAuthenticationToken(userName, userPwd);
-									SecurityContext securityContext = SecurityContextHolder.getContext();
-									if (securityContext.getAuthentication().getDetails() != null)
-									{
-										authToken.setDetails(securityContext.getAuthentication().getDetails());
-									}
-									securityContext.setAuthentication(this.authenticationManager.authenticate(authToken));
-									SecurityContextHolder.setContext(securityContext);
-									
-									// initialize user session.
-									this.initUserSession(request.getSession(), user);
-									
-									String rememberMe = request.getParameter("_spring_security_remember_me");
-									if (rememberMe != null && "on".equalsIgnoreCase(rememberMe))
-									{
-										String digest = DigestUtils.md5Hex(userName + ":" + userPwd + ":" + KEY_RememberMe);
-										String cookieValue = new String(Base64.encodeBase64(digest.getBytes()));
-										response.addCookie(this.makeValidCookie(request, cookieValue));
-									}
-									
-									return ajaxPrint(response, 
-											getSuccessCallback("登录成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
-								}
-								else
-								{
-									msgBuffer.append("输入的密码不正确!");
-								}
+								String digest = DigestUtils.md5Hex(userName + ":" + userPwd + ":" + KEY_RememberMe);
+								String cookieValue = new String(Base64.encodeBase64(digest.getBytes()));
+								response.addCookie(this.makeValidCookie(request, cookieValue));
 							}
+							
+							return ajaxPrint(response, 
+									getSuccessCallback("登录成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 						}
 						else
 						{
-							msgBuffer.append("该用户不存在!");
+							msgBuffer.append("输入的密码不正确!");
 						}
 					}
+				}
+				else
+				{
+					msgBuffer.append("该用户不存在!");
 				}
 			}
 		}
