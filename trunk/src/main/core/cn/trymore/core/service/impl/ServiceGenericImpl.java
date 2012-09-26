@@ -125,9 +125,19 @@ implements ServiceGeneric<T>
 	@Override
 	public List<T> getAll() throws ServiceException
 	{
+		return getAll(true);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see cn.trymore.core.service.ServiceGeneric#getAll(boolean)
+	 */
+	@Override
+	public List<T> getAll(final boolean filter) throws ServiceException
+	{
 		try
 		{
-			return dao.getAll();
+			return dao.getAll(filter);
 		}
 		catch (Exception e)
 		{

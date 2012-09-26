@@ -56,6 +56,17 @@ public interface DAOGeneric<T extends ModelBase>
 			throws DAOException;
 	
 	/**
+	 * Get all of available objects
+	 * 
+	 * @param filter
+	 *                the query will be applied only when it's true
+	 * @return all available objects
+	 * @throws DAOException
+	 */
+	List<T> getAll(final boolean filter)
+			throws DAOException;
+	
+	/**
 	 * Flushes current session
 	 * 
 	 * @throws DAOException
