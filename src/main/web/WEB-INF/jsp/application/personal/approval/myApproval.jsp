@@ -48,7 +48,7 @@
 			<logic:present name="hireJobs">
 				<logic:iterate id="entity" name="hireJobs" property="items">
 					<tr>
-					<c:choose><c:when test="${entity.status eq 2}">
+					<c:choose><c:when test="${entity.status eq 2 || entity.status eq 1}">
 						<td>
 							岗位发布审批
 						</td>
