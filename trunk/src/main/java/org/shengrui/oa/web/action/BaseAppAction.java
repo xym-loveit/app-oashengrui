@@ -1189,12 +1189,6 @@ extends BaseAction
 						// 初始化用户拥有的资源
 						user.initMenuRights();
 						
-						// only for testing...
-						if (!"00071001".equals(user.getEmployee().getEmpNo()))
-						{
-							continue;
-						}
-						
 						// 普通用户
 						if (this.isResourceGranted(user, vo, entityClass, districtId, depId))
 						{
