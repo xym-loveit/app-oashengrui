@@ -27,10 +27,12 @@
 					<td>密码：</td>
 					<td><input type="password" name="password" size="20" class="required" /></td>
 				</tr>
+				<!--
 				<tr>
 					<td>验证码：</td>
 					<td><input class="code required" type="text" size="5" name="checkCode" style="width: 50%"/><span><img id="captcha_code" src="CaptchaImg" alt="" width="98" height="22" title="点击更换验证码" /></span></td>
 				</tr>
+				-->
 			</table>
 		</div>
 		<div class="formBar">
