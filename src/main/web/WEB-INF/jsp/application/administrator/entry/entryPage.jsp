@@ -73,7 +73,8 @@ $(function(){
 			// 文件域
 			name:"Filedata",
 			//用于放服务器端返回的url的隐藏域
-			urlsInputName:"fileUrls"
+			urlsInputName:"fileUrls",
+			urlPresentedInEditor: true,
 			<c:if test="${news ne null && news.id ne null && fn:length(news.attachFiles) gt 0}">
 			// 用于数据展现
 			,restoreHook:"#jp_J_UploaderRestoreNews"
@@ -85,18 +86,31 @@ $(function(){
 			var uploader = ev.uploader;
 			//上传按钮实例
 			var button = uploader.get('button');
+			// 队列实例
+			var queue = ev.queue;
 			
-			uploader.on('success', function (ev) {
-				var feedback = ev.result;
-				var file_id = feedback.data.id;
-				if (file_id) {
-					$("#fileIds").val($("#fileIds").val() == "" ? file_id : ($("#fileIds").val() + "," + file_id));
+			
+            uploader.on('success', function (ev) {
+                var index = ev.index, file = ev.file;
+				var cdialog = $.pdialog.getCurrent();
+				if (cdialog) {
+					var files = cdialog.find("a[class^='J_Show_']");
+					if (files.length > 0) {
+						$(files).css("display", "inline");
+						$(files).each(function() {
+							if (file.sUrl && file.sUrl.indexOf()) {
+								
+							}
+							//点击显示
+							$(this).on('click', function (ev) {
+								ev.preventDefault();
+								// alert(file.sUrl);
+							});
+						});
+					}
 				}
-			});
-			
-			uploader.on('error', function (ev) {
-				alert("文件上传失败:" + ev.result.message);
-			});
+            });
+            
 			
 		});
 	});
@@ -214,7 +228,7 @@ ${tm:fileRestore(news['attachFiles'])}
 					<td colspan="5">
 						<c:choose>
 							<c:when test="${op eq null || op ne 'view'}">
-								<textarea class="editor" name="newsContent" rows="15" cols="80">${news.newsContent }</textarea>
+								<textarea class="editor" name="newsContent" rows="10" cols="80">${news.newsContent }</textarea>
 							</c:when>
 							<c:otherwise>
 								<bean:write name="news" property="newsContent" filter="false" />
