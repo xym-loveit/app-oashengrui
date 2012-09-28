@@ -53,6 +53,8 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 	public PaginationSupport<ModelNewsMag> getPaginationFilert(
 			ModelNewsMag news, PagingBean pagingBean) throws ServiceException
 	{
+		boolean statusFiltered = false;
+		
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelNewsMag.class);
 		if(news != null)
 		{
@@ -63,12 +65,14 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 			if(news.getSearchStatusCondition() !=null && news.getSearchStatusCondition().length > 0)
 			{
 				criteria.add(Restrictions.in("status", news.getSearchStatusCondition()));
+				statusFiltered = true;
 			}
 			else
 			{
 				if (news.getStatus() != null && news.getStatus() > -1)
 				{
 					criteria.add(Restrictions.eq("status",news.getStatus()));
+					statusFiltered = true;
 				}
 			}
 			if(news.getNewsSubject() !=null)
@@ -82,7 +86,12 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 		}
 		criteria.addOrder(Order.desc("topIndex"))
 				.addOrder(Order.desc("updateTime"));
-		criteria.add(Restrictions.in("status", new Integer[]{1,2,3}));
+		
+		if (!statusFiltered)
+		{
+			criteria.add(Restrictions.in("status", new Integer[]{1,2,3}));
+		}
+		
 		return this.getAll(criteria, pagingBean);
 	}
 	

@@ -107,7 +107,7 @@ ${tm:fileRestore(newsScanInfo['attachFiles'])}
 			</tr>
 		</table>
 	</div>
-	<div class="newsDetail">
+	<div class="newsDetail" style="height: 420px; overflow: auto;">
 		<table class="newsContent" cellspacing="10" cellpadding="10" style="border-spacing:12">
 			<tr>
 				<td colspan="5">
@@ -122,40 +122,42 @@ ${tm:fileRestore(newsScanInfo['attachFiles'])}
 				</td>
 			</tr>
 		</table>
+	</div>
+	<div style="margin-top: 20px;">
 		<table>
-				<tr>
-					<td style="vertical-align: top; margin-top: 10px; border-bottom: 1px solid #ccc; padding-bottom: 5px;">附件区：</td>
-				</tr>
-				<tr>
-					<td colspan="7">
-						<div>
-							<c:choose>
-								<c:when test="${op eq null || op ne 'view'}">
-									<!-- 上传按钮，组件配置请写在data-config内 -->
-									<a id="j_J_UploaderBtnNews" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件 </a>
-									<!-- 文件上传队列 -->
-									<ul id="j_J_UploaderQueueNews"></ul>
-									<div id="J_Panel" class="event-panel"></div>
-									<input type="hidden" name="fileUrls" id="fileUrls" />
-									<input type="hidden" name="fileIds" id="fileIds" />
-								</c:when>
-								<c:otherwise>
-									<c:choose>
-										<c:when test="${newsScanInfo ne null && fn:length(newsScanInfo.attachFiles) gt 0}">
-											<ul>
-												<logic:iterate name="newsScanInfo" property="attachFiles" id="file">
-													<li class="item_file" style="line-height: 20px;"><a title="点击下载`${file.fileName}`文件" href="file-download?path=${file.filePath}" target="_blank">${file.fileName}</a></li>
-												</logic:iterate>
-											</ul>
-										</c:when>
-										<c:otherwise>暂未上传任何附件..</c:otherwise>
-									</c:choose>
-								</c:otherwise>
-							</c:choose>
-						</div>
-						<!--<a class="oplink" href="app/hrm.do?action=hrmPageJobDetail&id=1" target="dialog" title="上传附件">上传附件</a>-->
-					</td>
-				</tr>
+			<tr>
+				<td style="vertical-align: top; border-bottom: 1px solid #ccc; padding-bottom: 5px;">附件区：</td>
+			</tr>
+			<tr>
+				<td colspan="7">
+					<div>
+						<c:choose>
+							<c:when test="${op eq null || op ne 'view'}">
+								<!-- 上传按钮，组件配置请写在data-config内 -->
+								<a id="j_J_UploaderBtnNews" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件 </a>
+								<!-- 文件上传队列 -->
+								<ul id="j_J_UploaderQueueNews"></ul>
+								<div id="J_Panel" class="event-panel"></div>
+								<input type="hidden" name="fileUrls" id="fileUrls" />
+								<input type="hidden" name="fileIds" id="fileIds" />
+							</c:when>
+							<c:otherwise>
+								<c:choose>
+									<c:when test="${newsScanInfo ne null && fn:length(newsScanInfo.attachFiles) gt 0}">
+										<ul>
+											<logic:iterate name="newsScanInfo" property="attachFiles" id="file">
+												<li class="item_file" style="line-height: 20px;"><a title="点击下载`${file.fileName}`文件" href="file-download?path=${file.filePath}" target="_blank">${file.fileName}</a></li>
+											</logic:iterate>
+										</ul>
+									</c:when>
+									<c:otherwise>暂未上传任何附件..</c:otherwise>
+								</c:choose>
+							</c:otherwise>
+						</c:choose>
+					</div>
+					<!--<a class="oplink" href="app/hrm.do?action=hrmPageJobDetail&id=1" target="dialog" title="上传附件">上传附件</a>-->
+				</td>
+			</tr>
 		</table>
 	</div>
 </body>

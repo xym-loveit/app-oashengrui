@@ -200,6 +200,9 @@ KISSY.add('gallery/form/1.2/uploader/theme', function (S, Node, Base) {
                 $cancel = $('.J_Cancel_' + fileId),
                 //删除链接
                 $del = $(".J_Del_" + fileId);
+				//显示连接
+				$shown = $(".J_Show_" + fileId);
+				
             //点击上传
             $upload.on('click', function (ev) {
                 ev.preventDefault();
@@ -216,6 +219,10 @@ KISSY.add('gallery/form/1.2/uploader/theme', function (S, Node, Base) {
                 ev.preventDefault();
                 //删除队列中的文件
                 queue.remove(fileId);
+            });
+			//点击显示
+            $shown.on('click', function (ev) {
+                ev.preventDefault();
             });
         },
         /**

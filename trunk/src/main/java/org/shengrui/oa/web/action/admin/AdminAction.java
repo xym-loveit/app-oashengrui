@@ -85,6 +85,18 @@ extends BaseAdminAction
 		try 
 		{
 			ModelNewsMag formNews = (ModelNewsMag) form;
+			
+			// 首页显示我的新闻, 只过滤`审核通过`的新闻.
+			if (request.getParameter("objOut") != null)
+			{
+				if (formNews == null)
+				{
+					formNews = new ModelNewsMag();
+				}
+				
+				formNews.setStatus(ModelNewsMag.newsStatus.APPROVED.getValue());
+			}
+			
 			PagingBean pagingBean = this.getPagingBean(request);
 			String id = request.getParameter("type");
 			formNews.setDictionary(this.serviceAppDictionary.get(id));

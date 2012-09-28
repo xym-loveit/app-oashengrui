@@ -57,7 +57,9 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
             //取消上传后触发
             CANCEL:'cancel',
             //上传失败后触发
-            ERROR:'error'
+            ERROR:'error',
+			//上传成功后,`显示`点击出发
+			FILE_SHOWN:'file_shown'
         },
         /**
          * 文件上传所有的状态，{ WAITING : 'waiting', START : 'start', PROGRESS : 'progress', SUCCESS : 'success', CANCEL : 'cancel', ERROR : 'error', RESTORE: 'restore' }
