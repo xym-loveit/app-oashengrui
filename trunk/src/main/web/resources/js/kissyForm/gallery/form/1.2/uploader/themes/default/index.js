@@ -143,7 +143,7 @@ KISSY.add('gallery/form/1.2/uploader/themes/default/index', function (S, Node, T
                     '<div class="status start-status progress-status success-status clearfix">' +
                         '<div class="J_ProgressBar_{id} f-l uploader-progress"><img class="loading" src="http://img01.taobaocdn.com/tps/i1/T1F5tVXjRfXXXXXXXX-16-16.gif" alt="loading" /></div>' +
                         ' <a  class="J_Cancel_{id} f-l upload-cancel" href="#uploadCancel">取消</a>' +
-                        '<a href="javascript:void(0);" class="J_Show_{id}" style="display:none;">显示</a>&nbsp;&nbsp;' +
+                        '<a href="javascript:void(0);" class="J_Show_{id}" style="display:none;" url="_sUrl_" name="{name}">显示</a>&nbsp;&nbsp;' +
 						'<a href="#fileDel" class="J_Del_{id}" style="display:none;">删除</a>' +
                     '</div> ' +
                     '<div class="status cancel-status">已经取消上传，<a href="#reUpload" id="J_ReUpload_{id}" class="J_Upload_{id}">点此重新上传</a> </div>' +

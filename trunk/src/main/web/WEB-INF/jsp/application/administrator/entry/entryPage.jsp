@@ -15,6 +15,42 @@
 <script type="text/javascript" src="resources/js/jquery/jmultiselect/jquery.multiselect.js"></script>
 
 <script>
+	
+	function isFileImage (file_name) {
+		file_name = file_name.toLowerCase();
+		return file_name.indexOf(".jpg") > -1 || file_name.indexOf(".bmp") > -1 || file_name.indexOf(".gif") > -1 || file_name.indexOf(".png") > -1;
+	}
+	
+	function displayFilePresentation (container, file) {
+		if (container) {
+			var files = container.find("a[class^='J_Show_']");
+			if (files.length > 0) {
+				$(files).css("display", "inline");
+				$(files).each(function() {
+					var url = "";
+					var name = "";
+					if (file && file.sUrl) {
+						url = file.sUrl;
+						name = file.name;
+					} else {
+						url = $(this).attr("url");
+						name = $(this).attr("name");
+					}
+					
+					//点击显示
+					$(this).on('click', function (ev) {
+						ev.preventDefault();
+						if (isFileImage(url)) {
+							$("#editor").xheditor().pasteHTML('<img src="' + APP_BASE_PATH + 'uploads/' + url + '" title="' + name + '" />');
+						} else {
+							$("#editor").xheditor().pasteHTML('<a target="_blank" href="' + APP_BASE_PATH + 'uploads/' + url + '">' + name + '</a>')
+						}
+					});
+				});
+			}
+		}
+	}
+	
 $(function(){
 	$("#pass").unbind("click");
 	$("#pass").bind("click", function() { 
@@ -73,8 +109,7 @@ $(function(){
 			// 文件域
 			name:"Filedata",
 			//用于放服务器端返回的url的隐藏域
-			urlsInputName:"fileUrls",
-			urlPresentedInEditor: true,
+			urlsInputName:"fileUrls"
 			<c:if test="${news ne null && news.id ne null && fn:length(news.attachFiles) gt 0}">
 			// 用于数据展现
 			,restoreHook:"#jp_J_UploaderRestoreNews"
@@ -89,31 +124,17 @@ $(function(){
 			// 队列实例
 			var queue = ev.queue;
 			
-			
             uploader.on('success', function (ev) {
                 var index = ev.index, file = ev.file;
-				var cdialog = $.pdialog.getCurrent();
-				if (cdialog) {
-					var files = cdialog.find("a[class^='J_Show_']");
-					if (files.length > 0) {
-						$(files).css("display", "inline");
-						$(files).each(function() {
-							if (file.sUrl && file.sUrl.indexOf()) {
-								
-							}
-							//点击显示
-							$(this).on('click', function (ev) {
-								ev.preventDefault();
-								// alert(file.sUrl);
-							});
-						});
-					}
-				}
+				displayFilePresentation($.pdialog.getCurrent(), file);
             });
-            
 			
 		});
 	});
+	
+	<c:if test="${op eq null || op ne 'view'}">
+		displayFilePresentation($.pdialog.getCurrent().find("#j_J_UploaderQueueNews"));
+	</c:if>
 	
 	multi_visible("combox_districtvisible_news", "newsDistrictVisibleIds");
 });
@@ -228,7 +249,7 @@ ${tm:fileRestore(news['attachFiles'])}
 					<td colspan="5">
 						<c:choose>
 							<c:when test="${op eq null || op ne 'view'}">
-								<textarea class="editor" name="newsContent" rows="10" cols="80">${news.newsContent }</textarea>
+								<textarea class="editor" id="editor" name="newsContent" rows="10" cols="80">${news.newsContent }</textarea>
 							</c:when>
 							<c:otherwise>
 								<bean:write name="news" property="newsContent" filter="false" />
