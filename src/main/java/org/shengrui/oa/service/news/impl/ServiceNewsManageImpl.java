@@ -177,8 +177,12 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 		criteria.addOrder(Order.desc("topIndex"))
 		.addOrder(Order.desc("updateTime"));
 		
-		criteria.add(Restrictions.sqlRestriction(
+		// 管理员可以查看所有校区新闻数据
+		if (!ContextUtil.getCurrentUser().isSuerUser())
+		{
+			criteria.add(Restrictions.sqlRestriction(
 				"(district_visible IS NULL OR district_visible = '' OR FIND_IN_SET( ?, `district_visible` ) > 0)", ContextUtil.getCurrentUser().getDistrictId(), Hibernate.STRING));
+		}
 		
 		return this.getAll(criteria, pagingBean);
 	}
@@ -192,8 +196,12 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 		criteria.addOrder(Order.desc("topIndex"))
 		.addOrder(Order.desc("updateTime"));
 		
-		criteria.add(Restrictions.sqlRestriction(
+		// 管理员可以查看所有校区新闻数据
+		if (!ContextUtil.getCurrentUser().isSuerUser())
+		{
+			criteria.add(Restrictions.sqlRestriction(
 				"(district_visible IS NULL OR district_visible = '' OR FIND_IN_SET( ?, `district_visible` ) > 0)", ContextUtil.getCurrentUser().getDistrictId(), Hibernate.STRING));
+		}
 		
 		return this.getAll(criteria, pagingBean);
 	}
