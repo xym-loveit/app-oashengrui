@@ -67,6 +67,20 @@
 			$('#task_participants').manifest("add",${receiver});
 		</c:if>
 		
+		<logic:present name="msgId">
+			var currentNavTab = navTab.getCurrentPanel();
+			if (currentNavTab) {
+				var mail_item = $(navTab.getCurrentPanel().find("#mail_item_${msgId}"));
+				if (mail_item.size() > 0) {
+					var mail_flag = $(mail_item.find(".read_flag img"));
+					var img_flag = mail_flag.attr("src");
+					if (img_flag.indexOf("email_open") == -1 && img_flag.indexOf("email") > -1) {
+						mail_flag.attr("src", img_flag.replace("email", "email_open"));
+					}
+				}
+			}
+		</logic:present>
+		
 	});
 	
 </script>

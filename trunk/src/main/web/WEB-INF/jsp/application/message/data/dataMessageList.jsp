@@ -35,7 +35,7 @@
 			<c:choose>
 				<c:when test="${mailSent eq null}">
 					<logic:iterate name="dataList" property="items" id="entity" indexId="idx">
-						<tr>
+						<tr id="mail_item_${entity.shortMessage.id}">
 							<td>${idx+1}</td>
 							<td style="color:#008000">
 								<c:choose>
@@ -47,9 +47,9 @@
 							<td>${entity.shortMessage.sender}</td>
 							<td style="text-align:left">${entity.shortMessage.subject}</td>
 							<td><fmt:formatDate value="${entity.shortMessage.sendTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-							<td><img style="padding:3px;" src="resources/images/icons/${entity.readFlag eq 1 ? 'email_open.png' : 'email.png'}" /></td>
+							<td class="read_flag"><img style="padding:3px;" src="resources/images/icons/${entity.readFlag eq 1 ? 'email_open.png' : 'email.png'}" /></td>
 							<td>
-								<a target="dialog" href="app/message.do?action=dialogMessagePage&msgId=${entity.shortMessage.id}&msgInId=${entity.id}" width="640" height="380" title="查看消息" rel="msg_read_${entity.id}"><img src="resources/images/icons/update.gif" style="padding: 3px;"/></a>&nbsp;
+								<a target="dialog" mask="true" href="app/message.do?action=dialogMessagePage&msgId=${entity.shortMessage.id}&msgInId=${entity.id}" width="640" height="380" title="查看消息" rel="msg_read_${entity.id}"><img src="resources/images/icons/update.gif" style="padding: 3px;"/></a>&nbsp;
 								<a href="app/message.do?action=actionRemoveShortMessage&msgInId=${entity.id}" target="ajaxTodo" title="确定要删除`${entity.shortMessage.subject}`消息吗?" callback="msg_reload()"><img src="resources/images/icons/remove.png" style="padding: 3px;"/></a>
 							</td>
 						</tr>
