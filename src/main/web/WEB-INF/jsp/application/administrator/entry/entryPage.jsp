@@ -211,7 +211,16 @@ ${tm:fileRestore(news['attachFiles'])}
 				</tr>
 				<tr>
 					<td style="vertical-align:top">新闻内容：</td>
-					<td colspan="5"><textarea class="editor" name="newsContent" rows="15" cols="80">${news.newsContent }</textarea></td>
+					<td colspan="5">
+						<c:choose>
+							<c:when test="${op eq null || op ne 'view'}">
+								<textarea class="editor" name="newsContent" rows="15" cols="80">${news.newsContent }</textarea>
+							</c:when>
+							<c:otherwise>
+								<bean:write name="news" property="newsContent" filter="false" />
+							</c:otherwise>
+						</c:choose>
+					</td>
 				</tr>
 				<tr>
 					<td style="vertical-align: top;">附件区：</td>

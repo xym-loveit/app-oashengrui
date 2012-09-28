@@ -82,6 +82,21 @@ extends ServiceGeneric<ModelHrmEmployee>
 			String posId) throws ServiceException;
 	
 	/**
+	 * 根据校区,部门和岗位获取员工集合
+	 * 
+	 * @param districtId
+	 *                校区ID
+	 * @param depId
+	 *                部门ID
+	 * @param posId
+	 *                岗位ID
+	 * @return
+	 * @throws ServiceException
+	 */
+	List<ModelHrmEmployee> getByOrganization (String districtId, String depId, 
+			String posId) throws ServiceException;
+	
+	/**
 	 * 根据校区和部门查员工
 	 */
 	List<ModelHrmEmployee> getEmployeeByDistrictIdAndDeptId(ModelHrmEmployee entity) throws ServiceException;

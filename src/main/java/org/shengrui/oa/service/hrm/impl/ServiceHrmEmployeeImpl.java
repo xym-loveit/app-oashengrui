@@ -214,10 +214,33 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 	public List<ModelHrmEmployee> getByDepartmentAndPosition (String depId, 
 			String posId) throws ServiceException
 	{
+		return this.getByOrganization(null, depId, posId);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmEmployee#getByOrganization(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public List<ModelHrmEmployee> getByOrganization (String districtId, String depId, 
+			String posId) throws ServiceException
+	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployee.class);
 		
-		criteria.createCriteria("employeeDepartment").add(Restrictions.eq("id", depId));
-		criteria.createCriteria("employeePosition").add(Restrictions.eq("id", posId));
+		if (UtilString.isNotEmpty(districtId))
+		{
+			criteria.createCriteria("employeeDistrict").add(Restrictions.eq("id", districtId));
+		}
+		
+		if (UtilString.isNotEmpty(depId))
+		{
+			criteria.createCriteria("employeeDepartment").add(Restrictions.eq("id", depId));
+		}
+		
+		if (UtilString.isNotEmpty(posId))
+		{
+			criteria.createCriteria("employeePosition").add(Restrictions.eq("id", posId));
+		}
 		
 		// 过滤被删除的员工档案
 		criteria.add(Restrictions.or(Restrictions.eq("status", "Y"), Restrictions.isNull("status")));
@@ -231,7 +254,7 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 			throw new ServiceException(e);
 		}
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.shengrui.oa.service.hrm.ServiceHrmEmployee#getEmployeeAmoutByDistrictIdAndDepId(java.lang.String, java.lang.String)

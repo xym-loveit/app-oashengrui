@@ -367,8 +367,19 @@ extends FlowBaseAction
 						params.put("entity", entity);
 						params.put("procForm", procForm);
 						
-						List<ModelHrmEmployee> employees = this.serviceHrmEmployee.getByDepartmentAndPosition(
-								procForm.getToDepartmentIds(), procForm.getToPositionIds());
+						String districtId = null;
+						if (UtilString.isNotEmpty(procForm.getToDistrictIds()))
+						{
+							districtId = procForm.getToDistrictIds();
+						}
+						else
+						{
+							// 主要适用于转正申请/离职申请, 本校区的审批过滤.
+							districtId = entity.getEmployee().getEmployeeDistrict().getId();
+						}
+						
+						List<ModelHrmEmployee> employees = this.serviceHrmEmployee.getByOrganization(
+							districtId, procForm.getToDepartmentIds(), procForm.getToPositionIds());
 						
 						StringBuilder builder = new StringBuilder();
 						for (int i = 0, size = employees.size(); i <  size; i++)

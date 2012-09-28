@@ -83,7 +83,7 @@ ${tm:fileRestore(newsScanInfo['attachFiles'])}
 		</div>
 	</div>
 	<div class="head">
-		<p>${newsScanInfo.newsSubject}</p>
+		<p><b style="font-size: 16px;">${newsScanInfo.newsSubject}</b></p>
 	</div>
 	<hr style="margin-top:10px;"></hr>
 	<div class="newsinfo">
@@ -102,18 +102,31 @@ ${tm:fileRestore(newsScanInfo['attachFiles'])}
 				</td>
 				<td width="30"></td>
 				<td>
-					<label><span class="color">发布时间：</span> <c:if test="${newsScanInfo.updateTime ne null}"><fmt:formatDate value="${newsScanInfo.updateTime}" pattern="yyyy-MM-dd" /></c:if></label>
+					<label><span class="color">发布时间：</span> <c:if test="${newsScanInfo.updateTime ne null}"><fmt:formatDate value="${newsScanInfo.updateTime}" pattern="yyyy-MM-dd HH:mm" /></c:if></label>
 				</td>
 			</tr>
 		</table>
 	</div>
 	<div class="newsDetail">
 		<table class="newsContent" cellspacing="10" cellpadding="10" style="border-spacing:12">
-			<tr><td colspan="5"><textarea class="editor" name="newsContent" rows="20" cols="95">${newsScanInfo.newsContent}</textarea></td></tr>
+			<tr>
+				<td colspan="5">
+					<c:choose>
+						<c:when test="${op eq null || op ne 'view'}">
+							<textarea class="editor" name="newsContent" rows="20" cols="95">${newsScanInfo.newsContent }</textarea>
+						</c:when>
+						<c:otherwise>
+							<bean:write name="newsScanInfo" property="newsContent" filter="false" />
+						</c:otherwise>
+					</c:choose>
+				</td>
+			</tr>
 		</table>
 		<table>
 				<tr>
-					<td style="vertical-align: top;">附件区：</td>
+					<td style="vertical-align: top; margin-top: 10px; border-bottom: 1px solid #ccc; padding-bottom: 5px;">附件区：</td>
+				</tr>
+				<tr>
 					<td colspan="7">
 						<div>
 							<c:choose>
@@ -131,7 +144,7 @@ ${tm:fileRestore(newsScanInfo['attachFiles'])}
 										<c:when test="${newsScanInfo ne null && fn:length(newsScanInfo.attachFiles) gt 0}">
 											<ul>
 												<logic:iterate name="newsScanInfo" property="attachFiles" id="file">
-													<li class="item_file"><a title="点击下载`${file.fileName}`文件" href="file-download?path=${file.filePath}" target="_blank">${file.fileName}</a></li>
+													<li class="item_file" style="line-height: 20px;"><a title="点击下载`${file.fileName}`文件" href="file-download?path=${file.filePath}" target="_blank">${file.fileName}</a></li>
 												</logic:iterate>
 											</ul>
 										</c:when>
