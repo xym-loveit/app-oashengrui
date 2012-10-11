@@ -1,14 +1,27 @@
 package org.shengrui.oa.model.finan;
 
 import java.util.Date;
+import java.util.List;
 
-import org.shengrui.oa.model.flow.ModelProcessType;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 
 import cn.trymore.core.model.ModelBase;
 
 /**
  * 财务预算实体类
+ * 
+ * <pre>
+ * + tbl_finan_budget
+ *    - budget_id
+ *    - district_id
+ *    - year_and_month
+ *    - status
+ * + tbl_finan_budget_item
+ *     - item_id
+ *     - budget_id
+ *     - amount
+ *     - type
+ * </pre>
  * 
  * @author Jeccy.Zhao
  *
@@ -27,19 +40,19 @@ extends ModelBase
 	private ModelSchoolDistrict budgetDistrict;
 	
 	/**
-	 * 财务费用预算类型
+	 * 预算总额(元)
 	 */
-	private ModelProcessType budgetType;
-	
-	/**
-	 * 预算额(元)
-	 */
-	private Double budgetAmount;
+	private Double budgetTotalAmount;
 	
 	/**
 	 * 预算月份 (yyyy-MM)
 	 */
 	private Date budgetYearAndMonth;
+	
+	/**
+	 * 所有预算类型的预算额
+	 */
+	private List<ModelFinanBudgetItem> budgetItems;
 	
 	public ModelSchoolDistrict getBudgetDistrict()
 	{
@@ -49,26 +62,6 @@ extends ModelBase
 	public void setBudgetDistrict(ModelSchoolDistrict budgetDistrict)
 	{
 		this.budgetDistrict = budgetDistrict;
-	}
-
-	public ModelProcessType getBudgetType()
-	{
-		return budgetType;
-	}
-
-	public void setBudgetType(ModelProcessType budgetType)
-	{
-		this.budgetType = budgetType;
-	}
-
-	public Double getBudgetAmount()
-	{
-		return budgetAmount;
-	}
-
-	public void setBudgetAmount(Double budgetAmount)
-	{
-		this.budgetAmount = budgetAmount;
 	}
 
 	public Date getBudgetYearAndMonth()
@@ -84,6 +77,26 @@ extends ModelBase
 	public static long getSerialversionuid()
 	{
 		return serialVersionUID;
+	}
+
+	public void setBudgetTotalAmount(Double budgetTotalAmount)
+	{
+		this.budgetTotalAmount = budgetTotalAmount;
+	}
+
+	public Double getBudgetTotalAmount()
+	{
+		return budgetTotalAmount;
+	}
+	
+	public void setBudgetItems(List<ModelFinanBudgetItem> budgetItems)
+	{
+		this.budgetItems = budgetItems;
+	}
+
+	public List<ModelFinanBudgetItem> getBudgetItems()
+	{
+		return budgetItems;
 	}
 	
 }
