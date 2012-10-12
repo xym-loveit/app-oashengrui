@@ -6,7 +6,7 @@ import cn.trymore.core.model.ModelBase;
 
 /**
  * 
- * 学生档案实体类。
+ * 学生档案基本信息实体类。
  * 
  * @author Jeccy.Zhao
  *
