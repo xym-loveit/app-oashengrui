@@ -21,6 +21,7 @@
 package cn.trymore.oa.service.system.impl;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import cn.trymore.core.exception.DAOException;
@@ -59,36 +60,59 @@ extends ServiceGenericImpl<ModelSystemLog> implements ServiceSystemLog
 	{
 		this.daoSystemLog = daoSystemLog;
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see cn.trymore.oa.service.system.ServiceSystemLog#getById(java.lang.String)
+	 */
 	@Override
 	public ModelSystemLog getById(String id) throws ServiceException {
-		// TODO Auto-generated method stub
-		try {
-			this.daoSystemLog.get(id);
-		} catch (DAOException e) {
-			// TODO Auto-generated catch block
+		try 
+		{
+			return this.daoSystemLog.get(id);
+		} 
+		catch (DAOException e) 
+		{
 			throw new ServiceException(e);
 		}
-		return null;
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see cn.trymore.oa.service.system.ServiceSystemLog#getPaginationByEntity(cn.trymore.oa.model.system.ModelSystemLog, cn.trymore.core.web.paging.PagingBean)
+	 */
 	@Override
 	public PaginationSupport<ModelSystemLog> getPaginationByEntity(
-			ModelSystemLog entity, PagingBean pagingBean)
-			throws ServiceException {
-		// TODO Auto-generated method stub
-		DetachedCriteria criteria = DetachedCriteria
-		.forClass(ModelSystemLog.class);
-		if(entity != null){
+			ModelSystemLog entity, PagingBean pagingBean) throws ServiceException 
+	{
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelSystemLog.class);
+		
+		if(entity != null)
+		{
 			if(UtilString.isNotEmpty(entity.getExeOperation()))
+			{
 				criteria.add(Restrictions.eq("exeOperation", entity.getExeOperation()));
+			}
+			
 			if(entity.getDistrictId()!=null && UtilString.isNotEmpty(entity.getDistrictId()))
+			{
 				criteria.createCriteria("user").createCriteria("district").add(Restrictions.eq("id", entity.getDistrictId()));
+			}
+			
 			if(entity.getStartTime()!=null && UtilString.isNotEmpty(entity.getStartTime()))
+			{
 				criteria.add(Restrictions.ge("createtime", entity.getStartTime()));
+			}
+			
 			if(entity.getEndTime()!=null && UtilString.isNotEmpty(entity.getEndTime()))
+			{
 				criteria.add(Restrictions.le("createtime", entity.getEndTime()));
+			}
 		}
+		
+		// added by Jeccy.Zhao on 14/10/2012
+		criteria.addOrder(Order.desc("createtime"));
+		
 		return this.getAll(criteria, pagingBean);
 	}
 }
