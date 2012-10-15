@@ -30,6 +30,7 @@ import org.shengrui.oa.util.WebActionUtil;
 import org.shengrui.oa.web.action.BaseAppAction;
 
 import cn.trymore.core.common.Constants;
+import cn.trymore.core.exception.ResourceNotGrantedException;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
@@ -120,36 +121,56 @@ extends BaseAppAction
 		try 
 		{
 			//新闻发布审批
-			PaginationSupport<ModelNewsMag> news = this.serviceNewsManage.getNewsRec(
-				newsInfo, 
-				this.getModelDataPolicyQuery(
-					WebActionUtil.MENU_ITEM_ADMIN_NEWS.getObject().getKey(),
-					WebActionUtil.MENU_ITEM_ADMIN_NEWS.getObject().getObject(),
-					ModelNewsMag.class, 
-					new String[] {
-						"(" + Constants.DEFAULT_TABLE_ALIAS_IN_HIBERNATE + ".status = " + ModelNewsMag.newsStatus.TODO_APPROVE.getValue() + ")"
-					}
-				),
-				pagingBean
-			);
-			request.setAttribute("news", news);
-			
-			// 岗位发布审批 (待总部审批)
-			PaginationSupport<ModelHrmJobHireInfo> hireJobs = this.serviceHrmJobHireInfo.getPaginationByEntity(
-					formJobHireInfo, 
+			PaginationSupport<ModelNewsMag> news = null;
+			try
+			{
+				news = this.serviceNewsManage.getNewsRec(
+					newsInfo, 
 					this.getModelDataPolicyQuery(
-						WebActionUtil.APPROVAL_HRM_JOB_MASTER.getKey(),
-						WebActionUtil.APPROVAL_HRM_JOB_MASTER.getObject(),
-						ModelHrmJobHireInfo.class, 
+						WebActionUtil.MENU_ITEM_ADMIN_NEWS.getObject().getKey(),
+						WebActionUtil.MENU_ITEM_ADMIN_NEWS.getObject().getObject(),
+						ModelNewsMag.class, 
 						new String[] {
-							"("  + Constants.DEFAULT_TABLE_ALIAS_IN_HIBERNATE + ".status = " + ModelHrmJobHireInfo.EJobHireStatus.TODO_HEAD.getValue() + ")"
+							"(" + Constants.DEFAULT_TABLE_ALIAS_IN_HIBERNATE + ".status = " + ModelNewsMag.newsStatus.TODO_APPROVE.getValue() + ")"
 						}
 					),
 					pagingBean
-			);
+				);
+			}
+			catch (ResourceNotGrantedException e)
+			{
+				LOGGER.error("Approval items of news failed to fetch.", e);
+			}
+			
+			request.setAttribute("news", news);
+			
+			// 岗位发布审批 (待总部审批)
+			PaginationSupport<ModelHrmJobHireInfo> hireJobs = null;
+			try
+			{
+				hireJobs = this.serviceHrmJobHireInfo.getPaginationByEntity(
+						formJobHireInfo, 
+						this.getModelDataPolicyQuery(
+							WebActionUtil.APPROVAL_HRM_JOB_MASTER.getKey(),
+							WebActionUtil.APPROVAL_HRM_JOB_MASTER.getObject(),
+							ModelHrmJobHireInfo.class, 
+							new String[] {
+								"("  + Constants.DEFAULT_TABLE_ALIAS_IN_HIBERNATE + ".status = " + ModelHrmJobHireInfo.EJobHireStatus.TODO_HEAD.getValue() + ")"
+							}
+						),
+						pagingBean
+				);
+			}
+			catch (ResourceNotGrantedException e)
+			{
+				LOGGER.error("Approval items of jobs against master failed to fetch.", e);
+			}
 			
 			// 岗位发布审批 (待校区审批)
-			PaginationSupport<ModelHrmJobHireInfo> hireJobsZone = this.serviceHrmJobHireInfo.getPaginationByEntity(
+			PaginationSupport<ModelHrmJobHireInfo> hireJobsZone = null;
+			try
+			{
+				hireJobsZone = this.serviceHrmJobHireInfo.getPaginationByEntity(
 					formJobHireInfo, 
 					this.getModelDataPolicyQuery(
 						WebActionUtil.APPROVAL_HRM_JOB_ZOON.getKey(),
@@ -160,7 +181,12 @@ extends BaseAppAction
 						}
 					),
 					pagingBean
-			);
+				);
+			}
+			catch (ResourceNotGrantedException e)
+			{
+				LOGGER.error("Approval items of jobs against zone failed to fetch.", e);
+			}
 			
 			if (hireJobs == null)
 			{
@@ -174,86 +200,131 @@ extends BaseAppAction
 			request.setAttribute("hireJobs", hireJobs);
 			
 			//任务委托审批
-			PaginationSupport<ModelTaskPlan> task = this.serviceTaskPlan.getTaskPlanApproval(
-				taskInfo,
-				this.getModelDataPolicyQuery(
-					WebActionUtil.MENU_ITEM_ADMIN_TASK.getObject().getKey(),
-					WebActionUtil.MENU_ITEM_ADMIN_TASK.getObject().getObject(),
-					ModelTaskPlan.class, 
-					new String[] {
-						"(approval_status = " + ModelTaskPlan.ETaskApprovalStatus.TOAPPROVE.getValue() + " OR approval_status IS NULL)"
-					}
-				),
-				pagingBean
-			);
+			PaginationSupport<ModelTaskPlan> task = null;
+			try
+			{
+				task = this.serviceTaskPlan.getTaskPlanApproval(
+					taskInfo,
+					this.getModelDataPolicyQuery(
+						WebActionUtil.MENU_ITEM_ADMIN_TASK.getObject().getKey(),
+						WebActionUtil.MENU_ITEM_ADMIN_TASK.getObject().getObject(),
+						ModelTaskPlan.class, 
+						new String[] {
+							"(approval_status = " + ModelTaskPlan.ETaskApprovalStatus.TOAPPROVE.getValue() + " OR approval_status IS NULL)"
+						}
+					),
+					pagingBean
+				);
+			}
+			catch (ResourceNotGrantedException e)
+			{
+				LOGGER.error("Approval items of task against master failed to fetch.", e);
+			}
+			
 			request.setAttribute("task", task);
 			
 			//财务审批
-			PaginationSupport<ModelFinanExpense> finan = this.serviceFinanExpense.getfinanApproval(
-				finanInfo, 
-				this.getModelDataPolicyQuery(
-					WebActionUtil.MENU_ITEM_FINA_EXPENSE.getObject().getKey(),
-					WebActionUtil.MENU_ITEM_FINA_EXPENSE.getObject().getObject(),
-					ModelFinanExpense.class, 
-					new String[] {
-						"(audit_state IS NULL and cproc_depid = " + 
-								ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
-								ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"
-					}
-				),
-				pagingBean
-			);
+			PaginationSupport<ModelFinanExpense> finan = null;
+			try
+			{
+				finan = this.serviceFinanExpense.getfinanApproval(
+					finanInfo, 
+					this.getModelDataPolicyQuery(
+						WebActionUtil.MENU_ITEM_FINA_EXPENSE.getObject().getKey(),
+						WebActionUtil.MENU_ITEM_FINA_EXPENSE.getObject().getObject(),
+						ModelFinanExpense.class, 
+						new String[] {
+							"(audit_state IS NULL and cproc_depid = " + 
+									ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
+									ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"
+						}
+					),
+					pagingBean
+				);
+			}
+			catch (ResourceNotGrantedException e)
+			{
+				LOGGER.error("Approval items of financial failed to fetch.", e);
+			}
+			
 			request.setAttribute("finan", finan);
 			
 			//合同审批
-			PaginationSupport<ModelFinanContract> contract = this.serviceFinanContract.finanContract(
-				contractInfo,
-				this.getModelDataPolicyQuery(
-					WebActionUtil.MENU_ITEM_FINA_CONTRACT.getObject().getKey(),
-					WebActionUtil.MENU_ITEM_FINA_CONTRACT.getObject().getObject(),
-					ModelFinanContract.class, 
-					new String[] {
-						"(audit_state IS NULL and cproc_depid = " + 
-								ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
-								ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"
-					}
-				),
-				pagingBean
-			);
+			PaginationSupport<ModelFinanContract> contract = null;
+			try
+			{
+				contract = this.serviceFinanContract.finanContract(
+					contractInfo,
+					this.getModelDataPolicyQuery(
+						WebActionUtil.MENU_ITEM_FINA_CONTRACT.getObject().getKey(),
+						WebActionUtil.MENU_ITEM_FINA_CONTRACT.getObject().getObject(),
+						ModelFinanContract.class, 
+						new String[] {
+							"(audit_state IS NULL and cproc_depid = " + 
+									ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
+									ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"
+						}
+					),
+					pagingBean
+				);
+			}
+			catch (ResourceNotGrantedException e)
+			{
+				LOGGER.error("Approval items of contract failed to fetch.", e);
+			}
+			
 			request.setAttribute("contract", contract);
 			
 			//晋升申请审批
-			PaginationSupport<ModelHrmEmployeeDevelop> items = this.serviceHrmEmployeeDevelop.getfinanHr(
-				formEmployee,
-				this.getModelDataPolicyQuery(
-					WebActionUtil.MENU_ITEM_HRM_DEVELOP.getObject().getKey(),
-					WebActionUtil.MENU_ITEM_HRM_DEVELOP.getObject().getObject(),
-					ModelHrmEmployeeDevelop.class, 
-					new String[] {
-						"(audit_state IS NULL and cproc_depid = " + 
-						ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
-						ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId() + " and " +
-						"(to_district IS NULL OR to_district = " + 
-							ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getId() + "))"					}
-				),
-				pagingBean
-			);
+			PaginationSupport<ModelHrmEmployeeDevelop> items = null;
+			try
+			{
+				items = this.serviceHrmEmployeeDevelop.getfinanHr(
+					formEmployee,
+					this.getModelDataPolicyQuery(
+						WebActionUtil.MENU_ITEM_HRM_DEVELOP.getObject().getKey(),
+						WebActionUtil.MENU_ITEM_HRM_DEVELOP.getObject().getObject(),
+						ModelHrmEmployeeDevelop.class, 
+						new String[] {
+							"(audit_state IS NULL and cproc_depid = " + 
+							ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
+							ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId() + " and " +
+							"(to_district IS NULL OR to_district = " + 
+								ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getId() + "))"					}
+					),
+					pagingBean
+				);
+			}
+			catch (ResourceNotGrantedException e)
+			{
+				LOGGER.error("Approval items of HRM develop failed to fetch.", e);
+			}
+			
 			request.setAttribute("dataList", items);
 			
 			// 新项目申请审批
-			PaginationSupport<ModelFinanProject> projects = this.serviceFinanProject.getByQuery(
-				this.getModelDataPolicyQuery(
-					WebActionUtil.MENU_ITEM_FINA_PROJECT.getObject().getKey(),
-					WebActionUtil.MENU_ITEM_FINA_PROJECT.getObject().getObject(),
-					ModelFinanProject.class, 
-					new String[] {
-						"(audit_state IS NULL and cproc_depid = " + 
-								ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
-								ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"
-					}
-				),
-				pagingBean
-			);
+			PaginationSupport<ModelFinanProject> projects = null;
+			try
+			{
+				projects = this.serviceFinanProject.getByQuery(
+					this.getModelDataPolicyQuery(
+						WebActionUtil.MENU_ITEM_FINA_PROJECT.getObject().getKey(),
+						WebActionUtil.MENU_ITEM_FINA_PROJECT.getObject().getObject(),
+						ModelFinanProject.class, 
+						new String[] {
+							"(audit_state IS NULL and cproc_depid = " + 
+									ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
+									ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"
+						}
+					),
+					pagingBean
+				);
+			}
+			catch (ResourceNotGrantedException e)
+			{
+				LOGGER.error("Approval items of projects failed to fetch.", e);
+			}
+			
 			request.setAttribute("projects", projects);
 			
 			if (request.getParameter("objOut") != null)

@@ -28,6 +28,7 @@ import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.util.WebActionUtil;
 import org.shengrui.oa.web.action.BaseAppAction;
 
+import cn.trymore.core.exception.ResourceNotGrantedException;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
@@ -206,156 +207,228 @@ extends BaseAppAction
 		Map<String, Integer> affectedItems = new HashMap<String, Integer>();
 		
 		// 获取新闻待审批数量...
-		affectedItems.put(WebActionUtil.MENU_ITEM_ADMIN_NEWS.getKey(), 
-			this.serviceBase.getAffectedNumByQuery(ModelNewsMag.class, 
-				this.getModelDataPolicyQuery(
-					WebActionUtil.MENU_ITEM_ADMIN_NEWS.getObject().getKey(),
-					WebActionUtil.MENU_ITEM_ADMIN_NEWS.getObject().getObject(),
-					ModelNewsMag.class, 
-					new String[] {
-						"(status = " + ModelNewsMag.newsStatus.TODO_APPROVE.getValue() + ")"
-					}
+		try
+		{
+			affectedItems.put(WebActionUtil.MENU_ITEM_ADMIN_NEWS.getKey(), 
+				this.serviceBase.getAffectedNumByQuery(ModelNewsMag.class, 
+					this.getModelDataPolicyQuery(
+						WebActionUtil.MENU_ITEM_ADMIN_NEWS.getObject().getKey(),
+						WebActionUtil.MENU_ITEM_ADMIN_NEWS.getObject().getObject(),
+						ModelNewsMag.class, 
+						new String[] {
+							"(status = " + ModelNewsMag.newsStatus.TODO_APPROVE.getValue() + ")"
+						}
+					)
 				)
-			)
-		);
+			);
+		} 
+		catch (ResourceNotGrantedException e)
+		{
+			affectedItems.put(WebActionUtil.MENU_ITEM_ADMIN_NEWS.getKey(), 0);
+		}
 		
 		// 获取待审批委托任务数量...
-		affectedItems.put(WebActionUtil.MENU_ITEM_ADMIN_TASK.getKey(), 
-			this.serviceBase.getAffectedNumByQuery(ModelTaskPlan.class, 
-				this.getModelDataPolicyQuery(
-					WebActionUtil.MENU_ITEM_ADMIN_TASK.getObject().getKey(),
-					WebActionUtil.MENU_ITEM_ADMIN_TASK.getObject().getObject(),
-					ModelTaskPlan.class, 
-					new String[] {
-						"(approval_status = " + ModelTaskPlan.ETaskApprovalStatus.TOAPPROVE.getValue() + " OR approval_status IS NULL)"
-					}
+		try
+		{
+			affectedItems.put(WebActionUtil.MENU_ITEM_ADMIN_TASK.getKey(), 
+				this.serviceBase.getAffectedNumByQuery(ModelTaskPlan.class, 
+					this.getModelDataPolicyQuery(
+						WebActionUtil.MENU_ITEM_ADMIN_TASK.getObject().getKey(),
+						WebActionUtil.MENU_ITEM_ADMIN_TASK.getObject().getObject(),
+						ModelTaskPlan.class, 
+						new String[] {
+							"(approval_status = " + ModelTaskPlan.ETaskApprovalStatus.TOAPPROVE.getValue() + " OR approval_status IS NULL)"
+						}
+					)
 				)
-			)
-		);
+			);
+		} 
+		catch (ResourceNotGrantedException e)
+		{
+			affectedItems.put(WebActionUtil.MENU_ITEM_ADMIN_TASK.getKey(), 0);
+		}
 		
 		// 获取人力资源发展`审批中`数量...
-		affectedItems.put(WebActionUtil.MENU_ITEM_HRM_DEVELOP.getKey(), 
-			this.serviceBase.getAffectedNumByQuery(ModelHrmEmployeeDevelop.class, 
-				this.getModelDataPolicyQuery(
-					WebActionUtil.MENU_ITEM_HRM_DEVELOP.getObject().getKey(),
-					WebActionUtil.MENU_ITEM_HRM_DEVELOP.getObject().getObject(),
-					ModelHrmEmployeeDevelop.class, 
-					new String[] {
-						"(audit_state IS NULL and cproc_depid = " + 
-							ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
-							ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId() + " and " +
-							"(to_district IS NULL OR to_district = " + 
-								ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getId() + "))"
-					}
+		try
+		{
+			affectedItems.put(WebActionUtil.MENU_ITEM_HRM_DEVELOP.getKey(), 
+				this.serviceBase.getAffectedNumByQuery(ModelHrmEmployeeDevelop.class, 
+					this.getModelDataPolicyQuery(
+						WebActionUtil.MENU_ITEM_HRM_DEVELOP.getObject().getKey(),
+						WebActionUtil.MENU_ITEM_HRM_DEVELOP.getObject().getObject(),
+						ModelHrmEmployeeDevelop.class, 
+						new String[] {
+							"(audit_state IS NULL and cproc_depid = " + 
+								ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
+								ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId() + " and " +
+								"(to_district IS NULL OR to_district = " + 
+									ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getId() + "))"
+						}
+					)
 				)
-			)
-		);
+			);
+		} 
+		catch (ResourceNotGrantedException e)
+		{
+			affectedItems.put(WebActionUtil.MENU_ITEM_HRM_DEVELOP.getKey(), 0);
+		}
 		
 		// 获取费用支出申请`审批中`数量...
-		affectedItems.put(WebActionUtil.MENU_ITEM_FINA_EXPENSE.getKey(), 
-			this.serviceBase.getAffectedNumByQuery(ModelFinanExpense.class, 
-				this.getModelDataPolicyQuery(
-					WebActionUtil.MENU_ITEM_FINA_EXPENSE.getObject().getKey(),
-					WebActionUtil.MENU_ITEM_FINA_EXPENSE.getObject().getObject(),
-					ModelFinanExpense.class, 
-					new String[] {
-						"(audit_state IS NULL and cproc_depid = " + 
-								ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
-								ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"
-					}
+		try
+		{
+			affectedItems.put(WebActionUtil.MENU_ITEM_FINA_EXPENSE.getKey(), 
+				this.serviceBase.getAffectedNumByQuery(ModelFinanExpense.class, 
+					this.getModelDataPolicyQuery(
+						WebActionUtil.MENU_ITEM_FINA_EXPENSE.getObject().getKey(),
+						WebActionUtil.MENU_ITEM_FINA_EXPENSE.getObject().getObject(),
+						ModelFinanExpense.class, 
+						new String[] {
+							"(audit_state IS NULL and cproc_depid = " + 
+									ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
+									ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"
+						}
+					)
 				)
-			)
-		);
+			);
+		} 
+		catch (ResourceNotGrantedException e1)
+		{
+			affectedItems.put(WebActionUtil.MENU_ITEM_FINA_EXPENSE.getKey(), 0);
+		}
 		
 		// 获取合同审批申请`审批中`数量...
-		affectedItems.put(WebActionUtil.MENU_ITEM_FINA_CONTRACT.getKey(), 
-			this.serviceBase.getAffectedNumByQuery(ModelFinanContract.class, 
-				this.getModelDataPolicyQuery(
-					WebActionUtil.MENU_ITEM_FINA_CONTRACT.getObject().getKey(),
-					WebActionUtil.MENU_ITEM_FINA_CONTRACT.getObject().getObject(),
-					ModelFinanContract.class, 
-					new String[] {
-						"(audit_state IS NULL and cproc_depid = " + 
-								ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
-								ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"
-					}
+		try
+		{
+			affectedItems.put(WebActionUtil.MENU_ITEM_FINA_CONTRACT.getKey(), 
+				this.serviceBase.getAffectedNumByQuery(ModelFinanContract.class, 
+					this.getModelDataPolicyQuery(
+						WebActionUtil.MENU_ITEM_FINA_CONTRACT.getObject().getKey(),
+						WebActionUtil.MENU_ITEM_FINA_CONTRACT.getObject().getObject(),
+						ModelFinanContract.class, 
+						new String[] {
+							"(audit_state IS NULL and cproc_depid = " + 
+									ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
+									ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"
+						}
+					)
 				)
-			)
-		);
+			);
+		} 
+		catch (ResourceNotGrantedException e)
+		{
+			affectedItems.put(WebActionUtil.MENU_ITEM_FINA_CONTRACT.getKey(), 0);
+		}
 		
 		// 获取新项目审批申请`审批中`数量...
-		affectedItems.put(WebActionUtil.MENU_ITEM_FINA_PROJECT.getKey(), 
-			this.serviceBase.getAffectedNumByQuery(ModelFinanProject.class, 
-				this.getModelDataPolicyQuery(
-					WebActionUtil.MENU_ITEM_FINA_PROJECT.getObject().getKey(),
-					WebActionUtil.MENU_ITEM_FINA_PROJECT.getObject().getObject(),
-					ModelFinanProject.class, 
-					new String[] {
-						"(audit_state IS NULL and cproc_depid = " + 
-								ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
-								ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"
-					}
+		try
+		{
+			affectedItems.put(WebActionUtil.MENU_ITEM_FINA_PROJECT.getKey(), 
+				this.serviceBase.getAffectedNumByQuery(ModelFinanProject.class, 
+					this.getModelDataPolicyQuery(
+						WebActionUtil.MENU_ITEM_FINA_PROJECT.getObject().getKey(),
+						WebActionUtil.MENU_ITEM_FINA_PROJECT.getObject().getObject(),
+						ModelFinanProject.class, 
+						new String[] {
+							"(audit_state IS NULL and cproc_depid = " + 
+									ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
+									ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"
+						}
+					)
 				)
-			)
-		);
+			);
+		} 
+		catch (ResourceNotGrantedException e)
+		{
+			affectedItems.put(WebActionUtil.MENU_ITEM_FINA_PROJECT.getKey(), 0);
+		}
 		
 		// 获取招聘入职`待入职 & 考察中`数量...
-		affectedItems.put(WebActionUtil.MENU_ITEM_HRM_ENTRY.getKey(), 
-			this.serviceBase.getAffectedNumByQuery(ModelHrmJobHireEntry.class, 
-				this.getModelDataPolicyQuery(
-					WebActionUtil.MENU_ITEM_HRM_ENTRY.getObject().getKey(),
-					WebActionUtil.MENU_ITEM_HRM_ENTRY.getObject().getObject(),
-					ModelHrmJobHireEntry.class, 
-					new String[] {
-						"(fstatus = " + ModelHrmJobHireEntry.EHireEntryFStatus.TODO.getValue() + " OR " + 
-							"inspect_status = " + ModelHrmJobHireEntry.EHireEntryInspectStatus.INSPECTING.getValue() + ")"
-					}
+		try
+		{
+			affectedItems.put(WebActionUtil.MENU_ITEM_HRM_ENTRY.getKey(), 
+				this.serviceBase.getAffectedNumByQuery(ModelHrmJobHireEntry.class, 
+					this.getModelDataPolicyQuery(
+						WebActionUtil.MENU_ITEM_HRM_ENTRY.getObject().getKey(),
+						WebActionUtil.MENU_ITEM_HRM_ENTRY.getObject().getObject(),
+						ModelHrmJobHireEntry.class, 
+						new String[] {
+							"(fstatus = " + ModelHrmJobHireEntry.EHireEntryFStatus.TODO.getValue() + " OR " + 
+								"inspect_status = " + ModelHrmJobHireEntry.EHireEntryInspectStatus.INSPECTING.getValue() + ")"
+						}
+					)
 				)
-			)
-		);
+			);
+		} 
+		catch (ResourceNotGrantedException e)
+		{
+			affectedItems.put(WebActionUtil.MENU_ITEM_HRM_ENTRY.getKey(), 0);
+		}
 		
 		// 获取`我做伯乐`(需输入面试意见)的数量.
-		affectedItems.put(WebActionUtil.MENU_ITEM_INTERVIEW_COMMIT.getKey(), 
-			this.serviceBase.getAffectedNumByQuery(ModelHrmJobHireInterview.class, 
-				this.getModelDataPolicyQuery(
-					WebActionUtil.MENU_ITEM_INTERVIEW_COMMIT.getObject().getKey(),
-					WebActionUtil.MENU_ITEM_INTERVIEW_COMMIT.getObject().getObject(),
-					ModelHrmJobHireInterview.class, 
-					new String[] {
-						"(state IN (" + 
-								ModelHrmJobHireInterview.EInterviewState.TODO.getValue() + "," + 
-								ModelHrmJobHireInterview.EInterviewState.ONGING.getValue() + 
-							") AND " + 
-								"interviewer_id = " + ContextUtil.getCurrentUser().getId() + 
-						")"
-					}
+		try
+		{
+			affectedItems.put(WebActionUtil.MENU_ITEM_INTERVIEW_COMMIT.getKey(), 
+				this.serviceBase.getAffectedNumByQuery(ModelHrmJobHireInterview.class, 
+					this.getModelDataPolicyQuery(
+						WebActionUtil.MENU_ITEM_INTERVIEW_COMMIT.getObject().getKey(),
+						WebActionUtil.MENU_ITEM_INTERVIEW_COMMIT.getObject().getObject(),
+						ModelHrmJobHireInterview.class, 
+						new String[] {
+							"(state IN (" + 
+									ModelHrmJobHireInterview.EInterviewState.TODO.getValue() + "," + 
+									ModelHrmJobHireInterview.EInterviewState.ONGING.getValue() + 
+								") AND " + 
+									"interviewer_id = " + ContextUtil.getCurrentUser().getId() + 
+							")"
+						}
+					)
 				)
-			)
-		);
+			);
+		} 
+		catch (ResourceNotGrantedException e)
+		{
+			affectedItems.put(WebActionUtil.MENU_ITEM_INTERVIEW_COMMIT.getKey(), 0);
+		}
 		
 		// 获取岗位审批(待总部审批)数量...
-		int numJobOnMaster = this.serviceBase.getAffectedNumByQuery(ModelHrmJobHireInfo.class, 
-			this.getModelDataPolicyQuery(
-				WebActionUtil.APPROVAL_HRM_JOB_MASTER.getKey(),
-				WebActionUtil.APPROVAL_HRM_JOB_MASTER.getObject(),
-				ModelHrmJobHireInfo.class, 
-				new String[] {
-					"(status = " + ModelHrmJobHireInfo.EJobHireStatus.TODO_HEAD.getValue() + ")"
-				}
-			)
-		);
+		int numJobOnMaster = 0;
+		try
+		{
+			numJobOnMaster = this.serviceBase.getAffectedNumByQuery(ModelHrmJobHireInfo.class, 
+				this.getModelDataPolicyQuery(
+					WebActionUtil.APPROVAL_HRM_JOB_MASTER.getKey(),
+					WebActionUtil.APPROVAL_HRM_JOB_MASTER.getObject(),
+					ModelHrmJobHireInfo.class, 
+					new String[] {
+						"(status = " + ModelHrmJobHireInfo.EJobHireStatus.TODO_HEAD.getValue() + ")"
+					}
+				)
+			);
+		} 
+		catch (ResourceNotGrantedException e)
+		{
+			// do nothing.
+		}
 		
 		// 获取岗位审批(待校区审批)数量...
-		int numJobOnZone = this.serviceBase.getAffectedNumByQuery(ModelHrmJobHireInfo.class, 
-			this.getModelDataPolicyQuery(
-				WebActionUtil.APPROVAL_HRM_JOB_ZOON.getKey(),
-				WebActionUtil.APPROVAL_HRM_JOB_ZOON.getObject(),
-				ModelHrmJobHireInfo.class, 
-				new String[] {
-					"(status = " + ModelHrmJobHireInfo.EJobHireStatus.TODO_ZONE.getValue() + ")"
-				}
-			)
-		);
+		int numJobOnZone = 0;
+		try
+		{
+			numJobOnZone = this.serviceBase.getAffectedNumByQuery(ModelHrmJobHireInfo.class, 
+				this.getModelDataPolicyQuery(
+					WebActionUtil.APPROVAL_HRM_JOB_ZOON.getKey(),
+					WebActionUtil.APPROVAL_HRM_JOB_ZOON.getObject(),
+					ModelHrmJobHireInfo.class, 
+					new String[] {
+						"(status = " + ModelHrmJobHireInfo.EJobHireStatus.TODO_ZONE.getValue() + ")"
+					}
+				)
+			);
+		} 
+		catch (ResourceNotGrantedException e)
+		{
+			// do nothing.
+		}
 		
 		/*
 		// 获取`入职安排`数量

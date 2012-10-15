@@ -49,6 +49,7 @@ import com.google.gson.GsonBuilder;
 import cn.trymore.core.acl.AclFilterAnnotation;
 import cn.trymore.core.acl.DataPolicyQuery;
 import cn.trymore.core.common.Constants;
+import cn.trymore.core.exception.ResourceNotGrantedException;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.jstl.JstlTagString;
 import cn.trymore.core.model.ModelBase;
@@ -954,7 +955,8 @@ extends BaseAction
 	 */
 	@SuppressWarnings("rawtypes")
 	protected String getModelDataPolicyQuery(final String funcKey, 
-			final String URI, final Class entityClass, final String[] conditions)
+			final String URI, final Class entityClass, 
+			final String[] conditions) throws ResourceNotGrantedException
 	{
 		return this.getModelDataPolicyQuery(ContextUtil.getCurrentUser(), 
 				funcKey, URI, entityClass, conditions, null);
@@ -973,8 +975,8 @@ extends BaseAction
 	 */
 	@SuppressWarnings("rawtypes")
 	protected String getModelDataPolicyQuery(final String funcKey, 
-			final String URI, final Class entityClass, 
-			final String[] conditions, final String tableAlias)
+			final String URI, final Class entityClass, final String[] conditions, 
+			final String tableAlias) throws ResourceNotGrantedException
 	{
 		return this.getModelDataPolicyQuery(ContextUtil.getCurrentUser(), 
 				funcKey, URI, entityClass, conditions, tableAlias);
@@ -993,8 +995,8 @@ extends BaseAction
 	 */
 	@SuppressWarnings("rawtypes")
 	protected String getModelDataPolicyQuery(final ModelAppUser user, 
-			final String funcKey, final String URI, 
-			final Class entityClass, final String[] conditions, final String tableAlias)
+			final String funcKey, final String URI, final Class entityClass, 
+			final String[] conditions, final String tableAlias) throws ResourceNotGrantedException
 	{
 		boolean isGranted = true;
 		
@@ -1066,8 +1068,7 @@ extends BaseAction
 		}
 		else
 		{
-			return null;
-			// throw new Exception("The specified function key is not granted:" + funcKey);
+			throw new ResourceNotGrantedException("The specified function key is not granted:" + funcKey);
 		}
 	}
 	
