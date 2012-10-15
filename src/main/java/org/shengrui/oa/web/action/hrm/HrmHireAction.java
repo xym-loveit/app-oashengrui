@@ -32,6 +32,7 @@ import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.util.WebActionUtil;
 
+import cn.trymore.core.exception.ResourceNotGrantedException;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.jstl.JstlTagSecurity;
 import cn.trymore.core.util.UtilBean;
@@ -95,28 +96,46 @@ extends BaseHrmAction
 				ModelAppRole.SUPER_RIGHTS))
 			{
 				// 获取岗位审批(待总部审批)数量...
-				int numJobOnMaster = this.serviceBase.getAffectedNumByQuery(ModelHrmJobHireInfo.class, 
-					this.getModelDataPolicyQuery(
-						WebActionUtil.APPROVAL_HRM_JOB_MASTER.getKey(),
-						WebActionUtil.APPROVAL_HRM_JOB_MASTER.getObject(),
-						ModelHrmJobHireInfo.class, 
-						new String[] {
-							"(status = " + ModelHrmJobHireInfo.EJobHireStatus.TODO_HEAD.getValue() + ")"
-						}
-					)
-				);
+				int numJobOnMaster = 0;
+				
+				try
+				{
+					numJobOnMaster = this.serviceBase.getAffectedNumByQuery(ModelHrmJobHireInfo.class, 
+						this.getModelDataPolicyQuery(
+							WebActionUtil.APPROVAL_HRM_JOB_MASTER.getKey(),
+							WebActionUtil.APPROVAL_HRM_JOB_MASTER.getObject(),
+							ModelHrmJobHireInfo.class, 
+							new String[] {
+								"(status = " + ModelHrmJobHireInfo.EJobHireStatus.TODO_HEAD.getValue() + ")"
+							}
+						)
+					);
+				}
+				catch (ResourceNotGrantedException e)
+				{
+					LOGGER.error("Number of job item against master failed to fetch.", e);
+				}
+				
 				
 				// 获取岗位审批(待校区审批)数量...
-				int numJobOnZone = this.serviceBase.getAffectedNumByQuery(ModelHrmJobHireInfo.class, 
-					this.getModelDataPolicyQuery(
-						WebActionUtil.APPROVAL_HRM_JOB_ZOON.getKey(),
-						WebActionUtil.APPROVAL_HRM_JOB_ZOON.getObject(),
-						ModelHrmJobHireInfo.class, 
-						new String[] {
-							"(status = " + ModelHrmJobHireInfo.EJobHireStatus.TODO_ZONE.getValue() + ")"
-						}
-					)
-				);
+				int numJobOnZone = 0;
+				try
+				{
+					numJobOnZone = this.serviceBase.getAffectedNumByQuery(ModelHrmJobHireInfo.class, 
+						this.getModelDataPolicyQuery(
+							WebActionUtil.APPROVAL_HRM_JOB_ZOON.getKey(),
+							WebActionUtil.APPROVAL_HRM_JOB_ZOON.getObject(),
+							ModelHrmJobHireInfo.class, 
+							new String[] {
+								"(status = " + ModelHrmJobHireInfo.EJobHireStatus.TODO_ZONE.getValue() + ")"
+							}
+						)
+					);
+				}
+				catch (ResourceNotGrantedException e)
+				{
+					LOGGER.error("Numberof job item against zone failed to fetch.", e);
+				}
 				
 				request.setAttribute("numJobsToApproval", numJobOnMaster + numJobOnZone);
 			}

@@ -35,7 +35,7 @@ public final class WebActionUtil
 	 */
 	public static final ModelNotificationVO<String, String> APPROVAL_HRM_JOB_MASTER = 
 			new ModelNotificationVO<String, String>(
-					"_FUNCKEY_JOBAPPROVAL_SUBNODE", 
+					"_FUNCKEY_JOBAPPROVAL_ROOT", 
 					"app/hrm/hire.do?action=actionJobSave");
 	
 	/**
@@ -43,7 +43,7 @@ public final class WebActionUtil
 	 */
 	public static final ModelNotificationVO<String, String> APPROVAL_HRM_JOB_ZOON = 
 			new ModelNotificationVO<String, String>(
-					"_FUNCKEY_JOBAPPROVAL_ROOT", 
+					"_FUNCKEY_JOBAPPROVAL_SUBNODE", 
 					"app/hrm/hire.do?action=actionJobSave");
 	
 	/**
