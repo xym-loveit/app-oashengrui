@@ -96,10 +96,10 @@ extends ServiceGenericImpl<ModelConference> implements ServiceConferenceInfo
 				criteria.add(Restrictions.like("attendances", entity.getSponsor().getFullName(), MatchMode.ANYWHERE));
 			}
 		}
-		
-		criteria.addOrder(Order.desc("startDay"));
-		criteria.addOrder(Order.desc("startHour"));
-		criteria.addOrder(Order.desc("startMinute"));
+		criteria.addOrder(Order.asc("status"));
+		criteria.addOrder(Order.asc("startDay"));
+		criteria.addOrder(Order.asc("startHour"));
+		criteria.addOrder(Order.asc("startMinute"));
 		
 		return criteria;
 	}
