@@ -176,10 +176,10 @@ ${tm:fileRestore(news['attachFiles'])}
 					<td>可见校区：</td>
 					<td>
 						<select class="" multiple="multiple" size="${fn:length(districts) + 1}" name="districtVisible" style="width:120px" id="combox_districtvisible_news">
-							<option value="">所有校区</option>
+							<!-- <option value="">所有校区</option> -->
 							<logic:present name="districts">
 								<logic:iterate name="districts" id="district">
-									<option value="${district.id}" ${news ne null && news.newsDistrictVisibleIds ne null && tm:inRange(news.newsDistrictVisibleIds, district.id , ',') ? 'selected="selected"' : ''}>${district.districtName}</option>
+									<option value="${district.id}" ${district.districtType eq 0 || (news ne null && news.newsDistrictVisibleIds ne null && tm:inRange(news.newsDistrictVisibleIds, district.id , ',')) ? 'selected="selected"' : ''} ${district.districtType eq 0 ? 'disabled="disabled"' : ''}>${district.districtName}</option>
 								</logic:iterate>
 							</logic:present>
 						</select>

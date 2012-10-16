@@ -1059,13 +1059,20 @@ function multi_visible(multi_id, input_id, filter_values, select_title)
 					{
 						if (eles.get(i).value != matched_value) 
 						{
-							if ($(ui).attr("checked")) 
+							if ($(eles.get(i)).attr("disabled") && $(eles.get(i)).attr("disabled") == "disabled" && $(eles.get(i)).attr("checked"))
 							{
-								$(eles.get(i)).attr("disabled", "disabled").removeAttr("checked");
-							} 
+								continue;	
+							}
 							else 
 							{
-								$(eles.get(i)).removeAttr("disabled");
+								if ($(ui).attr("checked")) 
+								{									
+									$(eles.get(i)).attr("disabled", "disabled").removeAttr("checked");
+								} 
+								else 
+								{
+									$(eles.get(i)).removeAttr("disabled");
+								}
 							}
 						}
 					}

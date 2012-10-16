@@ -309,7 +309,7 @@ extends BaseHrmAction
 				request.setAttribute("jobHire", jobHireInfo);
 			}
 			
-			List<ModelSchoolDistrict> districts = this.getAllDistricts();
+			List<ModelSchoolDistrict> districts = this.serviceSchoolDistrict.getAll(false);
 			request.setAttribute("districts", districts);
 			
 			if (!this.isObjectIdValid(id) && districts.size() > 0)
