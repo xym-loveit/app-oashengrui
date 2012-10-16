@@ -126,12 +126,13 @@ extends ServiceGenericImpl<ModelConference> implements ServiceConferenceInfo
 	}
 
 	@Override
-	public int getNoSummaryConference()
+	public int getNoSummaryConference(String id)
 			throws ServiceException {
 		// TODO Auto-generated method stub
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelConference.class);
 		criteria.add(Restrictions.isNull("summary"));
 		criteria.add(Restrictions.ne("status", "3"));
+		criteria.createCriteria("sponsor").add(Restrictions.eq("id", id));
 		try {
 			List<ModelConference> list = this.daoConferenceInfo.getListByCriteria(criteria);
 			if(list != null)

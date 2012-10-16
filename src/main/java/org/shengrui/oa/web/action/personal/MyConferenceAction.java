@@ -521,7 +521,7 @@ extends BaseAppAction
 			request.setAttribute("conferences", conferences);
 			request.setAttribute("conferenceForm", formInfo);
 			request.setAttribute("conferenceType", this.serviceAppDictionary.getByType("conference"));
-			request.setAttribute("noSummary", this.serviceConference.getNoSummaryConference());
+			request.setAttribute("noSummary", this.serviceConference.getNoSummaryConference(ContextUtil.getCurrentUser().getId()));
 			
 			// 获取所有校区, 用于搜索查询使用
 			//request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
