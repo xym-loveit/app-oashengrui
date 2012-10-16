@@ -33,11 +33,11 @@
 	<definition name="page.sys.flow.configuration" 
 		path="/WEB-INF/jsp/application/system/flow/public/pageFlowConfiguration.jsp"/>
 	
-	<!-- 流程节点类型表单 - 本部门 -->
+	<!-- 流程节点类型表单 - 本部门 (校区) -->
 	<definition name="form.flow.task.type.ownerDepsAgainst" 
 		path="/WEB-INF/jsp/application/system/flow/public/form/formFlowTaskDepCurrentAgainst.jsp"/>
 	
-	<!-- 流程节点类型表单 - 某部门 -->
+	<!-- 流程节点类型表单 - 某部门 (校区) -->
 	<definition name="form.flow.task.type.ownerDepsSingle" 
 		path="/WEB-INF/jsp/application/system/flow/public/form/formFlowTaskDepCurrentSingle.jsp"/>
 	
@@ -52,6 +52,14 @@
 	<!-- 流程节点类型表单 - 调往/晋升校区 -->
 	<definition name="form.flow.task.type.transferDeps" 
 		path="/WEB-INF/jsp/application/system/flow/public/form/formFlowTaskDepTransfer.jsp"/>
+	
+	<!-- 流程节点类型表单 - 本部门 (片区) -->
+	<definition name="form.flow.task.type.slotDepsAgainst" 
+		path="/WEB-INF/jsp/application/system/flow/public/form/formFlowTaskDepSlotAgainst.jsp"/>
+		
+	<!-- 流程节点类型表单 - 某部门 (片区) -->
+	<definition name="form.flow.task.type.slotDepsSingle" 
+		path="/WEB-INF/jsp/application/system/flow/public/form/formFlowTaskDepSlotSingle.jsp"/>
 	
 	<!-- 财务审批流程页面 -->
 	<definition name="page.sys.setting.flow.financial.index" 
