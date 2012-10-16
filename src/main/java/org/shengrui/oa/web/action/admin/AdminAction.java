@@ -197,7 +197,7 @@ extends BaseAdminAction
 				request.setAttribute("news", modelNewsMag);
 			}
 			request.setAttribute("departments", this.serviceSchoolDepartment.getAll());
-			request.setAttribute("districts", this.serviceSchoolDistrict.getAll());
+			request.setAttribute("districts", this.serviceSchoolDistrict.getAll(false));
 			
 			// added by Jeccy.Zhao on 2012/09/13
 			if (!this.isObjectIdValid(newsId))
