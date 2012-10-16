@@ -24,7 +24,6 @@ import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.util.UtilDateTime;
 import org.shengrui.oa.web.action.BaseAppAction;
-import org.shengrui.oa.web.action.admin.ConferenceAction;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.util.UtilBean;
@@ -44,7 +43,7 @@ extends BaseAppAction
 	/**
 	 * The LOGGER
 	 */
-	private static final Logger LOGGER = Logger.getLogger(ConferenceAction.class);
+	private static final Logger LOGGER = Logger.getLogger(MyConferenceAction.class);
 	
 	/**
 	 * The service of conference
@@ -309,7 +308,7 @@ extends BaseAppAction
 				// 更新
 				String attendances = ContextUtil.getCurrentUser().getFullName();
 				String attendanceIds = ContextUtil.getCurrentUser().getId();
-				int count = 1;
+				int count = 0;
 				// 保存任务参与人
 				Map<String, List<String>> paramEmpIds = this.getAllRequestParameters(request, new String[] {"empid"});
 				if (paramEmpIds != null && paramEmpIds.size() > 0)
@@ -322,13 +321,14 @@ extends BaseAppAction
 						{
 							attendances+=","+employee.getEmpName();
 							attendanceIds+=","+employee.getId();
+							count++;
 						}
 						else
 						{
 							LOGGER.warn("The employee does not exist with id:" + empId);
 						}
 					}
-					count+=empIds.size();
+					//count+=empIds.size();
 				}
 				formInfo.setAttendances(attendances);
 				formInfo.setAttendanceIds(attendanceIds);
