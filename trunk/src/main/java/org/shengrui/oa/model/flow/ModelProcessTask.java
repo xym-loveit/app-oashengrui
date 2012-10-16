@@ -101,7 +101,9 @@ extends ModelBase
 		OWNER_DEPS_SINGLE(2, "ownerDepsSingle"),		// 某部门 - 账号所在校区
 		MASTER_DEPS_AGAINST(3, "masterDepsAgainst"),	// 总部对口部门
 		MASTER_DEPS_SINGLE(4, "masterDepsSingle"),		// 总部某部门
-		TRANSFER_DEPS (5, "transferDeps");				// 调往/晋升校区
+		TRANSFER_DEPS (5, "transferDeps"),				// 调往/晋升校区
+		SLOT_DEPS_AGAINST(6, "slotDepsAgainst"),		// 本部门 - 账号所在片区
+		SLOT_DEPS_SINGLE(7, "slotDepsSingle");			// 某部门 - 账号所在片区
 		
 		private Integer value;
 		private String text;
