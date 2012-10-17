@@ -2,6 +2,7 @@ package org.shengrui.oa.web.action.flow;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ import org.shengrui.oa.service.flow.ServiceWorkFlow;
 import org.shengrui.oa.web.action.BaseAppAction;
 
 import cn.trymore.core.exception.ServiceException;
+import cn.trymore.core.util.UtilCollection;
 import cn.trymore.core.util.UtilString;
 
 /**
@@ -340,6 +342,8 @@ extends BaseAppAction
 					{
 						return ajaxPrint(response, getErrorCallback("进行编辑的审批类型不存在..."));
 					}
+					
+					// entityParent.getProcessTypeChildren().add(entity);
 				}
 				else
 				{
@@ -355,6 +359,20 @@ extends BaseAppAction
 				
 				this.serviceProcessType.save(entity);
 				
+				if (isCreation)
+				{
+					Set<ModelProcessType> nodeTypes = entityParent.getProcessTypeChildren();
+					if (!UtilCollection.isNotEmpty(nodeTypes))
+					{
+						nodeTypes = new HashSet<ModelProcessType>();
+					}
+					
+					nodeTypes.add(entity);
+					entityParent.setProcessTypeChildren(nodeTypes);
+					
+					this.serviceProcessType.save(entityParent);
+				}
+				
 				// 保存成功后, Dialog进行关闭
 				return ajaxPrint(response, 
 						getSuccessCallback("审批类型保存成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
@@ -367,9 +385,8 @@ extends BaseAppAction
 		catch (Exception e)
 		{
 			LOGGER.error("Exception raised when saving the process type:" + e);
+			return ajaxPrint(response, getErrorCallback("审批类型保存失败:" + e.getMessage()));
 		}
-		
-		return null;
 	}
 	
 	/**
@@ -380,7 +397,54 @@ extends BaseAppAction
 	public  ActionForward actionRemoveProcessType (ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) 
 	{
-		return null;
+		try
+		{
+			String typeId = request.getParameter("id");
+			String rootTypeId = request.getParameter("rootTypeId");
+			
+			ModelProcessType entityParent = null;
+			
+			if (UtilString.isNotEmpty(rootTypeId))
+			{
+				// 验证父审批类型
+				entityParent = this.serviceProcessType.get(rootTypeId);
+				if (entityParent == null)
+				{
+					return ajaxPrint(response, getErrorCallback("父申请类型不存在..."));
+				}
+				
+				Set<ModelProcessType> nodeTypes = entityParent.getProcessTypeChildren();
+				if (UtilCollection.isNotEmpty(nodeTypes))
+				{
+					Iterator<ModelProcessType> itor = nodeTypes.iterator();
+					while (itor.hasNext())
+					{
+						ModelProcessType type = itor.next();
+						if (type.getId().equals(typeId))
+						{
+							itor.remove();
+							break;
+						}
+					}
+					this.serviceProcessType.save(entityParent);
+					this.serviceProcessType.remove(typeId);
+					return null;
+				}
+				else
+				{
+					return ajaxPrint(response,  getErrorCallback("删除的申请类型不存在"));
+				}
+			}
+			else
+			{
+				return ajaxPrint(response, getErrorCallback("需要指定合法的父申请类型..."));
+			}
+		}
+		catch (Exception e)
+		{
+			LOGGER.error("Exception raised when removing the process type:" + e);
+			return ajaxPrint(response, getErrorCallback("申请类型删除失败:" + e.getMessage()));
+		}
 	}
 	
 	/**
