@@ -1670,7 +1670,7 @@ extends BaseAdminAction
 				sb.append("<tr><td style=\"display: none;\">");
 				sb.append(news.getId()+"</td><td>");
 				sb.append(news.getDictionary().getName()+"</td>");
-				sb.append("<td>"+news.getNewsSubject()+"</td><td>");
+				sb.append("<td style='text-align:left; padding-left: 2px;'>"+news.getNewsSubject()+"</td><td>");
 				sb.append(news.getUpdateTime()+"</td></tr>");
 			}
 			return sb.toString();

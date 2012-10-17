@@ -2061,7 +2061,7 @@ build time: Jun 13 20:26
                 status = loadQueque[url],
                 node = status;
 
-            mod.status = mod.status || 0;
+            mod.status = 0; // mod.status || 0;
 
             // 可能已经由其它模块触发加载
             if (mod.status < LOADING && status) {
@@ -2076,6 +2076,8 @@ build time: Jun 13 20:26
                 mod["cssfullpath"] = mod.csspath = LOADED;
             }
 
+			mod.status = 0;
+			
             if (mod.status < LOADING && url) {
                 mod.status = LOADING;
                 if (IE && !isCss) {
@@ -2369,18 +2371,19 @@ build time: Jun 13 20:26
                 fired;
 
             // 已经全部 attached, 直接执行回调即可
-            if (self.__isAttached(modNames)) {
+            /*
+			if (self.__isAttached(modNames)) {
                 var mods = self.__getModules(modNames);
                 callback && callback.apply(self, mods);
                 return;
             }
+			*/
 
             // 有尚未 attached 的模块
             S.each(modNames, function (modName) {
                 // 从 name 开始调用，防止不存在模块
                 self.__attachModByName(modName, function () {
-                    if (!fired &&
-                        self.__isAttached(modNames)) {
+                    if (!fired) { // && self.__isAttached(modNames)) {
                         fired = true;
                         var mods = self.__getModules(modNames);
                         callback && callback.apply(self, mods);
@@ -2448,11 +2451,13 @@ build time: Jun 13 20:26
             }
 
             mod.name = modName;
-
+			
+			/*
             if (mod && mod.status === ATTACHED) {
                 return;
             }
-
+			*/
+			
             // 先从 global 里取
             if (cfg.global) {
                 self.__mixMod(modName, cfg.global);

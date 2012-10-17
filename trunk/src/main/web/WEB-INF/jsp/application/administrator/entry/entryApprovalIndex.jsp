@@ -135,7 +135,7 @@
 				<logic:iterate name="newsInfo" property="items" id="newsInfo">
 						<tr target="sid" rel="${newsInfo.id }" id="newsInfo-${newsInfo.id}">
 							<td>${newsInfo.dictionary.name }</td>
-							<td><a class="icon" href="app/admin/news.do?action=actionNewsScan&id=${newsInfo.id }&op=view" target="dialog" rel="admin_entrycheck" width="900" height="650">${newsInfo.newsSubject}</a></td>
+							<td style="text-align:left; padding-left: 5px;"><a class="" href="app/admin/news.do?action=actionNewsScan&id=${newsInfo.id }&op=view" target="dialog" rel="admin_entrycheck" width="900" height="650">${newsInfo.newsSubject}</a></td>
 							<td>
 								<c:choose>
 									<c:when test="${newsInfo.status eq null}">
