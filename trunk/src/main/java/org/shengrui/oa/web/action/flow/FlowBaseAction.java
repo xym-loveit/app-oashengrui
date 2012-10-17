@@ -937,6 +937,12 @@ extends BaseAppAction
 					{
 						// 新建
 						procDefEntity = new ModelProcessDefinition();
+						
+						if (!UtilCollection.isNotEmpty(procTypeEntity.getProcessDefinitions()))
+						{
+							procTypeEntity.setProcessDefinitions(new HashSet<ModelProcessDefinition>());
+						}
+						procTypeEntity.getProcessDefinitions().add(procDefEntity);
 					}
 					else
 					{
@@ -954,9 +960,12 @@ extends BaseAppAction
 					procDefEntity.setProcessType(procTypeEntity);
 					procDefEntity.setCreateTime(new Date());
 					
-					// procDefEntity.setFilterPositionNames("test");
-					
 					this.serviceProcessDefinition.save(procDefEntity);
+					
+					if (isCreation)
+					{
+						this.serviceProcessType.save(procTypeEntity);
+					}
 					
 					return true;
 				}
