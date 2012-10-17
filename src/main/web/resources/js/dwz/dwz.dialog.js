@@ -32,6 +32,7 @@
 		open:function(url, dlgid, title, options) {
 			var op = $.extend({},$.pdialog._op, options);
 			var dialog = $("body").data(dlgid);
+			var isDialogOpened = $.pdialog._current != null;
 			//重复打开一个层
 			if(dialog) {
 				if(dialog.is(":hidden")) {
@@ -129,7 +130,7 @@
 					});
 				});
 			}
-			if (op.mask) {
+			if (isDialogOpened || op.mask) {
 				$(dialog).css("zIndex", 1000);
 				$("a.minimize",dialog).hide();
 				$(dialog).data("mask", true);
