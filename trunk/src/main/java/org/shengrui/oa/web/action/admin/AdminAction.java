@@ -1554,8 +1554,8 @@ extends BaseAdminAction
 		AbstractExcelParser excelParser = new PoiExcelParser(url + "/" +path);
 		List<ExcelRowData> excelRowData = excelParser.getRowData(0);
 		
-		Date startDay = UtilDateTime.toDateByPattern(excelRowData.get(1).getRowData().get(4));
-		Date endDay = UtilDateTime.toDateByPattern(excelRowData.get(1).getRowData().get(4));
+//		Date startDay = UtilDateTime.toDateByPattern(excelRowData.get(1).getRowData().get(4));
+//		Date endDay = UtilDateTime.toDateByPattern(excelRowData.get(1).getRowData().get(4));
 		for(int i = 1; i <excelRowData.size();i++)
 		{
 			if(!district.getDistrictName().equals(excelRowData.get(i).getRowData().get(0)))continue;//异常数据，与所选校区不对应
@@ -1617,23 +1617,23 @@ extends BaseAdminAction
 					arrange.setAttendanceId(atd.getId());
 					this.getServiceAdminWorkArrange().save(arrange);
 				}
-				if(day.before(startDay)){
-					startDay = day;
-				}else if(day.after(endDay)){
-					endDay = day;
-				}
+//				if(day.before(startDay)){
+//					startDay = day;
+//				}else if(day.after(endDay)){
+//					endDay = day;
+//				}
 			} catch (ServiceException e) {
 				// TODO Auto-generated catch block
 				ajaxPrint(response,getErrorCallback("导入考勤机数据失败，请重试"));
 			}//根据员工编号查询员工信息
 		}
-		//有工作安排却没有考勤机数据，为异常数据
-		try {
-			this.getServiceStaffAttendance().insertFromWorkArrangeByDate(UtilDateTime.formatDate2Str(startDay), UtilDateTime.formatDate2Str(endDay), districtId);
-		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			ajaxPrint(response,getErrorCallback("导入考勤机数据失败，请重试"));
-		}
+		//有工作安排却没有考勤机数据，为异常数据//理解错误，些种情况不用考虑
+//		try {
+//			this.getServiceStaffAttendance().insertFromWorkArrangeByDate(UtilDateTime.formatDate2Str(startDay), UtilDateTime.formatDate2Str(endDay), districtId);
+//		} catch (ServiceException e) {
+//			// TODO Auto-generated catch block
+//			ajaxPrint(response,getErrorCallback("导入考勤机数据失败，请重试"));
+//		}
 		// 保存成功后, Dialog进行关闭
 		return ajaxPrint(response, 
 		          getSuccessCallback("导入考勤机数据成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
