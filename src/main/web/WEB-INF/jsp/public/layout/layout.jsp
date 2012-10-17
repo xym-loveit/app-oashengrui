@@ -136,7 +136,7 @@
 			}
 		}
 		
-		function messageNotify (ele_key, item_num, is_message) {
+		function messageNotify (ele_key, item_num, is_message, msg_id, msgin_id) {
 			
 			var ele_keys = ele_key.split(",");
 			for (index = 0; index < ele_keys.length; index++) {
@@ -150,7 +150,7 @@
 					if (is_message) {
 						if (parseInt(item_num) > 0) {
 							$.messager.show(
-								'<font style="color:#093">温馨提醒</font>', '<font style="font-size:9pt;font-weight:normal;">您收到1条新短消息,请注意查收.</font>',5000
+								'<font style="color:#093">温馨提醒</font>', '<font style="font-size:9pt;font-weight:normal;">您收到1条新短消息,<a onclick="$.pdialog.open(\'app/message.do?action=dialogMessagePage&msgId=' + msg_id + '&msgInId=' + msgin_id + '\', \'dialog_msg_' + msg_id + '\', \'查看短消息\', {width: 640, height: 380})" href="javascript:void(0);" style="color:blue;text-decoration:underline;">点击查看消息</a>.</font>',5000
 							);
 						}
 					} else {

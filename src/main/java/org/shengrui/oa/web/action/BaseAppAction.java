@@ -858,7 +858,7 @@ extends BaseAction
 								
 								// 推送消息给客户端.
 								messagePush.pushMessage(id, WebActionUtil.scriptMessageNotify, 
-										WebActionUtil.scriptArgMessageKey, 1, true);
+										WebActionUtil.scriptArgMessageKey, 1, true, msgShort.getId(), msgIn.getId());
 								
 								alreadySent.add(id);
 							}
