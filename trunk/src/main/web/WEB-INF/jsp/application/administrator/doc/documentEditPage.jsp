@@ -90,9 +90,9 @@
 			formatValue: function (data, $value, $item, $mpItem) {
 				return data.id;
 			},
-			<c:if test="${doc_use_name_show ne null}">
-			values: ${doc_use_name_show },
-			</c:if>
+			<logic:present name="docVisiblePersons">
+			values: [{}<logic:iterate name="docVisiblePersons" id="p">,{id: ${p.id}, empName: '${p.empName}'}</logic:iterate>],
+			</logic:present>
 			valuesName: 'empid',
 			marcoPolo: {
 				url: 'app/base.do?action=lookupEmployeeByName',

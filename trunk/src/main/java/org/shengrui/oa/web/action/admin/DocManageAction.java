@@ -1,5 +1,6 @@
 package org.shengrui.oa.web.action.admin;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -298,34 +299,28 @@ extends BaseAdminAction
 				request.setAttribute("op", "op");
 				String doc_user_ids = doc.getDocUserIds();
 				System.out.println(doc_user_ids);
-				String doc_use_name_show = "[";
-				if(doc_user_ids!=null && UtilString.isNotEmpty(doc_user_ids)){
-					if(doc_user_ids.contains(",")){
-						String[] ids = doc_user_ids.split(",");
-						int loop = 1;
-						for(String eid : ids){
-							ModelHrmEmployee employee = this.serviceHrmEmployee.get(eid);
-							if (employee != null)
-							{
-								doc_use_name_show+="{\"id\":\""+employee.getId()+"\",\"empName\":\""+employee.getEmpName()+"\",\"empNo\":\""+employee.getEmpNo()+"\"}";
-							}
-							else
-							{
-								LOGGER.warn("The employee does not exist with id:" + eid);
-							}
-							if(loop < ids.length && employee!=null){
-								doc_use_name_show += ",";
-							}
-							loop ++;
+				
+				
+				// enhanced by Jeccy.Zhao on 17/10/2012
+				List<ModelHrmEmployee> docVisiblePersons = null;
+				if (UtilString.isNotEmpty(doc_user_ids))
+				{
+					docVisiblePersons = new ArrayList<ModelHrmEmployee>();
+					String[] empIds = doc_user_ids.split(",");
+					for (String empId : empIds)
+					{
+						ModelHrmEmployee employee = this.serviceHrmEmployee.get(empId);
+						if (employee != null)
+						{
+							docVisiblePersons.add(employee);
 						}
-					}else{
-						ModelHrmEmployee employee = this.serviceHrmEmployee.get(doc_user_ids);
-						doc_use_name_show+="{\"id\":\""+employee.getId()+"\",\"empname\":\""+employee.getFullName()+"\"}";
+						else
+						{
+							LOGGER.warn("The employee does not exist with id:" + empId);
+						}
 					}
-					doc_use_name_show +="]";
-					System.out.println(doc_use_name_show);
-					request.setAttribute("doc_use_name_show", doc_use_name_show);
 				}
+				request.setAttribute("docVisiblePersons", docVisiblePersons);
 			}
 
 			request.setAttribute("docTypes", this.getServiceAppDictionary().getByType("docType"));
@@ -365,8 +360,8 @@ extends BaseAdminAction
 					Map<String, List<String>> paramEmpIds = this.getAllRequestParameters(request, new String[] {"empid"});
 					
 					//封装设置个人可见数据
-					if(ModelDoc.EDocVisibleRange.PERSONALS.getValue().equals(formDoc.getDocVisiableRangeIds()) && 
-							paramEmpIds != null && paramEmpIds.size() > 0)
+					if(String.valueOf(ModelDoc.EDocVisibleRange.PERSONALS.getValue()).equals(
+						formDoc.getDocVisiableRangeIds()) && paramEmpIds != null && paramEmpIds.size() > 0)
 					{
 						
 						try {
@@ -399,7 +394,7 @@ extends BaseAdminAction
 						
 						
 					}
-					else if (!ModelDoc.EDocVisibleRange.PERSONALS.getValue().equals(
+					else if (!String.valueOf(ModelDoc.EDocVisibleRange.PERSONALS.getValue()).equals(
 							formDoc.getDocVisiableRangeIds()) && paramEmpIds != null && paramEmpIds.size() > 0)
 					{
 						return ajaxPrint(response, getErrorCallback("当前不是设置为个人可见!"));
