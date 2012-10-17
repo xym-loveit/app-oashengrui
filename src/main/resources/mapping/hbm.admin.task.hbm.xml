@@ -81,7 +81,7 @@
 	    </set>
 	    
 	    <set name="taskTracks" table="app_admin_task_tracks"
-        	cascade="save-update" lazy="true" inverse="true" order-by="task_auditTime desc"> 
+        	cascade="save-update" lazy="true" order-by="task_auditTime desc"> 
 	      <!-- <cache usage="read-write" /> -->
 	      <key column="task_id"/>  
 	      <one-to-many class="ModelTaskPlanTrack" />
