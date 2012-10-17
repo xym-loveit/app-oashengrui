@@ -794,6 +794,25 @@ extends BaseAppAction
 					
 					this.serviceTaskPlanTrack.save(taskTrack);
 					
+					/*
+					if (taskPlan.getTaskTracks() == null)
+					{
+						Set<ModelTaskPlanTrack> tracks = new HashSet<ModelTaskPlanTrack>();
+						tracks.add(taskTrack);
+						taskPlan.setTaskTracks(tracks);
+					}
+					else
+					{
+						for (ModelTaskPlanTrack track : taskPlan.getTaskTracks())
+						{
+							if (track.getId().equals(trackId))
+							{
+								taskPlan.getTaskTracks().add(taskTrack);
+							}
+						}
+					}
+					*/
+					
 					// 发送短消息给任务负责人, 任务参与人...
 					if (msgTplName != null)
 					{
