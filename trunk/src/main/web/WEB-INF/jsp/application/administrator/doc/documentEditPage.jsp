@@ -9,6 +9,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
+<link rel="stylesheet" type="text/css" href="resources/js/jquery/jmultiselect/jquery.multiselect.css" />
+<link rel="stylesheet" type="text/css" href="resources/js/jquery/jmultiselect/jquery-ui.css" />
+<script type="text/javascript" src="resources/js/jquery/jmultiselect/jquery-ui.min.js"></script>
+<script type="text/javascript" src="resources/js/jquery/jmultiselect/jquery.multiselect.js"></script>
+
 <script>
 	/**
      * 向事件面板添加消息
@@ -102,6 +107,8 @@
 				param: 'fullName'
 			}
 		});
+		
+		multi_visible("combox_doc_range", "docVisiableRangeIds", [-1, 0]);
 	});
 	
 </script>
@@ -179,18 +186,20 @@
 	</tr>
 	<tr>
 		<td>文档范围：</td>
-		<td colspan="3"><select class="combox" id="combox_doc_range"
-			name="docVisiableRange" style="width: 108px;">
-			<option value="-1" ${formDoc ne null && formDoc.docVisiableRange eq -1 ? 'selected="selected"' : ''}>全校可见</option>
-			<option value="0" ${formDoc ne null && formDoc.docVisiableRange eq 0 ? 'selected="selected"' : ''}>设置个人可见</option>
-			<logic:present name="districts">
-				<logic:iterate name="districts" id="entity">
-					<option value="${entity.id}" ${formDoc ne
-						null && formDoc.docVisiableRange eq
-						entity.id ? 'selected="selected"' : ''}>${entity.districtName}</option>
-				</logic:iterate>
-			</logic:present>
-		</select></td>
+		<td colspan="3">
+			<select class="" multiple="multiple" size="${fn:length(districts) + 1}" 
+				id="combox_doc_range" name="docVisiableRange" style="width: 108px;">
+				<option value="-1" ${formDoc ne null && formDoc.docVisiableRangeIds eq -1 ? 'selected="selected"' : ''}>全校可见</option>
+				<option value="0" ${formDoc ne null && formDoc.docVisiableRangeIds eq 0 ? 'selected="selected"' : ''}>设置个人可见</option>
+				<logic:present name="districts">
+					<logic:iterate name="districts" id="entity">
+						<option value="${entity.id}" ${formDoc ne null && formDoc.docVisiableRangeIds eq entity.id ? 'selected="selected"' : ''}>
+						${entity.districtName}</option>
+					</logic:iterate>
+				</logic:present>
+			</select>
+			<input type="hidden" name="docVisiableRangeIds" id="docVisiableRangeIds" value="${formDoc ne null && formDoc.docVisiableRangeIds ne null ? formDoc.docVisiableRangeIds : ''}"/>
+		</td>
 	</tr>
 	<tr>
 		<td style="vertical-align: top">文档可见人：</td>
