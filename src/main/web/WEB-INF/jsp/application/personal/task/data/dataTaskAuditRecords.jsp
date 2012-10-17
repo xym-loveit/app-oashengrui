@@ -37,7 +37,7 @@
 						<td><fmt:formatDate value="${entity.taskApplyFinalizedDate}" pattern="yyyy-MM-dd" /></td>
 						<td>${entity.taskApplyMeto}</td>
 						<td><fmt:formatDate value="${entity.taskApplyDate}" pattern="yyyy-MM-dd" /></td>
-						<td>${entity.taskAuditState eq 1 ? '通过' : '不通过'}</td>
+						<td>${entity.taskAuditState ne null ? (entity.taskAuditState eq 1 ? '通过' : '不通过') : '待审批'}</td>
 						<td><c:if test="${entity.taskAuditFinalizedDate ne null}"><fmt:formatDate value="${entity.taskAuditFinalizedDate}" pattern="yyyy-MM-dd" /></c:if></td>
 						<td>${entity.taskAuditMeto}</td>
 						<td><fmt:formatDate value="${entity.taskAuditTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
