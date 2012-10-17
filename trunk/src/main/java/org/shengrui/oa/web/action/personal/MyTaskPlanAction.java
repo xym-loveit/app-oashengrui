@@ -27,6 +27,7 @@ import org.shengrui.oa.util.WebActionUtil;
 import org.shengrui.oa.web.action.BaseAppAction;
 
 import cn.trymore.core.util.UtilBean;
+import cn.trymore.core.util.UtilCollection;
 import cn.trymore.core.util.UtilDate;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
@@ -693,6 +694,16 @@ extends BaseAppAction
 			}
 			
 			this.serviceTaskPlanTrack.save(taskTrack);
+			
+			Set<ModelTaskPlanTrack> tracks = taskPlan.getTaskTracks();
+			if (!UtilCollection.isNotEmpty(tracks))
+			{
+				tracks = new HashSet<ModelTaskPlanTrack>();
+			}
+			tracks.add(taskTrack);
+			taskPlan.setTaskTracks(tracks);
+			this.serviceTaskPlan.save(taskPlan);
+			
 			
 			// 发送短消息给任务负责人, 任务发起人...
 			Map<String, Object> params = new HashMap<String, Object>();

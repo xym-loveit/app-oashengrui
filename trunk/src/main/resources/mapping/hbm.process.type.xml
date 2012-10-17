@@ -26,7 +26,7 @@
         	<column name="type_parent" />
         </many-to-one>
         
-         <set name="processTypeChildren" inverse="true" cascade="delete" lazy="true" order-by="type_id asc">
+         <set name="processTypeChildren" cascade="delete" lazy="true" order-by="type_id asc">
         	<cache usage="read-write" />
         	<key column="type_parent"/>
         	<one-to-many class="ModelProcessType"/>
