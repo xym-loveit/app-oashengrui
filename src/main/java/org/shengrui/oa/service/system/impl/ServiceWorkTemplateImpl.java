@@ -101,4 +101,15 @@ public class ServiceWorkTemplateImpl extends ServiceGenericImpl<ModelWorkTemplat
 		}
 	}
 
+	
+	public void delete(String workDay,String tempId) throws ServiceException {
+
+		String sql_del = "delete from app_system_work_template where template_id='"+tempId+"' and work_day='"+workDay+"'";
+		try {
+			this.daoWorkTemplate.execUpdateByNativeSQL(sql_del);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			throw new ServiceException(e);
+		}
+	}
 }
