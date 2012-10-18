@@ -6,6 +6,7 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.system.DAOWorkTemplate;
 import org.shengrui.oa.model.system.ModelWorkTemplate;
+import org.tuckey.web.filters.urlrewrite.utils.StringUtils;
 
 import cn.trymore.core.dao.impl.DAOGenericImpl;
 import cn.trymore.core.exception.DAOException;
@@ -28,10 +29,21 @@ extends DAOGenericImpl<ModelWorkTemplate> implements DAOWorkTemplate
 		{
 			criteria.add(Restrictions.eq("templateId", entity.getTemplateId()));
 		}
-		if(entity != null && entity.getDistrict().getId()!=null){
+		if(entity != null && entity.getDistrict() != null && entity.getDistrict().getId()!=null){
 			criteria.createCriteria("district").add(Restrictions.eq("id", entity.getDistrict().getId()));
 		}
-		
+		if(entity != null && !StringUtils.isBlank(entity.getWorkDay()))
+		{
+			criteria.add(Restrictions.eq("workDay", entity.getWorkDay()));
+		}
+		if(entity != null && entity.getWorkTime() != null && !StringUtils.isBlank(entity.getWorkTime().getId()))
+		{
+			criteria.createCriteria("workTime").add(Restrictions.eq("id", entity.getWorkTime().getId()));
+		}
+		if(entity != null && entity.getWorkContent() != null && !StringUtils.isBlank(entity.getWorkContent().getId()))
+		{
+			criteria.createCriteria("workContent").add(Restrictions.eq("id", entity.getWorkContent().getId()));
+		}
 		return this.getListByCriteria(criteria);
 	}
 

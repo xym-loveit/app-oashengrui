@@ -27,4 +27,6 @@ public interface ServiceWorkTemplate extends ServiceGeneric<ModelWorkTemplate> {
 	 * @throws ServiceException
 	 */
 	public void batchInsert(List<ModelWorkTemplate> list) throws ServiceException;
+	
+	public void delete(String workDay,String tempId) throws ServiceException;
 }

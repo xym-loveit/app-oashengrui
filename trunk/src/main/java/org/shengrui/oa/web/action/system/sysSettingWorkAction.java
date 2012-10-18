@@ -70,7 +70,7 @@ public class sysSettingWorkAction extends sysSettingBaseAction {
             if ("周一".equals(entity.getWorkDay())) {
                if ("AM".equals(checkWorkTime(entity.getWorkTime()
                      .getWorkEtime())))
-                  zam[1] += entity.getStaffName() + ",";
+                  zam[1] += entity.getStaffName() + ", ";
                else if ("PM".equals(checkWorkTime(entity.getWorkTime()
                      .getWorkEtime())))
                   zpm[1] += entity.getStaffName() + ",";
@@ -315,6 +315,17 @@ public class sysSettingWorkAction extends sysSettingBaseAction {
          ActionForm form, HttpServletRequest request,
          HttpServletResponse response) {
         ModelWorkTemplate formModeWorkTemplate = (ModelWorkTemplate) form;
+
+        ModelWorkTemplate t = null;
+		try {
+			t = this.serviceWorkTemplate.getEnabledWorkTemplate(formModeWorkTemplate.getDistrict().getId());
+		} catch (ServiceException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        String enableId = "0";
+        if(t != null)
+        	enableId = "1";
         // 保存工作人员
 		Map<String, List<String>> paramEmpIds = this.getAllRequestParameters(request, new String[] {"empid"});
 		if (paramEmpIds != null && paramEmpIds.size() > 0)
@@ -335,7 +346,7 @@ public class sysSettingWorkAction extends sysSettingBaseAction {
 						template.setStaffName(employee.getEmpName());
 						template.getStaff().setId(empId);
 						template.setTemplateId(formModeWorkTemplate.getTemplateId());
-						template.setEnable(formModeWorkTemplate.getEnable());
+						template.setEnable(enableId);
 						template.getDistrict().setId(formModeWorkTemplate.getDistrict().getId());
 						list.add(template);
 					}
@@ -350,12 +361,17 @@ public class sysSettingWorkAction extends sysSettingBaseAction {
 				}
 			}
 			try {
-				this.serviceWorkTemplate.batchInsert(list);
+				if(list!=null && list.size() >0){
+					this.serviceWorkTemplate.delete(formModeWorkTemplate.getWorkDay(), formModeWorkTemplate.getTemplateId());
+				   this.serviceWorkTemplate.batchInsert(list);
 		         // 保存成功后, Dialog进行关闭
 		         return ajaxPrint(response, 
 		               getSuccessCallback("添加工作安排成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, 
 		            		   "{'district.id': '" + request.getParameter("district.id") + "', " +
 		            		   	 "'templateId': '" + request.getParameter("templateId") + "'}", false));
+				}
+				else
+					return ajaxPrint(response,"工作人员不能为空");
 			} catch (ServiceException e) {
 				// TODO Auto-generated catch block
 				return ajaxPrint(response,"提交的数据异常");
@@ -576,5 +592,31 @@ public class sysSettingWorkAction extends sysSettingBaseAction {
             return "PM";
       }
       return "";
+   }
+   
+   public ActionForward actionLoadArragedStaffByWorkContent(ActionMapping mapping,
+         ActionForm form, HttpServletRequest request,
+         HttpServletResponse response) {
+	   ModelWorkTemplate templete = (ModelWorkTemplate)form;
+	   try {
+		   String arragedStaffs = "[";
+		   if(this.isObjectIdValid(templete.getWorkContent().getId())){
+			   List<ModelWorkTemplate> list = this.serviceWorkTemplate.getListByCriteria(templete);
+			   int loop = 1;
+			   for(ModelWorkTemplate entity : list){
+				   arragedStaffs+="{\"id\":\""+entity.getStaff().getId()+"\",\"empName\":\""+entity.getStaffName()+"\"}";
+				   if(loop < list.size()){
+					   arragedStaffs += ",";
+				   }
+				   loop ++;
+			   }
+		   }
+		   arragedStaffs += "]";
+		   request.setAttribute("arragedStaffs", arragedStaffs);
+	   } catch (ServiceException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	   return mapping.findForward("page.sys.setting.work.template.staff");
    }
 }
