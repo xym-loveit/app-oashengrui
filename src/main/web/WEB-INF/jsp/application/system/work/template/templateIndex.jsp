@@ -88,7 +88,7 @@
 		</c:if>
 		</ul>
 	</div>
-	<table class="table" width="100%">
+	<table class="table" style="table-layout:fixed" width="100%">
 	<thead>
 		<tr>
 			<th align="center">工作时间</th>
@@ -108,23 +108,23 @@
 				${startWorkTimeWeekendAM } - ${endWorkTimeWeekendAM }<br/>
 				周六~周日
 			</td>
-			 <td>${staffOnAM[1] }</td>
-			<td>${staffOnAM[2] }</td>
-			<td>${staffOnAM[3] }</td>
-			<td>${staffOnAM[4] }</td>
-			<td>${staffOnAM[5] }</td>
-			<td>${staffOnAM[6] }</td>
-			<td>${staffOnAM[7] }</td>
+			 <td style="word-break: break-all; word-wrap:break-word; width:50px">${staffOnAM[1] }</td>
+			<td style="word-wrap:break-word">${staffOnAM[2] }</td>
+			<td style="word-wrap:break-word">${staffOnAM[3] }</td>
+			<td style="word-wrap:break-word">${staffOnAM[4] }</td>
+			<td style="word-wrap:break-word">${staffOnAM[5] }</td>
+			<td style="word-wrap:break-word">${staffOnAM[6] }</td>
+			<td style="word-wrap:break-word">${staffOnAM[7] }</td>
 		</tr>
 		<tr target="posId" rel="${entity.id}" id="mfunc-${entity.id}">
 		    <td style="word-wrap : break-word">${startWorkTimePM } - ${endWorkTimePM }</td>
-			 <td>${staffOnPM[1] }</td>
-			<td>${staffOnPM[2] }</td>
-			<td>${staffOnPM[3] }</td>
-			<td>${staffOnPM[4] }</td>
-			<td>${staffOnPM[5] }</td>
-			<td>${staffOnPM[6] }</td>
-			<td>${staffOnPM[7] }</td>
+			 <td style="word-wrap:break-word">${staffOnPM[1] }</td>
+			<td style="word-wrap:break-word">${staffOnPM[2] }</td>
+			<td style="word-wrap:break-word">${staffOnPM[3] }</td>
+			<td style="word-wrap:break-word">${staffOnPM[4] }</td>
+			<td style="word-wrap:break-word">${staffOnPM[5] }</td>
+			<td style="word-wrap:break-word">${staffOnPM[6] }</td>
+			<td style="word-wrap:break-word">${staffOnPM[7] }</td>
 		</tr>
 	</tbody>
 </table>

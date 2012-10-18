@@ -154,7 +154,7 @@ $(function(){
 			$("#staffId").val("");
 		}
 	});
-	
+	/*
 	$('#staffs').manifest({
 		// Use each location's full name as the display text.
 		formatDisplay: function (data, $item, $mpItem) {
@@ -178,11 +178,14 @@ $(function(){
 			param: 'fullName'
 		}
 	});
+*/
 });
-
-function loadData(obj){
+function getArragedStaffs(){
+	var relUrl = "app/system/work/template.do?action=actionLoadArragedStaffByWorkContent&templateId="+$("#templateId").val()+"&districtId="+$("#districtId").val()
+			   + "&workTime.id="+$("#workTmId").val()+"&workContent.id="+$("#workCntId").val()+"&workDay="+$("#workDay").val();
+	$("#arranged_staffs").loadUrl(relUrl,{},function(){});
+	
 }
-
 </script>
 
 
@@ -194,7 +197,7 @@ function loadData(obj){
 				<table cellspacing="5" cellpadding="5" class="dform">
 	            <tr>
 	               <td>设置时间：</td>
-	               <td><input type="text" size="30" name="workDay" value="${workDay}" readonly=readonly class="required" style="width: 88%"/></td>
+	               <td><input type="text" size="30" id="workDay" name="workDay" value="${workDay}" readonly=readonly class="required" style="width: 88%"/></td>
 				      <td>
 				         <select class="combox" name="workTime.id"
 	                     id="workTmId">
@@ -210,7 +213,8 @@ function loadData(obj){
 	               <td>工作内容：</td>
 	               <td>
 	               <select class="combox" name="workContent.id"
-	                     id="workCntId">
+	                     id="workCntId" onchange="getArragedStaffs()">
+	                     <option value="-1">请选择</option>
 	                     <c:if test="${workContents ne null}">
 	                    	<c:forEach items="${workContents}" var="workContent">
 	                    		 <option value='<c:out value="${workContent.id}"/>'><c:out value="${workContent.itemValue}" /></option>
@@ -221,8 +225,10 @@ function loadData(obj){
 	               <td></td>
 	            </tr>
 	            <tr>
+	               <!-- td style="vertical-align: top;">工作人员：</td>
+	               <td colspan="2"><input id="staffs" type="text" style="width: 100%;${op ne null && op eq 'view' ? 'display:none': ''}" /></td-->
 	               <td style="vertical-align: top;">工作人员：</td>
-	               <td colspan="2"><input id="staffs" type="text" style="width: 100%;${op ne null && op eq 'view' ? 'display:none': ''}" /></td>
+                    <td colspan="2" id="arranged_staffs"><%@ include file="../data/staff.jsp" %></td>
 	            </tr>
 				</table>
 	        </div>       
