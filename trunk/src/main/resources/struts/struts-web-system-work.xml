@@ -27,6 +27,7 @@
 				type="org.springframework.web.struts.DelegatingActionProxy">
 			<forward name="page.sys.setting.work.template.index" path="page.sys.setting.work.template.index" />
          <forward name="dialog.sys.setting.work.template.addpage" path="dialog.sys.setting.work.template.addpage" />
+         <forward name="page.sys.setting.work.template.staff" path="page.sys.setting.work.template.staff" />
 		</action>
 		
 		<!-- 工作基础设置 -->
