@@ -126,6 +126,11 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 			{
 				criteria.createCriteria("district").add(Restrictions.eq("id", news.getDistrict().getId()));
 			}
+			
+			if (news.getNewsLevel() != null)
+			{
+				criteria.add(Restrictions.eq("newsLevel", news.getNewsLevel()));
+			}
 		
 		}
 		

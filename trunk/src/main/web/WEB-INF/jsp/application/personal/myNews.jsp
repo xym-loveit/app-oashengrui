@@ -20,22 +20,24 @@
 	<table class="searchContent" layoutH="138">
 	<tr>
 		<td>
-			<logic:present name="news">
-				<logic:iterate name="news" property="items" id="news">
-					<tr id="companyNews" target="sid" rel="${news.id}" height="30">
-						<td style="color:blue;">
-							<c:choose>
-								<c:when test="${news.topIndex eq 1 }">[置顶]</c:when>
-							</c:choose>
-						</td>
-						<td>${news.dictionary.name}</td>
-						<td width="30"></td>
-						<td>
-							<a class="icon" href="app/admin/news.do?action=actionNewsScan&id=${news.id }&op=view" target="dialog" rel="admin_entrycheck" width="900" height="650">${news.newsSubject}</a>
-						</td>
-						<td width="30"></td>
-						<td>(<c:if test="${news.updateTime ne null}"><fmt:formatDate value="${news.updateTime}" pattern="yyyy-MM-dd" /></c:if>)</td>
-					</tr>
+			<logic:present name="newsCompany">
+				<logic:iterate name="newsCompany" property="items" id="entry">
+					<c:if test="${entry.newsLevel eq 0}">
+						<tr id="companyNews" target="sid" rel="${entry.id}" height="30">
+							<td style="color:blue;">
+								<c:choose>
+									<c:when test="${entry.topIndex eq 1 }">[置顶]</c:when>
+								</c:choose>
+							</td>
+							<td>${entry.dictionary.name}</td>
+							<td width="30"></td>
+							<td>
+								<a class="icon" href="app/admin/news.do?action=actionNewsScan&id=${entry.id }&op=view" target="dialog" rel="admin_entrycheck" width="900" height="650">${entry.newsSubject}</a>
+							</td>
+							<td width="30"></td>
+							<td>(<c:if test="${entry.updateTime ne null}"><fmt:formatDate value="${entry.updateTime}" pattern="yyyy-MM-dd" /></c:if>)</td>
+						</tr>
+					</c:if>
 				</logic:iterate>
 			</logic:present>
 		</td>
@@ -67,20 +69,22 @@
 	<table class="searchContent" layoutH="138">
 	<tr>
 		<td>
-			<logic:present name="newsdistrict">
-				<logic:iterate name="newsdistrict" property="items" id="newsdistrict">
-					<tr id="companyNews" target="sid" rel="${newsdistrict.id}" height="30">
-						<td style="color:blue;">
-							<c:choose>
-								<c:when test="${newsdistrict.topIndex eq 1 }">[置顶]</c:when>
-							</c:choose>
-						</td>
-						<td>${newsdistrict.dictionary.name}</td>
-						<td width="30"></td>
-						<td><a href="app/admin/news.do?action=actionNewsScan&id=${newsdistrict.id }"&op=view" target="dialog" width="900" height="650" title="新闻详细"><span>${newsdistrict.newsSubject}</span></a></td>
-						<td width="30"></td>
-						<td>(<c:if test="${newsdistrict.updateTime ne null}"><fmt:formatDate value="${newsdistrict.updateTime}" pattern="yyyy-MM-dd" /></c:if>)</td>
-					</tr>
+			<logic:present name="newsDistrict">
+				<logic:iterate name="newsDistrict" property="items" id="entry">
+					<c:if test="${entry.newsLevel eq 1}">
+						<tr id="companyNews" target="sid" rel="${entry.id}" height="30">
+							<td style="color:blue;">
+								<c:choose>
+									<c:when test="${entry.topIndex eq 1 }">[置顶]</c:when>
+								</c:choose>
+							</td>
+							<td>${entry.dictionary.name}</td>
+							<td width="30"></td>
+							<td><a href="app/admin/news.do?action=actionNewsScan&id=${entry.id }"&op=view" target="dialog" width="900" height="650" title="新闻详细"><span>${entry.newsSubject}</span></a></td>
+							<td width="30"></td>
+							<td>(<c:if test="${entry.updateTime ne null}"><fmt:formatDate value="${entry.updateTime}" pattern="yyyy-MM-dd" /></c:if>)</td>
+						</tr>
+					</c:if>
 				</logic:iterate>
 			</logic:present>
 		</td>
@@ -90,15 +94,15 @@
 			<div class="pages">
 				<span>显示</span>
 				<select class="combox" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
-					<option value="20" ${pagingBean1 ne null && pagingBean1.pageSize eq 20 ? 'selected="selected"' : ''}>20</option>
-					<option value="50" ${pagingBean1 ne null && pagingBean1.pageSize eq 50 ? 'selected="selected"' : ''}>50</option>
-					<option value="100" ${pagingBean1 ne null && pagingBean1.pageSize eq 100 ? 'selected="selected"' : ''}>100</option>
-					<option value="200" ${pagingBean1 ne null && pagingBean1.pageSize eq 200 ? 'selected="selected"' : ''}>200</option>
+					<option value="20" ${pagingBeanDistrict ne null && pagingBeanDistrict.pageSize eq 20 ? 'selected="selected"' : ''}>20</option>
+					<option value="50" ${pagingBeanDistrict ne null && pagingBeanDistrict.pageSize eq 50 ? 'selected="selected"' : ''}>50</option>
+					<option value="100" ${pagingBeanDistrict ne null && pagingBeanDistrict.pageSize eq 100 ? 'selected="selected"' : ''}>100</option>
+					<option value="200" ${pagingBeanDistrict ne null && pagingBeanDistrict.pageSize eq 200 ? 'selected="selected"' : ''}>200</option>
 				</select>
-				<span>条，共${pagingBean1 ne null ? pagingBean1.totalItems : 0}条</span>
+				<span>条，共${pagingBeanDistrict ne null ? pagingBeanDistrict.totalItems : 0}条</span>
 			</div>
 			
-			<div class="pagination" targetType="navTab" totalCount="${pagingBean1 ne null ? pagingBean1.totalItems : 0}" numPerPage="${pagingBean1 ne null ? pagingBean1.pageSize : 20}" pageNumShown="${pagingBean1 ne null ? pagingBean1.pageNumShown : 10}" currentPage="${pagingBean1 ne null ? pagingBean1.currentPage : 1}"></div>
+			<div class="pagination" targetType="navTab" totalCount="${pagingBeanDistrict ne null ? pagingBeanDistrict.totalItems : 0}" numPerPage="${pagingBeanDistrict ne null ? pagingBeanDistrict.pageSize : 20}" pageNumShown="${pagingBeanDistrict ne null ? pagingBeanDistrict.pageNumShown : 10}" currentPage="${pagingBeanDistrict ne null ? pagingBeanDistrict.currentPage : 1}"></div>
 
 		</div>
 </div>

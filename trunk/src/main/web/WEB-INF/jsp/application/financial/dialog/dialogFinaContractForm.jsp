@@ -90,7 +90,7 @@ ${tm:fileRestore(entity['attachFiles'])}
 			<div id="finacont_print_wrapper">
 				<div style="padding: 5px 0px; border-bottom: 1px dotted #999; margin: 0 10px 15px 10px; overflow: auto; clear: both;">
 					<c:choose>
-						<c:when test="${op ne null && op eq 'view'}"><span style="float:left; color:#FF7300; line-height: 18px;">所选费用支出类型：<b>${entity.applyFormType.processTypeName}</b></span></c:when>
+						<c:when test="${op ne null && op eq 'view'}"><span style="float:left; color:#FF7300; line-height: 18px;">合同审批流程：<b>${entity.applyFormType.processTypeName}</b></span></c:when>
 						<c:otherwise>
 							<span style="float:left; color:#FF7300; line-height: 18px;">合同类型：</span>
 							<select class="combox required" name="applyFormTypeId" id="expense_type">

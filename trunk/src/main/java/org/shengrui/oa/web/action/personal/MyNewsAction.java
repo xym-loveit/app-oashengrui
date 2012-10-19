@@ -41,18 +41,29 @@ extends BaseAppAction
 	{
 		try 
 		{
-			ModelNewsMag myNews = (ModelNewsMag) form;
 			PagingBean pagingBean = this.getPagingBean(request);
 			PagingBean pagingBean1 = this.getPagingBean(request);
-			PaginationSupport<ModelNewsMag> news = this.serviceNewsManage.getCompanyNews(myNews, pagingBean);
-			PaginationSupport<ModelNewsMag> newsdistrict = this.serviceNewsManage.getDistrictNews(myNews, pagingBean1);
-			request.setAttribute("newsdistrict", newsdistrict);
-			request.setAttribute("news", news);
-			request.setAttribute("formNews", myNews);
+			ModelNewsMag formNews = new ModelNewsMag();
+			
+			formNews.setStatus(ModelNewsMag.newsStatus.APPROVED.getValue());
+			
+			// 公司新闻
+			formNews.setNewsLevel(0);
+			PaginationSupport<ModelNewsMag> newsCompany = 
+					this.serviceNewsManage.getPaginationByNews(formNews, pagingBean);
+			
+			// 校区新闻
+			formNews.setNewsLevel(1);
+			PaginationSupport<ModelNewsMag> newsDistrict = 
+					this.serviceNewsManage.getPaginationByNews(formNews, pagingBean1);
+			
+			request.setAttribute("newsCompany", newsCompany);
+			request.setAttribute("newsDistrict", newsDistrict);
 			request.setAttribute("op", request.getParameter("op"));
+			
 			// 输出分页信息至客户端
-			outWritePagination(request, pagingBean, news);
-			outWritePagination(request, pagingBean1, newsdistrict, "pagingBean1");
+			outWritePagination(request, pagingBean, newsCompany);
+			outWritePagination(request, pagingBean1, newsDistrict, "pagingBeanDistrict");
 			
 		} 
 		catch (Exception e) 
