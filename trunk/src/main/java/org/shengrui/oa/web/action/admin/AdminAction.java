@@ -276,6 +276,9 @@ extends BaseAdminAction
 					// 用表单输入的值覆盖实体中的属性值
 					UtilBean.copyNotNullProperties(entity, modelNewsMag);
 					
+					//设置新闻附件
+					this.handleFileAttachments(entity, request);
+					
 					if(!UtilString.isNotEmpty(formAction))
 					{
 						// 编辑操作...
