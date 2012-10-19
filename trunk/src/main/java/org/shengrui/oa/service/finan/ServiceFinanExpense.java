@@ -39,6 +39,17 @@ extends ServiceGeneric<ModelFinanExpense>
 			PagingBean pagingBean) throws ServiceException;
 	
 	/**
+	 * 财务费用查分页数据
+	 * 
+	 * @param entity
+	 * @param pagingBean
+	 * @return
+	 * @throws ServiceException
+	 */
+	PaginationSupport<ModelFinanExpense> getFinanExpenseInfoPagination (ModelFinanExpense entity, 
+			PagingBean pagingBean, boolean filterMyApprovals) throws ServiceException;
+	
+	/**
 	 * 审核中的财务记录
 	 * @author pyc
 	 * 

@@ -9,6 +9,7 @@ import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.finan.DAOFinanContract;
 import org.shengrui.oa.model.finan.ModelFinanContract;
 import org.shengrui.oa.service.finan.ServiceFinanContract;
+import org.shengrui.oa.util.ContextUtil;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.service.impl.ServiceGenericImpl;
@@ -59,16 +60,27 @@ extends ServiceGenericImpl<ModelFinanContract> implements ServiceFinanContract
 			ModelFinanContract entity, PagingBean pagingBean)
 			throws ServiceException
 	{
-		return this.getAll(this.getCriterias(entity), pagingBean);
+		return getFinanContractInfoPagination(entity, pagingBean, false);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.finan.ServiceFinanContract#getFinanContractInfoPagination(org.shengrui.oa.model.finan.ModelFinanContract, cn.trymore.core.web.paging.PagingBean, boolean)
+	 */
+	@Override
+	public PaginationSupport<ModelFinanContract> getFinanContractInfoPagination (ModelFinanContract entity, 
+			PagingBean pagingBean, boolean filterMyApprovals) throws ServiceException
+	{
+		return this.getAll(this.getCriterias(entity, filterMyApprovals), pagingBean);
+	}
+
 	/**
 	 * Returns the criteria with the specified entity. 
 	 * 
 	 * @param entity
 	 * @return
 	 */
-	private DetachedCriteria getCriterias(ModelFinanContract entity)
+	private DetachedCriteria getCriterias(ModelFinanContract entity, boolean filterMyApprovals)
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanContract.class);
 
@@ -107,6 +119,14 @@ extends ServiceGenericImpl<ModelFinanContract> implements ServiceFinanContract
 					criteria.add(Restrictions.in("auditState", entity.getCondAuditStates()));
 				}
 			}
+		}
+		
+		if (filterMyApprovals)
+		{
+			criteria.add(Restrictions.sqlRestriction(
+				"(audit_state IS NULL and cproc_depid = " + 
+					ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
+					ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"));
 		}
 		
 		criteria.addOrder(Order.desc("applyDate"));
