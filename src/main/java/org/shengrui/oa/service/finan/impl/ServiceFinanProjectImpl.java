@@ -9,6 +9,7 @@ import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.finan.DAOFinanProject;
 import org.shengrui.oa.model.finan.ModelFinanProject;
 import org.shengrui.oa.service.finan.ServiceFinanProject;
+import org.shengrui.oa.util.ContextUtil;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.hibernate.HibernateUtils;
@@ -58,7 +59,19 @@ extends ServiceGenericImpl<ModelFinanProject> implements ServiceFinanProject
 			ModelFinanProject entity, PagingBean pagingBean)
 			throws ServiceException
 	{
-		return this.getAll(this.getCriterias(entity), pagingBean);
+		return getFinanProjectInfoPagination(entity, pagingBean, false);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.finan.ServiceFinanProject#getFinanProjectInfoPagination(org.shengrui.oa.model.finan.ModelFinanProject, cn.trymore.core.web.paging.PagingBean, boolean)
+	 */
+	@Override
+	public PaginationSupport<ModelFinanProject> getFinanProjectInfoPagination(
+			ModelFinanProject entity, PagingBean pagingBean,
+			boolean filterMyApprovals) throws ServiceException
+	{
+		return this.getAll(this.getCriterias(entity, filterMyApprovals), pagingBean);
 	}
 	
 	/**
@@ -67,7 +80,7 @@ extends ServiceGenericImpl<ModelFinanProject> implements ServiceFinanProject
 	 * @param entity
 	 * @return
 	 */
-	private DetachedCriteria getCriterias(ModelFinanProject entity)
+	private DetachedCriteria getCriterias(ModelFinanProject entity, boolean filterMyApprovals)
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanProject.class);
 
@@ -113,6 +126,14 @@ extends ServiceGenericImpl<ModelFinanProject> implements ServiceFinanProject
 				
 				criteria.add(criterion);
 			}
+		}
+		
+		if (filterMyApprovals)
+		{
+			criteria.add(Restrictions.sqlRestriction(
+					"(audit_state IS NULL and cproc_depid = " + 
+						ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
+						ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"));
 		}
 		
 		criteria.addOrder(Order.desc("applyDate"));

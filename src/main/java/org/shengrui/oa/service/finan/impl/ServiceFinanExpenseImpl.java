@@ -10,6 +10,7 @@ import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.finan.DAOFinanExpense;
 import org.shengrui.oa.model.finan.ModelFinanExpense;
 import org.shengrui.oa.service.finan.ServiceFinanExpense;
+import org.shengrui.oa.util.ContextUtil;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.hibernate.HibernateUtils;
@@ -40,7 +41,19 @@ extends ServiceGenericImpl<ModelFinanExpense> implements ServiceFinanExpense
 			ModelFinanExpense entity, PagingBean pagingBean)
 			throws ServiceException
 	{
-		return this.getAll(this.getCriterias(entity), pagingBean);
+		return getFinanExpenseInfoPagination(entity, pagingBean, false);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.finan.ServiceFinanExpense#getFinanExpenseInfoPagination(org.shengrui.oa.model.finan.ModelFinanExpense, cn.trymore.core.web.paging.PagingBean, boolean)
+	 */
+	@Override
+	public PaginationSupport<ModelFinanExpense> getFinanExpenseInfoPagination(
+			ModelFinanExpense entity, PagingBean pagingBean,
+			boolean filterMyApprovals) throws ServiceException
+	{
+		return this.getAll(this.getCriterias(entity, filterMyApprovals), pagingBean);
 	}
 	
 	/*
@@ -70,7 +83,7 @@ extends ServiceGenericImpl<ModelFinanExpense> implements ServiceFinanExpense
 	 * @param entity
 	 * @return
 	 */
-	private DetachedCriteria getCriterias(ModelFinanExpense entity)
+	private DetachedCriteria getCriterias(ModelFinanExpense entity, boolean filterMyApprovals)
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanExpense.class);
 
@@ -116,6 +129,14 @@ extends ServiceGenericImpl<ModelFinanExpense> implements ServiceFinanExpense
 				
 				criteria.add(criterion);
 			}
+		}
+		
+		if (filterMyApprovals)
+		{
+			criteria.add(Restrictions.sqlRestriction(
+				"(audit_state IS NULL and cproc_depid = " + 
+					ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
+					ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"));
 		}
 		
 		criteria.addOrder(Order.desc("applyDate"));
@@ -169,4 +190,5 @@ extends ServiceGenericImpl<ModelFinanExpense> implements ServiceFinanExpense
 	{
 		this.daoFinanExpense = daoFinanExpense;
 	}
+	
 }
