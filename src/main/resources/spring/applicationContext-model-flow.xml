@@ -68,6 +68,7 @@
 				<property name="serviceProcessTask" ref="serviceProcessTask" />
 				<property name="serviceProcessHistory" ref="serviceProcessHistory" />
 				<property name="serviceProcessType" ref="serviceProcessType" />
+				<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
 			</bean>
 		</property>
 	</bean>

@@ -529,7 +529,7 @@ extends FlowBaseAction
 							// 通知下一个审批环节的审批人
 							this.sendMessage("my.approval.audit.hrm", 
 								params, new Object[] {
-									entity.getEmployee().getId()
+									builder.toString()
 								}, 
 								ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
 							);
