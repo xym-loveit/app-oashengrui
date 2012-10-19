@@ -423,6 +423,7 @@ implements ServiceWorkFlow
 			}
 			else if (ModelProcessTask.EProcessTaskType.TRANSFER_DEPS.getValue().equals(task.getProcessTaskType()))
 			{
+				// 晋升/调动
 				form.setToPositionIds(task.getToPositionIds());
 				form.setToPositionNames(task.getToPositionNames());
 				form.setToDepartmentIds(task.getToDepartmentIds());
@@ -487,13 +488,19 @@ implements ServiceWorkFlow
 			}
 			
 			// Sets the destination district as master
-			if (form.getToDistrictIds() == null && (
-					ModelProcessTask.EProcessTaskType.MASTER_DEPS_AGAINST.getValue().equals(task.getProcessTaskType()) || 
-					ModelProcessTask.EProcessTaskType.MASTER_DEPS_SINGLE.getValue().equals(task.getProcessTaskType())))
+			if (form.getToDistrictIds() == null)
 			{
-				form.setToDistrictIds("1");
+				if (ModelProcessTask.EProcessTaskType.MASTER_DEPS_AGAINST.getValue().equals(task.getProcessTaskType()) || 
+					ModelProcessTask.EProcessTaskType.MASTER_DEPS_SINGLE.getValue().equals(task.getProcessTaskType()))
+				{
+					form.setToDistrictIds("1");
+				}
+				else
+				{
+					form.setToDistrictIds(employee.getEmployeeDistrict().getId());
+					form.setToDistrictNames(employee.getEmployeeDistrict().getDistrictName());
+				}
 			}
-			
 			return form;
 		}
 		
