@@ -89,12 +89,41 @@ extends BaseAdminAction
 			// 首页显示我的新闻, 只过滤`审核通过`的新闻.
 			if (request.getParameter("objOut") != null)
 			{
+				PagingBean pagingBean = this.getPagingBean(request);
+				PagingBean pagingBean1 = this.getPagingBean(request);
+				
 				if (formNews == null)
 				{
 					formNews = new ModelNewsMag();
 				}
 				
 				formNews.setStatus(ModelNewsMag.newsStatus.APPROVED.getValue());
+				
+				// 公司新闻
+				formNews.setNewsLevel(0);
+				PaginationSupport<ModelNewsMag> news = 
+						this.serviceNewsManage.getPaginationByNews(formNews, pagingBean);
+				
+				// 校区新闻
+				formNews.setNewsLevel(1);
+				PaginationSupport<ModelNewsMag> newsDistrict = 
+						this.serviceNewsManage.getPaginationByNews(formNews, pagingBean1);
+				
+				if (news == null)
+				{
+					news = newsDistrict;
+				}
+				else if (newsDistrict != null)
+				{
+					news.getItems().addAll(newsDistrict.getItems());
+					news.setItemCount(news.getItemCount() + newsDistrict.getItemCount());
+				}
+				
+				if (request.getParameter("objOut") != null)
+				{
+					response.getWriter().write(ObjectToString(news));
+					return null;
+				}
 			}
 			
 			PagingBean pagingBean = this.getPagingBean(request);
@@ -106,12 +135,6 @@ extends BaseAdminAction
 			request.setAttribute("formNews", formNews);
 			request.setAttribute("newsTypes", this.getServiceAppDictionary().getByType(type));
 			request.setAttribute("op", request.getParameter("op"));
-			
-			if (request.getParameter("objOut") != null)
-			{
-				response.getWriter().write(ObjectToString(news));
-				return null;
-			}
 			
 			// 输出分页信息至客户端
 			outWritePagination(request, pagingBean, news);
