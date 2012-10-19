@@ -236,6 +236,7 @@ public class sysSettingWorkAction extends sysSettingBaseAction {
             && this.isObjectIdValid(templateId)) {
          request.setAttribute("districtId", districtId);
          request.setAttribute("templateId", templateId);
+         request.setAttribute("workDayId", request.getParameter("workDay"));
          request.setAttribute("workDay",
                week[Integer.parseInt(request.getParameter("workDay"))]);
          try {
@@ -597,7 +598,9 @@ public class sysSettingWorkAction extends sysSettingBaseAction {
    public ActionForward actionLoadArragedStaffByWorkContent(ActionMapping mapping,
          ActionForm form, HttpServletRequest request,
          HttpServletResponse response) {
+	   String[] week = { "", "周一", "周二", "周三", "周四", "周五", "周六", "周日" };
 	   ModelWorkTemplate templete = (ModelWorkTemplate)form;
+	   templete.setWorkDay(week[Integer.parseInt(request.getParameter("workDayId"))]);
 	   try {
 		   String arragedStaffs = "[";
 		   if(this.isObjectIdValid(templete.getWorkContent().getId())){
