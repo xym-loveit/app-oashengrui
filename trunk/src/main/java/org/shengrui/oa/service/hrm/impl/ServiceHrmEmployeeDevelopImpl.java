@@ -11,6 +11,7 @@ import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.hrm.DAOHrmEmployeeDevelop;
 import org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop;
 import org.shengrui.oa.service.hrm.ServiceHrmEmployeeDevelop;
+import org.shengrui.oa.util.ContextUtil;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.hibernate.HibernateUtils;
@@ -41,7 +42,13 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 			ModelHrmEmployeeDevelop entity, PagingBean pagingBean)
 			throws ServiceException
 	{
-		return getEmployeeDevelopInfoPagination(entity, null, pagingBean);
+		return getEmployeeDevelopInfoPagination(entity, null, pagingBean, false);
+	}
+	
+	public PaginationSupport<ModelHrmEmployeeDevelop> getEmployeeDevelopInfoPagination (ModelHrmEmployeeDevelop entity, 
+			PagingBean pagingBean, boolean filterCurrentProcessNodes) throws ServiceException
+	{
+		return getEmployeeDevelopInfoPagination(entity, null, pagingBean, filterCurrentProcessNodes);
 	}
 	
 	/*
@@ -50,9 +57,9 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 	 */
 	@Override
 	public PaginationSupport<ModelHrmEmployeeDevelop> getEmployeeDevelopInfoPagination (ModelHrmEmployeeDevelop entity, 
-			String empId, PagingBean pagingBean) throws ServiceException
+			String empId, PagingBean pagingBean, boolean filterCurrentProcessNodes) throws ServiceException
 	{
-		return this.getAll(this.getCriterias(entity, empId), pagingBean);
+		return this.getAll(this.getCriterias(entity, empId, filterCurrentProcessNodes), pagingBean);
 	}
 	
 	/*
@@ -84,7 +91,7 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 	 * @param empId
 	 * @return
 	 */
-	private DetachedCriteria getCriterias(ModelHrmEmployeeDevelop entity, String empId)
+	private DetachedCriteria getCriterias(ModelHrmEmployeeDevelop entity, String empId, boolean filterCurrentProcessNodes)
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployeeDevelop.class);
 
@@ -151,6 +158,18 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 				
 				criteria.add(criterion);
 			}
+		}
+		
+		if (filterCurrentProcessNodes)
+		{
+			criteria.add(Restrictions.sqlRestriction(
+				"(audit_state IS NULL and cproc_depid = " + 
+					ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
+					ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId() + " and " +
+					"(to_district IS NULL OR to_district = " + 
+						ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getId() + "))"
+				)
+			);
 		}
 		
 		criteria.addOrder(Order.desc("applyDate"));

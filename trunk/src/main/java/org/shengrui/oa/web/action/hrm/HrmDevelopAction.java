@@ -247,7 +247,7 @@ extends BaseHrmAction
 			
 			// 加载审批数据
 			boolean isOnApproval = request.getParameter("finished") == null;
-			obtainDevelopRecords(formEntity, isOnApproval, request);
+			obtainDevelopRecords(formEntity, isOnApproval, request, isOnApproval);
 			
 			request.setAttribute("formEntity", formEntity);
 			request.setAttribute("isOnApproval", isOnApproval);
@@ -269,7 +269,7 @@ extends BaseHrmAction
 	 * @throws ServiceException 
 	 */
 	private PaginationSupport<ModelHrmEmployeeDevelop> obtainDevelopRecords (ModelHrmEmployeeDevelop formEntity, 
-			Boolean isOnApproval, HttpServletRequest request) throws ServiceException
+			Boolean isOnApproval, HttpServletRequest request, boolean filterCurrentProcessNodes) throws ServiceException
 	{
 		if (isOnApproval != null && isOnApproval)
 		{
@@ -298,7 +298,7 @@ extends BaseHrmAction
 		
 		PagingBean pagingBean = this.getPagingBean(request);
 		PaginationSupport<ModelHrmEmployeeDevelop> items =
-				this.serviceHrmEmployeeDevelop.getEmployeeDevelopInfoPagination(formEntity, pagingBean);
+				this.serviceHrmEmployeeDevelop.getEmployeeDevelopInfoPagination(formEntity, pagingBean, filterCurrentProcessNodes);
 		
 		request.setAttribute("dataList", items);
 		
