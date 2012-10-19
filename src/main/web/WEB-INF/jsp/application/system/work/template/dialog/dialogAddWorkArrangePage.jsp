@@ -181,8 +181,9 @@ $(function(){
 */
 });
 function getArragedStaffs(){
+	
 	var relUrl = "app/system/work/template.do?action=actionLoadArragedStaffByWorkContent&templateId="+$("#templateId").val()+"&districtId="+$("#districtId").val()
-			   + "&workTime.id="+$("#workTmId").val()+"&workContent.id="+$("#workCntId").val()+"&workDay="+$("#workDay").val();
+			   + "&workTime.id="+$("#workTmId").val()+"&workContent.id="+$("#workCntId").val()+"&workDayId="+$("#workDayId").val();
 	$("#arranged_staffs").loadUrl(relUrl,{},function(){});
 	
 }
@@ -255,5 +256,6 @@ function getArragedStaffs(){
 		<input type="hidden" id="districtId" name="district.id" value="${districtId ne null ? districtId : '-1'}" />
 		<input type="hidden" id="enable" name="enable" value="0" />
 	</form>
+	    <input type="hidden" id="workDayId" value="${workDayId ne null ? workDayId : '0' }">
 <div>
 		
