@@ -70,7 +70,7 @@ public class sysSettingWorkAction extends sysSettingBaseAction {
             if ("周一".equals(entity.getWorkDay())) {
                if ("AM".equals(checkWorkTime(entity.getWorkTime()
                      .getWorkEtime())))
-                  zam[1] += entity.getStaffName() + ", ";
+                  zam[1] += entity.getStaffName() + ",";
                else if ("PM".equals(checkWorkTime(entity.getWorkTime()
                      .getWorkEtime())))
                   zpm[1] += entity.getStaffName() + ",";
