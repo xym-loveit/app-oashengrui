@@ -289,7 +289,7 @@ extends BaseAppAction
 							"(audit_state IS NULL and cproc_depid = " + 
 							ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
 							ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId() + " and " +
-							"(to_district IS NULL OR to_district = " + 
+							"(cproc_disid IS NULL OR cproc_disid = " + 
 								ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getId() + "))"					}
 					),
 					pagingBean

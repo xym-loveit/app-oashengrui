@@ -350,6 +350,7 @@ extends FlowBaseAction
 						
 						entity.setCurrentProcDepId(procForm.getToDepartmentIds());
 						entity.setCurrentProcPosId(procForm.getToPositionIds());
+						entity.setCurrentProcDistrictId(procForm.getToDistrictIds());
 					}
 					else
 					{
@@ -387,8 +388,8 @@ extends FlowBaseAction
 							ModelHrmEmployee employee = employees.get(i);
 							
 							// ensures specified district equals the district of employee.
-							if (entity.getToDistrict() == null || 
-									entity.getToDistrict().getId().equals(employee.getEmployeeDistrict().getId()))
+							if (entity.getCurrentProcDistrictId() == null || 
+									entity.getCurrentProcDistrictId().equals(employee.getEmployeeDistrict().getId()))
 							{
 								builder.append(employee.getId());
 								builder.append(",");
@@ -489,6 +490,7 @@ extends FlowBaseAction
 						ModelProcessForm procForm = result.getRight();
 						entity.setCurrentProcDepId(procForm.getToDepartmentIds());
 						entity.setCurrentProcPosId(procForm.getToPositionIds());
+						entity.setCurrentProcDistrictId(procForm.getToDistrictIds());
 					}
 					
 					this.serviceHrmEmployeeDevelop.save(entity);

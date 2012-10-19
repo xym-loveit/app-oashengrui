@@ -149,12 +149,17 @@ extends ModelBase
 	protected Integer finalState;
 	
 	/**
+	 * 当前审批校区ID, 主要用于待办审批提醒.
+	 */
+	protected String currentProcDistrictId;
+	
+	/**
 	 * 当前审批部门ID, 主要用于待办审批提醒.
 	 */
 	protected String currentProcDepId;
 	
 	/**
-	 * 当前审批校区ID, 主要用于待办审批提醒.
+	 * 当前审批岗位ID, 主要用于待办审批提醒.
 	 */
 	protected String currentProcPosId;
 
@@ -513,6 +518,16 @@ extends ModelBase
 	public void setAclFilterFields(String aclFilterFields)
 	{
 		this.aclFilterFields = aclFilterFields;
+	}
+	
+	public String getCurrentProcDistrictId()
+	{
+		return currentProcDistrictId;
+	}
+
+	public void setCurrentProcDistrictId(String currentProcDistrictId)
+	{
+		this.currentProcDistrictId = currentProcDistrictId;
 	}
 
 }

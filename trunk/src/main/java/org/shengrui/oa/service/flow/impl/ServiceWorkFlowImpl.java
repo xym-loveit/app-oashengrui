@@ -142,7 +142,7 @@ implements ServiceWorkFlow
 				for (ModelProcessTask task : tasks)
 				{
 					ModelProcessForm form = this.convertTaskToForm(task, 
-							processTypeId, formNo, employee, isFirstStep);
+							processTypeId, formNo, employee, filterDistrict, isFirstStep);
 					
 					// 判断当前Form是否被设置为第一个审批节点..
 					if (ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue().equals(form.getAuditState())
@@ -158,11 +158,6 @@ implements ServiceWorkFlow
 					else
 					{
 						isFirstStep = false;
-					}
-					
-					if (filterDistrict != null)
-					{
-						form.setToDistrictIds(filterDistrict.getId());
 					}
 					
 					if (form != null)
@@ -398,7 +393,7 @@ implements ServiceWorkFlow
 	 * @return entity of process form
 	 */
 	private ModelProcessForm convertTaskToForm (ModelProcessTask task, 
-			String processTypeId, String formNo, ModelHrmEmployee employee, boolean isFistStep) throws ServiceException
+			String processTypeId, String formNo, ModelHrmEmployee employee, ModelSchoolDistrict toDistrict, boolean isFistStep) throws ServiceException
 	{
 		if (task != null)
 		{
@@ -432,6 +427,8 @@ implements ServiceWorkFlow
 				form.setToPositionNames(task.getToPositionNames());
 				form.setToDepartmentIds(task.getToDepartmentIds());
 				form.setToDepartmentNames(task.getToDepartmentNames());
+				form.setToDistrictIds(toDistrict.getId());
+				form.setToDistrictNames(toDistrict.getDistrictName());
 			}
 			else if (ModelProcessTask.EProcessTaskType.MASTER_DEPS_AGAINST.getValue().equals(
 					task.getProcessTaskType()))
@@ -487,6 +484,14 @@ implements ServiceWorkFlow
 			if (form.getAuditState() == null && isFistStep)
 			{
 				form.setAuditState(ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue());
+			}
+			
+			// Sets the destination district as master
+			if (form.getToDistrictIds() == null && (
+					ModelProcessTask.EProcessTaskType.MASTER_DEPS_AGAINST.getValue().equals(task.getProcessTaskType()) || 
+					ModelProcessTask.EProcessTaskType.MASTER_DEPS_SINGLE.getValue().equals(task.getProcessTaskType())))
+			{
+				form.setToDistrictIds("1");
 			}
 			
 			return form;

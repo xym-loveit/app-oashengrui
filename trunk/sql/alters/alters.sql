@@ -22,3 +22,4 @@ ALTER TABLE `app_function` CHANGE `menu_id` `menu_id` BIGINT( 20 ) NULL COMMENT 
 -- Added by Jeccy.Zhao on 2012-10-19
 --
 ALTER TABLE `app_hrm_archive` CHANGE `job_id` `job_id` BIGINT( 20 ) NULL COMMENT '应聘岗位ID'
+ALTER TABLE `app_hrm_employee_develop` ADD `cproc_disid` BIGINT NULL COMMENT '当前审批校区ID'
