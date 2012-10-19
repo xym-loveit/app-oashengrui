@@ -28,6 +28,8 @@ import org.shengrui.oa.util.ContextUtil;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.exception.WebException;
+import cn.trymore.core.util.UtilBean;
+import cn.trymore.core.util.UtilCollection;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
@@ -351,7 +353,6 @@ extends BaseAdminAction
 		try
 		{
 				ModelDoc formDoc = (ModelDoc) form;
-				
 				ModelDoc entity = null;
 				
 				if(formDoc!=null)
@@ -426,6 +427,32 @@ extends BaseAdminAction
 					
 					entity=formDoc;
 					
+					// 设置附件
+					this.handleFileAttachments(entity, request);
+					if (!UtilCollection.isNotEmpty(entity.getAttachFiles()))
+					{
+						return ajaxPrint(response, getErrorCallback("上传文档不能为空，请添加文件!"));
+					}
+					else if (entity.getAttachFiles().size() > 1)
+					{
+						return ajaxPrint(response, getErrorCallback(
+								"一个文档只能上传一个附件，请重新上传!", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+					}
+					
+					ModelFileAttach file = null;
+					Iterator<ModelFileAttach> itor = entity.getAttachFiles().iterator();
+					while (itor.hasNext())
+					{
+						file = itor.next();
+						if (file != null)
+						{
+							break;
+						}
+					}
+					entity.setFile(file);
+					this.serviceDocManage.save(entity);
+					
+					/*
 					//在数据上传的FileUploadServlet中传过来的session值，用完销毁掉。
 					String fileIds=(String)request.getSession().getAttribute("fileIds");
 					if(fileIds==null)
@@ -446,7 +473,7 @@ extends BaseAdminAction
 						}
 					}
 					request.getSession().removeAttribute("fileIds");
-					
+					*/
 				}
 				// 保存成功后, Dialog进行关闭
 				return ajaxPrint(response, 
@@ -474,18 +501,41 @@ extends BaseAdminAction
 		try
 		{
 				ModelDoc formDoc = (ModelDoc) form;
-				
 				ModelDoc entity = null;
 				
-				if(formDoc!=null)
+				boolean isCreation = !this.isObjectIdValid(formDoc.getId());
+				if (!isCreation)
+				{
+					entity = this.getServiceDocManage().get(formDoc.getId());
+					if (entity != null)
+					{
+						// 用表单输入的值覆盖实体中的属性值
+						try
+						{
+							UtilBean.copyNotNullProperties(entity, formDoc);
+						} 
+						catch (Exception e)
+						{
+							LOGGER.error("Exception raised when copy bean properties from the form input.", e);
+						}
+					}
+				}
+				else
+				{
+					entity = formDoc;
+					entity.setCreateTime(new Date());
+					entity.setAuthor(ContextUtil.getCurrentUser());
+				}
+				
+				if(entity!=null)
 				{
 					//封装设置个人可见数据
 					if(ModelDoc.EDocVisibleRange.PERSONALS.getValue().equals(
-							formDoc.getDocVisiableRangeIds()) && UtilString.isNotEmpty(formDoc.getDocUserNames()))
+							entity.getDocVisiableRangeIds()) && UtilString.isNotEmpty(entity.getDocUserNames()))
 					{
 						
 						try {
-							String strUserNames = formDoc.getDocUserNames();
+							String strUserNames = entity.getDocUserNames();
 							String userIds = "";
 							String[] names = strUserNames.split(",");
 							for (int i = 0; i < names.length; i++)
@@ -501,7 +551,7 @@ extends BaseAdminAction
 								}
 							}
 							userIds = userIds.substring(0, userIds.length() - 1);
-							formDoc.setDocUserIds(userIds);
+							entity.setDocUserIds(userIds);
 						} 
 						catch (Exception e)
 						{
@@ -511,30 +561,56 @@ extends BaseAdminAction
 						
 						
 					}
-					else if (!ModelDoc.EDocVisibleRange.PERSONALS.getValue().equals(formDoc.getDocVisiableRangeIds()) && 
-							UtilString.isNotEmpty(formDoc.getDocUserNames()))
+					else if (!ModelDoc.EDocVisibleRange.PERSONALS.getValue().equals(entity.getDocVisiableRangeIds()) && 
+							UtilString.isNotEmpty(entity.getDocUserNames()))
 					{
 						return ajaxPrint(response, getErrorCallback("当前不是设置为个人可见!"));
 					}
 					
-					if(!UtilString.isNotEmpty(formDoc.getDocName()))
+					if(!UtilString.isNotEmpty(entity.getDocName()))
 					{
 						return ajaxPrint(response, getErrorCallback("文档名称不能为空!"));
 					}
-					ModelAppDictionary type     =this.getServiceAppDictionary().get(formDoc.getType().getId());
-					ModelDocLevel level         =this.getServiceDocLevel().get(formDoc.getDocLevel().getId());
+					ModelAppDictionary type     =this.getServiceAppDictionary().get(entity.getType().getId());
+					ModelDocLevel level         =this.getServiceDocLevel().get(entity.getDocLevel().getId());
 					// ModelDocVisiableRange range =this.getServiceDocVisiableRange().get(formDoc.getDocVisiableRange().getId());
-					ModelSchoolDistrict district=this.getServiceSchoolDistrict().get(formDoc.getDistrict().getId());
-					ModelSchoolDepartment dep   =this.getServiceSchoolDepartment().get(formDoc.getDepartment().getId());
+					ModelSchoolDistrict district=this.getServiceSchoolDistrict().get(entity.getDistrict().getId());
+					ModelSchoolDepartment dep   =this.getServiceSchoolDepartment().get(entity.getDepartment().getId());
 					ModelAppUser author         = ContextUtil.getCurrentUser(); //this.getServiceAppUser().findByUserName((String)request.getSession().getAttribute("SPRING_SECURITY_LAST_USERNAME"));
 					
-					formDoc.setType(type);
-					formDoc.setAuthor(author);
-					formDoc.setDepartment(dep);
-					formDoc.setDocLevel(level);
+					entity.setType(type);
+					entity.setDepartment(dep);
+					entity.setDocLevel(level);
 					//formDoc.setDocVisiableRange(range);
-					formDoc.setDistrict(district);
-					formDoc.setCreateTime(new Date());
+					entity.setDistrict(district);
+					entity.setAuthor(author);
+					
+					// 设置附件
+					this.handleFileAttachments(entity, request);
+					if (!UtilCollection.isNotEmpty(entity.getAttachFiles()))
+					{
+						return ajaxPrint(response, getErrorCallback("上传文档不能为空，请添加文件!"));
+					}
+					else if (entity.getAttachFiles().size() > 1)
+					{
+						return ajaxPrint(response, getErrorCallback(
+								"一个文档只能上传一个附件，请重新上传!", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+					}
+					
+					ModelFileAttach file = null;
+					Iterator<ModelFileAttach> itor = entity.getAttachFiles().iterator();
+					while (itor.hasNext())
+					{
+						file = itor.next();
+						if (file != null)
+						{
+							break;
+						}
+					}
+					entity.setFile(file);
+					this.serviceDocManage.save(entity);
+					
+					/*
 					//在数据上传的FileUploadServlet中传过来的session值，用完销毁掉。
 					String fileIds=(String)request.getSession().getAttribute("fileIds");
 					if(fileIds==null)
@@ -553,16 +629,11 @@ extends BaseAdminAction
 							formDoc.setFile(file);
 						}
 					}
-					request.getSession().removeAttribute("fileIds");
-					entity=this.getServiceDocManage().get(formDoc.getId());
-					if(formDoc.equals(entity)){
-						return ajaxPrint(response, getErrorCallback("您没有做任何修改!"));
-					}
-					
-					entity=formDoc;
 					
 					this.serviceDocManage.merge(entity);
+					*/
 				}
+				
 				// 保存成功后, Dialog进行关闭
 				return ajaxPrint(response, 
 						getSuccessCallback("文档编辑成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
