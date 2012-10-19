@@ -52,7 +52,13 @@
 				// 文件域
 				name:"Filedata",
 				//用于放服务器端返回的url的隐藏域
-				urlsInputName:"fileUrls"
+				urlsInputName:"fileUrls",
+				//验证配置
+				authConfig: {
+					require:[true,"必须至少上传一个文件！"],
+					max:[1, "最多上传{max}个文件！"],
+					allowRepeat:[false, "该文件已经存在！"]
+				}
 				<c:if test="${formDoc ne null && fn:length(formDoc.attachFiles) gt 0}">
 				// 用于数据展现
 				,restoreHook:"#jp_J_UploaderRestore"
