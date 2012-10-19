@@ -42,7 +42,7 @@ $(function(){
 			} else if (type == "fina-contract") {
 				result='<a href="app/finan/contract.do?action=diaglogFinaContractPage&id='+id+'&op=view" target="dialog" width="1150" height="640" rel="dsk_approval_fctr_'+id+'">'+value+'</a>';
 			} else if (type == "hrm") {
-				result='<a href="app/personal/application_form.do?action=dialogApplicationFormPage&formId='+id+'&op=view" target="dialog" width="900" height="500" rel="dsk_approval_hrm_'+id+'">'+value+'</a>';
+				result='<a href="app/personal/application_form.do?action=dialogApplicationFormPage&formId='+id+'&op=view" target="dialog" width="1150" height="640" rel="dsk_approval_hrm_'+id+'">'+value+'</a>';
 			} else if (type == "job") {
 				result='<a href="app/hrm/hire.do?action=hrmPageJobDetail&id='+id+'&op=audit" target="dialog" width="960" height="420" rel="dsk_approval_job_'+id+'">'+value+'</a>';
 			} else if (type == "fina-project") {

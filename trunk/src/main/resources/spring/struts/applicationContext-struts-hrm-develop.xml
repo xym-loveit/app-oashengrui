@@ -9,6 +9,7 @@
 		<property name="serviceHrmEmployeeDevelop" ref="serviceHrmEmployeeDevelop" />
 		<property name="serviceHrmEmployeeRoadMap" ref="serviceHrmEmployeeRoadMap" />
 		<property name="serviceProcessType" ref="serviceProcessType" />
+		<property name="serviceHrmArchive" ref="serviceHrmArchive" />
 	</bean>
 	
 </beans>

@@ -20,6 +20,7 @@ import org.shengrui.oa.service.flow.ServiceProcessHistory;
 import org.shengrui.oa.service.flow.ServiceProcessTask;
 import org.shengrui.oa.service.flow.ServiceProcessType;
 import org.shengrui.oa.service.flow.ServiceWorkFlow;
+import org.shengrui.oa.service.hrm.ServiceHrmEmployee;
 import org.shengrui.oa.service.system.ServiceSchoolDepartment;
 import org.shengrui.oa.service.system.ServiceSchoolDepartmentPosition;
 import org.shengrui.oa.util.AppUtil;
@@ -29,6 +30,7 @@ import cn.trymore.core.bean.PairObject;
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.jstl.JstlTagString;
 import cn.trymore.core.util.UtilBean;
+import cn.trymore.core.util.UtilCollection;
 import cn.trymore.core.util.UtilString;
 
 public class ServiceWorkFlowImpl
@@ -73,6 +75,11 @@ implements ServiceWorkFlow
 	 * The school department position service
 	 */
 	private ServiceSchoolDepartmentPosition serviceSchoolDepartmentPosition;
+	
+	/**
+	 * The employee service
+	 */
+	private ServiceHrmEmployee serviceHrmEmployee;
 	
 	/*
 	 * (non-Javadoc)
@@ -467,6 +474,15 @@ implements ServiceWorkFlow
 			form.setApplyFormNo(formNo);
 			form.setSortCode(task.getSortCode());
 			
+			// double confirm whether employee existed in the destination department & position.
+			List<ModelHrmEmployee> employees = this.serviceHrmEmployee.getByDepartmentAndPosition(
+					form.getToDepartmentIds(), form.getToPositionIds());
+			if (!UtilCollection.isNotEmpty(employees))
+			{
+				// 节点无法触及, 直接忽略.
+				form.setAuditState(ModelProcessForm.EProcessFormStatus.IGNORED.getValue());
+			}
+			
 			// Sets the first task node status be approving. 
 			if (form.getAuditState() == null && isFistStep)
 			{
@@ -808,5 +824,15 @@ implements ServiceWorkFlow
 	public static Logger getLogger()
 	{
 		return LOGGER;
+	}
+
+	public ServiceHrmEmployee getServiceHrmEmployee()
+	{
+		return serviceHrmEmployee;
+	}
+
+	public void setServiceHrmEmployee(ServiceHrmEmployee serviceHrmEmployee)
+	{
+		this.serviceHrmEmployee = serviceHrmEmployee;
 	}
 }

@@ -14,8 +14,8 @@
 		var currentPanel = $(navTab.getCurrentPanel());
 		if ($("#_var_fdefid", currentPanel).size() > 0) {
 			var def_id = $("#_var_fdefid", currentPanel).val();
-			// $(navTab.getCurrentPanel())
-			$("#ajBoxFlowConf_${processDef.processType.id}").loadUrl("app/flow.do?action=actionLoadProcessTasks&procDefId=" + def_id, {}, function(){
+			var c_tab = $(navTab.getCurrentPanel());
+			c_tab.find("#ajBoxFlowConf_${processDef.processType.id}").loadUrl("app/flow.do?action=actionLoadProcessTasks&procDefId=" + def_id, {}, function(){
 				$.pdialog.closeCurrent();
 			});
 		}
@@ -49,8 +49,10 @@
 			<div style="border-bottom: 1px solid #eee; overflow: hidden; padding-bottom: 4px;">
 				<span style="float:left; line-height: 20px; margin-bottom: 5px;"><b>请选择节点类型：</b></span>
 				<select class="combox" name="processTaskType" id="proc_task_type">
-					<option value="1" ${taskType ne null && taskType eq 1 ? "selected='selected'" : ""}>本部门(账号所在校区)</option>
-					<option value="2" ${taskType ne null && taskType eq 2 ? "selected='selected'" : ""}>某部门(账号所在校区)</option>
+					<option value="1" ${taskType ne null && taskType eq 1 ? "selected='selected'" : ""}>本部门 (账号所在校区)</option>
+					<option value="2" ${taskType ne null && taskType eq 2 ? "selected='selected'" : ""}>某部门 (账号所在校区)</option>
+					<option value="6" ${taskType ne null && taskType eq 6 ? "selected='selected'" : ""}>本部门 (账号所在片区)</option>
+					<option value="7" ${taskType ne null && taskType eq 7 ? "selected='selected'" : ""}>某部门 (账号所在片区)</option>
 					<option value="3" ${taskType ne null && taskType eq 3 ? "selected='selected'" : ""}>总部对口部门</option>
 					<option value="4" ${taskType ne null && taskType eq 4 ? "selected='selected'" : ""}>总部某部门</option>
 					<c:if test="${(typeSlug eq 'hrm' && istran ne null) || (taskType ne null && taskType eq 5)}">

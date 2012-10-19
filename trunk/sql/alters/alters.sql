@@ -17,3 +17,8 @@ ALTER TABLE `app_admin_doc` CHANGE `doc_VisiableRange_id` `doc_VisiableRange_id`
 -- Added by Jeccy.Zhao on 2012-09-21
 --
 ALTER TABLE `app_function` CHANGE `menu_id` `menu_id` BIGINT( 20 ) NULL COMMENT '所属菜单'
+
+--
+-- Added by Jeccy.Zhao on 2012-10-19
+--
+ALTER TABLE `app_hrm_archive` CHANGE `job_id` `job_id` BIGINT( 20 ) NULL COMMENT '应聘岗位ID'

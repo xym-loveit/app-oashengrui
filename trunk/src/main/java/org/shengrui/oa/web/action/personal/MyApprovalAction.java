@@ -509,9 +509,9 @@ extends BaseAppAction
 		{
 			for (ModelHrmEmployeeDevelop entry : list.getItems()) 
 			{
-				sb.append("<tr alt='job'><td style=\"display: none;\">");
+				sb.append("<tr alt='hrm'><td style=\"display: none;\">");
 				sb.append(entry.getId()+"</td><td style='text-align:left'>");
-				sb.append(entry.getEmployee().getEmpName()+"岗位"+StrToString(entry.getApplyFormType().getId()));
+				sb.append(entry.getEmployee().getEmpName() + entry.getApplyFormType().getProcessTypeName());
 				sb.append("<td>"+entry.getEmployee().getEmpName()+"</td><td>");
 				sb.append(entry.getApplyDate()+"</td></tr>");
 			}
@@ -536,29 +536,6 @@ extends BaseAppAction
 			return sb.toString();
 		}
 		return "";
-	}
-	
-	private String StrToString(String status)
-	{
-		String statu="";
-		if("3"==status)
-		{
-			statu="转正申请";
-		}
-		else if("4"==status)
-		{
-			statu="调动申请";
-		}
-		else if("5"== status)
-		{
-			statu="晋升申请";
-		}
-		else if("6"== status)
-		{
-			statu="离职申请";
-		}
-		
-		return statu;
 	}
 	
 	public ServiceHrmJobHireInfo getServiceHrmJobHireInfo() {
