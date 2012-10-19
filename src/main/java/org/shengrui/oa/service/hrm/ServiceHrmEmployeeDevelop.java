@@ -41,13 +41,24 @@ extends ServiceGeneric<ModelHrmEmployeeDevelop>
 	 * 人力资源发展查分页数据
 	 * 
 	 * @param entity
+	 * @param pagingBean
+	 * @return
+	 * @throws ServiceException
+	 */
+	PaginationSupport<ModelHrmEmployeeDevelop> getEmployeeDevelopInfoPagination (ModelHrmEmployeeDevelop entity, 
+			PagingBean pagingBean, boolean filterCurrentProcessNodes) throws ServiceException;
+	
+	/**
+	 * 人力资源发展查分页数据
+	 * 
+	 * @param entity
 	 * @param empId
 	 * @param pagingBean
 	 * @return
 	 * @throws ServiceException
 	 */
 	PaginationSupport<ModelHrmEmployeeDevelop> getEmployeeDevelopInfoPagination (ModelHrmEmployeeDevelop entity, 
-			String empId, PagingBean pagingBean) throws ServiceException;
+			String empId, PagingBean pagingBean, boolean filterCurrentProcessNodes) throws ServiceException;
 
 	/**
 	 * 查询未审批过的人资申请

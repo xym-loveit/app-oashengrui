@@ -66,7 +66,7 @@ extends FlowBaseAction
 			PagingBean pagingBean = this.getPagingBean(request);
 			PaginationSupport<ModelHrmEmployeeDevelop> items =
 					this.serviceHrmEmployeeDevelop.getEmployeeDevelopInfoPagination(
-							null, ContextUtil.getCurrentUser().getEmployeeId(), pagingBean);
+							null, ContextUtil.getCurrentUser().getEmployeeId(), pagingBean, false);
 			
 			request.setAttribute("dataList", items);
 			
