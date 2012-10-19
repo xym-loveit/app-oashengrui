@@ -108,7 +108,7 @@
 				${startWorkTimeWeekendAM } - ${endWorkTimeWeekendAM }<br/>
 				周六~周日
 			</td>
-			 <td style="word-break: break-all; word-wrap:break-word; width:50px">${staffOnAM[1] }</td>
+			 <td style="word-break: break-all; word-wrap:break-word;">${staffOnAM[1] }</td>
 			<td style="word-wrap:break-word">${staffOnAM[2] }</td>
 			<td style="word-wrap:break-word">${staffOnAM[3] }</td>
 			<td style="word-wrap:break-word">${staffOnAM[4] }</td>
