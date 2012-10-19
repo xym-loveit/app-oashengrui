@@ -706,6 +706,17 @@ extends BaseHrmAction
 						
 						this.serviceHrmJobHireEntry.save(jobHireEntry);
 						
+						// 短消息通知入职负责人...
+						Map<String, Object> params = new HashMap<String, Object>();
+						params.put("entity", jobHireEntry);
+						
+						this.sendMessage("hrm.job.entryin", 
+								params, new Object[] {
+									jobHireEntry.getEntryCharger().getEmployee().getId()
+								}, 
+								ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+							);
+						
 						// 获取审批人, 用于数据推送.
 						Set<String> auditorIds = this.getUserIdsAgainstGrantedResource(
 							WebActionUtil.APPROVAL_HRM_ENTRY_ONBOARD, 
