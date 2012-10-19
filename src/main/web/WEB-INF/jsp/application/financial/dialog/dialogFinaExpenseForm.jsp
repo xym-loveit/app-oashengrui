@@ -109,7 +109,7 @@ ${tm:fileRestore(entity['attachFiles'])}
 			<div id="finaexp_print_wrapper">
 				<div style="padding: 5px 0px; border-bottom: 1px dotted #999; margin: 0 10px 15px 10px; overflow: auto; clear: both;">
 					<c:choose>
-						<c:when test="${op ne null && op eq 'view'}"><span style="float:left; color:#FF7300; line-height: 18px;">所选费用支出类型：<b>${entity.applyFormType.processTypeName}</b></span></c:when>
+						<c:when test="${op ne null && op eq 'view'}"><span style="float:left; color:#FF7300; line-height: 18px;">财务审批流程：<b>${entity.applyFormType.processTypeName}</b></span></c:when>
 						<c:otherwise>
 							<span style="float:left; color:#FF7300; line-height: 18px;">费用支出类型：</span>
 							<select class="combox required" name="applyFormTypeId" id="expense_type">
@@ -163,8 +163,8 @@ ${tm:fileRestore(entity['attachFiles'])}
 						<td colspan="3"><input id="cnRMB" readonly type="text" style="color: #999999;width: 80%" value="根据小写自动生成" />￥大写</td>
 						<td class='field'>付款方</td>
 						<td colspan="2">
-							<input type="radio" value="0" name="payer" ${entity ne null && entity.payer eq 0 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 本校区
-							<input type="radio" value="1" name="payer" ${entity ne null && entity.payer eq 1 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 总部
+							<input type="radio" class="required" error_message="请选择`付款方`" value="0" name="payer" ${entity ne null && entity.payer eq 0 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 本校区
+							<input type="radio" class="required" error_message="请选择`付款方`" value="1" name="payer" ${entity ne null && entity.payer eq 1 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 总部
 						</td>
 					</tr>
 					<tr>
@@ -172,7 +172,7 @@ ${tm:fileRestore(entity['attachFiles'])}
 						<td colspan="4"><input name="contractNo" type="text" style="width: 96%" value="${entity ne null ? entity.contractNo : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
 						<td class='field'>附件张数</td>
 						<td><input name="attachCount" type="text" class="number" style="width: 80%;" value="${entity ne null ? entity.attachCount : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
-						<td class='field'>是否已事前审批</td>
+						<td class='field'>是否事前审批</td>
 						<td colspan="2" style="padding-left: 3px;">
 							<input type="radio" value="1" name="auditAdvance" class="required" error_message="请选择`是否已事前审批`" ${entity ne null && entity.auditAdvance eq 1 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 是
 							<input type="radio" value="0" name="auditAdvance" class="required" error_message="请选择`是否已事前审批`" ${entity ne null && entity.auditAdvance eq 0 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 否
