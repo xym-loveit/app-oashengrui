@@ -3,6 +3,7 @@ package org.shengrui.oa.web.action.hrm;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -499,6 +500,21 @@ extends BaseHrmAction
 			{
 				if (auditorIds != null && auditorIds.size() > 0)
 				{
+					// 过滤非本校区
+					if (ModelHrmJobHireInfo.EJobHireStatus.TODO_ZONE.getValue().equals(entity.getStatus()))
+					{
+						Iterator<String> itor = auditorIds.iterator();
+						while (itor.hasNext())
+						{
+							String auditorId = itor.next();
+							ModelHrmEmployee employee = this.serviceHrmEmployee.get(auditorId);
+							if (employee != null && !employee.getEmployeeDistrict().getId().equals(entity.getJobHireDistrict().getId()))
+							{
+								itor.remove();
+							}
+						}
+					}
+					
 					String strIds = UtilString.join(auditorIds, ",");
 					if (UtilString.isNotEmpty(strIds))
 					{
