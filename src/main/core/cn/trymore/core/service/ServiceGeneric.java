@@ -108,6 +108,19 @@ public interface ServiceGeneric<T extends ModelBase>
 			final PagingBean pagingBean) throws ServiceException;
 	
 	/**
+	 * Obtains all entities with pagination
+	 * 
+	 * @param criteria
+	 *           query criteria
+	 * @param pagingBean
+	 *           paging bean object
+	 * @return pagination of entities
+	 * @throws ServiceException
+	 */
+	PaginationSupport<T> getAll(final DetachedCriteria criteria,
+			final PagingBean pagingBean, final boolean dataFilter) throws ServiceException;
+	
+	/**
 	 * Obtains entities with pagination by the specified native SQL 
 	 * 
 	 * @param nativeSql

@@ -247,7 +247,7 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 		
 		try 
 		{
-			return this.daoHrmEmployee.getListByCriteria(criteria);
+			return this.daoHrmEmployee.getListByCriteria(criteria, false);
 		} 
 		catch (DAOException e) 
 		{

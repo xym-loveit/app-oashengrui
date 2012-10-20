@@ -42,7 +42,7 @@ extends ServiceGenericImpl<ModelFinanContract> implements ServiceFinanContract
 			DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanContract.class);
 			criteria.add(Restrictions.eq("formNo", formNo));
 			
-			List<ModelFinanContract> result = this.daoFinanContract.getListByCriteria(criteria);
+			List<ModelFinanContract> result = this.daoFinanContract.getListByCriteria(criteria, false);
 			return result != null && result.size() > 0 ? result.get(0) : null;
 		}
 		catch (Exception e)
@@ -71,7 +71,7 @@ extends ServiceGenericImpl<ModelFinanContract> implements ServiceFinanContract
 	public PaginationSupport<ModelFinanContract> getFinanContractInfoPagination (ModelFinanContract entity, 
 			PagingBean pagingBean, boolean filterMyApprovals) throws ServiceException
 	{
-		return this.getAll(this.getCriterias(entity, filterMyApprovals), pagingBean);
+		return this.getAll(this.getCriterias(entity, filterMyApprovals), pagingBean, !filterMyApprovals);
 	}
 
 	/**
@@ -126,7 +126,11 @@ extends ServiceGenericImpl<ModelFinanContract> implements ServiceFinanContract
 			criteria.add(Restrictions.sqlRestriction(
 				"(audit_state IS NULL and cproc_depid = " + 
 					ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
-					ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"));
+					ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId() + " and " +
+					"(cproc_disid = " + 
+						ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getId() + "))"
+				)
+			);
 		}
 		
 		criteria.addOrder(Order.desc("applyDate"));

@@ -59,7 +59,7 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 	public PaginationSupport<ModelHrmEmployeeDevelop> getEmployeeDevelopInfoPagination (ModelHrmEmployeeDevelop entity, 
 			String empId, PagingBean pagingBean, boolean filterCurrentProcessNodes) throws ServiceException
 	{
-		return this.getAll(this.getCriterias(entity, empId, filterCurrentProcessNodes), pagingBean);
+		return this.getAll(this.getCriterias(entity, empId, filterCurrentProcessNodes), pagingBean, !filterCurrentProcessNodes);
 	}
 	
 	/*
@@ -75,7 +75,7 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 			DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployeeDevelop.class);
 			criteria.add(Restrictions.eq("formNo", formNo));
 			
-			List<ModelHrmEmployeeDevelop> result = this.daoHrmEmployeeDevelop.getListByCriteria(criteria);
+			List<ModelHrmEmployeeDevelop> result = this.daoHrmEmployeeDevelop.getListByCriteria(criteria, false);
 			return result != null && result.size() > 0 ? result.get(0) : null;
 		}
 		catch (Exception e)
@@ -166,7 +166,7 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 				"(audit_state IS NULL and cproc_depid = " + 
 					ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
 					ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId() + " and " +
-					"(to_district IS NULL OR to_district = " + 
+					"(cproc_disid = " + 
 						ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getId() + "))"
 				)
 			);

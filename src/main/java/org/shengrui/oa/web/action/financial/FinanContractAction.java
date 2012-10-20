@@ -309,6 +309,7 @@ extends BaseFinanAction
 				
 				contractInfo.setCurrentProcDepId(procForm.getToDepartmentIds());
 				contractInfo.setCurrentProcPosId(procForm.getToPositionIds());
+				contractInfo.setCurrentProcDistrictId(procForm.getToDistrictIds());
 			}
 			else
 			{

@@ -162,12 +162,14 @@ extends FlowBaseAction
 								// 审批结束, 审批退回/不通过/通过
 								entity.setCurrentProcDepId(null);
 								entity.setCurrentProcPosId(null);
+								entity.setCurrentProcDistrictId(null);
 							}
 							else
 							{
 								ModelProcessForm procForm = result.getRight();
 								entity.setCurrentProcDepId(procForm.getToDepartmentIds());
 								entity.setCurrentProcPosId(procForm.getToPositionIds());
+								entity.setCurrentProcDistrictId(procForm.getToDistrictIds());
 							}
 							
 							this.serviceFinanExpense.save(entity);
@@ -194,6 +196,7 @@ extends FlowBaseAction
 								ModelProcessForm procForm = result.getRight();
 								entity.setCurrentProcDepId(procForm.getToDepartmentIds());
 								entity.setCurrentProcPosId(procForm.getToPositionIds());
+								entity.setCurrentProcDistrictId(procForm.getToDistrictIds());
 							}
 							
 							this.serviceFinanContract.save(entity);
