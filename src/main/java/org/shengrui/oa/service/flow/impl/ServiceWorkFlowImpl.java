@@ -472,7 +472,20 @@ implements ServiceWorkFlow
 			form.setApplyFormNo(formNo);
 			form.setSortCode(task.getSortCode());
 			
-			// double confirm whether employee existed in the destination department & position.
+			// 总部账号对应的校区审批环节过滤
+			if (ModelProcessTask.EProcessTaskType.OWNER_DEPS_AGAINST.getValue().equals(task.getProcessTaskType()) || 
+					ModelProcessTask.EProcessTaskType.OWNER_DEPS_SINGLE.getValue().equals(task.getProcessTaskType()) ||
+					ModelProcessTask.EProcessTaskType.SLOT_DEPS_AGAINST.getValue().equals(task.getProcessTaskType()) || 
+					ModelProcessTask.EProcessTaskType.SLOT_DEPS_SINGLE.getValue().equals(task.getProcessTaskType()))
+			{
+				if (employee.getEmployeeDistrict().getDistrictType().equals(AppUtil.EAppSchoolType.HEADQUARTERS.getValue()))
+				{
+					// 节点无法触及, 直接忽略.
+					form.setAuditState(ModelProcessForm.EProcessFormStatus.IGNORED.getValue());
+				}
+			}
+			
+			// 过滤无任何员工的部门/岗位
 			List<ModelHrmEmployee> employees = this.serviceHrmEmployee.getByDepartmentAndPosition(
 					form.getToDepartmentIds(), form.getToPositionIds());
 			if (!UtilCollection.isNotEmpty(employees))
