@@ -443,6 +443,9 @@ extends BaseHrmAction
 				// 新建
 				entity = formJobHireInfo;
 				entity.setEntryTime(new Date());
+				entity.setPostDate(new Date());
+				entity.setPostAuthorName(ContextUtil.getCurrentUser().getFullName());
+				entity.setEntryId(Integer.valueOf(ContextUtil.getCurrentUser().getEmployee().getId()));
 			}
 			
 			String districtId = request.getParameter("jobHireDistrictId");
@@ -468,13 +471,6 @@ extends BaseHrmAction
 			
 			// 设置审批状态
 			this.applyApprovalStatus(entity, isCreation, request);
-			
-			entity.setPostDate(new Date());
-			if (ContextUtil.getCurrentUser() != null)
-			{
-				entity.setPostAuthorName(ContextUtil.getCurrentUser().getFullName());
-				entity.setEntryId(Integer.valueOf(ContextUtil.getCurrentUser().getEmployee().getId()));
-			}
 			
 			// 设置岗位附件
 			this.handleFileAttachments(entity, request);
