@@ -230,6 +230,11 @@ public final class WebActionUtil
 	public static final String MENU_KEY_MY_TASK = "_menu_mod_personal_mytask";
 	
 	/**
+	 * 菜单项 - 我的会议
+	 */
+	public static final String MENU_KEY_MY_CONFERENCE = "_menu_mod_personal_conference";
+	
+	/**
 	 * 消息更新Script
 	 */
 	public static final String scriptMessageNotify = "messageNotify";

@@ -23,6 +23,7 @@ import org.shengrui.oa.service.admin.ServiceConferenceInfo;
 import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.util.UtilDateTime;
+import org.shengrui.oa.util.WebActionUtil;
 import org.shengrui.oa.web.action.BaseAppAction;
 
 import cn.trymore.core.exception.ServiceException;
@@ -561,6 +562,14 @@ extends BaseAppAction
 							ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
 						);
 				
+				// 推送消息至客户端, 更新数字提醒...
+				this.messagePush.pushMessage(
+					entity.getSponsor().getEmployeeId(), 
+					WebActionUtil.scriptMessageNotify, 
+					WebActionUtil.MENU_KEY_MY_CONFERENCE,
+					-1
+				);
+					
 				return ajaxPrint(
 		                  response,
 		                  getSuccessCallback("会议取消成功.", CALLBACK_TYPE_CLOSE,
@@ -596,6 +605,14 @@ extends BaseAppAction
 						}, 
 						ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
 					);
+				
+				// 推送消息至客户端, 更新数字提醒...
+				this.messagePush.pushMessage(
+					entity.getSponsor().getEmployeeId(), 
+					WebActionUtil.scriptMessageNotify, 
+					WebActionUtil.MENU_KEY_MY_CONFERENCE,
+					1
+				);
 				
 				return ajaxPrint(
 		                  response,
@@ -655,6 +672,14 @@ extends BaseAppAction
 						}, 
 						ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
 					);
+				
+				// 推送消息至客户端, 更新数字提醒...
+				this.messagePush.pushMessage(
+					entity.getSponsor().getEmployeeId(), 
+					WebActionUtil.scriptMessageNotify, 
+					WebActionUtil.MENU_KEY_MY_CONFERENCE,
+					-1
+				);
 				
 				return ajaxPrint(response, 
 						getSuccessCallback("会议总结提交成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
