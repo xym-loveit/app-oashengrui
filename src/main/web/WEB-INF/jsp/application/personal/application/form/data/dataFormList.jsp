@@ -10,6 +10,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
 <%@ taglib uri="/tags/trymore" prefix="tm"%>
 
+<style>
+	td.auditstate2 {color: #09A303;}
+	td.auditstate3 {color: #DA251C;}
+	td.auditstate4 {color: #08223B}
+</style>
+
 <table class="table" width="100%" layoutH="75">
 	<thead>
 		<tr>
@@ -48,14 +54,14 @@
 											<c:when test="${entity.currentProcessForm.taskType eq 3 || entity.currentProcessForm.taskType eq 4}">(总部)</c:when>
 											<c:when test="${entity.currentProcessForm.taskType eq 5}">(调动/晋升校区)</c:when>
 											<c:otherwise>未知</c:otherwise>
-										</c:choose>
+										</c:choose>                                 
 									</c:when>
 									<c:otherwise>---</c:otherwise>
-								</c:choose>
+								</c:choose>                                            
 							</c:otherwise>
 						</c:choose>
 					</td>
-					<td>
+					<td class="auditstate${entity.latestAuditState ne null ? entity.latestAuditState : 0}">
 						<c:choose>
 							<c:when test="${entity.latestAuditState eq 2}">审批通过</c:when>
 							<c:when test="${entity.latestAuditState eq 3}">审批不通过</c:when>
