@@ -25,6 +25,7 @@ import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.service.base.ServiceBase;
 import org.shengrui.oa.service.hrm.ServiceHrmJobHireIssue;
 import org.shengrui.oa.util.ContextUtil;
+import org.shengrui.oa.util.UtilDateTime;
 import org.shengrui.oa.util.WebActionUtil;
 import org.shengrui.oa.web.action.BaseAppAction;
 
@@ -372,6 +373,34 @@ extends BaseAppAction
 		catch (ResourceNotGrantedException e)
 		{
 			affectedItems.put(WebActionUtil.MENU_ITEM_HRM_ENTRY.getKey(), 0);
+		}
+		
+		// 获取`我的任务`(任务状态为-进行中)的数量.
+		try
+		{
+			StringBuilder builder = new StringBuilder();
+			builder.append(" approval_status = " + ModelTaskPlan.ETaskApprovalStatus.APPROVED.getValue());
+			builder.append(" AND ");
+			builder.append(" (task_status IS NULL OR ");
+			builder.append(" task_status != " + ModelTaskPlan.ETaskStatus.DONE.getValue() + ")");
+			builder.append(" AND ");
+			builder.append(" task_planStartDate <= '" + UtilDateTime.nowDateString() + "'");
+			builder.append(" AND ");
+			builder.append(" task_planEndDate >= '" + UtilDateTime.nowDateString() + "'");
+			builder.append(" AND ");
+			builder.append(" (task_charger = " + ContextUtil.getCurrentUser().getEmployeeId());
+			builder.append(" OR ");
+			builder.append(" FIND_IN_SET(" + ContextUtil.getCurrentUser().getEmployeeId() + ", `task_participant_ids`) > 0)");
+			
+			affectedItems.put(WebActionUtil.MENU_KEY_MY_TASK, 
+				this.serviceBase.getAffectedNumByQuery(ModelTaskPlan.class, 
+					builder.toString()
+				)
+			);
+		} 
+		catch (Exception e)
+		{
+			affectedItems.put(WebActionUtil.MENU_ITEM_INTERVIEW_COMMIT.getKey(), 0);
 		}
 		
 		// 获取`我做伯乐`(需输入面试意见)的数量.
