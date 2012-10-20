@@ -474,7 +474,11 @@ extends FlowBaseAction
 					}
 				
 					ModelHrmEmployeeDevelop entity = this.serviceHrmEmployeeDevelop.getByFormNo(formNo);
-					if (entity.getApplyForm() == null || entity.getApplyForm().size() == 0)
+					if (entity == null)
+					{
+						return ajaxPrint(response, getErrorCallback("审批单不存在..."));
+					}
+					else if (entity.getApplyForm() == null || entity.getApplyForm().size() == 0)
 					{
 						entity.setAuditState(Integer.parseInt(procFormState));
 					}
@@ -517,8 +521,8 @@ extends FlowBaseAction
 						}
 						else
 						{
-							List<ModelHrmEmployee> employees = this.serviceHrmEmployee.getByDepartmentAndPosition(
-									result.getRight().getToDepartmentIds(), result.getRight().getToPositionIds());
+							List<ModelHrmEmployee> employees = this.serviceHrmEmployee.getByOrganization(
+									result.getRight().getToDistrictIds(), result.getRight().getToDepartmentIds(), result.getRight().getToPositionIds());
 							
 							StringBuilder builder = new StringBuilder();
 							for (int i = 0, size = employees.size(); i <  size; i++)

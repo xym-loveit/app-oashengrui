@@ -106,9 +106,14 @@ extends ModelBase
 	protected String currentProcDepId;
 	
 	/**
-	 * 当前审批校区ID, 主要用于待办审批提醒.
+	 * 当前审批岗位ID, 主要用于待办审批提醒.
 	 */
 	protected String currentProcPosId;
+	
+	/**
+	 * 当前审批校区ID, 主要用于待办审批提醒.
+	 */
+	protected String currentProcDistrictId;
 	
 	/**
 	 * 最终审批结果 (仅用于前端页面显示...)
@@ -387,4 +392,15 @@ extends ModelBase
 	{
 		this.currentProcPosId = currentProcPosId;
 	}
+	
+	public String getCurrentProcDistrictId()
+	{
+		return currentProcDistrictId;
+	}
+
+	public void setCurrentProcDistrictId(String currentProcDistrictId)
+	{
+		this.currentProcDistrictId = currentProcDistrictId;
+	}
+
 }

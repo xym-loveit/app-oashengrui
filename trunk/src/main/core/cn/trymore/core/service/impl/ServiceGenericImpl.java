@@ -173,9 +173,20 @@ implements ServiceGeneric<T>
 	public PaginationSupport<T> getAll(final DetachedCriteria criteria, 
 			final PagingBean pagingBean) throws ServiceException
 	{
+		return getAll(criteria, pagingBean, false);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see cn.trymore.core.service.ServiceGeneric#getAll(org.hibernate.criterion.DetachedCriteria, cn.trymore.core.web.paging.PagingBean, boolean)
+	 */
+	@Override
+	public PaginationSupport<T> getAll(final DetachedCriteria criteria,
+			final PagingBean pagingBean, final boolean dataFilter) throws ServiceException
+	{
 		try
 		{
-			return dao.findPageByCriteria(criteria, pagingBean);
+			return dao.findPageByCriteria(criteria, pagingBean, dataFilter);
 		}
 		catch (Exception e)
 		{

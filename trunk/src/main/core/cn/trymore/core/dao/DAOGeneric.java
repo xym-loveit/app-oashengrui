@@ -197,6 +197,17 @@ public interface DAOGeneric<T extends ModelBase>
 	 * 
 	 * @param criteria 
 	 *          the query criteria,including condition and the orders
+	 * @param dataFilter
+	 * @return list of objects
+	 */
+	List<T> getListByCriteria(final DetachedCriteria criteria, final boolean dataFilter)
+			throws DAOException;
+	
+	/**
+	 * Get object list by query criteria
+	 * 
+	 * @param criteria 
+	 *          the query criteria,including condition and the orders
 	 * @param firstResult
 	 *          the first index
 	 * @param maxResult
@@ -205,6 +216,21 @@ public interface DAOGeneric<T extends ModelBase>
 	 */
 	List<T> getListByCriteria(final DetachedCriteria criteria,
 			int firstResult,int maxResult) throws DAOException;
+	
+	/**
+	 * Get object list by query criteria
+	 * 
+	 * @param criteria 
+	 *          the query criteria,including condition and the orders
+	 * @param firstResult
+	 *          the first index
+	 * @param maxResult
+	 *          the end index
+	 * @param dataFilter
+	 * @return list of objects
+	 */
+	List<T> getListByCriteria(final DetachedCriteria criteria,
+			int firstResult,int maxResult, final boolean dataFilter) throws DAOException;
 	
 	/**
 	 * Obtains an unique object from database
@@ -235,6 +261,19 @@ public interface DAOGeneric<T extends ModelBase>
 	/**
 	 * Find object by pagination support
 	 * 
+	 * @param criteria
+	 *                  the query criteria,including condition and the orders
+	 * @param pagingBean
+	 *                  the paging bean
+	 * @return list of objects wrapped by pager
+	 * @throws DAOException
+	 */
+	PaginationSupport<T> findPageByCriteria(final DetachedCriteria criteria, 
+				final PagingBean pagingBean, final boolean dataFilter) throws DAOException;
+	
+	/**
+	 * Find object by pagination support
+	 * 
 	 * @param criteria 
 	 *           the query criteria,including condition and the orders
 	 * @param pageSize 
@@ -245,6 +284,20 @@ public interface DAOGeneric<T extends ModelBase>
 	 */
 	PaginationSupport<T> findPageByCriteria(final DetachedCriteria criteria,
 			int pageSize,int startIndex) throws DAOException;
+	
+	/**
+	 * Find object by pagination support
+	 * 
+	 * @param criteria 
+	 *           the query criteria,including condition and the orders
+	 * @param pageSize 
+	 *           the size of page to show
+	 * @param startIndex 
+	 *           the start index to search
+	 * @return list of objects wrapped by pager
+	 */
+	PaginationSupport<T> findPageByCriteria(final DetachedCriteria criteria,
+			int pageSize,int startIndex, final boolean dataFilter) throws DAOException;
 	
 	/**
 	 * 

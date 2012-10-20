@@ -261,9 +261,10 @@ extends BaseAppAction
 							"(audit_state IS NULL and cproc_depid = " + 
 								ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
 								ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId() + " and " +
-								"(to_district IS NULL OR to_district = " + 
+								"(cproc_disid = " + 
 									ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getId() + "))"
-						}
+						},
+						false
 					)
 				)
 			);
@@ -284,9 +285,12 @@ extends BaseAppAction
 						ModelFinanExpense.class, 
 						new String[] {
 							"(audit_state IS NULL and cproc_depid = " + 
-									ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
-									ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"
-						}
+								ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
+								ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId() + " and " +
+								"(cproc_disid = " + 
+									ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getId() + "))"
+						},
+						false
 					)
 				)
 			);
@@ -307,9 +311,12 @@ extends BaseAppAction
 						ModelFinanContract.class, 
 						new String[] {
 							"(audit_state IS NULL and cproc_depid = " + 
-									ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
-									ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"
-						}
+								ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
+								ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId() + " and " +
+								"(cproc_disid = " + 
+									ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getId() + "))"
+						},
+						false
 					)
 				)
 			);
@@ -330,9 +337,12 @@ extends BaseAppAction
 						ModelFinanProject.class, 
 						new String[] {
 							"(audit_state IS NULL and cproc_depid = " + 
-									ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
-									ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"
-						}
+								ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
+								ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId() + " and " +
+								"(cproc_disid = " + 
+									ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getId() + "))"
+						},
+						false
 					)
 				)
 			);

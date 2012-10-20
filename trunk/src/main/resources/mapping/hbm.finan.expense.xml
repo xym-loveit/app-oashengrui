@@ -70,6 +70,9 @@
             <column name="entry_datetime" />
         </property>
         
+        <property name="currentProcDistrictId" type="java.lang.String">
+        	<column name="cproc_disid" />
+        </property>
         <property name="currentProcDepId" type="java.lang.String">
             <column name="cproc_depid" />
         </property>

@@ -277,11 +277,20 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 	 * (non-Javadoc)
 	 * @see org.mali.dao.common.BaseDAO#getListByCriteria(org.hibernate.criterion.DetachedCriteria)
 	 */
+	public List<T> getListByCriteria(final DetachedCriteria criteria) throws DAOException
+	{
+		return getListByCriteria(criteria, true);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see cn.trymore.core.dao.DAOGeneric#getListByCriteria(org.hibernate.criterion.DetachedCriteria, boolean)
+	 */
 	@SuppressWarnings("unchecked")
-	public List<T> getListByCriteria(final DetachedCriteria criteria)
+	public List<T> getListByCriteria(final DetachedCriteria criteria, final boolean dataFilter)
 			throws DAOException
 	{
-		if (UtilString.isNotEmpty(this.getQueryFilter()))
+		if (dataFilter && UtilString.isNotEmpty(this.getQueryFilter()))
 		{
 			criteria.add(Restrictions.sqlRestriction(this.getQueryFilter()));
 			this.setQueryFilter(null);
@@ -293,11 +302,21 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 	 * (non-Javadoc)
 	 * @see org.mali.dao.common.BaseDAO#getListByCriteria(org.hibernate.criterion.DetachedCriteria, int, int)
 	 */
-	@SuppressWarnings("unchecked")
 	public List<T> getListByCriteria(final DetachedCriteria criteria,
 			int firstResult,int maxResults) throws DAOException
 	{
-		if (UtilString.isNotEmpty(this.getQueryFilter()))
+		return getListByCriteria(criteria, firstResult, maxResults, true);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.mali.dao.common.BaseDAO#getListByCriteria(org.hibernate.criterion.DetachedCriteria, int, int)
+	 */
+	@SuppressWarnings("unchecked")
+	public List<T> getListByCriteria(final DetachedCriteria criteria,
+			int firstResult,int maxResults, final boolean dataFilter) throws DAOException
+	{
+		if (dataFilter && UtilString.isNotEmpty(this.getQueryFilter()))
 		{
 			criteria.add(Restrictions.sqlRestriction(this.getQueryFilter()));
 			this.setQueryFilter(null);
@@ -309,21 +328,43 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 	 * (non-Javadoc)
 	 * @see org.mali.dao.common.BaseDAO#findPageByCriteria(org.hibernate.criterion.DetachedCriteria, int, int)
 	 */
+	@Override
 	public PaginationSupport<T> findPageByCriteria(final DetachedCriteria criteria, 
 			final PagingBean pagingBean) throws DAOException
 	{
-		return this.findPageByCriteria(criteria, pagingBean.getPageSize(), pagingBean.getStartIndex());
+		return this.findPageByCriteria(criteria, pagingBean, true);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see cn.trymore.core.dao.DAOGeneric#findPageByCriteria(org.hibernate.criterion.DetachedCriteria, cn.trymore.core.web.paging.PagingBean, boolean)
+	 */
+	@Override
+	public PaginationSupport<T> findPageByCriteria(final DetachedCriteria criteria, 
+			final PagingBean pagingBean, final boolean dataFilter) throws DAOException
+	{
+		return this.findPageByCriteria(criteria, pagingBean.getPageSize(), pagingBean.getStartIndex(), dataFilter);
 	}
 	
 	/*
 	 * (non-Javadoc)
 	 * @see org.mali.dao.common.BaseDAO#findPageByCriteria(org.hibernate.criterion.DetachedCriteria, int, int)
 	 */
-	@SuppressWarnings("unchecked")
 	public PaginationSupport<T> findPageByCriteria(final DetachedCriteria criteria, 
 			final int pageSize, final int startIndex) throws DAOException
 	{
-		if (UtilString.isNotEmpty(this.getQueryFilter()))
+		return findPageByCriteria(criteria, pageSize, startIndex, true);
+	}
+			
+	/*
+	 * (non-Javadoc)
+	 * @see cn.trymore.core.dao.DAOGeneric#findPageByCriteria(org.hibernate.criterion.DetachedCriteria, int, int, boolean)
+	 */
+	@SuppressWarnings("unchecked")
+	public PaginationSupport<T> findPageByCriteria(final DetachedCriteria criteria, 
+			final int pageSize, final int startIndex, final boolean dataFilter) throws DAOException		
+	{
+		if (dataFilter && UtilString.isNotEmpty(this.getQueryFilter()))
 		{
 			criteria.add(Restrictions.sqlRestriction(this.getQueryFilter()));
 			this.setQueryFilter(null);

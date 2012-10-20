@@ -958,8 +958,27 @@ extends BaseAction
 			final String URI, final Class entityClass, 
 			final String[] conditions) throws ResourceNotGrantedException
 	{
+		return this.getModelDataPolicyQuery(funcKey, URI, entityClass, conditions, true);
+	}
+	
+
+	/**
+	 * Obtains the model query condition.
+	 * 
+	 * @param funcKey
+	 * @param URI
+	 * @param entityClass
+	 * @param fieldNames
+	 * @param fieldValues
+	 * @return
+	 */
+	@SuppressWarnings("rawtypes")
+	protected String getModelDataPolicyQuery(final String funcKey, 
+			final String URI, final Class entityClass, 
+			final String[] conditions, final boolean queryFilter) throws ResourceNotGrantedException
+	{
 		return this.getModelDataPolicyQuery(ContextUtil.getCurrentUser(), 
-				funcKey, URI, entityClass, conditions, null);
+				funcKey, URI, entityClass, conditions, null, queryFilter);
 	}
 	
 	/**
@@ -976,10 +995,10 @@ extends BaseAction
 	@SuppressWarnings("rawtypes")
 	protected String getModelDataPolicyQuery(final String funcKey, 
 			final String URI, final Class entityClass, final String[] conditions, 
-			final String tableAlias) throws ResourceNotGrantedException
+			final String tableAlias, final boolean queryFilter) throws ResourceNotGrantedException
 	{
 		return this.getModelDataPolicyQuery(ContextUtil.getCurrentUser(), 
-				funcKey, URI, entityClass, conditions, tableAlias);
+				funcKey, URI, entityClass, conditions, tableAlias, queryFilter);
 	}
 	
 	/**
@@ -996,7 +1015,7 @@ extends BaseAction
 	@SuppressWarnings("rawtypes")
 	protected String getModelDataPolicyQuery(final ModelAppUser user, 
 			final String funcKey, final String URI, final Class entityClass, 
-			final String[] conditions, final String tableAlias) throws ResourceNotGrantedException
+			final String[] conditions, final String tableAlias, final boolean queryFilter) throws ResourceNotGrantedException
 	{
 		boolean isGranted = true;
 		
@@ -1048,10 +1067,13 @@ extends BaseAction
 			
 			if (dataPolicyQuery.isGrantedDataPolicy(URI, user))
 			{
-				String query = dataPolicyQuery.buildPolicyQuery(entityClass, URI, user, tableAlias);
-				if (UtilString.isNotEmpty(query))
+				if (queryFilter)
 				{
-					builder.append(query);
+					String query = dataPolicyQuery.buildPolicyQuery(entityClass, URI, user, tableAlias);
+					if (UtilString.isNotEmpty(query))
+					{
+						builder.append(query);
+					}
 				}
 			}
 			

@@ -53,7 +53,7 @@ extends ServiceGenericImpl<ModelFinanExpense> implements ServiceFinanExpense
 			ModelFinanExpense entity, PagingBean pagingBean,
 			boolean filterMyApprovals) throws ServiceException
 	{
-		return this.getAll(this.getCriterias(entity, filterMyApprovals), pagingBean);
+		return this.getAll(this.getCriterias(entity, filterMyApprovals), pagingBean, !filterMyApprovals);
 	}
 	
 	/*
@@ -68,7 +68,7 @@ extends ServiceGenericImpl<ModelFinanExpense> implements ServiceFinanExpense
 			DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanExpense.class);
 			criteria.add(Restrictions.eq("formNo", formNo));
 			
-			List<ModelFinanExpense> result = this.daoFinanExpense.getListByCriteria(criteria);
+			List<ModelFinanExpense> result = this.daoFinanExpense.getListByCriteria(criteria, false);
 			return result != null && result.size() > 0 ? result.get(0) : null;
 		}
 		catch (Exception e)
@@ -134,9 +134,13 @@ extends ServiceGenericImpl<ModelFinanExpense> implements ServiceFinanExpense
 		if (filterMyApprovals)
 		{
 			criteria.add(Restrictions.sqlRestriction(
-				"(audit_state IS NULL and cproc_depid = " + 
-					ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
-					ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"));
+					"(audit_state IS NULL and cproc_depid = " + 
+						ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
+						ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId() + " and " +
+						"(cproc_disid = " + 
+							ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getId() + "))"
+					)
+				);
 		}
 		
 		criteria.addOrder(Order.desc("applyDate"));

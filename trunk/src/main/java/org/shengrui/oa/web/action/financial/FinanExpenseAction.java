@@ -314,6 +314,7 @@ extends BaseFinanAction
 				
 				expenseInfo.setCurrentProcDepId(procForm.getToDepartmentIds());
 				expenseInfo.setCurrentProcPosId(procForm.getToPositionIds());
+				expenseInfo.setCurrentProcDistrictId(procForm.getToDistrictIds());
 			}
 			else
 			{
