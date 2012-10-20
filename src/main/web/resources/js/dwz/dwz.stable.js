@@ -5,12 +5,20 @@
 (function($){
 	$.fn.jTable = function(options){
 		return this.each(function(){
+			
 		 	var $table = $(this), nowrapTD = $table.attr("nowrapTD");
-		 	var tlength = $table.width();
+		 	
+			// added by Jeccy.Zhao on 20/10/2012
+			var beforeRender = $(this).attr("beforeRender");
+			if (beforeRender) {
+				eval(beforeRender);
+			}
+			
+			var tlength = $table.width();
 			var aStyles = [];
 			var $tc = $table.parent().addClass("j-resizeGrid"); // table parent container
 			var layoutH = $(this).attr("layoutH");
-
+			
 			var oldThs = $table.find("thead>tr:last-child").find("th");
 
 			for(var i = 0, l = oldThs.size(); i < l; i++) {
@@ -44,6 +52,8 @@
 
 			var tbody = $grid.find(">tbody");
 			var layoutStr = layoutH ? " layoutH='" + layoutH + "'" : "";
+			
+			//var tid = $(this).attr("id") || "";
 			
 			tbody.wrap("<div class='gridScroller'" + layoutStr + " style='width:" + $tc.width() + "px;'><div class='gridTbody'><table style='width:" + (tlength - 20) + "px;'></table></div></div>");
 			var ftr = $(">tr:first-child", tbody);
@@ -155,6 +165,7 @@
 				});
 			}
 			$(window).unbind("resizeGrid").bind("resizeGrid", _resizeGrid);
+			
 		});
 	};
 	

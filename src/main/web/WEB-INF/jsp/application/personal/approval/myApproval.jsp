@@ -8,6 +8,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
 
+<script src="resources/js/jquery/jtablesorter/jquery.tablesorter.min.js" type="text/javascript"></script>
+<script>	
+	function table_sort() {
+		$("#tbl_approvals").tablesorter({ 
+			// set forced sort on the fourth column and i decending order. 
+			sortList: [[3,1]] 
+		}); 
+	}
+</script>
+
 <form id="pagerForm" method="post" action="app/personal/approval.do?action=pageMyApproval">
 	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
 	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
@@ -19,7 +29,7 @@
 			<li><a treeicon="icon-edit" class="icon" href="app/personal/approval.do?action=pageMyApprovalRecord" target="navTab" rel="admin_entrycheck"><span class="icon-edit">审批记录</span></a></li>
 		</ul>
 	</div>
-	<table class="table" width="100%" layoutH="75">
+	<table class="table" width="100%" layoutH="75" id="tbl_approvals" beforeRender="table_sort();">
 		<thead>
 			<tr>
 				<th align="center">审批类型</th>
@@ -214,3 +224,9 @@
 
 		</div>
 </div>
+
+<script>
+	$(function(){
+		
+	});
+</script>
