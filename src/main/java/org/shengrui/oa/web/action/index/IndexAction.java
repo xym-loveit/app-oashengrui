@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.shengrui.oa.model.admin.ModelConference;
 import org.shengrui.oa.model.admin.ModelTaskPlan;
 import org.shengrui.oa.model.finan.ModelFinanContract;
 import org.shengrui.oa.model.finan.ModelFinanExpense;
@@ -375,6 +376,25 @@ extends BaseAppAction
 			affectedItems.put(WebActionUtil.MENU_ITEM_HRM_ENTRY.getKey(), 0);
 		}
 		
+		// 获取`我的会议`(会议状态为-已发起)的数量.
+		try
+		{
+			StringBuilder builder = new StringBuilder();
+			builder.append(" status = " + ModelConference.ConferenceStatus.START.getText());
+			builder.append(" AND ");
+			builder.append(" sponsor = " + ContextUtil.getCurrentUserId());
+			
+			affectedItems.put(WebActionUtil.MENU_KEY_MY_CONFERENCE, 
+				this.serviceBase.getAffectedNumByQuery(ModelConference.class, 
+					builder.toString()
+				)
+			);
+		} 
+		catch (Exception e)
+		{
+			affectedItems.put(WebActionUtil.MENU_KEY_MY_CONFERENCE, 0);
+		}
+		
 		// 获取`我的任务`(任务状态为-进行中)的数量.
 		try
 		{
@@ -400,7 +420,7 @@ extends BaseAppAction
 		} 
 		catch (Exception e)
 		{
-			affectedItems.put(WebActionUtil.MENU_ITEM_INTERVIEW_COMMIT.getKey(), 0);
+			affectedItems.put(WebActionUtil.MENU_KEY_MY_TASK, 0);
 		}
 		
 		// 获取`我做伯乐`(需输入面试意见)的数量.
