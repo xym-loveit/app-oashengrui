@@ -8,7 +8,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
 
-<script src="resources/js/jquery/jtablesorter/jquery.tablesorter.min.js" type="text/javascript"></script>
 <script>	
 	function table_sort() {
 		$("#tbl_approvals").tablesorter({ 

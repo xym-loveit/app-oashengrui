@@ -90,7 +90,9 @@
 	<script src="resources/js/jquery/jmainfest/jquery.ui.widget.min.js" type="text/javascript"></script>
 	<script src="resources/js/jquery/jmainfest/jquery.marcopolo.js" type="text/javascript"></script>
 	<script src="resources/js/jquery/jmainfest/jquery.manifest.js" type="text/javascript"></script>
-
+	
+	<script src="resources/js/jquery/jtablesorter/jquery.tablesorter.min.js" type="text/javascript"></script>
+	
 	<script src="resources/js/kindeditor/kindeditor.js" type="text/javascript"></script>
 	<script src="resources/js/kindeditor/lang/zh_CN.js" type="text/javascript"></script>
 	

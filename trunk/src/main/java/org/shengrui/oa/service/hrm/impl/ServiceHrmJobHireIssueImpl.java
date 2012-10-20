@@ -41,6 +41,9 @@ extends ServiceGenericImpl<ModelHrmJobHireIssue> implements ServiceHrmJobHireIss
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmJobHireIssue.class);
 		criteria.createCriteria("jobHire").add(Restrictions.eq("id", jobId));
+		
+		criteria.addOrder(Order.asc("currentStatus")).addOrder(Order.asc("finalResult"));
+		
 		return this.getAll(criteria, pagingBean);
 	}
 	

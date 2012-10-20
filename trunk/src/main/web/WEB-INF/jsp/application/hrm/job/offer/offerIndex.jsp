@@ -25,6 +25,9 @@
 	function reload_offerdata() {
 		navTab.reload();
 	}
+	
+	function table_sorter() {
+	}
 </script>
 
 <form id="pagerForm" method="post" action="app/hrm/hire.do?action=hrmJobIndex">
@@ -62,7 +65,7 @@
 			</ul>
 			-->
 		</div>
-		<table class="table" width="100%" layoutH="175">
+		<table class="table" width="100%" layoutH="175" id="tbl_offers" beforeRender="table_sorter();">
 			<thead>
 				<tr>
 					<th align="center">选择</th>
