@@ -33,42 +33,34 @@
 					<td>${entity.employee.empName}</td>
 					<td><fmt:formatDate  value="${entity.applyDate}" pattern="yyyy-MM-dd" /></td>
 					<c:choose>
-						<c:when test="${entity.applyForm eq null || fn:length(entity.applyForm) == 0 || entity.finalState eq 4}"><td style="background-color: #ddd">审批结束</td></c:when>
+						<c:when test="${entity.finalState eq 2 || entity.finalState eq 3}"><td style="background-color: #ddd">审批结束</td></c:when>
 						<c:otherwise><td style="background-color: #FFBD5A">审批中</td></c:otherwise>
 					</c:choose>
 					<td>
 						<c:choose>
 							<c:when test="${entity.applyForm eq null || fn:length(entity.applyForm) == 0}">---</c:when>
 							<c:otherwise>
-								<c:if test="${entity.currentProcessForm ne null}">
-									${entity.currentProcessForm.toDepartmentNames}-${entity.currentProcessForm.toPositionNames}
-									<c:choose>
-										<c:when test="${entity.currentProcessForm.taskType eq 1 || entity.currentProcessForm.taskType eq 2}">(校区)</c:when>
-										<c:when test="${entity.currentProcessForm.taskType eq 3 || entity.currentProcessForm.taskType eq 4}">(总部)</c:when>
-										<c:when test="${entity.currentProcessForm.taskType eq 5}">(调动/晋升校区)</c:when>
-										<c:otherwise>未知</c:otherwise>
-									</c:choose>
-								</c:if>
+								<c:choose>
+									<c:when test="${entity.currentProcessForm ne null}">
+										${entity.currentProcessForm.toDepartmentNames}-${entity.currentProcessForm.toPositionNames}
+										<c:choose>
+											<c:when test="${entity.currentProcessForm.taskType eq 1 || entity.currentProcessForm.taskType eq 2}">(校区)</c:when>
+											<c:when test="${entity.currentProcessForm.taskType eq 3 || entity.currentProcessForm.taskType eq 4}">(总部)</c:when>
+											<c:when test="${entity.currentProcessForm.taskType eq 5}">(调动/晋升校区)</c:when>
+											<c:otherwise>未知</c:otherwise>
+										</c:choose>
+									</c:when>
+									<c:otherwise>---</c:otherwise>
+								</c:choose>
 							</c:otherwise>
 						</c:choose>
 					</td>
 					<td>
 						<c:choose>
-							<c:when test="${entity.applyForm eq null || fn:length(entity.applyForm) == 0}">审批结束</c:when>
-							<c:when test="${entity.applyForm ne null && fn:length(entity.applyForm) > 0}">
-								<c:choose>
-									<c:when test="${entity.finalState eq 4}">审批退回</c:when>
-									<c:otherwise>---</c:otherwise>
-								</c:choose>
-							</c:when>
-							<c:otherwise>
-								<c:choose>
-									<c:when test="${entity.auditState eq 2}">审批通过</c:when>
-									<c:when test="${entity.auditState eq 3}">审批未通过</c:when>
-									<c:when test="${entity.auditState eq 4}">审批退回</c:when>
-									<c:otherwise>---</c:otherwise>
-								</c:choose>
-							</c:otherwise>
+							<c:when test="${entity.latestAuditState eq 2}">审批通过</c:when>
+							<c:when test="${entity.latestAuditState eq 3}">审批不通过</c:when>
+							<c:when test="${entity.latestAuditState eq 4}">审批退回</c:when>
+							<c:otherwise>---</c:otherwise>
 						</c:choose>
 					</td>
 					<td>
