@@ -326,13 +326,16 @@ extends BaseAdminAction
 			}
 
 			request.setAttribute("docTypes", this.getServiceAppDictionary().getByType("docType"));
-			request.setAttribute("districts" , this.getServiceSchoolDistrict().getAll());
+			
+			// 加载校结构图
+			this.loadOrganizationTree(request);
+			
 			request.setAttribute("docLevels" , this.getServiceDocLevel().getAll());
 			request.setAttribute("docRanges" , this.getServiceDocVisiableRange().getAll());
 			request.setAttribute("deps" , this.getServiceSchoolDepartment().getDepartmentByOrganization(0));
 			
 		} 
-		catch (ServiceException e)
+		catch (Exception e)
 		{
 			LOGGER.error("Exception raised when fetch all doc manages.", e);
 		}
@@ -561,7 +564,7 @@ extends BaseAdminAction
 						
 						
 					}
-					else if (!ModelDoc.EDocVisibleRange.PERSONALS.getValue().equals(entity.getDocVisiableRangeIds()) && 
+					else if (!String.valueOf(ModelDoc.EDocVisibleRange.PERSONALS.getValue()).equals(entity.getDocVisiableRangeIds()) && 
 							UtilString.isNotEmpty(entity.getDocUserNames()))
 					{
 						return ajaxPrint(response, getErrorCallback("当前不是设置为个人可见!"));
