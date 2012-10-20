@@ -26,6 +26,7 @@ import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.util.WebActionUtil;
 import org.shengrui.oa.web.action.BaseAppAction;
 
+import cn.trymore.core.jstl.JstlTagDate;
 import cn.trymore.core.util.UtilBean;
 import cn.trymore.core.util.UtilCollection;
 import cn.trymore.core.util.UtilDate;
@@ -512,6 +513,30 @@ extends BaseAppAction
 											}, 
 											ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
 										);
+										
+										// `我的任务`菜单项数字推送提醒 (仅对进行中的任务进行提醒.)
+										Date today = new Date();
+										if (JstlTagDate.getIntervalDays(today, entity.getTaskPlannedStartDate()) <= 0 && 
+												JstlTagDate.getIntervalDays(today, entity.getTaskPlannedEndDate()) >= 0)
+										{
+											Set<String> participants = new HashSet<String>();
+											participants.add(entity.getTaskCharger().getId());
+											if (UtilString.isNotEmpty(entity.getTaskParticipantIds()))
+											{
+												String[] ids = entity.getTaskParticipantIds().split(",");
+												for (String id : ids)
+												{
+													participants.add(id);
+												}
+											}
+											
+											this.messagePush.pushMessage(
+												UtilString.join(participants, ","), 
+												WebActionUtil.scriptMessageNotify, 
+												WebActionUtil.MENU_KEY_MY_TASK,
+												1
+											);
+										}
 									}
 									else if (entity.getAuditStatus() != null && 
 											ModelTaskPlan.ETaskApprovalStatus.RETURNED.getValue().equals(entity.getAuditStatus()))
@@ -804,6 +829,33 @@ extends BaseAppAction
 					taskTrack.setTask(taskPlan);
 					
 					this.serviceTaskPlanTrack.save(taskTrack);
+					
+					if (UtilString.isNotEmpty(auditType) && 
+							ModelTaskPlanTrack.ETaskTrackType.APPLY_ACCOMPLISH.getValue().equals(Integer.valueOf(auditType)))
+					{
+						Date today = new Date();
+						if (JstlTagDate.getIntervalDays(today, taskPlan.getTaskPlannedStartDate()) <= 0 && 
+								JstlTagDate.getIntervalDays(today, taskPlan.getTaskPlannedEndDate()) >= 0)
+						{
+							Set<String> participants = new HashSet<String>();
+							participants.add(taskPlan.getTaskCharger().getId());
+							if (UtilString.isNotEmpty(taskPlan.getTaskParticipantIds()))
+							{
+								String[] ids = taskPlan.getTaskParticipantIds().split(",");
+								for (String id : ids)
+								{
+									participants.add(id);
+								}
+							}
+							
+							this.messagePush.pushMessage(
+								UtilString.join(participants, ","), 
+								WebActionUtil.scriptMessageNotify, 
+								WebActionUtil.MENU_KEY_MY_TASK,
+								-1
+							);
+						}
+					}
 					
 					/*
 					if (taskPlan.getTaskTracks() == null)

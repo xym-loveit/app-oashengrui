@@ -111,7 +111,7 @@
 								<c:otherwise>
 									<c:choose>
 										<c:when test="${tm:getIntervalDays(today, entity.taskPlannedStartDate) gt 0}">未开始</c:when>
-										<c:when test="${tm:getIntervalDays(today, entity.taskPlannedStartDate) <= 0 && tm:getIntervalDays(today, entity.taskPlannedEndDate) >= 0}">进行中</c:when>
+										<c:when test="${tm:getIntervalDays(today, entity.taskPlannedStartDate) <= 0 && tm:getIntervalDays(today, entity.taskPlannedEndDate) >= 0}"><span style="color:#09A302;line-height:21px;display:block;">进行中</span></c:when>
 										<c:when test="${tm:getIntervalDays(today, entity.taskPlannedEndDate) < 0}">已延期</c:when>
 									</c:choose>
 								</c:otherwise>

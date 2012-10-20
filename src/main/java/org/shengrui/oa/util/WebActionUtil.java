@@ -215,14 +215,19 @@ public final class WebActionUtil
 						"app/personal/interview.do?action=actionDoComment"));
 	
 	/**
-	 * 待我审批菜单项Key值
+	 * 菜单项 - 待我审批
 	 */
 	public static final String MENU_KEY_APPROVAL_TODO = "_menu_mod_personal_approval";
 	
 	/**
-	 * 当前招聘管理
+	 * 菜单项 - 当前招聘管理
 	 */
 	public static final String MENU_KEY_JOB_MGR = "_menu_mod_hrm_jobhire_cmgr";
+	
+	/**
+	 * 菜单项 - 我的任务
+	 */
+	public static final String MENU_KEY_MY_TASK = "_menu_mod_personal_mytask";
 	
 	/**
 	 * 消息更新Script
