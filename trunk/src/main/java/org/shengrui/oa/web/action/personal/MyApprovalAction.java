@@ -235,9 +235,12 @@ extends BaseAppAction
 						ModelFinanExpense.class, 
 						new String[] {
 							"(audit_state IS NULL and cproc_depid = " + 
-									ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
-									ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"
-						}
+							ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
+							ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId() + " and " +
+							"(cproc_disid = " + 
+								ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getId() + "))"
+						}, 
+						false
 					),
 					pagingBean
 				);
@@ -261,9 +264,12 @@ extends BaseAppAction
 						ModelFinanContract.class, 
 						new String[] {
 							"(audit_state IS NULL and cproc_depid = " + 
-									ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
-									ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"
-						}
+							ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
+							ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId() + " and " +
+							"(cproc_disid = " + 
+								ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getId() + "))"
+						}, 
+						false
 					),
 					pagingBean
 				);
@@ -289,8 +295,10 @@ extends BaseAppAction
 							"(audit_state IS NULL and cproc_depid = " + 
 							ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
 							ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId() + " and " +
-							"(cproc_disid IS NULL OR cproc_disid = " + 
-								ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getId() + "))"					}
+							"(cproc_disid = " + 
+								ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getId() + "))"
+						}, 
+						false
 					),
 					pagingBean
 				);
@@ -313,9 +321,12 @@ extends BaseAppAction
 						ModelFinanProject.class, 
 						new String[] {
 							"(audit_state IS NULL and cproc_depid = " + 
-									ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
-									ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId()  + ")"
-						}
+							ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
+							ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId() + " and " +
+							"(cproc_disid = " + 
+								ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getId() + "))"
+						}, 
+						false
 					),
 					pagingBean
 				);
