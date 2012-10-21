@@ -8,6 +8,17 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt'%>
 
+<script>	
+	function table_sort() {
+		if ($("#tbl_myapprovals").find("tr").size() > 1) {
+			$("#tbl_myapprovals").tablesorter({ 
+				// set forced sort on the fourth column and i decending order. 
+				sortList: [[3,1]] 
+			}); 
+		}
+	}
+</script>
+
 <form id="pagerForm" method="post" action="app/personal/approval.do?action=pageMyApprovalReturn">
 	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
 	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
@@ -47,7 +58,7 @@
 			<li><a treeicon="icon-edit" class="icon" href="app/personal/approval.do?action=pageMyApproval" target="navTab" rel="admin_entrycheck"><span class="icon-edit">返回待我审批列表</span></a></li>
 		</ul>
 	</div>
-	<table class="table" width="100%" layoutH="115">
+	<table class="table" width="100%" layoutH="115" id="tbl_myapprovals" beforeRender="table_sort();">
 		<thead>
 			<tr>
 				<th align="center">审批类型</th>
@@ -67,7 +78,7 @@
 								<c:when test="${newsinfo.status eq 3 }">新闻审批退回</c:when>
 							</c:choose>
 						</td>
-						<td>
+						<td style="text-align:left;">
 							[${newsinfo.dictionary.name}] &nbsp&nbsp&nbsp “${newsinfo.newsSubject}” &nbsp&nbsp&nbsp<c:choose><c:when test="${newsinfo.status eq 2 }">新闻审批通过</c:when><c:when test="${newsinfo.status eq 3 }">新闻审批退回</c:when></c:choose>
 						</td>
 						<td>${newsinfo.user.fullName}</td>
@@ -83,7 +94,7 @@
 						<td>
 							岗位发布审批
 						</td>
-						<td>
+						<td style="text-align:left;">
 							[${entity.jobHireDistrict.districtName}   ${entity.jobHireDepartment.depName}]&nbsp&nbsp “${entity.jobHireTitle}”&nbsp&nbsp招聘
 						</td>
 						<td>${entity.postAuthorName}</td>
@@ -103,7 +114,7 @@
 							<c:when test="${taskInfo.auditStatus eq 4}">任务审批已退回</c:when>
 						</c:choose>
 					</td>
-					<td>
+					<td style="text-align:left;">
 						[${taskInfo.taskName }] &nbsp&nbsp&nbsp “${taskInfo.taskName}” &nbsp&nbsp&nbsp
 						<c:choose>
 							<c:when test="${taskInfo.auditStatus eq 2}">任务审批已通过</c:when>
@@ -127,7 +138,7 @@
 							<c:when test="${finanInfo.auditState eq 4}">费用支出审批已退回</c:when>
 						</c:choose>
 					</td>
-					<td>
+					<td style="text-align:left;">
 						${finanInfo.employee.empName } &nbsp&nbsp&nbsp <label style="color:red;">${finanInfo.empDistrict.districtName}</label> &nbsp&nbsp&nbsp  <label style="color:red;">${finanInfo.applyAmt }</label>
 						<c:choose>
 							<c:when test="${finanInfo.auditState eq 2}">费用支出审批已通过</c:when>
@@ -151,7 +162,7 @@
 							<c:when test="${contractInfo.auditState eq 4}">合同审批已退回</c:when>
 						</c:choose>
 					</td>
-					<td>
+					<td style="text-align:left;">
 						${contractInfo.employee.empName } &nbsp&nbsp&nbsp ${contractInfo.empDistrict.districtName} &nbsp&nbsp&nbsp ${contractInfo.applyFormType.processTypeName}
 						<c:choose>
 							<c:when test="${contractInfo.auditState eq 2}">合同审批已通过</c:when>
@@ -172,7 +183,7 @@
 					<td>
 						晋升申请审批
 					</td>
-					<td>
+					<td style="text-align:left;">
 						${type.employee.empName} &nbsp&nbsp <label style="color:red;">${type.fromDistrict.districtName }_${type.fromDepartment.depName }_${type.fromPosition.positionName }</label>
 						&nbsp&nbsp 晋升 &nbsp&nbsp<label style="color:red;">${type.toDistrict.districtName }_${type.toDepartment.depName }_${type.toPosition.positionName }</label> &nbsp&nbsp申请
 						<c:choose>
@@ -196,7 +207,7 @@
 					<td>
 						转正申请审批
 					</td>
-					<td>
+					<td style="text-align:left;">
 						${type.employee.empName} &nbsp&nbsp<label style="color:red;">${type.fromDistrict.districtName }_${type.fromDepartment.depName }_${type.fromPosition.positionName }</label>&nbsp&nbsp转正申请
 						<c:choose>
 							<c:when test="${type.auditState eq 2}">审批已通过</c:when>
@@ -219,7 +230,7 @@
 					<td>
 						离职申请审批
 					</td>
-					<td>
+					<td style="text-align:left;">
 						${type.employee.empName} &nbsp&nbsp<label style="color:red;">${type.fromDistrict.districtName }_${type.fromDepartment.depName }_${type.fromPosition.positionName }</label>&nbsp&nbsp离职申请
 					<c:choose>
 							<c:when test="${type.auditState eq 2}">审批已通过</c:when>
@@ -242,7 +253,7 @@
 					<td>
 						调动申请审批
 					</td>
-					<td>
+					<td style="text-align:left;">
 						${type.employee.empName}&nbsp&nbsp<label style="color:red;">${type.fromDistrict.districtName }_${type.fromDepartment.depName }_${type.fromPosition.positionName }</label>&nbsp&nbsp调动 &nbsp&nbsp
 						<label style="color:red;">${type.toDistrict.districtName }_${type.toDepartment.depName }_${type.toPosition.positionName }</label>&nbsp&nbsp申请
 						<c:choose>

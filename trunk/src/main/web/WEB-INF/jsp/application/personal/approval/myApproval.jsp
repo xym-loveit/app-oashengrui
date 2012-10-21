@@ -10,10 +10,12 @@
 
 <script>	
 	function table_sort() {
-		$("#tbl_approvals").tablesorter({ 
-			// set forced sort on the fourth column and i decending order. 
-			sortList: [[3,1]] 
-		}); 
+		if ($("#tbl_approvals").find("tr").size() > 1) {
+			$("#tbl_approvals").tablesorter({ 
+				// set forced sort on the fourth column and i decending order. 
+				sortList: [[3,1]] 
+			}); 
+		}
 	}
 </script>
 
