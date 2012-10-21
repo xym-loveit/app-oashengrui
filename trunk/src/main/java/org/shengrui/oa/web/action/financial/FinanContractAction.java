@@ -278,7 +278,7 @@ extends BaseFinanAction
 				contractInfo = formEntity;
 				contractInfo.setFormNo(AppUtil.genFormNo(FINAN_FORM_KEY_CONTRACT));
 				contractInfo.setEntryDateTime(new Date());
-				contractInfo.setEntryId(ContextUtil.getCurrentUserId());
+				contractInfo.setEntryId(Integer.valueOf(ContextUtil.getCurrentUser().getEmployeeId()));
 				
 				// expenseInfo.setAuditState(ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue());
 				

@@ -350,7 +350,7 @@ extends BaseHrmAction
 				}
 				
 				employee.setEntryDateTime(new Date());
-				employee.setEntryId(ContextUtil.getCurrentUserId());
+				employee.setEntryId(Integer.valueOf(ContextUtil.getCurrentUser().getEmployeeId()));
 				
 				//如果导入时xls文件里有员工编号 判断是否已存在该员工并执行更新
 				if(!excelRowData.get(i).getRowData().get(0).equals("null"))

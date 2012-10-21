@@ -281,7 +281,7 @@ extends FlowBaseAction
 						{
 							entity.setEmployee(employee);
 							entity.setApplyFormType(procTypeEntity);
-							entity.setEntryId(ContextUtil.getCurrentUserId());
+							entity.setEntryId(Integer.valueOf(ContextUtil.getCurrentUser().getEmployeeId()));
 							entity.setEntryDateTime(new Date());
 						}
 						else
