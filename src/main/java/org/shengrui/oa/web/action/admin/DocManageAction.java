@@ -360,14 +360,38 @@ extends BaseAdminAction
 				
 				if(formDoc!=null)
 				{
-					// 保存文档可见人
 					Map<String, List<String>> paramEmpIds = this.getAllRequestParameters(request, new String[] {"empid"});
 					
 					//封装设置个人可见数据
 					if(String.valueOf(ModelDoc.EDocVisibleRange.PERSONALS.getValue()).equals(
 						formDoc.getDocVisiableRangeIds()) && paramEmpIds != null && paramEmpIds.size() > 0)
 					{
+						if (paramEmpIds != null && paramEmpIds.size() > 0)
+						{
+							List<String> empIds = paramEmpIds.get("empid");
+							List<String> empNames = null;
+							for (String empId : empIds)
+							{
+								ModelHrmEmployee employee = this.serviceHrmEmployee.get(empId);
+								if (employee != null)
+								{
+									if (empNames == null)
+									{
+										empNames = new ArrayList<String>();
+									}
+									
+									empNames.add(employee.getEmpName());
+								}
+								else
+								{
+									LOGGER.warn("The employee does not exist with id:" + empId);
+								}
+							}
+							formDoc.setDocUserIds(UtilString.join(empIds, ","));
+							formDoc.setDocUserNames(UtilString.join(empNames, ","));
+						}
 						
+						/*
 						try {
 							String strUserNames = "";
 							String userIds = "";
@@ -395,7 +419,7 @@ extends BaseAdminAction
 							LOGGER.error("Exception raised when fetch all doc manages.", e);
 							return ajaxPrint(response, getErrorCallback("请按正确格式输入可见人姓名，用逗号分开."));
 						}
-						
+						*/
 						
 					}
 					else if (!String.valueOf(ModelDoc.EDocVisibleRange.PERSONALS.getValue()).equals(
@@ -533,10 +557,38 @@ extends BaseAdminAction
 				if(entity!=null)
 				{
 					//封装设置个人可见数据
-					if(ModelDoc.EDocVisibleRange.PERSONALS.getValue().equals(
+					if(String.valueOf(ModelDoc.EDocVisibleRange.PERSONALS.getValue()).equals(
 							entity.getDocVisiableRangeIds()) && UtilString.isNotEmpty(entity.getDocUserNames()))
 					{
 						
+						// 保存任务参与人
+						Map<String, List<String>> paramEmpIds = this.getAllRequestParameters(request, new String[] {"empid"});
+						if (paramEmpIds != null && paramEmpIds.size() > 0)
+						{
+							List<String> empIds = paramEmpIds.get("empid");
+							List<String> empNames = null;
+							for (String empId : empIds)
+							{
+								ModelHrmEmployee employee = this.serviceHrmEmployee.get(empId);
+								if (employee != null)
+								{
+									if (empNames == null)
+									{
+										empNames = new ArrayList<String>();
+									}
+									
+									empNames.add(employee.getEmpName());
+								}
+								else
+								{
+									LOGGER.warn("The employee does not exist with id:" + empId);
+								}
+							}
+							entity.setDocUserIds(UtilString.join(empIds, ","));
+							entity.setDocUserNames(UtilString.join(empNames, ","));
+						}
+						
+						/*
 						try {
 							String strUserNames = entity.getDocUserNames();
 							String userIds = "";
@@ -561,8 +613,7 @@ extends BaseAdminAction
 							LOGGER.error("Exception raised when fetch all doc manages.", e);
 							return ajaxPrint(response, getErrorCallback("请按正确格式输入可见人姓名，用逗号分开."));
 						}
-						
-						
+						*/
 					}
 					else if (!String.valueOf(ModelDoc.EDocVisibleRange.PERSONALS.getValue()).equals(entity.getDocVisiableRangeIds()) && 
 							UtilString.isNotEmpty(entity.getDocUserNames()))
