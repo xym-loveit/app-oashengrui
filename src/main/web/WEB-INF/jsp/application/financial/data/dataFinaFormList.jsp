@@ -79,7 +79,7 @@
 						<c:choose>
 							<c:when test="${PAGE_TYPE eq 'FE'}">
 								<c:choose>
-									<c:when test="${tm:ifGranted('_FUNCKEY_FINAN_EXPENSE_RECORD_VIEW')}">
+									<c:when test="${tm:ifGranted('_FUNCKEY_FINAN_EXPENSE_VIEW')}">
 										<a class="oplink" href="app/finan/expense.do?action=diaglogFinaExpensePage&id=${entity.id}&op=view" target="dialog" title="查看‘${entity.employee.empName}’费用申请单-${entity.formNo}" width="1150" height="640" rel="dia_finexp_view_${entity.id}">详细</a>
 									</c:when>
 									<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
@@ -87,7 +87,7 @@
 							</c:when>
 							<c:when test="${PAGE_TYPE eq 'FC'}">
 								<c:choose>
-									<c:when test="${tm:ifGranted('_FUNCKEY_FINAN_CONTRACT_RECORD_VIEW')}">
+									<c:when test="${tm:ifGranted('_FUNCKEY_FINAN_CONTRACT_VIEW')}">
 										<a class="oplink" href="app/finan/contract.do?action=diaglogFinaContractPage&id=${entity.id}&op=view" target="dialog" title="查看‘${entity.employee.empName}’合同申请单-${entity.formNo}" width="1150" height="640" rel="dia_fincontract_view_${entity.id}">详细</a>
 									</c:when>
 									<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
@@ -95,7 +95,7 @@
 							</c:when>
 							<c:when test="${PAGE_TYPE eq 'FP'}">
 								<c:choose>
-									<c:when test="${tm:ifGranted('_FUNCKEY_FINAN_PROJECT_RECORD_VIEW')}">
+									<c:when test="${tm:ifGranted('_FUNCKEY_FINAN_PROJECT_VIEW')}">
 										<a class="oplink" href="app/finan/project.do?action=diaglogFinaProjectPage&id=${entity.id}&op=view" target="dialog" title="查看‘${entity.employee.empName}’新项目申请单-${entity.formNo}" width="1150" height="640" rel="dia_finproject_view_${entity.id}">详细</a>
 									</c:when>
 									<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>

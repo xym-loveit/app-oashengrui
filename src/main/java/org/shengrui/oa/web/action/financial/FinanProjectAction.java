@@ -277,7 +277,7 @@ extends BaseFinanAction
 				projectInfo = formEntity;
 				projectInfo.setFormNo(AppUtil.genFormNo(FINAN_FORM_KEY_PROJECT));
 				projectInfo.setEntryDateTime(new Date());
-				projectInfo.setEntryId(ContextUtil.getCurrentUserId());
+				projectInfo.setEntryId(Integer.valueOf(ContextUtil.getCurrentUser().getEmployeeId()));
 				
 				// expenseInfo.setAuditState(ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue());
 				

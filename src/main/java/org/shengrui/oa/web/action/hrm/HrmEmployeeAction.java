@@ -236,7 +236,7 @@ extends BaseHrmAction
 					employee.getEmployeeDistrict(), employee.getEmployeeDepartment(), amount));
 			
 			employee.setEntryDateTime(new Date());
-			employee.setEntryId(ContextUtil.getCurrentUserId());
+			employee.setEntryId(Integer.valueOf(ContextUtil.getCurrentUser().getEmployeeId()));
 			
 			// 生成员工入职履历
 			ModelHrmEmployeeRoadMap employeeRoadMap = new ModelHrmEmployeeRoadMap();
