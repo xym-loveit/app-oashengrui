@@ -74,9 +74,9 @@ extends ServiceGenericImpl<ModelDoc> implements ServiceDocManage
 				Restrictions.sqlRestriction(
 						"(doc_VisiableRange_id = " + ModelDoc.EDocVisibleRange.ALL.getValue() +
 						" or (doc_VisiableRange_id = " + ModelDoc.EDocVisibleRange.PERSONALS.getValue() + 
-						" and ? in (`doc_userIds`)) or FIND_IN_SET( ?, `doc_VisiableRange_id`) > 0)", 
+						" and FIND_IN_SET(?, `doc_userIds`) > 0) or FIND_IN_SET( ?, `doc_VisiableRange_id`) > 0)", 
 						new Object[] {
-								ContextUtil.getCurrentUser().getId(), 
+								ContextUtil.getCurrentUser().getEmployeeId(), 
 								ContextUtil.getCurrentUser().getDistrictId()}, 
 						new Type[] {
 								Hibernate.STRING, 
