@@ -162,7 +162,7 @@ ${tm:fileRestore(entity['attachFiles'])}
 						<td colspan="3"><input name="applyAmt" class="required number" id="enRMB" type="text" style="width: 80%" value="${entity ne null ? entity.applyAmt : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if> />￥小写</td>
 						<td colspan="3"><input id="cnRMB" readonly type="text" style="color: #999999;width: 80%" value="根据小写自动生成" />￥大写</td>
 						<td class='field'>付款方</td>
-						<td colspan="2">
+						<td colspan="2" style="padding-left: 3px;">
 							<input type="radio" class="required" error_message="请选择`付款方`" value="0" name="payer" ${entity ne null && entity.payer eq 0 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 本校区
 							<input type="radio" class="required" error_message="请选择`付款方`" value="1" name="payer" ${entity ne null && entity.payer eq 1 ? 'checked="checked"' : ''} <c:if test="${op ne null && op eq 'view'}">disabled</c:if>/> 总部
 						</td>
