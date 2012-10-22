@@ -211,6 +211,14 @@ extends ModelBase implements UserDetails
 	private String districtId;
 	
 	/**
+	 * 部门ID 
+	 * 
+	 * 由于存入Session中的实体无法再进行惰性加载获取关联对象的数据,
+	 * 因此这里用于初始化时进行赋值, 主要用于人资晋升和调往流程审批过程中的控制. 
+	 */
+	private String departmentId;
+	
+	/**
 	 * 校区类型.
 	 */
 	private int districtType;
@@ -313,6 +321,7 @@ extends ModelBase implements UserDetails
 			{
 				this.position = this.employee.getEmployeePosition();
 				this.district = this.employee.getEmployeeDistrict();
+				this.department = this.employee.getEmployeeDepartment();
 			}
 			
 			if (this.position != null)
@@ -323,6 +332,11 @@ extends ModelBase implements UserDetails
 			if (this.district != null)
 			{
 				this.districtId = this.district.getId();
+			}
+			
+			if (this.department != null)
+			{
+				this.departmentId = this.department.getId();
 			}
 		}
 		
@@ -847,5 +861,10 @@ extends ModelBase implements UserDetails
 	public void setDistrictType(int districtType)
 	{
 		this.districtType = districtType;
+	}
+
+	public String getDepartmentId()
+	{
+		return departmentId;
 	}
 }

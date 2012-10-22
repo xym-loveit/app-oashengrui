@@ -136,7 +136,7 @@ extends ModelBase
 	/**
 	 * 录入人员
 	 */
-	private int entryId;
+	private Integer entryId;
 	
 	/**
 	 * 录入日期
@@ -296,11 +296,11 @@ extends ModelBase
 		this.status = status;
 	}
 
-	public int getEntryId() {
+	public Integer getEntryId() {
 		return entryId;
 	}
 
-	public void setEntryId(int entryId) {
+	public void setEntryId(Integer entryId) {
 		this.entryId = entryId;
 	}
 
@@ -312,7 +312,14 @@ extends ModelBase
 		this.entryDateTime = entryDateTime;
 	}
 
-	public ModelSchoolDepartment getEmployeeDepartment() {
+	public ModelSchoolDepartment getEmployeeDepartment() 
+	{
+		if (employeeDepartment == null)
+		{
+			employeeDepartment = new ModelSchoolDepartment();
+			employeeDepartment.setId("0");
+			employeeDepartment.setDepName("未知");
+		}
 		return employeeDepartment;
 	}
 
@@ -320,7 +327,15 @@ extends ModelBase
 		this.employeeDepartment = employeeDepartment;
 	}
 
-	public ModelSchoolDistrict getEmployeeDistrict() {
+	public ModelSchoolDistrict getEmployeeDistrict() 
+	{
+		if (employeeDistrict == null)
+		{
+			employeeDistrict = new ModelSchoolDistrict();
+			employeeDistrict.setId("0");
+			employeeDistrict.setDistrictName("未知");
+		}
+		
 		return employeeDistrict;
 	}
 
@@ -328,7 +343,15 @@ extends ModelBase
 		this.employeeDistrict = employeeDistrict;
 	}
 
-	public ModelSchoolDepartmentPosition getEmployeePosition() {
+	public ModelSchoolDepartmentPosition getEmployeePosition() 
+	{
+		if (employeePosition == null)
+		{
+			employeePosition = new ModelSchoolDepartmentPosition();
+			employeePosition.setId("0");
+			employeePosition.setPositionName("未知");
+		}
+		
 		return employeePosition;
 	}
 
