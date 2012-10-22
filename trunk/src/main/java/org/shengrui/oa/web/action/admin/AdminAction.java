@@ -240,8 +240,8 @@ extends BaseAdminAction
 				request.setAttribute("news", modelNewsMag);
 			}
 			
-			request.setAttribute("currentDistrictId", ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getId());
-			request.setAttribute("currentDepId", ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId());
+			request.setAttribute("currentDistrictId", ContextUtil.getCurrentUser().getDistrictId());
+			request.setAttribute("currentDepId", ContextUtil.getCurrentUser().getDepartmentId());
 			
 			request.setAttribute("newsTypes", this.getServiceAppDictionary().getByType(type));
 			request.setAttribute("op", request.getParameter("op"));
