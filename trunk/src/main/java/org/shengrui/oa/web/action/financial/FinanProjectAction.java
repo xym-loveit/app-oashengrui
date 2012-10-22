@@ -334,8 +334,8 @@ extends BaseFinanAction
 				params.put("procForm", procForm);
 				params.put("type", FIANA_CATKEY_PROJECT);
 				
-				List<ModelHrmEmployee> employees = this.serviceHrmEmployee.getByDepartmentAndPosition(
-						procForm.getToDepartmentIds(), procForm.getToPositionIds());
+				List<ModelHrmEmployee> employees = this.serviceHrmEmployee.getByOrganization(
+						procForm.getToDistrictIds(), procForm.getToDepartmentIds(), procForm.getToPositionIds());
 				
 				StringBuilder builder = new StringBuilder();
 				for (int i = 0, size = employees.size(); i <  size; i++)
