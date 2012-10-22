@@ -314,12 +314,6 @@ extends ModelBase
 
 	public ModelSchoolDepartment getEmployeeDepartment() 
 	{
-		if (employeeDepartment == null)
-		{
-			employeeDepartment = new ModelSchoolDepartment();
-			employeeDepartment.setId("0");
-			employeeDepartment.setDepName("未知");
-		}
 		return employeeDepartment;
 	}
 
@@ -329,13 +323,6 @@ extends ModelBase
 
 	public ModelSchoolDistrict getEmployeeDistrict() 
 	{
-		if (employeeDistrict == null)
-		{
-			employeeDistrict = new ModelSchoolDistrict();
-			employeeDistrict.setId("0");
-			employeeDistrict.setDistrictName("未知");
-		}
-		
 		return employeeDistrict;
 	}
 
@@ -345,13 +332,6 @@ extends ModelBase
 
 	public ModelSchoolDepartmentPosition getEmployeePosition() 
 	{
-		if (employeePosition == null)
-		{
-			employeePosition = new ModelSchoolDepartmentPosition();
-			employeePosition.setId("0");
-			employeePosition.setPositionName("未知");
-		}
-		
 		return employeePosition;
 	}
 

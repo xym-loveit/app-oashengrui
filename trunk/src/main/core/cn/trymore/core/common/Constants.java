@@ -180,4 +180,19 @@ public final class Constants
 	 */
 	public static final String DEFAULT_TABLE_ALIAS_IN_HIBERNATE= "this_";
 	
+	/**
+	 * 个人数据权限类型标识符
+	 */
+	public static final String DATA_POLICY_PERSONAL = "V_PERSONAL";
+	
+	/**
+	 * 未知实体ID
+	 */
+	public static final String UNKONW_ID = String.valueOf(-1);
+	
+	/**
+	 * 未知描述
+	 */
+	public static final String UNKONW_SUBJECT = "未知";
+	
 }
