@@ -18,6 +18,7 @@ import org.springframework.security.userdetails.UserDetails;
 import com.google.gson.annotations.Expose;
 
 import cn.trymore.core.acl.AclFilterAnnotation;
+import cn.trymore.core.common.Constants;
 import cn.trymore.core.model.ModelBase;
 import cn.trymore.core.util.UtilString;
 
@@ -324,20 +325,15 @@ extends ModelBase implements UserDetails
 				this.department = this.employee.getEmployeeDepartment();
 			}
 			
-			if (this.position != null)
-			{
-				this.positionId = this.position.getId(); 
-			}
+			// 初始化部门/校区/部门ID
+			this.positionId = this.position != null ? 
+					this.position.getId() : Constants.UNKONW_ID;
+					
+			this.districtId = this.district != null ? 
+					this.district.getId() : Constants.UNKONW_ID;
 			
-			if (this.district != null)
-			{
-				this.districtId = this.district.getId();
-			}
-			
-			if (this.department != null)
-			{
-				this.departmentId = this.department.getId();
-			}
+			this.departmentId = this.department != null ? 
+					this.department.getId() : Constants.UNKONW_ID;
 		}
 		
 		// 进行合并权限的处理

@@ -478,37 +478,37 @@ extends BaseAction
 				{
 					count++;
 					
-					builder.append("{");
-					
-					builder.append("\"id\":\"" + employee.getId() + "\",");
-					builder.append("\"fullName\":\"" + employee.getEmpName() + "\",");
-					builder.append("\"empName\":\"" + employee.getEmpName() + "\",");
-					
-					if (employee.getEmployeeDepartment() != null)
-					{
-						builder.append("\"depId\":\"" + employee.getEmployeeDepartment().getId() + "\",");
-						builder.append("\"depName\":\"" + employee.getEmployeeDepartment().getDepName() + "\",");
-					}
-					
 					if (employee.getEmployeeDistrict() != null)
 					{
+						builder.append("{");
+						
+						builder.append("\"id\":\"" + employee.getId() + "\",");
+						builder.append("\"fullName\":\"" + employee.getEmpName() + "\",");
+						builder.append("\"empName\":\"" + employee.getEmpName() + "\",");
+						
 						builder.append("\"districtId\":\"" + employee.getEmployeeDistrict().getId() + "\",");
 						builder.append("\"districtName\":\"" + employee.getEmployeeDistrict().getDistrictName() + "\",");
-					}
+						
+						if (employee.getEmployeeDepartment() != null)
+						{
+							builder.append("\"depId\":\"" + employee.getEmployeeDepartment().getId() + "\",");
+							builder.append("\"depName\":\"" + employee.getEmployeeDepartment().getDepName() + "\",");
+						}
 					
-					if (employee.getEmployeePosition() != null)
-					{
-						builder.append("\"posId\":\"" + employee.getEmployeePosition().getId() + "\",");
-						builder.append("\"posName\":\"" + employee.getEmployeePosition().getPositionName() + "\",");
-					}
-					
-					builder.append("\"phoneNo\":\"" + employee.getPhoneNo() + "\"");
-					
-					builder.append("}");
-					
-					if (count < result.size())
-					{
-						builder.append(",");
+						if (employee.getEmployeePosition() != null)
+						{
+							builder.append("\"posId\":\"" + employee.getEmployeePosition().getId() + "\",");
+							builder.append("\"posName\":\"" + employee.getEmployeePosition().getPositionName() + "\",");
+						}
+						
+						builder.append("\"phoneNo\":\"" + employee.getPhoneNo() + "\"");
+						
+						builder.append("}");
+						
+						if (count < result.size())
+						{
+							builder.append(",");
+						}
 					}
 				}
 				String callbackJson = "[" + builder.toString() + "]";
