@@ -125,10 +125,10 @@ extends ServiceGenericImpl<ModelFinanContract> implements ServiceFinanContract
 		{
 			criteria.add(Restrictions.sqlRestriction(
 				"(audit_state IS NULL and cproc_depid = " + 
-					ContextUtil.getCurrentUser().getEmployee().getEmployeeDepartment().getId() + " and cproc_posid= " + 
-					ContextUtil.getCurrentUser().getEmployee().getEmployeePosition().getId() + " and " +
+					ContextUtil.getCurrentUser().getDepartmentId() + " and cproc_posid= " + 
+					ContextUtil.getCurrentUser().getPositionId() + " and " +
 					"(cproc_disid = " + 
-						ContextUtil.getCurrentUser().getEmployee().getEmployeeDistrict().getId() + "))"
+						ContextUtil.getCurrentUser().getDistrictId() + "))"
 				)
 			);
 		}
