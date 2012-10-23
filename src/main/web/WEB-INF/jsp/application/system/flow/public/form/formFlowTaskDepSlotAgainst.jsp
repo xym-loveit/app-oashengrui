@@ -31,11 +31,11 @@
 	});
 </script>
 
-<div style="margin-bottom: 15px;"><b>校区部门列表：</b></div>
+<div style="margin-bottom: 15px;"><b>片区部门列表：</b></div>
 
 <logic:present name="deps">
 	<logic:iterate name="deps" id="dep">
-		<c:if test="${dep.key eq 1}">
+		<c:if test="${dep.key eq 2}">
 			<logic:iterate name="dep" property="value" id="entity">
 				<div style="clear:both; margin-bottom: 10px; overflow: hidden">
 					<span style="float:left;line-height:20px">${entity.depName}：</span>

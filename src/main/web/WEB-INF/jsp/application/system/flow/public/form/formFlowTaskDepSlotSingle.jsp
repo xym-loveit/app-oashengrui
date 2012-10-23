@@ -33,7 +33,7 @@
 
 <logic:present name="deps">
 	<logic:iterate name="deps" id="dep">
-		<c:if test="${dep.key eq 1}">
+		<c:if test="${dep.key eq 2}">
 			<div style="overflow:hidden; margin-bottom: 10px;">
 				<div style="margin-bottom: 10px;"><b>请选择部门：</b></div>
 				<div>
