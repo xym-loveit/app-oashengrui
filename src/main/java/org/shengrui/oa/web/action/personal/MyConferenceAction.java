@@ -25,6 +25,7 @@ import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.util.UtilDateTime;
 import org.shengrui.oa.util.WebActionUtil;
 import org.shengrui.oa.web.action.BaseAppAction;
+import org.tuckey.web.filters.urlrewrite.utils.StringUtils;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.util.UtilBean;
@@ -147,7 +148,7 @@ extends BaseAppAction
 				
 				String attendance_ids = confInfo.getAttendanceIds();
 				String attendance_name_show = "[";
-				if(attendance_ids!=null && UtilString.isNotEmpty(attendance_ids)){
+				if(!StringUtils.isBlank(attendance_ids)){
 					if(attendance_ids.contains(",")){
 						String[] ids = attendance_ids.split(",");
 						int loop = 1;
@@ -307,8 +308,8 @@ extends BaseAppAction
 			if (!isCreation)
 			{
 				// 更新
-				String attendances = ContextUtil.getCurrentUser().getFullName();
-				String attendanceIds = ContextUtil.getCurrentUser().getId();
+				String attendances = "";
+				String attendanceIds = "";
 				int count = 0;
 				// 保存任务参与人
 				Map<String, List<String>> paramEmpIds = this.getAllRequestParameters(request, new String[] {"empid"});
@@ -318,10 +319,10 @@ extends BaseAppAction
 					for (String empId : empIds)
 					{
 						ModelHrmEmployee employee = this.serviceHrmEmployee.get(empId);
-						if (employee != null && !empId.equals(ContextUtil.getCurrentUser().getId()))
+						if (employee != null)
 						{
-							attendances+=","+employee.getEmpName();
-							attendanceIds+=","+employee.getId();
+							attendances += employee.getEmpName()+",";
+							attendanceIds += employee.getId()+",";
 							count++;
 						}
 						else
@@ -329,10 +330,9 @@ extends BaseAppAction
 							LOGGER.warn("The employee does not exist with id:" + empId);
 						}
 					}
-					//count+=empIds.size();
 				}
-				formInfo.setAttendances(attendances);
-				formInfo.setAttendanceIds(attendanceIds);
+				formInfo.setAttendances(attendances.substring(0, attendances.length()-1));
+				formInfo.setAttendanceIds(attendanceIds.substring(0, attendanceIds.length()-1));
 				formInfo.setCount(count);
 				String contactor = request.getParameter("emp.fullName");
 				if(contactor!=null && !"".equals(contactor)){
@@ -382,9 +382,9 @@ extends BaseAppAction
 			else
 			{
 				// 新建
-				String attendances = ContextUtil.getCurrentUser().getFullName();
-				String attendanceIds = ContextUtil.getCurrentUser().getId();
-				int count = 1;
+				String attendances = "";
+				String attendanceIds = "";
+				int count = 0;
 				// 保存任务参与人
 				Map<String, List<String>> paramEmpIds = this.getAllRequestParameters(request, new String[] {"empid"});
 				if (paramEmpIds != null && paramEmpIds.size() > 0)
@@ -395,18 +395,18 @@ extends BaseAppAction
 						ModelHrmEmployee employee = this.serviceHrmEmployee.get(empId);
 						if (employee != null)
 						{
-							attendances+=","+employee.getEmpName();
-							attendanceIds+=","+employee.getId();
+							attendances += employee.getEmpName()+",";
+							attendanceIds += employee.getId()+",";
+							count++;
 						}
 						else
 						{
 							LOGGER.warn("The employee does not exist with id:" + empId);
 						}
 					}
-					count+=empIds.size();
 				}
-				formInfo.setAttendances(attendances);
-				formInfo.setAttendanceIds(attendanceIds);
+				formInfo.setAttendances(attendances.substring(0, attendances.length()-1));
+				formInfo.setAttendanceIds(attendanceIds.substring(0, attendanceIds.length()-1));
 				formInfo.setCount(count);
 				String contactor = request.getParameter("emp.fullName");
 				if(contactor!=null && !"".equals(contactor)){
