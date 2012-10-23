@@ -399,7 +399,8 @@ implements ServiceWorkFlow
 		{
 			ModelProcessForm form = new ModelProcessForm();
 			
-			if (ModelProcessTask.EProcessTaskType.OWNER_DEPS_AGAINST.getValue().equals(task.getProcessTaskType()))
+			if (ModelProcessTask.EProcessTaskType.OWNER_DEPS_AGAINST.getValue().equals(task.getProcessTaskType()) || 
+					ModelProcessTask.EProcessTaskType.SLOT_DEPS_AGAINST.getValue().equals(task.getProcessTaskType()))
 			{
 				// Handles against on district
 				if (employee.getEmployeeDepartment() != null)
@@ -485,15 +486,6 @@ implements ServiceWorkFlow
 				}
 			}
 			
-			// 过滤无任何员工的部门/岗位
-			List<ModelHrmEmployee> employees = this.serviceHrmEmployee.getByDepartmentAndPosition(
-					form.getToDepartmentIds(), form.getToPositionIds());
-			if (!UtilCollection.isNotEmpty(employees))
-			{
-				// 节点无法触及, 直接忽略.
-				form.setAuditState(ModelProcessForm.EProcessFormStatus.IGNORED.getValue());
-			}
-			
 			// Sets the first task node status be approving. 
 			if (form.getAuditState() == null && isFistStep)
 			{
@@ -514,6 +506,16 @@ implements ServiceWorkFlow
 					form.setToDistrictNames(employee.getEmployeeDistrict().getDistrictName());
 				}
 			}
+			
+			// 过滤无任何员工的部门/岗位
+			List<ModelHrmEmployee> employees = this.serviceHrmEmployee.getByOrganization(
+					form.getToDistrictIds(), form.getToDepartmentIds(), form.getToPositionIds());
+			if (!UtilCollection.isNotEmpty(employees))
+			{
+				// 节点无法触及, 直接忽略.
+				form.setAuditState(ModelProcessForm.EProcessFormStatus.IGNORED.getValue());
+			}
+			
 			return form;
 		}
 		
