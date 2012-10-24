@@ -382,7 +382,9 @@ extends BaseAppAction
 			StringBuilder builder = new StringBuilder();
 			builder.append(" status = " + ModelConference.ConferenceStatus.START.getText());
 			builder.append(" AND ");
-			builder.append(" sponsor = " + ContextUtil.getCurrentUserId());
+			builder.append(" (sponsor = " + ContextUtil.getCurrentUserId());
+			builder.append(" OR ");
+			builder.append(" FIND_IN_SET(" + ContextUtil.getCurrentUser().getEmployeeId() + ", `attendances_ids`) > 0)");
 			
 			affectedItems.put(WebActionUtil.MENU_KEY_MY_CONFERENCE, 
 				this.serviceBase.getAffectedNumByQuery(ModelConference.class, 
