@@ -21,7 +21,7 @@
 	</bean>
 	<bean id="serviceTaskPlanAuditHistory" parent="baseTxProxy">
 		<property name="target">
-			<bean class="org.shengrui.oa.service.admin.impl.ServiceTaskPlanImpl">
+			<bean class="org.shengrui.oa.service.admin.impl.ServiceTaskPlanAuditHistoryImpl">
 				<constructor-arg index="0" ref="daoTaskPlanAuditHistory"/>
 			</bean>
 		</property>
