@@ -15,4 +15,15 @@
 		</property>
 	</bean>
 	
+	<bean id="daoNewsAuditHistory" class="org.shengrui.oa.dao.news.impl.DAONewsAuditHistoryImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceNewsAuditHistory" parent="baseTxProxy">
+		<property name="target">
+			<bean class=" org.shengrui.oa.service.news.impl.ServiceNewsAuditHistoryImpl">
+				<constructor-arg index="0" ref="daoNewsAuditHistory"/>
+			</bean>
+		</property>
+	</bean>
+	
 </beans>
