@@ -219,7 +219,7 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 		
 		// Added by Jeccy.Zhao on 24/10/2012: 过滤审批人...
 		criteria.createCriteria("processHistory").add(
-				Restrictions.eq("auditUserIds", ContextUtil.getCurrentUserId()));
+				Restrictions.eq("auditUserIds", String.valueOf(ContextUtil.getCurrentUserId())));
 		
 		return this.getAll(criteria, pagingBean);
 	}

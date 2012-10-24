@@ -200,8 +200,8 @@ extends ServiceGenericImpl<ModelTaskPlan> implements ServiceTaskPlan
 		criteria.add(Restrictions.in("auditStatus", new Integer[]{2,3,4}));
 		
 		// Added by Jeccy.Zhao on 24/10/2012: 过滤审批人...
-		criteria.createCriteria("auditor").add(
-				Restrictions.eq("id", ContextUtil.getCurrentUser().getEmployeeId()));
+		criteria.createCriteria("auditHistory").add(
+				Restrictions.eq("auditorId", String.valueOf(ContextUtil.getCurrentUserId())));
 		
 		return this.getAll(criteria, pagingBean);
 	}

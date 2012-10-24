@@ -108,11 +108,7 @@
 				<logic:iterate id="taskInfo" name="taskInfo" property="items">
 					<tr>
 					<td>
-						<c:choose>
-							<c:when test="${taskInfo.auditStatus eq 2}">任务审批已通过</c:when>
-							<c:when test="${taskInfo.auditStatus eq 3}">任务审批不通过</c:when>
-							<c:when test="${taskInfo.auditStatus eq 4}">任务审批已退回</c:when>
-						</c:choose>
+						任务审批
 					</td>
 					<td style="text-align:left;">
 						[${taskInfo.taskName }] &nbsp&nbsp&nbsp “${taskInfo.taskName}” &nbsp&nbsp&nbsp
@@ -128,15 +124,26 @@
 					</tr>
 				</logic:iterate>
 			</logic:present>
+			<logic:present name="projects">
+				<logic:iterate id="project" name="projects" property="items">
+					<tr>
+						<td>
+							新项目审批
+						</td>
+						<td style="text-align:left">
+							[${project.employee.empName }] &nbsp&nbsp&nbsp ${project.empDistrict.districtName} &nbsp&nbsp&nbsp ${project.applyFormType.processTypeName}
+						</td>
+						<td>${project.employee.empName }</td>
+						<td><c:if test="${project.applyDate ne null}"><fmt:formatDate value="${project.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
+						<td><a class="oplink" href="app/finan/project.do?action=diaglogFinaProjectPage&id=${project.id}&op=view" target="dialog" title="查看‘${project.employee.empName}’新项目申请单-${project.formNo}" width="1150" height="640" rel="approval_project_${project.id}">审批</a></td>
+					</tr>
+				</logic:iterate>
+			</logic:present>
 			<logic:present name="finanInfo">
 				<logic:iterate id="finanInfo" name="finanInfo" property="items">
 					<tr>
 					<td>
-						<c:choose>
-							<c:when test="${finanInfo.auditState eq 2}">费用支出审批已通过</c:when>
-							<c:when test="${finanInfo.auditState eq 3}">费用支出审批不通过</c:when>
-							<c:when test="${finanInfo.auditState eq 4}">费用支出审批已退回</c:when>
-						</c:choose>
+						费用支出审批
 					</td>
 					<td style="text-align:left;">
 						${finanInfo.employee.empName } &nbsp&nbsp&nbsp <label style="color:red;">${finanInfo.empDistrict.districtName}</label> &nbsp&nbsp&nbsp  <label style="color:red;">${finanInfo.applyAmt }</label>
@@ -156,11 +163,7 @@
 				<logic:iterate id="contractInfo" name="contractInfo" property="items">
 					<tr>
 					<td>
-						<c:choose>
-							<c:when test="${contractInfo.auditState eq 2}">合同审批已通过</c:when>
-							<c:when test="${contractInfo.auditState eq 3}">合同审批不通过</c:when>
-							<c:when test="${contractInfo.auditState eq 4}">合同审批已退回</c:when>
-						</c:choose>
+						合同审批
 					</td>
 					<td style="text-align:left;">
 						${contractInfo.employee.empName } &nbsp&nbsp&nbsp ${contractInfo.empDistrict.districtName} &nbsp&nbsp&nbsp ${contractInfo.applyFormType.processTypeName}

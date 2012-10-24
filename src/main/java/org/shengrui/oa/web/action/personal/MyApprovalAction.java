@@ -373,12 +373,12 @@ extends BaseAppAction
 	public ActionForward pageMyApprovalRecord(ActionMapping mapping,ActionForm form,
 			HttpServletRequest request,HttpServletResponse response)
 	{
-		ModelNewsMag newsRec = (ModelNewsMag) form;
-		ModelTaskPlan taskRec = (ModelTaskPlan) form;
-		ModelFinanExpense finanRec = (ModelFinanExpense) form;
-		ModelFinanContract contractRec = (ModelFinanContract) form;
-		ModelHrmJobHireInfo formJobHireInfo = (ModelHrmJobHireInfo) form;
-		ModelHrmEmployeeDevelop formEmployee = (ModelHrmEmployeeDevelop) form;
+		ModelNewsMag newsRec = null; //(ModelNewsMag) form;
+		ModelTaskPlan taskRec =  null; // (ModelTaskPlan) form;
+		ModelFinanExpense finanRec =  null; // (ModelFinanExpense) form;
+		ModelFinanContract contractRec =  null; // (ModelFinanContract) form;
+		// ModelHrmJobHireInfo formJobHireInfo = (ModelHrmJobHireInfo) form;
+		ModelHrmEmployeeDevelop formEmployee = null; // (ModelHrmEmployeeDevelop) form;
 		
 		PagingBean pagingBean = this.getPagingBean(request);
 		try 
@@ -398,6 +398,11 @@ extends BaseAppAction
 				this.serviceFinanExpense.getfinanApprovalRec(finanRec, pagingBean);
 			request.setAttribute("finanInfo", finanInfo);
 			
+			//新项目申请审批
+			PaginationSupport<ModelFinanProject> projectInfo =
+				this.serviceFinanProject.getApprovalRec(pagingBean);
+			request.setAttribute("projectInfo", projectInfo);
+			
 			//合同审批
 			PaginationSupport<ModelFinanContract> contractInfo = 
 				this.serviceFinanContract.finanContractRec(contractRec, pagingBean);
@@ -405,7 +410,7 @@ extends BaseAppAction
 			
 			//岗位发布审批
 			PaginationSupport<ModelHrmJobHireInfo> hireJobsInfo = 
-				this.serviceHrmJobHireInfo.getPaginationByEntity(formJobHireInfo, pagingBean);
+				this.serviceHrmJobHireInfo.getApprovalRec(pagingBean);
 			request.setAttribute("hireJobsInfo", hireJobsInfo);
 			
 			//晋升申请审批

@@ -72,4 +72,13 @@ extends ServiceGeneric<ModelHrmJobHireInfo>
 	 */
 	int getNumApprovals () throws ServiceException;
 	
+	/**
+	 * 获取审核记录.
+	 * 
+	 * @param pagingBean
+	 * @return
+	 * @throws ServiceException
+	 */
+	PaginationSupport<ModelHrmJobHireInfo> getApprovalRec (PagingBean pagingBean) throws ServiceException;
+	
 }
