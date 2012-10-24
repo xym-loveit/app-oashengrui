@@ -21,7 +21,17 @@ extends ModelBaseAuditHistory
 	 * 任务实体
 	 */
 	private ModelTaskPlan entity;
-
+	
+	public ModelTaskPlanAuditHistory()
+	{
+		
+	}
+	
+	public ModelTaskPlanAuditHistory (String id, String name)
+	{
+		super(id, name);
+	}
+	
 	public void setEntity(ModelTaskPlan entity)
 	{
 		this.entity = entity;

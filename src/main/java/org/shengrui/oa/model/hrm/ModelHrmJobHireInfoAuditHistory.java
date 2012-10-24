@@ -21,6 +21,16 @@ extends ModelBaseAuditHistory
 	 * 岗位实体
 	 */
 	private ModelHrmJobHireInfo entity;
+	
+	public ModelHrmJobHireInfoAuditHistory ()
+	{
+		
+	}
+	
+	public ModelHrmJobHireInfoAuditHistory (String id, String name)
+	{
+		super(id, name);
+	}
 
 	public void setEntity(ModelHrmJobHireInfo entity)
 	{

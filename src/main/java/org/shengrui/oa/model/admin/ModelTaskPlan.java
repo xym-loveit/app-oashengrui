@@ -139,6 +139,11 @@ extends ModelBase
 	private String aclFilterFields;
 	
 	/**
+	 * 审核历史
+	 */
+	private Set<ModelTaskPlanAuditHistory> auditHistory;
+	
+	/**
 	 * The enumeration of task state
 	 * 
 	 * @author Jeccy.Zhao
@@ -412,6 +417,16 @@ extends ModelBase
 	public String getTaskParticipantNames()
 	{
 		return taskParticipantNames;
+	}
+
+	public void setAuditHistory(Set<ModelTaskPlanAuditHistory> auditHistory)
+	{
+		this.auditHistory = auditHistory;
+	}
+
+	public Set<ModelTaskPlanAuditHistory> getAuditHistory()
+	{
+		return auditHistory;
 	}
 	
 }

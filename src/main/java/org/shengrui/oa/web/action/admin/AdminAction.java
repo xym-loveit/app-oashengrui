@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,6 +24,7 @@ import org.shengrui.oa.model.admin.ModelStaffAttendance;
 import org.shengrui.oa.model.admin.ModelStaffAttendanceView;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.info.ModelShortMessage;
+import org.shengrui.oa.model.news.ModelNewsAuditHistory;
 import org.shengrui.oa.model.news.ModelNewsMag;
 import org.shengrui.oa.model.system.ModelBaseWorkContent;
 import org.shengrui.oa.model.system.ModelBaseWorkTime;
@@ -357,6 +359,24 @@ extends BaseAdminAction
 				
 				entity.setAuditor(ContextUtil.getCurrentUser().getEmployee());
 				entity.setAuditTime(new Date());
+				
+				// 新增新闻审核数据
+				ModelNewsAuditHistory entityAudit = new ModelNewsAuditHistory(
+						String.valueOf(ContextUtil.getCurrentUserId()),
+						ContextUtil.getCurrentUser().getFullName());
+				entityAudit.setAuditState(entity.getStatus());
+				entityAudit.setEntity(entity);
+				
+				if (entity.getAuditHistory() == null)
+				{
+					entity.setAuditHistory(new HashSet<ModelNewsAuditHistory>());
+				}
+				
+				entity.getAuditHistory().add(entityAudit);
+				
+				
+				// TODO 审核数据保存
+				
 				this.serviceNewsManage.save(entity);
 				
 				// 短消息通知作者...
