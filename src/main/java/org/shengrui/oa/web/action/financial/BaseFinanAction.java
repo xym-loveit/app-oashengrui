@@ -15,6 +15,7 @@ import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.finan.ModelFinanBase;
 import org.shengrui.oa.model.finan.ModelFinanContract;
 import org.shengrui.oa.model.finan.ModelFinanExpense;
+import org.shengrui.oa.model.finan.ModelFinanProject;
 import org.shengrui.oa.model.flow.ModelProcessForm;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.info.ModelShortMessage;
@@ -200,6 +201,33 @@ extends FlowBaseAction
 							}
 							
 							this.serviceFinanContract.save(entity);
+							
+							baseEntity = entity;
+						}
+						else if (FINAN_FORM_KEY_PROJECT.equalsIgnoreCase(catKey))
+						{
+							// 新项目申请
+							ModelFinanProject entity = this.serviceFinanProject.getByFormNo(formNo);
+							if (entity.getApplyForm() == null || entity.getApplyForm().size() == 0)
+							{
+								entity.setAuditState(Integer.parseInt(procFormState));
+							}
+							
+							if (result.getRight() == null)
+							{
+								// 审批结束, 审批退回/不通过/通过
+								entity.setCurrentProcDepId(null);
+								entity.setCurrentProcPosId(null);
+							}
+							else
+							{
+								ModelProcessForm procForm = result.getRight();
+								entity.setCurrentProcDepId(procForm.getToDepartmentIds());
+								entity.setCurrentProcPosId(procForm.getToPositionIds());
+								entity.setCurrentProcDistrictId(procForm.getToDistrictIds());
+							}
+							
+							this.serviceFinanProject.save(entity);
 							
 							baseEntity = entity;
 						}
