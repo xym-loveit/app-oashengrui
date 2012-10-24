@@ -32,6 +32,7 @@ import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 import org.shengrui.oa.model.system.ModelWorkTemplate;
 import org.shengrui.oa.service.base.ServiceBase;
+import org.shengrui.oa.service.news.ServiceNewsAuditHistory;
 import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.util.UtilDateTime;
 import org.shengrui.oa.util.WebActionUtil;
@@ -74,6 +75,12 @@ extends BaseAdminAction
 	 */
 	@Resource
 	private ServiceBase serviceBase;
+	
+	/**
+	 * The service of news audit history
+	 */
+	@Resource
+	private ServiceNewsAuditHistory serviceNewsAuditHistory;
 
 	/**
 	 * <b>[WebAction]</b> 
@@ -1745,5 +1752,15 @@ extends BaseAdminAction
 	public void setServiceBase(ServiceBase serviceBase)
 	{
 		this.serviceBase = serviceBase;
+	}
+
+	public void setServiceNewsAuditHistory(ServiceNewsAuditHistory serviceNewsAuditHistory)
+	{
+		this.serviceNewsAuditHistory = serviceNewsAuditHistory;
+	}
+
+	public ServiceNewsAuditHistory getServiceNewsAuditHistory()
+	{
+		return serviceNewsAuditHistory;
 	}
 }

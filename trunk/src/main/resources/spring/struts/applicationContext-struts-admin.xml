@@ -23,6 +23,7 @@
 	   	 <property name="serviceAdminWorkArrange" ref="serviceAdminWorkArrange" />
 	   	 <property name="serviceAdminWorkType" ref="serviceAdminWorkType" />
 	   	 <property name="serviceBase" ref="serviceBase" />
+	   	 <property name="serviceNewsAuditHistory" ref="serviceNewsAuditHistory" />
 	</bean>
 	
 	<bean name="/app/admin/attendance/operation" 
