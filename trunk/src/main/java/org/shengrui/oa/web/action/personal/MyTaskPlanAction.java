@@ -16,6 +16,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.admin.ModelTaskPlan;
+import org.shengrui.oa.model.admin.ModelTaskPlanAuditHistory;
 import org.shengrui.oa.model.admin.ModelTaskPlanTrack;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.info.ModelShortMessage;
@@ -333,6 +334,7 @@ extends BaseAppAction
 		{
 			ModelTaskPlan formEntity = (ModelTaskPlan) form;
 			ModelTaskPlan entity = null;
+			ModelTaskPlanAuditHistory entityAudit = null;
 			
 			boolean isCreation = formEntity.getId() == null;
 			
@@ -362,19 +364,36 @@ extends BaseAppAction
 						entity.setAuditor(null);
 						entity.setAuditTime(null);
 					}
-					else if (entity.getAuditStatus() != null && 
+					else
+					{
+						if (entity.getAuditStatus() != null && 
 							ModelTaskPlan.ETaskApprovalStatus.RETURNED.getValue().equals(entity.getAuditStatus()))
-					{
-						// 修改已退回为待审批状态...
-						entity.setAuditStatus(ModelTaskPlan.ETaskApprovalStatus.RETURNED.getValue());
-						entity.setAuditTime(new Date());
-						entity.setAuditor(ContextUtil.getCurrentUser().getEmployee());
-					}
-					else if (entity.getAuditStatus() != null && 
+						{
+							// 修改已退回为待审批状态...
+							entity.setAuditStatus(ModelTaskPlan.ETaskApprovalStatus.RETURNED.getValue());
+							entity.setAuditTime(new Date());
+							entity.setAuditor(ContextUtil.getCurrentUser().getEmployee());
+						
+						}
+						else if (entity.getAuditStatus() != null && 
 							ModelTaskPlan.ETaskApprovalStatus.APPROVED.getValue().equals(entity.getAuditStatus()))
-					{
-						entity.setAuditTime(new Date());
-						entity.setAuditor(ContextUtil.getCurrentUser().getEmployee());
+						{
+							entity.setAuditTime(new Date());
+							entity.setAuditor(ContextUtil.getCurrentUser().getEmployee());
+						}
+						
+						// 添加审核历史数据
+						entityAudit = new ModelTaskPlanAuditHistory(
+								String.valueOf(ContextUtil.getCurrentUserId()),
+								ContextUtil.getCurrentUser().getFullName());
+						entityAudit.setAuditState(entity.getAuditStatus());
+						entityAudit.setEntity(entity);
+						
+						if (entity.getAuditHistory() == null)
+						{
+							entity.setAuditHistory(new HashSet<ModelTaskPlanAuditHistory>());
+						}
+						entity.getAuditHistory().add(entityAudit);
 					}
 				}
 				else
@@ -453,6 +472,12 @@ extends BaseAppAction
 									Integer.valueOf(entity.getTaskCharger().getEmployeeDepartment().getId()));
 							entity.setTaskChargerDisId(
 									Integer.valueOf(entity.getTaskCharger().getEmployeeDistrict().getId()));
+							
+							// 保存审核历史数据
+							if (entityAudit != null)
+							{
+								// TODO Audit history entity to be saved.
+							}
 							
 							this.serviceTaskPlan.save(entity);
 							

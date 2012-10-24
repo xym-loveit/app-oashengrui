@@ -174,6 +174,11 @@ extends ModelBase
 	private int numHireEntry;
 	
 	/**
+	 * 审核历史
+	 */
+	private Set<ModelHrmJobHireInfoAuditHistory> auditHistory;
+	
+	/**
 	 * The enumeration of job hire approval status
 	 * 
 	 * @author Jeccy.Zhao
@@ -546,6 +551,16 @@ extends ModelBase
 	public void setJobHireVisibleDistrictIds(String jobHireVisibleDistrictIds)
 	{
 		this.jobHireVisibleDistrictIds = jobHireVisibleDistrictIds;
+	}
+
+	public void setAuditHistory(Set<ModelHrmJobHireInfoAuditHistory> auditHistory)
+	{
+		this.auditHistory = auditHistory;
+	}
+
+	public Set<ModelHrmJobHireInfoAuditHistory> getAuditHistory()
+	{
+		return auditHistory;
 	}
 	
 }

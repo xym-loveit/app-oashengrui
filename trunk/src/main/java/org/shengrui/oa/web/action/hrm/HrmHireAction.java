@@ -3,6 +3,7 @@ package org.shengrui.oa.web.action.hrm;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import org.shengrui.oa.model.hrm.ModelHrmArchive;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireEntry;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireInfo;
+import org.shengrui.oa.model.hrm.ModelHrmJobHireInfoAuditHistory;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireInterview;
 import org.shengrui.oa.model.hrm.ModelHrmJobHireIssue;
 import org.shengrui.oa.model.hrm.ModelHrmResume;
@@ -469,11 +471,16 @@ extends BaseHrmAction
 //				entity.setJobHireVisibleDistrict(this.serviceSchoolDistrict.get(districtVisibleId));
 //			}
 			
+			// 审核数据
+			ModelHrmJobHireInfoAuditHistory entityAudit = null;
+			
 			// 设置审批状态
-			this.applyApprovalStatus(entity, isCreation, request);
+			this.applyApprovalStatus(entity, isCreation, request, entityAudit);
 			
 			// 设置岗位附件
 			this.handleFileAttachments(entity, request);
+			
+			// TODO 审核数据保存.
 			
 			this.serviceHrmJobHireInfo.save(entity);
 			
@@ -575,7 +582,7 @@ extends BaseHrmAction
 	 * @param request
 	 */
 	private void applyApprovalStatus (ModelHrmJobHireInfo entity, 
-			boolean isCreation, HttpServletRequest request)
+			boolean isCreation, HttpServletRequest request, ModelHrmJobHireInfoAuditHistory entityAudit)
 	{
 		String formAction = request.getParameter("formAction");
 		
@@ -590,6 +597,7 @@ extends BaseHrmAction
 			}
 			else
 			{
+				
 				if (ACTION_FORM_FLAG_APPROVAL.equals(formAction))
 				{
 					// 审批状态为审批通过
@@ -604,6 +612,24 @@ extends BaseHrmAction
 					entity.setAuditor(ContextUtil.getCurrentUser().getEmployee().getEmpName());
 					entity.setAuditDate(new Date());
 				}
+				else
+				{
+					// TODO 非法审核状态操作
+				}
+				
+				
+				// 新增历史审核数据
+				entityAudit= new ModelHrmJobHireInfoAuditHistory(
+						String.valueOf(ContextUtil.getCurrentUserId()),
+						ContextUtil.getCurrentUser().getFullName());
+				entityAudit.setEntity(entity);
+				entityAudit.setAuditState(entity.getStatus());
+				
+				if (entity.getAuditHistory() == null)
+				{
+					entity.setAuditHistory(new HashSet<ModelHrmJobHireInfoAuditHistory>());
+				}
+				entity.getAuditHistory().add(entityAudit);
 			}
 		} 
 		else
@@ -648,6 +674,24 @@ extends BaseHrmAction
 						entity.setAuditDate(new Date());
 					}
 				}
+				else
+				{
+					// TODO 非法状态操作处理.
+				}
+				
+				
+				// 新增历史审核数据
+				entityAudit= new ModelHrmJobHireInfoAuditHistory(
+						String.valueOf(ContextUtil.getCurrentUserId()),
+						ContextUtil.getCurrentUser().getFullName());
+				entityAudit.setEntity(entity);
+				entityAudit.setAuditState(entity.getStatus());
+				
+				if (entity.getAuditHistory() == null)
+				{
+					entity.setAuditHistory(new HashSet<ModelHrmJobHireInfoAuditHistory>());
+				}
+				entity.getAuditHistory().add(entityAudit);
 			}
 		}
 	}

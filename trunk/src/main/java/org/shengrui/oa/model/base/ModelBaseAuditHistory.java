@@ -25,17 +25,34 @@ extends ModelBase
 	/**
 	 * 审核人ID
 	 */
-	private String auditorId;
+	protected String auditorId;
 	
 	/**
 	 * 审核人姓名
 	 */
-	private String auditorName;
+	protected String auditorName;
 	
 	/**
 	 * 审核日期
 	 */
-	private Date auditDate;
+	protected Date auditDate;
+	
+	/**
+	 * 审核状态
+	 */
+	protected Integer auditState;
+	
+	public ModelBaseAuditHistory ()
+	{
+		
+	}
+	
+	public ModelBaseAuditHistory (String id, String name)
+	{
+		this.auditorId = id;
+		this.auditorName = name;
+		this.auditDate = new Date();
+	}
 
 	public String getAuditorId()
 	{
@@ -67,4 +84,13 @@ extends ModelBase
 		this.auditDate = auditDate;
 	}
 	
+	public Integer getAuditState()
+	{
+		return auditState;
+	}
+
+	public void setAuditState(Integer auditState)
+	{
+		this.auditState = auditState;
+	}
 }

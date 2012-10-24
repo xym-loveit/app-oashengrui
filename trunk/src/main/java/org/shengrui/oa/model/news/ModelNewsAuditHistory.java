@@ -21,6 +21,16 @@ extends ModelBaseAuditHistory
 	 * 新闻实体
 	 */
 	private ModelNewsMag entity;
+	
+	public ModelNewsAuditHistory()
+	{
+		
+	}
+	
+	public ModelNewsAuditHistory (String id, String name)
+	{
+		super(id, name);
+	}
 
 	public void setEntity(ModelNewsMag entity)
 	{

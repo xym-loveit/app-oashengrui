@@ -1,6 +1,7 @@
 package org.shengrui.oa.model.news;
 
 import java.util.Date;
+import java.util.Set;
 
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.system.ModelAppDictionary;
@@ -122,6 +123,11 @@ extends ModelBase
 	 * 审批时间
 	 */
 	private Date auditTime;
+	
+	/**
+	 * 审核历史
+	 */
+	private Set<ModelNewsAuditHistory> auditHistory;
 	
 	/**
 	 * 
@@ -325,6 +331,14 @@ extends ModelBase
 	public void setNewsDistrictVisibleIds(String newsDistrictVisibleIds)
 	{
 		this.newsDistrictVisibleIds = newsDistrictVisibleIds;
+	}
+	public void setAuditHistory(Set<ModelNewsAuditHistory> auditHistory)
+	{
+		this.auditHistory = auditHistory;
+	}
+	public Set<ModelNewsAuditHistory> getAuditHistory()
+	{
+		return auditHistory;
 	}
 	
 }
