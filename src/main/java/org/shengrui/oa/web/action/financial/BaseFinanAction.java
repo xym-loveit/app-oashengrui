@@ -204,7 +204,7 @@ extends FlowBaseAction
 							
 							baseEntity = entity;
 						}
-						else if (FINAN_FORM_KEY_PROJECT.equalsIgnoreCase(catKey))
+						else if (FIANA_CATKEY_PROJECT.equalsIgnoreCase(catKey))
 						{
 							// 新项目申请
 							ModelFinanProject entity = this.serviceFinanProject.getByFormNo(formNo);
