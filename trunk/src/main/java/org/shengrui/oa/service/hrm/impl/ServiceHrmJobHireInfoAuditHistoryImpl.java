@@ -21,8 +21,7 @@ extends ServiceGenericImpl<ModelHrmJobHireInfoAuditHistory> implements ServiceHr
 	public ServiceHrmJobHireInfoAuditHistoryImpl(DAOHrmJobHireInfoAuditHistory dao)
 	{
 		super(dao);
-		
-		this.dao = daoHrmJobHireInfoAuditHistory;
+		this.daoHrmJobHireInfoAuditHistory = dao;
 	}
 
 	public void setDaoHrmJobHireInfoAuditHistory(

@@ -487,7 +487,8 @@ extends BaseHrmAction
 			// 设置岗位附件
 			this.handleFileAttachments(entity, request);
 			
-			// TODO 审核数据保存.
+			// 审核数据保存.
+			this.serviceHrmJobHireInfoAuditHistory.save(entityAudit);
 			
 			this.serviceHrmJobHireInfo.save(entity);
 			

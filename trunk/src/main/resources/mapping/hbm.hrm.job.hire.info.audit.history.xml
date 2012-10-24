@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.shengrui.oa.model.hrm">
+	<class name="ModelHrmJobHireInfoAuditHistory" table="app_hrm_hire_job_audithistory">
+		<!-- <cache usage="read-write" /> -->
+		<id name="id" type="java.lang.String">
+			<column name="id" />
+			<generator class="native" />
+		</id>
+
+		<property name="auditorId" type="java.lang.String">
+			<column name="auditor_id" not-null="true" />
+		</property>
+		
+		<property name="auditorName" type="java.lang.String">
+			<column name="auditor_name" />
+		</property>
+
+		<property name="auditState" type="java.lang.Integer">
+			<column name="audit_state" not-null="true" />
+		</property>
+		
+		<property name="auditDate" type="java.util.Date">
+			<column name="audit_date" not-null="true" />
+		</property>
+		
+        <many-to-one name="entity" class="ModelHrmJobHireInfo">
+        	<column name="entity_id" />
+        </many-to-one>
+        
+	</class>
+</hibernate-mapping>

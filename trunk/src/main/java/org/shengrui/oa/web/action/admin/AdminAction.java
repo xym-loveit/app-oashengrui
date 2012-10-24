@@ -381,8 +381,8 @@ extends BaseAdminAction
 				
 				entity.getAuditHistory().add(entityAudit);
 				
-				
-				// TODO 审核数据保存
+				// 审核数据保存
+				this.serviceNewsAuditHistory.save(entityAudit);
 				
 				this.serviceNewsManage.save(entity);
 				

@@ -21,7 +21,7 @@ extends ServiceGenericImpl<ModelTaskPlanAuditHistory> implements ServiceTaskPlan
 	public ServiceTaskPlanAuditHistoryImpl(DAOTaskPlanAuditHistory dao)
 	{
 		super(dao);
-		this.dao = daoTaskPlanAuditHistory;
+		this.daoTaskPlanAuditHistory = dao;
 	}
 
 	public void setDaoTaskPlanAuditHistory(DAOTaskPlanAuditHistory daoTaskPlanAuditHistory)

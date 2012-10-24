@@ -482,7 +482,7 @@ extends BaseAppAction
 							// 保存审核历史数据
 							if (entityAudit != null)
 							{
-								// TODO Audit history entity to be saved.
+								this.serviceTaskPlanAuditHistory.save(entityAudit);
 							}
 							
 							this.serviceTaskPlan.save(entity);
