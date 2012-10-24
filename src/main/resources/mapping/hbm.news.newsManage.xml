@@ -77,5 +77,12 @@
 	      <many-to-many class="cn.trymore.oa.model.system.ModelFileAttach" column="file_id" />
 	    </set>
 	    
+	    <set name="auditHistory" table="app_admin_news_audithistory"
+        	cascade="save-update" lazy="true" order-by="audit_date desc"> 
+	      <!-- <cache usage="read-write" /> -->
+	      <key column="entity_id"/>  
+	      <one-to-many class="ModelNewsAuditHistory" />
+	    </set>
+	    
 	</class>
 </hibernate-mapping>
