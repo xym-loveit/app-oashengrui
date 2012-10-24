@@ -15,6 +15,18 @@
 		</property>
 	</bean>
 	
+	<!-- Task Plan Audit History-->
+	<bean id="daoTaskPlanAuditHistory" class="org.shengrui.oa.dao.admin.impl.DAOTaskPlanAuditHistoryImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceTaskPlanAuditHistory" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.admin.impl.ServiceTaskPlanImpl">
+				<constructor-arg index="0" ref="daoTaskPlanAuditHistory"/>
+			</bean>
+		</property>
+	</bean>
+	
 	<!-- Task Plan Track-->
 	<bean id="daoTaskPlanTrack" class="org.shengrui.oa.dao.admin.impl.DAOTaskPlanTrackImpl">
 		<property name="hibernateTemplate" ref="hibernateTemplate" />

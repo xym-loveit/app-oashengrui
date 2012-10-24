@@ -14,6 +14,17 @@
 		</property>
 	</bean>
 	
+	<bean id="daoHrmJobHireInfoAuditHistory" class="org.shengrui.oa.dao.hrm.impl.DAOHrmJobHireInfoAuditHistoryImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceHrmJobHireInfoAuditHistory" parent="baseTxProxy">
+		<property name="target">
+			<bean class=" org.shengrui.oa.service.hrm.impl.ServiceHrmJobHireInfoAuditHistoryImpl">
+				<constructor-arg index="0" ref="daoHrmJobHireInfoAuditHistory"/>
+			</bean>
+		</property>
+	</bean>
+	
 	<bean id="daoHrmEmployee" class="org.shengrui.oa.dao.hrm.impl.DAOHrmEmployeeImpl">
 		<property name="hibernateTemplate" ref="hibernateTemplate" />
 	</bean>
