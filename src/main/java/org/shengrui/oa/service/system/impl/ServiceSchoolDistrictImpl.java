@@ -1,5 +1,7 @@
 package org.shengrui.oa.service.system.impl;
 
+import java.util.List;
+
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
@@ -114,6 +116,34 @@ extends ServiceGenericImpl<ModelSchoolDistrict> implements ServiceSchoolDistrict
 			return this.daoSchoolDistrict.getDistrictByName(districtName);
 		} 
 		catch (Exception e) 
+		{
+			throw new ServiceException(e);
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.system.ServiceSchoolDistrict#getAllDistricts()
+	 */
+	@Override
+	public List<ModelSchoolDistrict> getAllDistricts() throws ServiceException
+	{
+		return getAllDistricts(true);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.system.ServiceSchoolDistrict#getAllDistricts(boolean)
+	 */
+	@Override
+	public List<ModelSchoolDistrict> getAllDistricts(boolean passtruFilter)
+			throws ServiceException
+	{
+		try
+		{
+			return this.daoSchoolDistrict.getAll(passtruFilter);
+		}
+		catch (Exception e)
 		{
 			throw new ServiceException(e);
 		}
