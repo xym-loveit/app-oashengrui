@@ -8,6 +8,7 @@ import org.hibernate.criterion.Restrictions;
 
 import org.shengrui.oa.dao.finan.DAOFinanContract;
 import org.shengrui.oa.model.finan.ModelFinanContract;
+import org.shengrui.oa.model.flow.ModelProcessForm;
 import org.shengrui.oa.service.finan.ServiceFinanContract;
 import org.shengrui.oa.util.ContextUtil;
 
@@ -171,7 +172,16 @@ extends ServiceGenericImpl<ModelFinanContract> implements ServiceFinanContract
 			PagingBean pagingBean) throws ServiceException 
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanContract.class);
-		criteria.add(Restrictions.in("auditState", new Integer[]{2,3,4}));
+
+		criteria.add(Restrictions.in("auditState", new Integer[]{
+				ModelProcessForm.EProcessFormStatus.APPROVED.getValue(),
+				ModelProcessForm.EProcessFormStatus.NOTPASSED.getValue(),
+				ModelProcessForm.EProcessFormStatus.RETURNED.getValue()}));
+		
+		// Added by Jeccy.Zhao on 24/10/2012: 过滤审批人...
+		criteria.createCriteria("processHistory").add(
+				Restrictions.eq("auditUserIds", ContextUtil.getCurrentUserId()));
+		
 		return this.getAll(criteria, pagingBean);
 	}
 	

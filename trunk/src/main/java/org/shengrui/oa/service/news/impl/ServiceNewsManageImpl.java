@@ -245,6 +245,11 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelNewsMag.class);
 		criteria.add(Restrictions.in("status",new Integer[]{2,3}));
 //				.add(Restrictions.eq("status", 3));
+		
+		// Added by Jeccy.Zhao on 24/10/2012: 过滤审批人...
+		criteria.createCriteria("auditor").add(
+				Restrictions.eq("id", ContextUtil.getCurrentUser().getEmployeeId()));
+		
 		return this.getAll(criteria, pagingBean);
 	}
 

@@ -9,6 +9,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import org.shengrui.oa.dao.hrm.DAOHrmEmployeeDevelop;
+import org.shengrui.oa.model.flow.ModelProcessForm;
 import org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop;
 import org.shengrui.oa.service.hrm.ServiceHrmEmployeeDevelop;
 import org.shengrui.oa.util.ContextUtil;
@@ -210,7 +211,16 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 			PagingBean pagingBean) throws ServiceException 
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployeeDevelop.class);
-		criteria.add(Restrictions.in("auditState", new Integer[]{2,3,4}));
+		
+		criteria.add(Restrictions.in("auditState", new Integer[]{
+				ModelProcessForm.EProcessFormStatus.APPROVED.getValue(),
+				ModelProcessForm.EProcessFormStatus.NOTPASSED.getValue(),
+				ModelProcessForm.EProcessFormStatus.RETURNED.getValue()}));
+		
+		// Added by Jeccy.Zhao on 24/10/2012: 过滤审批人...
+		criteria.createCriteria("processHistory").add(
+				Restrictions.eq("auditUserIds", ContextUtil.getCurrentUserId()));
+		
 		return this.getAll(criteria, pagingBean);
 	}
 	

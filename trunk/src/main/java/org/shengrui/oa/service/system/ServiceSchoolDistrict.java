@@ -1,5 +1,7 @@
 package org.shengrui.oa.service.system;
 
+import java.util.List;
+
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 
 import cn.trymore.core.exception.ServiceException;
@@ -43,6 +45,25 @@ extends ServiceGeneric<ModelSchoolDistrict>
 	 * 
 	 * */
 	ModelSchoolDistrict getDistrictByName(String districtName) throws ServiceException;
+	
+	/**
+	 * 获取所有校区
+	 * 
+	 * @return
+	 * @throws ServiceException
+	 */
+	List<ModelSchoolDistrict> getAllDistricts () throws ServiceException;
+	
+	/**
+	 * 获取所有校区
+	 * 
+	 * @param passtruFilter
+	 *            是否进行数据权限过滤
+	 * @return
+	 * @throws ServiceException
+	 */
+	List<ModelSchoolDistrict> getAllDistricts (boolean passtruFilter) throws ServiceException;
+	
 	
 	
 }

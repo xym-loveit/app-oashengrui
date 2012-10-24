@@ -8,6 +8,7 @@ import org.hibernate.type.Type;
 import org.shengrui.oa.dao.admin.DAOTaskPlan;
 import org.shengrui.oa.model.admin.ModelTaskPlan;
 import org.shengrui.oa.service.admin.ServiceTaskPlan;
+import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.util.UtilDateTime;
 
 import cn.trymore.core.exception.ServiceException;
@@ -197,6 +198,11 @@ extends ServiceGenericImpl<ModelTaskPlan> implements ServiceTaskPlan
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelTaskPlan.class);
 		criteria.add(Restrictions.in("auditStatus", new Integer[]{2,3,4}));
+		
+		// Added by Jeccy.Zhao on 24/10/2012: 过滤审批人...
+		criteria.createCriteria("auditor").add(
+				Restrictions.eq("id", ContextUtil.getCurrentUser().getEmployeeId()));
+		
 		return this.getAll(criteria, pagingBean);
 	}
 	
