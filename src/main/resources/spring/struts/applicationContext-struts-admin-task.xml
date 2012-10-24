@@ -6,6 +6,7 @@
 	<bean name="/app/admin/task" class="org.shengrui.oa.web.action.admin.AdminTaskAction" parent="base">
 		<property name="serviceTaskPlan" ref="serviceTaskPlan" />
 		<property name="serviceTaskPlanTrack" ref="serviceTaskPlanTrack" />
+		<property name="serviceTaskPlanAuditHistory" ref="serviceTaskPlanAuditHistory" />
      </bean>
 	
 </beans>

@@ -31,6 +31,7 @@ import org.shengrui.oa.model.system.ModelAppRole;
 import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 import org.shengrui.oa.service.base.ServiceBase;
+import org.shengrui.oa.service.hrm.ServiceHrmJobHireInfoAuditHistory;
 import org.shengrui.oa.util.AppUtil;
 import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.util.WebActionUtil;
@@ -66,6 +67,12 @@ extends BaseHrmAction
 	 */
 	@Resource
 	private ServiceBase serviceBase;
+	
+	/**
+	 * The service of HRM job audit history
+	 */
+	@Resource
+	private ServiceHrmJobHireInfoAuditHistory serviceHrmJobHireInfoAuditHistory;
 
 	/**
 	 * <b>[WebAction]</b> <br/>
@@ -1390,5 +1397,16 @@ extends BaseHrmAction
 	public void setServiceBase(ServiceBase serviceBase)
 	{
 		this.serviceBase = serviceBase;
+	}
+
+	public void setServiceHrmJobHireInfoAuditHistory(
+			ServiceHrmJobHireInfoAuditHistory serviceHrmJobHireInfoAuditHistory)
+	{
+		this.serviceHrmJobHireInfoAuditHistory = serviceHrmJobHireInfoAuditHistory;
+	}
+
+	public ServiceHrmJobHireInfoAuditHistory getServiceHrmJobHireInfoAuditHistory()
+	{
+		return serviceHrmJobHireInfoAuditHistory;
 	}
 }

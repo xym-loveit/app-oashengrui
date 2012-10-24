@@ -22,6 +22,7 @@ import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.info.ModelShortMessage;
 import org.shengrui.oa.model.system.ModelAppDictionary;
 import org.shengrui.oa.service.admin.ServiceTaskPlan;
+import org.shengrui.oa.service.admin.ServiceTaskPlanAuditHistory;
 import org.shengrui.oa.service.admin.ServiceTaskPlanTrack;
 import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.util.WebActionUtil;
@@ -63,6 +64,11 @@ extends BaseAppAction
 	 * The task plan track service
 	 */
 	protected ServiceTaskPlanTrack serviceTaskPlanTrack;
+	
+	/**
+	 * The task plan audit history service
+	 */
+	protected ServiceTaskPlanAuditHistory serviceTaskPlanAuditHistory;
 	
 	/**
 	 * <b>[WebAction]</b> 
@@ -1001,6 +1007,17 @@ extends BaseAppAction
 	public void setServiceTaskPlanTrack(ServiceTaskPlanTrack serviceTaskPlanTrack)
 	{
 		this.serviceTaskPlanTrack = serviceTaskPlanTrack;
+	}
+
+	public void setServiceTaskPlanAuditHistory(
+			ServiceTaskPlanAuditHistory serviceTaskPlanAuditHistory)
+	{
+		this.serviceTaskPlanAuditHistory = serviceTaskPlanAuditHistory;
+	}
+
+	public ServiceTaskPlanAuditHistory getServiceTaskPlanAuditHistory()
+	{
+		return serviceTaskPlanAuditHistory;
 	}
 	
 }
