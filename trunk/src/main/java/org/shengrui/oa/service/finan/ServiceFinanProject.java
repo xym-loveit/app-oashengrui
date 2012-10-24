@@ -48,4 +48,13 @@ extends ServiceGeneric<ModelFinanProject>
 	 */
 	PaginationSupport<ModelFinanProject> getFinanProjectInfoPagination (ModelFinanProject entity, 
 			PagingBean pagingBean, boolean filterMyApprovals) throws ServiceException;
+	
+	/**
+	 * 获取审批记录.
+	 * 
+	 * @param pagingBean
+	 * @return
+	 * @throws ServiceException
+	 */
+	PaginationSupport<ModelFinanProject> getApprovalRec (PagingBean pagingBean) throws ServiceException;
 }

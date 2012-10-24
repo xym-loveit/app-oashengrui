@@ -170,6 +170,24 @@ extends ServiceGenericImpl<ModelHrmJobHireInfo> implements ServiceHrmJobHireInfo
 		return this.daoHrmJobHireInfo.getCountByNativeSQL(sql);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmJobHireInfo#getApprovalRec(cn.trymore.core.web.paging.PagingBean)
+	 */
+	@Override
+	public PaginationSupport<ModelHrmJobHireInfo> getApprovalRec (
+			PagingBean pagingBean) throws ServiceException
+	{
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmJobHireInfo.class);
+		criteria.add(Restrictions.in("status", new Integer[]{1,2,3,4}));
+		
+		// Added by Jeccy.Zhao on 24/10/2012: 过滤审批人...
+		criteria.createCriteria("auditHistory").add(
+				Restrictions.eq("auditorId", String.valueOf(ContextUtil.getCurrentUserId())));
+		
+		return this.getAll(criteria, pagingBean);
+	}
+	
 	public ServiceHrmJobHireInfoImpl(DAOHrmJobHireInfo dao)
 	{
 		super(dao);

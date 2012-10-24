@@ -8,6 +8,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.finan.DAOFinanProject;
 import org.shengrui.oa.model.finan.ModelFinanProject;
+import org.shengrui.oa.model.flow.ModelProcessForm;
 import org.shengrui.oa.service.finan.ServiceFinanProject;
 import org.shengrui.oa.util.ContextUtil;
 
@@ -72,6 +73,29 @@ extends ServiceGenericImpl<ModelFinanProject> implements ServiceFinanProject
 			boolean filterMyApprovals) throws ServiceException
 	{
 		return this.getAll(this.getCriterias(entity, filterMyApprovals), pagingBean, !filterMyApprovals);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.finan.ServiceFinanProject#getApprovalRec(cn.trymore.core.web.paging.PagingBean)
+	 */
+	@Override
+	public PaginationSupport<ModelFinanProject> getApprovalRec (
+			PagingBean pagingBean) throws ServiceException
+	{
+		
+		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanProject.class);
+		
+		criteria.add(Restrictions.in("auditState", new Integer[]{
+				ModelProcessForm.EProcessFormStatus.APPROVED.getValue(),
+				ModelProcessForm.EProcessFormStatus.NOTPASSED.getValue(),
+				ModelProcessForm.EProcessFormStatus.RETURNED.getValue()}));
+		
+		// Added by Jeccy.Zhao on 24/10/2012: 过滤审批人...
+		criteria.createCriteria("processHistory").add(
+				Restrictions.eq("auditUserIds", String.valueOf(ContextUtil.getCurrentUserId())));
+		
+		return this.getAll(criteria, pagingBean);
 	}
 	
 	/**
