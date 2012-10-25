@@ -91,7 +91,7 @@ $(function(){
 	
 	
 	//我的新闻
-	$.post("app/admin/news.do?action=adminPageEntryIndex&objOut&numPerPage=5",{},function(data){
+	$.post("app/personal/news.do?action=pageMyNews&objOut&numPerPage=5",{},function(data){
 		$("#news").html(data);
 		var size=$('#news tr').size();
 	  	for(i=0;i<size;i++){
@@ -104,7 +104,7 @@ $(function(){
 	
 	
 	//我的文档
-	$.post("app/admin/doc.do?action=adminPageDocumentIndex&objOut&numPerPage=5",{},function(data){
+	$.post("app/personal/doc.do?action=pageMyDoc&objOut&numPerPage=5",{},function(data){
 		$("#doc").html(data)
 		var size=$('#doc tr').size();
 	  	for(i=0;i<size;i++){

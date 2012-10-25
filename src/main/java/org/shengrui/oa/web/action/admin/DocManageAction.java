@@ -79,13 +79,6 @@ extends BaseAdminAction
 				request.setAttribute("docs", docs);
 				request.setAttribute("formDoc", formDoc);
 				
-				// 首页我的会议加载视图渲染...
-				if (request.getParameter("objOut") != null)
-				{
-					response.getWriter().write(ObjectToString(docs));
-					return null;
-				}
-				
 				// 输出分页信息至客户端
 				outWritePagination(request, pagingBean, docs);
 				request.setAttribute("docTypes", this.getServiceAppDictionary().getByType("docType"));
@@ -700,22 +693,4 @@ extends BaseAdminAction
 		}
 	}
 	
-	private String ObjectToString(PaginationSupport<ModelDoc> list)
-	{
-		StringBuffer sb =new StringBuffer();
-		if (list != null)
-		{
-			for (ModelDoc doc : list.getItems()) 
-			{
-				sb.append("<tr><td style=\"display: none;\">");
-				sb.append(doc.getId()+"</td><td alt=\"" + doc.getFile().getFilePath() + "\">");
-				sb.append(doc.getDocName());
-				sb.append("</td><td>");
-				sb.append(doc.getType().getValue()+"</td>");
-				sb.append("<td>"+doc.getCreateTime()+"</td></tr>");
-			}
-			return sb.toString();
-		}
-		return "";
-	}
 }
