@@ -15,6 +15,58 @@
 	#tblexp input.textInput {float:none;margin: 5px; width: 80px;}
 </style>
 
+<script>
+	$(function(){
+		<c:if test="${op eq null || op ne 'view'}">
+		//加载上传组件入口文件
+		KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
+			var ru = new RenderUploader('#jp_DFE_UploaderBtn', '#jp_DFE_UploaderQueue',{
+				 //服务器端配置
+				serverConfig:{
+					//处理上传的服务器端脚本路径
+					action:"file-upload"
+				},
+				// 文件域
+				name:"Filedata",
+				//用于放服务器端返回的url的隐藏域
+				urlsInputName:"fileUrls"
+				<c:if test="${jobHire ne null && fn:length(jobHire.attachFiles) gt 0}">
+				// 用于数据展现
+				,restoreHook:"#jp_DFE_UploaderRestore"
+				</c:if>
+			});
+			
+			ru.on('init', function (ev) {
+				//上传组件实例
+				var uploader = ev.uploader;
+				//上传按钮实例
+				var button = uploader.get('button');
+				
+				uploader.on('success', function (ev) {
+					var feedback = ev.result;
+					var file_id = feedback.data.id;
+					if (file_id) {
+						$("#fileIds").val($("#fileIds").val() == "" ? file_id : ($("#fileIds").val() + "," + file_id));
+					}
+				});
+				
+				uploader.on('error', function (ev) {
+					alert("文件上传失败:" + ev.result.message);
+				});
+				
+			});
+		});
+		</c:if>
+	});
+</script>
+
+<!--- 生成需要展现文件的JSON -->
+<c:if test="${(op eq null || op ne 'view') && (entity ne null && fn:length(entity.attachFiles) gt 0)}">
+<script type="text/uploader-restore" id="jp_DFE_UploaderRestore">
+${tm:fileRestore(entity['attachFiles'])}
+</script>
+</c:if>
+
 <table id="tblexp" cellpadding="0" cellspacing="0" width="98%" border="1" style="border-collapse: collapse; border-color: #797979; margin: 0 auto;">
 	<tr>
 		<td width="${op eq null || op ne 'view' ? '72%' : '100%'}" colspan="10" class="banner">员工离职申请单</td>
@@ -54,6 +106,36 @@
 	<tr>
 		<td class='field'>请辞报告</td>
 		<td colspan="8"><textarea name="comments" rows="1" style="width: 98%; height: 120px; margin: 5px;" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>>${entity ne null ? entity.comments : ''}</textarea></td>
+	</tr>
+	<tr>
+		<td class='field'>附件</td>
+		<td colspan="8" style="padding: 5px;">
+			<div>
+				<c:choose>
+					<c:when test="${op eq null || op ne 'view'}">
+						<!-- 上传按钮，组件配置请写在data-config内 -->
+						<a id="jp_DFE_UploaderBtn" class="uploader-button" href="javascript:void(0);"> 选择要上传的文件 </a>
+						<!-- 文件上传队列 -->
+						<ul id="jp_DFE_UploaderQueue"></ul>
+						<div id="J_Panel" class="event-panel"></div>
+						<input type="hidden" name="fileUrls" id="fileUrls" />
+						<input type="hidden" name="fileIds" id="fileIds" />
+					</c:when>
+					<c:otherwise>
+						<c:choose>
+							<c:when test="${entity ne null && fn:length(entity.attachFiles) gt 0}">
+								<ul>
+									<logic:iterate name="entity" property="attachFiles" id="file">
+										<li class="item_file"><a title="点击下载`${file.fileName}`文件" href="file-download?path=${file.filePath}" target="_blank">${file.fileName}</a></li>
+									</logic:iterate>
+								</ul>
+							</c:when>
+							<c:otherwise>暂未上传任何附件..</c:otherwise>
+						</c:choose>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</td>
 	</tr>
 </table>
 

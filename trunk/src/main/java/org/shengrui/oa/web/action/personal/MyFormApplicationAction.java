@@ -358,7 +358,10 @@ extends FlowBaseAction
 						procForm = this.serviceWorkFlow.resetProcess(entity.getFormNo());
 						entity.setAuditState(ModelProcessForm.EProcessFormStatus.RETURNED.getValue());
 					}
-						
+					
+					// 设置附件
+					this.handleFileAttachments(entity, request);
+					
 					this.serviceHrmEmployeeDevelop.save(entity);
 						
 					if (procForm != null)

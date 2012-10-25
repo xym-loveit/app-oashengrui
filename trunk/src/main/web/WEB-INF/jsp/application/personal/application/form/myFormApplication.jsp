@@ -14,7 +14,7 @@
 	<div class="panelBar">
 		<c:if test="${tm:ifGranted('_FUNCKEY_PERSONAL_APPLICATION_POST')}">
 			<ul class="toolBar" style="float:right">
-				<li><a treeicon="icon-records" class="icon" href="app/personal/application_form.do?action=dialogApplicationFormPage" target="dialog" rel="dmy_formapplication" width="1000" height="485"><span class="icon-records">我要申请</span></a></li>
+				<li><a treeicon="icon-records" class="icon" href="app/personal/application_form.do?action=dialogApplicationFormPage" target="dialog" rel="dmy_formapplication" width="1000" height="525"><span class="icon-records">我要申请</span></a></li>
 			</ul>
 		</c:if>
 	</div>
