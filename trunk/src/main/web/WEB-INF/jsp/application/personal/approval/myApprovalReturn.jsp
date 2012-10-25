@@ -105,33 +105,38 @@
 				</logic:iterate>
 			</logic:present>
 			<logic:present name="taskInfo">
-				<logic:iterate id="taskInfo" name="taskInfo" property="items">
+				<logic:iterate id="task" name="taskInfo" property="items">
 					<tr>
 					<td>
 						任务审批
 					</td>
 					<td style="text-align:left;">
-						[${taskInfo.taskName }] &nbsp&nbsp&nbsp “${taskInfo.taskName}” &nbsp&nbsp&nbsp
+						[${task.taskName }] &nbsp&nbsp&nbsp “${task.taskName}” &nbsp&nbsp&nbsp
 						<c:choose>
-							<c:when test="${taskInfo.auditStatus eq 2}">任务审批已通过</c:when>
-							<c:when test="${taskInfo.auditStatus eq 3}">任务审批不通过</c:when>
-							<c:when test="${taskInfo.auditStatus eq 4}">任务审批已退回</c:when>
+							<c:when test="${task.auditStatus eq 2}">任务审批已通过</c:when>
+							<c:when test="${task.auditStatus eq 3}">任务审批不通过</c:when>
+							<c:when test="${task.auditStatus eq 4}">任务审批已退回</c:when>
 						</c:choose>
 					</td>
-					<td>${taskInfo.taskOriginator.empName }</td>
-					<td><c:if test="${taskInfo.createTime ne null}"><fmt:formatDate value="${taskInfo.createTime}" pattern="yyyy-MM-dd" /></c:if></td>
-					<td><a href="app/admin/task.do?action=dialogTaskPage&id=${taskInfo.id}&op=view" target="dialog" title="任务‘${taskInfo.taskName}’-查看" width="750" height="530" class="oplink">详细</a></td>
+					<td>${task.taskOriginator.empName }</td>
+					<td><c:if test="${task.createTime ne null}"><fmt:formatDate value="${task.createTime}" pattern="yyyy-MM-dd" /></c:if></td>
+					<td><a href="app/admin/task.do?action=dialogTaskPage&id=${task.id}&op=view" target="dialog" title="任务‘${task.taskName}’-查看" width="750" height="530" class="oplink">详细</a></td>
 					</tr>
 				</logic:iterate>
 			</logic:present>
-			<logic:present name="projects">
-				<logic:iterate id="project" name="projects" property="items">
+			<logic:present name="projectInfo">
+				<logic:iterate id="project" name="projectInfo" property="items">
 					<tr>
 						<td>
 							新项目审批
 						</td>
 						<td style="text-align:left">
-							[${project.employee.empName }] &nbsp&nbsp&nbsp ${project.empDistrict.districtName} &nbsp&nbsp&nbsp ${project.applyFormType.processTypeName}
+							[${project.employee.empName }]&nbsp; ${project.empDistrict.districtName} &nbsp;"${project.applyFormType.processTypeName}"&nbsp;
+							<label style="color:red;">${project.applyAmt }</label>&nbsp;<c:choose>
+								<c:when test="${project.auditState eq 2}">新项目审批已通过</c:when>
+								<c:when test="${project.auditState eq 3}">新项目审批不通过</c:when>
+								<c:when test="${project.auditState eq 4}">新项目审批已退回</c:when>
+							</c:choose>
 						</td>
 						<td>${project.employee.empName }</td>
 						<td><c:if test="${project.applyDate ne null}"><fmt:formatDate value="${project.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
