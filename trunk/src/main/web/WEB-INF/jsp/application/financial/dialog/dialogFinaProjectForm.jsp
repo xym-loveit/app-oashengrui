@@ -14,6 +14,7 @@
 	#tblexp td.banner {line-height: ${op eq null || op ne 'view' ? '35px' : '25px'};font-size: 18px; font-weight: bold; text-align: center; margin: 0;}
 	#tblexp td.field {background-color: #CFDBEC; line-height: ${op eq null || op ne 'view' ? '35px' : '25px'}; text-align: center; margin: 0; width: 120px; font-size: 9pt;}
 	#tblexp input.textInput {float:none;margin: 5px; width: 80px;}
+	.export_present {display:none;}
 </style>
 
 <script>
