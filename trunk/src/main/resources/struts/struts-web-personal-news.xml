@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "F:/Coding/workspace/app-oaShengRui/src/main/web/WEB-INF/dtds/struts-config_1_2.dtd">
+<!DOCTYPE struts-config PUBLIC 
+		"-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" 
+		"D:/x36zhao/My Personals/dev/app-oashengrui/src/main/web/WEB-INF/dtds/struts-config_1_2.dtd">
 
 <struts-config>
 	<form-beans>
