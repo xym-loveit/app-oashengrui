@@ -1,4 +1,5 @@
 package org.shengrui.oa.web.action.personal;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,8 +12,7 @@ import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.admin.ModelDoc;
 import org.shengrui.oa.model.admin.ModelDocLevel;
 
-import cn.trymore.core.exception.DAOException;
-import cn.trymore.core.exception.ServiceException;
+import cn.trymore.core.util.UtilCollection;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
@@ -61,11 +61,39 @@ extends BasePersonalAction
 		    request.setAttribute("district_docs1",district_docs1);
 		    request.setAttribute("department_docs1",department_docs1);
 		    request.setAttribute("deparent_docs1",deparent_docs1);
+		    
+		    // 首页我的文档加载视图渲染...
+			if (request.getParameter("objOut") != null)
+			{
+				PaginationSupport<ModelDoc> items = new PaginationSupport<ModelDoc>();
 				
-		} catch (ServiceException e)
-		{
-			LOGGER.error("Exception raised when  download docs.", e);
-		} catch (DAOException e)
+				if (UtilCollection.isNotEmpty(company_docs1))
+				{
+					items.getItems().addAll(company_docs1);
+				}
+				
+				if (UtilCollection.isNotEmpty(district_docs1))
+				{
+					items.getItems().addAll(district_docs1);
+				}
+				
+				if (UtilCollection.isNotEmpty(department_docs1))
+				{
+					items.getItems().addAll(department_docs1);
+				}
+				
+				if (UtilCollection.isNotEmpty(deparent_docs1))
+				{
+					items.getItems().addAll(deparent_docs1);
+				}
+				
+				response.getWriter().write(ObjectToString(items));
+				
+				return null;
+			}
+				
+		} 
+		catch (Exception e)
 		{
 			LOGGER.error("Exception raised when  download docs.", e);
 		}
@@ -111,5 +139,24 @@ extends BasePersonalAction
 			LOGGER.error("Exception raised when  download docs.", e);
 		}
 		return mapping.findForward("page.my.doc.more");
+	}
+	
+	private String ObjectToString(PaginationSupport<ModelDoc> list)
+	{
+		StringBuffer sb =new StringBuffer();
+		if (list != null)
+		{
+			for (ModelDoc doc : list.getItems()) 
+			{
+				sb.append("<tr><td style=\"display: none;\">");
+				sb.append(doc.getId()+"</td><td alt=\"" + doc.getFile().getFilePath() + "\">");
+				sb.append(doc.getDocName());
+				sb.append("</td><td>");
+				sb.append(doc.getType().getValue()+"</td>");
+				sb.append("<td>"+doc.getCreateTime()+"</td></tr>");
+			}
+			return sb.toString();
+		}
+		return "";
 	}
 }
