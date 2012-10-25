@@ -75,7 +75,10 @@ implements ServiceGeneric<T>
 	{
 		try
 		{
-			dao.saveOrUpdate(domain);
+			if (domain != null)
+			{
+				dao.saveOrUpdate(domain);
+			}
 		} 
 		catch (Exception e)
 		{
