@@ -600,6 +600,45 @@ extends FlowBaseAction
 	}
 	
 	/**
+	 * <b>[WebAction]</b> <br/>
+	 * 申请表单删除
+	 */
+	public ActionForward actionRemoveApplication(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+	{
+		String id = request.getParameter("id");
+		
+		if (this.isObjectIdValid(id))
+		{
+			try
+			{
+				ModelHrmEmployeeDevelop entity = this.serviceHrmEmployeeDevelop.get(id);
+				if (entity != null)
+				{
+					this.serviceHrmEmployeeDevelop.remove(entity);
+					
+					return ajaxPrint(response, 
+							getSuccessCallback("申请单移除成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("申请单移除失败, 实体不存在id-" + id));
+				}
+			}
+			catch (Exception e)
+			{
+				LOGGER.error("Exception raised when removing employee develop application entity.", e);
+				return ajaxPrint(response, getErrorCallback("申请单移除失败:" + e.getMessage()));
+			}
+		}
+		else
+		{
+			return ajaxPrint(response, getErrorCallback("申请单移除失败, 非法实体ID被传入:" + id));
+		}
+		
+	}
+	
+	/**
 	 * 
 	 * @param entity
 	 * @param paramDistrictId

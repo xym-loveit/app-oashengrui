@@ -373,4 +373,43 @@ extends BaseFinanAction
 		}
 	}
 	
+	/**
+	 * <b>[WebAction]</b> <br/>
+	 * 新项目申请表单删除
+	 */
+	public ActionForward actionFinanProjectFormRemove(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+	{
+		String id = request.getParameter("id");
+		
+		if (this.isObjectIdValid(id))
+		{
+			try
+			{
+				ModelFinanProject entity = this.serviceFinanProject.get(id);
+				if (entity != null)
+				{
+					this.serviceFinanProject.remove(entity);
+					
+					return ajaxPrint(response, 
+							getSuccessCallback("新项目申请移除成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("新项目申请移除失败, 实体不存在id-" + id));
+				}
+			}
+			catch (Exception e)
+			{
+				LOGGER.error("Exception raised when removing project entity.", e);
+				return ajaxPrint(response, getErrorCallback("新项目申请移除失败:" + e.getMessage()));
+			}
+		}
+		else
+		{
+			return ajaxPrint(response, getErrorCallback("新项目申请移除失败, 非法实体ID被传入:" + id));
+		}
+		
+	}
+	
 }
