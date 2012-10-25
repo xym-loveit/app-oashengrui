@@ -30,11 +30,11 @@
 								</c:choose>
 							</td>
 							<td>${entry.dictionary.name}</td>
-							<td width="30"></td>
+							<td width="10"></td>
 							<td>
 								<a class="icon" href="app/admin/news.do?action=actionNewsScan&id=${entry.id }&op=view" target="dialog" rel="admin_entrycheck" width="900" height="650">${entry.newsSubject}</a>
 							</td>
-							<td width="30"></td>
+							<td width="10"></td>
 							<td>(<c:if test="${entry.updateTime ne null}"><fmt:formatDate value="${entry.updateTime}" pattern="yyyy-MM-dd" /></c:if>)</td>
 						</tr>
 					</c:if>
@@ -79,9 +79,9 @@
 								</c:choose>
 							</td>
 							<td>${entry.dictionary.name}</td>
-							<td width="30"></td>
+							<td width="10"></td>
 							<td><a href="app/admin/news.do?action=actionNewsScan&id=${entry.id }"&op=view" target="dialog" width="900" height="650" title="新闻详细"><span>${entry.newsSubject}</span></a></td>
-							<td width="30"></td>
+							<td width="10"></td>
 							<td>(<c:if test="${entry.updateTime ne null}"><fmt:formatDate value="${entry.updateTime}" pattern="yyyy-MM-dd" /></c:if>)</td>
 						</tr>
 					</c:if>
