@@ -3,7 +3,7 @@
     <rootDir>/src/main/web</rootDir>
     <exportSource>false</exportSource>
     <reloadable>true</reloadable>
-    <redirectLogger>true</redirectLogger>
+    <redirectLogger>false</redirectLogger>
     <updateXml>true</updateXml>
     <warLocation></warLocation>
     <extraInfo></extraInfo>
@@ -49,6 +49,9 @@
         <webClassPathEntry>/app-oaShengRui/lib/liblucene/lucene-highlighter-3.5.0.jar</webClassPathEntry>
         <webClassPathEntry>/app-oaShengRui/lib/liblucene/luceneHtmlParser.jar</webClassPathEntry>
         <webClassPathEntry>/app-oaShengRui/lib/libmail/mail.jar</webClassPathEntry>
+        <webClassPathEntry>/app-oaShengRui/lib/libpdf/core-renderer.jar</webClassPathEntry>
+        <webClassPathEntry>/app-oaShengRui/lib/libpdf/iText-2.0.8.jar</webClassPathEntry>
+        <webClassPathEntry>/app-oaShengRui/lib/libpdf/iTextAsian.jar</webClassPathEntry>
         <webClassPathEntry>/app-oaShengRui/lib/libquartz/quartz-1.8.3.jar</webClassPathEntry>
         <webClassPathEntry>/app-oaShengRui/lib/libquartz/slf4j-api-1.5.8.jar</webClassPathEntry>
         <webClassPathEntry>/app-oaShengRui/lib/libquartz/slf4j-log4j12.jar</webClassPathEntry>

@@ -19,7 +19,7 @@
 			<forward name="page.my.approval.index" path="page.my.approval.index" />
 			<forward name="page.my.approvalReturn.index" path="page.my.approvalReturn.index" />
 		</action>
-				<action path="/app/personal/approval"
+		<action path="/app/personal/approval"
 				name="form.admin.task"		
 				scope="request"
 				parameter="action"

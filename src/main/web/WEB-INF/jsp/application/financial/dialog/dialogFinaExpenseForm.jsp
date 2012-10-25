@@ -111,7 +111,7 @@ ${tm:fileRestore(entity['attachFiles'])}
 					<c:choose>
 						<c:when test="${op ne null && op eq 'view'}"><span style="float:left; color:#FF7300; line-height: 18px;">财务审批流程：<b>${entity.applyFormType.processTypeName}</b></span></c:when>
 						<c:otherwise>
-							<span style="float:left; color:#FF7300; line-height: 18px;">费用支出类型：</span>
+							<span style="float:left; color:#FF7300; line-height: 18px;">财务审批流程：</span>
 							<select class="combox required" name="applyFormTypeId" id="expense_type">
 								<logic:present name="types">
 									<logic:iterate name="types" id="typeEntity">
