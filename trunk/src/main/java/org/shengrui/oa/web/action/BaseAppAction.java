@@ -613,7 +613,7 @@ extends BaseAction
 	 *                 the start index
 	 * @return employee no
 	 */
-	protected String generateEmployeeNo (ModelSchoolDistrict district, 
+	protected synchronized String generateEmployeeNo (ModelSchoolDistrict district, 
 			ModelSchoolDepartment department, int startIndex) throws Exception
 	{
 		if (district != null && department != null)
@@ -628,8 +628,21 @@ extends BaseAction
 				// 部门编号
 				builder.append(department.getDepNo());
 				
+				// 避免异常数据.
+				int index = 1;
+				while (true)
+				{
+					String empNo = builder.toString() + String.format("%03d", startIndex + index);
+					ModelHrmEmployee employee = this.serviceHrmEmployee.getEmployeeByEmpNo(empNo);
+					if (employee == null)
+					{
+						break;
+					}
+					index++;
+				}
+				
 				// 追加序号
-				builder.append(String.format("%03d", startIndex + 1));
+				builder.append(String.format("%03d", startIndex + index));
 				
 				return builder.toString();
 			}
