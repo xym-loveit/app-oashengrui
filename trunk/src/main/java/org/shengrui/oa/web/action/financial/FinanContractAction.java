@@ -370,4 +370,42 @@ extends BaseFinanAction
 		}
 	}
 	
+	/**
+	 * <b>[WebAction]</b> <br/>
+	 * 合同申请表单删除
+	 */
+	public ActionForward actionFinanContractFormRemove(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+	{
+		String id = request.getParameter("id");
+		
+		if (this.isObjectIdValid(id))
+		{
+			try
+			{
+				ModelFinanContract entity = this.serviceFinanContract.get(id);
+				if (entity != null)
+				{
+					this.serviceFinanContract.remove(entity);
+					
+					return ajaxPrint(response, 
+							getSuccessCallback("合同申请移除成功.", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("合同申请移除失败, 实体不存在id-" + id));
+				}
+			}
+			catch (Exception e)
+			{
+				LOGGER.error("Exception raised when removing contract entity.", e);
+				return ajaxPrint(response, getErrorCallback("合同申请移除失败:" + e.getMessage()));
+			}
+		}
+		else
+		{
+			return ajaxPrint(response, getErrorCallback("合同申请移除失败, 非法实体ID被传入:" + id));
+		}
+		
+	}
 }
