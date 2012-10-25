@@ -72,12 +72,7 @@
 			<logic:present name="newsinfo">
 				<logic:iterate id="newsinfo" name="newsinfo" property="items">
 					<tr>
-						<td>
-							<c:choose>
-								<c:when test="${newsinfo.status eq 2 }">新闻审批通过</c:when>
-								<c:when test="${newsinfo.status eq 3 }">新闻审批退回</c:when>
-							</c:choose>
-						</td>
+						<td>新闻审批</td>
 						<td style="text-align:left;">
 							[${newsinfo.dictionary.name}] &nbsp&nbsp&nbsp “${newsinfo.newsSubject}” &nbsp&nbsp&nbsp<c:choose><c:when test="${newsinfo.status eq 2 }">新闻审批通过</c:when><c:when test="${newsinfo.status eq 3 }">新闻审批退回</c:when></c:choose>
 						</td>
@@ -89,47 +84,39 @@
 			</logic:present>
 			<logic:present name="hireJobsInfo">
 				<logic:iterate id="entity" name="hireJobsInfo" property="items">
-					
-					<c:choose><c:when test="${entity.status eq 4}">
-						<tr><td>
-							岗位发布审批
-						</td>
+					<tr>
+						<td>岗位发布审批</td>
 						<td style="text-align:left;">
 							[${entity.jobHireDistrict.districtName}   ${entity.jobHireDepartment.depName}]&nbsp&nbsp “${entity.jobHireTitle}”&nbsp&nbsp招聘
 						</td>
 						<td>${entity.postAuthorName}</td>
 						<td><c:if test="${entity.postDate ne null}"><fmt:formatDate value="${entity.postDate}" pattern="yyyy-MM-dd"/></c:if></td>
-						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}&op=view" target="dialog" title="岗位详细" width="960" height="420">详细</a></td></tr>
-					</c:when></c:choose>
-					
+						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}&op=view" target="dialog" title="岗位详细" width="960" height="420">详细</a></td>
+					</tr>
 				</logic:iterate>
 			</logic:present>
 			<logic:present name="taskInfo">
 				<logic:iterate id="task" name="taskInfo" property="items">
 					<tr>
-					<td>
-						任务审批
-					</td>
-					<td style="text-align:left;">
-						[${task.taskName }] &nbsp&nbsp&nbsp “${task.taskName}” &nbsp&nbsp&nbsp
-						<c:choose>
-							<c:when test="${task.auditStatus eq 2}">任务审批已通过</c:when>
-							<c:when test="${task.auditStatus eq 3}">任务审批不通过</c:when>
-							<c:when test="${task.auditStatus eq 4}">任务审批已退回</c:when>
-						</c:choose>
-					</td>
-					<td>${task.taskOriginator.empName }</td>
-					<td><c:if test="${task.createTime ne null}"><fmt:formatDate value="${task.createTime}" pattern="yyyy-MM-dd" /></c:if></td>
-					<td><a href="app/admin/task.do?action=dialogTaskPage&id=${task.id}&op=view" target="dialog" title="任务‘${task.taskName}’-查看" width="750" height="530" class="oplink">详细</a></td>
+						<td>任务审批</td>
+						<td style="text-align:left;">
+							[${task.taskName }] &nbsp&nbsp&nbsp “${task.taskName}” &nbsp&nbsp&nbsp
+							<c:choose>
+								<c:when test="${task.auditStatus eq 2}">任务审批已通过</c:when>
+								<c:when test="${task.auditStatus eq 3}">任务审批不通过</c:when>
+								<c:when test="${task.auditStatus eq 4}">任务审批已退回</c:when>
+							</c:choose>
+						</td>
+						<td>${task.taskOriginator.empName }</td>
+						<td><c:if test="${task.createTime ne null}"><fmt:formatDate value="${task.createTime}" pattern="yyyy-MM-dd" /></c:if></td>
+						<td><a href="app/admin/task.do?action=dialogTaskPage&id=${task.id}&op=view" target="dialog" title="任务‘${task.taskName}’-查看" width="750" height="530" class="oplink">详细</a></td>
 					</tr>
 				</logic:iterate>
 			</logic:present>
 			<logic:present name="projectInfo">
 				<logic:iterate id="project" name="projectInfo" property="items">
 					<tr>
-						<td>
-							新项目审批
-						</td>
+						<td>新项目审批</td>
 						<td style="text-align:left">
 							[${project.employee.empName }]&nbsp; ${project.empDistrict.districtName} &nbsp;"${project.applyFormType.processTypeName}"&nbsp;
 							<label style="color:red;">${project.applyAmt }</label>&nbsp;<c:choose>
@@ -147,152 +134,144 @@
 			<logic:present name="finanInfo">
 				<logic:iterate id="finanInfo" name="finanInfo" property="items">
 					<tr>
-					<td>
-						费用支出审批
-					</td>
-					<td style="text-align:left;">
-						${finanInfo.employee.empName } &nbsp&nbsp&nbsp <label style="color:red;">${finanInfo.empDistrict.districtName}</label> &nbsp&nbsp&nbsp  <label style="color:red;">${finanInfo.applyAmt }</label>
-						<c:choose>
-							<c:when test="${finanInfo.auditState eq 2}">费用支出审批已通过</c:when>
-							<c:when test="${finanInfo.auditState eq 3}">费用支出审批不通过</c:when>
-							<c:when test="${finanInfo.auditState eq 4}">费用支出审批已退回</c:when>
-						</c:choose>
-					</td>
-					<td>${finanInfo.employee.empName }</td>
-					<td><c:if test="${finanInfo.applyDate ne null}"><fmt:formatDate value="${finanInfo.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
-					<td><a class="oplink" href="app/finan/expense.do?action=diaglogFinaExpensePage&id=${finanInfo.id}&op=view" target="dialog" title="查看‘${finanInfo.employee.empName}’合同申请单-${finanInfo.formNo}" width="1150" height="640" >详细</a></td>
+						<td>费用支出审批</td>
+						<td style="text-align:left;">
+							${finanInfo.employee.empName } &nbsp&nbsp&nbsp <label style="color:red;">${finanInfo.empDistrict.districtName}</label> &nbsp&nbsp&nbsp  <label style="color:red;">${finanInfo.applyAmt }</label>
+							<c:choose>
+								<c:when test="${finanInfo.auditState eq 2}">费用支出审批已通过</c:when>
+								<c:when test="${finanInfo.auditState eq 3}">费用支出审批不通过</c:when>
+								<c:when test="${finanInfo.auditState eq 4}">费用支出审批已退回</c:when>
+							</c:choose>
+						</td>
+						<td>${finanInfo.employee.empName }</td>
+						<td><c:if test="${finanInfo.applyDate ne null}"><fmt:formatDate value="${finanInfo.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
+						<td><a class="oplink" href="app/finan/expense.do?action=diaglogFinaExpensePage&id=${finanInfo.id}&op=view" target="dialog" title="查看‘${finanInfo.employee.empName}’合同申请单-${finanInfo.formNo}" width="1150" height="640" >详细</a></td>
 					</tr>
 				</logic:iterate>
 			</logic:present>
 			<logic:present name="contractInfo">
 				<logic:iterate id="contractInfo" name="contractInfo" property="items">
 					<tr>
-					<td>
-						合同审批
-					</td>
-					<td style="text-align:left;">
-						${contractInfo.employee.empName } &nbsp&nbsp&nbsp ${contractInfo.empDistrict.districtName} &nbsp&nbsp&nbsp ${contractInfo.applyFormType.processTypeName}
-						<c:choose>
-							<c:when test="${contractInfo.auditState eq 2}">合同审批已通过</c:when>
-							<c:when test="${contractInfo.auditState eq 3}">合同审批不通过</c:when>
-							<c:when test="${contractInfo.auditState eq 4}">合同审批已退回</c:when>
-						</c:choose>
-					</td>
-					<td>${contractInfo.employee.empName }</td>
-					<td><c:if test="${contractInfo.applyDate ne null}"><fmt:formatDate value="${contractInfo.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
-					<td><a class="oplink" href="app/finan/contract.do?action=diaglogFinaContractPage&id=${contractInfo.id}&op=view" target="dialog" title="查看‘${contractInfo.employee.empName}’合同申请单-${contractInfo.formNo}" width="1150" height="640" >详细</a></td>
+						<td>合同审批</td>
+						<td style="text-align:left;">
+							${contractInfo.employee.empName } &nbsp&nbsp&nbsp ${contractInfo.empDistrict.districtName} &nbsp&nbsp&nbsp ${contractInfo.applyFormType.processTypeName}
+							<c:choose>
+								<c:when test="${contractInfo.auditState eq 2}">合同审批已通过</c:when>
+								<c:when test="${contractInfo.auditState eq 3}">合同审批不通过</c:when>
+								<c:when test="${contractInfo.auditState eq 4}">合同审批已退回</c:when>
+							</c:choose>
+						</td>
+						<td>${contractInfo.employee.empName }</td>
+						<td><c:if test="${contractInfo.applyDate ne null}"><fmt:formatDate value="${contractInfo.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
+						<td><a class="oplink" href="app/finan/contract.do?action=diaglogFinaContractPage&id=${contractInfo.id}&op=view" target="dialog" title="查看‘${contractInfo.employee.empName}’合同申请单-${contractInfo.formNo}" width="1150" height="640" >详细</a></td>
 					</tr>
 				</logic:iterate>
 			</logic:present>
 			<logic:present name="dataList">
 				<logic:iterate id="type" name="dataList" property="items">
-					
-					<c:choose><c:when test="${type.applyFormType.id eq 5}">
-					<tr><td>
-						晋升申请审批
-					</td>
-					<td style="text-align:left;">
-						${type.employee.empName} &nbsp&nbsp <label style="color:red;">${type.fromDistrict.districtName }_${type.fromDepartment.depName }_${type.fromPosition.positionName }</label>
-						&nbsp&nbsp 晋升 &nbsp&nbsp<label style="color:red;">${type.toDistrict.districtName }_${type.toDepartment.depName }_${type.toPosition.positionName }</label> &nbsp&nbsp申请
-						<c:choose>
-							<c:when test="${type.auditState eq 2}">审批已通过</c:when>
-							<c:when test="${type.auditState eq 3}">审批不通过</c:when>
-							<c:when test="${type.auditState eq 4}">审批已退回</c:when>
-						</c:choose>
-					</td>
-					<td>${type.employee.empName }</td>
-					<td><c:if test="${type.applyDate ne null}"><fmt:formatDate value="${type.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
-<td>
-						<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">详细</a></td></tr>
-					</c:when></c:choose>
-					
-				</logic:iterate>
-			</logic:present>
-			<logic:present name="dataList">
-				<logic:iterate id="type" name="dataList" property="items">
-					
-					<c:choose><c:when test="${type.applyFormType.id eq 3}">
-					<tr><td>
-						转正申请审批
-					</td>
-					<td style="text-align:left;">
-						${type.employee.empName} &nbsp&nbsp<label style="color:red;">${type.fromDistrict.districtName }_${type.fromDepartment.depName }_${type.fromPosition.positionName }</label>&nbsp&nbsp转正申请
-						<c:choose>
-							<c:when test="${type.auditState eq 2}">审批已通过</c:when>
-							<c:when test="${type.auditState eq 3}">审批不通过</c:when>
-							<c:when test="${type.auditState eq 4}">审批已退回</c:when>
-						</c:choose>
-					</td>
-					<td>${type.employee.empName }</td>
-					<td><c:if test="${type.applyDate ne null}"><fmt:formatDate value="${type.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
-					<td>
-						<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">详细</a></td></tr>
-					</c:when></c:choose>
-					
-				</logic:iterate>
-			</logic:present>
-			<logic:present name="dataList">
-				<logic:iterate id="type" name="dataList" property="items">
-					
-					<c:choose><c:when test="${type.applyFormType.id eq 6}">
-					<tr><td>
-						离职申请审批
-					</td>
-					<td style="text-align:left;">
-						${type.employee.empName} &nbsp&nbsp<label style="color:red;">${type.fromDistrict.districtName }_${type.fromDepartment.depName }_${type.fromPosition.positionName }</label>&nbsp&nbsp离职申请
 					<c:choose>
-							<c:when test="${type.auditState eq 2}">审批已通过</c:when>
-							<c:when test="${type.auditState eq 3}">审批不通过</c:when>
-							<c:when test="${type.auditState eq 4}">审批已退回</c:when>
-						</c:choose>
-					</td>
-					<td>${type.employee.empName }</td>
-					<td><c:if test="${type.applyDate ne null}"><fmt:formatDate value="${type.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
-					<td>
-						<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">详细</a></td></tr>
-					</c:when></c:choose>
-					
+						<c:when test="${type.applyFormType.id eq 5}">
+							<tr>
+								<td>晋升申请审批</td>
+								<td style="text-align:left;">
+									${type.employee.empName} &nbsp&nbsp <label style="color:red;">${type.fromDistrict.districtName }_${type.fromDepartment.depName }_${type.fromPosition.positionName }</label>
+									&nbsp&nbsp 晋升 &nbsp&nbsp<label style="color:red;">${type.toDistrict.districtName }_${type.toDepartment.depName }_${type.toPosition.positionName }</label> &nbsp&nbsp申请
+									<c:choose>
+										<c:when test="${type.auditState eq 2}">审批已通过</c:when>
+										<c:when test="${type.auditState eq 3}">审批不通过</c:when>
+										<c:when test="${type.auditState eq 4}">审批已退回</c:when>
+									</c:choose>
+								</td>
+								<td>${type.employee.empName }</td>
+								<td><c:if test="${type.applyDate ne null}"><fmt:formatDate value="${type.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
+								<td><a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">详细</a></td>
+							</tr>
+						</c:when>
+					</c:choose>
 				</logic:iterate>
 			</logic:present>
 			<logic:present name="dataList">
 				<logic:iterate id="type" name="dataList" property="items">
-					
-					<c:choose><c:when test="${type.applyFormType.id eq 4}">
-					<tr><td>
-						调动申请审批
-					</td>
-					<td style="text-align:left;">
-						${type.employee.empName}&nbsp&nbsp<label style="color:red;">${type.fromDistrict.districtName }_${type.fromDepartment.depName }_${type.fromPosition.positionName }</label>&nbsp&nbsp调动 &nbsp&nbsp
-						<label style="color:red;">${type.toDistrict.districtName }_${type.toDepartment.depName }_${type.toPosition.positionName }</label>&nbsp&nbsp申请
-						<c:choose>
-							<c:when test="${type.auditState eq 2}">审批已通过</c:when>
-							<c:when test="${type.auditState eq 3}">审批不通过</c:when>
-							<c:when test="${type.auditState eq 4}">审批已退回</c:when>
-						</c:choose>
-					</td>
-					<td>${type.employee.empName }</td>
-					<td><c:if test="${type.applyDate ne null}"><fmt:formatDate value="${type.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
-					<td>
-						<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">详细</a></td></tr>
-					</c:when></c:choose>
-					
+					<c:choose>
+						<c:when test="${type.applyFormType.id eq 3}">
+							<tr>
+								<td>转正申请审批</td>
+								<td style="text-align:left;">
+									${type.employee.empName} &nbsp&nbsp<label style="color:red;">${type.fromDistrict.districtName }_${type.fromDepartment.depName }_${type.fromPosition.positionName }</label>&nbsp&nbsp转正申请
+									<c:choose>
+										<c:when test="${type.auditState eq 2}">审批已通过</c:when>
+										<c:when test="${type.auditState eq 3}">审批不通过</c:when>
+										<c:when test="${type.auditState eq 4}">审批已退回</c:when>
+									</c:choose>
+								</td>
+								<td>${type.employee.empName }</td>
+								<td><c:if test="${type.applyDate ne null}"><fmt:formatDate value="${type.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
+								<td><a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">详细</a></td>
+							</tr>
+						</c:when>
+					</c:choose>
+				</logic:iterate>
+			</logic:present>
+			<logic:present name="dataList">
+				<logic:iterate id="type" name="dataList" property="items">
+					<c:choose>
+						<c:when test="${type.applyFormType.id eq 6}">
+							<tr>
+								<td>离职申请审批</td>
+								<td style="text-align:left;">
+									${type.employee.empName} &nbsp&nbsp<label style="color:red;">${type.fromDistrict.districtName }_${type.fromDepartment.depName }_${type.fromPosition.positionName }</label>&nbsp&nbsp离职申请
+									<c:choose>
+										<c:when test="${type.auditState eq 2}">审批已通过</c:when>
+										<c:when test="${type.auditState eq 3}">审批不通过</c:when>
+										<c:when test="${type.auditState eq 4}">审批已退回</c:when>
+									</c:choose>
+								</td>
+								<td>${type.employee.empName }</td>
+								<td><c:if test="${type.applyDate ne null}"><fmt:formatDate value="${type.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
+								<td><a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">详细</a></td>
+							</tr>
+						</c:when>
+					</c:choose>
+				</logic:iterate>
+			</logic:present>
+			<logic:present name="dataList">
+				<logic:iterate id="type" name="dataList" property="items">
+					<c:choose>
+						<c:when test="${type.applyFormType.id eq 4}">
+							<tr>
+								<td>调动申请审批</td>
+								<td style="text-align:left;">
+									${type.employee.empName}&nbsp&nbsp<label style="color:red;">${type.fromDistrict.districtName }_${type.fromDepartment.depName }_${type.fromPosition.positionName }</label>&nbsp&nbsp调动 &nbsp&nbsp
+									<label style="color:red;">${type.toDistrict.districtName }_${type.toDepartment.depName }_${type.toPosition.positionName }</label>&nbsp&nbsp申请
+									<c:choose>
+										<c:when test="${type.auditState eq 2}">审批已通过</c:when>
+										<c:when test="${type.auditState eq 3}">审批不通过</c:when>
+										<c:when test="${type.auditState eq 4}">审批已退回</c:when>
+									</c:choose>
+								</td>
+								<td>${type.employee.empName }</td>
+								<td><c:if test="${type.applyDate ne null}"><fmt:formatDate value="${type.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
+								<td><a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">详细</a></td>
+							</tr>
+						</c:when>
+					</c:choose>
 				</logic:iterate>
 			</logic:present>
 		</tbody>
 	</table>
-			<div class="panelBar">
-			<div class="pages">
-				<span>显示</span>
-				<select class="combox" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
-					<option value="20" ${pagingBean ne null && pagingBean.pageSize eq 20 ? 'selected="selected"' : ''}>20</option>
-					<option value="50" ${pagingBean ne null && pagingBean.pageSize eq 50 ? 'selected="selected"' : ''}>50</option>
-					<option value="100" ${pagingBean ne null && pagingBean.pageSize eq 100 ? 'selected="selected"' : ''}>100</option>
-					<option value="200" ${pagingBean ne null && pagingBean.pageSize eq 200 ? 'selected="selected"' : ''}>200</option>
-				</select>
-				<span>条，共${pagingBean ne null ? pagingBean.totalItems : 0}条</span>
-			</div>
-			
-			<div class="pagination" targetType="navTab" totalCount="${pagingBean ne null ? pagingBean.totalItems : 0}" numPerPage="${pagingBean ne null ? pagingBean.pageSize : 20}" pageNumShown="${pagingBean ne null ? pagingBean.pageNumShown : 10}" currentPage="${pagingBean ne null ? pagingBean.currentPage : 1}"></div>
-
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
+				<option value="20" ${pagingBean ne null && pagingBean.pageSize eq 20 ? 'selected="selected"' : ''}>20</option>
+				<option value="50" ${pagingBean ne null && pagingBean.pageSize eq 50 ? 'selected="selected"' : ''}>50</option>
+				<option value="100" ${pagingBean ne null && pagingBean.pageSize eq 100 ? 'selected="selected"' : ''}>100</option>
+				<option value="200" ${pagingBean ne null && pagingBean.pageSize eq 200 ? 'selected="selected"' : ''}>200</option>
+			</select>
+			<span>条，共${pagingBean ne null ? pagingBean.totalItems : 0}条</span>
 		</div>
+	
+		<div class="pagination" targetType="navTab" totalCount="${pagingBean ne null ? pagingBean.totalItems : 0}" numPerPage="${pagingBean ne null ? pagingBean.pageSize : 20}" pageNumShown="${pagingBean ne null ? pagingBean.pageNumShown : 10}" currentPage="${pagingBean ne null ? pagingBean.currentPage : 1}"></div>
+
+	</div>
 </div>
