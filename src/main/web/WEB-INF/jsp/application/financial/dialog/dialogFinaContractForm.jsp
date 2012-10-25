@@ -131,7 +131,7 @@ ${tm:fileRestore(entity['attachFiles'])}
 						<td class='field'>联系电话</td>
 						<td><input name="emp.phoneNo" class="required phone" type="text" value="${entity ne null ? entity.empPhoneNo : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
 						<c:if test="${op eq null || op ne 'view'}">
-						<td rowspan="5" style="line-height: 20px; padding: 0 4px;">业务招待费指用于业务及相关活动的应酬费用，如餐费、礼品费等。</td>
+						<td rowspan="5" style="line-height: 20px; padding: 0 4px;"></td>
 						</c:if>
 					</tr>
 					<tr>
