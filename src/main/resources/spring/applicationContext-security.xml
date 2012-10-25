@@ -65,6 +65,7 @@
 				<beans:value>/file-upload</beans:value>
 				<beans:value>/file-download</beans:value>
 				<beans:value>/dwr/</beans:value>
+				<beans:value>/app/export.do</beans:value>
 			</beans:set>
 		</beans:property>
 	</beans:bean>
