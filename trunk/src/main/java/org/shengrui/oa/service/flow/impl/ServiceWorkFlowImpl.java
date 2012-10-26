@@ -452,6 +452,11 @@ implements ServiceWorkFlow
 					form.setToPositionIds(matchedPosition.getLeft());
 					form.setToPositionNames(matchedPosition.getRight());
 				}
+				else
+				{
+					// 节点无法触及, 直接忽略.
+					form.setAuditState(ModelProcessForm.EProcessFormStatus.IGNORED.getValue());
+				}
 			}
 			else
 			{
