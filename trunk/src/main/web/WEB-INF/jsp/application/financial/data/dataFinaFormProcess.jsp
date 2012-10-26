@@ -71,6 +71,7 @@
 									<c:choose>
 										<c:when test="${entity.taskType eq 1 || entity.taskType eq 2}">(校区)</c:when>
 										<c:when test="${entity.taskType eq 3 || entity.taskType eq 4}">(总部)</c:when>
+										<c:when test="${entity.taskType eq 6 || entity.taskType eq 7 || entity.taskType eq 8}">(片区)</c:when>
 										<c:otherwise>(未知)</c:otherwise>
 									</c:choose>
 									审批
@@ -121,6 +122,7 @@
 									<c:choose>
 										<c:when test="${entity.taskType eq 1 || entity.taskType eq 2}">(校区)</c:when>
 										<c:when test="${entity.taskType eq 3 || entity.taskType eq 4}">(总部)</c:when>
+										<c:when test="${entity.taskType eq 6 || entity.taskType eq 7 || entity.taskType eq 8}">(片区)</c:when>
 										<c:otherwise>未知</c:otherwise>
 									</c:choose>
 									审批

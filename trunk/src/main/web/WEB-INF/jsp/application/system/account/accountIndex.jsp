@@ -79,7 +79,7 @@
 						<td>${user.username}</td>
 						<td>${user.fullName}</td>
 						<td>${user.district ne null ? user.district.districtName : '/'}</td>
-						<td>${user.position ne null ? user.position.department.depName : '/'}</td>
+						<td>${user.department ne null ? user.department.depName : '/'}</td>
 						<td>${user.position ne null ? user.position.positionName : '/'}</td>
 						<td>${user.status eq 1 ? '有效' : '已冻结'}</td>
 						<td>${user.employee.phoneNo}</td>
