@@ -10,8 +10,8 @@
 
 <script>
 	$(function(){
-		$("select[id^=posId_]").unbind("change");
-		$("select[id^=posId_]").bind("change", function(){
+		$("select[id^=cmb_]").unbind("change");
+		$("select[id^=cmb_]").bind("change", function(){
 			var id = $(this).attr("id");
 			var ele_posName = $("#" + id + "_name");
 			if (ele_posName.size() > 0) {
@@ -20,7 +20,7 @@
 		});
 		
 		<logic:present name="procTask">
-			$.each($("select[id^=posId_]"), function(){
+			$.each($("select[id^=cmb_]"), function(){
 				var id = $(this).attr("id");
 				var ele_posName = $("#" + id + "_name");
 				if (ele_posName.size() > 0) {
@@ -31,28 +31,36 @@
 	});
 </script>
 
-<div style="margin-bottom: 15px;"><b>片区部门列表：</b></div>
-
 <logic:present name="deps">
 	<logic:iterate name="deps" id="dep">
 		<c:if test="${dep.key eq 2}">
-			<logic:iterate name="dep" property="value" id="entity">
-				<div style="clear:both; margin-bottom: 10px; overflow: hidden">
-					<span style="float:left;line-height:20px">${entity.depName}：</span>
-					<input type="hidden" name="depName_${entity.id}" value="${entity.depName}" />
-					<input type="hidden" name="depId_${entity.id}" value="${entity.id}" />
-					<input type="hidden" name="posName_${entity.id}" value="" id="posId_${entity.id}_name" />
-					
-					<select name="posId_${entity.id}" class="combox" id="posId_${entity.id}">
+			<div style="overflow:hidden; margin-bottom: 10px;">
+				<div style="margin-bottom: 10px;"><b>请选择部门：</b></div>
+				<div>
+					<input type="hidden" name="depName" value="" id="cmb_depId_cs_name" />
+					<select name="depId" class="combox" id="cmb_depId_cs" ref="cmb_posId_cs" refUrl="app/base.do?action=actionLoadPositionByDepartment&depId={value}">
+						<option value="-1">请选择部门</option>
+						<logic:iterate name="dep" property="value" id="entity">
+							<option value="${entity.id}" ${procTask ne null && tm:inRange(procTask.toDepartmentIds, entity.id, ',') ? "selected='selected'" : ""}>${entity.depName}</option>
+						</logic:iterate>
+					</select>
+				</div>
+			</div>
+			
+			<div style="overflow:hidden; clear:both">
+				<div style="margin-bottom: 10px;"><b>请选择岗位：</b></div>
+				<div>
+					<input type="hidden" name="posName" value="" id="cmb_posId_cs_name" />
+					<select name="posId" class="combox" id="cmb_posId_cs" defOPKey="请选择岗位" defOPVal="">
 						<option value="-1">请选择岗位</option>
-						<logic:present name="entity" property="positions">
-							<logic:iterate name="entity" property="positions" id="position">
-								<option value="${position.id}" ${procTask ne null && tm:inRange(procTask.toPositionIds, position.id, ',') ? 'selected="selected"' : ''}>${position.positionName}</option>
+						<logic:present name="pos">
+							<logic:iterate name="pos" id="entity">
+								<option value="${entity.id}" ${procTask ne null && tm:inRange(procTask.toPositionIds, entity.id, ',') ? "selected='selected'" : ""}>${entity.positionName}</option>
 							</logic:iterate>
 						</logic:present>
 					</select>
 				</div>
-			</logic:iterate>
+			</div>
 		</c:if>
 	</logic:iterate>
 </logic:present>
