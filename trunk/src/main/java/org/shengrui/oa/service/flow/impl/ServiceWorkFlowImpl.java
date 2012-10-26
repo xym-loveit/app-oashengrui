@@ -432,10 +432,10 @@ implements ServiceWorkFlow
 				form.setToDistrictIds(toDistrict.getId());
 				form.setToDistrictNames(toDistrict.getDistrictName());
 			}
-			else if (ModelProcessTask.EProcessTaskType.MASTER_DEPS_AGAINST.getValue().equals(
-					task.getProcessTaskType()))
+			else if (ModelProcessTask.EProcessTaskType.MASTER_DEPS_AGAINST.getValue().equals(task.getProcessTaskType()) || 
+						ModelProcessTask.EProcessTaskType.DEPS_AGAINST_SLOT.getValue().equals(task.getProcessTaskType()))
 			{
-				// Handles against on master
+				// 总部对口部门 / 校区对应片区部门
 				if (employee.getEmployeeDepartment() != null && 
 						employee.getEmployeeDepartment().getDepEquivalentBranch() != null)
 				{
