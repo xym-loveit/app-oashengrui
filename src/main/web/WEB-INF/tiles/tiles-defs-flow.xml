@@ -61,6 +61,10 @@
 	<definition name="form.flow.task.type.slotDepsSingle" 
 		path="/WEB-INF/jsp/application/system/flow/public/form/formFlowTaskDepSlotSingle.jsp"/>
 	
+	<!-- 流程节点类型表单 - 某部门 (片区) -->
+	<definition name="form.flow.task.type.depsAgainstSlot" 
+		path="/WEB-INF/jsp/application/system/flow/public/form/formFlowTaskDepAgainstSlot.jsp"/>
+	
 	<!-- 财务审批流程页面 -->
 	<definition name="page.sys.setting.flow.financial.index" 
 		path="/WEB-INF/jsp/application/system/flow/financial/pageFlowFinancialIndex.jsp"/>

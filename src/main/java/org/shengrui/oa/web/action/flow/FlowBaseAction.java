@@ -260,8 +260,9 @@ extends BaseAppAction
 									// 获取某部门对应的岗位列表
 									if (procTaskEntity.getProcessTaskType().equals(ModelProcessTask.EProcessTaskType.OWNER_DEPS_SINGLE.getValue()) || 
 											procTaskEntity.getProcessTaskType().equals(ModelProcessTask.EProcessTaskType.MASTER_DEPS_SINGLE.getValue()) || 
-												procTaskEntity.getProcessTaskType().equals(ModelProcessTask.EProcessTaskType.TRANSFER_DEPS.getValue()) || 
-													procTaskEntity.getProcessTaskType().equals(ModelProcessTask.EProcessTaskType.SLOT_DEPS_SINGLE.getValue()))
+											procTaskEntity.getProcessTaskType().equals(ModelProcessTask.EProcessTaskType.TRANSFER_DEPS.getValue()) || 
+											procTaskEntity.getProcessTaskType().equals(ModelProcessTask.EProcessTaskType.SLOT_DEPS_SINGLE.getValue()) ||
+											procTaskEntity.getProcessTaskType().equals(ModelProcessTask.EProcessTaskType.DEPS_AGAINST_SLOT.getValue()))
 									{
 										request.setAttribute("pos", this.getPositionByDepartment(procTaskEntity.getToDepartmentIds()));
 									}
@@ -1013,7 +1014,8 @@ extends BaseAppAction
 					processTaskType.equals(ModelProcessTask.EProcessTaskType.MASTER_DEPS_SINGLE.getValue()) ||
 					processTaskType.equals(ModelProcessTask.EProcessTaskType.TRANSFER_DEPS.getValue()) || 
 					processTaskType.equals(ModelProcessTask.EProcessTaskType.SLOT_DEPS_AGAINST.getValue()) || 
-					processTaskType.equals(ModelProcessTask.EProcessTaskType.SLOT_DEPS_SINGLE.getValue());
+					processTaskType.equals(ModelProcessTask.EProcessTaskType.SLOT_DEPS_SINGLE.getValue()) || 
+					processTaskType.equals(ModelProcessTask.EProcessTaskType.DEPS_AGAINST_SLOT.getValue());
 		}
 		
 		return false;
@@ -1056,6 +1058,10 @@ extends BaseAppAction
 			else if (processTaskType.equals(ModelProcessTask.EProcessTaskType.TRANSFER_DEPS.getValue()))
 			{
 				return ModelProcessTask.EProcessTaskType.TRANSFER_DEPS.getText();
+			}
+			else if (processTaskType.equals(ModelProcessTask.EProcessTaskType.DEPS_AGAINST_SLOT.getValue()))
+			{
+				return ModelProcessTask.EProcessTaskType.DEPS_AGAINST_SLOT.getText();
 			}
 		}
 		
