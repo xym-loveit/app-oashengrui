@@ -172,24 +172,6 @@ $(function(){
 		</div>
 		
 		<div class="panel" minH="60">
-			<h1><span class="icon-hrjobreg icon">我要应聘<label style="float:right;margin-top:9px;"><a href="app/personal/jobapplication.do?action=pageJobOnHiring" target="navTab">更多>></a></label></span></h1>
-			<div>
-				<table class="table" width="100%">
-					<thead>
-						<tr>
-							<th style="display: none;"></th>
-							<th align="center">岗位名称</th>
-							<th align="center">招聘校区</th>
-							<th align="center">截止时间</th>
-						</tr>
-					</thead>
-					<tbody id="jobs">
-					</tbody>
-				</table>
-			</div>
-		</div>
-		
-		<div class="panel" minH="60">
 			<h1><span class="icon-mynews icon">我的新闻<label style="float:right;margin-top:9px;"><a href="app/personal/news.do?action=pageMyNews" target="navTab">更多>></a></label></span></h1>
 			<div>
 			<table class="table" width="100%">
@@ -207,21 +189,23 @@ $(function(){
 		</div>
 		
 		<div class="panel" minH="60">
-			<h1><span class="icon-infodoc icon">我的文档<label style="float:right;margin-top:9px;"><a href="app/personal/doc.do?action=pageMyDoc" target="navTab">更多>></a></label></span></h1>
+			<h1><span class="icon-hrjobreg icon">我要应聘<label style="float:right;margin-top:9px;"><a href="app/personal/jobapplication.do?action=pageJobOnHiring" target="navTab">更多>></a></label></span></h1>
 			<div>
-			<table class="table" width="100%">
-		<thead>
-			<tr>
-			    <th style="display: none;"></th>
-				<th align="center">文档名称</th>
-				<th align="center">文档类型</th>
-				<th align="center">文档时间</th>
-			</tr>
-		</thead>
-		<tbody id="doc"></tbody>
-		</table>
+				<table class="table" width="100%">
+					<thead>
+						<tr>
+							<th style="display: none;"></th>
+							<th align="center">岗位名称</th>
+							<th align="center">招聘校区</th>
+							<th align="center">截止时间</th>
+						</tr>
+					</thead>
+					<tbody id="jobs">
+					</tbody>
+				</table>
 			</div>
 		</div>
+		
 	</div>
 	
 	<div class="x-panel x-panel-right">
@@ -276,6 +260,23 @@ $(function(){
 		</thead>
 		<tbody id="application">
 		</tbody>
+		</table>
+			</div>
+		</div>
+		
+		<div class="panel" minH="60">
+			<h1><span class="icon-infodoc icon">我的文档<label style="float:right;margin-top:9px;"><a href="app/personal/doc.do?action=pageMyDoc" target="navTab">更多>></a></label></span></h1>
+			<div>
+			<table class="table" width="100%">
+		<thead>
+			<tr>
+			    <th style="display: none;"></th>
+				<th align="center">文档名称</th>
+				<th align="center">文档类型</th>
+				<th align="center">文档时间</th>
+			</tr>
+		</thead>
+		<tbody id="doc"></tbody>
 		</table>
 			</div>
 		</div>
