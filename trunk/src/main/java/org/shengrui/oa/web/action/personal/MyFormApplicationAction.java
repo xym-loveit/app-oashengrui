@@ -357,6 +357,7 @@ extends FlowBaseAction
 						else
 						{
 							// 流程尚未开始就已经结束. (很有可能是所有审批节点都无法触及)
+							this.serviceWorkFlow.doEndProcess(entity.getFormNo(), true);
 						}
 					}
 					else

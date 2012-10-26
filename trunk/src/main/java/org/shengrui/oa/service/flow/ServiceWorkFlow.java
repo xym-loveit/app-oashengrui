@@ -169,6 +169,17 @@ public interface ServiceWorkFlow
 	void doEndProcess (String procFormNo) throws ServiceException;
 	
 	/**
+	 * Ends the process form nodes with the specified form no.
+	 * 
+	 * @param procFormNo
+	 *                  the process form no.
+	 * @param handover
+	 *                  the process form will be stored into history data if true set.
+	 * @throws ServiceException
+	 */
+	void doEndProcess (String procFormNo, boolean handover) throws ServiceException;
+	
+	/**
 	 * Proceeds task form approval.
 	 * 
 	 * @param procFormId

@@ -362,6 +362,27 @@ implements ServiceWorkFlow
 	@Override
 	public void doEndProcess(String procFormNo) throws ServiceException
 	{
+		doEndProcess(procFormNo, false);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.flow.ServiceWorkFlow#doEndProcess(java.lang.String, boolean)
+	 */
+	@Override
+	public void doEndProcess(String procFormNo, boolean handover) throws ServiceException
+	{
+		if (handover)
+		{
+			List<ModelProcessForm> forms = this.serviceProcessForm.getProcessFormsByFormNo(procFormNo);
+			if (UtilCollection.isNotEmpty(forms))
+			{
+				for (ModelProcessForm form : forms)
+				{
+					this.doRecordProcessHistory(form, form.getAuditState());
+				}
+			}
+		}
 		this.serviceProcessForm.removeFormByNo(procFormNo);
 	}
 	
