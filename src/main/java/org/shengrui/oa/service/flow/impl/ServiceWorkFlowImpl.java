@@ -435,7 +435,7 @@ implements ServiceWorkFlow
 			else if (ModelProcessTask.EProcessTaskType.MASTER_DEPS_AGAINST.getValue().equals(task.getProcessTaskType()) || 
 						ModelProcessTask.EProcessTaskType.DEPS_AGAINST_SLOT.getValue().equals(task.getProcessTaskType()))
 			{
-				// 总部对口部门 / 校区对应片区部门
+				// 总部对口部门 
 				if (employee.getEmployeeDepartment() != null && 
 						employee.getEmployeeDepartment().getDepEquivalentBranch() != null)
 				{
@@ -482,7 +482,8 @@ implements ServiceWorkFlow
 			if (ModelProcessTask.EProcessTaskType.OWNER_DEPS_AGAINST.getValue().equals(task.getProcessTaskType()) || 
 					ModelProcessTask.EProcessTaskType.OWNER_DEPS_SINGLE.getValue().equals(task.getProcessTaskType()) ||
 					ModelProcessTask.EProcessTaskType.SLOT_DEPS_AGAINST.getValue().equals(task.getProcessTaskType()) || 
-					ModelProcessTask.EProcessTaskType.SLOT_DEPS_SINGLE.getValue().equals(task.getProcessTaskType()))
+					ModelProcessTask.EProcessTaskType.SLOT_DEPS_SINGLE.getValue().equals(task.getProcessTaskType()) ||
+					ModelProcessTask.EProcessTaskType.DEPS_AGAINST_SLOT.getValue().equals(task.getProcessTaskType()))
 			{
 				if (employee.getEmployeeDistrict().getDistrictType().equals(AppUtil.EAppSchoolType.HEADQUARTERS.getValue()))
 				{
@@ -504,6 +505,11 @@ implements ServiceWorkFlow
 					ModelProcessTask.EProcessTaskType.MASTER_DEPS_SINGLE.getValue().equals(task.getProcessTaskType()))
 				{
 					form.setToDistrictIds("1");
+				}
+				else if (ModelProcessTask.EProcessTaskType.DEPS_AGAINST_SLOT.getValue().equals(task.getProcessTaskType()))
+				{
+					// 片区关联
+					form.setToDistrictIds(employee.getEmployeeDistrict().getDistrictParent().getId());
 				}
 				else
 				{
