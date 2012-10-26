@@ -32,6 +32,7 @@ import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFConditionalFormattingRule;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFFormulaEvaluator;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -41,6 +42,8 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.CellValue;
+
+import cn.trymore.core.util.UtilDate;
 
 /**
  * 
@@ -351,20 +354,27 @@ public class PoiExcelParser extends AbstractExcelParser {
 			HSSFFormulaEvaluator evaluator = new HSSFFormulaEvaluator(this.book);
 			CellValue cellValue = evaluator.evaluate(cel);
 			switch (cel.getCellType()) {
-			case 0:
-				return Double.valueOf(cellValue.getNumberValue());
-			case 1:
-				return cellValue.getStringValue();
-			case 4:
-				return Boolean.valueOf(cellValue.getBooleanValue());
-			case 5:
-				return Byte.valueOf(cellValue.getErrorValue());
-			case 3:
-				break;
-			case 2:
-				return cellValue.formatAsString();
-			default:
-				return null;
+				case HSSFCell.CELL_TYPE_NUMERIC: 
+					if (HSSFDateUtil.isCellDateFormatted(cel))
+					{
+						return UtilDate.parseTime(cel.getDateCellValue(), "yyyy-MM-dd");
+					}
+					else
+					{
+						return Double.valueOf(cellValue.getNumberValue());
+					}
+				case HSSFCell.CELL_TYPE_STRING:
+					return cellValue.getStringValue();
+				case HSSFCell.CELL_TYPE_BOOLEAN:
+					return Boolean.valueOf(cellValue.getBooleanValue());
+				case HSSFCell.CELL_TYPE_ERROR:
+					return Byte.valueOf(cellValue.getErrorValue());
+				case HSSFCell.CELL_TYPE_BLANK:
+					break;
+				case HSSFCell.CELL_TYPE_FORMULA:
+					return cellValue.formatAsString();
+				default:
+					return null;
 			}
 		}
 		return null;
@@ -638,12 +648,18 @@ public class PoiExcelParser extends AbstractExcelParser {
 	}
 	
 	public static void main(String[] args) {
-		PoiExcelParser parser = new PoiExcelParser("C:\\Book1.xls");
-		try {
-			String html = parser.xlsToHtml(0);
-			System.out.println(html);
-		} catch (Exception e) {
-			e.printStackTrace();
+		
+		PoiExcelParser poiExcelParser = new PoiExcelParser ("D:\\test2.xls");
+		List<ExcelRowData> excelRowData = poiExcelParser.getRowData(0);
+		for (ExcelRowData row : excelRowData)
+		{
+			if (row.getRowData() != null)
+			{
+				for (String data : row.getRowData())
+				{
+					System.out.println(data);
+				}
+			}
 		}
 	}
 }
