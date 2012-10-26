@@ -1,6 +1,7 @@
 package org.shengrui.oa.web.action.system;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -649,7 +650,13 @@ extends sysSettingBaseAction
 							ModelSchoolDepartmentPosition position = itor.next();
 							itor.remove();
 							
+							// 职位权限解耦
 							position.setRoles(null);
+							
+							// 职位岗位解耦
+							unBindPositionFromSet(position);
+							
+							position.setDepartment(null);
 							
 							this.serviceSchoolDepartmentPosition.remove(position);
 						}
@@ -668,6 +675,56 @@ extends sysSettingBaseAction
 		}
 		
 		return ajaxPrint(response, getErrorCallback("部门删除失败."));
+	}
+	
+	/**
+	 * 
+	 * @param position
+	 */
+	private void unBindPositionFromSet (ModelSchoolDepartmentPosition position)
+	{
+		if (position != null)
+		{
+			try
+			{
+				List<ModelSchoolPositionSet> positionSets = this.serviceSchoolPositionSet.getAll();
+				if (positionSets != null)
+				{
+					boolean isFound = false;
+					
+					Iterator<ModelSchoolPositionSet> pitor = positionSets.iterator();
+					while (pitor.hasNext())
+					{
+						ModelSchoolPositionSet positionSet = pitor.next();
+						if (UtilCollection.isNotEmpty(positionSet.getPositions()))
+						{
+							Iterator<ModelSchoolDepartmentPosition> positionItor = positionSet.getPositions().iterator();
+							while (positionItor.hasNext())
+							{
+								ModelSchoolDepartmentPosition entity = positionItor.next();
+								if (entity.getId().equals(position.getId()))
+								{
+									positionItor.remove();
+									isFound = true;
+									break;
+								}
+							}
+						}
+						
+						if (isFound)
+						{
+							this.serviceSchoolPositionSet.save(positionSet);
+							isFound = false;
+						}
+						
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				LOGGER.error("Exception raised when unbinding position entity from set", e);
+			}
+		}
 	}
 	
 	/**
@@ -856,6 +913,12 @@ extends sysSettingBaseAction
 						}
 						this.serviceSchoolDepartment.save(department);
 					}
+					
+					// 职位权限解耦
+					position.setRoles(null);
+					
+					// 职位岗位解耦
+					unBindPositionFromSet(position);
 					
 					this.serviceSchoolDepartmentPosition.remove(position);
 					
