@@ -224,14 +224,18 @@ extends BaseAppAction
 								StringBuilder receiver = new StringBuilder();
 								receiver.append("[");
 								receiver.append("{\"id\":\"" + employee.getId() + "\", \"empName\":\"" + employee.getEmpName() + "\", \"empNo\":\"" + employee.getEmpNo() + "\"}");
-								receiver.append(",");
 								
 								// Temporary solution and it should be enhanced in the future. 
 								// (Regarding to the entity field not defined employee object).
 								List<ModelHrmEmployee> contractor = this.serviceHrmEmployee.findByFullName(conference.getContactor());
 								if (contractor != null && contractor.size() > 0)
 								{
+									receiver.append(",");
 									receiver.append("{\"id\":\"" + contractor.get(0).getId() + "\", \"empName\":\"" + contractor.get(0).getEmpName() + "\"}");
+									receiver.append("]");
+								}
+								else
+								{
 									receiver.append("]");
 								}
 								
