@@ -228,7 +228,7 @@
 			});
 			
 			setInterval(function(){  
-				$("#currentTime").text("${FULLNAME}，欢迎您登录使用本系统，今天是" + new Date().toLocaleString());  
+				$("#currentTime").text("${SPRING_SECURITY_LAST_USERNAME }，欢迎您登录使用本系统，今天是" + new Date().toLocaleString());  
 			},1000);  
 			
 		});
