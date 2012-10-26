@@ -348,9 +348,16 @@ extends FlowBaseAction
 								entity.getFormNo(), 
 								entity.getEmployee());
 						
-						entity.setCurrentProcDepId(procForm.getToDepartmentIds());
-						entity.setCurrentProcPosId(procForm.getToPositionIds());
-						entity.setCurrentProcDistrictId(procForm.getToDistrictIds());
+						if (procForm != null)
+						{
+							entity.setCurrentProcDepId(procForm.getToDepartmentIds());
+							entity.setCurrentProcPosId(procForm.getToPositionIds());
+							entity.setCurrentProcDistrictId(procForm.getToDistrictIds());
+						}
+						else
+						{
+							// 流程尚未开始就已经结束. (很有可能是所有审批节点都无法触及)
+						}
 					}
 					else
 					{

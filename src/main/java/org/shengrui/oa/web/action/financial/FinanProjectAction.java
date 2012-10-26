@@ -310,9 +310,16 @@ extends BaseFinanAction
 						projectInfo.getFormNo(), 
 						projectInfo.getEmployee());
 				
-				projectInfo.setCurrentProcDepId(procForm.getToDepartmentIds());
-				projectInfo.setCurrentProcPosId(procForm.getToPositionIds());
-				projectInfo.setCurrentProcDistrictId(procForm.getToDistrictIds());
+				if (procForm != null)
+				{
+					projectInfo.setCurrentProcDepId(procForm.getToDepartmentIds());
+					projectInfo.setCurrentProcPosId(procForm.getToPositionIds());
+					projectInfo.setCurrentProcDistrictId(procForm.getToDistrictIds());
+				}
+				else
+				{
+					// 流程尚未开始就已经结束. (很有可能是所有审批节点都无法触及)
+				}
 			}
 			else
 			{
