@@ -432,8 +432,8 @@ implements ServiceWorkFlow
 				form.setToDistrictIds(toDistrict.getId());
 				form.setToDistrictNames(toDistrict.getDistrictName());
 			}
-			else if (ModelProcessTask.EProcessTaskType.MASTER_DEPS_AGAINST.getValue().equals(task.getProcessTaskType()) || 
-						ModelProcessTask.EProcessTaskType.DEPS_AGAINST_SLOT.getValue().equals(task.getProcessTaskType()))
+			else if (ModelProcessTask.EProcessTaskType.MASTER_DEPS_AGAINST.getValue().equals(
+					task.getProcessTaskType()))
 			{
 				// 总部对口部门 
 				if (employee.getEmployeeDepartment() != null && 
@@ -509,7 +509,17 @@ implements ServiceWorkFlow
 				else if (ModelProcessTask.EProcessTaskType.DEPS_AGAINST_SLOT.getValue().equals(task.getProcessTaskType()))
 				{
 					// 片区关联
-					form.setToDistrictIds(employee.getEmployeeDistrict().getDistrictParent().getId());
+					if (employee.getEmployeeDistrict().getDistrictParent() != null && 
+							!employee.getEmployeeDistrict().getDistrictParent().getId().equals("1"))
+					{
+						// 关联上级片区ID
+						form.setToDistrictIds(employee.getEmployeeDistrict().getDistrictParent().getId());
+					}
+					else
+					{
+						// 上级校区非片区, 审批节点略过.
+						form.setAuditState(ModelProcessForm.EProcessFormStatus.IGNORED.getValue());
+					}
 				}
 				else
 				{
@@ -519,12 +529,16 @@ implements ServiceWorkFlow
 			}
 			
 			// 过滤无任何员工的部门/岗位
-			List<ModelHrmEmployee> employees = this.serviceHrmEmployee.getByOrganization(
-					form.getToDistrictIds(), form.getToDepartmentIds(), form.getToPositionIds());
-			if (!UtilCollection.isNotEmpty(employees))
+			if (form.getAuditState() == null || 
+					!form.getAuditState().equals(ModelProcessForm.EProcessFormStatus.IGNORED.getValue()))
 			{
-				// 节点无法触及, 直接忽略.
-				form.setAuditState(ModelProcessForm.EProcessFormStatus.IGNORED.getValue());
+				List<ModelHrmEmployee> employees = this.serviceHrmEmployee.getByOrganization(
+						form.getToDistrictIds(), form.getToDepartmentIds(), form.getToPositionIds());
+				if (!UtilCollection.isNotEmpty(employees))
+				{
+					// 节点无法触及, 直接忽略.
+					form.setAuditState(ModelProcessForm.EProcessFormStatus.IGNORED.getValue());
+				}
 			}
 			
 			return form;
