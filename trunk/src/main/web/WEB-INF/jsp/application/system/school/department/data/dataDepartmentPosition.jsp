@@ -23,7 +23,7 @@
 			<logic:iterate name="positions" id="entity">
 				<tr target="posId" rel="${entity.id}" id="mfunc-${entity.id}">
 					<td>${entity.positionName}</td>
-					<td title="${entity.positionRoleRights}">${tm:subString(entity.positionRoleRights, 60, '...')}</td>
+					<td title="${entity.positionRoleRights}" style="text-align:left; padding-left: 2px;">${tm:subString(entity.positionRoleRights, 60, '...')}</td>
 					<td>${entity.positionDesc}</td>
 					<td>
 						<c:choose>

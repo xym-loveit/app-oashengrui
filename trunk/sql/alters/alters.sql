@@ -31,3 +31,7 @@ ALTER TABLE `app_finan_contract` ADD `cproc_disid` BIGINT NULL COMMENT '当前�
 ALTER TABLE `app_finan_expense` ADD `cproc_disid` BIGINT NULL COMMENT '当前审批校区ID'
 ALTER TABLE `app_finan_project` ADD `cproc_disid` BIGINT NULL COMMENT '当前审批校区ID'
 
+--
+-- Added by Jeccy.Zhao on 2012-10-26
+--
+ALTER TABLE `app_school_department_position` CHANGE `dep_id` `dep_id` BIGINT( 20 ) NULL DEFAULT NULL COMMENT '部门ID'

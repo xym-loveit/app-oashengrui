@@ -14,8 +14,9 @@
 
 <script type="text/javascript">
 	function dep_refresh (refresh) {
-		if (refresh) {
-			$("#ajBoxMenuTree").loadUrl("app/system/school/department.do?action=actionLoadDepartmentTree", {}, function(){
+		var ctab = $(navTab.getCurrentPanel());
+		if (refresh) {	
+			ctab.find("#ajBoxDepTree").loadUrl("app/system/school/department.do?action=actionLoadDepartmentTree", {}, function(){
 				if ($("#_var_depid", $(navTab.getCurrentPanel())).size() > 0) {
 					$("#_var_depid", $(navTab.getCurrentPanel())).remove();
 				}
@@ -26,7 +27,7 @@
 			}
 		}
 		
-		$("#ajBoxMenuFunc").loadUrl("app/system/school/department/position.do?action=actionLoadDepartmentPosition", {}, function(){
+		ctab.find("#ajBoxDepPos").loadUrl("app/system/school/department/position.do?action=actionLoadDepartmentPosition", {}, function(){
 		});
 	}
 	

@@ -1,6 +1,7 @@
 package org.shengrui.oa.web.action.system;
 
 import java.util.Iterator;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +19,7 @@ import org.springframework.beans.BeanUtils;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.log.LogAnnotation;
+import cn.trymore.core.util.UtilCollection;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
@@ -635,6 +637,25 @@ extends sysSettingBaseAction
 		{
 			try
 			{
+				ModelSchoolDepartment department = this.serviceSchoolDepartment.get(depId);
+				if (department != null)
+				{
+					Set<ModelSchoolDepartmentPosition> positions = department.getPositions();
+					if (UtilCollection.isNotEmpty(positions))
+					{
+						Iterator<ModelSchoolDepartmentPosition> itor = positions.iterator();
+						while (itor.hasNext())
+						{
+							ModelSchoolDepartmentPosition position = itor.next();
+							itor.remove();
+							
+							position.setRoles(null);
+							
+							this.serviceSchoolDepartmentPosition.remove(position);
+						}
+					}
+				}
+				
 				this.serviceSchoolDepartment.remove(depId);
 				
 				return ajaxPrint(response, 
