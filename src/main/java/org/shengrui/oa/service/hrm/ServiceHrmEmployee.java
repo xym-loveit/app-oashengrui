@@ -113,6 +113,12 @@ extends ServiceGeneric<ModelHrmEmployee>
 			String depId, String districtId, String empName, PagingBean pagingBean) throws ServiceException;
 	
 	/**
+	 * 根据校区和部门查员工分页信息
+	 */
+	PaginationSupport<ModelHrmEmployee> getEmployeeDataPage (
+			String depId, String districtId, String empName, PagingBean pagingBean, boolean dataFilter) throws ServiceException;
+	
+	/**
 	 * 根据校区和部门ID获取拥有的员工数量
 	 * 
 	 * @param districtId
