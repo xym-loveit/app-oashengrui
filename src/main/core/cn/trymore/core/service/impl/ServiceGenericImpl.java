@@ -176,7 +176,7 @@ implements ServiceGeneric<T>
 	public PaginationSupport<T> getAll(final DetachedCriteria criteria, 
 			final PagingBean pagingBean) throws ServiceException
 	{
-		return getAll(criteria, pagingBean, false);
+		return getAll(criteria, pagingBean, true);
 	}
 	
 	/*
