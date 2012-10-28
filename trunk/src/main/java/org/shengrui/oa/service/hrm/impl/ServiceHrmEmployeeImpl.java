@@ -294,6 +294,17 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 	public PaginationSupport<ModelHrmEmployee> getEmployeeDataPage(String depId, 
 			String districtId, String empName, PagingBean pagingBean) throws ServiceException
 	{
+		return getEmployeeDataPage(depId, districtId, empName, pagingBean, false);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmEmployee#getEmployeeDataPage(java.lang.String, java.lang.String, java.lang.String, cn.trymore.core.web.paging.PagingBean, boolean)
+	 */
+	@Override
+	public PaginationSupport<ModelHrmEmployee> getEmployeeDataPage(String depId, 
+			String districtId, String empName, PagingBean pagingBean, boolean dataFilter) throws ServiceException
+	{
 		ModelHrmEmployee entity = new ModelHrmEmployee();
 		
 		ModelSchoolDepartment dep = null;
@@ -319,7 +330,7 @@ extends ServiceGenericImpl<ModelHrmEmployee> implements ServiceHrmEmployee
 		entity.setEmployeeDepartment(dep);
 		entity.setEmployeeDistrict(district);
 		
-		return this.getAll(this.getCriterias(entity), pagingBean);
+		return this.getAll(this.getCriterias(entity), pagingBean, dataFilter);
 	}
 	
 	public void setDaoHrmEmployee(DAOHrmEmployee daoHrmEmployee)

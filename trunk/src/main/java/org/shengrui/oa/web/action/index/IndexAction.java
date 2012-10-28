@@ -137,7 +137,7 @@ extends BaseAppAction
 			}
 			
 			PaginationSupport<ModelHrmEmployee> empInfo = 
-					this.serviceHrmEmployee.getEmployeeDataPage(depId, districtId, empName, pagingBean);
+					this.serviceHrmEmployee.getEmployeeDataPage(depId, districtId, empName, pagingBean, true);
 			
 			request.setAttribute("empInfo", empInfo);
 			request.setAttribute("depId", depId);
