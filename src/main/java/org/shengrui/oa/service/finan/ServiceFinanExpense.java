@@ -47,7 +47,7 @@ extends ServiceGeneric<ModelFinanExpense>
 	 * @throws ServiceException
 	 */
 	PaginationSupport<ModelFinanExpense> getFinanExpenseInfoPagination (ModelFinanExpense entity, 
-			PagingBean pagingBean, boolean filterMyApprovals) throws ServiceException;
+			PagingBean pagingBean, Boolean isOnApproval) throws ServiceException;
 	
 	/**
 	 * 审核中的财务记录

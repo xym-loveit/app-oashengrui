@@ -48,7 +48,7 @@ extends ServiceGeneric<ModelFinanContract>
 	 * @throws ServiceException
 	 */
 	PaginationSupport<ModelFinanContract> getFinanContractInfoPagination (ModelFinanContract entity, 
-			PagingBean pagingBean, boolean filterMyApprovals) throws ServiceException;
+			PagingBean pagingBean, Boolean isOnApproval) throws ServiceException;
 	
 	/**
 	 * 查询未审批过的合同

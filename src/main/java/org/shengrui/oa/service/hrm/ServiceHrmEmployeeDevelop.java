@@ -46,7 +46,7 @@ extends ServiceGeneric<ModelHrmEmployeeDevelop>
 	 * @throws ServiceException
 	 */
 	PaginationSupport<ModelHrmEmployeeDevelop> getEmployeeDevelopInfoPagination (ModelHrmEmployeeDevelop entity, 
-			PagingBean pagingBean, boolean filterCurrentProcessNodes) throws ServiceException;
+			PagingBean pagingBean, Boolean isOnApproval) throws ServiceException;
 	
 	/**
 	 * 人力资源发展查分页数据
@@ -58,7 +58,7 @@ extends ServiceGeneric<ModelHrmEmployeeDevelop>
 	 * @throws ServiceException
 	 */
 	PaginationSupport<ModelHrmEmployeeDevelop> getEmployeeDevelopInfoPagination (ModelHrmEmployeeDevelop entity, 
-			String empId, PagingBean pagingBean, boolean filterCurrentProcessNodes) throws ServiceException;
+			String empId, PagingBean pagingBean, Boolean isOnApproval) throws ServiceException;
 
 	/**
 	 * 查询未审批过的人资申请

@@ -129,7 +129,7 @@ extends BaseFinanAction
 			
 			// 加载审批数据
 			boolean isOnApproval = request.getParameter("finished") == null;
-			obtainFinaExpenseRecords(employeeExpenseForm, isOnApproval, request, isOnApproval);
+			obtainFinaExpenseRecords(employeeExpenseForm, isOnApproval, request);
 			
 			request.setAttribute("currentindex", request.getParameter("currentindex"));
 			request.setAttribute("isOnApproval", isOnApproval);
@@ -155,7 +155,7 @@ extends BaseFinanAction
 	 * @throws ServiceException 
 	 */
 	private PaginationSupport<ModelFinanExpense> obtainFinaExpenseRecords (ModelFinanExpense formEntity, 
-			Boolean isOnApproval, HttpServletRequest request,  boolean filterMyApprovals) throws ServiceException
+			Boolean isOnApproval, HttpServletRequest request) throws ServiceException
 	{
 		if (isOnApproval != null && isOnApproval)
 		{
@@ -183,7 +183,7 @@ extends BaseFinanAction
 		
 		PagingBean pagingBean = this.getPagingBean(request);
 		PaginationSupport<ModelFinanExpense> employeeExpenseInfo =
-				this.serviceFinanExpense.getFinanExpenseInfoPagination(formEntity, pagingBean, filterMyApprovals);
+				this.serviceFinanExpense.getFinanExpenseInfoPagination(formEntity, pagingBean, isOnApproval);
 		
 		request.setAttribute("dataList", employeeExpenseInfo);
 		

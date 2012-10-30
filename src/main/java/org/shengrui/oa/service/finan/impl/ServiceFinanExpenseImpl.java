@@ -9,7 +9,6 @@ import org.hibernate.criterion.Restrictions;
 
 import org.shengrui.oa.dao.finan.DAOFinanExpense;
 import org.shengrui.oa.model.finan.ModelFinanExpense;
-import org.shengrui.oa.model.flow.ModelProcessForm;
 import org.shengrui.oa.service.finan.ServiceFinanExpense;
 import org.shengrui.oa.util.ContextUtil;
 
@@ -42,7 +41,7 @@ extends ServiceGenericImpl<ModelFinanExpense> implements ServiceFinanExpense
 			ModelFinanExpense entity, PagingBean pagingBean)
 			throws ServiceException
 	{
-		return getFinanExpenseInfoPagination(entity, pagingBean, false);
+		return getFinanExpenseInfoPagination(entity, pagingBean, null);
 	}
 	
 	/*
@@ -52,9 +51,9 @@ extends ServiceGenericImpl<ModelFinanExpense> implements ServiceFinanExpense
 	@Override
 	public PaginationSupport<ModelFinanExpense> getFinanExpenseInfoPagination(
 			ModelFinanExpense entity, PagingBean pagingBean,
-			boolean filterMyApprovals) throws ServiceException
+			Boolean isOnApproval) throws ServiceException
 	{
-		return this.getAll(this.getCriterias(entity, filterMyApprovals), pagingBean, !filterMyApprovals);
+		return this.getAll(this.getCriterias(entity, isOnApproval), pagingBean, isOnApproval == null);
 	}
 	
 	/*
@@ -84,7 +83,7 @@ extends ServiceGenericImpl<ModelFinanExpense> implements ServiceFinanExpense
 	 * @param entity
 	 * @return
 	 */
-	private DetachedCriteria getCriterias(ModelFinanExpense entity, boolean filterMyApprovals)
+	private DetachedCriteria getCriterias(ModelFinanExpense entity, Boolean isOnApproval)
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanExpense.class);
 
@@ -132,9 +131,12 @@ extends ServiceGenericImpl<ModelFinanExpense> implements ServiceFinanExpense
 			}
 		}
 		
-		if (filterMyApprovals)
+		if (isOnApproval != null)
 		{
-			criteria.add(Restrictions.sqlRestriction(
+			if (isOnApproval)
+			{
+				// 过滤审批中的记录
+				criteria.add(Restrictions.sqlRestriction(
 					"(audit_state IS NULL and cproc_depid = " + 
 						ContextUtil.getCurrentUser().getDepartmentId() + " and cproc_posid= " + 
 						ContextUtil.getCurrentUser().getPositionId() + " and " +
@@ -142,6 +144,13 @@ extends ServiceGenericImpl<ModelFinanExpense> implements ServiceFinanExpense
 							ContextUtil.getCurrentUser().getDistrictId() + "))"
 					)
 				);
+			}
+			else
+			{
+				// 过滤审批结束的记录
+				criteria.createCriteria("processHistory").add(
+						Restrictions.eq("auditUserIds", String.valueOf(ContextUtil.getCurrentUserId())));
+			}
 		}
 		
 		criteria.addOrder(Order.desc("applyDate"));
@@ -183,10 +192,12 @@ extends ServiceGenericImpl<ModelFinanExpense> implements ServiceFinanExpense
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanExpense.class);
 		
+		/*
 		criteria.add(Restrictions.in("auditState", new Integer[]{
 				ModelProcessForm.EProcessFormStatus.APPROVED.getValue(),
 				ModelProcessForm.EProcessFormStatus.NOTPASSED.getValue(),
 				ModelProcessForm.EProcessFormStatus.RETURNED.getValue()}));
+		*/
 		
 		// Added by Jeccy.Zhao on 24/10/2012: 过滤审批人...
 		criteria.createCriteria("processHistory").add(
