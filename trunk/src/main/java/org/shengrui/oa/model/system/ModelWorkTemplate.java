@@ -1,5 +1,8 @@
 package org.shengrui.oa.model.system;
 
+import org.shengrui.oa.util.AppUtil;
+
+import cn.trymore.core.acl.AclFilterAnnotation;
 import cn.trymore.core.model.ModelBase;
 
 /**
@@ -17,6 +20,16 @@ public class ModelWorkTemplate extends ModelBase {
 	protected ModelSchoolDistrict district = new ModelSchoolDistrict();
 	protected String templateId;
 	protected String enable;
+	
+	/**
+	 * 数据权限过滤
+	 */
+	@AclFilterAnnotation(
+		fieldNames ={"district_id"}, 
+		fieldTypes ={AppUtil.DATA_POLICY_DISTRICT}
+	)
+	private String aclFilterFields;
+	
 	/**
 	 * @return the workDay
 	 */
@@ -112,5 +125,13 @@ public class ModelWorkTemplate extends ModelBase {
 	 */
 	public void setEnable(String enable) {
 		this.enable = enable;
+	}
+	public void setAclFilterFields(String aclFilterFields)
+	{
+		this.aclFilterFields = aclFilterFields;
+	}
+	public String getAclFilterFields()
+	{
+		return aclFilterFields;
 	}
 }
