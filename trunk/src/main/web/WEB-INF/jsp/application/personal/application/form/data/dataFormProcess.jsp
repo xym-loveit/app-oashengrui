@@ -93,7 +93,20 @@
 												</tr>
 											</table>
 										</c:when>
-										<c:otherwise>${entity.auditState ne null ? entity.auditIdea : ''}</c:otherwise>
+										<c:otherwise>
+											<c:choose>
+												<c:when test="${entity.auditState ne null}">
+													<c:choose>
+														<c:when test="${entity.auditState eq 0}">由于无法触及该节点,略过该流程...</c:when>
+														<c:otherwise>
+															${entity.auditIdea} &nbsp;
+															(<span style="color: #FF7300;"><label style="color: #444; float:none; width: auto">审批结果:</label> ${entity.auditState eq 2 ? '通过' : (entity.auditState eq 3 ? '不通过' : '退回')} &nbsp;<label style="color: #444; float:none; width: auto">审批人:</label> ${entity.auditUserNames} &nbsp;<label style="color: #444; float:none; width: auto">审批时间:</label> <fmt:formatDate value="${entity.auditDate}" pattern="yyyy-MM-dd hh:mm:ss" /></span>)
+														</c:otherwise>
+													</c:choose>
+												</c:when>
+												<c:otherwise></c:otherwise>
+											</c:choose>
+										</c:otherwise>
 									</c:choose>
 								</td>
 							</tr>
@@ -136,7 +149,20 @@
 												</c:if>
 											</c:if>
 										</c:when>
-										<c:otherwise>${entity.auditState ne null ? (entity.auditState eq 0 ? '由于无法触及该节点,流程略过...' : entity.auditIdea) : ''}</c:otherwise>
+										<c:otherwise>
+											<c:choose>
+												<c:when test="${entity.auditState ne null}">
+													<c:choose>
+														<c:when test="${entity.auditState eq 0}">由于无法触及该节点,略过该流程...</c:when>
+														<c:otherwise>
+															${entity.auditIdea} &nbsp;
+															(<span style="color: #FF7300;"><label style="color: #444; float:none; width: auto">审批结果:</label> ${entity.auditState eq 2 ? '通过' : (entity.auditState eq 3 ? '不通过' : '退回')} &nbsp;<label style="color: #444; float:none; width: auto">审批人:</label> ${entity.auditUserNames} &nbsp;<label style="color: #444; float:none; width: auto">审批时间:</label> <fmt:formatDate value="${entity.auditDate}" pattern="yyyy-MM-dd hh:mm:ss" /></span>)
+														</c:otherwise>
+													</c:choose>
+												</c:when>
+												<c:otherwise></c:otherwise>
+											</c:choose>
+										</c:otherwise>
 									</c:choose>
 								</td>
 							</tr>
