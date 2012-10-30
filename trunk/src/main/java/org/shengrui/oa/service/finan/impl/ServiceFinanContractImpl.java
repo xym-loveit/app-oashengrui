@@ -8,7 +8,6 @@ import org.hibernate.criterion.Restrictions;
 
 import org.shengrui.oa.dao.finan.DAOFinanContract;
 import org.shengrui.oa.model.finan.ModelFinanContract;
-import org.shengrui.oa.model.flow.ModelProcessForm;
 import org.shengrui.oa.service.finan.ServiceFinanContract;
 import org.shengrui.oa.util.ContextUtil;
 
@@ -61,7 +60,7 @@ extends ServiceGenericImpl<ModelFinanContract> implements ServiceFinanContract
 			ModelFinanContract entity, PagingBean pagingBean)
 			throws ServiceException
 	{
-		return getFinanContractInfoPagination(entity, pagingBean, false);
+		return getFinanContractInfoPagination(entity, pagingBean, null);
 	}
 	
 	/*
@@ -70,9 +69,9 @@ extends ServiceGenericImpl<ModelFinanContract> implements ServiceFinanContract
 	 */
 	@Override
 	public PaginationSupport<ModelFinanContract> getFinanContractInfoPagination (ModelFinanContract entity, 
-			PagingBean pagingBean, boolean filterMyApprovals) throws ServiceException
+			PagingBean pagingBean, Boolean isOnApproval) throws ServiceException
 	{
-		return this.getAll(this.getCriterias(entity, filterMyApprovals), pagingBean, !filterMyApprovals);
+		return this.getAll(this.getCriterias(entity, isOnApproval), pagingBean, isOnApproval == null);
 	}
 
 	/**
@@ -81,7 +80,8 @@ extends ServiceGenericImpl<ModelFinanContract> implements ServiceFinanContract
 	 * @param entity
 	 * @return
 	 */
-	private DetachedCriteria getCriterias(ModelFinanContract entity, boolean filterMyApprovals)
+	private DetachedCriteria getCriterias(ModelFinanContract entity, 
+			Boolean isOnApproval)
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanContract.class);
 
@@ -122,16 +122,26 @@ extends ServiceGenericImpl<ModelFinanContract> implements ServiceFinanContract
 			}
 		}
 		
-		if (filterMyApprovals)
+		if (isOnApproval != null)
 		{
-			criteria.add(Restrictions.sqlRestriction(
-				"(audit_state IS NULL and cproc_depid = " + 
-					ContextUtil.getCurrentUser().getDepartmentId() + " and cproc_posid= " + 
-					ContextUtil.getCurrentUser().getPositionId() + " and " +
-					"(cproc_disid = " + 
-						ContextUtil.getCurrentUser().getDistrictId() + "))"
-				)
-			);
+			if (isOnApproval)
+			{
+				// 过滤审批中的记录
+				criteria.add(Restrictions.sqlRestriction(
+					"(audit_state IS NULL and cproc_depid = " + 
+						ContextUtil.getCurrentUser().getDepartmentId() + " and cproc_posid= " + 
+						ContextUtil.getCurrentUser().getPositionId() + " and " +
+						"(cproc_disid = " + 
+							ContextUtil.getCurrentUser().getDistrictId() + "))"
+					)
+				);
+			}
+			else
+			{
+				// 过滤审批结束的记录
+				criteria.createCriteria("processHistory").add(
+						Restrictions.eq("auditUserIds", String.valueOf(ContextUtil.getCurrentUserId())));
+			}
 		}
 		
 		criteria.addOrder(Order.desc("applyDate"));
@@ -172,11 +182,13 @@ extends ServiceGenericImpl<ModelFinanContract> implements ServiceFinanContract
 			PagingBean pagingBean) throws ServiceException 
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanContract.class);
-
+		
+		/*
 		criteria.add(Restrictions.in("auditState", new Integer[]{
 				ModelProcessForm.EProcessFormStatus.APPROVED.getValue(),
 				ModelProcessForm.EProcessFormStatus.NOTPASSED.getValue(),
 				ModelProcessForm.EProcessFormStatus.RETURNED.getValue()}));
+		*/
 		
 		// Added by Jeccy.Zhao on 24/10/2012: 过滤审批人...
 		criteria.createCriteria("processHistory").add(

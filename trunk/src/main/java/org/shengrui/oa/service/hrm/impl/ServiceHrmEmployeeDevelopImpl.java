@@ -9,7 +9,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import org.shengrui.oa.dao.hrm.DAOHrmEmployeeDevelop;
-import org.shengrui.oa.model.flow.ModelProcessForm;
 import org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop;
 import org.shengrui.oa.service.hrm.ServiceHrmEmployeeDevelop;
 import org.shengrui.oa.util.ContextUtil;
@@ -43,13 +42,18 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 			ModelHrmEmployeeDevelop entity, PagingBean pagingBean)
 			throws ServiceException
 	{
-		return getEmployeeDevelopInfoPagination(entity, null, pagingBean, false);
+		return getEmployeeDevelopInfoPagination(entity, null, pagingBean, null);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.shengrui.oa.service.hrm.ServiceHrmEmployeeDevelop#getEmployeeDevelopInfoPagination(org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop, cn.trymore.core.web.paging.PagingBean, java.lang.Boolean)
+	 */
+	@Override
 	public PaginationSupport<ModelHrmEmployeeDevelop> getEmployeeDevelopInfoPagination (ModelHrmEmployeeDevelop entity, 
-			PagingBean pagingBean, boolean filterCurrentProcessNodes) throws ServiceException
+			PagingBean pagingBean, Boolean isOnApproval) throws ServiceException
 	{
-		return getEmployeeDevelopInfoPagination(entity, null, pagingBean, filterCurrentProcessNodes);
+		return getEmployeeDevelopInfoPagination(entity, null, pagingBean, isOnApproval);
 	}
 	
 	/*
@@ -58,9 +62,9 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 	 */
 	@Override
 	public PaginationSupport<ModelHrmEmployeeDevelop> getEmployeeDevelopInfoPagination (ModelHrmEmployeeDevelop entity, 
-			String empId, PagingBean pagingBean, boolean filterCurrentProcessNodes) throws ServiceException
+			String empId, PagingBean pagingBean, Boolean isOnApproval) throws ServiceException
 	{
-		return this.getAll(this.getCriterias(entity, empId, filterCurrentProcessNodes), pagingBean, !filterCurrentProcessNodes);
+		return this.getAll(this.getCriterias(entity, empId, isOnApproval), pagingBean, isOnApproval == null);
 	}
 	
 	/*
@@ -92,7 +96,8 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 	 * @param empId
 	 * @return
 	 */
-	private DetachedCriteria getCriterias(ModelHrmEmployeeDevelop entity, String empId, boolean filterCurrentProcessNodes)
+	private DetachedCriteria getCriterias(ModelHrmEmployeeDevelop entity, 
+			String empId, Boolean isOnApproval)
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployeeDevelop.class);
 
@@ -161,16 +166,19 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 			}
 		}
 		
-		if (filterCurrentProcessNodes)
+		if (isOnApproval != null)
 		{
-			criteria.add(Restrictions.sqlRestriction(
-				"(audit_state IS NULL and cproc_depid = " + 
-					ContextUtil.getCurrentUser().getDepartmentId() + " and cproc_posid= " + 
-					ContextUtil.getCurrentUser().getPositionId() + " and " +
-					"(cproc_disid = " + 
-						ContextUtil.getCurrentUser().getDistrictId() + "))"
-				)
-			);
+			if (isOnApproval)
+			{
+				criteria.add(Restrictions.sqlRestriction(
+					"(audit_state IS NULL and cproc_depid = " + 
+						ContextUtil.getCurrentUser().getDepartmentId() + " and cproc_posid= " + 
+						ContextUtil.getCurrentUser().getPositionId() + " and " +
+						"(cproc_disid = " + 
+							ContextUtil.getCurrentUser().getDistrictId() + "))"
+					)
+				);
+			}
 		}
 		
 		criteria.addOrder(Order.asc("auditState")).addOrder(Order.desc("applyDate"));
@@ -212,10 +220,12 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployeeDevelop.class);
 		
+		/*
 		criteria.add(Restrictions.in("auditState", new Integer[]{
 				ModelProcessForm.EProcessFormStatus.APPROVED.getValue(),
 				ModelProcessForm.EProcessFormStatus.NOTPASSED.getValue(),
 				ModelProcessForm.EProcessFormStatus.RETURNED.getValue()}));
+		*/
 		
 		// Added by Jeccy.Zhao on 24/10/2012: 过滤审批人...
 		criteria.createCriteria("processHistory").add(

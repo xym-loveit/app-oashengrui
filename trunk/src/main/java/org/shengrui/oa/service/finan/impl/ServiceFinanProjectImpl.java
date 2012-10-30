@@ -8,7 +8,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.finan.DAOFinanProject;
 import org.shengrui.oa.model.finan.ModelFinanProject;
-import org.shengrui.oa.model.flow.ModelProcessForm;
 import org.shengrui.oa.service.finan.ServiceFinanProject;
 import org.shengrui.oa.util.ContextUtil;
 
@@ -60,7 +59,7 @@ extends ServiceGenericImpl<ModelFinanProject> implements ServiceFinanProject
 			ModelFinanProject entity, PagingBean pagingBean)
 			throws ServiceException
 	{
-		return getFinanProjectInfoPagination(entity, pagingBean, false);
+		return getFinanProjectInfoPagination(entity, pagingBean, null);
 	}
 	
 	/*
@@ -70,9 +69,9 @@ extends ServiceGenericImpl<ModelFinanProject> implements ServiceFinanProject
 	@Override
 	public PaginationSupport<ModelFinanProject> getFinanProjectInfoPagination(
 			ModelFinanProject entity, PagingBean pagingBean,
-			boolean filterMyApprovals) throws ServiceException
+			Boolean isOnApproval) throws ServiceException
 	{
-		return this.getAll(this.getCriterias(entity, filterMyApprovals), pagingBean, !filterMyApprovals);
+		return this.getAll(this.getCriterias(entity, isOnApproval), pagingBean, isOnApproval == null);
 	}
 	
 	/*
@@ -86,10 +85,12 @@ extends ServiceGenericImpl<ModelFinanProject> implements ServiceFinanProject
 		
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanProject.class);
 		
+		/*
 		criteria.add(Restrictions.in("auditState", new Integer[]{
 				ModelProcessForm.EProcessFormStatus.APPROVED.getValue(),
 				ModelProcessForm.EProcessFormStatus.NOTPASSED.getValue(),
 				ModelProcessForm.EProcessFormStatus.RETURNED.getValue()}));
+		*/
 		
 		// Added by Jeccy.Zhao on 24/10/2012: 过滤审批人...
 		criteria.createCriteria("processHistory").add(
@@ -104,7 +105,8 @@ extends ServiceGenericImpl<ModelFinanProject> implements ServiceFinanProject
 	 * @param entity
 	 * @return
 	 */
-	private DetachedCriteria getCriterias(ModelFinanProject entity, boolean filterMyApprovals)
+	private DetachedCriteria getCriterias(ModelFinanProject entity, 
+			Boolean isOnApproval)
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanProject.class);
 
@@ -152,16 +154,25 @@ extends ServiceGenericImpl<ModelFinanProject> implements ServiceFinanProject
 			}
 		}
 		
-		if (filterMyApprovals)
+		if (isOnApproval != null)
 		{
-			criteria.add(Restrictions.sqlRestriction(
-				"(audit_state IS NULL and cproc_depid = " + 
-					ContextUtil.getCurrentUser().getDepartmentId() + " and cproc_posid= " + 
-					ContextUtil.getCurrentUser().getPositionId() + " and " +
-					"(cproc_disid = " + 
-						ContextUtil.getCurrentUser().getDistrictId() + "))"
-				)
-			);
+			if (isOnApproval)
+			{
+				criteria.add(Restrictions.sqlRestriction(
+					"(audit_state IS NULL and cproc_depid = " + 
+						ContextUtil.getCurrentUser().getDepartmentId() + " and cproc_posid= " + 
+						ContextUtil.getCurrentUser().getPositionId() + " and " +
+						"(cproc_disid = " + 
+							ContextUtil.getCurrentUser().getDistrictId() + "))"
+					)
+				);
+			}
+			else
+			{
+				// 过滤审批结束的记录
+				criteria.createCriteria("processHistory").add(
+						Restrictions.eq("auditUserIds", String.valueOf(ContextUtil.getCurrentUserId())));
+			}
 		}
 		
 		criteria.addOrder(Order.desc("applyDate"));

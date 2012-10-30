@@ -243,7 +243,7 @@ extends ServiceGenericImpl<ModelNewsMag> implements ServiceNewsManage
 	public PaginationSupport<ModelNewsMag> getNewsApprovalRec(
 			ModelNewsMag news, PagingBean pagingBean) throws ServiceException {
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelNewsMag.class);
-		criteria.add(Restrictions.in("status",new Integer[]{2,3}));
+		// criteria.add(Restrictions.in("status",new Integer[]{2,3}));
 //				.add(Restrictions.eq("status", 3));
 		
 		// Added by Jeccy.Zhao on 24/10/2012: 过滤审批人...
