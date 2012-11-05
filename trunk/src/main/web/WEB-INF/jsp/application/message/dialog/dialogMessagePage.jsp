@@ -18,7 +18,7 @@
 	}
 	
 	$(function(){
-		<logic:notPresent name="msgId">
+		<c:if test="${msgId eq null || reply ne null}">
 		$('#task_participants').manifest({
 			// Use each location's full name as the display text.
 			formatDisplay: function (data, $item, $mpItem) {
@@ -40,7 +40,7 @@
 				param: 'fullName'
 			}
 		});
-		</logic:notPresent>
+		</c:if>
 		
 		var editor = KindEditor.create('textarea[name="content"]',{
 			basePath: "resources/js/kindeditor/",
@@ -57,9 +57,9 @@
 				'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
 				'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
 				'insertunorderedlist', '|', 'emoticons', 'image', 'link']
-			<logic:present name="msgId">
+			<c:if test="${msgId ne null && reply eq null}">
 			,readonlyMode : true
-			</logic:present>
+			</c:if>
 			
 		});
 		
@@ -112,18 +112,18 @@
 				<table cellspacing="10" cellpadding="10" style="border-spacing: 12; width: 100%;">
 					<tr>
 						<td style="line-height: 25px;">消息标题：</td>
-						<td><input type="text" name="subject" class="required" style="width:100%;"  value="${entity ne null ? entity.subject : (subject ne null ? subject : '')}" ${entity ne null ? 'readonly' : ''}/></td>
+						<td><input type="text" name="subject" class="required" style="width:100%;"  value="${reply ne null ? '回复: ': ''}${entity ne null ? entity.subject : (subject ne null ? subject : '')}" ${entity ne null && reply eq null ? 'readonly' : ''}/></td>
 					</tr>
-					<logic:notPresent name="msgId">
+					<c:if test="${msgId eq null || reply ne null}">
 					<tr>
 						<td style="line-height: 25px;">收件人：</td>
 						<td><input id="task_participants" type="text" name="participants" style="width: 100%; " /></td>
 					</tr>
-					</logic:notPresent>
+					</c:if>
 					<tr>
 						<td style="line-height: 25px;vertical-align: top">消息内容：</td>
 						<td>
-							<textarea name="content" class="" rows="8" cols="60" style="width: 100%" ${entity ne null ? 'readonly' : ''}>${entity ne null ? entity.content : (body ne null ? body : '')}</textarea>
+							<textarea name="content" class="" rows="8" cols="60" style="width: 100%" ${entity ne null && reply eq null ? 'readonly' : ''}>${entity ne null && reply eq null ? entity.content : (body ne null ? body : '')}</textarea>
 						</td>
 					</tr>
 				</table>
@@ -131,12 +131,13 @@
 		</div>
 		<div class="formBar">
 			<ul>
-				<logic:notPresent name="msgId">
+				<c:if test="${msgId eq null || reply ne null}">
 				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">发送</button></div></div></li>
-				</logic:notPresent>
-				<li>
-					<div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div>
-				</li>
+				</c:if>
+				<c:if test="${msgId ne null && reply eq null}">
+				<li><a target="dialog" href="app/message.do?action=dialogMessagePage&msgId=${msgId}&op=reply" mask="true" width="880" height="400" class="buttonActive"><span>回复</span></a></li>
+				</c:if>
+				<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
 			</ul>
 		</div>
 		<input type="hidden" name="id" value="${entity ne null ? entity.id : '-1'}" />

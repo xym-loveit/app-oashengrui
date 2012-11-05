@@ -1061,13 +1061,22 @@ function _queryAll(expr, root) {
 		return arr;
 	}
 	function byName(name, tag, root) {
-		var arr = [], doc = root.ownerDocument || root,
-			els = doc.getElementsByName(stripslashes(name)), el;
+		var arr = [];
+		var doc = root.ownerDocument || root;
+		
+		// modified by Jeccy.Zhao on 2012/11/6
+		if ($.pdialog._current != null && $.pdialog._current.length > 0) {
+			doc = $.pdialog._current[0].ownerDocument;
+		}
+		
+		var els = doc.getElementsByName(stripslashes(name)), el;
 		for (var i = 0, len = els.length; i < len; i++) {
 			el = els[i];
-			if (cmpTag(tag, el.nodeName) && _contains(root, el)) {
-				if (el.getAttributeNode('name')) {
-					arr.push(el);
+			if ($(el).css("display") != "none") {
+				if (cmpTag(tag, el.nodeName) && _contains(root, el)) {
+					if (el.getAttributeNode('name')) {
+						arr.push(el);
+					}
 				}
 			}
 		}
