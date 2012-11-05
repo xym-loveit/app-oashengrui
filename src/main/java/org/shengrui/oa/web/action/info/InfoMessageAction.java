@@ -174,7 +174,25 @@ extends BaseAppAction
 								return ajaxPrint(response, getErrorCallback("需传入合法的接收消息Id..."));
 							}
 						}
+						
 						request.setAttribute("entity", entity);
+						
+						// 回复动作.
+						String action = request.getParameter("op");
+						if (UtilString.isNotEmpty(action) && "reply".equalsIgnoreCase(action))
+						{
+							request.setAttribute("reply", true);
+							
+							ModelHrmEmployee employee = this.serviceHrmEmployee.get(String.valueOf(entity.getSenderId()));
+							if (employee != null)
+							{
+								StringBuilder receiver = new StringBuilder();
+								receiver.append("[");
+								receiver.append("{\"id\":\"" + employee.getId() + "\", \"empName\":\"" + employee.getEmpName() + "\", \"empNo\":\"" + employee.getEmpNo() + "\"}");
+								receiver.append("]");
+								request.setAttribute("receiver", receiver.toString());
+							}
+						}
 					}
 					else
 					{
