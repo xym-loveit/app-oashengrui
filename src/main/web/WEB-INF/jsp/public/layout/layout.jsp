@@ -76,6 +76,7 @@
 	<script src="resources/js/app.util.js" type="text/javascript"></script>
 	<script src="resources/js/kissyForm/kissy.js" type="text/javascript"></script>
 	<script src="resources/js/kissyForm/gallery/form/1.2/uploader/queue.js" type="text/javascript"></script>
+	<script src="resources/js/kissyForm/gallery/form/1.2/uploader/auth/base.js" type="text/javascript"></script>
 	
 	<script type="text/javascript" src="resources/js/swfupload/swfupload.js"></script>
 	<script type="text/javascript" src="resources/js/swfupload/swfupload.queue.js"></script>

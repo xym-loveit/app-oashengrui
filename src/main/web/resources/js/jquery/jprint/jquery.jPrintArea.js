@@ -65,7 +65,7 @@
 
 
             writeDoc.open();
-            writeDoc.write("<html>" + getHead() + getBody(ele) + "</html>" );
+            writeDoc.write("<html>" + getHead() + getBody(ele) + "</html>");
             writeDoc.close();
 
             printWindow.focus();

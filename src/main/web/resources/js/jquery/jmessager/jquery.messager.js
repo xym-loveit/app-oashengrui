@@ -111,7 +111,6 @@
 		var bottomHeight =  "-"+document.documentElement.scrollTop;
 		$("#messager_box").css("bottom", bottomHeight + "px");
 		
-		/*
 		if ($.browser.is == 'chrome') {
 			setTimeout( function() {
 				$("#messager_box").remove();
@@ -119,9 +118,8 @@
 				$("#messager_box").css("display", "block");
 			}, this.anims.speed - (this.anims.speed / 5));
 		}
-		*/
 		
-		// this.rmmessage(this.time);
+		this.rmmessage(this.time);
 	};
 
 	this.lays = function(width, height) {
