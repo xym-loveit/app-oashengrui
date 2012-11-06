@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+       
+<tiles-definitions>
+	
+	<!-- 任务委托管理 -->
+	<definition name="admin.page.task.index" 
+		path="/WEB-INF/jsp/application/administrator/task/pageTaskDelegateIndex.jsp"/>	
+		
+</tiles-definitions>

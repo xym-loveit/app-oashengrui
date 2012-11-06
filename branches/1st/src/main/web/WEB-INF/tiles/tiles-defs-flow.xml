@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+       
+<tiles-definitions>
+	
+	<!--流程分类弹框页面 -->
+	<definition name="dialog.sys.setting.flow.type" 
+		path="/WEB-INF/jsp/application/system/flow/public/dialog/dialogFlowType.jsp"/>
+	
+	<!-- 流程触发条件弹框页面 -->	
+	<definition name="dialog.sys.flow.definition.condition"
+		path="/WEB-INF/jsp/application/system/flow/public/dialog/dialogFlowDefCondition.jsp" />
+	
+	<!-- 流程节点配置页面 -->
+	<definition name="dialog.sys.flow.task.configuration"
+		path="/WEB-INF/jsp/application/system/flow/public/dialog/dialogFlowTaskConfiguration.jsp" />
+	
+	<!--流程分类之父类别树结构页面 -->
+	<definition name="data.sys.setting.flow.type.tree" 
+		path="/WEB-INF/jsp/application/system/flow/public/data/dataFlowTypeTree.jsp"/>
+	
+	<!--流程任务列表页面 -->
+	<definition name="data.sys.setting.flow.task.list"
+		path="/WEB-INF/jsp/application/system/flow/public/data/dataFlowTaskList.jsp" />
+	
+	<!--流程分类之子分类列表页面 -->
+	<definition name="data.sys.setting.flow.type.list" 
+		path="/WEB-INF/jsp/application/system/flow/public/data/dataFlowTypeList.jsp"/>
+	
+	<!-- 流程配置页面 -->
+	<definition name="page.sys.flow.configuration" 
+		path="/WEB-INF/jsp/application/system/flow/public/pageFlowConfiguration.jsp"/>
+	
+	<!-- 流程节点类型表单 - 本部门 (校区) -->
+	<definition name="form.flow.task.type.ownerDepsAgainst" 
+		path="/WEB-INF/jsp/application/system/flow/public/form/formFlowTaskDepCurrentAgainst.jsp"/>
+	
+	<!-- 流程节点类型表单 - 某部门 (校区) -->
+	<definition name="form.flow.task.type.ownerDepsSingle" 
+		path="/WEB-INF/jsp/application/system/flow/public/form/formFlowTaskDepCurrentSingle.jsp"/>
+	
+	<!-- 流程节点类型表单 - 总部对口 -->
+	<definition name="form.flow.task.type.masterDepsAgainst" 
+		path="/WEB-INF/jsp/application/system/flow/public/form/formFlowTaskDepMasterAgainst.jsp"/>
+	
+	<!-- 流程节点类型表单 - 总部某部门 -->
+	<definition name="form.flow.task.type.masterDepsSingle" 
+		path="/WEB-INF/jsp/application/system/flow/public/form/formFlowTaskDepMasterSingle.jsp"/>
+	
+	<!-- 流程节点类型表单 - 调往/晋升校区 -->
+	<definition name="form.flow.task.type.transferDeps" 
+		path="/WEB-INF/jsp/application/system/flow/public/form/formFlowTaskDepTransfer.jsp"/>
+	
+	<!-- 流程节点类型表单 - 本部门 (片区) -->
+	<definition name="form.flow.task.type.slotDepsAgainst" 
+		path="/WEB-INF/jsp/application/system/flow/public/form/formFlowTaskDepSlotAgainst.jsp"/>
+		
+	<!-- 流程节点类型表单 - 某部门 (片区) -->
+	<definition name="form.flow.task.type.slotDepsSingle" 
+		path="/WEB-INF/jsp/application/system/flow/public/form/formFlowTaskDepSlotSingle.jsp"/>
+	
+	<!-- 流程节点类型表单 - 某部门 (片区) -->
+	<definition name="form.flow.task.type.depsAgainstSlot" 
+		path="/WEB-INF/jsp/application/system/flow/public/form/formFlowTaskDepAgainstSlot.jsp"/>
+	
+	<!-- 财务审批流程页面 -->
+	<definition name="page.sys.setting.flow.financial.index" 
+		path="/WEB-INF/jsp/application/system/flow/financial/pageFlowFinancialIndex.jsp"/>
+		
+	<!-- 人资审批流程页面 -->
+	<definition name="page.sys.setting.flow.hrm.index" 
+		path="/WEB-INF/jsp/application/system/flow/hrm/pageFlowHrmIndex.jsp"/>
+	
+	<!--人资职位流程配置数据列表页面 -->
+	<definition name="data.sys.setting.flow.hrm.poset.list" 
+		path="/WEB-INF/jsp/application/system/flow/hrm/data/dataFlowPosetList.jsp"/>
+	
+	<!-- 人资职位流程配置页面 -->
+	<definition name="page.sys.flow.hrm.configuration" 
+		path="/WEB-INF/jsp/application/system/flow/hrm/pageFlowHrmPosetConfiguration.jsp"/>
+	
+</tiles-definitions>

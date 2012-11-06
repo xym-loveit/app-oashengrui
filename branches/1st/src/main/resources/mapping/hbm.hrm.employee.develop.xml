@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.shengrui.oa.model.hrm">
+    <class name="ModelHrmEmployeeDevelop" table="app_hrm_employee_develop">
+        <!-- <cache usage="read-write" /> -->
+        <id name="id" type="java.lang.String">
+            <column name="develop_id" />
+            <generator class="native" />
+        </id>
+         <property name="formNo" type="java.lang.String">
+            <column name="apply_form_no" />
+        </property>
+         <property name="applyDate" type="timestamp">
+            <column name="apply_date" />
+        </property>
+         <property name="onboardDate" type="timestamp">
+            <column name="onboard_date" />
+        </property>
+         <property name="comments" type="java.lang.String">
+            <column name="comments" />
+        </property>
+         <property name="status" type="java.lang.String">
+            <column name="status" />
+        </property>
+         <property name="auditState" type="java.lang.Integer">
+            <column name="audit_state" />
+        </property>
+         <property name="operationState" type="java.lang.Integer">
+            <column name="op_state" />
+        </property>
+         <property name="entryId" type="java.lang.Integer">
+            <column name="entry_id" />
+        </property>
+         <property name="entryDateTime" type="timestamp">
+            <column name="entry_datetime" />
+        </property>
+        <property name="currentProcDistrictId" type="java.lang.String">
+        	<column name="cproc_disid" />
+        </property>
+        <property name="currentProcDepId" type="java.lang.String">
+            <column name="cproc_depid" />
+        </property>
+         <property name="currentProcPosId" type="java.lang.String">
+            <column name="cproc_posid" />
+        </property>
+        
+        <many-to-one name="applyFormType" class="org.shengrui.oa.model.flow.ModelProcessType">
+        	<column name="apply_form_type" />
+        </many-to-one>
+        
+        <many-to-one name="employee" class="ModelHrmEmployee">
+        	<column name="emp_id" />
+        </many-to-one>
+        
+        <many-to-one name="fromDistrict" class="org.shengrui.oa.model.system.ModelSchoolDistrict" not-found="ignore">
+        	<column name="from_district" />
+        </many-to-one>
+        
+        <many-to-one name="fromDepartment" class="org.shengrui.oa.model.system.ModelSchoolDepartment" not-found="ignore">
+        	<column name="from_dep" />
+        </many-to-one>
+        
+        <many-to-one name="fromPosition" class="org.shengrui.oa.model.system.ModelSchoolDepartmentPosition" not-found="ignore">
+        	<column name="from_position" />
+        </many-to-one>
+        
+        <many-to-one name="toDistrict" class="org.shengrui.oa.model.system.ModelSchoolDistrict" not-found="ignore">
+        	<column name="to_district" />
+        </many-to-one>
+        
+        <many-to-one name="toDepartment" class="org.shengrui.oa.model.system.ModelSchoolDepartment" not-found="ignore">
+        	<column name="to_department" />
+        </many-to-one>
+        
+        <many-to-one name="toPosition" class="org.shengrui.oa.model.system.ModelSchoolDepartmentPosition" not-found="ignore">
+        	<column name="to_position" />
+        </many-to-one>
+        
+        <set name="applyForm" table="app_process_form" 
+        	lazy="true" cascade="all-delete-orphan" order-by="seq_sn asc"> 
+	      <!-- <cache usage="read-write" /> -->
+	      <key column="form_no" property-ref="formNo"/>
+	      <one-to-many class="org.shengrui.oa.model.flow.ModelProcessForm"/> 
+	    </set>
+	    
+        <set name="processHistory" table="app_process_history" 
+        	lazy="true" cascade="all-delete-orphan" order-by="history_id asc"> 
+	      <!-- <cache usage="read-write" /> -->
+	      <key column="form_no" property-ref="formNo"/>  
+	      <one-to-many class="org.shengrui.oa.model.flow.ModelProcessHistory" />
+	    </set>
+	    
+	    <set name="attachFiles" table="app_hrm_employee_develop_files" 
+        	lazy="true" cascade="all-delete-orphan" order-by="file_id asc"> 
+	      <cache usage="read-write" />
+	      <key column="develop_id"/>  
+	      <many-to-many class="cn.trymore.oa.model.system.ModelFileAttach" column="file_id" />
+	    </set>
+	    
+	</class>
+</hibernate-mapping>

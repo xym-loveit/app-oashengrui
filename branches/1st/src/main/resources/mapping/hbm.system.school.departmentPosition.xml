@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.shengrui.oa.model.system">
+    <class name="ModelSchoolDepartmentPosition" table="app_school_department_position">
+        <cache usage="read-write" />
+        <id name="id" type="java.lang.String">
+            <column name="pos_id" />
+            <generator class="native" />
+        </id>
+        <property name="positionName" type="java.lang.String">
+            <column name="pos_name" not-null="true" />
+        </property>
+        <property name="positionDesc" type="java.lang.String">
+            <column name="pos_desc" />
+        </property>
+        <property name="positionLeadership" type="java.lang.Integer">
+            <column name="pos_leadership" />
+        </property>
+        <property name="positionRoleRights" type="java.lang.String">
+            <column name="pos_roleRights" />
+        </property>
+        <set name="roles" table="app_school_department_position_role" 
+        	cascade="all" inverse="false" lazy="true"> 
+	      <cache usage="read-write" />
+	      <key column="pos_id"/>  
+	      <many-to-many class="ModelAppRole" column="role_id" />
+	    </set>
+	    
+        <many-to-one name="department" class="ModelSchoolDepartment">
+        	<column name="dep_id" />
+        </many-to-one>
+	    
+	</class>
+</hibernate-mapping>

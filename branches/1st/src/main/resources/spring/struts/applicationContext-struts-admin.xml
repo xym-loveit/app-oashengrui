@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean name="/app/admin" 
+		class="org.shengrui.oa.web.action.admin.AdminAction" parent="base">
+		<property name="serviceNewsManage" ref="serviceNewsManage"></property> 
+	    <property name="serviceAdminWorkArrange" ref="serviceAdminWorkArrange" />
+	    <property name="serviceAdminWorkType" ref="serviceAdminWorkType" />
+	    <property name="serviceDocManage" ref="serviceDocManage" />
+	    <property name="serviceDocFile" ref="serviceDocFile" />
+	    <property name="serviceDocLevel" ref="serviceDocLevel" />
+	    <property name="serviceDocVisiableRange" ref="serviceDocVisiableRange" />
+        <property name="serviceWorkTemplate" ref="serviceWorkTemplate"/>
+		<property name="serviceBaseWorkTime" ref="serviceBaseWorkTime"/>
+		<property name="serviceBaseWorkContent" ref="serviceBaseWorkContent"/>
+     </bean>
+	
+	<bean name="/app/admin/news" 
+		class="org.shengrui.oa.web.action.admin.AdminAction" parent="base">
+		 <property name="serviceNewsManage" ref="serviceNewsManage"></property> 
+	   	 <property name="serviceAdminWorkArrange" ref="serviceAdminWorkArrange" />
+	   	 <property name="serviceAdminWorkType" ref="serviceAdminWorkType" />
+	   	 <property name="serviceBase" ref="serviceBase" />
+	   	 <property name="serviceNewsAuditHistory" ref="serviceNewsAuditHistory" />
+	</bean>
+	
+	<bean name="/app/admin/attendance/operation" 
+		class="org.shengrui.oa.web.action.admin.AdminAction" parent="base">
+       <property name="serviceStaffAttendance" ref="serviceStaffAttendance"/>
+       <property name="serviceStaffAttendanceView" ref="serviceStaffAttendanceView"/>
+	   <property name="serviceAdminWorkArrange" ref="serviceAdminWorkArrange" />
+	</bean>
+	
+	<bean name="/app/admin/attendance/view" 
+		class="org.shengrui.oa.web.action.admin.AdminAction" parent="base">
+       <property name="serviceStaffAttendance" ref="serviceStaffAttendance"/>
+       <property name="serviceStaffAttendanceView" ref="serviceStaffAttendanceView"/>
+	</bean>
+	
+	<bean name="/app/admin/doc" 
+		class="org.shengrui.oa.web.action.admin.DocManageAction" parent="base">
+	    <property name="serviceDocManage" ref="serviceDocManage" />
+	    <property name="serviceDocFile" ref="serviceDocFile" />
+	    <property name="serviceDocLevel" ref="serviceDocLevel" />
+	    <property name="serviceDocVisiableRange" ref="serviceDocVisiableRange" />
+		
+		
+	</bean>
+	<!-- <property name="serviceNewsManage" ref="serviceNewsManage"></property> -->
+	
+</beans>

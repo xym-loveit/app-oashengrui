@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<!-- 人力发展 -->	
+	<bean name="/app/hrm/develop" 
+			class="org.shengrui.oa.web.action.hrm.HrmDevelopAction" parent="base">
+		<property name="serviceHrmEmployeeDevelop" ref="serviceHrmEmployeeDevelop" />
+		<property name="serviceHrmEmployeeRoadMap" ref="serviceHrmEmployeeRoadMap" />
+		<property name="serviceProcessType" ref="serviceProcessType" />
+		<property name="serviceHrmArchive" ref="serviceHrmArchive" />
+	</bean>
+	
+</beans>

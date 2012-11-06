@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean name="/app/personal" 
+		class="org.shengrui.oa.web.action.personal.MyDesktopAction" parent="base">
+	</bean>
+	
+	
+	<bean name="/app/personal/doc" 
+		class="org.shengrui.oa.web.action.personal.MyDocAction" parent="base">
+		<property name="serviceDocManage" ref="serviceDocManage" />
+	    <property name="serviceDocFile" ref="serviceDocFile" />
+	    <property name="serviceDocLevel" ref="serviceDocLevel" />
+	    <property name="serviceDocVisiableRange" ref="serviceDocVisiableRange" />
+	</bean>
+	
+	<bean name="/app/personal/news" 
+		class="org.shengrui.oa.web.action.personal.MyNewsAction" parent="base">
+		<property name="serviceNewsManage" ref="serviceNewsManage"></property>
+	</bean>
+	
+	
+	<bean name="/app/personal/conference" 
+		class="org.shengrui.oa.web.action.personal.MyConferenceAction" parent="base">
+		<property name="serviceConference" ref="serviceConference" />
+	</bean>
+	
+	<bean name="/app/personal/addressBook" 
+		class="org.shengrui.oa.web.action.index.IndexAction" parent="base">
+	</bean>
+</beans>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<bean name="/app/flow" 
+			class="org.shengrui.oa.web.action.flow.FlowFinancialAction" parent="base">
+		<property name="serviceProcessType" ref="serviceProcessType" />
+		<property name="serviceProcessDefinition" ref="serviceProcessDefinition" />
+		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
+		<property name="serviceSchoolDepartmentPosition" ref="serviceSchoolDepartmentPosition" />
+		<property name="serviceProcessTask" ref="serviceProcessTask" />
+	</bean>
+	
+	<bean name="/app/flow/finance" 
+			class="org.shengrui.oa.web.action.flow.FlowFinancialAction" parent="base">
+		<property name="serviceProcessType" ref="serviceProcessType" />
+		<property name="serviceProcessDefinition" ref="serviceProcessDefinition" />
+		<property name="serviceProcessTask" ref="serviceProcessTask" />
+	</bean>
+	
+	<bean name="/app/flow/hrm" 
+			class="org.shengrui.oa.web.action.flow.FlowHrmAction" parent="base">
+		<property name="serviceProcessType" ref="serviceProcessType" />
+		<property name="serviceProcessDefinition" ref="serviceProcessDefinition" />
+		<property name="serviceProcessTask" ref="serviceProcessTask" />
+	</bean>
+	
+</beans>

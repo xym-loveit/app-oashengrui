@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans>
+		<form-bean name="form.hrm.employee" type="org.shengrui.oa.model.hrm.ModelHrmEmployee"></form-bean>
+		<form-bean name="form.hrm.resume" type="org.shengrui.oa.model.hrm.ModelHrmResume"></form-bean>
+		<form-bean name="form.hrm.upload" type="cn.trymore.oa.model.system.ModelFileAttach"></form-bean>
+	</form-beans>
+	<action-mappings>
+	
+		<!-- 员工档案-->
+		<action path="/app/hrm/employee"
+				name="form.hrm.employee"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="hrm.page.employee.doc.index" path="hrm.page.employee.doc.index" />
+			<forward name="hrm.page.employee.doc.detail" path="hrm.page.employee.doc.detail" />
+			<forward name="hrm.page.employee.doc.roadmap" path="hrm.page.employee.doc.roadmap" />
+		</action>
+		
+		<!-- 员工添加-->
+		<action path="/app/hrm/employee/data"
+				name="form.hrm.resume"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="hrm.page.employee.resume" path="hrm.page.employee.resume" />
+		</action>
+		
+		<!-- 导入员工信息 -->
+		<action path="/app/hrm/employee/import"
+				name="form.hrm.upload"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="employee.page.import" path="employee.page.import" />
+		</action>
+	</action-mappings>
+
+</struts-config>

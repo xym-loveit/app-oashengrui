@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+       
+<tiles-definitions>
+		
+	<definition name="page.my.doc.more"  path="/WEB-INF/jsp/application/personal/docDownload/public/doclists.jsp"/>
+    <definition name="page.my.doc.download"  path="/WEB-INF/jsp/application/personal/docDownload/download.jsp"/>
+
+</tiles-definitions>

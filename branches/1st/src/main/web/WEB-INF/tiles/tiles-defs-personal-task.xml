@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+       
+<tiles-definitions>
+	
+	<!-- 我的任务 -->
+	<definition name="page.task.index" 
+		path="/WEB-INF/jsp/application/personal/myTask.jsp"/>
+	
+	<!-- 我发起的任务 -->
+	<definition name="page.task.launched" 
+		path="/WEB-INF/jsp/application/personal/task/pageTaskLaunched.jsp"/>
+	
+	<!-- 任务详情页面 -->
+	<definition name="dialog.task.page" 
+		path="/WEB-INF/jsp/application/personal/task/dialog/dialogTaskPage.jsp"/>
+	
+	<!-- 任务审批记录数据页面 -->
+	<definition name="data.task.audit.records" 
+		path="/WEB-INF/jsp/application/personal/task/data/dataTaskAuditRecords.jsp"/>
+	
+	<!-- 任务申请表单数据页面 -->
+	<definition name="form.task.apply.page" 
+		path="/WEB-INF/jsp/application/personal/task/form/formPageApply.jsp"/>
+	
+	<!-- 任务审核表单数据页面 -->
+	<definition name="form.task.audit.page" 
+		path="/WEB-INF/jsp/application/personal/task/form/formPageAudit.jsp"/>
+	
+	
+</tiles-definitions>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.shengrui.oa.model.hrm">
+    <class name="ModelHrmResume" table="app_hrm_resume">
+        <cache usage="read-write" />
+        <id name="id" type="java.lang.String">
+            <column name="resume_id" />
+            <generator class="native" />
+        </id>
+        <property name="employeeId" type="java.lang.Integer">
+            <column name="emp_id" />
+        </property>
+        <property name="fullName" type="java.lang.String">
+            <column name="fullname" not-null="true" />
+        </property>
+         <property name="sex" type="java.lang.Integer">
+            <column name="sex" />
+        </property>
+        <property name="bornPlace" type="java.lang.String">
+            <column name="birthPlace" />
+        </property>
+        <property name="party" type="java.lang.Integer">
+            <column name="party" />
+        </property>
+        <property name="birthday" type="timestamp">
+            <column name="birthday" />
+        </property>
+        <property name="mobilePhone" type="java.lang.String">
+            <column name="mobile" />
+        </property>
+        <property name="marriage" type="java.lang.Integer">
+            <column name="marriage" />
+        </property>
+        <property name="identityNo" type="java.lang.String">
+            <column name="idNo" />
+        </property>
+        <property name="address" type="java.lang.String">
+            <column name="address" />
+        </property>
+        <property name="email" type="java.lang.String">
+            <column name="email" />
+        </property>
+        <property name="photo" type="java.lang.String">
+            <column name="photo" />
+        </property>
+        <property name="educationCollege" type="java.lang.String">
+            <column name="eduCollege" />
+        </property>
+        <property name="educationMajority" type="java.lang.String">
+            <column name="eduMajor" />
+        </property>
+        <property name="educationDegree" type="java.lang.Integer">
+            <column name="eduDegree" />
+        </property>
+        <property name="teacherMajority" type="java.lang.Integer">
+            <column name="teacher_major" />
+        </property>
+        <property name="teacherCertifaciton" type="java.lang.Integer">
+            <column name="teacher_cert" />
+        </property>
+         <property name="englishLevel" type="java.lang.Integer">
+            <column name="en_level" />
+        </property>
+         <property name="chineseLevel" type="java.lang.Integer">
+            <column name="cn_level" />
+        </property>
+	     <property name="source" type="java.lang.Integer">
+            <column name="source" />
+        </property>
+        <property name="age" type="java.lang.Integer">
+            <column name="age" />
+        </property>
+         <set name="attachFiles" table="app_hrm_resume_file"
+        	cascade="save-update" lazy="true"> 
+	      <cache usage="read-write" />
+	      <key column="resum_id"/>  
+	      <many-to-many class="cn.trymore.oa.model.system.ModelFileAttach" column="file_id" />
+	    </set>
+	    
+	</class>
+</hibernate-mapping>

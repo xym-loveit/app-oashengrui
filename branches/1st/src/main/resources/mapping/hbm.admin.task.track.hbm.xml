@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="org.shengrui.oa.model.admin">
+    <class name="ModelTaskPlanTrack" table="app_admin_task_tracks">
+        <!-- <cache usage="read-write" /> -->
+        <id name="id" type="java.lang.String">
+            <column name="track_id" />
+            <generator class="native" />
+        </id>
+        <property name="taskApplyType" type="java.lang.Integer">
+            <column name="task_applyType" not-null="true" />
+        </property>
+        <property name="taskApplyDate" type="timestamp">
+            <column name="task_applyTime" not-null="true" />
+        </property>
+        <property name="taskApplyFinalizedDate" type="timestamp">
+            <column name="task_applyFinalTime" />
+        </property>
+        <property name="taskApplyMeto" type="java.lang.String">
+            <column name="task_applyMeto" />
+        </property>
+        <property name="taskAuditState" type="java.lang.Integer">
+            <column name="task_auditState" />
+        </property>
+        <property name="taskAuditFinalizedDate" type="timestamp">
+            <column name="task_auditFinalTime" />
+        </property>
+        <property name="taskAuditTime" type="timestamp">
+            <column name="task_auditTime" />
+        </property>
+        <property name="taskAuditMeto" type="java.lang.String">
+            <column name="task_auditMeto" />
+        </property>
+        
+        <many-to-one name="task" class="ModelTaskPlan">
+            <column name="task_id" not-null="true" />
+        </many-to-one>
+        
+        <many-to-one name="taskAuditor" class="org.shengrui.oa.model.hrm.ModelHrmEmployee">
+        	<column name="auditor" />
+        </many-to-one>
+        
+    </class>
+</hibernate-mapping>

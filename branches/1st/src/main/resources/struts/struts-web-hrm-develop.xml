@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans>
+		<form-bean name="form.hrm.develop" type="org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop"></form-bean>
+	</form-beans>
+	
+	<action-mappings>
+		
+		<!-- 人力发展管理-->
+		<action path="/app/hrm/develop"
+				name="form.hrm.develop"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="hrm.page.employee.develop.index" path="hrm.page.employee.develop.index" />
+			<forward name="hrm.page.employee.develop.detail" path="hrm.page.employee.develop.detail" />
+			<forward name="hrm.page.employee.develop.finalize" path="hrm.page.employee.develop.finalize" />
+			<forward name="hrm.data.employee.develop.records" path="hrm.data.employee.develop.records" />
+			
+			<forward name="dialog.hrm.form.state.2" path="dialog.hrm.form.state.page" />
+			<forward name="dialog.hrm.form.state.6" path="dialog.hrm.form.state.page" />
+			<forward name="dialog.hrm.form.state.4" path="dialog.hrm.form.state.page" />
+			<forward name="dialog.hrm.form.state.3" path="dialog.hrm.form.state.page" />
+			
+		</action>
+		
+	</action-mappings>
+
+</struts-config>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+       
+<tiles-definitions>
+	
+	<!-- 系统管理 - 用户管理 -->
+	<definition name="page.sys.mgr.account.index" 
+		path="/WEB-INF/jsp/application/system/account/accountIndex.jsp"/>
+	
+	<!-- 通讯录 -->
+	<definition name="personal.page.addressBook" 
+		path="/WEB-INF/jsp/application/system/account/addressBook.jsp"/>
+		
+	<definition name="data.addressbook.employee"
+		path="/WEB-INF/jsp/application/system/account/data/dataEmployeeInfo.jsp"/>
+	
+</tiles-definitions>

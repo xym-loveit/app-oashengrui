@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	
+	<form-beans>
+		
+		<form-bean name="form.system.school.district" 
+			type="org.shengrui.oa.model.system.ModelSchoolDistrict"></form-bean>
+			
+		<form-bean name="form.system.school.department" 
+			type="org.shengrui.oa.model.system.ModelSchoolDepartment"></form-bean>
+			
+		<form-bean name="form.system.school.department.position" 
+			type="org.shengrui.oa.model.system.ModelSchoolDepartmentPosition"></form-bean>
+			
+		<form-bean name="form.system.school.department.privilege" 
+			type="org.shengrui.oa.model.system.ModelSchoolDepartmentPrivilege"></form-bean>
+		
+		<form-bean name="form.system.school.poset" 
+			type="org.shengrui.oa.model.system.ModelSchoolPositionSet"></form-bean>
+		
+	</form-beans>
+	
+	<global-forwards> 
+		<forward name="data.sys.setting.dep.tree" path="data.sys.setting.dep.tree" />
+		<forward name="data.sys.setting.dep.position" path="data.sys.setting.dep.position" />
+	</global-forwards>
+	
+	<action-mappings>
+		
+		<!-- 学校设置 - 校区设置 -->
+		<action path="/app/system/school/district"
+				scope="request"
+				name="form.system.school.district"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="page.sys.setting.school.district.index" path="page.sys.setting.school.district.index" />
+			<forward name="dialog.sys.setting.school.district.page" path="dialog.sys.setting.school.district.page" />
+		</action>
+		
+		<!-- 学校设置 - 部门岗位设置 - 部门设置 -->
+		<action path="/app/system/school/department"
+				scope="request"
+				name="form.system.school.department"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="page.sys.setting.dep.index" path="page.sys.setting.dep.index" />
+			<forward name="dialog.sys.setting.dep.page" path="dialog.sys.setting.dep.page" />
+		</action>
+		
+		<!-- 学校设置 - 部门岗位设置 - 部门岗位设置 -->
+		<action path="/app/system/school/department/position"
+				scope="request"
+				name="form.system.school.department.position"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="dialog.sys.setting.dep.position.page" path="dialog.sys.setting.dep.position.page" />
+			<forward name="dialog.sys.setting.dep.position.role" path="dialog.sys.setting.dep.position.role" />
+		</action>
+		
+		<!-- 学校设置 - 职位岗位设置  -->
+		<action path="/app/system/school/poset"
+				scope="request"
+				name="form.system.school.poset"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="page.sys.setting.poset.index" path="page.sys.setting.poset.index" />
+			<forward name="dialog.sys.setting.school.poset.page" path="dialog.sys.setting.school.poset.page" />
+		</action>
+		
+	</action-mappings>
+
+</struts-config>

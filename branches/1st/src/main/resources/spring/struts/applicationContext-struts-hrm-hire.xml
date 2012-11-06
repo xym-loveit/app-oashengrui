@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<!-- 当前招聘管理 -->
+	<bean name="/app/hrm/hire" 
+			class="org.shengrui.oa.web.action.hrm.HrmHireAction" parent="base">
+		<property name="serviceHrmJobHireInfo" ref="serviceHrmJobHireInfo" />
+		<property name="serviceHrmResume" ref="serviceHrmResume" />
+		<property name="serviceHrmJobHireIssue" ref="serviceHrmJobHireIssue" />
+		<property name="serviceHrmJobHireEntry" ref="serviceHrmJobHireEntry" />
+		<property name="serviceHrmArchive" ref="serviceHrmArchive" />
+		<property name="serviceBase" ref="serviceBase" />
+		<property name="serviceHrmJobHireInfoAuditHistory" ref="serviceHrmJobHireInfoAuditHistory" />
+	</bean>
+	
+	<!-- 当前招聘管理 - 简历申请等相关操作-->
+	<bean name="/app/hrm/hire/resume" 
+			class="org.shengrui.oa.web.action.hrm.HrmHireAction" parent="base">
+		<property name="serviceHrmJobHireInfo" ref="serviceHrmJobHireInfo" />
+		<property name="serviceHrmResume" ref="serviceHrmResume" />
+		<property name="serviceHrmJobHireIssue" ref="serviceHrmJobHireIssue" />
+		<property name="serviceHrmJobHireInterview" ref="serviceHrmJobHireInterview" />
+		<property name="serviceHrmJobHireEntry" ref="serviceHrmJobHireEntry" />
+		<property name="serviceHrmArchive" ref="serviceHrmArchive" />
+	</bean>
+	
+	<!-- 当前招聘管理 - 面试等相关操作-->
+	<bean name="/app/hrm/hire/interview" 
+			class="org.shengrui.oa.web.action.hrm.HrmHireAction" parent="base">
+		<property name="serviceHrmJobHireInfo" ref="serviceHrmJobHireInfo" />
+		<property name="serviceHrmResume" ref="serviceHrmResume" />
+		<property name="serviceHrmJobHireIssue" ref="serviceHrmJobHireIssue" />
+		<property name="serviceHrmJobHireInterview" ref="serviceHrmJobHireInterview" />
+		<property name="serviceHrmJobHireEntry" ref="serviceHrmJobHireEntry" />
+		<property name="serviceHrmArchive" ref="serviceHrmArchive" />
+	</bean>
+	
+</beans>

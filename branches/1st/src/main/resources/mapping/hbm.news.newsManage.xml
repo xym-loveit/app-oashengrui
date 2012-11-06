@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="org.shengrui.oa.model.news">
+	<class name="ModelNewsMag" table="app_admin_news">
+		<!-- <cache usage="read-write" /> -->
+		<id name="id" type="java.lang.String">
+			<column name="news_id" />
+			<generator class="native" />
+		</id>
+
+		<property name="newsSubject" type="java.lang.String">
+			<column name="news_subject" not-null="true" />
+		</property>
+		<property name="newsContent" type="java.lang.String">
+			<column name="news_content" not-null="true"></column>
+		</property>
+
+		<property name="authorName" type="java.lang.String">
+			<column name="author_name" not-null="true"></column>
+		</property>
+		<property name="newsLevel" type="java.lang.Integer">
+			<column name="news_level" not-null="true" />
+		</property>
+		<property name="createtime" type="java.util.Date">
+			<column name="createtime" not-null="true" />
+		</property>
+		<property name="updateTime" type="java.util.Date">
+			<column name="updateTime"></column>
+		</property>
+		<property name="topIndex" type="java.lang.Integer">
+			<column name="top_index" />
+		</property>
+		<property name="status" type="java.lang.Integer">
+			<column name="status" not-null="true" />
+		</property>
+		<many-to-one not-found="ignore" name="district" class="org.shengrui.oa.model.system.ModelSchoolDistrict">
+            <column name="district_post" not-null="true">
+            </column>
+        </many-to-one>
+        <many-to-one not-found="ignore" name="department" class="org.shengrui.oa.model.system.ModelSchoolDepartment">
+            <column name="dep_post" not-null="true">
+            </column>
+        </many-to-one>
+        
+        <!--
+        <many-to-one not-found="ignore" name="newsDistrictVisible" class="org.shengrui.oa.model.system.ModelSchoolDistrict">
+        	<column name="district_visible" />
+        </many-to-one>
+        -->
+        
+        <property name="newsDistrictVisibleIds" type="java.lang.String">
+			<column name="district_visible"  />
+		</property>
+        
+     	<many-to-one name="dictionary" class="org.shengrui.oa.model.system.ModelAppDictionary" fetch="select">
+            <column name="type_dicid" not-null="true">
+            </column>
+        </many-to-one>
+        <many-to-one name="user" class="org.shengrui.oa.model.system.ModelAppUser" fetch="select">
+            <column name="author_id" not-null="true">
+            </column>
+        </many-to-one>
+        
+        <property name="auditTime" type="timestamp">
+        	  <column name="audit_time" />
+        </property>
+        
+        <many-to-one name="auditor" class="org.shengrui.oa.model.hrm.ModelHrmEmployee">
+        	<column name="auditor" />
+        </many-to-one>
+        
+        <set name="attachFiles" table="app_admin_news_file"
+        	cascade="save-update" lazy="true"> 
+          <!-- <cache usage="read-write" /> -->
+	      <key column="news_id"/>
+	      <many-to-many class="cn.trymore.oa.model.system.ModelFileAttach" column="file_id" />
+	    </set>
+	    
+	    <set name="auditHistory" table="app_admin_news_audithistory"
+        	cascade="save-update" lazy="true" order-by="audit_date desc"> 
+	      <!-- <cache usage="read-write" /> -->
+	      <key column="entity_id"/>  
+	      <one-to-many class="ModelNewsAuditHistory" />
+	    </set>
+	    
+	</class>
+</hibernate-mapping>

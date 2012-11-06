@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.shengrui.oa.model.finan">
+    <class name="ModelFinanExpense" table="app_finan_expense">
+        <cache usage="read-write" />
+        <id name="id" type="java.lang.String">
+            <column name="expense_id" />
+            <generator class="native" />
+        </id>
+         <property name="formNo" type="java.lang.String">
+            <column name="apply_form_no" />
+        </property>
+         <property name="applyDate" type="timestamp">
+            <column name="apply_date" />
+        </property>
+         <property name="comments" type="java.lang.String">
+            <column name="comments" />
+        </property>
+        <property name="empPhoneNo" type="string">
+            <column name="emp_phone_no" length="120" />
+        </property>
+        <property name="applyAmt" type="java.lang.Double">
+            <column name="apply_amt" precision="22" scale="0" />
+        </property>
+        <property name="payer" type="java.lang.Integer">
+            <column name="payer" />
+        </property>
+        <property name="contractNo" type="string">
+            <column name="contract_no" length="120" />
+        </property>
+        <property name="attachCount" type="string">
+            <column name="attach_count" length="120" />
+        </property>
+        <property name="auditAdvance" type="java.lang.Integer">
+            <column name="audit_advance" />
+        </property>
+        <property name="assetNo" type="string">
+            <column name="asset_no" length="120" />
+        </property>
+        <property name="amtReceiver" type="string">
+            <column name="amt_receiver" length="120" />
+        </property>
+        <property name="amtReceiverContact" type="string">
+            <column name="amt_receiver_contact" length="120" />
+        </property>
+        <property name="payMethod" type="java.lang.Integer">
+            <column name="pay_method" />
+        </property>
+        <property name="bank" type="string">
+            <column name="bank" length="120" />
+        </property>
+        <property name="accountName" type="string">
+            <column name="account_name" length="120" />
+        </property>
+        <property name="accountNo" type="string">
+            <column name="account_no" length="120" />
+        </property>
+         <property name="status" type="java.lang.String">
+            <column name="status" />
+        </property>
+         <property name="auditState" type="java.lang.Integer">
+            <column name="audit_state" />
+        </property>
+         <property name="entryId" type="java.lang.Integer">
+            <column name="entry_id" />
+        </property>
+         <property name="entryDateTime" type="timestamp">
+            <column name="entry_datetime" />
+        </property>
+        
+        <property name="currentProcDistrictId" type="java.lang.String">
+        	<column name="cproc_disid" />
+        </property>
+        <property name="currentProcDepId" type="java.lang.String">
+            <column name="cproc_depid" />
+        </property>
+         <property name="currentProcPosId" type="java.lang.String">
+            <column name="cproc_posid" />
+        </property>
+        
+        <many-to-one name="applyFormType" class="org.shengrui.oa.model.flow.ModelProcessType">
+        	<column name="apply_form_type" />
+        </many-to-one>
+        
+        <many-to-one name="employee" class="org.shengrui.oa.model.hrm.ModelHrmEmployee">
+        	<column name="emp_id" />
+        </many-to-one>
+        
+        <many-to-one name="empDistrict" class="org.shengrui.oa.model.system.ModelSchoolDistrict">
+        	<column name="emp_district" />
+        </many-to-one>
+        
+        <many-to-one name="empDepartment" class="org.shengrui.oa.model.system.ModelSchoolDepartment">
+        	<column name="emp_dep" />
+        </many-to-one>
+        
+        <set name="applyForm" table="app_process_form" 
+        	lazy="true" cascade="all-delete-orphan" order-by="seq_sn asc"> 
+	      <cache usage="read-write" />
+	      <key column="form_no" property-ref="formNo"/>
+	      <one-to-many class="org.shengrui.oa.model.flow.ModelProcessForm"/> 
+	    </set>
+	    
+        <set name="processHistory" table="app_process_history" 
+        	lazy="true" cascade="all-delete-orphan" order-by="history_id asc"> 
+	      <cache usage="read-write" />
+	      <key column="form_no" property-ref="formNo"/>  
+	      <one-to-many class="org.shengrui.oa.model.flow.ModelProcessHistory" />
+	    </set>
+	    
+	     <set name="attachFiles" table="app_finan_files" 
+        	lazy="true" cascade="all-delete-orphan" order-by="file_id asc"> 
+	      <cache usage="read-write" />
+	      <key column="form_no" property-ref="formNo"/>  
+	      <many-to-many class="cn.trymore.oa.model.system.ModelFileAttach" column="file_id" />
+	    </set>
+	    
+	</class>
+</hibernate-mapping>

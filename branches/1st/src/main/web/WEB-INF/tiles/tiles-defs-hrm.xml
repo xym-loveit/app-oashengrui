@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+       
+<tiles-definitions>
+	
+	<!-- 岗位发布与管理 -->
+	<definition name="hrm.page.job.index"  
+		path="/WEB-INF/jsp/application/hrm/job/jobIndex.jsp"/>
+	
+	<!-- 岗位审批与管理 -->
+	<definition name="hrm.page.job.approval.index"  
+		path="/WEB-INF/jsp/application/hrm/job/jobApprovalIndex.jsp"/>
+		
+	<!-- 岗位详细页面 (新增 & 编辑) -->
+	<definition name="hrm.page.job.detail" 
+		path="/WEB-INF/jsp/application/hrm/job/jobPage.jsp"/>
+	
+	<!-- 入职管理 -->
+	<definition name="hrm.page.job.entry.index"  
+		path="/WEB-INF/jsp/application/hrm/job/entry/entryIndex.jsp"/>
+		
+	<!-- 入职安排 -->
+	<definition name="hrm.page.job.entry.detail"  
+		path="/WEB-INF/jsp/application/hrm/job/entry/entryPage.jsp"/>
+	
+	<!-- 招聘管理 -->
+	<definition name="hrm.page.job.offer.index"  
+		path="/WEB-INF/jsp/application/hrm/job/offer/offerIndex.jsp"/>
+	
+	<!-- 招聘弹框操作 (淘汰 & 未到) -->
+	<definition name="dialog.page.job.offer.finalize"  
+		path="/WEB-INF/jsp/application/hrm/job/offer/dialog/dialogOfferFinalize.jsp"/>
+	
+	<!-- 招聘安排 -->
+	<definition name="hrm.page.job.offer.interview.plan"  
+		path="/WEB-INF/jsp/application/hrm/job/offer/offerInterviewPlan.jsp"/>
+		
+	<!-- 面试记录 -->
+	<definition name="hrm.page.job.offer.interview.index"  
+		path="/WEB-INF/jsp/application/hrm/job/offer/offerInterview.jsp"/>
+		
+	<!-- 人才库管理 -->
+	<definition name="hrm.page.job.resume.index"  
+		path="/WEB-INF/jsp/application/hrm/job/resume/resumeIndex.jsp"/>
+		
+	<!-- 员工档案管理 -->
+	<definition name="hrm.page.employee.doc.index"  
+		path="/WEB-INF/jsp/application/hrm/employee/doc/docIndex.jsp"/>
+		
+	<!-- 员工档案查看 -->
+	<definition name="hrm.page.employee.doc.detail"  
+		path="/WEB-INF/jsp/application/hrm/employee/doc/docPage.jsp"/>
+		
+	<!-- 晟睿旅程 -->
+	<definition name="hrm.page.employee.doc.roadmap"  
+		path="/WEB-INF/jsp/application/hrm/employee/doc/roadMapPage.jsp"/>
+		
+	<!-- 人力发展管理查看 -->
+	<definition name="hrm.page.employee.develop.index"  
+		path="/WEB-INF/jsp/application/hrm/develop/developApprovalIndex.jsp"/>
+		
+		
+	<!-- 人力发展管理查看详细 -->
+	<definition name="hrm.page.employee.develop.detail"  
+		path="/WEB-INF/jsp/application/hrm/develop/developPage.jsp"/>
+		
+	<!-- 人力发展转正，晋升，离职，调动 -->
+	<definition name="hrm.page.employee.develop.finalize"  
+		path="/WEB-INF/jsp/application/hrm/develop/dialogDevelopFinalize.jsp"/>
+	
+	<definition name="dialog.hrm.form.state.page"  
+		path="/WEB-INF/jsp/application/hrm/develop/dialogDevelopFinalize.jsp"/>
+	
+	<!-- 简历查看 -->
+	<definition name="hrm.page.job.resume.detail"  
+		path="/WEB-INF/jsp/application/hrm/job/resume/resumePage.jsp"/>
+	
+	<!-- 招聘入职 -->
+	<definition name="hrm.page.entry.index"  
+		path="/WEB-INF/jsp/application/hrm/entry/entryIndex.jsp"/>
+	
+	<!-- 入职弹框处理 -->
+	<definition name="dialog.page.entry.onboard"  
+		path="/WEB-INF/jsp/application/hrm/entry/dialog/dialogEntryOnBoard.jsp"/>
+	
+	<!-- 未到弹框处理 -->
+	<definition name="dialog.page.entry.finalize"  
+		path="/WEB-INF/jsp/application/hrm/entry/dialog/dialogEntryFinalize.jsp"/>
+	
+	<!-- 人力资源发展数据列表 -->
+	<definition name="hrm.data.employee.develop.records"  
+		path="/WEB-INF/jsp/application/hrm/develop/data/dataDevelopRecords.jsp"/>
+	
+	<!-- 员工简历 -->
+	<definition name="hrm.page.employee.resume"  
+		path="/WEB-INF/jsp/application/hrm/employee/pageEmployeeResume.jsp"/>
+		
+		
+	<!-- 员工信息导入-->
+	<definition name="employee.page.import"  
+		path="/WEB-INF/jsp/application/hrm/employee/doc/importPage.jsp"/>
+	
+</tiles-definitions>

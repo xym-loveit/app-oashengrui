@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<!-- Task Plan-->
+	<bean id="daoTaskPlan" class="org.shengrui.oa.dao.admin.impl.DAOTaskPlanImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceTaskPlan" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.admin.impl.ServiceTaskPlanImpl">
+				<constructor-arg index="0" ref="daoTaskPlan"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Task Plan Audit History-->
+	<bean id="daoTaskPlanAuditHistory" class="org.shengrui.oa.dao.admin.impl.DAOTaskPlanAuditHistoryImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceTaskPlanAuditHistory" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.admin.impl.ServiceTaskPlanAuditHistoryImpl">
+				<constructor-arg index="0" ref="daoTaskPlanAuditHistory"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Task Plan Track-->
+	<bean id="daoTaskPlanTrack" class="org.shengrui.oa.dao.admin.impl.DAOTaskPlanTrackImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceTaskPlanTrack" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.admin.impl.ServiceTaskPlanTrackImpl">
+				<constructor-arg index="0" ref="daoTaskPlanTrack"/>
+			</bean>
+		</property>
+	</bean>
+
+</beans>

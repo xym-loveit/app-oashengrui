@@ -1,0 +1,584 @@
+a.oplink {
+    color: blue;
+    text-decoration: underline;
+}
+
+b.symbol {
+	float:left;
+	font-weight: normal;
+	line-height: 20px;
+}
+
+table.dform {
+	border-spacing:12px; 
+	width: 100%;
+}
+
+table.dform input.textInput {
+	width: 100%;
+}
+
+span.diaMicon {
+	display: inline-block;
+	width: 22px;
+	height: 20px;
+	background-position: center center;
+}
+
+span.diaFuncMicon {
+	display: inline-block;
+	width: 22px;
+	height: 20px;
+}
+
+.grid .gridHeader th.thover {
+	background-position: 0 -50px;
+}
+
+.grid .gridTbody td.thover {
+	background-color: #EBF3FD;
+}
+
+.panelBar .toolBar a.refresh span {
+	background: url("../images/icons/refresh.png") no-repeat left center;
+}
+
+.x-panel {
+	margin:5px;
+	float:left;
+	min-height:500px
+}
+
+.x-panel-left {
+	width:49%;
+}
+
+.x-panel-right {
+	width:49%;
+}
+
+.x-panel-to {
+	
+}
+
+.panel .panelHeaderContent h1 {
+	cursor: move;
+}
+
+.panel .panelHeaderContent h1 span {
+	line-height: 28px;
+	display: block;
+}
+
+.panel .panelHeaderContent h1 span.icon {
+	padding-left: 20px;
+}
+
+.toggleCollapse h2.icon-navigation {
+	background: url("../images/menus/navigation.png") no-repeat 5px center;
+	padding-left: 25px;
+}
+
+.flag-itv0 {
+	background: url("../images/icons/edit.gif") no-repeat 4px center;
+}
+.flag-itv1 {
+	background: url("../images/icons/onging.png") no-repeat 4px center;
+}
+.flag-itv2 {
+	background: url("../images/icons/pass.png") no-repeat 4px center;
+}
+.flag-itv3 {
+	background: url("../images/icons/eliminated.png") no-repeat 4px center;
+}
+.flag-itv4 {
+	background: url("../images/icons/absence.png") no-repeat 4px center;
+}
+
+.flag-itv0 div, .flag-itv1 div, .flag-itv2 div, .flag-itv3 div, .flag-itv4 div {
+	padding-left: 20px;
+	text-align: left;
+}
+
+.iflag-2 {color: green;}
+.iflag-3, .iflag-4 {color: red;}
+
+.icon,
+.tabsPage .tabsPageHeader li span.icon {
+	padding: 0 0 0 20px;
+	line-height: 23px;
+}
+
+.icon-infodoc,
+.tree div.icon-infodoc,
+.tabsPage .tabsPageHeader li span.icon-infodoc {
+	background: url("../images/menus/info/arch_template.png") no-repeat left center;
+}
+
+.icon-infoshared,
+.tree div.icon-infoshared,
+.tabsPage .tabsPageHeader li span.icon-infoshared{
+	background: url("../images/menus/info/folder_shared.png") no-repeat left center;
+}
+
+.icon-btnnew,
+.tree div.icon-btnnew,
+.tabsPage .tabsPageHeader li span.icon-btnnew{
+	background: url("../images/layout/grid.png") no-repeat scroll 0px -696px transparent
+}
+
+.icon-btndel,
+.tree div.icon-btndel,
+.tabsPage .tabsPageHeader li span.icon-btndel{
+	background: url("../images/layout/grid.png") no-repeat scroll 0px -746px transparent
+}
+
+.icon-btnedit,
+.tree div.icon-btnedit,
+.tabsPage .tabsPageHeader li span.icon-btnedit{
+	background: url("../images/layout/grid.png") no-repeat scroll 0px -796px transparent
+}
+
+.icon-default,
+.tabsPage .tabsPageHeader li span.icon-default,
+.tree div.icon-default {
+	background: url("../images/menus/default/nav_default.png") no-repeat left center;
+}
+
+.icon-jobinfo,
+.tabsPage .tabsPageHeader li span.icon-jobinfo,
+.tree div.icon-jobinfo {
+	background: url("../images/menus/default/user.png") no-repeat left center;
+}
+
+/*----MY DESKTOP---*/
+#menu-desktop,
+.icon-desktop,
+.tree div.icon-desktop,
+.accordion .accordionHeader h2 span.icon-desktop {
+	background: url("../images/menus/monitor.png") no-repeat left center;
+}
+
+.icon-myplan,
+.tree div.icon-myplan,
+.tabsPage .tabsPageHeader li span.icon-myplan,
+.panelBar .toolBar a.icon span.icon-myplan  {
+	background: url("../images/menus/monitor/myplan.png") no-repeat left center;
+}
+
+.icon-myconference,
+.tree div.icon-myconference,
+.tabsPage .tabsPageHeader li span.icon-myconference {
+	background: url("../images/menus/monitor/myconference.png") no-repeat left center;
+}
+
+.icon-mynews,
+.tabsPage .tabsPageHeader li span.icon-mynews,
+.tree div.icon-mynews {
+	background: url("../images/menus/monitor/mynews.png") no-repeat left center;
+}
+
+.icon-myapply,
+.tabsPage .tabsPageHeader li span.icon-myapply,
+.tree div.icon-myapply {
+	background: url("../images/menus/monitor/myapply.png") no-repeat left center;
+}
+
+.icon-myapproval,
+.tabsPage .tabsPageHeader li span.icon-myapproval,
+.tree div.icon-myapproval {
+	background: url("../images/menus/monitor/myapproval.png") no-repeat left center;
+}
+
+.icon-myinvite,
+.tabsPage .tabsPageHeader li span.icon-myinvite,
+.tree div.icon-myinvite {
+	background: url("../images/menus/monitor/myinvite.png") no-repeat left center;
+}
+
+.icon-mymsg, 
+.tabsPage .tabsPageHeader li span.icon-mymsg,
+.tree div.icon-mymsg {
+	background: url("../images/menus/monitor/mobilephone_menu.png") no-repeat left center;
+}
+
+/*----HR---*/
+#menu-hr,
+.icon-hr,
+.tree div.icon-hr,
+.tabsPage .tabsPageHeader li span.icon-hr,
+.accordion .accordionHeader h2 span.icon-hr {
+	background: url("../images/menus/hr.png") no-repeat left center;
+}
+
+/*
+.icon-hr,
+.tabsPage .tabsPageHeader li span.icon-hr,
+.tree div.icon-hr {
+	background: url("../images/menus/hr/hr.gif") no-repeat left center;
+}
+*/
+
+.icon-hrjobreg,
+.tabsPage .tabsPageHeader li span.icon-hrjobreg,
+.panelBar .toolBar a.icon span.icon-hrjobreg,
+.tree div.icon-hrjobreg {
+	background: url("../images/menus/hr/job_reg.gif") no-repeat left center;
+}
+
+.icon-hrjobm,
+.tabsPage .tabsPageHeader li span.icon-hrjobm,
+.tree div.icon-hrjobm {
+	background: url("../images/menus/hr/job_change.gif") no-repeat left center;
+}
+
+.icon-hrjobmIssue,
+.panelBar .toolBar a.icon span.icon-hrjobmIssue,
+.tabsPage .tabsPageHeader li span.icon-hrjobmIssue,
+.tree div.icon-hrjobmIssue {
+	background: url("../images/menus/hr/hireIssue.jpg") no-repeat left center;
+}
+
+.icon-hrjobmProfile,
+.tabsPage .tabsPageHeader li span.icon-hrjobmProfile,
+.tree div.icon-hrjobmProfile {
+	background: url("../images/menus/hr/profile-db.png") no-repeat left center;
+}
+
+.icon-hrstaffm,
+.tabsPage .tabsPageHeader li span.icon-hrstaffm,
+.tree div.icon-hrstaffm {
+	background: url("../images/menus/hr/hrm.png") no-repeat left center;
+}
+
+.icon-hrstaffmProfile,
+.tabsPage .tabsPageHeader li span.icon-hrstaffmProfile,
+.tree div.icon-hrstaffmProfile {
+	background: url("../images/menus/hr/profile-menu.png") no-repeat left center;
+}
+
+.icon-hrmcheck,
+.tabsPage .tabsPageHeader li span.icon-hrmcheck,
+.tree div.icon-hrmcheck {
+	background: url("../images/menus/hr/job_check.png") no-repeat left center;
+}
+
+/*----ADMINISTRATOR---*/
+#menu-administrator,
+.icon-admin,
+.tree div.icon-admin,
+.accordion .accordionHeader h2 span.icon-admin {
+	background: url("../images/menus/administrator.png") no-repeat left center;
+}
+
+.icon-adminnews,
+.panelBar .toolBar a.icon span.icon-adminnews, 
+.tabsPage .tabsPageHeader li span.icon-adminnews,
+.tree div.icon-adminnews {
+	background: url("../images/menus/administrator/news_menu.png") no-repeat left center;
+}
+
+.icon-admintask,
+.tabsPage .tabsPageHeader li span.icon-admintask,
+.tree div.icon-admintask {
+	background: url("../images/menus/administrator/workplan.png") no-repeat left center;
+}
+
+.icon-adminduty,
+.tabsPage .tabsPageHeader li span.icon-adminduty,
+.tree div.icon-adminduty {
+	background: url("../images/menus/administrator/duty.png") no-repeat left center;
+}
+
+.icon-admindutyArrange,
+.tabsPage .tabsPageHeader li span.icon-admindutyArrange,
+.tree div.icon-admindutyArrange {
+	background: url("../images/menus/administrator/dutySetting.png") no-repeat left center;
+}
+
+.icon-admindutyStaff,
+.tabsPage .tabsPageHeader li span.icon-admindutyStaff,
+.tree div.icon-admindutyStaff {
+	background: url("../images/menus/administrator/holiday.png") no-repeat left center;
+}
+
+/*----ADMINISTRATOR---*/
+#menu-financial,
+.icon-financial,
+.tree div.icon-financial,
+.accordion .accordionHeader h2 span.icon-financial {
+	background: url("../images/menus/financial.png") no-repeat left center;
+}
+
+.icon-finmrmb,
+.tabsPage .tabsPageHeader li span.icon-finmrmb,
+.tree div.icon-finmrmb {
+	background: url("../images/menus/financial/rmb.png") no-repeat left center;
+}
+
+.icon-finmrmbApply,
+.tabsPage .tabsPageHeader li span.icon-finmrmbApply,
+.tree div.icon-finmrmbApply {
+	background: url("../images/menus/financial/rmb-apply.png") no-repeat left center;
+}
+
+.icon-finmrmbApproval,
+.tabsPage .tabsPageHeader li span.icon-finmrmbApproval,
+.tree div.icon-finmrmbApproval {
+	background: url("../images/menus/financial/rmb-approval.png") no-repeat left center;
+}
+
+.icon-finmcontracts,
+.tabsPage .tabsPageHeader li span.icon-finmcontracts,
+.tree div.icon-finmcontracts {
+	background: url("../images/menus/financial/contracts.png") no-repeat left center;
+}
+
+.icon-finmcontractsApply,
+.tabsPage .tabsPageHeader li span.icon-finmcontractsApply,
+.tree div.icon-finmcontractsApply {
+	background: url("../images/menus/financial/contact-apply.png") no-repeat left center;
+}
+
+.icon-finmcontractsRecords,
+.tabsPage .tabsPageHeader li span.icon-finmcontractsRecords,
+.tree div.icon-finmcontractsRecords {
+	background: url("../images/menus/financial/contact-records.png") no-repeat left center;
+}
+
+.icon-finmproject,
+.tabsPage .tabsPageHeader li span.icon-finmproject,
+.tree div.icon-finmproject {
+	background: url("../images/menus/financial/prj.png") no-repeat left center;
+}
+
+.icon-finmprojectApply,
+.tabsPage .tabsPageHeader li span.icon-finmprojectApply,
+.tree div.icon-finmprojectApply {
+	background: url("../images/menus/financial/prj-apply.png") no-repeat left center;
+}
+
+.icon-finmprojectRecords,
+.tabsPage .tabsPageHeader li span.icon-finmprojectRecords,
+.tree div.icon-finmprojectRecords {
+	background: url("../images/menus/financial/prj-records.png") no-repeat left center;
+}
+
+/*----SETTINGS---*/
+#menu-settings,
+.icon-settings,
+.tree div.icon-settings,
+.accordion .accordionHeader h2 span.icon-settings {
+	background: url("../images/menus/settings.png") no-repeat left center;
+}
+
+.icon-setdic,
+.tabsPage .tabsPageHeader li span.icon-setdic,
+.tree div.icon-setdic {
+	background: url("../images/menus/settings/dictionary.png") no-repeat left center;
+}
+
+.icon-setres,
+.tabsPage .tabsPageHeader li span.icon-setres,
+.tree div.icon-setres {
+	background: url("../images/menus/settings/menu.png") no-repeat left center;
+}
+
+.icon-setresMenu,
+.tabsPage .tabsPageHeader li span.icon-setresMenu,
+.tree div.icon-setresMenu {
+	background: url("../images/menus/settings/menu-form.png") no-repeat left center;
+}
+
+.icon-setresFunc,
+.tabsPage .tabsPageHeader li span.icon-setresFunc,
+.tree div.icon-setresFunc {
+	background: url("../images/menus/settings/plantype.png") no-repeat left center;
+}
+
+.icon-setflowm,
+.tabsPage .tabsPageHeader li span.icon-setflowm,
+.tree div.icon-setflowm {
+	background: url("../images/menus/settings/flowManager.png") no-repeat left center;
+}
+
+.icon-setflowmhr,
+.tabsPage .tabsPageHeader li span.icon-setflowmhr,
+.tree div.icon-setflowmhr {
+	background: url("../images/menus/settings/flowPr.png") no-repeat left center;
+}
+
+.icon-setflowmfin,
+.tabsPage .tabsPageHeader li span.icon-setflowmfin,
+.tree div.icon-setflowmfin {
+	background: url("../images/menus/settings/form.png") no-repeat left center;
+}
+
+.icon-setrole,
+.tabsPage .tabsPageHeader li span.icon-setrole,
+.tree div.icon-setrole {
+	background: url("../images/menus/settings/role_menu.png") no-repeat left center;
+}
+
+.icon-setorg,
+.tabsPage .tabsPageHeader li span.icon-setorg,
+.tree div.icon-setorg {
+	background: url("../images/menus/settings/OrgSetting.png") no-repeat left center;
+}
+
+.icon-setorgDep,
+.tabsPage .tabsPageHeader li span.icon-setorgDep,
+.tree div.icon-setorgDep {
+	background: url("../images/menus/settings/department_menu.png") no-repeat left center;
+}
+
+.icon-setorgRepo,
+.tabsPage .tabsPageHeader li span.icon-setorgRepo,
+.tree div.icon-setorgRepo {
+	background: url("../images/menus/settings/org.png") no-repeat left center;
+}
+
+.icon-setorgBricks,
+.tabsPage .tabsPageHeader li span.icon-setorgBricks,
+.tree div.icon-setorgBricks {
+	background: url("../images/menus/settings/bricks.png") no-repeat left center;
+}
+
+.icon-setaskm,
+.tabsPage .tabsPageHeader li span.icon-setaskm,
+.tree div.icon-setaskm {
+	background: url("../images/menus/settings/manage-task.png") no-repeat left center;
+}
+
+.icon-setaskmBase,
+.tabsPage .tabsPageHeader li span.icon-setaskmBase,
+.tree div.icon-setaskmBase {
+	background: url("../images/menus/settings/flowEnd.png") no-repeat left center;
+}
+
+.icon-setaskmTpl,
+.tabsPage .tabsPageHeader li span.icon-setaskmTpl,
+.tree div.icon-setaskmTpl {
+	background: url("../images/menus/settings/depplan.png") no-repeat left center;
+}
+
+/*----SYSTEM---*/
+#menu-system ,
+.icon-system,
+.tree div.icon-system,
+.accordion .accordionHeader h2 span.icon-system {
+	background: url("../images/menus/system.png") no-repeat left center;
+}
+
+.icon-sysmusr,
+.tabsPage .tabsPageHeader li span.icon-sysmusr,
+.tree div.icon-sysmusr {
+	background: url("../images/menus/system/user_menu.png") no-repeat left center;
+}
+
+.icon-sysmpwd,
+.tabsPage .tabsPageHeader li span.icon-sysmpwd,
+.tree div.icon-sysmpwd {
+	background: url("../images/menus/system/changepwd.png") no-repeat left center;
+}
+
+.icon-sysmlogs,
+.tabsPage .tabsPageHeader li span.icon-sysmlogs,
+.tree div.icon-sysmlogs {
+	background: url("../images/menus/system/logs.png") no-repeat left center;
+}
+
+.icon-edit, 
+.panelBar .toolBar a.icon span.icon-edit, 
+.tabsPage .tabsPageHeader li span.icon-edit {
+	background: url("../images/icons/template_edit.png") no-repeat left center;
+}
+
+.icon-records, 
+.panelBar .toolBar a.icon span.icon-records, 
+.tabsPage .tabsPageHeader li span.icon-records {
+	background: url("../images/icons/myrecords.png") no-repeat left center;
+}
+
+.icon-setdePos,
+.tree div.icon-setdePos,
+.panelBar .toolBar a.icon span.icon-setdePos, 
+.tabsPage .tabsPageHeader li span.icon-setdePos {
+	background: url("../images/menus/settings/errands.png") no-repeat left center;
+}
+
+.icon-msgwrite, 
+.panelBar .toolBar a.icon span.icon-msgwrite, 
+.tabsPage .tabsPageHeader li span.icon-msgwrite {
+	background: url("../images/icons/write.png") no-repeat left center;
+}
+
+.icon-msgsent, 
+.panelBar .toolBar a.icon span.icon-msgsent, 
+.tabsPage .tabsPageHeader li span.icon-msgsent {
+	background: url("../images/icons/send.gif") no-repeat left center;
+}
+
+.icon-msgrecv, 
+.panelBar .toolBar a.icon span.icon-msgrecv, 
+.tabsPage .tabsPageHeader li span.icon-msgrecv {
+	background: url("../images/icons/receive.gif") no-repeat left center;
+}
+
+table.datalst{
+	border: #CCC 1px solid;
+	border-collapse: collapse; 
+	text-align:center;
+	height:100%;
+}
+
+table.datalst th{
+	font-weight:normal;
+	background:url(../images/layout/table_headbg.png) repeat-x 0 0;
+	line-height:23px;
+	height:23px;
+	color:#000;
+	text-align:center;
+}
+
+table.datalst td{
+	line-height: 20px;
+}
+
+label.opdisabled {
+	width: auto;
+	text-decoration: line-through; 
+	color: #DDD; 
+	line-height: 21px;
+}
+
+li.item_file {
+	margin-bottom: 8px;
+}
+
+li.item_file a {
+	color: blue;
+	text-decoration: underline;
+}
+
+a.btn_print {
+	background: url("../images/layout/print.png") no-repeat scroll 0 0 transparent;
+	color:#336699;
+	display:inline-block;
+	line-height:16px;
+	width:45px;
+	text-align:right;
+}
+
+.tblcolor td.field {
+	background-color: #CFDBEC; 
+	line-height: 35px; 
+	text-align: center; 
+	margin: 0; 
+	font-size: 9pt;
+}
+
+.tblcolor  input.textInput {
+	float:none;
+	margin-left: 5px; 
+}

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+       
+<tiles-definitions>
+	
+	<!-- 新闻发布与管理 -->
+	<definition name="admin.page.entry.index"  
+		path="/WEB-INF/jsp/application/administrator/entry/entryIndex.jsp"/>
+	
+	<!-- 新闻审批与管理 -->
+	<definition name="admin.page.entry.approval.index"  
+		path="/WEB-INF/jsp/application/administrator/entry/entryApprovalIndex.jsp"/>
+		
+	<!-- 新闻详细页面 (新增 & 编辑) -->
+	<definition name="admin.page.entry.detail" 
+		path="/WEB-INF/jsp/application/administrator/entry/entryPage.jsp"/>
+		
+	<!-- 新闻预览 -->
+	<definition name="admin.page.entry.scan"  
+		path="/WEB-INF/jsp/application/administrator/entry/entryScan.jsp"/>
+	
+	<!-- 任务委托管理 -->
+	<definition name="admin.page.task.delegate.index" 
+		path="/WEB-INF/jsp/application/administrator/task/taskDelegateIndex.jsp"/>
+	
+	<!-- 员工考勤管理 - 工作安排 -->
+	<definition name="admin.page.staff.work.arrange" 
+		path="/WEB-INF/jsp/application/administrator/staff/work/workArrangeIndex.jsp"/>
+		
+	<!-- 员工考勤管理 - 工作安排页面（新增 & 详细 & 编辑） -->
+	<definition name="admin.page.staff.work.arrange.dialog" 
+		path="/WEB-INF/jsp/application/administrator/staff/work/dialog/addWorkArrangeDialog.jsp"/>	
+		
+	<definition name="admin.dialog.staff.work.arrange.edit"
+		path="/WEB-INF/jsp/application/administrator/staff/work/dialog/editWorkArrangeDialog.jsp"/>
+	
+	<definition name="admin.dialog.staff.work.arrange.adjust"
+		path="/WEB-INF/jsp/application/administrator/staff/work/dialog/adjustWorkArrangeDialog.jsp"/>
+		
+	<!-- 调整工作安排中员工姓名 -->
+	<definition name="admin.page.staff.work.arrange.staffnames"
+		path="/WEB-INF/jsp/application/administrator/staff/work/data/staffNames.jsp"/>
+	
+	<!-- 添加工作安排中工作内容 -->
+	<definition name="admin.page.staff.work.arrange.workcontent"
+		path="/WEB-INF/jsp/application/administrator/staff/work/data/workContent.jsp"/>
+	
+	<!-- 添加工作安排中按工作中心加载该校区所有部门树 -->
+	<definition name="admin.page.staff.work.arrange.department"
+		path="/WEB-INF/jsp/application/administrator/staff/work/data/dataDistrictTree.jsp"/>
+	
+	<!-- 添加工作安排中工作时间 -->
+	<definition name="admin.page.staff.work.arrange.worktime"
+		path="/WEB-INF/jsp/application/administrator/staff/work/data/workTime.jsp"/>
+	
+	<definition name="admin.dialog.staff.work.arrange.import"
+		path="/WEB-INF/jsp/application/administrator/staff/work/dialog/importWorkArrangeDialog.jsp"/>
+	<!-- 查看工作安排 -->	
+	<definition name="admin.page.staff.work.arrange.view"
+		path="/WEB-INF/jsp/application/administrator/staff/work/viewWorkArrange.jsp"/>
+		
+	
+	<!-- 员工考勤管理 - 员工考勤 -->
+	<definition name="admin.page.staff.attendance" 
+		path="/WEB-INF/jsp/application/administrator/staff/attendance/attendanceIndex.jsp"/>
+	
+	<!-- 员工考勤管理 - 员工考勤 - 打卡 -->
+	<definition name="admin.page.staff.attendance.onpunch" 
+		path="/WEB-INF/jsp/application/administrator/staff/attendance/attendanceOnPunch.jsp" />
+	
+	<!-- 员工考勤管理 - 员工考勤 - 出差安排 -->
+	<definition name="admin.page.staff.attendance.ontravel" 
+		path="/WEB-INF/jsp/application/administrator/staff/attendance/attendanceOnTravel.jsp" />
+	
+	<!-- 员工考勤管理 - 员工考勤 - 请假 -->
+	<definition name="admin.page.staff.attendance.onleave" 
+		path="/WEB-INF/jsp/application/administrator/staff/attendance/attendanceOnLeave.jsp" />
+	
+	<!-- 员工考勤管理 - 员工考勤 - 旷工 -->
+	<definition name="admin.page.staff.attendance.onabsence" 
+		path="/WEB-INF/jsp/application/administrator/staff/attendance/attendanceOnAbsence.jsp" />
+		
+	<!-- 员工考勤管理 - 员工考勤 - 休假天数 -->
+	<definition name="admin.page.staff.attendance.vocation" 
+		path="/WEB-INF/jsp/application/administrator/staff/attendance/vocation.jsp" />
+		
+	<!-- 员工考勤管理- 员工考勤- 导入考勤机数据对话框 -->
+	<definition name="admin.page.staff.attendance.import" 
+		path="/WEB-INF/jsp/application/administrator/staff/attendance/importAttendanceData.jsp" />
+	
+	<!-- 文档上传与管理 -->
+	<definition name="admin.page.document.index" 
+		path="/WEB-INF/jsp/application/administrator/doc/documentIndex.jsp"/>
+	
+	<!-- 文档上传与管理 - 文档详细 -->
+	<definition name="admin.page.document.detail" 
+		path="/WEB-INF/jsp/application/administrator/doc/documentPage.jsp"/>
+	
+	<!-- 文档上传与管理 - 编辑文档详细 -->
+	<definition name="admin.page.document.detail.edit" 
+		path="/WEB-INF/jsp/application/administrator/doc/documentEditPage.jsp"/>	
+		
+</tiles-definitions>

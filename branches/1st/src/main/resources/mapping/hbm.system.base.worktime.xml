@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="org.shengrui.oa.model.system.ModelBaseWorkTime" table="app_system_work_time">
+        <!-- <cache usage="read-write" /> -->
+        <id name="id" type="java.lang.String">
+            <column name="worktm_id" />
+            <generator class="native" />
+        </id>
+         <property name="itemName" type="java.lang.String">
+            <column name="item_name" />
+        </property>
+         <property name="workStime" type="java.lang.String">
+            <column name="work_stime" />
+        </property>
+         <property name="workEtime" type="java.lang.String">
+            <column name="work_etime" />
+        </property>
+         <property name="meto" type="java.lang.String">
+            <column name="meto" />
+        </property>
+        <property name="adjustDays" type="java.lang.String">
+        	<column name="adjust_days" />
+        </property>
+        <property name="templateId" type="java.lang.String">
+        	<column name="template_id" />
+        </property>
+         <property name="updateTime" type="timestamp">
+            <column name="update_time" />
+        </property>
+        
+        <many-to-one name="baseTimeDistrict" class="org.shengrui.oa.model.system.ModelSchoolDistrict">
+         <column name="district_id" />
+        </many-to-one>
+        
+   </class>
+</hibernate-mapping>

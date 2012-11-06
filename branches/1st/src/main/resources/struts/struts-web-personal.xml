@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans>
+		<form-bean name="form.personal.doc.info" type="org.shengrui.oa.model.admin.ModelDoc"></form-bean>
+		<form-bean name="form.personal.conference.info" type="org.shengrui.oa.model.admin.ModelConference"></form-bean>
+		<form-bean name="form.personal.addressBook.info" type="org.shengrui.oa.model.system.ModelAppUser"></form-bean>
+	</form-beans>
+	
+	<action-mappings>
+		<!-- Home Action -->
+		<action path="/app/personal"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="page.my.workplan" path="page.my.workplan" />
+			<forward name="page.my.conference" path="page.my.conference" />
+			<forward name="page.my.news" path="page.my.news" />
+			<forward name="page.my.doc" path="page.my.doc" />
+			<forward name="page.my.baron" path="page.my.baron" />
+		</action>
+		
+		<!-- docDwonload-->
+		<action path="/app/personal/doc"
+				scope="request"
+				name="form.personal.doc.info"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="page.my.doc" path="page.my.doc" />
+			<forward name="page.my.doc.more" path="page.my.doc.more" />
+			<forward name="page.my.doc.download" path="page.my.doc.download" />
+		</action>
+		
+		<action path="/app/personal/conference"
+				name="form.personal.conference.info"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="my.page.conference.index" path="my.page.conference.index" />
+			<forward name="person.page.conference.detail" path="person.page.conference.detail"/>
+			<forward name="my.page.conference.start" path="my.page.conference.start"/>
+			<forward name="person.dialog.conference.summary" path="person.dialog.conference.summary"/>
+		</action>
+		
+		<!-- 通讯录 -->
+		<action path="/app/personal/addressBook"
+				name="form.personal.addressBook.info"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="personal.page.addressBook" path="personal.page.addressBook"></forward>
+			<forward name="data.addressbook.employee" path="data.addressbook.employee" />
+		</action>
+		
+	</action-mappings>
+
+</struts-config>

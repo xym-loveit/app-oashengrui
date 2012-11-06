@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+		xmlns:beans="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans 
+							http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+							http://www.springframework.org/schema/security
+							http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
+		
+    <http auto-config="true" access-denied-page="/403.jsp" lowercase-comparisons="true" 
+     	access-decision-manager-ref="accessDecisionManager" session-fixation-protection="migrateSession">
+        <intercept-url pattern="/images/**" filters="none"/>
+        <intercept-url pattern="/css/**" filters="none"/>
+        <intercept-url pattern="/js/**" filters="none"/>
+        <intercept-url pattern="/403*" filters="none"/>
+        <intercept-url pattern="/404*" filters="none"/>
+        <intercept-url pattern="/500*" filters="none"/>
+        <intercept-url pattern="/login.jsp" filters="none"/> 
+        <intercept-url pattern="/fckeditor/**" filters="none"/>  
+        <form-login default-target-url="/index.jsp" login-page="/login.jsp" authentication-failure-url="/login.jsp?error=true" login-processing-url="/j_security_check" />
+        <logout logout-url="/j_logout.do" logout-success-url="/login.jsp"/> 
+   		<remember-me key="RememberAppUser"/>
+   		<concurrent-session-control max-sessions="1" exception-if-maximum-exceeded="false"/>
+    </http>
+	
+	 <beans:bean id="accessDecisionManager" class="org.springframework.security.vote.AffirmativeBased">
+	 	<beans:property name="allowIfAllAbstainDecisions" value="false"/>
+        <beans:property name="decisionVoters">
+            <beans:list>
+                <beans:bean class="org.springframework.security.vote.RoleVoter">
+                    <beans:property name="rolePrefix" value="" />
+                </beans:bean>
+                <beans:bean class="org.springframework.security.vote.AuthenticatedVoter" />
+            </beans:list>
+        </beans:property>
+    </beans:bean>
+
+	<authentication-manager alias="authenticationManager"/>
+		
+    <authentication-provider user-service-ref="daoAppUser">
+    	<password-encoder hash="sha-256" base64="true"/>
+    </authentication-provider>
+
+    <beans:bean id="securityInterceptorFilter" class="cn.trymore.core.web.filter.SecurityInterceptorFilter" >
+		<custom-filter after="FILTER_SECURITY_INTERCEPTOR" />
+		<beans:property name="securityDataSource" ref="securityDataSource"/>
+	</beans:bean>
+	
+	<beans:bean id="securityDataSource" class="cn.trymore.core.security.SecurityDataSource">
+		<beans:property name="serviceAppRole" ref="serviceAppRole"/>
+		<beans:property name="anonymousUrls">
+			<beans:set>
+				<beans:value>/loginDialog.jsp</beans:value>
+				<beans:value>/login.do</beans:value>
+				<beans:value>/check.do</beans:value>
+			</beans:set>
+		</beans:property>
+		<beans:property name="publicUrls">
+			<beans:set>
+				<beans:value>/loginDialog.jsp</beans:value>
+				<beans:value>/index.jsp</beans:value>
+				<beans:value>/app/index.do</beans:value>
+				<beans:value>/app/base.do</beans:value>
+				<beans:value>/app/message.do</beans:value>
+				<beans:value>/file-upload</beans:value>
+				<beans:value>/file-download</beans:value>
+				<beans:value>/dwr/</beans:value>
+				<beans:value>/app/export.do</beans:value>
+			</beans:set>
+		</beans:property>
+	</beans:bean>
+</beans:beans>

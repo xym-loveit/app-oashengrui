@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+
+	<form-beans>
+		<form-bean name="form.admin.doc.info" type="org.shengrui.oa.model.admin.ModelDoc"></form-bean>
+      <form-bean name="form.admin.attendance.info" type="org.shengrui.oa.model.admin.ModelStaffAttendance"></form-bean>
+      <form-bean name="form.admin.attendance.info.view" type="org.shengrui.oa.model.admin.ModelStaffAttendanceView"></form-bean>
+      <form-bean name="form.admin.workarrange.info" type="org.shengrui.oa.model.admin.ModelAdminWorkArrange"></form-bean>
+	</form-beans>
+	
+	<action-mappings>
+		<!-- Home Action -->
+		<action path="/app/admin"
+				name="form.admin.workarrange.info"
+			    scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="admin.page.entry.index" path="admin.page.entry.index" />
+			<forward name="admin.page.entry.approval.index" path="admin.page.entry.approval.index" />
+			<forward name="admin.page.entry.detail" path="admin.page.entry.detail" />
+			
+			<forward name="admin.page.task.delegate.index" path="admin.page.task.delegate.index" />
+			
+			<!-- 工作安排-->
+			<forward name="admin.page.staff.work.arrange" path="admin.page.staff.work.arrange" />
+			<forward name="admin.page.staff.work.arrange.dialog" path="admin.page.staff.work.arrange.dialog" />
+			<forward name="admin.dialog.staff.work.arrange.edit" path="admin.dialog.staff.work.arrange.edit"/>
+			<forward name="admin.dialog.staff.work.arrange.adjust" path="admin.dialog.staff.work.arrange.adjust"/>
+			<forward name="admin.page.staff.work.arrange.staffnames" path="admin.page.staff.work.arrange.staffnames"/>
+			<forward name="admin.page.staff.work.arrange.workcontent" path="admin.page.staff.work.arrange.workcontent"/>
+			<forward name="admin.page.staff.work.arrange.worktime" path="admin.page.staff.work.arrange.worktime"/>
+			<forward name="admin.dialog.staff.work.arrange.import" path="admin.dialog.staff.work.arrange.import"/>
+			<forward name="admin.page.staff.work.arrange.view" path="admin.page.staff.work.arrange.view"/>
+			<forward name="admin.page.staff.work.arrange.department" path="admin.page.staff.work.arrange.department"/>
+			<forward name="admin.page.document.index" path="admin.page.document.index" />
+			<forward name="admin.page.document.detail" path="admin.page.document.detail" />
+		</action>
+		
+      <action path="/app/admin/attendance/view"
+            name="form.admin.attendance.info.view"
+            scope="request"
+            parameter="action"
+            type="org.springframework.web.struts.DelegatingActionProxy">
+         
+         <!-- 员工考勤-->
+         <forward name="admin.page.staff.attendance" path="admin.page.staff.attendance" />
+         <forward name="admin.page.staff.attendance.onpunch" path="admin.page.staff.attendance.onpunch" />
+         <forward name="admin.page.staff.attendance.onleave" path="admin.page.staff.attendance.onleave" />
+         <forward name="admin.page.staff.attendance.onabsence" path="admin.page.staff.attendance.onabsence" />
+         <forward name="admin.page.staff.attendance.ontravel" path="admin.page.staff.attendance.ontravel" />
+         
+         <forward name="admin.page.document.index" path="admin.page.document.index" />
+         <forward name="admin.page.document.detail" path="admin.page.document.detail" />
+      </action>
+      
+      <action path="/app/admin/attendance/operation"
+            name="form.admin.attendance.info"
+            scope="request"
+            parameter="action"
+            type="org.springframework.web.struts.DelegatingActionProxy">
+         
+         <!-- 员工考勤-->
+         <forward name="admin.page.staff.attendance.vocation" path="admin.page.staff.attendance.vocation" />
+         <forward name="admin.page.staff.attendance.import" path="admin.page.staff.attendance.import"/>
+      </action>
+	</action-mappings>
+
+</struts-config>

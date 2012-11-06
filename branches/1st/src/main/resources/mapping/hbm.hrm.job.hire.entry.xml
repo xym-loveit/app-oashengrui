@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.shengrui.oa.model.hrm">
+    <class name="ModelHrmJobHireEntry" table="app_hrm_hire_entries">
+        <!-- <cache usage="read-write" /> -->
+        <id name="id" type="java.lang.String">
+            <column name="entry_id" />
+            <generator class="native" />
+        </id>
+        <property name="currentStatus" type="java.lang.Integer">
+            <column name="cstatus" />
+        </property>
+         <property name="finalStatus" type="java.lang.Integer">
+            <column name="fstatus" />
+        </property>
+         <property name="entryPlanDate" type="timestamp">
+            <column name="plan_date" />
+        </property>
+         <property name="entryActDate" type="timestamp">
+            <column name="act_date" />
+        </property>
+        <property name="inspectStatus" type="java.lang.Integer">
+            <column name="inspect_status" />
+        </property>
+        
+         <many-to-one name="entryCharger" class="org.shengrui.oa.model.system.ModelAppUser" not-found="ignore">
+        	<column name="charger_id" />
+        </many-to-one>
+        
+        <many-to-one name="entryDepartment" class="org.shengrui.oa.model.system.ModelSchoolDepartment" not-found="ignore">
+        	<column name="dep_id" />
+        </many-to-one>
+        
+        <many-to-one name="entryDistrict" class="org.shengrui.oa.model.system.ModelSchoolDistrict" not-found="ignore">
+        	<column name="district_id" />
+        </many-to-one>
+        
+        <many-to-one name="entryPosition" class="org.shengrui.oa.model.system.ModelSchoolDepartmentPosition" not-found="ignore">
+        	<column name="position_id" />
+        </many-to-one>
+        
+        <many-to-one name="jobHireIssue" class="ModelHrmJobHireIssue" unique="true">
+        	<column name="issue_id" />
+        </many-to-one>
+		
+	</class>
+</hibernate-mapping>

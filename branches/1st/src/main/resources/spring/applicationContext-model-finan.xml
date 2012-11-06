@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	
+	<bean id="daoFinanExpense" class="org.shengrui.oa.dao.finan.impl.DAOFinanExpenseImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceFinanExpense" parent="baseTxProxy">
+		<property name="target">
+			<bean class=" org.shengrui.oa.service.finan.impl.ServiceFinanExpenseImpl">
+				<constructor-arg index="0" ref="daoFinanExpense"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="daoFinanContract" class="org.shengrui.oa.dao.finan.impl.DAOFinanContractImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceFinanContract" parent="baseTxProxy">
+		<property name="target">
+			<bean class=" org.shengrui.oa.service.finan.impl.ServiceFinanContractImpl">
+				<constructor-arg index="0" ref="daoFinanContract"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="daoFinanProject" class="org.shengrui.oa.dao.finan.impl.DAOFinanProjectImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceFinanProject" parent="baseTxProxy">
+		<property name="target">
+			<bean class=" org.shengrui.oa.service.finan.impl.ServiceFinanProjectImpl">
+				<constructor-arg index="0" ref="daoFinanProject"/>
+			</bean>
+		</property>
+	</bean>
+	
+</beans>

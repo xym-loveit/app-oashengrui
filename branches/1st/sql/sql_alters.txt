@@ -1,0 +1,6 @@
+﻿ALTER TABLE  `app_process_task` ADD INDEX (  `def_id` )
+ALTER TABLE  `app_process_task` CHANGE  `def_id`  `def_id` BIGINT( 20 ) NULL COMMENT  '所属流程定义ID'
+ALTER TABLE  `app_process_task` ADD FOREIGN KEY (  `def_id` ) REFERENCES  `app_sroa`.`app_process_definition` (`def_id`) ON DELETE CASCADE ;
+
+
+/WEB-INF/jsp/application/system/work/base/baseIndex.jsp(60,5) /WEB-INF/jsp/application/system/work/base/data/dataWorkBaseContent.jsp(83,90) The end tag "&lt;/c:otherwise" is unbalanced

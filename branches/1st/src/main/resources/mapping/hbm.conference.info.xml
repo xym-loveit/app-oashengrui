@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.shengrui.oa.model.admin">
+    <class name="ModelConference" table="app_admin_conference ">
+        <!-- <cache usage="read-write" /> -->
+        <id name="id" type="java.lang.String">
+            <column name="conference_id" />
+            <generator class="native" />
+        </id>
+        <property name="conferenceName" type="java.lang.String">
+            <column name="conference_name" not-null="true" />
+        </property>
+         <property name="address" type="java.lang.String">
+            <column name="address" not-null="true" />
+        </property>
+        <property name="level" type="java.lang.String">
+            <column name="conference_level" />
+        </property>
+        <property name="startHour" type="java.lang.String">
+            <column name="start_hour" />
+        </property>
+        <property name="startMinute" type="java.lang.String">
+            <column name="start_minute" />
+        </property>
+        <property name="endHour" type="java.lang.String">
+            <column name="end_hour" />
+        </property>
+        <property name="endMinute" type="java.lang.String">
+            <column name="end_minute" />
+        </property>
+        <property name="startDay" type="java.util.Date">
+            <column name="start_day" />
+        </property>
+        <property name="endDay" type="java.util.Date">
+            <column name="end_day" />
+        </property>
+        <property name="attendances" type="java.lang.String">
+            <column name="attendances" />
+        </property>
+        <property name="attendanceIds" type="java.lang.String">
+            <column name="attendances_ids" />
+        </property>
+        <property name="count" type="java.lang.Integer">
+            <column name="count" />
+        </property>
+        <property name="contactor" type="java.lang.String">
+            <column name="contactor" />
+        </property>
+        <property name="phone" type="java.lang.String">
+            <column name="phone" />
+        </property>
+        <property name="content" type="java.lang.String">
+            <column name="content" />
+        </property>
+        <property name="summary" type="java.lang.String">
+            <column name="summary" />
+        </property>
+        <property name="status" type="java.lang.String">
+            <column name="status" />
+        </property>
+
+		<many-to-one name="sponsor" class="org.shengrui.oa.model.system.ModelAppUser">
+			<column name="sponsor" />
+		</many-to-one>
+        
+        <many-to-one not-found="ignore" name="type" class="org.shengrui.oa.model.system.ModelAppDictionary">
+            <column name="conference_type" />
+        </many-to-one>
+        
+        <many-to-one not-found="ignore" name="department" class="org.shengrui.oa.model.system.ModelSchoolDepartment" >
+        	<column name="depart_id" />
+        </many-to-one>
+		
+        <many-to-one not-found="ignore" name="district" class="org.shengrui.oa.model.system.ModelSchoolDistrict">
+        	<column name="district_id" />
+        </many-to-one>
+        
+        <set name="attachFiles" table="app_conference_file"
+        	cascade="save-update" lazy="true"> 
+	      <!-- <cache usage="read-write" /> -->
+	      <key column="conference_id"/>  
+	      <many-to-many class="cn.trymore.oa.model.system.ModelFileAttach" column="file_id" />
+	    </set>
+	    
+	</class>
+</hibernate-mapping>

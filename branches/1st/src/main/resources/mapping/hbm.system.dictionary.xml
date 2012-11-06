@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="org.shengrui.oa.model.system.ModelAppDictionary" table="app_system_dictionary">
+        <cache usage="read-write" />
+        <id name="id" type="java.lang.String">
+            <column name="id" />
+            <generator class="native" />
+        </id>
+        <property name="name" type="java.lang.String">
+            <column name="name" not-null="true" />
+        </property>
+        
+        <property name="value" type="java.lang.String">
+            <column name="value" not-null="true" />
+        </property>
+        
+        <property name="type" type="java.lang.String">
+            <column name="type" not-null="true" />
+        </property>
+        
+        <property name="level" type="java.lang.String">
+            <column name="level"/>
+        </property>
+        
+        <property name="sn" type="java.lang.Integer">
+            <column name="sequence" />
+        </property>
+        
+        <property name="extraValue" type="java.lang.String">
+            <column name="extra_value" not-null="true" />
+        </property>
+        
+        <property name="createDate" type="java.util.Date">
+            <column name="creation_date" />
+        </property>
+        <property name="modifiedDate" type="java.util.Date">
+            <column name="modified_date" />
+        </property>
+	</class>
+</hibernate-mapping>

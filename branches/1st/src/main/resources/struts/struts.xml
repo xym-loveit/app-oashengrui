@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	
+	<message-resources parameter="i18n.messages" />
+	
+	<!-- Tiles plugin -->
+	<plug-in className="org.apache.struts.tiles.TilesPlugin">
+		<set-property property="definitions-config" 
+			value="
+				/WEB-INF/tiles/tiles-defs.xml,
+				/WEB-INF/tiles/tiles-defs-admin.xml,
+				/WEB-INF/tiles/tiles-defs-admin-task.xml,
+				/WEB-INF/tiles/tiles-defs-flow.xml,
+				/WEB-INF/tiles/tiles-defs-index.xml,
+				/WEB-INF/tiles/tiles-defs-info-message.xml,
+				/WEB-INF/tiles/tiles-defs-personal.xml,
+				/WEB-INF/tiles/tiles-defs-hrm.xml,
+				/WEB-INF/tiles/tiles-defs-finan.xml,
+				/WEB-INF/tiles/tiles-defs-personal.xml,
+				/WEB-INF/tiles/tiles-defs-personal-doc.xml,
+				/WEB-INF/tiles/tiles-defs-personal-interview.xml,
+				/WEB-INF/tiles/tiles-defs-personal-application-job.xml,
+				/WEB-INF/tiles/tiles-defs-personal-application-approval.xml,
+				/WEB-INF/tiles/tiles-defs-personal-application-form.xml,
+				/WEB-INF/tiles/tiles-defs-personal-task.xml,
+				/WEB-INF/tiles/tiles-defs-sysmgr-dictionary.xml,
+				/WEB-INF/tiles/tiles-defs-sysmgr-account.xml,
+				/WEB-INF/tiles/tiles-defs-sysmgr-log.xml,
+				/WEB-INF/tiles/tiles-defs-sysmgr-menu.xml,
+				/WEB-INF/tiles/tiles-defs-sysmgr-roles.xml,
+				/WEB-INF/tiles/tiles-defs-sysmgr-password.xml,
+				/WEB-INF/tiles/tiles-defs-sysmgr-school.xml,
+				/WEB-INF/classes/struts/struts-web-personal-news.xml,
+				/WEB-INF/tiles/tiles-defs-sysmgr-work.xml
+			"
+		/>
+		<set-property property="definitions-debug" value="2" />
+		<set-property property="definitions-parser-details" value="2" />
+		<set-property property="definitions-parser-validate" value="true" />
+	</plug-in>
+	
+</struts-config>

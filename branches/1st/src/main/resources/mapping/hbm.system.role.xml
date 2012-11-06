@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.shengrui.oa.model.system">
+    <class name="ModelAppRole" table="app_role">
+        <cache usage="read-write" />
+        <id name="id" type="java.lang.String">
+            <column name="role_id" />
+            <generator class="native" />
+        </id>
+        <property name="roleName" type="java.lang.String">
+            <column name="role_name" not-null="true" />
+        </property>
+         <property name="roleKey" type="java.lang.String" unique="true">
+            <column name="role_key" not-null="true" />
+        </property>
+        <property name="roleDesc" type="java.lang.String">
+            <column name="role_desc" />
+        </property>
+        <property name="roleStatus" type="java.lang.Integer">
+            <column name="role_status" />
+        </property>
+        <property name="roleRights" type="java.lang.String">
+            <column name="role_rights" />
+        </property>
+        <property name="roleType" type="java.lang.Integer">
+            <column name="role_type" not-null="true"/>
+        </property>
+        <property name="roleEditable" type="java.lang.Integer">
+            <column name="role_edit" />
+        </property>
+        
+        <set name="functions" table="app_role_func" 
+        	cascade="save-update" inverse="false" lazy="true"> 
+          <cache usage="read-write" />
+	      <key column="role_id"/>  
+	      <many-to-many fetch="join" class="ModelAppFunction" column="func_id"/> 
+	    </set>
+	    
+	    <set name="menus" table="app_role_menu" 
+        	cascade="save-update" inverse="false" lazy="true"> 
+	      <cache usage="read-write" />
+	      <key column="role_id"/>  
+	      <many-to-many fetch="join" class="ModelAppMenu" column="menu_id"/> 
+	    </set>
+	    
+	    <set name="funcDataPermissions" table="app_role_dac" 
+        	cascade="save-update" inverse="false" lazy="true"> 
+	      <cache usage="read-write" />
+	      <key column="role_id"/>  
+	      <many-to-many fetch="join" class="ModelAppFunctionDataStrategy" column="stg_id"/> 
+	    </set>
+    	
+	</class>
+</hibernate-mapping>

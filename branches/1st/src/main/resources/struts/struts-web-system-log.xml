@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	
+	<form-beans>
+		<form-bean name="form.system.log" type="cn.trymore.oa.model.system.ModelSystemLog"></form-bean>
+	</form-beans>
+	
+	<global-forwards> 
+	</global-forwards>
+	
+	<action-mappings>
+		<action path="/app/system/log"
+				name="form.system.log"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="page.sys.mgr.log.index" path="page.sys.mgr.log.index" />
+		</action>
+	</action-mappings>
+
+</struts-config>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	
+	<form-beans>
+		<form-bean name="form.hrm.hire.job" type="org.shengrui.oa.model.hrm.ModelHrmJobHireInfo"></form-bean>
+		<form-bean name="form.hrm.hire.interview" type="org.shengrui.oa.model.hrm.ModelHrmJobHireInterview"></form-bean>
+		<form-bean name="form.hrm.resume" type="org.shengrui.oa.model.hrm.ModelHrmResume"></form-bean>
+	</form-beans>
+	
+	<global-forwards> 
+		<forward name="hrm.page.job.resume.detail" path="hrm.page.job.resume.detail" />
+		<forward name="dialog.page.job.offer.finalize" path="dialog.page.job.offer.finalize" />
+	</global-forwards>
+	
+	<action-mappings>
+				
+		<!-- 当前招聘管理 -->
+		<action path="/app/hrm/hire"
+				name="form.hrm.hire.job"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="hrm.page.job.index" path="hrm.page.job.index" />
+			<forward name="hrm.page.job.approval.index" path="hrm.page.job.approval.index" />
+			<forward name="hrm.page.job.detail" path="hrm.page.job.detail" />
+			<forward name="hrm.page.job.entry.index" path="hrm.page.job.entry.index" />
+			<forward name="hrm.page.job.entry.detail" path="hrm.page.job.entry.detail" />
+			<forward name="hrm.page.job.offer.index" path="hrm.page.job.offer.index" />
+			<forward name="hrm.page.job.offer.interview.plan" path="hrm.page.job.offer.interview.plan" />
+			<forward name="hrm.page.job.offer.interview.index" path="hrm.page.job.offer.interview.index" />
+		</action>
+		
+		<!-- 当前招聘管理 - 简历申请等相关操作-->
+		<action path="/app/hrm/hire/resume"
+				name="form.hrm.resume"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+		</action>
+		
+		<!-- 当前招聘管理 - 面试等相关操作-->
+		<action path="/app/hrm/hire/interview"
+				name="form.hrm.hire.interview"
+				scope="request"
+				parameter="action"
+				type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="hrm.page.job.offer.interview.index" path="hrm.page.job.offer.interview.index" />
+		</action>
+		
+	</action-mappings>
+
+</struts-config>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+       
+<tiles-definitions>
+	
+	<!-- 系统设置 - 数据字典 -->
+	<definition name="page.sys.setting.dictionary.index" 
+		path="/WEB-INF/jsp/application/system/dictionary/dictionaryIndex.jsp"/>
+		
+		
+	<definition name="page.sys.setting.dictionary.list" 
+		path="/WEB-INF/jsp/application/system/dictionary/data/listDictionary.jsp"/>
+		
+			
+	<definition name="dialog.sys.setting.dictionary.edit" 
+		path="/WEB-INF/jsp/application/system/dictionary/dialog/editDictionary.jsp"/>
+	
+</tiles-definitions>

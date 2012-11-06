@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<bean id="coreBase" class="cn.trymore.core.web.action.BaseAction">
+		<property name="serviceAppMenu" ref="serviceAppMenu" />
+		<property name="serviceAppRole" ref="serviceAppRole" />
+	</bean>
+	
+	<bean id="base" name="/app/base" class="org.shengrui.oa.web.action.BaseAppAction" parent="coreBase">
+		<property name="serviceAppUser" ref="serviceAppUser" />
+		<property name="serviceAppDictionary" ref="serviceAppDictionary" />
+		<property name="serviceSystemLog" ref="serviceSystemLog" />
+		<property name="serviceFileAttach" ref="serviceFileAttach" />
+		
+		<property name="serviceShortMessage" ref="serviceShortMessage" />
+		<property name="serviceInMessage" ref="serviceInMessage" />
+		
+		<property name="serviceSchoolDistrict" ref="serviceSchoolDistrict" />
+		<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
+		<property name="serviceSchoolDepartmentPosition" ref="serviceSchoolDepartmentPosition" />
+		<property name="serviceSchoolPositionSet" ref="serviceSchoolPositionSet"/>
+		
+		<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
+		
+		<property name="dataPolicyQuery" ref="dataPolicyQuery" />
+		
+		<property name="freeMarker" ref="freeMarker" />
+		
+		<property name="messagePush" ref="messagePush" />
+	</bean>
+	
+</beans>

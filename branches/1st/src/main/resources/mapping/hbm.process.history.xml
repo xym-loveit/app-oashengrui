@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.shengrui.oa.model.flow">
+    <class name="ModelProcessHistory" table="app_process_history">
+        <cache usage="read-write" />
+        <id name="id" type="java.lang.String">
+            <column name="history_id" />
+            <generator class="native" />
+        </id>
+        <property name="applyFormNo" type="java.lang.String">
+            <column name="form_no" />
+        </property>
+        <property name="processName" type="string">
+            <column name="task_name" length="128">
+            </column>
+        </property>
+        <property name="taskType" type="java.lang.Integer">
+            <column name="task_type" />
+        </property>
+        <property name="toDistrictNames" type="java.lang.String">
+            <column name="to_distnames" />
+        </property>
+         <property name="toDistrictIds" type="java.lang.String">
+            <column name="to_distids" />
+        </property>
+         <property name="toDepartmentNames" type="java.lang.String">
+            <column name="to_depnames" />
+        </property>
+         <property name="toDepartmentIds" type="java.lang.String">
+            <column name="to_depids" />
+        </property>
+         <property name="toPositionNames" type="java.lang.String">
+            <column name="to_posnames" />
+        </property>
+         <property name="toPositionIds" type="java.lang.String">
+            <column name="to_posids" />
+        </property>
+         <property name="toUserNames" type="java.lang.String">
+            <column name="to_usernames" />
+        </property>
+         <property name="toUserIds" type="java.lang.String">
+            <column name="to_userids" />
+        </property>
+         <property name="toRoleNames" type="java.lang.String">
+            <column name="to_rolenames" />
+        </property>
+         <property name="toRoleIds" type="java.lang.String">
+            <column name="to_roleids" />
+        </property>
+         <property name="auditDistrictNames" type="java.lang.String">
+            <column name="audit_distnames" />
+        </property>
+         <property name="auditDistrictIds" type="java.lang.String">
+            <column name="audit_distids" />
+        </property>
+         <property name="auditDepartmentNames" type="java.lang.String">
+            <column name="audit_depnames" />
+        </property>
+         <property name="auditDepartmentIds" type="java.lang.String">
+            <column name="audit_depids" />
+        </property>
+         <property name="auditPositionNames" type="java.lang.String">
+            <column name="audit_posnames" />
+        </property>
+         <property name="auditPositionIds" type="java.lang.String">
+            <column name="audit_posids" />
+        </property>
+         <property name="auditUserNames" type="java.lang.String">
+            <column name="audit_usernames" />
+        </property>
+         <property name="auditUserIds" type="java.lang.String">
+            <column name="audit_userids" />
+        </property>
+         <property name="auditRoleNames" type="java.lang.String">
+            <column name="audit_rolenames" />
+        </property>
+         <property name="auditRoleIds" type="java.lang.String">
+            <column name="audit_roleids" />
+        </property>
+         <property name="auditIdea" type="java.lang.String">
+            <column name="audit_comments" />
+        </property>
+         <property name="auditState" type="java.lang.Integer">
+            <column name="audit_state" />
+        </property>
+        <property name="auditDate" type="timestamp">
+            <column name="audit_date" />
+        </property>
+        
+        <many-to-one name="processType" class="org.shengrui.oa.model.flow.ModelProcessType" not-found="ignore">
+        	<column name="type_id" />
+        </many-to-one>
+        
+        <many-to-one name="previousProcess" class="org.shengrui.oa.model.flow.ModelProcessForm" not-found="ignore">
+        	<column name="task_from" />
+        </many-to-one>
+        
+        <many-to-one name="nextProcess" class="org.shengrui.oa.model.flow.ModelProcessForm" not-found="ignore">
+        	<column name="task_next" />
+        </many-to-one>
+        
+    </class>
+</hibernate-mapping>

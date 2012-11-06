@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<bean id="daoAppFunc" class="org.shengrui.oa.dao.system.impl.DAOAppFunctionImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	
+	<bean id="serviceAppFunc" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.system.impl.ServiceAppFunctionImpl">
+				<constructor-arg index="0" ref="daoAppFunc"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="daoAppFuncUrl" class="org.shengrui.oa.dao.system.impl.DAOAppFunctionUrlImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	
+	<bean id="serviceAppFuncUrl" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.system.impl.ServiceAppFunctionUrlImpl">
+				<constructor-arg index="0" ref="daoAppFuncUrl"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="daoAppFunctionDataStrategy" class="org.shengrui.oa.dao.system.impl.DAOAppFunctionDataStrategyImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	
+	<bean id="serviceAppFunctionDataStrategy" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.system.impl.ServiceAppFunctionDataStrategyImpl">
+				<constructor-arg index="0" ref="daoAppFunctionDataStrategy"/>
+			</bean>
+		</property>
+	</bean>
+</beans>

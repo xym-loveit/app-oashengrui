@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<bean id="daoProcessType" class="org.shengrui.oa.dao.flow.impl.DAOProcessTypeImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceProcessType" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.flow.impl.ServiceProcessTypeImpl">
+				<constructor-arg index="0" ref="daoProcessType"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="daoProcessDefinition" class="org.shengrui.oa.dao.flow.impl.DAOProcessDefinitionImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceProcessDefinition" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.flow.impl.ServiceProcessDefinitionImpl">
+				<constructor-arg index="0" ref="daoProcessDefinition"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="daoProcessHistory" class="org.shengrui.oa.dao.flow.impl.DAOProcessHistoryImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceProcessHistory" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.flow.impl.ServiceProcessHistoryImpl">
+				<constructor-arg index="0" ref="daoProcessHistory"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="daoProcessForm" class="org.shengrui.oa.dao.flow.impl.DAOProcessFormImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceProcessForm" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.flow.impl.ServiceProcessFormImpl">
+				<constructor-arg index="0" ref="daoProcessForm"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="daoProcessTask" class="org.shengrui.oa.dao.flow.impl.DAOProcessTaskImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="serviceProcessTask" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.flow.impl.ServiceProcessTaskImpl">
+				<constructor-arg index="0" ref="daoProcessTask"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="serviceWorkFlow" parent="baseTxProxy">
+		<property name="target">
+			<bean class="org.shengrui.oa.service.flow.impl.ServiceWorkFlowImpl">
+				<property name="serviceProcessDefinition" ref="serviceProcessDefinition" />
+				<property name="serviceSchoolDepartment" ref="serviceSchoolDepartment" />
+				<property name="serviceSchoolDepartmentPosition" ref="serviceSchoolDepartmentPosition" />
+				<property name="serviceProcessForm" ref="serviceProcessForm" />
+				<property name="serviceProcessTask" ref="serviceProcessTask" />
+				<property name="serviceProcessHistory" ref="serviceProcessHistory" />
+				<property name="serviceProcessType" ref="serviceProcessType" />
+				<property name="serviceHrmEmployee" ref="serviceHrmEmployee" />
+			</bean>
+		</property>
+	</bean>
+	
+</beans>

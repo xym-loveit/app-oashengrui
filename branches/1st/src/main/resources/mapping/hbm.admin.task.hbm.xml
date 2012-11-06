@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="org.shengrui.oa.model.admin">
+    <class name="ModelTaskPlan" table="app_admin_task">
+        <cache usage="read-write" />
+        <id name="id" type="java.lang.String">
+            <column name="task_id" />
+            <generator class="native" />
+        </id>
+        <property name="taskName" type="java.lang.String">
+            <column name="task_name" not-null="true" />
+        </property>
+        <property name="taskPlannedStartDate" type="timestamp">
+            <column name="task_planStartDate" not-null="true" />
+        </property>
+        <property name="taskPlannedEndDate" type="timestamp">
+            <column name="task_planEndDate" not-null="true" />
+        </property>
+        <property name="taskActualEndDate" type="timestamp">
+            <column name="task_actualFinishDate" />
+        </property>
+        <property name="taskDescription" type="java.lang.String">
+            <column name="task_desc" />
+        </property>
+        <property name="taskParticipantIds" type="java.lang.String">
+        	<column name="task_participant_ids" />
+        </property>
+        <property name="taskParticipantNames" type="java.lang.String">
+        	<column name="task_participant_names" />
+        </property>
+        <property name="taskStatus" type="java.lang.Integer">
+            <column name="task_status" />
+        </property>
+        <property name="auditStatus" type="java.lang.Integer">
+            <column name="approval_status" />
+        </property>
+        <property name="auditTime" type="timestamp">
+        	  <column name="audit_time" />
+        </property>
+        <property name="createTime" type="timestamp">
+        	  <column name="create_time" />
+        </property>
+        
+        <property name="taskChargerDepId" type="java.lang.Integer">
+            <column name="task_charger_depid" />
+        </property>
+        
+        <property name="taskChargerDisId" type="java.lang.Integer">
+            <column name="task_charger_disid" />
+        </property>
+        
+        <many-to-one name="taskType" class="org.shengrui.oa.model.system.ModelAppDictionary" fetch="select">
+            <column name="type_dicid" not-null="true" />
+        </many-to-one>
+        
+        <many-to-one name="taskCharger" class="org.shengrui.oa.model.hrm.ModelHrmEmployee">
+        	<column name="task_charger" />
+        </many-to-one>
+        
+        <many-to-one name="taskOriginator" class="org.shengrui.oa.model.hrm.ModelHrmEmployee">
+        	<column name="task_originator" />
+        </many-to-one>
+        
+        <many-to-one name="auditor" class="org.shengrui.oa.model.hrm.ModelHrmEmployee">
+        	<column name="auditor" />
+        </many-to-one>
+        
+        <set name="attachFiles" table="app_admin_task_file"
+        	cascade="save-update" lazy="true"> 
+	      <cache usage="read-write" />
+	      <key column="task_id"/>  
+	      <many-to-many class="cn.trymore.oa.model.system.ModelFileAttach" column="file_id" />
+	    </set>
+	    
+	    <set name="taskParticipants" table="app_admin_task_participants"
+        	cascade="save-update" lazy="true"> 
+	      <cache usage="read-write" />
+	      <key column="task_id"/>  
+	      <many-to-many class="org.shengrui.oa.model.hrm.ModelHrmEmployee" column="emp_id" />
+	    </set>
+	    
+	    <set name="taskTracks" table="app_admin_task_tracks"
+        	cascade="save-update" lazy="true" order-by="task_auditTime desc"> 
+	      <!-- <cache usage="read-write" /> -->
+	      <key column="task_id"/>  
+	      <one-to-many class="ModelTaskPlanTrack" />
+	    </set>
+	    
+	    <set name="auditHistory" table="app_admin_task_audithistory"
+        	cascade="save-update" lazy="true" order-by="audit_date desc"> 
+	      <!-- <cache usage="read-write" /> -->
+	      <key column="entity_id"/>  
+	      <one-to-many class="ModelTaskPlanAuditHistory" />
+	    </set>
+	    
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.shengrui.oa.model.system">
+    <class name="ModelAppFunction" table="app_function">
+        <cache usage="read-write" />
+        <id name="id" type="java.lang.String">
+            <column name="func_id" />
+            <generator class="native" />
+        </id>
+        <property name="funcKey" type="java.lang.String" unique="true">
+            <column name="func_key" not-null="true" />
+        </property>
+        <property name="funcName" type="java.lang.String">
+            <column name="func_name" />
+        </property>
+        <property name="funcIcon" type="java.lang.String">
+            <column name="func_icon" />
+        </property>
+        <property name="funcDesc" type="java.lang.String">
+            <column name="func_desc" />
+        </property>
+        <property name="strategyIds" type="java.lang.String">
+            <column name="strategy_ids" />
+        </property>
+        
+        <many-to-one name="menu" class="ModelAppMenu">
+        	<column name="menu_id" />
+        </many-to-one>
+        
+        <set name="funcURLs" table="app_function_url" lazy="true" cascade="all-delete-orphan" sort="unsorted"> 
+	      <cache usage="read-write" />
+	      <key column="func_id"/>
+	      <one-to-many class="ModelAppFunctionUrl"/> 
+	    </set>
+	    
+	    <set name="funcDataStrategy" table="app_function_strategy" lazy="true" cascade="save-update" sort="unsorted" order-by="stg_type desc"> 
+	      <cache usage="read-write" />
+	      <key column="func_id"/>
+	      <one-to-many class="ModelAppFunctionDataStrategy"/> 
+	    </set>
+	    
+	</class>
+</hibernate-mapping>

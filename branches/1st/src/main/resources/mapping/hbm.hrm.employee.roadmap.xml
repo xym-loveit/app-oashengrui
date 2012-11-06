@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.shengrui.oa.model.hrm">
+    <class name="ModelHrmEmployeeRoadMap" table="app_hrm_employee_roadmap">
+        <!-- <cache usage="read-write" /> -->
+        <id name="id" type="java.lang.String">
+            <column name="roadmap_id" />
+            <generator class="native" />
+        </id>
+         <property name="type" type="java.lang.Integer">
+            <column name="type" />
+        </property>
+         <property name="date" type="timestamp">
+            <column name="date" />
+        </property>
+        
+        <many-to-one name="employee" class="ModelHrmEmployee">
+        	<column name="emp_id" />
+        </many-to-one>
+        
+        <many-to-one name="orginalDistrict" class="org.shengrui.oa.model.system.ModelSchoolDistrict" not-found="ignore">
+        	<column name="orginal_districtid" />
+        </many-to-one>
+        
+        <many-to-one name="orginalDepartment" class="org.shengrui.oa.model.system.ModelSchoolDepartment" not-found="ignore">
+        	<column name="orginal_depid" />
+        </many-to-one>
+        
+        <many-to-one name="orginalDepartmentPosition" class="org.shengrui.oa.model.system.ModelSchoolDepartmentPosition" not-found="ignore">
+        	<column name="orginal_positionid" />
+        </many-to-one>
+        
+        <many-to-one name="dstDistrict" class="org.shengrui.oa.model.system.ModelSchoolDistrict" not-found="ignore">
+        	<column name="dst_districtid" />
+        </many-to-one>
+        
+        <many-to-one name="dstDepartment" class="org.shengrui.oa.model.system.ModelSchoolDepartment" not-found="ignore">
+        	<column name="dst_depid" />
+        </many-to-one>
+        
+        <many-to-one name="dstDepartmentPosition" class="org.shengrui.oa.model.system.ModelSchoolDepartmentPosition" not-found="ignore">
+        	<column name="dst_positionid" />
+        </many-to-one>
+        
+	</class>
+</hibernate-mapping>

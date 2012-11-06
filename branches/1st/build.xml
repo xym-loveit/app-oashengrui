@@ -1,0 +1,216 @@
+<?xml version="1.0" ?>
+<project name="sroa" basedir="." default="all">
+	
+	<property file="build.properties"/>
+	
+	<!-- app name -->
+	<property name="app.war.name" value="${ant.project.name}.war" />
+	<property name="app.jar.name" value="${ant.project.name}.jar" />
+	<property name="app.pkg.name.biz" value="appbiz" />
+	<property name="app.pkg.name.core" value="appcore" />
+	<property name="app.pkg.name.other" value="appother" />
+	
+	<!-- src directory -->
+	<property name="dir.src.java" value="src/main/java" />
+	<property name="dir.src.core" value="src/main/core" />
+	<property name="dir.src.others" value="src/main/others" />
+	<property name="dir.src.resources" value="src/main/resources" />
+	<property name="dir.src.web" value="src/main/web" />
+	
+	<!-- out directory -->
+	<property name="dir.deploy" value="deploy" />
+	<property name="dir.out" value="dist" />
+	<property name="dir.out.web" value="${dir.out}/web" />
+	<property name="dir.out.web.jar" value="${dir.out.web}/jar" />
+	<property name="dir.out.web.classes" value="${dir.out.web}/WEB-INF/classes" />
+	<property name="dir.out.web.lib" value="${dir.out.web}/WEB-INF/lib" />
+	
+	<!-- lib directory -->
+	<property name="dir.lib" value="lib" />
+	
+	<!-- master classpath -->
+	<path id="master-classpath">
+		<fileset dir="${dir.lib}">
+			<include name="**/*.jar" />
+		</fileset>
+		<pathelement path="${dir.out.web.classes}" />
+		<pathelement path="${dir.src.web}/WEB-INF/classes" />
+	</path>
+	
+	<!-- startup tomcat -->
+	<target name="tomcat.startup" description="start tomcat">
+		<exec executable="${tomcat.home}/bin/startup.bat" spawn="true" vmlauncher="false">  
+			<env key="CATALINA_HOME" value="${tomcat.home}" />  
+			<arg line="/c start ${tomcat.home}/bin/startup.bat" />  
+		</exec>
+	</target>
+	
+	<!-- stop tomcat -->
+	<target name="tomcat.stop" description="stop tomcat">
+		<exec executable="${tomcat.home}/bin/shutdown.bat" spawn="true" vmlauncher="false">  
+			<env key="CATALINA_HOME" value="${tomcat.home}" />  
+			<arg line="/c start ${tomcat.home}/bin/shutdowm.bat" />  
+		</exec>  
+		<waitfor maxwait="10" maxwaitunit="second">  
+			<available file="errors.log" />  
+		</waitfor> 
+	</target>
+		
+	<!-- default target -->
+	<target name="all" depends="clean.tmp,build.war">
+		<copy file="${dir.deploy}/${app.war.name}" todir="${tomcat.home}/webapps" overwrite="true"/>
+		<exec executable="${tomcat.home}/bin/startup.bat" spawn="true" vmlauncher="false">  
+			<env key="CATALINA_HOME" value="${tomcat.home}" />  
+			<arg line="/c start ${tomcat.home}/bin/startup.bat" />  
+		</exec>
+	</target>
+	
+	<!-- clean web-container tmp -->
+	<target name="clean.tmp">
+		<delete dir="${tomcat.home}/work/Catalina/localhost/${ant.project.name}" />
+		<delete dir="${tomcat.home}/webapps/${ant.project.name}" />
+		<delete file="${tomcat.home}/webapps/${app.war.name}" />
+	</target>
+		
+	<!-- war target -->
+	<target name="build.war" depends="pkg.java">
+		<delete dir="${dir.out.web}/WEB-INF/classes" />
+		
+		<!-- Config CFG -->
+		<mkdir dir="${dir.out.web}/WEB-INF/classes/config" />
+		<copy todir="${dir.out.web}/WEB-INF/classes/config" flatten="true">
+			<fileset dir="${dir.src.resources}/config" />
+		</copy>
+		
+		<!-- Struts CFG -->
+		<delete dir="${dir.out.web}/WEB-INF/classes/struts" />
+		<mkdir dir="${dir.out.web}/WEB-INF/classes/struts" />
+		<copy todir="${dir.out.web}/WEB-INF/classes/struts" flatten="true">
+			<fileset dir="${dir.src.resources}/struts" />
+		</copy>
+		<!-- Mapping File -->
+		<delete dir="${dir.out.web}/WEB-INF/classes/mapping" />
+		<mkdir dir="${dir.out.web}/WEB-INF/classes/mapping" />
+		<copy todir="${dir.out.web}/WEB-INF/classes/mapping" flatten="true">
+			<fileset dir="${dir.src.resources}/mapping" />
+		</copy>
+		<!-- Spring File -->
+		<delete dir="${dir.out.web}/WEB-INF/classes/spring" />
+		<mkdir dir="${dir.out.web}/WEB-INF/classes/spring" />
+		<copy todir="${dir.out.web}/WEB-INF/classes/spring" flatten="true">
+			<fileset dir="${dir.src.resources}/spring" />
+		</copy>
+		<!-- i18N File -->
+		<delete dir="${dir.out.web}/WEB-INF/classes/i18n" />
+		<mkdir dir="${dir.out.web}/WEB-INF/classes/i18n" />
+		<copy todir="${dir.out.web}/WEB-INF/classes/i18n" flatten="true">
+			<fileset dir="${dir.src.resources}/i18n" />
+		</copy>
+		<!-- Template File -->
+		<delete dir="${dir.out.web}/WEB-INF/classes/template" />
+		<mkdir dir="${dir.out.web}/WEB-INF/classes/template" />
+		<copy todir="${dir.out.web}/WEB-INF/classes/template" flatten="true">
+			<fileset dir="${dir.src.resources}/template" />
+		</copy>
+		
+		<copy todir="${dir.out.web}/WEB-INF/classes" flatten="true">
+			<fileset dir="${dir.src.resources}/config">
+				<include name="ehcache.xml" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${dir.out.web.lib}" flatten="true">
+			<fileset dir="${dir.out.web.jar}" includes="**/*.jar,**/*.dll" />
+		</copy>
+		<war destfile="${dir.deploy}/${app.war.name}" 
+			manifest="${dir.src.web}/META-INF/MANIFEST.MF"
+             webxml="${dir.src.web}/WEB-INF/web.xml" 
+			 compress="false" duplicate="fail">  
+			<fileset dir="${dir.src.web}" 
+				excludes="META-INF/MANIFEST.MF,WEB-INF/web.xml,WEB-INF/classes/**" />
+            <fileset dir="${dir.out.web}" 
+            	includes="WEB-INF/classes/com/**/*.class, WEB-INF/**/*.xml,WEB-INF/**/*.dtd,WEB-INF/**/*.ftl,WEB-INF/**/*.properties,WEB-INF/lib/**/*.dll,WEB-INF/lib/**/*.jar"/>
+        </war>
+	</target>
+	
+	<!-- package java -->
+	<target name="pkg.java" depends="build.compile">
+		<!--  Package AppBiz -->
+		<jar destfile="${dir.out.web.jar}/${app.pkg.name.core}.jar" compress="false">
+			<fileset dir="${dir.src.core}" excludes="**/*.java" />
+			<!--<fileset dir="${dir.src.resources}" />-->
+			<fileset dir="${dir.out.web.classes}/main/core" includes="**/*.class" />
+		</jar>
+		
+		<!-- Package AppCore -->
+		<jar destfile="${dir.out.web.jar}/${app.pkg.name.biz}.jar" compress="false">
+			<fileset dir="${dir.src.java}" excludes="**/*.java" />
+			<!--<fileset dir="${dir.src.resources}" />-->
+			<fileset dir="${dir.out.web.classes}/main/java" includes="**/*.class" />
+		</jar>
+		
+		<!-- Package AppOthers -->
+		<jar destfile="${dir.out.web.jar}/${app.pkg.name.other}.jar" compress="false">
+			<fileset dir="${dir.src.java}" excludes="**/*.java" />
+			<!--<fileset dir="${dir.src.resources}" />-->
+			<fileset dir="${dir.out.web.classes}/main/others" includes="**/*.class" />
+		</jar>
+	</target>
+
+	<!-- compile target -->
+	<target name="build.compile" depends="build.clean,build.init">
+		<javac srcdir="${dir.src.java}" destdir="${dir.out.web.classes}/main/java" debug="true" encoding="UTF-8">
+			<classpath refid="master-classpath" />
+		</javac>
+		<javac srcdir="${dir.src.core}" destdir="${dir.out.web.classes}/main/core" debug="true" encoding="UTF-8">
+			<classpath refid="master-classpath" />
+		</javac>
+		<javac srcdir="${dir.src.others}" destdir="${dir.out.web.classes}/main/others" debug="true" encoding="UTF-8">
+			<classpath refid="master-classpath" />
+		</javac>
+		<!-- copy xml and properties to classes directory -->
+		<copy todir="${dir.out.web.classes}">
+			<fileset dir="${dir.src.java}">
+				<include name="**/*.xml" />
+				<include name="**/*.properties" />
+			</fileset>
+			<fileset dir="${dir.src.core}">
+				<include name="**/*.xml" />
+				<include name="**/*.properties" />
+			</fileset>
+			<fileset dir="${dir.src.others}">
+				<include name="**/*.xml" />
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- clean target -->
+	<target name="build.clean">
+		<!-- <delete dir="${dir.out}" />-->
+	</target>
+	
+	<!-- init target -->
+	<target name="build.init">
+		<mkdir dir="${dir.out}" />
+		<mkdir dir="${dir.out.web}" />
+		<mkdir dir="${dir.out.web.classes}" />
+		<mkdir dir="${dir.out.web.classes}/main/java" />
+		<mkdir dir="${dir.out.web.classes}/main/core" />
+		<mkdir dir="${dir.out.web.classes}/main/others" />
+		<mkdir dir="${dir.out.web.lib}" />
+		<mkdir dir="${dir.out.web.jar}" />
+		<mkdir dir="${dir.deploy}" />
+
+		<!-- copy 3rd lib to web lib. -->
+		<copy todir="${dir.out.web.lib}" flatten="true" overwrite="true">
+			<fileset dir="${dir.lib}">
+				<include name="**/*.xml" />
+				<include name="**/*.jar" />
+				<include name="**/*.dll" />
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
+	</target>
+	
+</project>

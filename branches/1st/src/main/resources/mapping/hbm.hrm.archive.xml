@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.shengrui.oa.model.hrm">
+    <class name="ModelHrmArchive" table="app_hrm_archive ">
+        <!-- <cache usage="read-write" /> -->
+        <id name="id" type="java.lang.String">
+            <column name="archive_id" />
+            <generator class="native" />
+        </id>
+        <property name="source" type="java.lang.Integer">
+            <column name="archive_source" />
+        </property>
+         <property name="starLevel" type="java.lang.Integer">
+            <column name="archive_star" />
+        </property>
+        
+        <many-to-one name="jobHireInfo" class="ModelHrmJobHireInfo" not-found="ignore">
+        	<column name="job_id" />
+        </many-to-one>
+		
+        <many-to-one name="resume" class="ModelHrmResume" not-found="ignore">
+        	<column name="resume_id" />
+        </many-to-one>
+	    
+	</class>
+</hibernate-mapping>
