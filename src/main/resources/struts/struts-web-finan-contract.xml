@@ -11,6 +11,7 @@
 		<forward name="data.fina.application.list" path="data.fina.application.list" />
 		<forward name="dialog.fina.contract.application.page" path="dialog.fina.contract.application.page" />
 		<forward name="data.fina.application.records" path="data.fina.application.records" />
+		<forward name="dialog.expense.audit.page" path="dialog.expense.audit.page" />
 	</global-forwards>
 	
 	<action-mappings>

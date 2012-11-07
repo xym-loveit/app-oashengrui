@@ -266,6 +266,10 @@ implements ServiceWorkFlow
 		
 		if (procForm != null)
 		{
+			// 审批退回, 直接退回至申请人...
+			this.completeTask(procForm, ModelProcessForm.EProcessFormStatus.RETURNED.getValue(), comments);
+			
+			/*
 			ModelProcessForm previousForm = this.serviceProcessForm.getPreviousProcessForm(procFormId);
 			
 			while (true)
@@ -297,6 +301,7 @@ implements ServiceWorkFlow
 					}
 				}
 			}
+			*/
 		}
 		
 		return preFormEntity;

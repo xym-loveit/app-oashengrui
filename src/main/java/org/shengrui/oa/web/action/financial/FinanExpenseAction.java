@@ -234,6 +234,12 @@ extends BaseFinanAction
 		
 		request.setAttribute("CATKEY", "expense");
 		
+		// 审批记录查看
+		if ("audit".equalsIgnoreCase(request.getParameter("view")))
+		{
+			return mapping.findForward("dialog.expense.audit.page");
+		}
+		
 		return mapping.findForward("dialog.fina.expense.application.page");
 	}
 	

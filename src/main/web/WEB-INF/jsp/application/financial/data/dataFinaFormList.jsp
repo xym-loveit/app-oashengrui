@@ -23,6 +23,7 @@
 			<th align="center">审批状态</th>
 			<th align="center">审批环节</th>
 			<th align="center">审批结果</th>
+			<th align="center">审批记录</th>
 			<th align="center">申请单查看</th>
 			<th align="center">申请单编辑</th>
 		</tr>
@@ -74,6 +75,34 @@
 									<c:otherwise>---</c:otherwise>
 								</c:choose>
 							</c:otherwise>
+						</c:choose>
+					</td>
+					<td>
+						<c:choose>
+							<c:when test="${PAGE_TYPE eq 'FE'}">
+								<c:choose>
+									<c:when test="${tm:ifGranted('_FUNCKEY_FINAN_EXPENSE_VIEW')}">
+										<a class="oplink" href="app/finan/expense.do?action=diaglogFinaExpensePage&id=${entity.id}&view=audit" target="dialog" title="查看‘${entity.employee.empName}’费用申请单-${entity.formNo} 审批记录" width="600" height="320" rel="dia_finexp_audit_${entity.id}">审批记录</a>
+									</c:when>
+									<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+								</c:choose>
+							</c:when>
+							<c:when test="${PAGE_TYPE eq 'FC'}">
+								<c:choose>
+									<c:when test="${tm:ifGranted('_FUNCKEY_FINAN_CONTRACT_VIEW')}">
+										<a class="oplink" href="app/finan/contract.do?action=diaglogFinaContractPage&id=${entity.id}&view=audit" target="dialog" title="查看‘${entity.employee.empName}’合同申请单-${entity.formNo} 审批记录" width="600" height="320" rel="dia_fincontract_audit_${entity.id}">审批记录</a>
+									</c:when>
+									<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+								</c:choose>
+							</c:when>
+							<c:when test="${PAGE_TYPE eq 'FP'}">
+								<c:choose>
+									<c:when test="${tm:ifGranted('_FUNCKEY_FINAN_PROJECT_VIEW')}">
+										<a class="oplink" href="app/finan/project.do?action=diaglogFinaProjectPage&id=${entity.id}&view=audit" target="dialog" title="查看‘${entity.employee.empName}’新项目申请单-${entity.formNo} 审批记录" width="600" height="320" rel="dia_finproject_audit_${entity.id}">审批记录</a>
+									</c:when>
+									<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
+								</c:choose>
+							</c:when>	
 						</c:choose>
 					</td>
 					<td>

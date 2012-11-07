@@ -26,6 +26,7 @@
 			<th align="center">审批状态</th>
 			<th align="center">审批环节</th>
 			<th align="center">审批结果</th>
+			<th align="center">审批记录</th>
 			<th align="center">申请单查看</th>
 			<th align="center">申请单编辑</th>
 		</tr>
@@ -68,6 +69,14 @@
 							<c:when test="${entity.latestAuditState eq 3}">审批不通过</c:when>
 							<c:when test="${entity.latestAuditState eq 4}">审批退回</c:when>
 							<c:otherwise>---</c:otherwise>
+						</c:choose>
+					</td>
+					<td>
+						<c:choose>
+							<c:when test="${tm:ifGranted('_FUNCKEY_PERSONAL_APPLICATION_VIEW')}">
+								<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${entity.id}&view=audit" target="dialog" title="查看‘${entity.employee.empName}’人资申请单-${entity.formNo} 审批记录" width="600" height="320" rel="dia_myformapplication_audit_${entity.id}">审批记录</a></td>
+							</c:when>
+							<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
 						</c:choose>
 					</td>
 					<td>

@@ -143,6 +143,13 @@ extends FlowBaseAction
 			}
 			
 			request.setAttribute("op", request.getParameter("op"));
+			
+			// 审批记录查看
+			if ("audit".equalsIgnoreCase(request.getParameter("view")))
+			{
+				return mapping.findForward("dialog.myapplication.audit.page");
+			}
+			
 		}
 		catch (Exception e)
 		{

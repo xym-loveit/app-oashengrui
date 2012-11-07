@@ -32,5 +32,9 @@
 	<!-- 新项目支出申请表单 -->
 	<definition name="dialog.fina.project.application.page" 
 		path="/WEB-INF/jsp/application/financial/dialog/dialogFinaProjectForm.jsp"/>
-
+	
+	<!-- 审批记录查看 -->
+	<definition name="dialog.expense.audit.page"
+		path="/WEB-INF/jsp/application/financial/data/dataFinaAuditHistory.jsp"/>
+		
 </tiles-definitions>
