@@ -35,3 +35,10 @@ ALTER TABLE `app_finan_project` ADD `cproc_disid` BIGINT NULL COMMENT '当前审
 -- Added by Jeccy.Zhao on 2012-10-26
 --
 ALTER TABLE `app_school_department_position` CHANGE `dep_id` `dep_id` BIGINT( 20 ) NULL DEFAULT NULL COMMENT '部门ID'
+
+--
+-- Added by Jeccy.Zhao on 2012-11-07
+--
+ALTER TABLE  `app_admin_news_audithistory` CHANGE  `entity_id`  `entity_id` BIGINT( 11 ) NULL;
+ALTER TABLE  `app_admin_task_audithistory` CHANGE  `entity_id`  `entity_id` BIGINT( 11 ) NULL;
+ALTER TABLE  `app_hrm_hire_job_audithistory` CHANGE  `entity_id`  `entity_id` BIGINT( 11 ) NULL
