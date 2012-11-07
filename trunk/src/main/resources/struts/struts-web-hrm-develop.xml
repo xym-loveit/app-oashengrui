@@ -19,6 +19,8 @@
 			<forward name="hrm.page.employee.develop.finalize" path="hrm.page.employee.develop.finalize" />
 			<forward name="hrm.data.employee.develop.records" path="hrm.data.employee.develop.records" />
 			
+			<forward name="dialog.myapplication.audit.page" path="dialog.myapplication.audit.page" />
+			
 			<forward name="dialog.hrm.form.state.2" path="dialog.hrm.form.state.page" />
 			<forward name="dialog.hrm.form.state.6" path="dialog.hrm.form.state.page" />
 			<forward name="dialog.hrm.form.state.4" path="dialog.hrm.form.state.page" />

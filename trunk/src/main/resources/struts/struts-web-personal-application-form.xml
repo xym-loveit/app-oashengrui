@@ -17,6 +17,9 @@
 			<forward name="tpl.my.application.form.transfer" path="tpl.my.application.form.transfer" />
 			<forward name="tpl.my.application.form.promotion" path="tpl.my.application.form.promotion" />
 			<forward name="tpl.my.application.form.fairwell" path="tpl.my.application.form.fairwell" />
+			
+			<forward name="dialog.myapplication.audit.page" path="dialog.myapplication.audit.page" />
+			
 		</action>
 		
 	</action-mappings>

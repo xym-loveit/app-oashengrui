@@ -36,5 +36,9 @@
 	<!-- 离职申请单 -->
 	<definition name="tpl.my.application.form.fairwell" 
 		path="/WEB-INF/jsp/application/personal/application/form/tpl/tplFormFairwellPage.jsp"/>
-		
+	
+	<!-- 审批记录查看 -->
+	<definition name="dialog.myapplication.audit.page"
+		path="/WEB-INF/jsp/application/personal/application/form/data/dataFormAuditHistory.jsp" />
+	
 </tiles-definitions>
