@@ -89,7 +89,7 @@
 					</td>
 					<td>
 						<c:choose>
-							<c:when test="${(entity.applyForm ne null && fn:length(entity.applyForm) > 0) && entity.finalState eq 4}">
+							<c:when test="${entity.finalState eq 4}">
 								<c:choose>
 									<c:when test="${tm:ifGranted('_FUNCKEY_PERSONAL_APPLICATION_VIEW')}">
 										<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${entity.id}" target="dialog" title="编辑‘${entity.employee.empName}’人资申请单-${entity.formNo}" width="1000" height="485" rel="dia_myformapplication_edit_${entity.id}">编辑</a></td>

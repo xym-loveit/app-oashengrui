@@ -135,7 +135,7 @@
 					</td>
 					<td>
 						<c:choose>
-							<c:when test="${(entity.applyForm ne null && fn:length(entity.applyForm) > 0) && entity.finalState eq 4}">
+							<c:when test="${entity.finalState eq 4}">
 								<c:choose>
 									<c:when test="${PAGE_TYPE eq 'FE' && tm:ifGranted('_FUNCKEY_FINAN_EXPENSE_APPLY')}">
 										<a class="oplink" href="app/finan/expense.do?action=diaglogFinaExpensePage&id=${entity.id}&op=edit" target="dialog" title="财务申请单编辑" width="1150" height="500" rel="dia_finexp_edit">编辑</a>

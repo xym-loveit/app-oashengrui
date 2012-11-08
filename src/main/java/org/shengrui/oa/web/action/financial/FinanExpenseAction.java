@@ -252,7 +252,7 @@ extends BaseFinanAction
 	{
 		try
 		{
-			boolean isCreation = false;
+			// boolean isCreation = false;
 			ModelProcessForm procForm = null;
 			
 			ModelFinanExpense expenseInfo = null;
@@ -284,7 +284,7 @@ extends BaseFinanAction
 			else
 			{
 				// 创建
-				isCreation = true;
+				// isCreation = true;
 				
 				expenseInfo = formEntity;
 				expenseInfo.setFormNo(AppUtil.genFormNo(FINAN_FORM_KEY_EXPENSE));
@@ -308,34 +308,34 @@ extends BaseFinanAction
 			
 			expenseInfo.setEmpPhoneNo(request.getParameter("emp.phoneNo"));
 			
-			if (isCreation)
+			//if (isCreation)
+			//{
+			// 进入流程...
+			procForm = this.serviceWorkFlow.doStartProcess(
+					expenseInfo.getApplyFormType().getId(), 
+					null, 
+					expenseInfo.getApplyAmt(), 
+					expenseInfo.getFormNo(), 
+					expenseInfo.getEmployee());
+			
+			if (procForm != null)
 			{
-				// 进入流程...
-				procForm = this.serviceWorkFlow.doStartProcess(
-						expenseInfo.getApplyFormType().getId(), 
-						null, 
-						expenseInfo.getApplyAmt(), 
-						expenseInfo.getFormNo(), 
-						expenseInfo.getEmployee());
-				
-				if (procForm != null)
-				{
-					expenseInfo.setCurrentProcDepId(procForm.getToDepartmentIds());
-					expenseInfo.setCurrentProcPosId(procForm.getToPositionIds());
-					expenseInfo.setCurrentProcDistrictId(procForm.getToDistrictIds());
-				}
-				else
-				{
-					// 流程尚未开始就已经结束. (很有可能是所有审批节点都无法触及)
-					this.serviceWorkFlow.doEndProcess(expenseInfo.getFormNo(), true);
-				}
+				expenseInfo.setCurrentProcDepId(procForm.getToDepartmentIds());
+				expenseInfo.setCurrentProcPosId(procForm.getToPositionIds());
+				expenseInfo.setCurrentProcDistrictId(procForm.getToDistrictIds());
 			}
 			else
 			{
-				// 重置流程...
-				procForm = this.serviceWorkFlow.resetProcess(expenseInfo.getFormNo());
-				expenseInfo.setAuditState(ModelProcessForm.EProcessFormStatus.RETURNED.getValue());
+				// 流程尚未开始就已经结束. (很有可能是所有审批节点都无法触及)
+				this.serviceWorkFlow.doEndProcess(expenseInfo.getFormNo(), true);
 			}
+			//}
+			//else
+			//{
+				// 重置流程...
+			//	procForm = this.serviceWorkFlow.resetProcess(expenseInfo.getFormNo());
+			//	expenseInfo.setAuditState(ModelProcessForm.EProcessFormStatus.RETURNED.getValue());
+			//}
 			
 			// 设置岗位附件
 			this.handleFileAttachments(expenseInfo, request);

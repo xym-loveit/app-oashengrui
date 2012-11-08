@@ -1,6 +1,7 @@
 package org.shengrui.oa.web.action.financial;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import org.shengrui.oa.model.finan.ModelFinanContract;
 import org.shengrui.oa.model.finan.ModelFinanExpense;
 import org.shengrui.oa.model.finan.ModelFinanProject;
 import org.shengrui.oa.model.flow.ModelProcessForm;
+import org.shengrui.oa.model.flow.ModelProcessHistory;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.info.ModelShortMessage;
 import org.shengrui.oa.service.finan.ServiceFinanContract;
@@ -26,6 +28,8 @@ import org.shengrui.oa.util.WebActionUtil;
 import org.shengrui.oa.web.action.flow.FlowBaseAction;
 
 import cn.trymore.core.bean.PairObject;
+import cn.trymore.core.exception.ServiceException;
+import cn.trymore.core.util.UtilCollection;
 import cn.trymore.core.util.UtilString;
 
 /**
@@ -173,6 +177,9 @@ extends FlowBaseAction
 								entity.setCurrentProcDistrictId(procForm.getToDistrictIds());
 							}
 							
+							// 关联绑定历史审核数据
+							bindAuditHistory(entity);
+							
 							this.serviceFinanExpense.save(entity);
 							
 							baseEntity = entity;
@@ -200,6 +207,9 @@ extends FlowBaseAction
 								entity.setCurrentProcDistrictId(procForm.getToDistrictIds());
 							}
 							
+							// 关联绑定历史审核数据
+							bindAuditHistory(entity);
+							
 							this.serviceFinanContract.save(entity);
 							
 							baseEntity = entity;
@@ -226,6 +236,9 @@ extends FlowBaseAction
 								entity.setCurrentProcPosId(procForm.getToPositionIds());
 								entity.setCurrentProcDistrictId(procForm.getToDistrictIds());
 							}
+							
+							// 关联绑定历史审核数据
+							bindAuditHistory(entity);
 							
 							this.serviceFinanProject.save(entity);
 							
@@ -341,6 +354,39 @@ extends FlowBaseAction
 		else
 		{
 			return ajaxPrint(response, getErrorCallback("需要传入申请流程ID..."));
+		}
+	}
+	
+	/**
+	 * 
+	 * @param entity
+	 * @throws ServiceException
+	 */
+	private void bindAuditHistory (ModelFinanBase entity) throws ServiceException
+	{
+		if (entity != null)
+		{
+			List<ModelProcessHistory> auditDatas = 
+				this.serviceWorkFlow.getProcessHistoriesByFormNo(entity.getFormNo());
+			
+			if (UtilCollection.isNotEmpty(auditDatas))
+			{
+				int size = UtilCollection.isNotEmpty(entity.getProcessHistory()) ? 
+								entity.getProcessHistory().size() : 0;
+				
+				if (size < auditDatas.size())
+				{
+					for (int i = size; i < auditDatas.size(); i++)
+					{
+						if (entity.getProcessHistory() == null) 
+						{
+							entity.setProcessHistory(new HashSet<ModelProcessHistory>());
+						}
+						
+						entity.getProcessHistory().add(auditDatas.get(i));
+					}
+				}
+			}
 		}
 	}
 	

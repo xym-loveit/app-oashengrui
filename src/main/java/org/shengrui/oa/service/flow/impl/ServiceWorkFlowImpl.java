@@ -399,8 +399,7 @@ implements ServiceWorkFlow
 	public List<ModelProcessHistory> getProcessHistoriesByFormNo(String formNo)
 			throws ServiceException
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return this.serviceProcessHistory.getProcessHistoryByFormNo(formNo);
 	}
 	
 	/**
@@ -702,13 +701,12 @@ implements ServiceWorkFlow
 			procForm.setAuditIdea(comments);
 			procForm.setAuditDate(new Date());
 			
-			this.serviceProcessForm.save(procForm);
-			
 			// 记录流程审批历史记录...
 			doRecordProcessHistory(procForm, historyAuditState);
 			
-			// 审批未通过
-			if (ModelProcessForm.EProcessFormStatus.NOTPASSED.getValue().equals(auditState))
+			// 审批未通过 or 审批退回
+			if (ModelProcessForm.EProcessFormStatus.NOTPASSED.getValue().equals(auditState)
+					|| ModelProcessForm.EProcessFormStatus.RETURNED.getValue().equals(auditState))
 			{
 				this.doEndProcess(procForm.getApplyFormNo());
 			}
@@ -763,7 +761,7 @@ implements ServiceWorkFlow
 	 * @return
 	 */
 	@SuppressWarnings("unused")
-	private boolean doRecordProcessHistory (String formId) throws ServiceException
+	private ModelProcessHistory doRecordProcessHistory (String formId) throws ServiceException
 	{
 		return this.doRecordProcessHistory(this.serviceProcessForm.get(formId), null);
 	}
@@ -777,7 +775,7 @@ implements ServiceWorkFlow
 	 *                  the audit state
 	 * @return
 	 */
-	private boolean doRecordProcessHistory (ModelProcessForm formEntity, Integer auditState) throws ServiceException
+	private ModelProcessHistory doRecordProcessHistory (ModelProcessForm formEntity, Integer auditState) throws ServiceException
 	{
 		if (formEntity != null)
 		{
@@ -800,7 +798,7 @@ implements ServiceWorkFlow
 				
 				this.serviceProcessHistory.save(procHistory);
 				
-				return true;
+				return procHistory;
 			}
 			catch (Exception e)
 			{
@@ -808,7 +806,7 @@ implements ServiceWorkFlow
 			}
 		}
 		
-		return false;
+		return null;
 	}
 	
 	/**
