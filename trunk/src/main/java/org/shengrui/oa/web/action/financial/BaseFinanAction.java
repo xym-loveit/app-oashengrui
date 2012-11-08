@@ -178,7 +178,7 @@ extends FlowBaseAction
 							}
 							
 							// 关联绑定历史审核数据
-							bindAuditHistory(entity);
+							bindProcessHistory(entity);
 							
 							this.serviceFinanExpense.save(entity);
 							
@@ -208,7 +208,7 @@ extends FlowBaseAction
 							}
 							
 							// 关联绑定历史审核数据
-							bindAuditHistory(entity);
+							bindProcessHistory(entity);
 							
 							this.serviceFinanContract.save(entity);
 							
@@ -238,7 +238,7 @@ extends FlowBaseAction
 							}
 							
 							// 关联绑定历史审核数据
-							bindAuditHistory(entity);
+							bindProcessHistory(entity);
 							
 							this.serviceFinanProject.save(entity);
 							
@@ -362,7 +362,7 @@ extends FlowBaseAction
 	 * @param entity
 	 * @throws ServiceException
 	 */
-	private void bindAuditHistory (ModelFinanBase entity) throws ServiceException
+	protected void bindProcessHistory (ModelFinanBase entity) throws ServiceException
 	{
 		if (entity != null)
 		{
@@ -385,6 +385,37 @@ extends FlowBaseAction
 						
 						entity.getProcessHistory().add(auditDatas.get(i));
 					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param entity
+	 * @throws ServiceException
+	 */
+	protected void bindProcessForm (ModelFinanBase entity) throws ServiceException
+	{
+		if (entity != null)
+		{
+			List<ModelProcessForm> processForms = 
+				this.serviceProcessForm.getProcessFormsByFormNo(entity.getFormNo());
+			
+			if (UtilCollection.isNotEmpty(processForms))
+			{
+				if (entity.getApplyForm() == null)
+				{
+					entity.setApplyForm(new HashSet<ModelProcessForm>());
+				}
+				else
+				{
+					entity.getApplyForm().clear();
+				}
+				
+				for (int i = 0; i < processForms.size(); i++)
+				{
+					entity.getApplyForm().add(processForms.get(i));
 				}
 			}
 		}
