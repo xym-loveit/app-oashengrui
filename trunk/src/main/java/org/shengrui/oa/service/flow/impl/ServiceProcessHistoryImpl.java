@@ -38,7 +38,7 @@ extends ServiceGenericImpl<ModelProcessHistory> implements ServiceProcessHistory
 		{
 			DetachedCriteria criteria = DetachedCriteria.forClass(ModelProcessHistory.class);
 			criteria.add(Restrictions.eq("applyFormNo", formNo));
-			criteria.addOrder(Order.asc("sortCode"));
+			criteria.addOrder(Order.asc("auditDate"));
 			return this.daoProcessHistory.getListByCriteria(criteria);
 		}
 		catch (Exception e)

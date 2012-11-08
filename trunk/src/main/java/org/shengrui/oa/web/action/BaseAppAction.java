@@ -535,8 +535,9 @@ extends BaseAction
 		String fileUrls = request.getParameter(Constants.DefaultFileUrlParam);
 		if (entity.getAttachFiles() != null)
 		{
-			entity.setAttachFiles(null);
+			entity.getAttachFiles().clear();
 		}
+		
 		if (UtilString.isNotEmpty(fileUrls))
 		{
 			if (entity.getAttachFiles() == null)

@@ -98,7 +98,7 @@
 	    </set>
 	    
         <set name="processHistory" table="app_process_history" 
-        	lazy="true" cascade="all-delete-orphan" order-by="history_id asc"> 
+        	lazy="true" cascade="all-delete-orphan" order-by="audit_date asc"> 
 	      <cache usage="read-write" />
 	      <key column="form_no" property-ref="formNo"/>  
 	      <one-to-many class="org.shengrui.oa.model.flow.ModelProcessHistory" />
