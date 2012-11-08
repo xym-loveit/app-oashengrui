@@ -140,6 +140,10 @@ $(function(){
 });
 </script>
 
+<style>
+	.xeditor {height: 250px; overflow: auto;}
+	.xeditor p {float: none; line-height: 20px;}
+</style>
 
 <!--- 生成需要展现文件的JSON -->
 <c:if test="${(op eq null || op ne 'view') && (news ne null && fn:length(news.attachFiles) gt 0)}">
@@ -152,11 +156,11 @@ ${tm:fileRestore(news['attachFiles'])}
 		<div class="pageFormContent" layoutH="56">
 			<table cellspacing="10" cellpadding="10" style="border-spacing:12">
 				<tr>
-					<td>新闻标题：</td>
+					<td width="60px">新闻标题：</td>
 					<td colspan="5"><input name="newsSubject" class="required" type="text" size="30" value="${news.newsSubject}" style="width:100%" ${op eq null || op ne 'view' ? '' : 'readonly'} /></td>
 				</tr>
 				<tr>
-					<td>新闻级别：</td>
+					<td width="60px">新闻级别：</td>
 					<td>
 					<c:choose>
 						<c:when test="${op eq null || op ne 'view'}">
@@ -173,7 +177,7 @@ ${tm:fileRestore(news['attachFiles'])}
 						</c:otherwise>
 					</c:choose>
 					</td>
-					<td>可见校区：</td>
+					<td width="60px">可见校区：</td>
 					<td>
 						<select class="" multiple="multiple" size="${fn:length(districts) + 1}" name="districtVisible" style="width:120px" id="combox_districtvisible_news">
 							<!-- <option value="">所有校区</option> -->
@@ -187,7 +191,7 @@ ${tm:fileRestore(news['attachFiles'])}
 					</td>
 				</tr>
 				<tr>
-					<td>新闻类别：</td>
+					<td width="60px">新闻类别：</td>
 					<td>
 					<c:choose>
 						<c:when test="${op eq null || op ne 'view'}">
@@ -209,7 +213,7 @@ ${tm:fileRestore(news['attachFiles'])}
 						</c:otherwise>
 					</c:choose>
 					</td>
-					<td>发布校区：</td>
+					<td width="60px">发布校区：</td>
 					<td>
 						<c:choose>
 							<c:when test="${op eq null || op ne 'view'}">
@@ -226,7 +230,7 @@ ${tm:fileRestore(news['attachFiles'])}
 							</c:otherwise>
 						</c:choose>
 					</td>
-					<td>发布部门：</td>
+					<td width="60px">发布部门：</td>
 					<td>
 						<c:choose>
 							<c:when test="${op eq null || op ne 'view'}">
@@ -252,7 +256,7 @@ ${tm:fileRestore(news['attachFiles'])}
 								<textarea class="editor" id="editor" name="newsContent" rows="10" cols="80">${news.newsContent }</textarea>
 							</c:when>
 							<c:otherwise>
-								<bean:write name="news" property="newsContent" filter="false" />
+								<textarea class="editor" id="editor" name="newsContent" rows="10" cols="80" readonly>${news.newsContent }</textarea>
 							</c:otherwise>
 						</c:choose>
 					</td>
