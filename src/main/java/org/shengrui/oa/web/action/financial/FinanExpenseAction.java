@@ -252,7 +252,6 @@ extends BaseFinanAction
 	{
 		try
 		{
-			// boolean isCreation = false;
 			ModelProcessForm procForm = null;
 			
 			ModelFinanExpense expenseInfo = null;
@@ -284,17 +283,9 @@ extends BaseFinanAction
 			else
 			{
 				// 创建
-				// isCreation = true;
-				
 				expenseInfo = formEntity;
 				expenseInfo.setFormNo(AppUtil.genFormNo(FINAN_FORM_KEY_EXPENSE));
 				expenseInfo.setEntryDateTime(new Date());
-				expenseInfo.setEntryId(Integer.valueOf(ContextUtil.getCurrentUser().getEmployeeId()));
-				
-				// expenseInfo.setAuditState(ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue());
-				
-				String typeId = request.getParameter("applyFormTypeId");
-				expenseInfo.setApplyFormType(this.serviceProcessType.get(typeId));
 			}
 			
 			expenseInfo.setEmployee(
@@ -308,9 +299,13 @@ extends BaseFinanAction
 			
 			expenseInfo.setEmpPhoneNo(request.getParameter("emp.phoneNo"));
 			
-			//if (isCreation)
-			//{
-			// 进入流程...
+			expenseInfo.setAuditState(ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue());
+			
+			expenseInfo.setEntryId(Integer.valueOf(ContextUtil.getCurrentUser().getEmployeeId()));
+			
+			String typeId = request.getParameter("applyFormTypeId");
+			expenseInfo.setApplyFormType(this.serviceProcessType.get(typeId));
+			
 			procForm = this.serviceWorkFlow.doStartProcess(
 					expenseInfo.getApplyFormType().getId(), 
 					null, 
@@ -329,13 +324,9 @@ extends BaseFinanAction
 				// 流程尚未开始就已经结束. (很有可能是所有审批节点都无法触及)
 				this.serviceWorkFlow.doEndProcess(expenseInfo.getFormNo(), true);
 			}
-			//}
-			//else
-			//{
-				// 重置流程...
-			//	procForm = this.serviceWorkFlow.resetProcess(expenseInfo.getFormNo());
-			//	expenseInfo.setAuditState(ModelProcessForm.EProcessFormStatus.RETURNED.getValue());
-			//}
+			
+			// 绑定审批流程节点
+			this.bindProcessForm(expenseInfo);
 			
 			// 设置岗位附件
 			this.handleFileAttachments(expenseInfo, request);

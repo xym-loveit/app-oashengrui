@@ -247,7 +247,6 @@ extends BaseFinanAction
 	{
 		try
 		{
-			boolean isCreation = false;
 			ModelProcessForm procForm = null;
 			
 			ModelFinanContract contractInfo = null;
@@ -279,17 +278,9 @@ extends BaseFinanAction
 			else
 			{
 				// 创建
-				isCreation = true;
-				
 				contractInfo = formEntity;
 				contractInfo.setFormNo(AppUtil.genFormNo(FINAN_FORM_KEY_CONTRACT));
 				contractInfo.setEntryDateTime(new Date());
-				contractInfo.setEntryId(Integer.valueOf(ContextUtil.getCurrentUser().getEmployeeId()));
-				
-				// expenseInfo.setAuditState(ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue());
-				
-				String typeId = request.getParameter("applyFormTypeId");
-				contractInfo.setApplyFormType(this.serviceProcessType.get(typeId));
 			}
 			
 			contractInfo.setEmployee(
@@ -303,35 +294,36 @@ extends BaseFinanAction
 			
 			contractInfo.setEmpPhoneNo(request.getParameter("emp.phoneNo"));
 			
-			if (isCreation)
+			contractInfo.setEntryId(Integer.valueOf(ContextUtil.getCurrentUser().getEmployeeId()));
+			
+			contractInfo.setAuditState(ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue());
+			
+			String typeId = request.getParameter("applyFormTypeId");
+			contractInfo.setApplyFormType(this.serviceProcessType.get(typeId));
+			
+			// 进入流程...
+			procForm = this.serviceWorkFlow.doStartProcess(
+					contractInfo.getApplyFormType().getId(), 
+					null, 
+					contractInfo.getApplyAmt(), 
+					contractInfo.getFormNo(), 
+					contractInfo.getEmployee());
+			
+			if (procForm != null)
 			{
-				// 进入流程...
-				procForm = this.serviceWorkFlow.doStartProcess(
-						contractInfo.getApplyFormType().getId(), 
-						null, 
-						contractInfo.getApplyAmt(), 
-						contractInfo.getFormNo(), 
-						contractInfo.getEmployee());
-				
-				if (procForm != null)
-				{
-					contractInfo.setCurrentProcDepId(procForm.getToDepartmentIds());
-					contractInfo.setCurrentProcPosId(procForm.getToPositionIds());
-					contractInfo.setCurrentProcDistrictId(procForm.getToDistrictIds());
-				}
-				else
-				{
-					// 流程尚未开始就已经结束. (很有可能是所有审批节点都无法触及)
-					this.serviceWorkFlow.doEndProcess(contractInfo.getFormNo(), true);
-				}
+				contractInfo.setCurrentProcDepId(procForm.getToDepartmentIds());
+				contractInfo.setCurrentProcPosId(procForm.getToPositionIds());
+				contractInfo.setCurrentProcDistrictId(procForm.getToDistrictIds());
 			}
 			else
 			{
-				// 重置流程...
-				procForm = this.serviceWorkFlow.resetProcess(contractInfo.getFormNo());
-				contractInfo.setAuditState(ModelProcessForm.EProcessFormStatus.RETURNED.getValue());
+				// 流程尚未开始就已经结束. (很有可能是所有审批节点都无法触及)
+				this.serviceWorkFlow.doEndProcess(contractInfo.getFormNo(), true);
 			}
 			
+			// 绑定审批流程节点
+			this.bindProcessForm(contractInfo);
+						
 			// 设置岗位附件
 			this.handleFileAttachments(contractInfo, request);
 						

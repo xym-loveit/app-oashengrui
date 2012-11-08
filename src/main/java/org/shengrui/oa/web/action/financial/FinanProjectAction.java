@@ -247,7 +247,6 @@ extends BaseFinanAction
 	{
 		try
 		{
-			boolean isCreation = false;
 			ModelProcessForm procForm = null;
 			
 			ModelFinanProject projectInfo = null;
@@ -278,17 +277,9 @@ extends BaseFinanAction
 			else
 			{
 				// 创建
-				isCreation = true;
-				
 				projectInfo = formEntity;
 				projectInfo.setFormNo(AppUtil.genFormNo(FINAN_FORM_KEY_PROJECT));
 				projectInfo.setEntryDateTime(new Date());
-				projectInfo.setEntryId(Integer.valueOf(ContextUtil.getCurrentUser().getEmployeeId()));
-				
-				// expenseInfo.setAuditState(ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue());
-				
-				String typeId = request.getParameter("applyFormTypeId");
-				projectInfo.setApplyFormType(this.serviceProcessType.get(typeId));
 			}
 			
 			projectInfo.setEmployee(
@@ -306,35 +297,36 @@ extends BaseFinanAction
 			projectInfo.setEmpPhoneNo(
 					request.getParameter("emp.phoneNo"));
 			
-			if (isCreation)
+			projectInfo.setEntryId(Integer.valueOf(ContextUtil.getCurrentUser().getEmployeeId()));
+			
+			projectInfo.setAuditState(ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue());
+			
+			String typeId = request.getParameter("applyFormTypeId");
+			projectInfo.setApplyFormType(this.serviceProcessType.get(typeId));
+			
+			// 进入流程...
+			procForm = this.serviceWorkFlow.doStartProcess(
+					projectInfo.getApplyFormType().getId(), 
+					null, 
+					projectInfo.getApplyAmt(), 
+					projectInfo.getFormNo(), 
+					projectInfo.getEmployee());
+			
+			if (procForm != null)
 			{
-				// 进入流程...
-				procForm = this.serviceWorkFlow.doStartProcess(
-						projectInfo.getApplyFormType().getId(), 
-						null, 
-						projectInfo.getApplyAmt(), 
-						projectInfo.getFormNo(), 
-						projectInfo.getEmployee());
-				
-				if (procForm != null)
-				{
-					projectInfo.setCurrentProcDepId(procForm.getToDepartmentIds());
-					projectInfo.setCurrentProcPosId(procForm.getToPositionIds());
-					projectInfo.setCurrentProcDistrictId(procForm.getToDistrictIds());
-				}
-				else
-				{
-					// 流程尚未开始就已经结束. (很有可能是所有审批节点都无法触及)
-					this.serviceWorkFlow.doEndProcess(projectInfo.getFormNo(), true);
-				}
+				projectInfo.setCurrentProcDepId(procForm.getToDepartmentIds());
+				projectInfo.setCurrentProcPosId(procForm.getToPositionIds());
+				projectInfo.setCurrentProcDistrictId(procForm.getToDistrictIds());
 			}
 			else
 			{
-				// 重置流程...
-				procForm = this.serviceWorkFlow.resetProcess(projectInfo.getFormNo());
-				projectInfo.setAuditState(ModelProcessForm.EProcessFormStatus.RETURNED.getValue());
+				// 流程尚未开始就已经结束. (很有可能是所有审批节点都无法触及)
+				this.serviceWorkFlow.doEndProcess(projectInfo.getFormNo(), true);
 			}
 			
+			// 绑定审批流程节点
+			this.bindProcessForm(projectInfo);
+						
 			// 设置附件
 			this.handleFileAttachments(projectInfo, request);
 						

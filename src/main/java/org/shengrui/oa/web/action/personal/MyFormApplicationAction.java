@@ -2,6 +2,7 @@ package org.shengrui.oa.web.action.personal;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.flow.ModelProcessForm;
+import org.shengrui.oa.model.flow.ModelProcessHistory;
 import org.shengrui.oa.model.flow.ModelProcessType;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.hrm.ModelHrmEmployeeDevelop;
@@ -28,7 +30,9 @@ import org.shengrui.oa.util.WebActionUtil;
 import org.shengrui.oa.web.action.flow.FlowBaseAction;
 
 import cn.trymore.core.bean.PairObject;
+import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.util.UtilBean;
+import cn.trymore.core.util.UtilCollection;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
@@ -317,62 +321,67 @@ extends FlowBaseAction
 								request.getParameter("toPosId"), false);
 					}
 						
-					if (isCreation)
+					//if (isCreation)
+					//{
+					// 进入流程...
+					ModelSchoolDepartmentPosition filterPosition =  entity.getToPosition();
+					if (entity.getToPosition() == null)
 					{
-						// 进入流程...
-						ModelSchoolDepartmentPosition filterPosition =  entity.getToPosition();
-						if (entity.getToPosition() == null)
+						filterPosition = entity.getFromPosition();
+					}
+					
+					Object condValue = null;
+					if (isTransfer)
+					{
+						ModelSchoolDistrict distDistrict = entity.getToDistrict();
+						if (entity.getToDistrict() == null)
 						{
-							filterPosition = entity.getFromPosition();
+							distDistrict = entity.getFromDistrict();
 						}
 						
-						Object condValue = null;
-						if (isTransfer)
+						if (entity.getEmployee().getEmployeeDistrict().getId().equals(distDistrict.getId()))
 						{
-							ModelSchoolDistrict distDistrict = entity.getToDistrict();
-							if (entity.getToDistrict() == null)
-							{
-								distDistrict = entity.getFromDistrict();
-							}
-							
-							if (entity.getEmployee().getEmployeeDistrict().getId().equals(distDistrict.getId()))
-							{
-								// 校区内
-								condValue = 0;
-							}
-							else
-							{
-								// 跨校区
-								condValue = 1;
-							}
-						}
-						
-						procForm = this.serviceWorkFlow.doStartProcess(
-								entity.getApplyFormType().getId(), 
-								filterPosition,
-								entity.getToDistrict(),
-								condValue, 
-								entity.getFormNo(), 
-								entity.getEmployee());
-						
-						if (procForm != null)
-						{
-							entity.setCurrentProcDepId(procForm.getToDepartmentIds());
-							entity.setCurrentProcPosId(procForm.getToPositionIds());
-							entity.setCurrentProcDistrictId(procForm.getToDistrictIds());
+							// 校区内
+							condValue = 0;
 						}
 						else
 						{
-							// 流程尚未开始就已经结束. (很有可能是所有审批节点都无法触及)
-							this.serviceWorkFlow.doEndProcess(entity.getFormNo(), true);
+							// 跨校区
+							condValue = 1;
 						}
+					}
+					
+					procForm = this.serviceWorkFlow.doStartProcess(
+							entity.getApplyFormType().getId(), 
+							filterPosition,
+							entity.getToDistrict(),
+							condValue, 
+							entity.getFormNo(), 
+							entity.getEmployee());
+					
+					if (procForm != null)
+					{
+						entity.setCurrentProcDepId(procForm.getToDepartmentIds());
+						entity.setCurrentProcPosId(procForm.getToPositionIds());
+						entity.setCurrentProcDistrictId(procForm.getToDistrictIds());
 					}
 					else
 					{
-						// 重置流程...
-						procForm = this.serviceWorkFlow.resetProcess(entity.getFormNo());
-						entity.setAuditState(ModelProcessForm.EProcessFormStatus.RETURNED.getValue());
+						// 流程尚未开始就已经结束. (很有可能是所有审批节点都无法触及)
+						this.serviceWorkFlow.doEndProcess(entity.getFormNo(), true);
 					}
+					//}
+					//else
+					//{
+						// 重置流程...
+					//	procForm = this.serviceWorkFlow.resetProcess(entity.getFormNo());
+					//	entity.setAuditState(ModelProcessForm.EProcessFormStatus.RETURNED.getValue());
+					// }
+					
+					entity.setAuditState(ModelProcessForm.EProcessFormStatus.ONAPPROVING.getValue());
+					
+					// 绑定审批流程节点
+					this.bindProcessForm(entity);
 					
 					// 设置附件
 					this.handleFileAttachments(entity, request);
@@ -514,6 +523,9 @@ extends FlowBaseAction
 						entity.setCurrentProcPosId(procForm.getToPositionIds());
 						entity.setCurrentProcDistrictId(procForm.getToDistrictIds());
 					}
+					
+					// 关联绑定历史审核数据
+					this.bindProcessHistory(entity);
 					
 					this.serviceHrmEmployeeDevelop.save(entity);
 					
@@ -804,6 +816,69 @@ extends FlowBaseAction
 		return statu;
 	}
 	
+	/**
+	 * 
+	 * @param entity
+	 * @throws ServiceException
+	 */
+	protected void bindProcessHistory (ModelHrmEmployeeDevelop entity) throws ServiceException
+	{
+		if (entity != null)
+		{
+			List<ModelProcessHistory> auditDatas = 
+				this.serviceWorkFlow.getProcessHistoriesByFormNo(entity.getFormNo());
+			
+			if (UtilCollection.isNotEmpty(auditDatas))
+			{
+				int size = UtilCollection.isNotEmpty(entity.getProcessHistory()) ? 
+								entity.getProcessHistory().size() : 0;
+				
+				if (size < auditDatas.size())
+				{
+					for (int i = size; i < auditDatas.size(); i++)
+					{
+						if (entity.getProcessHistory() == null) 
+						{
+							entity.setProcessHistory(new HashSet<ModelProcessHistory>());
+						}
+						
+						entity.getProcessHistory().add(auditDatas.get(i));
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param entity
+	 * @throws ServiceException
+	 */
+	protected void bindProcessForm (ModelHrmEmployeeDevelop entity) throws ServiceException
+	{
+		if (entity != null)
+		{
+			List<ModelProcessForm> processForms = 
+				this.serviceProcessForm.getProcessFormsByFormNo(entity.getFormNo());
+			
+			if (UtilCollection.isNotEmpty(processForms))
+			{
+				if (entity.getApplyForm() == null)
+				{
+					entity.setApplyForm(new HashSet<ModelProcessForm>());
+				}
+				else
+				{
+					entity.getApplyForm().clear();
+				}
+				
+				for (int i = 0; i < processForms.size(); i++)
+				{
+					entity.getApplyForm().add(processForms.get(i));
+				}
+			}
+		}
+	}
 	
 	public static Logger getLogger()
 	{
