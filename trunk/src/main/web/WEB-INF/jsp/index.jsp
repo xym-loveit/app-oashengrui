@@ -11,28 +11,28 @@ $(function(){
 	
 	//我的任务
 	$.post("app/personal/task.do?action=pageTaskIndex&objOut&numPerPage=5",{},function(data){
-		$("#task").html(data);
-		var size=$('#task tr').size();
+		$("#idx_tb_task").html(data);
+		var size=$('#idx_tb_task tr').size();
 	  	for(i=0;i<size;i++){
-	  		var id=$('#task tr').eq(i).find('td').eq(0).html();
-	  		var value=$('#task tr').eq(i).find('td').eq(1).html();
+	  		var id=$('#idx_tb_task tr').eq(i).find('td').eq(0).html();
+	  		var value=$('#idx_tb_task tr').eq(i).find('td').eq(1).html();
 	  		result='<a href="app/personal/task.do?action=dialogTaskPage&id='+id+'&op=view" title="任务`' + value + '`-查看" target="dialog" rel="dsk_task_' + id + '" width="750" height="530">'+value+'</a>';
-			$('#task tr').eq(i).find('td').eq(1).html(result);
+			$('#idx_tb_task tr').eq(i).find('td').eq(1).html(result);
 	  	}
-		//initATags($("#task"));
+		//initATags($("#idx_tb_task"));
 	},'text');
 	
 	//待我审批
 	$.post("app/personal/approval.do?action=pageMyApproval&objOut&numPerPage=5",{},function(data){
-		$("#approval").html(data);
-		var size=$('#approval tr').size();
+		$("#idx_tb_approval").html(data);
+		var size=$('#idx_tb_approval tr').size();
 	  	for(i=0;i<size;i++){
-	  		var id=$('#approval tr').eq(i).find('td').eq(0).html();
-	  		var value=$('#approval tr').eq(i).find('td').eq(1).html();
+	  		var id=$('#idx_tb_approval tr').eq(i).find('td').eq(0).html();
+	  		var value=$('#idx_tb_approval tr').eq(i).find('td').eq(1).html();
 			
 			result = '';
 			
-			type = $($('#approval tr').eq(i)).attr("alt");
+			type = $($('#idx_tb_approval tr').eq(i)).attr("alt");
 			if (type == "news") {
 				result='<a href="app/admin.do?action=adminPageEntryDetail&id='+id+'&op=view" target="dialog" width="900" height="500" rel="dsk_approval_news_'+id+'">'+value+'</a>';
 			} else if (type == "task") {
@@ -48,84 +48,84 @@ $(function(){
 			} else if (type == "fina-project") {
 				result='<a href="app/finan/project.do?action=diaglogFinaProjectPage&id='+id+'&op=view" target="dialog" width="1150" height="640" rel="dsk_approval_fprj_'+id+'">'+value+'</a>';
 			}
-			$('#approval tr').eq(i).find('td').eq(1).html(result);
+			$('#idx_tb_approval tr').eq(i).find('td').eq(1).html(result);
 	  	}
 	},'text');
 	
 	//我的申请
 	$.post("app/personal/application_form.do?action=pageMyApplicationIndex&objOut&numPerPage=5",{},function(data){
-		$("#application").html(data);
-		var size=$('#application tr').size();
+		$("#idx_tb_application").html(data);
+		var size=$('#idx_tb_application tr').size();
 	  	for(i=0;i<size;i++){
-	  		var id=$('#application tr').eq(i).find('td').eq(0).html();
-	  		var value=$('#application tr').eq(i).find('td').eq(1).html();
+	  		var id=$('#idx_tb_application tr').eq(i).find('td').eq(0).html();
+	  		var value=$('#idx_tb_application tr').eq(i).find('td').eq(1).html();
 	  		result='<a href="app/personal/application_form.do?action=dialogApplicationFormPage&formId='+id+'&op=view" title="查看申请单`'+value+'`" height="640" width="1150" rel="dsk_application_'+id+'" target="dialog">'+value+'</a>';
-	  	$('#application tr').eq(i).find('td').eq(1).html(result);
+	  	$('#idx_tb_application tr').eq(i).find('td').eq(1).html(result);
 	  	}
 	},'text');
 	
 	//我的信息
 	$.post("app/message.do?action=pageMessageReceivedIndex&objOut&numPerPage=5",{},function(data){
-		$("#message").html(data);
-		var size=$('#message tr').size();
+		$("#idx_tb_message").html(data);
+		var size=$('#idx_tb_message tr').size();
 	  	for(i=0;i<size;i++){
-	  		var id=$('#message tr').eq(i).find('td').eq(0).html();
-	  		var mId=$('#message tr').eq(i).find('td').eq(1).html();
-	  		var value=$('#message tr').eq(i).find('td').eq(2).html();
+	  		var id=$('#idx_tb_message tr').eq(i).find('td').eq(0).html();
+	  		var mId=$('#idx_tb_message tr').eq(i).find('td').eq(1).html();
+	  		var value=$('#idx_tb_message tr').eq(i).find('td').eq(2).html();
 	  		result='<a href="app/message.do?action=dialogMessagePage&msgId='+mId+'&msgInId='+id+'" title="查看消息" height="380" width="640" target="dialog" rel="dsk_msg_'+id+'">'+value+'</a>';
-	  	$('#message tr').eq(i).find('td').eq(2).html(result);
+	  	$('#idx_tb_message tr').eq(i).find('td').eq(2).html(result);
 	  	}
 	},'text');
 	
 	//我的会议
 	$.post("app/personal/conference.do?action=myConferenceIndex&objOut&numPerPage=5",{},function(data){
-		$("#conference").html(data);
-		var size=$('#conference tr').size();
+		$("#idx_tb_conference").html(data);
+		var size=$('#idx_tb_conference tr').size();
 	  	for(i=0;i<size;i++){
-	  		var id=$('#conference tr').eq(i).find('td').eq(0).html();
-	  		var value=$('#conference tr').eq(i).find('td').eq(1).html();
+	  		var id=$('#idx_tb_conference tr').eq(i).find('td').eq(0).html();
+	  		var value=$('#idx_tb_conference tr').eq(i).find('td').eq(1).html();
 	  		result='<a href="app/personal/conference.do?action=conferenceDetail&id='+id+'&op=view" height="450" width="1150" title="查看会议`'+value+'`" target="dialog" rel="dsk_confer_'+id+'">'+value+'</a>';
-	  	$('#conference tr').eq(i).find('td').eq(1).html(result);
+	  	$('#idx_tb_conference tr').eq(i).find('td').eq(1).html(result);
 	  	}
 	},'text');
 	
 	
 	//我的新闻
 	$.post("app/personal/news.do?action=pageMyNews&objOut&numPerPage=5",{},function(data){
-		$("#news").html(data);
-		var size=$('#news tr').size();
+		$("#idx_tb_news").html(data);
+		var size=$('#idx_tb_news tr').size();
 	  	for(i=0;i<size;i++){
-	  		var value=$('#news tr').eq(i).find('td').eq(2).html();
-	  		var id=$('#news tr').eq(i).find('td').eq(0).html();
+	  		var value=$('#idx_tb_news tr').eq(i).find('td').eq(2).html();
+	  		var id=$('#idx_tb_news tr').eq(i).find('td').eq(0).html();
 	  		result='<a href="app/admin/news.do?action=actionNewsScan&id='+id+'" height="650" width="900" title="查看新闻`'+value+'`" target="dialog" rel="dsk_news_'+id+'">'+value+'</a>';
-	  	$('#news tr').eq(i).find('td').eq(2).html(result);
+	  	$('#idx_tb_news tr').eq(i).find('td').eq(2).html(result);
 	  	}
 	},'text');
 	
 	
 	//我的文档
 	$.post("app/personal/doc.do?action=pageMyDoc&objOut&numPerPage=5",{},function(data){
-		$("#doc").html(data)
-		var size=$('#doc tr').size();
+		$("#idx_tb_doc").html(data)
+		var size=$('#idx_tb_doc tr').size();
 	  	for(i=0;i<size;i++){
-	  		var id=$('#doc tr').eq(i).find('td').eq(0).html();
-	  		var doc_path = $('#doc tr').eq(i).find('td').eq(1).attr("alt");
-			var doc_name = $('#doc tr').eq(i).find('td').eq(1).html();
-			var doc_type = $('#doc tr').eq(i).find('td').eq(2).html();
-			// value=$('#doc tr').eq(i).find('td').eq(1).html();
+	  		var id=$('#idx_tb_doc tr').eq(i).find('td').eq(0).html();
+	  		var doc_path = $('#idx_tb_doc tr').eq(i).find('td').eq(1).attr("alt");
+			var doc_name = $('#idx_tb_doc tr').eq(i).find('td').eq(1).html();
+			var doc_type = $('#idx_tb_doc tr').eq(i).find('td').eq(2).html();
+			// value=$('#idx_tb_doc tr').eq(i).find('td').eq(1).html();
 	  		var result='<a href="file-download?path=' + doc_path + '" target="_blank" height="380" width="850" title="文档`'+doc_name+'`下载" rel="dsk_doc_'+id+'">'+doc_name+'</a>';
-			$('#doc tr').eq(i).find('td').eq(1).html(result);
+			$('#idx_tb_doc tr').eq(i).find('td').eq(1).html(result);
 	  	}
 	},'text');
 	
 	$.post("app/personal/jobapplication.do?action=pageJobOnHiring&objOut&numPerPage=5",{},function(data){
-		$("#jobs").html(data)
-		var size=$('#jobs tr').size();
+		$("#idx_tb_jobs").html(data)
+		var size=$('#idx_tb_jobs tr').size();
 	  	for(i=0;i<size;i++){
-	  		var id=$('#jobs tr').eq(i).find('td').eq(0).html();
-	  		var value=$('#jobs tr').eq(i).find('td').eq(1).html();
+	  		var id=$('#idx_tb_jobs tr').eq(i).find('td').eq(0).html();
+	  		var value=$('#idx_tb_jobs tr').eq(i).find('td').eq(1).html();
 	  		result='<a href="app/hrm/hire.do?action=hrmPageJobResume&jobId='+id+'&source=1" target="dialog" height="460" width="830" title="我要应聘`'+value+'`" rel="dsk_application_'+id+'">'+value+'</a>';
-			$('#jobs tr').eq(i).find('td').eq(1).html(result);
+			$('#idx_tb_jobs tr').eq(i).find('td').eq(1).html(result);
 	  	}
 	},'text');
 	
@@ -138,7 +138,7 @@ $(function(){
 		<div class="panel" minH="60">
 			<h1><span class="icon-mymsg icon">个人消息<label style="float:right;margin-top:9px;"><a href="app/message.do?action=pageMessageReceivedIndex" target="navTab">更多>></a></label></span></h1>
 	        <div>
-	          <table class="table" width="100%">
+	          <table class="table" width="100%" id="idx_msg">
 		       <thead>
 			    <tr>
 			      <th style="display: none;"></th>
@@ -148,7 +148,7 @@ $(function(){
 				 <th align="center">发送时间</th>
 			   </tr>
 		     </thead>
-		     <tbody id="message"></tbody>
+		     <tbody id="idx_tb_message"></tbody>
 		    </table>
 		    </div>
 		</div>
@@ -156,7 +156,7 @@ $(function(){
 		<div class="panel" minH="60">
 			<h1><span class="icon-myconference icon">我的会议<label style="float:right;margin-top:9px;"><a href="app/personal/conference.do?action=myConferenceIndex" target="navTab">更多>></a></label></span></h1>
 			<div>
-			<table class="table" width="100%">
+			<table class="table" width="100%" id="idx_conference">
 		<thead>
 			<tr>
 			    <th style="display: none;"></th>
@@ -165,7 +165,7 @@ $(function(){
 				<th align="center">状态</th>
 			</tr>
 		</thead>
-		<tbody id="conference">
+		<tbody id="idx_tb_conference">
 		</tbody>
 		</table>
 			</div>
@@ -174,7 +174,7 @@ $(function(){
 		<div class="panel" minH="60">
 			<h1><span class="icon-mynews icon">我的新闻<label style="float:right;margin-top:9px;"><a href="app/personal/news.do?action=pageMyNews" target="navTab">更多>></a></label></span></h1>
 			<div>
-			<table class="table" width="100%">
+			<table class="table" width="100%" id="idx_news">
 		<thead>
 			<tr>
 				<th style="display: none;"></th>
@@ -183,7 +183,7 @@ $(function(){
 				<th align="center">发布时间</th>
 			</tr>
 		</thead>
-		<tbody id="news"></tbody>
+		<tbody id="idx_tb_news"></tbody>
 		</table>
 			</div>
 		</div>
@@ -191,7 +191,7 @@ $(function(){
 		<div class="panel" minH="60">
 			<h1><span class="icon-hrjobreg icon">我要应聘<label style="float:right;margin-top:9px;"><a href="app/personal/jobapplication.do?action=pageJobOnHiring" target="navTab">更多>></a></label></span></h1>
 			<div>
-				<table class="table" width="100%">
+				<table class="table" width="100%" id="idx_jobs">
 					<thead>
 						<tr>
 							<th style="display: none;"></th>
@@ -200,7 +200,7 @@ $(function(){
 							<th align="center">截止时间</th>
 						</tr>
 					</thead>
-					<tbody id="jobs">
+					<tbody id="idx_tb_jobs">
 					</tbody>
 				</table>
 			</div>
@@ -213,7 +213,7 @@ $(function(){
 		<div class="panel" minH="60">
 			<h1><span class="icon-myapproval icon">待我审批<label style="float:right;margin-top:9px;"><a href="app/personal/approval.do?action=pageMyApproval" target="navTab">更多>></a></label></span></h1>
 			<div>
-			<table class="table" width="100%">
+			<table class="table" width="100%" id="idx_approval">
 		<thead>
 			<tr>
 			    <th style="display: none;"></th>
@@ -222,7 +222,7 @@ $(function(){
 				<th align="center">申请时间</th>
 			</tr>
 		</thead>
-		<tbody id="approval">
+		<tbody id="idx_tb_approval">
 		</tbody>
 		</table>
 			</div>
@@ -231,7 +231,7 @@ $(function(){
 		<div class="panel" minH="60">
 			<h1><span class="icon-myplan icon">我的任务<label style="float:right;margin-top:9px;"><a href="app/personal/task.do?action=pageTaskIndex" target="navTab">更多>></a></label></span></h1>
 			<div>
-			<table class="table" width="100%">
+			<table class="table" width="100%" id="idx_mytask">
 		<thead>
 			<tr>
 			    <th style="display: none;"></th>
@@ -240,7 +240,7 @@ $(function(){
 				<th align="center">发起人</th>
 			</tr>
 		</thead>
-		<tbody id="task">
+		<tbody id="idx_tb_task">
 			</tbody>
 		</table>
 		</div>
@@ -249,7 +249,7 @@ $(function(){
 		<div class="panel" minH="60">
 			<h1><span class="icon-myapply icon">我的申请<label style="float:right;margin-top:9px;"><a href="app/personal/application_form.do?action=pageMyApplicationIndex" target="navTab">更多>></a></label></span></h1>
 			<div>
-			<table class="table" width="100%">
+			<table class="table" width="100%" id="idx_myapply">
 		<thead>
 			<tr>
 			    <th style="display: none;"></th>
@@ -258,7 +258,7 @@ $(function(){
 				<th align="center">审批状态</th>
 			</tr>
 		</thead>
-		<tbody id="application">
+		<tbody id="idx_tb_application">
 		</tbody>
 		</table>
 			</div>
@@ -267,7 +267,7 @@ $(function(){
 		<div class="panel" minH="60">
 			<h1><span class="icon-infodoc icon">我的文档<label style="float:right;margin-top:9px;"><a href="app/personal/doc.do?action=pageMyDoc" target="navTab">更多>></a></label></span></h1>
 			<div>
-			<table class="table" width="100%">
+			<table class="table" width="100%" id="idx_infodoc">
 		<thead>
 			<tr>
 			    <th style="display: none;"></th>
@@ -276,7 +276,7 @@ $(function(){
 				<th align="center">文档时间</th>
 			</tr>
 		</thead>
-		<tbody id="doc"></tbody>
+		<tbody id="idx_tb_doc"></tbody>
 		</table>
 			</div>
 		</div>

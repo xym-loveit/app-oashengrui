@@ -41,9 +41,9 @@
 					$(this).on('click', function (ev) {
 						ev.preventDefault();
 						if (isFileImage(url)) {
-							$("#editor").xheditor().pasteHTML('<img src="' + APP_BASE_PATH + 'uploads/' + url + '" title="' + name + '" />');
+							$('#editor').xheditor(true)[0].xheditor.pasteHTML('<img src="' + APP_BASE_PATH + 'uploads/' + url + '" title="' + name + '" />');
 						} else {
-							$("#editor").xheditor().pasteHTML('<a target="_blank" href="' + APP_BASE_PATH + 'uploads/' + url + '">' + name + '</a>')
+							$('#editor').xheditor(true)[0].xheditor.pasteHTML('<a target="_blank" href="' + APP_BASE_PATH + 'uploads/' + url + '">' + name + '</a>')
 						}
 					});
 				});
@@ -301,7 +301,7 @@ ${tm:fileRestore(news['attachFiles'])}
 					<logic:equal name="op" value="view">
 						<li><div class="buttonActive"><div class="buttonContent"><button id="pass" type="submit">通过</button></div></div></li>
 						<li><div class="buttonActive"><div class="buttonContent"><button id="return" type="submit">退回</button></div></div></li>
-						<li><div class="buttonActive"><div class="buttonContent"><a class="icon" href="app/admin/news.do?action=actionNewsScan&id=${news.id }&op=view" target="dialog" rel="admin_entrycheck" width="900" height="650"><button>预览</button></a></div></div></li>
+						<li><div class="buttonActive"><div class="buttonContent"><a class="icon" href="app/admin/news.do?action=actionNewsScan&id=${news.id }&op=view" target="dialog" rel="admin_entrycheck" width="900" height="550"><button>预览</button></a></div></div></li>
 					</logic:equal>
 				</logic:present>
 				<logic:notPresent name="op">
