@@ -24,6 +24,8 @@
 	<link href="resources/themes/css/core.css" rel="stylesheet" type="text/css" media="screen"/>
 	<!--<link href="resources/js/uploadify/css/uploadify.css" rel="stylesheet" type="text/css" media="screen"/>-->
 	<link href="resources/css/common.css" rel="stylesheet" type="text/css" media="screen"/>
+	<link href="resources/js/xheditor/xheditor_skin/default/ui.css" rel="stylesheet" type="text/css" media="screen"/>
+	<link href="resources/js/xheditor/xheditor_skin/default/iframe.css" rel="stylesheet" type="text/css" media="screen"/>
 	
 	<!--[if IE]>
 	<link href="resources/themes/css/ieHack.css" rel="stylesheet" type="text/css" media="screen"/>
@@ -34,7 +36,7 @@
 	<script src="resources/js/dwz/jquery.cookie.js" type="text/javascript"></script>
 	<script src="resources/js/dwz/jquery.validate.js" type="text/javascript"></script>
 	<script src="resources/js/dwz/jquery.bgiframe.js" type="text/javascript"></script>
-	<script src="resources/js/xheditor/xheditor-1.1.12-zh-cn.min.js" type="text/javascript"></script>
+	<script src="resources/js/xheditor/xheditor-zh-cn.js" type="text/javascript"></script>
 	<!--
 	<script src="resources/js/uploadify//scripts/swfobject.js" type="text/javascript"></script>
 	<script src="resources/js/uploadify//scripts/jquery.resources/js/uploadify/.v2.1.0.js" type="text/javascript"></script>

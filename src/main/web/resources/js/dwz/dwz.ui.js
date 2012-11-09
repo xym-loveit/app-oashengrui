@@ -180,7 +180,7 @@ function initUI(_box){
 	if ($.fn.xheditor) {
 		$("textarea.editor", $p).each(function(){
 			var $this = $(this);
-			var op = {html5Upload:false, skin: 'vista',tools: $this.attr("tools") || 'full'};
+			var op = {html5Upload:false, skin: 'default',tools: $this.attr("tools") || 'full', readonly: $this.attr("readonly") || false};
 			var upAttrs = [
 				["upLinkUrl","upLinkExt","zip,rar,txt"],
 				["upImgUrl","upImgExt","jpg,jpeg,gif,png"],
@@ -198,7 +198,8 @@ function initUI(_box){
 				}
 			});
 			
-			$this.xheditor(op);
+			$this.xheditor(true, op);
+			//$this.xheditor(true,{tools:'full',upLinkUrl:"upload.php",upLinkExt:"zip,rar,txt",upImgUrl:"upload.php",upImgExt:"jpg,jpeg,gif,png",upFlashUrl:"upload.php",upFlashExt:"swf",upMediaUrl:"upload.php",upMediaExt:"avi", readonly: true});
 		});
 	}
 	

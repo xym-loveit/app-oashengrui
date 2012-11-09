@@ -107,16 +107,16 @@ ${tm:fileRestore(newsScanInfo['attachFiles'])}
 			</tr>
 		</table>
 	</div>
-	<div class="newsDetail" style="height: 420px; overflow: auto;">
+	<div class="newsDetail" style="overflow: auto;">
 		<table class="newsContent" cellspacing="10" cellpadding="10" style="border-spacing:12">
 			<tr>
 				<td colspan="5">
 					<c:choose>
 						<c:when test="${op eq null || op ne 'view'}">
-							<textarea class="editor" name="newsContent" rows="20" cols="95">${newsScanInfo.newsContent }</textarea>
+							<textarea class="editor" name="newsContent" rows="15" cols="95">${newsScanInfo.newsContent }</textarea>
 						</c:when>
 						<c:otherwise>
-							<bean:write name="newsScanInfo" property="newsContent" filter="false" />
+							<textarea class="editor" name="newsContent" rows="15" cols="95" readonly>${newsScanInfo.newsContent }</textarea>
 						</c:otherwise>
 					</c:choose>
 				</td>
