@@ -136,7 +136,7 @@ $(function(){
 	<!--<div class="sortDrag x-panel x-panel-right" width="100">-->
 	<div class="x-panel x-panel-left " width="45%">
 		<div class="panel" minH="60">
-			<h1><span class="icon-mymsg icon">个人消息<label style="float:right;margin-top:9px;"><a href="app/message.do?action=pageMessageReceivedIndex" target="navTab">更多>></a></label></span></h1>
+			<h1><span class="icon-mymsg icon">个人消息<label style="float:right;margin-top:9px;"><a title="我的短消息" rel="nav_msg" href="app/message.do?action=pageMessageReceivedIndex" target="navTab">更多>></a></label></span></h1>
 	        <div>
 	          <table class="table" width="100%" id="idx_msg">
 		       <thead>
@@ -154,7 +154,7 @@ $(function(){
 		</div>
 		
 		<div class="panel" minH="60">
-			<h1><span class="icon-myconference icon">我的会议<label style="float:right;margin-top:9px;"><a href="app/personal/conference.do?action=myConferenceIndex" target="navTab">更多>></a></label></span></h1>
+			<h1><span class="icon-myconference icon">我的会议<label style="float:right;margin-top:9px;"><a title="我的会议" rel="_menu_mod_personal_conference" href="app/personal/conference.do?action=myConferenceIndex" target="navTab">更多>></a></label></span></h1>
 			<div>
 			<table class="table" width="100%" id="idx_conference">
 		<thead>
@@ -172,7 +172,7 @@ $(function(){
 		</div>
 		
 		<div class="panel" minH="60">
-			<h1><span class="icon-mynews icon">我的新闻<label style="float:right;margin-top:9px;"><a href="app/personal/news.do?action=pageMyNews" target="navTab">更多>></a></label></span></h1>
+			<h1><span class="icon-mynews icon">我的新闻<label style="float:right;margin-top:9px;"><a title="我的新闻" rel="_menu_mod_personal_news" href="app/personal/news.do?action=pageMyNews" target="navTab">更多>></a></label></span></h1>
 			<div>
 			<table class="table" width="100%" id="idx_news">
 		<thead>
@@ -189,7 +189,7 @@ $(function(){
 		</div>
 		
 		<div class="panel" minH="60">
-			<h1><span class="icon-hrjobreg icon">我要应聘<label style="float:right;margin-top:9px;"><a href="app/personal/jobapplication.do?action=pageJobOnHiring" target="navTab">更多>></a></label></span></h1>
+			<h1><span class="icon-hrjobreg icon">我要应聘<label style="float:right;margin-top:9px;"><a title="我要应聘" rel="_menu_mod_personal_jobreg" href="app/personal/jobapplication.do?action=pageJobOnHiring" target="navTab">更多>></a></label></span></h1>
 			<div>
 				<table class="table" width="100%" id="idx_jobs">
 					<thead>
@@ -211,7 +211,7 @@ $(function(){
 	<div class="x-panel x-panel-right">
 		
 		<div class="panel" minH="60">
-			<h1><span class="icon-myapproval icon">待我审批<label style="float:right;margin-top:9px;"><a href="app/personal/approval.do?action=pageMyApproval" target="navTab">更多>></a></label></span></h1>
+			<h1><span class="icon-myapproval icon">待我审批<label style="float:right;margin-top:9px;"><a title="待我审批" rel="_menu_mod_personal_approval" href="app/personal/approval.do?action=pageMyApproval" target="navTab">更多>></a></label></span></h1>
 			<div>
 			<table class="table" width="100%" id="idx_approval">
 		<thead>
@@ -229,7 +229,7 @@ $(function(){
 		</div>
 		
 		<div class="panel" minH="60">
-			<h1><span class="icon-myplan icon">我的任务<label style="float:right;margin-top:9px;"><a href="app/personal/task.do?action=pageTaskIndex" target="navTab">更多>></a></label></span></h1>
+			<h1><span class="icon-myplan icon">我的任务<label style="float:right;margin-top:9px;"><a title="我的任务" rel="_menu_mod_personal_mytask" href="app/personal/task.do?action=pageTaskIndex" target="navTab">更多>></a></label></span></h1>
 			<div>
 			<table class="table" width="100%" id="idx_mytask">
 		<thead>
@@ -247,7 +247,7 @@ $(function(){
 		</div>
 		
 		<div class="panel" minH="60">
-			<h1><span class="icon-myapply icon">我的申请<label style="float:right;margin-top:9px;"><a href="app/personal/application_form.do?action=pageMyApplicationIndex" target="navTab">更多>></a></label></span></h1>
+			<h1><span class="icon-myapply icon">我的申请<label style="float:right;margin-top:9px;"><a title="我的申请" rel="_menu_mod_personal_apply" href="app/personal/application_form.do?action=pageMyApplicationIndex" target="navTab">更多>></a></label></span></h1>
 			<div>
 			<table class="table" width="100%" id="idx_myapply">
 		<thead>
@@ -265,7 +265,7 @@ $(function(){
 		</div>
 		
 		<div class="panel" minH="60">
-			<h1><span class="icon-infodoc icon">我的文档<label style="float:right;margin-top:9px;"><a href="app/personal/doc.do?action=pageMyDoc" target="navTab">更多>></a></label></span></h1>
+			<h1><span class="icon-infodoc icon">我的文档<label style="float:right;margin-top:9px;"><a title="文档下载区" rel="_menu_mod_personal_doc" href="app/personal/doc.do?action=pageMyDoc" target="navTab">更多>></a></label></span></h1>
 			<div>
 			<table class="table" width="100%" id="idx_infodoc">
 		<thead>
