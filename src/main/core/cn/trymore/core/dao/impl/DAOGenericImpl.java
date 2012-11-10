@@ -33,7 +33,6 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -378,7 +377,8 @@ extends HibernateDaoSupport implements DAOGeneric<T>
 				
 				int rowCount = ((Integer)execCriteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
 				execCriteria.setProjection(null);
-				execCriteria.setResultTransformer(CriteriaSpecification.ROOT_ENTITY);
+				execCriteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+				//execCriteria.setResultTransformer(CriteriaSpecification.ROOT_ENTITY);
 				execCriteria.setFirstResult(startIndex);
 				
 				if(pageSize > 0)
