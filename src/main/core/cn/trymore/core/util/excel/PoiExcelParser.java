@@ -357,7 +357,7 @@ public class PoiExcelParser extends AbstractExcelParser {
 				case HSSFCell.CELL_TYPE_NUMERIC: 
 					if (HSSFDateUtil.isCellDateFormatted(cel))
 					{
-						return UtilDate.parseTime(cel.getDateCellValue(), "yyyy-MM-dd");
+						return UtilDate.parseTime(cel.getDateCellValue(), "yyyy-MM-dd HH:mm:ss");
 					}
 					else
 					{
