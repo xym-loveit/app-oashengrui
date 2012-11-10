@@ -999,17 +999,13 @@ public class UtilDateTime {
 	   return (int) (year > 0 ? year : 0);
    }
    
-   public static boolean compareTime(String time1,String time2,String pattern){
+   public static boolean compareTime(String time1,String time2,String pattern) throws ParseException{
 	   SimpleDateFormat format = new SimpleDateFormat(pattern);
 	   Date d1 = null;
 	   Date d2 = null;
-	   try {
-		   d1 = format.parse(time1);
-		   d2 = format.parse(time2);
-	   } catch (ParseException e) {
-		   // TODO Auto-generated catch block
-		   e.printStackTrace();
-	   }
+	   d1 = format.parse(time1);
+	   d2 = format.parse(time2);
+
 	   return d1.before(d2);
    }
    

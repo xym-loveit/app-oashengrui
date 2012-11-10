@@ -1265,17 +1265,17 @@ extends BaseAdminAction
 		String offSTime = formInfo.getOfftimeShour()+":"+formInfo.getOfftimeSmin();
 		String offETime = formInfo.getOfftimeEhour()+":"+formInfo.getOfftimeEmin();
 		String[] workTime = formInfo.getWorkTime().split("-");
-		if(UtilDateTime.compareTime(offSTime,workTime[0],"HH:mm") && UtilDateTime.compareTime(offETime,workTime[1],"HH:mm")){
-			formInfo.setAttendanceResult("3");
-		}else if(!UtilDateTime.compareTime(offSTime,workTime[0],"HH:mm") && !UtilDateTime.compareTime(offETime,workTime[1],"HH:mm")){
-			formInfo.setAttendanceResult("2");
-		}else if(!UtilDateTime.compareTime(offSTime,workTime[0],"HH:mm") && UtilDateTime.compareTime(offETime,workTime[1],"HH:mm")){
-			formInfo.setAttendanceResult("4");
-		}else{
-			formInfo.setAttendanceResult("1");
-		}
-		ModelStaffAttendance entity = null;
 		try {
+			if(UtilDateTime.compareTime(offSTime,workTime[0],"HH:mm") && UtilDateTime.compareTime(offETime,workTime[1],"HH:mm")){
+				formInfo.setAttendanceResult("3");
+			}else if(!UtilDateTime.compareTime(offSTime,workTime[0],"HH:mm") && !UtilDateTime.compareTime(offETime,workTime[1],"HH:mm")){
+				formInfo.setAttendanceResult("2");
+			}else if(!UtilDateTime.compareTime(offSTime,workTime[0],"HH:mm") && UtilDateTime.compareTime(offETime,workTime[1],"HH:mm")){
+				formInfo.setAttendanceResult("4");
+			}else{
+				formInfo.setAttendanceResult("1");
+			}
+			ModelStaffAttendance entity = null;
 			entity = formInfo;
 			this.serviceStaffAttendance.save(entity);
 			String arrange_id = request.getParameter("arrang_id");
@@ -1289,7 +1289,7 @@ extends BaseAdminAction
 		           getSuccessCallback("手动打卡成功 .", CALLBACK_TYPE_CLOSE, CURRENT_NAVTABID, null, false));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			return ajaxPrint(response,getErrorCallback("请求数据失败"));
+			return ajaxPrint(response,getErrorCallback("数据异常，手动打卡失败"));
 		} 
 	}
 	
@@ -1592,26 +1592,32 @@ extends BaseAdminAction
 				atd.setWorkStatus(entity.getWorkStatus());
 				atd.setWorkType(entity.getWorkType());
 				//考勤机数据中打卡时间不全，为异常数据
-				if(!UtilString.isNotEmpty(excelRowData.get(i).getRowData().get(5)) || "null".equalsIgnoreCase(excelRowData.get(i).getRowData().get(5)) || 
-						!UtilString.isNotEmpty(excelRowData.get(i).getRowData().get(6)) || "null".equalsIgnoreCase(excelRowData.get(i).getRowData().get(6))){
+				String onWorkTime = excelRowData.get(i).getRowData().get(5).trim();
+				if(onWorkTime.length()==19)
+					onWorkTime = onWorkTime.substring(11);
+				String offWorkTime = excelRowData.get(i).getRowData().get(6).trim();
+				if(offWorkTime.length() == 19)
+					offWorkTime = offWorkTime.substring(11);
+				if(!UtilString.isNotEmpty(onWorkTime) || "null".equalsIgnoreCase(onWorkTime) || 
+						!UtilString.isNotEmpty(offWorkTime) || "null".equalsIgnoreCase(offWorkTime)){
 					atd.setException("1");
 					atd.setAttendanceResult("");
 				}else{
 					String[] workTime = entity.getWorkTime().split("-");
-					if(UtilDateTime.compareTime(excelRowData.get(i).getRowData().get(5),workTime[0],"HH:mm") && UtilDateTime.compareTime(excelRowData.get(i).getRowData().get(6),workTime[1],"HH:mm")){
+					if(UtilDateTime.compareTime(onWorkTime,workTime[0],"HH:mm") && UtilDateTime.compareTime(offWorkTime,workTime[1],"HH:mm")){
 						atd.setAttendanceResult("3");
-					}else if(!UtilDateTime.compareTime(excelRowData.get(i).getRowData().get(5),workTime[0],"HH:mm") && !UtilDateTime.compareTime(excelRowData.get(i).getRowData().get(6),workTime[1],"HH:mm")){
+					}else if(!UtilDateTime.compareTime(onWorkTime,workTime[0],"HH:mm") && !UtilDateTime.compareTime(offWorkTime,workTime[1],"HH:mm")){
 						atd.setAttendanceResult("2");
-					}else if(!UtilDateTime.compareTime(excelRowData.get(i).getRowData().get(5),workTime[0],"HH:mm") && UtilDateTime.compareTime(excelRowData.get(i).getRowData().get(6),workTime[1],"HH:mm")){
+					}else if(!UtilDateTime.compareTime(onWorkTime,workTime[0],"HH:mm") && UtilDateTime.compareTime(offWorkTime,workTime[1],"HH:mm")){
 						atd.setAttendanceResult("4");
 					}else{
 						atd.setAttendanceResult("1");
 					}
 				}
-				atd.setOfftimeShour(UtilDateTime.getTimeField(UtilDateTime.toDateByPattern(excelRowData.get(i).getRowData().get(5), "HH:mm"), Calendar.HOUR_OF_DAY));
-				atd.setOfftimeSmin(UtilDateTime.getTimeField(UtilDateTime.toDateByPattern(excelRowData.get(i).getRowData().get(5), "HH:mm"), Calendar.MINUTE));
-				atd.setOfftimeEhour(UtilDateTime.getTimeField(UtilDateTime.toDateByPattern(excelRowData.get(i).getRowData().get(6), "HH:mm"), Calendar.HOUR_OF_DAY));
-				atd.setOfftimeEmin(UtilDateTime.getTimeField(UtilDateTime.toDateByPattern(excelRowData.get(i).getRowData().get(6), "HH:mm"), Calendar.MINUTE));
+				atd.setOfftimeShour(UtilDateTime.getTimeField(UtilDateTime.toDateByPattern(onWorkTime, "HH:mm"), Calendar.HOUR_OF_DAY));
+				atd.setOfftimeSmin(UtilDateTime.getTimeField(UtilDateTime.toDateByPattern(onWorkTime, "HH:mm"), Calendar.MINUTE));
+				atd.setOfftimeEhour(UtilDateTime.getTimeField(UtilDateTime.toDateByPattern(offWorkTime, "HH:mm"), Calendar.HOUR_OF_DAY));
+				atd.setOfftimeEmin(UtilDateTime.getTimeField(UtilDateTime.toDateByPattern(offWorkTime, "HH:mm"), Calendar.MINUTE));
 				atd.setStaffId(entity.getStaffId());
 				atd.setStaffName(entity.getStaffName());
 				atd.setStaffBehalfId(entity.getStaffBehalfId());
@@ -1638,7 +1644,10 @@ extends BaseAdminAction
 			} catch (ServiceException e) {
 				// TODO Auto-generated catch block
 				ajaxPrint(response,getErrorCallback("导入考勤机数据失败，请重试"));
-			}//根据员工编号查询员工信息
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				ajaxPrint(response,getErrorCallback("数据异常导致导入考勤机数据失败，请确认数据格式并重试"));
+			}
 		}
 		//有工作安排却没有考勤机数据，为异常数据//理解错误，些种情况不用考虑
 //		try {

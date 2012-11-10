@@ -11,6 +11,7 @@ import org.hibernate.criterion.Restrictions;
 import org.shengrui.oa.dao.admin.DAOWorkArrange;
 import org.shengrui.oa.model.admin.ModelAdminWorkArrange;
 import org.shengrui.oa.service.admin.ServiceAdminWorkArrange;
+import org.tuckey.web.filters.urlrewrite.utils.StringUtils;
 
 import cn.trymore.core.exception.DAOException;
 import cn.trymore.core.exception.ServiceException;
@@ -67,12 +68,13 @@ extends ServiceGenericImpl<ModelAdminWorkArrange> implements ServiceAdminWorkArr
 		
 		if (entity != null)
 		{
-			if (entity.getStaffName() != null && !"".equals(entity.getStaffName()))
+			if (!StringUtils.isBlank(entity.getStaffName()))
 			{
+				System.out.println(entity.getStaffName());
 				criteria.add(Restrictions.like("staffName", entity.getStaffName(),MatchMode.ANYWHERE));
 			}
 
-			if (entity.getWorkType() != null && entity.getWorkType().getId()!=null && !"".equals(entity.getWorkType().getId()) && !"-1".equals(entity.getWorkType().getId()))
+			if (entity.getWorkType() != null && !StringUtils.isBlank(entity.getWorkType().getId()) && !"-1".equals(entity.getWorkType().getId()))
 			{
 				criteria.createCriteria("workType").add(Restrictions.eq("id", entity.getWorkType().getId()));
 			}
@@ -82,10 +84,10 @@ extends ServiceGenericImpl<ModelAdminWorkArrange> implements ServiceAdminWorkArr
 				criteria.add(Restrictions.eq("workDate", entity.getWorkDate()));
 			}
 			
-			if(entity.getWorkContent()!=null && entity.getWorkContent().getId()!=null && !"".equals(entity.getWorkContent().getId())){
+			if(entity.getWorkContent()!=null && !StringUtils.isBlank(entity.getWorkContent().getId())){
 				criteria.createCriteria("workContent").add(Restrictions.eq("id", entity.getWorkContent().getId()));
 			}
-			if(entity.getWorkTime()!=null && entity.getWorkTime().getId()!=null && !"".equals(entity.getWorkTime().getId())){
+			if(entity.getWorkTime()!=null && !StringUtils.isBlank(entity.getWorkTime().getId())){
 				criteria.createCriteria("workTime").add(Restrictions.eq("id", entity.getWorkTime().getId()));
 			}
 			if(entity.getDistrictId()!=null && UtilString.isNotEmpty(entity.getDistrictId())){
