@@ -234,7 +234,9 @@ extends BaseFinanAction
 		{
 			return mapping.findForward("dialog.expense.audit.page");
 		}
-				
+		
+		request.setAttribute("history", request.getParameter("history"));
+		
 		return mapping.findForward("dialog.fina.project.application.page");
 	}
 	

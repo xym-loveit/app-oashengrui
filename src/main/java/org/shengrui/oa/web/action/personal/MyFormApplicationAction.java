@@ -147,6 +147,7 @@ extends FlowBaseAction
 			}
 			
 			request.setAttribute("op", request.getParameter("op"));
+			request.setAttribute("history", request.getParameter("history"));
 			
 			// 审批记录查看
 			if ("audit".equalsIgnoreCase(request.getParameter("view")))
