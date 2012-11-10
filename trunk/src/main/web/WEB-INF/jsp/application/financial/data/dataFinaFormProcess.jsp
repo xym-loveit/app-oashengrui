@@ -58,11 +58,11 @@
 	<!-- 审批状态 -->
 	<c:if test="${op ne null && op eq 'view'}">
 		<div style="padding: 10px 0px; border-bottom: 1px dotted #999; margin: 0 10px 15px 10px; overflow: auto; clear: both;">
-			<div style="color:#FF7300; line-height: 18px;">${entity.applyForm eq null || fn:length(entity.applyForm) == 0 ? '历史审批记录' : '审批流程'}：</div>
+			<div style="color:#FF7300; line-height: 18px;">${history ne null || entity.applyForm eq null || fn:length(entity.applyForm) == 0? '历史审批记录' : '审批流程'}：</div>
 		</div>
 		<table id="tblexp" cellpadding="0" cellspacing="0" width="98%" border="1" style="border-collapse: collapse; border-color: #797979; margin: 0 auto;">
 			<c:choose>
-				<c:when test="${entity.applyForm eq null || fn:length(entity.applyForm) == 0}">
+				<c:when test="${history ne null || entity.applyForm eq null || fn:length(entity.applyForm) == 0}">
 					<logic:present name="entity" property="processHistory">
 						<logic:iterate name="entity" property="processHistory" id="entity">
 							<tr>

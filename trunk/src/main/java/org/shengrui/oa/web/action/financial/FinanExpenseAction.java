@@ -226,6 +226,7 @@ extends BaseFinanAction
 			*/
 			
 			request.setAttribute("op", request.getParameter("op"));
+			request.setAttribute("history", request.getParameter("history"));
 		}
 		catch (Exception e)
 		{
