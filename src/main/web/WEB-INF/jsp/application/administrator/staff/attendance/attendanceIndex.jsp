@@ -28,7 +28,7 @@
 
 <!-- SearchBar -->
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="app/admin/attendance/view.do?action=adminPageStaffAttendance" method="post">
+	<form onsubmit="return navTabSearch(this);" action="app/admin/attendance/view.do?action=adminPageStaffAttendance" method="post" rel="pagerForm">
 		<div class="searchBar">
 			<table class="searchContent">
 				<tr>

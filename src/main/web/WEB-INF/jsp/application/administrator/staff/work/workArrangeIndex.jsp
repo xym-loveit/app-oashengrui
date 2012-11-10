@@ -48,7 +48,7 @@ function callback_funcRemove(id) {
 
 <!-- SearchBar -->
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="app/admin.do?action=adminPageStaffWorkArrange" method="post">
+	<form onsubmit="return navTabSearch(this);" action="app/admin.do?action=adminPageStaffWorkArrange" method="post" rel="pagerForm">
 		<div class="searchBar">
 			<table class="searchContent">
 				<tr>
