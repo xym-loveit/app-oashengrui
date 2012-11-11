@@ -119,7 +119,7 @@
 						<td>新项目审批</td>
 						<td style="text-align:left">
 							[${project.employee.empName }]&nbsp; ${project.empDistrict.districtName} &nbsp;"${project.applyFormType.processTypeName}"&nbsp;
-							<label style="color:red;">${project.applyAmt }</label>&nbsp;<c:choose>
+							'${project.applyFormType.processTypeName}'&nbsp&nbsp  <label style="color:red;">${project.applyAmt }</label>&nbsp;<c:choose>
 								<c:when test="${project.auditState eq 2}">新项目审批已通过</c:when>
 								<c:when test="${project.auditState eq 3}">新项目审批不通过</c:when>
 								<c:when test="${project.auditState eq 4}">新项目审批已退回</c:when>
@@ -136,7 +136,7 @@
 					<tr>
 						<td>费用支出审批</td>
 						<td style="text-align:left;">
-							${finanInfo.employee.empName } &nbsp&nbsp&nbsp <label style="color:red;">${finanInfo.empDistrict.districtName}</label> &nbsp&nbsp&nbsp  <label style="color:red;">${finanInfo.applyAmt }</label>
+							${finanInfo.employee.empName }&nbsp;&nbsp;<label style="color:red;">${finanInfo.empDistrict.districtName}</label> &nbsp; '${finanInfo.applyFormType.processTypeName}'&nbsp&nbsp  <label style="color:red;">${finanInfo.applyAmt }</label>
 							<c:choose>
 								<c:when test="${finanInfo.auditState eq 2}">费用支出审批已通过</c:when>
 								<c:when test="${finanInfo.auditState eq 3}">费用支出审批不通过</c:when>
@@ -154,7 +154,7 @@
 					<tr>
 						<td>合同审批</td>
 						<td style="text-align:left;">
-							${contractInfo.employee.empName } &nbsp&nbsp&nbsp ${contractInfo.empDistrict.districtName} &nbsp&nbsp&nbsp ${contractInfo.applyFormType.processTypeName}
+							${contractInfo.employee.empName }&nbsp;&nbsp;<label style="color:red;">${contractInfo.empDistrict.districtName}</label> &nbsp;'${contractInfo.applyFormType.processTypeName}'&nbsp&nbsp <label style="color:red;">${contractInfo.applyAmt }</label>
 							<c:choose>
 								<c:when test="${contractInfo.auditState eq 2}">合同审批已通过</c:when>
 								<c:when test="${contractInfo.auditState eq 3}">合同审批不通过</c:when>
