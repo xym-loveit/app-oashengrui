@@ -37,6 +37,8 @@ import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.util.UtilDateTime;
 import org.shengrui.oa.util.WebActionUtil;
 import org.springframework.beans.BeanUtils;
+import org.tuckey.web.filters.urlrewrite.utils.StringUtils;
+
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.exception.WebException;
 import cn.trymore.core.jstl.JstlTagSecurity;
@@ -1572,14 +1574,14 @@ extends BaseAdminAction
 		for(int i = 1; i <excelRowData.size();i++)
 		{
 			if(!district.getDistrictName().equals(excelRowData.get(i).getRowData().get(0)))continue;//异常数据，与所选校区不对应
-			if(excelRowData.get(i).getRowData().get(4) == null || "".equals(excelRowData.get(i).getRowData().get(4))) continue;
+			if(StringUtils.isBlank(excelRowData.get(i).getRowData().get(4)) || StringUtils.isBlank(excelRowData.get(i).getRowData().get(2).trim())) continue;
 			Date day = UtilDateTime.toDateByPattern(excelRowData.get(i).getRowData().get(4));
 			if(day == null)continue;
 			try {
-				List<ModelHrmEmployee> empList = this.getServiceHrmEmployee().findByFullName(excelRowData.get(i).getRowData().get(3));
-				ModelHrmEmployee emp = null;
-				if(empList!=null && empList.size()>=1)
-					emp = empList.get(0);//改用按名字查询,在重名情况下选择第一个.getEmployeeByEmpNo(excelRowData.get(i).getRowData().get(2));
+				//List<ModelHrmEmployee> empList = this.getServiceHrmEmployee().findByFullName(excelRowData.get(i).getRowData().get(3));//按名字查询,在重名情况下选择第一个
+				ModelHrmEmployee emp = this.getServiceHrmEmployee().getEmployeeByEmpNo(excelRowData.get(i).getRowData().get(2).trim());//按工号查询
+				//if(empList!=null && empList.size()>=1)
+				//	emp = empList.get(0);//改用按名字查询,在重名情况下选择第一个
 				if(emp == null)continue;//查无此人，为异常数据
 				if(!districtId.equals(emp.getEmployeeDistrict().getId()))continue;//校区不一致，为异常数据
 				ModelStaffAttendanceView entity = this.getServiceStaffAttendanceView().getRecordByCondition(emp.getId(), day, emp.getEmployeeDistrict().getId());
