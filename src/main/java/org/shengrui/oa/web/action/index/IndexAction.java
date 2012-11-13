@@ -260,7 +260,7 @@ extends BaseAppAction
 						WebActionUtil.MENU_ITEM_HRM_DEVELOP.getObject().getObject(),
 						ModelHrmEmployeeDevelop.class, 
 						new String[] {
-							"(audit_state IS NULL and cproc_depid = " + 
+							"(cproc_depid = " + 
 								ContextUtil.getCurrentUser().getDepartmentId() + " and cproc_posid= " + 
 								ContextUtil.getCurrentUser().getPositionId() + " and " +
 								"(cproc_disid = " + 
@@ -286,7 +286,7 @@ extends BaseAppAction
 						WebActionUtil.MENU_ITEM_FINA_EXPENSE.getObject().getObject(),
 						ModelFinanExpense.class, 
 						new String[] {
-							"(audit_state IS NULL and cproc_depid = " + 
+							"(cproc_depid = " + 
 								ContextUtil.getCurrentUser().getDepartmentId() + " and cproc_posid= " + 
 								ContextUtil.getCurrentUser().getPositionId() + " and " +
 								"(cproc_disid = " + 
@@ -312,7 +312,7 @@ extends BaseAppAction
 						WebActionUtil.MENU_ITEM_FINA_CONTRACT.getObject().getObject(),
 						ModelFinanContract.class, 
 						new String[] {
-							"(audit_state IS NULL and cproc_depid = " + 
+							"(cproc_depid = " + 
 								ContextUtil.getCurrentUser().getDepartmentId() + " and cproc_posid= " + 
 								ContextUtil.getCurrentUser().getPositionId() + " and " +
 								"(cproc_disid = " + 
@@ -338,7 +338,7 @@ extends BaseAppAction
 						WebActionUtil.MENU_ITEM_FINA_PROJECT.getObject().getObject(),
 						ModelFinanProject.class, 
 						new String[] {
-							"(audit_state IS NULL and cproc_depid = " + 
+							"(cproc_depid = " + 
 								ContextUtil.getCurrentUser().getDepartmentId() + " and cproc_posid= " + 
 								ContextUtil.getCurrentUser().getPositionId() + " and " +
 								"(cproc_disid = " + 
