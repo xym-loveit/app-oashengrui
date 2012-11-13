@@ -109,10 +109,10 @@
 		<c:if test="${staffAttendance ne null && staffAttendance.exception }">
 			<input type="hidden" name="exception" value="${staffAttendance.exception }" />
 		</c:if>
-		<c:if test="${staffAttendance ne null && staffAttendance.districtId }">
+		<c:if test="${staffAttendance ne null && staffAttendance.districtId ne null }">
 			<input type="hidden" name="districtId" value="${staffAttendance.districtId }" />
 		</c:if>
-		<c:if test="${staffAttendance ne null && staffAttendance.depId }">
+		<c:if test="${staffAttendance ne null && staffAttendance.depId ne null }">
 			<input type="hidden" name="depId" value="${staffAttendance.depId }" />
 		</c:if>
 		<input type="hidden" name="id" value="${staffAttendance ne null && staffAttendance.attendanceViewId ne null && staffAttendance.attendanceViewId.origin eq 'attendance' ? staffAttendance.attendanceViewId.viewId : '-1' }" />
