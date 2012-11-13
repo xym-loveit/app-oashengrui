@@ -97,7 +97,7 @@ $(function(){
 	  	for(i=0;i<size;i++){
 	  		var value=$('#idx_tb_news tr').eq(i).find('td').eq(2).html();
 	  		var id=$('#idx_tb_news tr').eq(i).find('td').eq(0).html();
-	  		result='<a href="app/admin/news.do?action=actionNewsScan&id='+id+'" height="650" width="900" title="查看新闻`'+value+'`" target="dialog" rel="dsk_news_'+id+'">'+value+'</a>';
+	  		result='<a href="app/admin/news.do?action=actionNewsScan&id='+id+'" height="500" width="900" title="查看新闻`'+value+'`" target="dialog" rel="dsk_news_'+id+'">'+value+'</a>';
 	  	$('#idx_tb_news tr').eq(i).find('td').eq(2).html(result);
 	  	}
 	},'text');
