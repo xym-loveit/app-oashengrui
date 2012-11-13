@@ -160,10 +160,10 @@ extends BaseFinanAction
 		if (isOnApproval != null && isOnApproval)
 		{
 			// 审批中
-			formEntity.setCondAuditStates(new Integer[] {
-					null,
-					ModelProcessForm.EProcessFormStatus.RETURNED.getValue()
-			});
+			//formEntity.setCondAuditStates(new Integer[] {
+			//		null,
+			//		ModelProcessForm.EProcessFormStatus.RETURNED.getValue()
+			//});
 		}
 		else
 		{

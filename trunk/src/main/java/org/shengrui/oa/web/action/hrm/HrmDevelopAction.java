@@ -275,10 +275,10 @@ extends BaseHrmAction
 		{
 			// 审批中
 			// formEntity.setAuditState(null);
-			formEntity.setCondAuditStates(new Integer[] {
-					null
-					// ModelProcessForm.EProcessFormStatus.RETURNED.getValue()
-			});
+			//formEntity.setCondAuditStates(new Integer[] {
+			//		null
+			//		ModelProcessForm.EProcessFormStatus.RETURNED.getValue()
+			//});
 		}
 		else
 		{
