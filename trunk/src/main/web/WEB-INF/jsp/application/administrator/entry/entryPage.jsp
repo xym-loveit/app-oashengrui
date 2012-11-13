@@ -253,7 +253,7 @@ ${tm:fileRestore(news['attachFiles'])}
 					<td colspan="5">
 						<c:choose>
 							<c:when test="${op eq null || op ne 'view'}">
-								<textarea class="editor" id="editor" name="newsContent" rows="10" cols="80">${news.newsContent }</textarea>
+								<textarea class="editor" id="editor" name="newsContent" rows="10" cols="80">&nbsp;${news.newsContent}</textarea>
 							</c:when>
 							<c:otherwise>
 								<textarea class="editor" id="editor" name="newsContent" rows="10" cols="80" readonly>${news.newsContent }</textarea>
