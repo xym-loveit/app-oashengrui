@@ -167,7 +167,7 @@ extends ServiceGenericImpl<ModelFinanExpense> implements ServiceFinanExpense
 			String query, PagingBean pagingBean) throws ServiceException 
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelFinanExpense.class);
-		criteria.add(Restrictions.isNull("auditState"));
+		// criteria.add(Restrictions.isNull("auditState"));
 		
 		if (UtilString.isNotEmpty(query))
 		{
