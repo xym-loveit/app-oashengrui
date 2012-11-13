@@ -542,13 +542,27 @@ extends FlowBaseAction
 						if (result.getRight() == null)
 						{
 							// 审批结束, 审批退回/不通过/通过
-							this.sendMessage("my.application.audit", 
-								params, new Object[] {
-									entity.getEmployee().getId()
-								}, 
-								ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
-							);
-							
+							if (entity.getEmployee().getId().equals(
+									String.valueOf(entity.getEntryId())))
+							{
+								this.sendMessage("fina.audit.result", 
+									params, new Object[] {
+										entity.getEmployee().getId(),
+									}, 
+									ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+								);
+							}
+							else
+							{
+								// 申请人与经办人不同, 同时发给两人
+								this.sendMessage("fina.audit.result", 
+									params, new Object[] {
+										entity.getEmployee().getId(),
+										String.valueOf(entity.getEntryId())
+									}, 
+									ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+								);
+							}
 						}
 						else
 						{

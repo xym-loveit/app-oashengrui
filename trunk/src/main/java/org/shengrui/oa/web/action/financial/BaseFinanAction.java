@@ -267,12 +267,27 @@ extends FlowBaseAction
 						if (result.getRight() == null)
 						{
 							// 审批结束, 审批退回/不通过/通过
-							this.sendMessage("fina.audit.result", 
-								params, new Object[] {
-									baseEntity.getEmployee().getId()
-								}, 
-								ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
-							);
+							if (baseEntity.getEmployee().getId().equals(
+									String.valueOf(baseEntity.getEntryId())))
+							{
+								this.sendMessage("fina.audit.result", 
+									params, new Object[] {
+										baseEntity.getEmployee().getId(),
+									}, 
+									ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+								);
+							}
+							else
+							{
+								// 申请人与经办人不同, 同时发给两人
+								this.sendMessage("fina.audit.result", 
+									params, new Object[] {
+										baseEntity.getEmployee().getId(),
+										String.valueOf(baseEntity.getEntryId())
+									}, 
+									ModelShortMessage.EMessageType.TYPE_SYSTEM.getValue()
+								);
+							}
 						}
 						else
 						{
