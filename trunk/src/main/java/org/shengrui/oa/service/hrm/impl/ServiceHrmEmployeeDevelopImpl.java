@@ -195,7 +195,7 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 			String query, PagingBean pagingBean) throws ServiceException 
 	{
 		DetachedCriteria criteria = DetachedCriteria.forClass(ModelHrmEmployeeDevelop.class);
-		criteria.add(Restrictions.isNull("auditState"));
+		// criteria.add(Restrictions.isNull("auditState"));
 		
 		if (UtilString.isNotEmpty(query))
 		{
