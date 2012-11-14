@@ -5,7 +5,7 @@
 	<div><b>审批人：</b> ${procForm.auditUserNames}</div>
 	<div><b>详情点击：</b><a href="javascript:void(0);" 
 		onclick="parent.$.pdialog.open(
-			'app/finan/${type}.do?action=diaglogFina<#if type = "contract">Contract<#else>Expense</#if>Page&id=${entity.id}&op=view', 
+			'app/finan/${type}.do?action=diaglogFina<#if type = "contract">Contract</#if><#if type = "project">Project</#if><#if type = "expense">Expense</#if>Page&id=${entity.id}&op=view', 
 			'fina_view_${entity.id}',  
 			'查看‘${entity.employee.empName}’财务申请单-${procForm.applyFormNo}',
 			{width: 1150, height: 640})">点击查看申请单详细</a></div>
