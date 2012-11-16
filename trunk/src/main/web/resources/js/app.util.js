@@ -1020,7 +1020,7 @@ function trimFormElement($body)
 	$body.find("textarea").each(function()
 	{
 		var parent = $(this).parent();
-		parent.text($(this).val() + ($.trim(parent.text()) != "" ? (" (" + $.trim(parent.text()) + ")"): "")).css("padding", "5px");
+		parent.text($(this).val()); // + ($.trim(parent.text()) != "" ? (" (" + $.trim(parent.text()) + ")"): "")).css("padding", "5px");
 	});
 	
 	return $body.html().replace(/[\n|\r|\r\n]/g, "").replace(/>\s*</g,"><");
