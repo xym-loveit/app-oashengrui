@@ -920,7 +920,7 @@ extends sysSettingBaseAction
 					// 职位岗位解耦
 					unBindPositionFromSet(position);
 					
-					this.serviceSchoolDepartmentPosition.remove(position);
+					// this.serviceSchoolDepartmentPosition.remove(position);
 					
 					return ajaxPrint(response, 
 							getSuccessCallbackAndReloadCurrent("岗位删除成功."));
