@@ -22,7 +22,7 @@
             <column name="pos_roleRights" />
         </property>
         <set name="roles" table="app_school_department_position_role" 
-        	cascade="all" inverse="false" lazy="true"> 
+        	cascade="save-update" inverse="false" lazy="true"> 
 	      <cache usage="read-write" />
 	      <key column="pos_id"/>  
 	      <many-to-many class="ModelAppRole" column="role_id" />
