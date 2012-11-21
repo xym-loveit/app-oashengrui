@@ -27,8 +27,8 @@
 			<th align="center">审批环节</th>
 			<th align="center">审批结果</th>
 			<th align="center">审批记录</th>
-			<th align="center">申请单查看</th>
-			<th align="center">申请单编辑</th>
+			<th align="center">查看</th>
+			<th align="center">编辑</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -38,7 +38,7 @@
 					<td>${entity.formNo}</td>
 					<td>${entity.applyFormType.processTypeName}</td>
 					<td>${entity.employee.empName}</td>
-					<td><fmt:formatDate  value="${entity.applyDate}" pattern="yyyy-MM-dd" /></td>
+					<td><fmt:formatDate  value="${entity.entryDateTime}" pattern="yyyy-MM-dd hh:mm" /></td>
 					<c:choose>
 						<c:when test="${entity.finalState eq 2 || entity.finalState eq 3}"><td style="background-color: #ddd">审批结束</td></c:when>
 						<c:otherwise><td style="background-color: #FFBD5A">审批中</td></c:otherwise>

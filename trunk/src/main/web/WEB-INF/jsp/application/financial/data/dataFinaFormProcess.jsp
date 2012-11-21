@@ -87,7 +87,7 @@
 												<tr>
 													<td align="right">
 														<input type="radio" name="auditState${entity.id}" id="auditState${entity.id}_2" value="2" />通过 
-														<input type="radio" name="auditState${entity.id}" id="auditState${entity.id}_3" value="3" />不通过 
+														<%-- <input type="radio" name="auditState${entity.id}" id="auditState${entity.id}_3" value="3" />不通过 --%>
 														<input type="radio" name="auditState${entity.id}" id="auditState${entity.id}_4" value="4" />退回 
 													</td>
 												</tr>
