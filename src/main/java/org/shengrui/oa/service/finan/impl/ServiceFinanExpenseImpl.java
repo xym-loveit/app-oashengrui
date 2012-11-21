@@ -153,7 +153,7 @@ extends ServiceGenericImpl<ModelFinanExpense> implements ServiceFinanExpense
 			}
 		}
 		
-		criteria.addOrder(Order.desc("applyDate"));
+		criteria.addOrder(Order.desc("entryDateTime"));
 		
 		return criteria;
 	}

@@ -889,6 +889,21 @@ extends BaseAppAction
 				ModelProcessDefinition procDef = this.serviceProcessDefinition.get(procDefId);
 				if (procDef != null)
 				{
+					
+					ModelProcessType procType = procDef.getProcessType();
+					Set<ModelProcessDefinition> procDefs = procType.getProcessDefinitions();
+					Iterator<ModelProcessDefinition> itor = procDefs.iterator();
+					while (itor.hasNext())
+					{
+						ModelProcessDefinition def = itor.next();
+						if (def.getId().equals(procDef.getId()))
+						{
+							itor.remove();
+							break;
+						}
+					}
+					this.serviceProcessType.save(procType);
+					
 					this.serviceProcessDefinition.remove(procDef);
 					
 					// 删除成功后, Dialog进行关闭

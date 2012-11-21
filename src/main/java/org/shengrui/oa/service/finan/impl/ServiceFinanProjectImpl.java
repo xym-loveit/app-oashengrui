@@ -175,7 +175,7 @@ extends ServiceGenericImpl<ModelFinanProject> implements ServiceFinanProject
 			}
 		}
 		
-		criteria.addOrder(Order.desc("applyDate"));
+		criteria.addOrder(Order.desc("entryDateTime"));
 		
 		return criteria;
 	}
