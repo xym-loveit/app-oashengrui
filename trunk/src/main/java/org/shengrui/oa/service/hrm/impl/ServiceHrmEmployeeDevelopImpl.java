@@ -181,7 +181,7 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 			}
 		}
 		
-		criteria.addOrder(Order.asc("auditState")).addOrder(Order.desc("applyDate"));
+		criteria.addOrder(Order.asc("auditState")).addOrder(Order.desc("entryDateTime"));
 		
 		return criteria;
 	}

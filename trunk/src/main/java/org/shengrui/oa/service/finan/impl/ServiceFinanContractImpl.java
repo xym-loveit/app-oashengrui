@@ -144,7 +144,7 @@ extends ServiceGenericImpl<ModelFinanContract> implements ServiceFinanContract
 			}
 		}
 		
-		criteria.addOrder(Order.desc("applyDate"));
+		criteria.addOrder(Order.desc("entryDateTime"));
 		
 		return criteria;
 	}
