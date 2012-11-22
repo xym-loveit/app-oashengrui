@@ -224,6 +224,25 @@ extends sysSettingBaseAction
 									break;
 								}
 							}
+							
+							// 解耦权限Key关联
+							if (UtilString.isNotEmpty(position.getPositionRoleRights()))
+							{
+								String[] roleKeys = position.getPositionRoleRights().split(",");
+								StringBuilder builder = new StringBuilder();
+								for (String roleKey : roleKeys)
+								{
+									if (!roleKey.equals(role.getRoleKey()))
+									{
+										builder.append(roleKey);
+										builder.append(",");
+									}
+								}
+								builder.deleteCharAt(builder.length() -1);
+								position.setPositionRoleRights(builder.toString());
+								builder = null;
+							}
+							
 							this.serviceSchoolDepartmentPosition.save(position);
 						}
 					}
