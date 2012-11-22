@@ -67,7 +67,7 @@ extends ModelBase
 	 * 部门删除标志
 	 */
 	@Expose
-	protected Integer delFlag; 
+	protected Integer delFlag = 0;
 	
 	/**
 	 * 数据权限过滤

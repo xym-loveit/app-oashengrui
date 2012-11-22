@@ -58,7 +58,7 @@ extends ModelBase
 	/**
 	 * 删除标记
 	 */
-	private Integer delFlag;
+	private Integer delFlag = 0;
 	
 	/**
 	 * 岗位拥有的数据权限
