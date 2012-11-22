@@ -60,7 +60,7 @@
 		<logic:present name="docs">
 		   <logic:iterate name="docs" property="items" id="entity">
 			<tr id="doc_entity-${entity.id}">
-                <td><a href="file-download?path=${entity.file.filePath}" target="_blank">${entity.docName}</a></td>
+                <td><a href="file-download?path=${entity.file.filePath}&filename=${entity.file.fileName}" target="_blank">${entity.docName}</a></td>
 				<td>${entity.type.name }</td>
                 <td>${entity.createTime}</td>
 			</tr>
