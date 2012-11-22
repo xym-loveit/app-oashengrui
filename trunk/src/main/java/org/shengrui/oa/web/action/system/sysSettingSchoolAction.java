@@ -658,7 +658,7 @@ extends sysSettingBaseAction
 							
 							position.setDepartment(null);
 							
-							this.serviceSchoolDepartmentPosition.remove(position);
+							// this.serviceSchoolDepartmentPosition.remove(position);
 						}
 					}
 				}

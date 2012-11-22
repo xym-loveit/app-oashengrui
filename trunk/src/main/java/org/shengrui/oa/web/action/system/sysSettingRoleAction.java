@@ -1,5 +1,8 @@
 package org.shengrui.oa.web.action.system;
 
+import java.util.List;
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,13 +14,17 @@ import org.shengrui.oa.model.system.ModelAppFunction;
 import org.shengrui.oa.model.system.ModelAppFunctionDataStrategy;
 import org.shengrui.oa.model.system.ModelAppMenu;
 import org.shengrui.oa.model.system.ModelAppRole;
+import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.service.system.ServiceAppFunctionDataStrategy;
 import org.shengrui.oa.service.system.ServiceAppRole;
 import org.springframework.beans.BeanUtils;
 
+import java.util.Iterator;
+
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.log.LogAnnotation;
 import cn.trymore.core.util.UtilApp;
+import cn.trymore.core.util.UtilCollection;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
@@ -193,11 +200,45 @@ extends sysSettingBaseAction
 			String roleId = request.getParameter("roleId");
 			if (this.isObjectIdValid(roleId))
 			{
-				// 删除
-				 this.serviceAppRole.remove(roleId);
-				 
-				 return ajaxPrint(response, 
+				
+				ModelAppRole role = this.serviceAppRole.get(roleId);
+				
+				if (role != null)
+				{
+					
+					List<ModelSchoolDepartmentPosition> positions = 
+						this.serviceSchoolDepartmentPosition.getPositionsByRole(role);
+					
+					if (UtilCollection.isNotEmpty(positions))
+					{
+						// 岗位职位与权限解耦
+						for (ModelSchoolDepartmentPosition position : positions)
+						{
+							Set<ModelAppRole> roles = position.getRoles();
+							Iterator<ModelAppRole> itor = roles.iterator();
+							while (itor.hasNext())
+							{
+								if (itor.next().getId().equals(role.getId()))
+								{
+									itor.remove();
+									break;
+								}
+							}
+							this.serviceSchoolDepartmentPosition.save(position);
+						}
+					}
+					
+					// 删除
+					this.serviceAppRole.remove(role);
+					
+					return ajaxPrint(response, 
 							getSuccessCallbackAndReloadCurrent("权限组删除成功."));
+				}
+				else
+				{
+					return ajaxPrint(response, getErrorCallback("权限组不存在."));
+				}
+				
 			}
 			
 			return mapping.findForward("dialog.sys.setting.role.page");

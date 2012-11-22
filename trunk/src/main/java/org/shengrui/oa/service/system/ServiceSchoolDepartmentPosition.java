@@ -2,6 +2,7 @@ package org.shengrui.oa.service.system;
 
 import java.util.List;
 
+import org.shengrui.oa.model.system.ModelAppRole;
 import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 
 import cn.trymore.core.exception.ServiceException;
@@ -30,4 +31,15 @@ extends ServiceGeneric<ModelSchoolDepartmentPosition>
 	 * 
 	 * */
 	ModelSchoolDepartmentPosition getPositionByName(String positionName) throws ServiceException;
+	
+	/**
+	 * 根据权限组获取岗位信息.
+	 * 
+	 * @param role
+	 *          权限组
+	 * @return
+	 * @throws ServiceException
+	 */
+	List<ModelSchoolDepartmentPosition> getPositionsByRole (ModelAppRole role) throws ServiceException;
+	
 }
