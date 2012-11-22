@@ -42,3 +42,9 @@ ALTER TABLE `app_school_department_position` CHANGE `dep_id` `dep_id` BIGINT( 20
 ALTER TABLE  `app_admin_news_audithistory` CHANGE  `entity_id`  `entity_id` BIGINT( 11 ) NULL;
 ALTER TABLE  `app_admin_task_audithistory` CHANGE  `entity_id`  `entity_id` BIGINT( 11 ) NULL;
 ALTER TABLE  `app_hrm_hire_job_audithistory` CHANGE  `entity_id`  `entity_id` BIGINT( 11 ) NULL
+
+--
+-- Added by Jeccy.Zhao on 2012-11-22
+--
+ALTER TABLE  `app_school_department` ADD  `del_flag` TINYINT 0 COMMENT  '删除标记. 1=删除,  0=未删除' AFTER  `dep_orgtype`;
+ALTER TABLE  `app_school_department_position` ADD  `del_flag` TINYINT 0 COMMENT  '删除标记. 1=删除, 0=未删除' AFTER  `pos_roleRights`;
