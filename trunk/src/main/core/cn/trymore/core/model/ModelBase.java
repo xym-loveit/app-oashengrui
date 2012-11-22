@@ -46,6 +46,11 @@ extends ActionForm
 	private static final long serialVersionUID = -240826378108165136L;
 	
 	/**
+	 * 删除标记
+	 */
+	public static final int DEL_FLAG = 1;
+	
+	/**
 	 * The model identity
 	 */
 	@Expose

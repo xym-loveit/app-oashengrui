@@ -64,6 +64,12 @@ extends ModelBase
 	protected Set<ModelSchoolDepartmentPosition> positions;
 	
 	/**
+	 * 部门删除标志
+	 */
+	@Expose
+	protected Integer delFlag; 
+	
+	/**
 	 * 数据权限过滤
 	 */
 	@AclFilterAnnotation(
@@ -140,5 +146,15 @@ extends ModelBase
 	public void setDepOrgType(Integer depOrgType)
 	{
 		this.depOrgType = depOrgType;
+	}
+	
+	public Integer getDelFlag()
+	{
+		return delFlag;
+	}
+
+	public void setDelFlag(Integer delFlag)
+	{
+		this.delFlag = delFlag;
 	}
 }
