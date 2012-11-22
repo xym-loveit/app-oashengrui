@@ -29,7 +29,7 @@
 		<logic:present name="deparent_docs1">
 		   <logic:iterate name="deparent_docs1" id="entity">
 			<tr id="doc_entity-${entity.id}" target="sid" rel="${entity.file.filePath}">
-                <td><a href="file-download?path=${entity.file.filePath}" target="_blank">${entity.docName}</a></td>
+                <td><a href="file-download?path=${entity.file.filePath}&filename=${entity.file.fileName}" target="_blank">${entity.docName}</a></td>
 				<td>${entity ne null && entity.type ne null ? entity.type.value:"" }</td>
                 <td><fmt:formatDate value="${entity.createTime}" pattern="yyyy-MM-dd" /></td>
 			</tr>

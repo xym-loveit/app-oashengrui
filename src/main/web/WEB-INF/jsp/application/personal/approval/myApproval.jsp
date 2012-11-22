@@ -51,7 +51,7 @@
 							[${news.dictionary.name}] &nbsp&nbsp&nbsp “${news.newsSubject}” &nbsp&nbsp&nbsp 新闻发布审批
 						</td>
 						<td>${news.user.fullName}</td>
-						<td><c:if test="${news.updateTime ne null}"><fmt:formatDate value="${news.updateTime}" pattern="yyyy-MM-dd" /></c:if></td>
+						<td><c:if test="${news.updateTime ne null}"><fmt:formatDate value="${news.updateTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
 						<td><a class="oplink" href="app/admin.do?action=adminPageEntryDetail&id=${news.id }&op=view" target="dialog" width="900" height="500" title="新闻审批" rel="dia_admin_entryapproval-id">审批</a></td>
 					</tr>
 				</logic:iterate>
@@ -68,7 +68,7 @@
 									[${entity.jobHireDistrict.districtName}   ${entity.jobHireDepartment.depName}]&nbsp&nbsp “${entity.jobHireTitle}”&nbsp&nbsp招聘
 								</td>
 								<td>${entity.postAuthorName}</td>
-								<td><c:if test="${entity.postDate ne null}"><fmt:formatDate value="${entity.postDate}" pattern="yyyy-MM-dd"/></c:if></td>
+								<td><c:if test="${entity.postDate ne null}"><fmt:formatDate value="${entity.postDate}" pattern="yyyy-MM-dd hh:mm"/></c:if></td>
 								<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}" target="dialog" title="岗位审批" width="930" height="500">审批</a></td>
 							</tr>
 						</c:when>
@@ -85,7 +85,7 @@
 						[${task.taskType.name }] &nbsp&nbsp&nbsp “${task.taskName}” &nbsp&nbsp&nbsp 任务委托发布审批
 					</td>
 					<td>${task.taskOriginator.empName }</td>
-					<td><c:if test="${task.createTime ne null}"><fmt:formatDate value="${task.createTime}" pattern="yyyy-MM-dd" /></c:if></td>
+					<td><c:if test="${task.createTime ne null}"><fmt:formatDate value="${task.createTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
 					<td><a href="app/admin/task.do?action=dialogTaskPage&id=${task.id}&op=audit" target="dialog" title="任务审批" width="1080" height="380" class="oplink">审批</a></td>
 					</tr>
 				</logic:iterate>
@@ -100,7 +100,7 @@
 							${finan.employee.empName } &nbsp&nbsp&nbsp <label style="color:red;">${finan.empDistrict.districtName}</label>&nbsp&nbsp&nbsp${finan.applyFormType.processTypeName}&nbsp&nbsp申请&nbsp&nbsp<label style="color:red;">${finan.applyAmt }</label>
 						</td>
 						<td>${finan.employee.empName }</td>
-						<td><c:if test="${finan.applyDate ne null}"><fmt:formatDate value="${finan.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
+						<td><c:if test="${finan.entryDateTime ne null}"><fmt:formatDate value="${finan.entryDateTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
 						<td><a class="oplink" href="app/finan/expense.do?action=diaglogFinaExpensePage&id=${finan.id}&op=view" target="dialog" title="‘${finan.employee.empName}’费用申请单-${finan.formNo}审批" width="1150" height="640">审批</a></td>
 					</tr>
 				</logic:iterate>
@@ -115,7 +115,7 @@
 							[${contract.employee.empName }] &nbsp&nbsp&nbsp ${contract.empDistrict.districtName} &nbsp&nbsp&nbsp ${contract.applyFormType.processTypeName}
 						</td>
 						<td>${contract.employee.empName }</td>
-						<td><c:if test="${contract.applyDate ne null}"><fmt:formatDate value="${contract.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
+						<td><c:if test="${contract.entryDateTime ne null}"><fmt:formatDate value="${contract.entryDateTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
 						<td><a class="oplink" href="app/finan/contract.do?action=diaglogFinaContractPage&id=${contract.id}&op=view" target="dialog" title="查看‘${contract.employee.empName}’合同申请单-${contract.formNo}" width="1150" height="640">审批</a></td>
 					</tr>
 				</logic:iterate>
@@ -133,7 +133,7 @@
 									&nbsp&nbsp 晋升 &nbsp&nbsp<label style="color:red;">${type.toDistrict.districtName }_${type.toDepartment.depName }_${type.toPosition.positionName }</label> &nbsp&nbsp申请
 								</td>
 								<td>${type.employee.empName }</td>
-								<td><c:if test="${type.applyDate ne null}"><fmt:formatDate value="${type.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
+								<td><c:if test="${type.entryDateTime ne null}"><fmt:formatDate value="${type.entryDateTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
 								<td><a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">审批</a></td>
 							</tr>
 						</c:when>
@@ -152,7 +152,7 @@
 									${type.employee.empName} &nbsp&nbsp<label style="color:red;">${type.fromDistrict.districtName }_${type.fromDepartment.depName }_${type.fromPosition.positionName }</label>&nbsp&nbsp转正申请
 								</td>
 								<td>${type.employee.empName }</td>
-								<td><c:if test="${type.applyDate ne null}"><fmt:formatDate value="${type.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
+								<td><c:if test="${type.entryDateTime ne null}"><fmt:formatDate value="${type.entryDateTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
 								<td>
 									<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">审批</a></td>
 							</tr>
@@ -172,7 +172,7 @@
 									${type.employee.empName} &nbsp&nbsp<label style="color:red;">${type.fromDistrict.districtName }_${type.fromDepartment.depName }_${type.fromPosition.positionName }</label>&nbsp&nbsp离职申请
 								</td>
 								<td>${type.employee.empName }</td>
-								<td><c:if test="${type.applyDate ne null}"><fmt:formatDate value="${type.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
+								<td><c:if test="${type.entryDateTime ne null}"><fmt:formatDate value="${type.entryDateTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
 								<td>
 									<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">审批</a></td>
 							</tr>
@@ -193,7 +193,7 @@
 									<label style="color:red;">${type.toDistrict.districtName }_${type.toDepartment.depName }_${type.toPosition.positionName }</label>&nbsp&nbsp申请
 								</td>
 								<td>${type.employee.empName }</td>
-								<td><c:if test="${type.applyDate ne null}"><fmt:formatDate value="${type.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
+								<td><c:if test="${type.entryDateTime ne null}"><fmt:formatDate value="${type.entryDateTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
 								<td>
 									<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">审批</a></td>
 							</tr>
@@ -211,7 +211,7 @@
 							[${project.employee.empName }] &nbsp&nbsp&nbsp ${project.empDistrict.districtName} &nbsp&nbsp&nbsp ${project.applyFormType.processTypeName}
 						</td>
 						<td>${project.employee.empName }</td>
-						<td><c:if test="${project.applyDate ne null}"><fmt:formatDate value="${project.applyDate}" pattern="yyyy-MM-dd" /></c:if></td>
+						<td><c:if test="${project.entryDateTime ne null}"><fmt:formatDate value="${project.entryDateTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
 						<td><a class="oplink" href="app/finan/project.do?action=diaglogFinaProjectPage&id=${project.id}&op=view" target="dialog" title="查看‘${project.employee.empName}’新项目申请单-${project.formNo}" width="1150" height="640" rel="approval_project_${project.id}">审批</a></td>
 					</tr>
 				</logic:iterate>
