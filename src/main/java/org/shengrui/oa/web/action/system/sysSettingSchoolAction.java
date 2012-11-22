@@ -20,6 +20,7 @@ import org.springframework.beans.BeanUtils;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.log.LogAnnotation;
+import cn.trymore.core.model.ModelBase;
 import cn.trymore.core.util.UtilCollection;
 import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
@@ -648,22 +649,15 @@ extends sysSettingBaseAction
 						while (itor.hasNext())
 						{
 							ModelSchoolDepartmentPosition position = itor.next();
-							itor.remove();
-							
-							// 职位权限解耦
-							position.setRoles(null);
-							
-							// 职位岗位解耦
-							unBindPositionFromSet(position);
-							
-							position.setDepartment(null);
-							
-							// this.serviceSchoolDepartmentPosition.remove(position);
+							position.setDelFlag(ModelBase.DEL_FLAG);
+							this.serviceSchoolDepartmentPosition.save(position);
 						}
 					}
 				}
 				
-				this.serviceSchoolDepartment.remove(depId);
+				// 设置删除标记
+				department.setDelFlag(ModelBase.DEL_FLAG);
+				this.serviceSchoolDepartment.save(department);
 				
 				return ajaxPrint(response, 
 						getSuccessCallbackAndReloadCurrent("部门删除成功."));

@@ -18,6 +18,9 @@
         <property name="positionLeadership" type="java.lang.Integer">
             <column name="pos_leadership" />
         </property>
+        <property name="delFlag" type="java.lang.Integer">
+            <column name="del_flag" />
+        </property>
         <property name="positionRoleRights" type="java.lang.String">
             <column name="pos_roleRights" />
         </property>

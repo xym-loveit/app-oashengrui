@@ -56,9 +56,15 @@ extends ModelBase
 	private Set<ModelAppRole> roles = new HashSet<ModelAppRole>();
 	
 	/**
+	 * 删除标记
+	 */
+	private Integer delFlag;
+	
+	/**
 	 * 岗位拥有的数据权限
 	 */
 	private String dataPermissions = String.valueOf(AppUtil.EDataPermissions.DP_MINE.getValue());
+	
 	
 	/**
 	 * The enumeration of department position leadership
@@ -184,6 +190,16 @@ extends ModelBase
 	public void setDataPermissions(String dataPermissions)
 	{
 		this.dataPermissions = dataPermissions;
+	}
+
+	public void setDelFlag(Integer delFlag)
+	{
+		this.delFlag = delFlag;
+	}
+
+	public Integer getDelFlag()
+	{
+		return delFlag;
 	}
 	
 }

@@ -21,6 +21,9 @@
         <property name="depOrgType" type="java.lang.Integer">
             <column name="dep_orgtype" not-null="true" />
         </property>
+        <property name="delFlag" type="java.lang.Integer">
+            <column name="del_flag" />
+        </property>
          <property name="depEquivalentLevel" type="java.lang.Integer">
             <column name="dep_eqlevel" />
         </property>
