@@ -650,6 +650,10 @@ extends sysSettingBaseAction
 						{
 							ModelSchoolDepartmentPosition position = itor.next();
 							position.setDelFlag(ModelBase.DEL_FLAG);
+							
+							// 岗位职位解耦
+							unBindPositionFromSet(position);
+							
 							this.serviceSchoolDepartmentPosition.save(position);
 						}
 					}
