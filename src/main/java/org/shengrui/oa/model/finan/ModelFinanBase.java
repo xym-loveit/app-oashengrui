@@ -1,6 +1,9 @@
 package org.shengrui.oa.model.finan;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.shengrui.oa.model.flow.ModelProcessForm;
@@ -193,11 +196,69 @@ extends ModelBase
 		this.entryDateTime = entryDateTime;
 	}
 
-	public Set<ModelProcessHistory> getProcessHistory() {
+	public Set<ModelProcessHistory> getProcessHistory() 
+	{
 		return processHistory;
 	}
+	
+	/**
+	 * 获取过滤后的流程审批历史记录.
+	 * 
+	 * @return
+	 */
+	public ModelProcessHistory[] getFilteredProcessHistory() 
+	{
+		if (this.auditState.equals(ModelProcessForm.EProcessFormStatus.APPROVED.getValue()))
+		{
+			// 审批通过的记录, 历史数据进行过滤只显示最后一次正常的审批记录.
+			List<String> idsToRemove = new ArrayList<String>();
+			
+			ModelProcessHistory[] histories = new ModelProcessHistory[processHistory.size()];
+			processHistory.toArray(histories);
+			
+			boolean abnormalProcess = false;
+			for (int i = histories.length - 1; i >= 0; i--)
+			{
+				ModelProcessHistory history = histories[i];
+				
+				if (abnormalProcess || (history.getAuditState() == ModelProcessForm.EProcessFormStatus.NOTPASSED.getValue() || 
+						history.getAuditState() == ModelProcessForm.EProcessFormStatus.RETURNED.getValue()))
+				{
+					abnormalProcess = true;
+					// 收集需要被过滤的审批数据ID
+					idsToRemove.add(history.getId());
+				}
+			}
+			
+			if (idsToRemove.size() > 0)
+			{
+				List<ModelProcessHistory> data = new ArrayList<ModelProcessHistory>(); 
+				Iterator<ModelProcessHistory> itor = processHistory.iterator();
+				while (itor.hasNext())
+				{
+					ModelProcessHistory entity = itor.next();
+					if (!idsToRemove.contains(entity.getId()))
+					{
+						data.add(entity);
+					}
+				}
+				idsToRemove.clear();
+				
+				ModelProcessHistory[] result = new ModelProcessHistory[data.size()];
+				data.toArray(result);
+				
+				return result;
+			}
+		}
+		
+		ModelProcessHistory[] result = new ModelProcessHistory[processHistory.size()];
+		processHistory.toArray(result);
+		
+		return result;
+	}
 
-	public void setProcessHistory(Set<ModelProcessHistory> processHistory) {
+	public void setProcessHistory(Set<ModelProcessHistory> processHistory) 
+	{
 		this.processHistory = processHistory;
 	}
 
