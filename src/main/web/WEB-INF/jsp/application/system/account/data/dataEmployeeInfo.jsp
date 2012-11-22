@@ -48,7 +48,7 @@
 					<tr>
 						<td>${empInfo.empName }</td>
 						<td align="center">${empInfo.employeeDistrict.districtName }</td>
-						<td align="center">${empInfo.employeeDepartment.depName }</td>
+						<td align="center" class="${empInfo.employeeDepartment.delFlag eq 1 ? 'delflag' : ''}">${empInfo.employeeDepartment.depName }</td>
 						<td>${empInfo.resume.email }</td>
 						<td align="center">${empInfo.officePhone }</td>
 						<td align="center">${empInfo.shortNo }</td>

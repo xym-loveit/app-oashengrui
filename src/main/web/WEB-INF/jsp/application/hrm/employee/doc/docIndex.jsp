@@ -129,8 +129,8 @@
 							<td>${entity.empNo}</td>
 							<td>${entity.empName}</td>
 							<td>${entity.employeeDistrict ne null ? entity.employeeDistrict.districtName : ''}</td>
-							<td>${entity.employeeDepartment ne null ? entity.employeeDepartment.depName : ''}</td>
-							<td>${entity.employeePosition ne null ? entity.employeePosition.positionName : ''}</td>
+							<td class="${entity.employeeDepartment.delFlag eq 1 ? 'delflag' : ''}">${entity.employeeDepartment ne null ? entity.employeeDepartment.depName : ''}</td>
+							<td class="${entity.employeePosition.delFlag eq 1 ? 'delflag' : ''}">${entity.employeePosition ne null ? entity.employeePosition.positionName : ''}</td>
 							<td><fmt:formatDate  value="${entity.birthdate}" pattern="yyyy-MM-dd" /></td>
 							<td>${entity.phoneNo}</td>
 							<td>${entity.shortNo}</td>

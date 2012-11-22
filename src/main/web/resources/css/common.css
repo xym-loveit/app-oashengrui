@@ -582,3 +582,8 @@ a.btn_print {
 	float:none;
 	margin-left: 5px; 
 }
+
+.delflag { 
+	text-decoration: line-through;
+	color: red;
+}
