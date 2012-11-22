@@ -46,5 +46,5 @@ ALTER TABLE  `app_hrm_hire_job_audithistory` CHANGE  `entity_id`  `entity_id` BI
 --
 -- Added by Jeccy.Zhao on 2012-11-22
 --
-ALTER TABLE  `app_school_department` ADD  `del_flag` TINYINT 0 COMMENT  '删除标记. 1=删除,  0=未删除' AFTER  `dep_orgtype`;
-ALTER TABLE  `app_school_department_position` ADD  `del_flag` TINYINT 0 COMMENT  '删除标记. 1=删除, 0=未删除' AFTER  `pos_roleRights`;
+ALTER TABLE  `app_school_department` ADD  `del_flag` TINYINT DEFAULT 0 COMMENT  '删除标记. 1=删除,  0=未删除' AFTER  `dep_orgtype`;
+ALTER TABLE  `app_school_department_position` ADD  `del_flag` TINYINT DEFAULT 0 COMMENT  '删除标记. 1=删除, 0=未删除' AFTER  `pos_roleRights`;
