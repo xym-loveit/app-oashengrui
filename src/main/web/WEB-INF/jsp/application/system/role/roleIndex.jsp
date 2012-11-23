@@ -10,9 +10,12 @@
 
 <script type="text/javascript">
 	function callback_roleRemove(id) {
+		navTab.reload();
+		/*
 		if ($("#drole-" + id).size() > 0) {
 			$("#drole-" + id).fadeOut("slow");
 		}
+		*/
 	}
 </script>
 
