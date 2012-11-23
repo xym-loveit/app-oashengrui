@@ -7,9 +7,11 @@ import java.util.Set;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
 import org.shengrui.oa.util.AppUtil;
+import org.shengrui.oa.util.ContextUtil;
 
 import cn.trymore.core.acl.AclFilterAnnotation;
 import cn.trymore.core.model.ModelBase;
+import cn.trymore.core.util.UtilCollection;
 import cn.trymore.core.util.UtilString;
 
 /**
@@ -563,4 +565,28 @@ extends ModelBase
 		return auditHistory;
 	}
 	
+	/**
+	 * 获取当前用户最后一次的审批时间
+	 * @return
+	 */
+	public Date getMyLastAuditTime()
+	{
+		if (UtilCollection.isNotEmpty(this.auditHistory))
+		{
+			Object[] lstAuditHistories = this.auditHistory.toArray();
+			for (int i = lstAuditHistories.length - 1; i >=0 ; i--)
+			{
+				Object obj = lstAuditHistories[i];
+				if (obj instanceof ModelHrmJobHireInfoAuditHistory)
+				{
+					if (String.valueOf(ContextUtil.getCurrentUserId()).equals(
+							((ModelHrmJobHireInfoAuditHistory) obj).getAuditorId()))
+					{
+						return ((ModelHrmJobHireInfoAuditHistory) obj).getAuditDate();
+					}
+				}
+			}
+		}
+		return null;
+	}
 }
