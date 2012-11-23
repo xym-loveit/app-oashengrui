@@ -208,7 +208,7 @@ extends BaseFinanAction
 				return ajaxPrint(response, getErrorCallback("合同申请流程类型不存在..."));
 			}
 			
-			request.setAttribute("types", this.getProcessSubTypes(procType.getId()));
+			request.setAttribute("types", this.getProcessSubTypes(procType.getId(), true));
 			
 			String contractId = request.getParameter("id");
 			if (contractId != null && this.isObjectIdValid(contractId))

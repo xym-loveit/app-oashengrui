@@ -208,7 +208,7 @@ extends BaseFinanAction
 				return ajaxPrint(response, getErrorCallback("新项目支出申请流程类型不存在..."));
 			}
 			
-			request.setAttribute("types", this.getProcessSubTypes(procType.getId()));
+			request.setAttribute("types", this.getProcessSubTypes(procType.getId(), true));
 			
 			String projectId = request.getParameter("id");
 			if (projectId != null && this.isObjectIdValid(projectId))

@@ -21,6 +21,16 @@
 					<td><input name="processTypeKey" type="text" size="30" value="${processType ne null ? processType.processTypeKey : ''}" class="required" style="width: 88%"/></td>
 				</tr>
 				<tr>
+					<td>可见范围：</td>
+					<td>
+						<select class="combox" name="processTypeVisibility" id="proc_task_type_visibility">
+							<option value="" ${processType ne null && processType.processTypeVisibility eq null ? "selected='selected'" : ""}>全部</option>
+							<option value="1" ${processType ne null && processType.processTypeVisibility eq 1 ? "selected='selected'" : ""}>总部</option>
+							<option value="2" ${processType ne null && processType.processTypeVisibility eq 2 ? "selected='selected'" : ""}>校区</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
 					<td>类别说明：</td>
 					<td><textarea rows="2" cols="40" name="processTypeDesc" class="textInput" style="width: 88%">${processType ne null ? processType.processTypeDesc : ''}</textarea></td>
 				</tr>
