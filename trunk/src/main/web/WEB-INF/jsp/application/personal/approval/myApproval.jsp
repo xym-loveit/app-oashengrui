@@ -101,7 +101,7 @@
 						</td>
 						<td>${finan.employee.empName }</td>
 						<td><c:if test="${finan.entryDateTime ne null}"><fmt:formatDate value="${finan.entryDateTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
-						<td><a class="oplink" href="app/finan/expense.do?action=diaglogFinaExpensePage&id=${finan.id}&op=view" target="dialog" title="‘${finan.employee.empName}’费用申请单-${finan.formNo}审批" width="1150" height="640">审批</a></td>
+						<td><a class="oplink" href="app/finan/expense.do?action=diaglogFinaExpensePage&id=${finan.id}&op=view&history" target="dialog" title="‘${finan.employee.empName}’费用申请单-${finan.formNo}审批" width="1150" height="640">审批</a></td>
 					</tr>
 				</logic:iterate>
 			</logic:present>
@@ -116,7 +116,7 @@
 						</td>
 						<td>${contract.employee.empName }</td>
 						<td><c:if test="${contract.entryDateTime ne null}"><fmt:formatDate value="${contract.entryDateTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
-						<td><a class="oplink" href="app/finan/contract.do?action=diaglogFinaContractPage&id=${contract.id}&op=view" target="dialog" title="查看‘${contract.employee.empName}’合同申请单-${contract.formNo}" width="1150" height="640">审批</a></td>
+						<td><a class="oplink" href="app/finan/contract.do?action=diaglogFinaContractPage&id=${contract.id}&op=view&history" target="dialog" title="查看‘${contract.employee.empName}’合同申请单-${contract.formNo}" width="1150" height="640">审批</a></td>
 					</tr>
 				</logic:iterate>
 			</logic:present>
@@ -134,7 +134,7 @@
 								</td>
 								<td>${type.employee.empName }</td>
 								<td><c:if test="${type.entryDateTime ne null}"><fmt:formatDate value="${type.entryDateTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
-								<td><a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">审批</a></td>
+								<td><a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view&history" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">审批</a></td>
 							</tr>
 						</c:when>
 					</c:choose>
@@ -154,7 +154,7 @@
 								<td>${type.employee.empName }</td>
 								<td><c:if test="${type.entryDateTime ne null}"><fmt:formatDate value="${type.entryDateTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
 								<td>
-									<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">审批</a></td>
+									<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view&history" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">审批</a></td>
 							</tr>
 						</c:when>
 					</c:choose>
@@ -174,7 +174,7 @@
 								<td>${type.employee.empName }</td>
 								<td><c:if test="${type.entryDateTime ne null}"><fmt:formatDate value="${type.entryDateTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
 								<td>
-									<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">审批</a></td>
+									<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view&history" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">审批</a></td>
 							</tr>
 						</c:when>
 					</c:choose>
@@ -195,7 +195,7 @@
 								<td>${type.employee.empName }</td>
 								<td><c:if test="${type.entryDateTime ne null}"><fmt:formatDate value="${type.entryDateTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
 								<td>
-									<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">审批</a></td>
+									<a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view&history" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">审批</a></td>
 							</tr>
 						</c:when>
 					</c:choose>
@@ -212,7 +212,7 @@
 						</td>
 						<td>${project.employee.empName }</td>
 						<td><c:if test="${project.entryDateTime ne null}"><fmt:formatDate value="${project.entryDateTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
-						<td><a class="oplink" href="app/finan/project.do?action=diaglogFinaProjectPage&id=${project.id}&op=view" target="dialog" title="查看‘${project.employee.empName}’新项目申请单-${project.formNo}" width="1150" height="640" rel="approval_project_${project.id}">审批</a></td>
+						<td><a class="oplink" href="app/finan/project.do?action=diaglogFinaProjectPage&id=${project.id}&op=view&history" target="dialog" title="查看‘${project.employee.empName}’新项目申请单-${project.formNo}" width="1150" height="640" rel="approval_project_${project.id}">审批</a></td>
 					</tr>
 				</logic:iterate>
 			</logic:present>
