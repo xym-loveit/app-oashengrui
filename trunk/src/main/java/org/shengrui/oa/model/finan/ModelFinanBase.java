@@ -12,8 +12,10 @@ import org.shengrui.oa.model.flow.ModelProcessType;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.system.ModelSchoolDepartment;
 import org.shengrui.oa.model.system.ModelSchoolDistrict;
+import org.shengrui.oa.util.ContextUtil;
 
 import cn.trymore.core.model.ModelBase;
+import cn.trymore.core.util.UtilCollection;
 
 /**
  * Model: 财务合同申请
@@ -463,5 +465,29 @@ extends ModelBase
 	{
 		this.currentProcDistrictId = currentProcDistrictId;
 	}
-
+	
+	/**
+	 * 获取当前用户最后一次的审批时间
+	 * @return
+	 */
+	public Date getMyLastAuditTime()
+	{
+		if (UtilCollection.isNotEmpty(this.processHistory))
+		{
+			Object[] lstAuditHistories = this.processHistory.toArray();
+			for (int i = lstAuditHistories.length - 1; i >=0 ; i--)
+			{
+				Object obj = lstAuditHistories[i];
+				if (obj instanceof ModelProcessHistory)
+				{
+					if (String.valueOf(ContextUtil.getCurrentUserId()).equals(
+							((ModelProcessHistory) obj).getAuditUserIds()))
+					{
+						return ((ModelProcessHistory) obj).getAuditDate();
+					}
+				}
+			}
+		}
+		return null;
+	}
 }

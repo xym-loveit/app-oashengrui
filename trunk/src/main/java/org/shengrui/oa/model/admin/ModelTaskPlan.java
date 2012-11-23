@@ -6,9 +6,11 @@ import java.util.Set;
 import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.model.system.ModelAppDictionary;
 import org.shengrui.oa.util.AppUtil;
+import org.shengrui.oa.util.ContextUtil;
 
 import cn.trymore.core.acl.AclFilterAnnotation;
 import cn.trymore.core.model.ModelBase;
+import cn.trymore.core.util.UtilCollection;
 
 /**
  * Model: 任务安排
@@ -427,6 +429,31 @@ extends ModelBase
 	public Set<ModelTaskPlanAuditHistory> getAuditHistory()
 	{
 		return auditHistory;
+	}
+	
+	/**
+	 * 获取当前用户最后一次的审批时间
+	 * @return
+	 */
+	public Date getMyLastAuditTime()
+	{
+		if (UtilCollection.isNotEmpty(this.auditHistory))
+		{
+			Object[] lstAuditHistories = this.auditHistory.toArray();
+			for (int i = lstAuditHistories.length - 1; i >=0 ; i--)
+			{
+				Object obj = lstAuditHistories[i];
+				if (obj instanceof ModelTaskPlanAuditHistory)
+				{
+					if (String.valueOf(ContextUtil.getCurrentUserId()).equals(
+							((ModelTaskPlanAuditHistory) obj).getAuditorId()))
+					{
+						return ((ModelTaskPlanAuditHistory) obj).getAuditDate();
+					}
+				}
+			}
+		}
+		return null;
 	}
 	
 }
