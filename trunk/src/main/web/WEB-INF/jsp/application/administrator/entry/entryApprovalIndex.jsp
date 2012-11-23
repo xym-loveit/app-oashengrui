@@ -122,7 +122,8 @@
 				<th align="center">新闻类型</th>
 				<th align="center">新闻标题</th>
 				<th align="center">状态</th>
-				<th align="center">发布校区与部门</th>
+				<th align="center">发布校区</th>
+				<th align="center">发布部门</th>
 				<th align="center">发布时间</th>
 				<th align="center">审批</th>
 				<th align="center">置顶</th>
@@ -163,7 +164,8 @@
 									</c:when>
 								</c:choose>
 							</td>
-							<td>${newsInfo.district.districtName} / ${newsInfo.department.depName}</td>
+							<td>${newsInfo.district.districtName}</td>
+							<td class="${newsInfo.department ne null && newsInfo.department.delFlag eq 1 ? 'delflag' : ''}">${newsInfo.department.depName}</td>
 							<td><c:if test="${newsInfo.updateTime ne null}"><fmt:formatDate value="${newsInfo.updateTime}" pattern="yyyy-MM-dd hh:mm:ss" /></c:if></td>
 							<td>
 							<c:if test="${tm:ifGranted('_FUNCKEY_ADMIN_NEWS_APPROVING') }">

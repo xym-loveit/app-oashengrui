@@ -40,7 +40,7 @@
 					<td>${entity.jobHireIssue.jobHire.jobHireTitle}</td>
 					<td>${entity.jobHireIssue.jobHire.jobHireCount}</td>
 					<td>${entity.jobHireIssue.jobHire.jobHireDistrict ne null ? entity.jobHireIssue.jobHire.jobHireDistrict.districtName : ''}</td>
-					<td>${entity.jobHireIssue.jobHire.jobHireDepartment ne null ? entity.jobHireIssue.jobHire.jobHireDepartment.depName : ''}</td>
+					<td class="${entity.jobHireIssue.jobHire.jobHireDepartment ne null && entity.jobHireIssue.jobHire.jobHireDepartment.delFlag eq 1 ? 'delflag' : ''}">${entity.jobHireIssue.jobHire.jobHireDepartment ne null ? entity.jobHireIssue.jobHire.jobHireDepartment.depName : ''}</td>
 					<td><fmt:formatDate  value="${entity.jobHireIssue.jobHire.jobHireEndDate}" pattern="yyyy-MM-dd" /></td>
 					<td>${entity.jobHireIssue.resume.fullName}</td>
 					<td>${entity.jobHireIssue.resume.mobilePhone}</td>

@@ -37,7 +37,7 @@
 					<td>${entity.employee ne null ? entity.employee.empName : ''}</td>
 					<td>${entity.applyAmt}</td>
 					<td>${entity.empDistrict ne null ? entity.empDistrict.districtName : ''}</td>
-					<td>${entity.empDepartment ne null ? entity.empDepartment.depName : ''}</td>
+					<td class="${entity.empDepartment ne null && entity.empDepartment.delFlag eq 1 ? 'delflag' : ''}">${entity.empDepartment ne null ? entity.empDepartment.depName : ''}</td>
 					<td><fmt:formatDate  value="${entity.entryDateTime}" pattern="yyyy-MM-dd hh:mm" /></td>
 					<c:choose>
 						<c:when test="${entity.applyForm eq null || fn:length(entity.applyForm) == 0}"><td style="background-color: #ddd">审批结束</td></c:when>

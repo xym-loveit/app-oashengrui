@@ -51,7 +51,7 @@
 							<td>${entity.jobHireTitle}</td>
 							<td>${entity.jobHireCount}</td>
 							<td>${entity.jobHireDistrict ne null ? entity.jobHireDistrict.districtName : ''}</td>
-							<td>${entity.jobHireDepartment ne null ? entity.jobHireDepartment.depName : ''}</td>
+							<td class="${entity.jobHireDepartment ne null && entity.jobHireDepartment.delFlag eq 1 ? 'delflag' : ''}">${entity.jobHireDepartment ne null ? entity.jobHireDepartment.depName : ''}</td>
 							<td>${entity.jobHireAddress}</td>
 							<td>${entity.jobHireRange eq 1 ? '内外兼招' : (entity.jobHireRange eq 2 ? '外部招聘' : ( entity.jobHireRange eq 3 ? '内部招聘' : '未知'))}</td>
 							<td><fmt:formatDate value="${entity.jobHireEndDate}" pattern="yyyy-MM-dd" /></td>

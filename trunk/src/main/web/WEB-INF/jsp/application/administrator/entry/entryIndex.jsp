@@ -115,7 +115,8 @@
 				<th align="center">新闻类型</th>
 				<th align="center">新闻标题</th>
 				<th align="center">状态</th>
-				<th align="center">发布校区与部门</th>
+				<th align="center">发布校区</th>
+				<th align="center">发布部门</th>
 				<th align="center">发布时间</th>
 				<th align="center">操作</th>
 			</tr>
@@ -153,7 +154,8 @@
 						</c:when>
 					</c:choose>
 					</td>
-					<td>${news.district.districtName} / ${news.department.depName} </td>
+					<td>${news.district.districtName}</td>
+					<td class="${news.department ne null && news.department.delFlag eq 1 ? 'delflag' : ''}">${news.department.depName}</td>
 					<td><c:if test="${news.updateTime ne null}"><fmt:formatDate value="${news.updateTime}" pattern="yyyy-MM-dd hh:mm:ss" /></c:if></td>
 					<td> 
 					<c:choose>
