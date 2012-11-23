@@ -21,6 +21,9 @@
         <property name="processTypeDesc" type="java.lang.String">
             <column name="type_desc" />
         </property>
+        <property name="processTypeVisibility" type="java.lang.Integer">
+        	<column name="type_visibility" />
+        </property>
         
         <many-to-one not-found="ignore" name="processTypeParent" class="ModelProcessType">
         	<column name="type_parent" />

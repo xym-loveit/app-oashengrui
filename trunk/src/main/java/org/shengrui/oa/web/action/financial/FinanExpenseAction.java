@@ -208,7 +208,7 @@ extends BaseFinanAction
 				return ajaxPrint(response, getErrorCallback("费用支出申请流程类型不存在..."));
 			}
 			
-			request.setAttribute("types", this.getProcessSubTypes(procType.getId()));
+			request.setAttribute("types", this.getProcessSubTypes(procType.getId(), true));
 			
 			String expenseId = request.getParameter("id");
 			if (expenseId != null && this.isObjectIdValid(expenseId))

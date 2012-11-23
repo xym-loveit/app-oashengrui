@@ -59,6 +59,42 @@ extends ModelBase
 	 */
 	private Set<ModelProcessDefinition> processDefinitions;
 	
+	/**
+	 * 流程类别可见范围 (全部, 总部, 校区)
+	 */
+	private Integer processTypeVisibility;
+	
+	/**
+	 * The enumeration of process type visibility
+	 * 
+	 * @author Jeccy.Zhao
+	 *
+	 */
+	public static enum EProcessTypeVisibility
+	{
+		ALL(null, "all"),						// 全部
+		MASTER(1, "master"),					// 总部
+		SLAVER (2, "slaver");					// 校区
+		
+		private Integer value;
+		private String text;
+		
+		EProcessTypeVisibility (Integer value, String text)
+		{
+			this.value = value;
+			this.text = text;
+		}
+		
+		public Integer getValue(){
+			return value;
+		}
+		
+		public String getText()
+		{
+			return this.text;
+		}
+	}
+	
 	public String getProcessTypeName()
 	{
 		return processTypeName;
@@ -135,5 +171,19 @@ extends ModelBase
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public void setProcessTypeVisibility(Integer processTypeVisibility)
+	{
+		if (processTypeVisibility != null && processTypeVisibility < 0) 
+		{
+			processTypeVisibility = null;
+		}
+		this.processTypeVisibility = processTypeVisibility;
+	}
+
+	public Integer getProcessTypeVisibility()
+	{
+		return processTypeVisibility;
 	}
 }

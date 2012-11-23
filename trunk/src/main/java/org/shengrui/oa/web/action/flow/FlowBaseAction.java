@@ -19,11 +19,14 @@ import org.apache.struts.action.ActionMapping;
 import org.shengrui.oa.model.flow.ModelProcessDefinition;
 import org.shengrui.oa.model.flow.ModelProcessTask;
 import org.shengrui.oa.model.flow.ModelProcessType;
+import org.shengrui.oa.model.hrm.ModelHrmEmployee;
 import org.shengrui.oa.service.flow.ServiceProcessDefinition;
 import org.shengrui.oa.service.flow.ServiceProcessForm;
 import org.shengrui.oa.service.flow.ServiceProcessTask;
 import org.shengrui.oa.service.flow.ServiceProcessType;
 import org.shengrui.oa.service.flow.ServiceWorkFlow;
+import org.shengrui.oa.util.AppUtil;
+import org.shengrui.oa.util.ContextUtil;
 import org.shengrui.oa.web.action.BaseAppAction;
 
 import cn.trymore.core.exception.ServiceException;
@@ -321,6 +324,7 @@ extends BaseAppAction
 			String processTypeKey = request.getParameter("processTypeKey");
 			String processTypeDesc = request.getParameter("processTypeDesc");
 			String processTypeSlug = request.getParameter("processTypeSlug");
+			String processTypeVisibility = request.getParameter("processTypeVisibility");
 			
 			ModelProcessType entity = null;
 			ModelProcessType entityParent = null;
@@ -358,6 +362,11 @@ extends BaseAppAction
 				entity.setProcessTypeKey(processTypeKey);
 				entity.setProcessTypeSlug(processTypeSlug);
 				entity.setProcessTypeParent(entityParent);
+				
+				if (UtilString.isNotEmpty(processTypeVisibility))
+				{
+					entity.setProcessTypeVisibility(Integer.valueOf(processTypeVisibility));
+				}
 				
 				this.serviceProcessType.save(entity);
 				
@@ -1092,11 +1101,61 @@ extends BaseAppAction
 	 */
 	protected Set<ModelProcessType> getProcessSubTypes (String rootTypeId) throws Exception
 	{
+		return getProcessSubTypes(rootTypeId, false);
+	}
+	
+	/**
+	 * 根据父工作流ID获取子工作流类型
+	 * 
+	 * @param rootTypeId
+	 * @param filterByVisibility
+	 *           是否进行选择范围性过滤.
+	 * @return
+	 * @throws Exception
+	 */
+	protected Set<ModelProcessType> getProcessSubTypes (
+			String rootTypeId, boolean filterByVisibility) throws Exception
+	{
 		ModelProcessType rootProcessType = this.serviceProcessType.get(rootTypeId);
 		
 		if (rootProcessType != null)
 		{
-			return rootProcessType.getProcessTypeChildren();
+			Set<ModelProcessType> subTypes = rootProcessType.getProcessTypeChildren();
+			
+			if (filterByVisibility)
+			{
+				if (UtilCollection.isNotEmpty(subTypes))
+				{
+					Iterator<ModelProcessType> itor = subTypes.iterator();
+					while (itor.hasNext())
+					{
+						ModelProcessType type = itor.next();
+						
+						ModelHrmEmployee employee = ContextUtil.getCurrentUser().getEmployee();
+						if (employee.getEmployeeDistrict() != null)
+						{
+							Integer visibility = type.getProcessTypeVisibility();
+							Integer empDisType = employee.getEmployeeDistrict().getDistrictType();
+							
+							if (visibility != ModelProcessType.EProcessTypeVisibility.ALL.getValue())
+							{
+								if (visibility.equals(ModelProcessType.EProcessTypeVisibility.MASTER.getValue()) && 
+										!empDisType.equals(AppUtil.EAppSchoolType.HEADQUARTERS.getValue()))
+								{
+									itor.remove();
+								}
+								else if (visibility.equals(ModelProcessType.EProcessTypeVisibility.SLAVER.getValue()) &&
+										empDisType.equals(AppUtil.EAppSchoolType.HEADQUARTERS.getValue()))
+								{
+									itor.remove();
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			return subTypes;
 		}
 		else
 		{

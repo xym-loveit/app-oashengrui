@@ -48,3 +48,8 @@ ALTER TABLE  `app_hrm_hire_job_audithistory` CHANGE  `entity_id`  `entity_id` BI
 --
 ALTER TABLE  `app_school_department` ADD  `del_flag` TINYINT DEFAULT 0 COMMENT  '删除标记. 1=删除,  0=未删除' AFTER  `dep_orgtype`;
 ALTER TABLE  `app_school_department_position` ADD  `del_flag` TINYINT DEFAULT 0 COMMENT  '删除标记. 1=删除, 0=未删除' AFTER  `pos_roleRights`;
+
+--
+-- Added by Jeccy.Zhao on 2012-11-23
+--
+ALTER TABLE  `app_process_type` ADD  `type_visibility` TINYINT NULL COMMENT  '类别可见范围. null=全部, 1=总部, 2=校区' AFTER  `type_parent`

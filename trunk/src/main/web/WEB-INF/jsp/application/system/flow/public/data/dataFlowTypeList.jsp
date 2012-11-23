@@ -15,6 +15,7 @@
 			<th align="center">序号</th>
 			<th align="center">类别名称</th>
 			<th align="center">类别标识</th>
+			<th align="center">可见范围</th>
 			<th align="center">类别说明</th>
 			<th align="center">流程状态</th>
 			<th align="center">流程配置</th>
@@ -29,6 +30,7 @@
 					<td>${idx+1}</td>
 					<td style="text-align:left;">${entity.processTypeName}</td>
 					<td style="text-align:left;">${entity.processTypeKey}</td>
+					<td style="text-align:left;">${entity.processTypeVisibility eq null ? '全部' : (entity.processTypeVisibility eq 1 ? '总部' : '校区')}</td>
 					<td style="text-align:left;">${entity.processTypeDesc}</td>
 					<td>
 						<c:choose>
@@ -47,7 +49,7 @@
 					<td>
 						<c:choose>
 							<c:when test="${(typeSlug eq 'finance' && tm:ifGranted('_FUNCKEY_FLOW_FINAN_PROC_TYPE_EDIT'))}">
-								<a href="app/flow/${typeSlug}.do?action=dialogFlowTypePage&rootTypeId=${entity.processTypeParent.id}&id=${entity.id}" class="oplink" target="dialog" title="审批类型`${entity.processTypeName}`编辑" width="400" height="245" rel="sys_flowEdit-${entity.id}">编辑</a>
+								<a href="app/flow/${typeSlug}.do?action=dialogFlowTypePage&rootTypeId=${entity.processTypeParent.id}&id=${entity.id}" class="oplink" target="dialog" title="审批类型`${entity.processTypeName}`编辑" width="400" height="265" rel="sys_flowEdit-${entity.id}">编辑</a>
 							</c:when>
 							<c:otherwise><label class="opdisabled" title="您没有权限进行该操作">---</label></c:otherwise>
 						</c:choose>
