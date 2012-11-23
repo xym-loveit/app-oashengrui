@@ -238,7 +238,11 @@ extends sysSettingBaseAction
 										builder.append(",");
 									}
 								}
-								builder.deleteCharAt(builder.length() -1);
+								
+								if (builder.length() > 0)
+								{
+									builder.deleteCharAt(builder.length() -1);
+								}
 								position.setPositionRoleRights(builder.toString());
 								builder = null;
 							}
