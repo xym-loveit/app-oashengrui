@@ -120,7 +120,7 @@
 						<td>${entity.jobHireCount}</td>
 						<td>${fn:length(entity.jobHireIssues)}</td>
 						<td>${entity.jobHireDistrict ne null ? entity.jobHireDistrict.districtName : ''}</td>
-						<td>${entity.jobHireDepartment ne null ? entity.jobHireDepartment.depName : ''}</td>
+						<td class="${entity.jobHireDepartment ne null && entity.jobHireDepartment.delFlag eq 1 ? 'delflag' : ''}">${entity.jobHireDepartment ne null ? entity.jobHireDepartment.depName : ''}</td>
 						<td>${entity.jobHireRange eq 1 ? '内外兼招' : (entity.jobHireRange eq 2 ? '外部招聘' : (entity.jobHireRange eq 3 ? '内部招聘' : ''))}</td>
 						<td>${entity.status eq 1 ? '待校区审批' : (entity.status eq 2 ? '待总部审批' : (entity.status eq 3 ? '审核退回' : (entity.status eq 4 ? '审核通过' : '未知')))}</td>
 						<td>

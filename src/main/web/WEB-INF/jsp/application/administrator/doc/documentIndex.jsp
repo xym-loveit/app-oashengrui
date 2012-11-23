@@ -70,7 +70,8 @@
 				<th align="center">文档类型</th>
 				<th align="center">文档名称</th>
 				<th align="center">上传时间</th>
-				<th align="center">上传校区与部门</th>
+				<th align="center">上传校区</th>
+				<th align="center">上传部门</th>
 				<th align="center">编辑</th>
 				<th align="center">删除</th>
 			</tr>
@@ -84,7 +85,8 @@
                 <td>${entity.type.value}</td>
                 <td>${entity.docName}</td>
                 <td>${entity.createTime}</td>
-                <td>${entity.district.districtName} / ${entity.department.depName}</td>
+                <td>${entity.district.districtName}</td>
+				<td class="${entity.department ne null && entity.department.delFlag eq 1 ? 'delflag' : ''}">${entity.department.depName}</td>
 				<td>
 				<c:choose>
 					<c:when test="${tm:ifGranted('_FUNCKEY_ADMIN_DOC_EDIT')}">
