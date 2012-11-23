@@ -57,12 +57,44 @@
 <div id="fina_print_wrapper">
 	<!-- 审批状态 -->
 	<c:if test="${op ne null && op eq 'view'}">
+		<c:if test="${history ne null}">
+			<div style="padding: 10px 0px 3px 0px; border-bottom: 1px dotted #999; margin: 0 10px 5px 10px; overflow: auto; clear: both;">
+				<div style="color:#999; line-height: 18px;">审批记录：</div>
+			</div>
+			<table id="tblexp_history" cellpadding="0" cellspacing="0" width="98%" border="1" style="border-collapse: collapse; border-color: #797979; margin: 0 auto;">
+				<logic:present name="entity" property="processHistory">
+					<logic:iterate name="entity" property="processHistory" id="data">
+						<tr>
+							<td width="15%" class="audit${data.auditState}" style="line-height: 35px;">
+								${data.toDepartmentNames}-${data.toPositionNames ne null ? data.toPositionNames : '未知'}
+								<c:choose>
+									<c:when test="${data.taskType eq 1 || data.taskType eq 2}">(校区)</c:when>
+									<c:when test="${data.taskType eq 3 || data.taskType eq 4}">(总部)</c:when>
+									<c:when test="${data.taskType eq 6 || data.taskType eq 7 || data.taskType eq 8}">(片区)</c:when>
+									<c:otherwise>(未知)</c:otherwise>
+								</c:choose>
+								审批
+							</td>
+							<td style="padding:0 5px;">
+								<c:choose>
+									<c:when test="${data.auditState eq 0}">由于无法触及该节点,略过该流程...</c:when>
+									<c:otherwise>
+										${data.auditIdea} &nbsp;
+										(<span style="color: #FF7300;"><label style="color: #444; float:none; width: auto">审批结果:</label> ${data.auditState eq 2 ? '通过' : (data.auditState eq 3 ? '不通过' : '退回')} &nbsp;<label style="color: #444; float:none; width: auto">审批人:</label> ${data.auditUserNames} &nbsp;<label style="color: #444; float:none; width: auto">审批时间:</label> <fmt:formatDate value="${data.auditDate}" pattern="yyyy-MM-dd hh:mm:ss" /></span>)
+									</c:otherwise>
+								</c:choose>
+							</td>
+						</tr>
+					</logic:iterate>
+				</logic:present>
+			</table>	
+		</c:if>
 		<div style="padding: 10px 0px; border-bottom: 1px dotted #999; margin: 0 10px 15px 10px; overflow: auto; clear: both;">
-			<div style="color:#FF7300; line-height: 18px;">${history ne null || entity.applyForm eq null || fn:length(entity.applyForm) == 0? '历史审批记录' : '审批流程'}：</div>
+			<div style="color:#FF7300; line-height: 18px;">${entity.applyForm eq null || fn:length(entity.applyForm) == 0? '历史审批记录' : '审批流程'}：</div>
 		</div>
 		<table id="tblexp" cellpadding="0" cellspacing="0" width="98%" border="1" style="border-collapse: collapse; border-color: #797979; margin: 0 auto;">
 			<c:choose>
-				<c:when test="${history ne null || entity.applyForm eq null || fn:length(entity.applyForm) == 0}">
+				<c:when test="${entity.applyForm eq null || fn:length(entity.applyForm) == 0}">
 					<logic:present name="entity" property="processHistory">
 						<logic:iterate name="entity" property="processHistory" id="entity">
 							<tr>
