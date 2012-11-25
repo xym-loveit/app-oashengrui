@@ -841,12 +841,15 @@ extends sysSettingBaseAction
 						String[] arrayOfRoleRights = positionRights.split("[,]");
 						for (int i = 0; i < arrayOfRoleRights.length; i++)
 						{
-							ModelAppRole modelAppRole = this.serviceAppRole.getRoleByKey(arrayOfRoleRights[i]);
-							if (modelAppRole == null)
+							if (UtilString.isNotEmpty(arrayOfRoleRights[i]))
 							{
-								continue;
+								ModelAppRole modelAppRole = this.serviceAppRole.getRoleByKey(arrayOfRoleRights[i]);
+								if (modelAppRole == null)
+								{
+									continue;
+								}
+								entity.getRoles().add(modelAppRole);
 							}
-							entity.getRoles().add(modelAppRole);
 						}
 					}
 					

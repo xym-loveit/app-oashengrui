@@ -16,4 +16,8 @@
 	<definition name="data.addressbook.employee"
 		path="/WEB-INF/jsp/application/system/account/data/dataEmployeeInfo.jsp"/>
 	
+	<!-- 用户权限设置页面 -->
+	<definition name="dialog.uer.role.page"
+		path="/WEB-INF/jsp/application/system/account/dialog/dialogAccountRolePage.jsp" />
+		
 </tiles-definitions>

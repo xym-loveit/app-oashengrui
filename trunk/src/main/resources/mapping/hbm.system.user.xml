@@ -50,6 +50,9 @@
         <property name="lastLogonTime" type="timestamp">
             <column name="logon_lastime" />
         </property>
+        <property name="roleRights" type="java.lang.String">
+            <column name="role_rights" />
+        </property>
         
         <many-to-one  name="position" class="ModelSchoolDepartmentPosition" not-found="ignore">
         	<column name="pos_id" />

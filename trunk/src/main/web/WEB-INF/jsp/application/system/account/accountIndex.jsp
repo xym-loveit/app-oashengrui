@@ -70,6 +70,7 @@
 				<th align="center">最后登录IP</th>
 				<th align="center">激活/冻结</th>
 				<th align="center">重置密码</th>
+				<th align="center">权限设置</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -112,6 +113,9 @@
 							</c:when>
 							<c:otherwise><label class="opdisabled" title="您没有权限重置密码">---</label></c:otherwise>
 						</c:choose>
+						</td>
+						<td>
+							<a href="app/system/account.do?action=dialogUserRole&uid=${user.id}" target="dialog" title="权限设置" class="oplink" width="504" height="448" rel="sysmgr_account_roleset">权限设置</a>
 						</td>
 					</tr>
 				</logic:iterate>
