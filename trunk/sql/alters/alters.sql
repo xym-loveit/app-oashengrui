@@ -67,3 +67,4 @@ ALTER TABLE  `app_hrm_employee_develop` ADD  `cproc_userid` BIGINT NULL COMMENT 
 -- Added by Jeccy.Zhao on 2012-11-25
 --
 ALTER TABLE  `app_user` ADD  `role_rights` TEXT NULL COMMENT  '用户拥有的权限Key串' AFTER  `del_flag`;
+INSERT INTO `app_sroa`.`app_function` (`func_id`, `func_key`, `func_name`, `func_icon`, `func_desc`, `menu_id`, `strategy_ids`) VALUES (NULL, '_FUNCKEY_ADMIN_ACCOUNT_ROLE_SET', '用户权限设置', NULL, NULL, '26', NULL);
