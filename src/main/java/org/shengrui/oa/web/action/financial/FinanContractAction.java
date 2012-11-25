@@ -23,6 +23,7 @@ import org.shengrui.oa.util.WebActionUtil;
 
 import cn.trymore.core.exception.ServiceException;
 import cn.trymore.core.util.UtilBean;
+import cn.trymore.core.util.UtilString;
 import cn.trymore.core.web.paging.PaginationSupport;
 import cn.trymore.core.web.paging.PagingBean;
 
@@ -316,6 +317,7 @@ extends BaseFinanAction
 				contractInfo.setCurrentProcDepId(procForm.getToDepartmentIds());
 				contractInfo.setCurrentProcPosId(procForm.getToPositionIds());
 				contractInfo.setCurrentProcDistrictId(procForm.getToDistrictIds());
+				contractInfo.setCurrentProcUserId(procForm.getToUserIds());
 			}
 			else
 			{
@@ -339,15 +341,25 @@ extends BaseFinanAction
 				params.put("procForm", procForm);
 				params.put("type", FIANA_CATKEY_CONTRACT);
 				
-				List<ModelHrmEmployee> employees = this.serviceHrmEmployee.getByOrganization(
-						procForm.getToDistrictIds(), procForm.getToDepartmentIds(), procForm.getToPositionIds());
-				
 				StringBuilder builder = new StringBuilder();
-				for (int i = 0, size = employees.size(); i <  size; i++)
+				
+				if (UtilString.isNotEmpty(procForm.getToDistrictIds(), 
+						procForm.getToDepartmentIds(), procForm.getToPositionIds()))
 				{
-					ModelHrmEmployee employee = employees.get(i);
-					builder.append(employee.getId());
-					builder.append(",");
+					List<ModelHrmEmployee> employees = this.serviceHrmEmployee.getByOrganization(
+							procForm.getToDistrictIds(), procForm.getToDepartmentIds(), procForm.getToPositionIds());
+					
+					for (int i = 0, size = employees.size(); i <  size; i++)
+					{
+						ModelHrmEmployee employee = employees.get(i);
+						builder.append(employee.getId());
+						builder.append(",");
+					}
+				}
+				
+				if (UtilString.isNotEmpty(contractInfo.getCurrentProcUserId()))
+				{
+					builder.append(contractInfo.getCurrentProcUserId());
 				}
 				
 				this.sendMessage("my.approval.audit.fina", 

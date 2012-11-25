@@ -168,6 +168,7 @@ extends FlowBaseAction
 								entity.setCurrentProcDepId(null);
 								entity.setCurrentProcPosId(null);
 								entity.setCurrentProcDistrictId(null);
+								entity.setCurrentProcUserId(null);
 							}
 							else
 							{
@@ -175,6 +176,7 @@ extends FlowBaseAction
 								entity.setCurrentProcDepId(procForm.getToDepartmentIds());
 								entity.setCurrentProcPosId(procForm.getToPositionIds());
 								entity.setCurrentProcDistrictId(procForm.getToDistrictIds());
+								entity.setCurrentProcUserId(procForm.getToUserIds());
 							}
 							
 							// 关联绑定历史审核数据
@@ -198,6 +200,7 @@ extends FlowBaseAction
 								// 审批结束, 审批退回/不通过/通过
 								entity.setCurrentProcDepId(null);
 								entity.setCurrentProcPosId(null);
+								entity.setCurrentProcUserId(null);
 							}
 							else
 							{
@@ -205,6 +208,7 @@ extends FlowBaseAction
 								entity.setCurrentProcDepId(procForm.getToDepartmentIds());
 								entity.setCurrentProcPosId(procForm.getToPositionIds());
 								entity.setCurrentProcDistrictId(procForm.getToDistrictIds());
+								entity.setCurrentProcUserId(procForm.getToUserIds());
 							}
 							
 							// 关联绑定历史审核数据
@@ -228,6 +232,7 @@ extends FlowBaseAction
 								// 审批结束, 审批退回/不通过/通过
 								entity.setCurrentProcDepId(null);
 								entity.setCurrentProcPosId(null);
+								entity.setCurrentProcUserId(null);
 							}
 							else
 							{
@@ -235,6 +240,7 @@ extends FlowBaseAction
 								entity.setCurrentProcDepId(procForm.getToDepartmentIds());
 								entity.setCurrentProcPosId(procForm.getToPositionIds());
 								entity.setCurrentProcDistrictId(procForm.getToDistrictIds());
+								entity.setCurrentProcUserId(procForm.getToUserIds());
 							}
 							
 							// 关联绑定历史审核数据

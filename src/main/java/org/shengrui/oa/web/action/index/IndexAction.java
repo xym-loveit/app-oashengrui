@@ -260,11 +260,11 @@ extends BaseAppAction
 						WebActionUtil.MENU_ITEM_HRM_DEVELOP.getObject().getObject(),
 						ModelHrmEmployeeDevelop.class, 
 						new String[] {
-							"(cproc_depid = " + 
+							"(cproc_userid = " + ContextUtil.getCurrentUser().getEmployeeId() + " or (cproc_depid = " + 
 								ContextUtil.getCurrentUser().getDepartmentId() + " and cproc_posid= " + 
 								ContextUtil.getCurrentUser().getPositionId() + " and " +
 								"(cproc_disid = " + 
-									ContextUtil.getCurrentUser().getDistrictId() + "))"
+									ContextUtil.getCurrentUser().getDistrictId() + ")))"
 						},
 						false
 					)
@@ -286,11 +286,11 @@ extends BaseAppAction
 						WebActionUtil.MENU_ITEM_FINA_EXPENSE.getObject().getObject(),
 						ModelFinanExpense.class, 
 						new String[] {
-							"(cproc_depid = " + 
-								ContextUtil.getCurrentUser().getDepartmentId() + " and cproc_posid= " + 
-								ContextUtil.getCurrentUser().getPositionId() + " and " +
-								"(cproc_disid = " + 
-									ContextUtil.getCurrentUser().getDistrictId() + "))"
+							"(cproc_userid = " + ContextUtil.getCurrentUser().getEmployeeId() + " or (cproc_depid = " + 
+									ContextUtil.getCurrentUser().getDepartmentId() + " and cproc_posid= " + 
+									ContextUtil.getCurrentUser().getPositionId() + " and " +
+									"(cproc_disid = " + 
+										ContextUtil.getCurrentUser().getDistrictId() + ")))"
 						},
 						false
 					)
@@ -312,11 +312,11 @@ extends BaseAppAction
 						WebActionUtil.MENU_ITEM_FINA_CONTRACT.getObject().getObject(),
 						ModelFinanContract.class, 
 						new String[] {
-							"(cproc_depid = " + 
-								ContextUtil.getCurrentUser().getDepartmentId() + " and cproc_posid= " + 
-								ContextUtil.getCurrentUser().getPositionId() + " and " +
-								"(cproc_disid = " + 
-									ContextUtil.getCurrentUser().getDistrictId() + "))"
+							"(cproc_userid = " + ContextUtil.getCurrentUser().getEmployeeId() + " or (cproc_depid = " + 
+									ContextUtil.getCurrentUser().getDepartmentId() + " and cproc_posid= " + 
+									ContextUtil.getCurrentUser().getPositionId() + " and " +
+									"(cproc_disid = " + 
+										ContextUtil.getCurrentUser().getDistrictId() + ")))"
 						},
 						false
 					)
@@ -338,11 +338,11 @@ extends BaseAppAction
 						WebActionUtil.MENU_ITEM_FINA_PROJECT.getObject().getObject(),
 						ModelFinanProject.class, 
 						new String[] {
-							"(cproc_depid = " + 
-								ContextUtil.getCurrentUser().getDepartmentId() + " and cproc_posid= " + 
-								ContextUtil.getCurrentUser().getPositionId() + " and " +
-								"(cproc_disid = " + 
-									ContextUtil.getCurrentUser().getDistrictId() + "))"
+							"(cproc_userid = " + ContextUtil.getCurrentUser().getEmployeeId() + " or (cproc_depid = " + 
+									ContextUtil.getCurrentUser().getDepartmentId() + " and cproc_posid= " + 
+									ContextUtil.getCurrentUser().getPositionId() + " and " +
+									"(cproc_disid = " + 
+										ContextUtil.getCurrentUser().getDistrictId() + ")))"
 						},
 						false
 					)

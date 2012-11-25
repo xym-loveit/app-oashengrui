@@ -48,12 +48,17 @@
 							<c:when test="${entity.applyForm eq null || fn:length(entity.applyForm) == 0}">---</c:when>
 							<c:otherwise>
 								<c:if test="${entity.currentProcessForm ne null}">
-									${entity.currentProcessForm.toDepartmentNames}-${entity.currentProcessForm.toPositionNames}
 									<c:choose>
-										<c:when test="${entity.currentProcessForm.taskType eq 1 || entity.currentProcessForm.taskType eq 2}">(校区)</c:when>
-										<c:when test="${entity.currentProcessForm.taskType eq 3 || entity.currentProcessForm.taskType eq 4}">(总部)</c:when>
-										<c:when test="${entity.currentProcessForm.taskType eq 6 || entity.currentProcessForm.taskType eq 7 || entity.currentProcessForm.taskType eq 8}">(片区)</c:when>
-										<c:otherwise>未知</c:otherwise>
+										<c:when test="${entity.currentProcessForm.toUserNames ne null}">审批人`${entity.currentProcessForm.toUserNames}`</c:when>
+										<c:otherwise>
+											${entity.currentProcessForm.toDepartmentNames}-${entity.currentProcessForm.toPositionNames}
+											<c:choose>
+												<c:when test="${entity.currentProcessForm.taskType eq 1 || entity.currentProcessForm.taskType eq 2}">(校区)</c:when>
+												<c:when test="${entity.currentProcessForm.taskType eq 3 || entity.currentProcessForm.taskType eq 4}">(总部)</c:when>
+												<c:when test="${entity.currentProcessForm.taskType eq 6 || entity.currentProcessForm.taskType eq 7 || entity.currentProcessForm.taskType eq 8}">(片区)</c:when>
+												<c:otherwise>未知</c:otherwise>
+											</c:choose>
+										</c:otherwise>
 									</c:choose>
 								</c:if>
 							</c:otherwise>

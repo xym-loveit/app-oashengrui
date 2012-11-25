@@ -161,6 +161,11 @@ extends ModelBase
 	protected String currentProcDistrictId;
 	
 	/**
+	 * 当前审批人ID (个人审批环节), 主要用于待办审批提醒
+	 */
+	protected String currentProcUserId;
+	
+	/**
 	 * 当前审批部门ID, 主要用于待办审批提醒.
 	 */
 	protected String currentProcDepId;
@@ -555,6 +560,16 @@ extends ModelBase
 	public void setCurrentProcDistrictId(String currentProcDistrictId)
 	{
 		this.currentProcDistrictId = currentProcDistrictId;
+	}
+	
+	public String getCurrentProcUserId()
+	{
+		return currentProcUserId;
+	}
+
+	public void setCurrentProcUserId(String currentProcUserId)
+	{
+		this.currentProcUserId = currentProcUserId;
 	}
 	
 	/**

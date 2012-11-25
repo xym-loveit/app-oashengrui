@@ -171,11 +171,11 @@ extends ServiceGenericImpl<ModelHrmEmployeeDevelop> implements ServiceHrmEmploye
 			if (isOnApproval)
 			{
 				criteria.add(Restrictions.sqlRestriction(
-					"(cproc_depid = " + 
-						ContextUtil.getCurrentUser().getDepartmentId() + " and cproc_posid= " + 
-						ContextUtil.getCurrentUser().getPositionId() + " and " +
-						"(cproc_disid = " + 
-							ContextUtil.getCurrentUser().getDistrictId() + "))"
+						"(cproc_userid = " + ContextUtil.getCurrentUser().getEmployeeId() + " or (cproc_depid = " + 
+								ContextUtil.getCurrentUser().getDepartmentId() + " and cproc_posid= " + 
+								ContextUtil.getCurrentUser().getPositionId() + " and " +
+								"(cproc_disid = " + 
+									ContextUtil.getCurrentUser().getDistrictId() + ")))"
 					)
 				);
 			}

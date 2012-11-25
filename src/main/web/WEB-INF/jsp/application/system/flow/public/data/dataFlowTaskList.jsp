@@ -21,6 +21,7 @@
 			<th align="center">流程节点类型</th>
 			<th align="center">待审批部门</th>
 			<th align="center">待审批岗位</th>
+			<th align="center">待审批人</th>
 			<th align="center">编辑</th>
 			<th align="center">删除</th>
 		</tr>
@@ -39,6 +40,7 @@
 							<c:when test="${entity.processTaskType eq 6}">账号所在片区(本部门)</c:when>
 							<c:when test="${entity.processTaskType eq 7}">账号所在片区(某部门)</c:when>
 							<c:when test="${entity.processTaskType eq 8}">片区部门</c:when>
+							<c:when test="${entity.processTaskType eq 9}">个人审批</c:when>
 							<c:otherwise>未知</c:otherwise>
 						</c:choose>
 					</td>
@@ -48,7 +50,7 @@
 							<c:when test="${entity.processTaskType eq 3}">总部对口部门</c:when>
 							<c:when test="${entity.processTaskType eq 6 || entity.processTaskType eq 8}">片区部门</c:when>
 							<c:when test="${entity.processTaskType eq 2 || entity.processTaskType eq 4 || entity.processTaskType eq 5 || entity.processTaskType eq 7}">${entity.toDepartmentNames}</c:when>
-							<c:otherwise>未知</c:otherwise>
+							<c:otherwise>/</c:otherwise>
 						</c:choose>
 					</td>
 					<td>
@@ -57,7 +59,13 @@
 							<c:when test="${entity.processTaskType eq 3}">总部对口岗位</c:when>
 							<c:when test="${entity.processTaskType eq 6 || entity.processTaskType eq 8}">片区岗位</c:when>
 							<c:when test="${entity.processTaskType eq 2 || entity.processTaskType eq 4 || entity.processTaskType eq 5 || entity.processTaskType eq 7}">${entity.toPositionNames}</c:when>
-							<c:otherwise>未知</c:otherwise>
+							<c:otherwise>/</c:otherwise>
+						</c:choose>
+					</td>
+					<td>
+						<c:choose>
+							<c:when test="${entity.processTaskType eq 9}">${entity.toUserNames}</c:when>
+							<c:otherwise>/</c:otherwise>
 						</c:choose>
 					</td>
 					<td>

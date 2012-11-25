@@ -557,12 +557,15 @@ implements ServiceWorkFlow
 			if (form.getAuditState() == null || 
 					!form.getAuditState().equals(ModelProcessForm.EProcessFormStatus.IGNORED.getValue()))
 			{
-				List<ModelHrmEmployee> employees = this.serviceHrmEmployee.getByOrganization(
-						form.getToDistrictIds(), form.getToDepartmentIds(), form.getToPositionIds());
-				if (!UtilCollection.isNotEmpty(employees))
+				if (UtilString.isNotEmpty(form.getToDistrictIds(), form.getToDepartmentIds(), form.getToPositionIds()))
 				{
-					// 节点无法触及, 直接忽略.
-					form.setAuditState(ModelProcessForm.EProcessFormStatus.IGNORED.getValue());
+					List<ModelHrmEmployee> employees = this.serviceHrmEmployee.getByOrganization(
+							form.getToDistrictIds(), form.getToDepartmentIds(), form.getToPositionIds());
+					if (!UtilCollection.isNotEmpty(employees))
+					{
+						// 节点无法触及, 直接忽略.
+						form.setAuditState(ModelProcessForm.EProcessFormStatus.IGNORED.getValue());
+					}
 				}
 			}
 			

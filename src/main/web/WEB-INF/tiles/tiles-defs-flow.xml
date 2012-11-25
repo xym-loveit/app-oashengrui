@@ -65,6 +65,10 @@
 	<definition name="form.flow.task.type.depsAgainstSlot" 
 		path="/WEB-INF/jsp/application/system/flow/public/form/formFlowTaskDepAgainstSlot.jsp"/>
 	
+	<!-- 个人审批-->
+	<definition name="form.flow.task.type.personalAudit" 
+		path="/WEB-INF/jsp/application/system/flow/public/form/formFlowTaskPersonalAudit.jsp"/>
+	
 	<!-- 财务审批流程页面 -->
 	<definition name="page.sys.setting.flow.financial.index" 
 		path="/WEB-INF/jsp/application/system/flow/financial/pageFlowFinancialIndex.jsp"/>
