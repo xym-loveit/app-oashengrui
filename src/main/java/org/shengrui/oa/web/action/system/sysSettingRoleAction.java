@@ -14,6 +14,7 @@ import org.shengrui.oa.model.system.ModelAppFunction;
 import org.shengrui.oa.model.system.ModelAppFunctionDataStrategy;
 import org.shengrui.oa.model.system.ModelAppMenu;
 import org.shengrui.oa.model.system.ModelAppRole;
+import org.shengrui.oa.model.system.ModelAppUser;
 import org.shengrui.oa.model.system.ModelSchoolDepartmentPosition;
 import org.shengrui.oa.service.system.ServiceAppFunctionDataStrategy;
 import org.shengrui.oa.service.system.ServiceAppRole;
@@ -205,53 +206,13 @@ extends sysSettingBaseAction
 				
 				if (role != null)
 				{
+					// 职位权限关系解除
+					this.unbindPositionRole (role);
 					
-					List<ModelSchoolDepartmentPosition> positions = 
-						this.serviceSchoolDepartmentPosition.getPositionsByRole(role);
+					// 用户权限关系解除
+					this.unbindUserRole(role);
 					
-					if (UtilCollection.isNotEmpty(positions))
-					{
-						// 岗位职位与权限解耦
-						for (ModelSchoolDepartmentPosition position : positions)
-						{
-							Set<ModelAppRole> roles = position.getRoles();
-							Iterator<ModelAppRole> itor = roles.iterator();
-							while (itor.hasNext())
-							{
-								if (itor.next().getId().equals(role.getId()))
-								{
-									itor.remove();
-									break;
-								}
-							}
-							
-							// 解耦权限Key关联
-							if (UtilString.isNotEmpty(position.getPositionRoleRights()))
-							{
-								String[] roleKeys = position.getPositionRoleRights().split(",");
-								StringBuilder builder = new StringBuilder();
-								for (String roleKey : roleKeys)
-								{
-									if (!roleKey.equals(role.getRoleKey()))
-									{
-										builder.append(roleKey);
-										builder.append(",");
-									}
-								}
-								
-								if (builder.length() > 0)
-								{
-									builder.deleteCharAt(builder.length() -1);
-								}
-								position.setPositionRoleRights(builder.toString());
-								builder = null;
-							}
-							
-							this.serviceSchoolDepartmentPosition.save(position);
-						}
-					}
-					
-					// 删除
+					// 权限删除
 					this.serviceAppRole.remove(role);
 					
 					return ajaxPrint(response, 
@@ -378,6 +339,118 @@ extends sysSettingBaseAction
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * 职位权限解耦
+	 * 
+	 * @param role
+	 * @throws ServiceException 
+	 */
+	private void unbindPositionRole (ModelAppRole role) throws ServiceException
+	{
+		if (role != null)
+		{
+			List<ModelSchoolDepartmentPosition> positions = 
+					this.serviceSchoolDepartmentPosition.getPositionsByRole(role);
+			
+			if (UtilCollection.isNotEmpty(positions))
+			{
+				// 岗位职位与权限解耦
+				for (ModelSchoolDepartmentPosition position : positions)
+				{
+					Set<ModelAppRole> roles = position.getRoles();
+					Iterator<ModelAppRole> itor = roles.iterator();
+					while (itor.hasNext())
+					{
+						if (itor.next().getId().equals(role.getId()))
+						{
+							itor.remove();
+							break;
+						}
+					}
+					
+					// 解耦权限Key关联
+					if (UtilString.isNotEmpty(position.getPositionRoleRights()))
+					{
+						String[] roleKeys = position.getPositionRoleRights().split(",");
+						StringBuilder builder = new StringBuilder();
+						for (String roleKey : roleKeys)
+						{
+							if (!roleKey.equals(role.getRoleKey()))
+							{
+								builder.append(roleKey);
+								builder.append(",");
+							}
+						}
+						
+						if (builder.length() > 0)
+						{
+							builder.deleteCharAt(builder.length() -1);
+						}
+						position.setPositionRoleRights(builder.toString());
+						builder = null;
+					}
+					
+					this.serviceSchoolDepartmentPosition.save(position);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 用户权限解耦
+	 * 
+	 * @param role
+	 * @throws ServiceException 
+	 */
+	private void unbindUserRole (ModelAppRole role) throws ServiceException
+	{
+		if (role != null)
+		{
+			List<ModelAppUser> users = this.serviceAppUser.getAll(false);
+			if (UtilCollection.isNotEmpty(users))
+			{
+				// 岗位职位与权限解耦
+				for (ModelAppUser user : users)
+				{
+					Set<ModelAppRole> roles = user.getRoles();
+					Iterator<ModelAppRole> itor = roles.iterator();
+					while (itor.hasNext())
+					{
+						if (itor.next().getId().equals(role.getId()))
+						{
+							itor.remove();
+							break;
+						}
+					}
+					
+					// 解耦权限Key关联
+					if (UtilString.isNotEmpty(user.getRoleRights()))
+					{
+						String[] roleKeys = user.getRoleRights().split(",");
+						StringBuilder builder = new StringBuilder();
+						for (String roleKey : roleKeys)
+						{
+							if (!roleKey.equals(role.getRoleKey()))
+							{
+								builder.append(roleKey);
+								builder.append(",");
+							}
+						}
+						
+						if (builder.length() > 0)
+						{
+							builder.deleteCharAt(builder.length() -1);
+						}
+						user.setRoleRights(builder.toString());
+						builder = null;
+					}
+					
+					this.serviceAppUser.save(user);
+				}
+			}
+		}
 	}
 	
 	public static Logger getLogger()

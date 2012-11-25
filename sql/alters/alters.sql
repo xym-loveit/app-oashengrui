@@ -62,3 +62,8 @@ ALTER TABLE  `app_finan_expense` ADD  `cproc_userid` BIGINT NULL COMMENT  '当�
 ALTER TABLE  `app_finan_contract` ADD  `cproc_userid` BIGINT NULL COMMENT  '当前审批人, 主要用于个人审批环节' AFTER  `cproc_disid`;
 ALTER TABLE  `app_finan_project` ADD  `cproc_userid` BIGINT NULL COMMENT  '当前审批人, 主要用于个人审批环节' AFTER  `cproc_disid`;
 ALTER TABLE  `app_hrm_employee_develop` ADD  `cproc_userid` BIGINT NULL COMMENT  '当前审批人, 主要用于个人审批环节' AFTER  `cproc_disid`;
+
+--
+-- Added by Jeccy.Zhao on 2012-11-25
+--
+ALTER TABLE  `app_user` ADD  `role_rights` TEXT NULL COMMENT  '用户拥有的权限Key串' AFTER  `del_flag`;

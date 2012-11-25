@@ -20,6 +20,7 @@ import com.google.gson.annotations.Expose;
 import cn.trymore.core.acl.AclFilterAnnotation;
 import cn.trymore.core.common.Constants;
 import cn.trymore.core.model.ModelBase;
+import cn.trymore.core.util.UtilCollection;
 import cn.trymore.core.util.UtilString;
 
 /**
@@ -169,7 +170,7 @@ extends ModelBase implements UserDetails
 	 * 用户拥有的角色
 	 */
 	@XmlTransient
-	protected Set<ModelAppRole> roles;
+	protected Set<ModelAppRole> roles  = new HashSet<ModelAppRole>();;
 	
 	/**
 	 * 用户拥有的菜单项
@@ -223,6 +224,21 @@ extends ModelBase implements UserDetails
 	 * 校区类型.
 	 */
 	private int districtType;
+	
+	/**
+	 * 权限组Key值集合 (所有)
+	 */
+	protected Set<String> roleKeys = new HashSet<String>();
+	
+	/**
+	 * 权限组Key值集合 (职位权限)
+	 */
+	protected Set<String> positionRoleKeys = new HashSet<String>();
+	
+	/**
+	 * 权限Key值串
+	 */
+	private String roleRights;
 	
 	/**
 	 * The enumeration of user status
@@ -343,30 +359,51 @@ extends ModelBase implements UserDetails
 		}
 		else
 		{
-			if (!isInitialized && this.position != null && this.position.getRoles() != null)
+			if (!isInitialized)
 			{
-				final Set<ModelAppRole> roleSet = this.position.getRoles();
-				Iterator<ModelAppRole> it = roleSet.iterator();
-				
-				while (it.hasNext()) 
+				// 初始化岗位权限
+				if (this.position != null && this.position.getRoles() != null)
 				{
-					ModelAppRole role = it.next();
-					if (isSuperRoot(role))
-					{
-						this.rights.add(ModelAppRole.SUPER_RIGHTS);
-						break;
-					}
-					else
-					{
-						this.initRights(role);
-						this.initMenuKeys(role);
-						this.initDataPermissions(role);
-					}
+					initRoles(this.position.getRoles(), true);
+				}
+				
+				// 初始化个人权限
+				if (UtilCollection.isNotEmpty(this.roles))
+				{
+					initRoles(this.roles, false);
 				}
 			}
 		}
 		
 		isInitialized = true;
+	}
+	
+	/**
+	 * Initialize user role
+	 * 
+	 * @param roleSet
+	 * @param isPositionRole
+	 */
+	private void initRoles (final Set<ModelAppRole> roleSet, boolean isPositionRole)
+	{
+		Iterator<ModelAppRole> it = roleSet.iterator();
+		
+		while (it.hasNext()) 
+		{
+			ModelAppRole role = it.next();
+			if (isSuperRoot(role))
+			{
+				this.rights.add(ModelAppRole.SUPER_RIGHTS);
+				break;
+			}
+			else
+			{
+				this.initRights(role);
+				this.initRoleKey(role, isPositionRole);
+				this.initMenuKeys(role);
+				this.initDataPermissions(role);
+			}
+		}
 	}
 	
 	/**
@@ -442,6 +479,29 @@ extends ModelBase implements UserDetails
 					}
 				}
 			}
+		}
+	}
+	
+	/**
+	 * Initialize user role key
+	 * 
+	 * @param role
+	 * @param isPositionRole
+	 */
+	private void initRoleKey (ModelAppRole role, boolean isPositionRole)
+	{
+		if (role != null)
+		{
+			if (!this.roleKeys.contains(role.getRoleKey()))
+			{
+				this.roleKeys.add(role.getRoleKey());
+			}
+			
+			if (isPositionRole)
+			{
+				this.positionRoleKeys.add(role.getRoleKey());
+			}
+			
 		}
 	}
 	
@@ -862,5 +922,25 @@ extends ModelBase implements UserDetails
 	public String getDepartmentId()
 	{
 		return departmentId;
+	}
+	
+	public Set<String> getRoleKeys()
+	{
+		return roleKeys;
+	}
+	
+	public Set<String> getPositionRoleKeys()
+	{
+		return positionRoleKeys;
+	}
+
+	public String getRoleRights()
+	{
+		return roleRights;
+	}
+
+	public void setRoleRights(String roleRights)
+	{
+		this.roleRights = roleRights;
 	}
 }

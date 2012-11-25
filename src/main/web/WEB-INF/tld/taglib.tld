@@ -34,6 +34,18 @@
 
 <function>
    <description>
+     inRange with specified search string towards string set
+   </description>
+   <name>contains</name>
+   <function-class>cn.trymore.core.jstl.JstlTagString</function-class>
+   <function-signature>java.lang.String contains(java.util.Set, java.lang.String)</function-signature>
+     <example>
+        name: ${ltag:inRange(set,'20',',')}
+     </example>
+</function>
+
+<function>
+   <description>
      render json for file restore
    </description>
    <name>fileRestore</name>

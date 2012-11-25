@@ -20,6 +20,9 @@
 
 package cn.trymore.core.jstl;
 
+import java.util.Set;
+
+import cn.trymore.core.util.UtilCollection;
 import cn.trymore.core.util.UtilString;
 
 /**
@@ -51,7 +54,21 @@ public class JstlTagString
 				}
 			}
 		}
-		
+		return false;
+	}
+	
+	/**
+	 * 
+	 * @param stringSet
+	 * @param searchString
+	 * @return
+	 */
+	public static boolean contains(final Set<String> stringSet, final String searchString)
+	{
+		if (UtilString.isNotEmpty(searchString) && UtilCollection.isNotEmpty(stringSet))
+		{
+			return stringSet.contains(searchString);
+		}
 		return false;
 	}
 	

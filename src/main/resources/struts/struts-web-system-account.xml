@@ -17,6 +17,7 @@
 				parameter="action"
 				type="org.springframework.web.struts.DelegatingActionProxy">
 			<forward name="page.sys.mgr.account.index" path="page.sys.mgr.account.index" />
+			<forward name="dialog.uer.role.page" path="dialog.uer.role.page" />
 		</action>
 	</action-mappings>
 
