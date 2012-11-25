@@ -53,3 +53,12 @@ ALTER TABLE  `app_school_department_position` ADD  `del_flag` TINYINT DEFAULT 0 
 -- Added by Jeccy.Zhao on 2012-11-23
 --
 ALTER TABLE  `app_process_type` ADD  `type_visibility` TINYINT NULL COMMENT  '类别可见范围. null=全部, 1=总部, 2=校区' AFTER  `type_parent`
+
+
+--
+-- Added by Jeccy.Zhao on 2012-11-24
+--
+ALTER TABLE  `app_finan_expense` ADD  `cproc_userid` BIGINT NULL COMMENT  '当前审批人, 主要用于个人审批环节' AFTER  `cproc_disid`;
+ALTER TABLE  `app_finan_contract` ADD  `cproc_userid` BIGINT NULL COMMENT  '当前审批人, 主要用于个人审批环节' AFTER  `cproc_disid`;
+ALTER TABLE  `app_finan_project` ADD  `cproc_userid` BIGINT NULL COMMENT  '当前审批人, 主要用于个人审批环节' AFTER  `cproc_disid`;
+ALTER TABLE  `app_hrm_employee_develop` ADD  `cproc_userid` BIGINT NULL COMMENT  '当前审批人, 主要用于个人审批环节' AFTER  `cproc_disid`;

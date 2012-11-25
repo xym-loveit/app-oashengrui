@@ -58,36 +58,43 @@
 	<!-- 审批状态 -->
 	<c:if test="${op ne null && op eq 'view'}">
 		<c:if test="${history ne null}">
-			<div style="padding: 10px 0px 3px 0px; border-bottom: 1px dotted #999; margin: 0 10px 5px 10px; overflow: auto; clear: both;">
-				<div style="color:#999; line-height: 18px;">审批记录：</div>
-			</div>
-			<table id="tblexp_history" cellpadding="0" cellspacing="0" width="98%" border="1" style="border-collapse: collapse; border-color: #797979; margin: 0 auto;">
-				<logic:present name="entity" property="processHistory">
-					<logic:iterate name="entity" property="processHistory" id="data">
-						<tr>
-							<td width="15%" class="audit${data.auditState}" style="line-height: 35px;">
-								${data.toDepartmentNames}-${data.toPositionNames ne null ? data.toPositionNames : '未知'}
-								<c:choose>
-									<c:when test="${data.taskType eq 1 || data.taskType eq 2}">(校区)</c:when>
-									<c:when test="${data.taskType eq 3 || data.taskType eq 4}">(总部)</c:when>
-									<c:when test="${data.taskType eq 6 || data.taskType eq 7 || data.taskType eq 8}">(片区)</c:when>
-									<c:otherwise>(未知)</c:otherwise>
-								</c:choose>
-								审批
-							</td>
-							<td style="padding:0 5px;">
-								<c:choose>
-									<c:when test="${data.auditState eq 0}">由于无法触及该节点,略过该流程...</c:when>
-									<c:otherwise>
-										${data.auditIdea} &nbsp;
-										(<span style="color: #FF7300;"><label style="color: #444; float:none; width: auto">审批结果:</label> ${data.auditState eq 2 ? '通过' : (data.auditState eq 3 ? '不通过' : '退回')} &nbsp;<label style="color: #444; float:none; width: auto">审批人:</label> ${data.auditUserNames} &nbsp;<label style="color: #444; float:none; width: auto">审批时间:</label> <fmt:formatDate value="${data.auditDate}" pattern="yyyy-MM-dd hh:mm:ss" /></span>)
-									</c:otherwise>
-								</c:choose>
-							</td>
-						</tr>
-					</logic:iterate>
-				</logic:present>
-			</table>	
+			<logic:present name="entity" property="processHistory">
+				<c:if test="${fn:length(entity.processHistory) gt 0}">
+					<div style="padding: 10px 0px 3px 0px; border-bottom: 1px dotted #999; margin: 0 10px 5px 10px; overflow: auto; clear: both;">
+						<div style="color:#999; line-height: 18px;">审批记录：</div>
+					</div>
+					<table id="tblexp_history" cellpadding="0" cellspacing="0" width="98%" border="1" style="border-collapse: collapse; border-color: #797979; margin: 0 auto;">
+						<logic:iterate name="entity" property="processHistory" id="data">
+							<tr>
+								<td width="15%" class="audit${data.auditState}" style="line-height: 35px;">
+									<c:choose>
+										<c:when test="${data.toUserNames ne null}">审批人`${data.toUserNames}`</c:when>
+										<c:otherwise>
+											${data.toDepartmentNames}-${data.toPositionNames ne null ? data.toPositionNames : '未知'}
+											<c:choose>
+												<c:when test="${data.taskType eq 1 || data.taskType eq 2}">(校区)</c:when>
+												<c:when test="${data.taskType eq 3 || data.taskType eq 4}">(总部)</c:when>
+												<c:when test="${data.taskType eq 6 || data.taskType eq 7 || data.taskType eq 8}">(片区)</c:when>
+												<c:otherwise>(未知)</c:otherwise>
+											</c:choose>
+										</c:otherwise>
+									</c:choose>
+									审批
+								</td>
+								<td style="padding:0 5px;">
+									<c:choose>
+										<c:when test="${data.auditState eq 0}">由于无法触及该节点,略过该流程...</c:when>
+										<c:otherwise>
+											${data.auditIdea} &nbsp;
+											(<span style="color: #FF7300;"><label style="color: #444; float:none; width: auto">审批结果:</label> ${data.auditState eq 2 ? '通过' : (data.auditState eq 3 ? '不通过' : '退回')} &nbsp;<label style="color: #444; float:none; width: auto">审批人:</label> ${data.auditUserNames} &nbsp;<label style="color: #444; float:none; width: auto">审批时间:</label> <fmt:formatDate value="${data.auditDate}" pattern="yyyy-MM-dd hh:mm:ss" /></span>)
+										</c:otherwise>
+									</c:choose>
+								</td>
+							</tr>
+						</logic:iterate>
+					</table>
+				</c:if>
+			</logic:present>
 		</c:if>
 		<div style="padding: 10px 0px; border-bottom: 1px dotted #999; margin: 0 10px 15px 10px; overflow: auto; clear: both;">
 			<div style="color:#FF7300; line-height: 18px;">${entity.applyForm eq null || fn:length(entity.applyForm) == 0 ? '历史审批记录' : '审批流程'}：</div>
@@ -99,12 +106,17 @@
 						<logic:iterate name="entity" property="processHistory" id="entity">
 							<tr>
 								<td width="15%" class="audit${entity.auditState}" style="line-height: 35px;">
-									${entity.toDepartmentNames}-${entity.toPositionNames ne null ? entity.toPositionNames : '未知'}
 									<c:choose>
-										<c:when test="${entity.taskType eq 1 || entity.taskType eq 2}">(校区)</c:when>
-										<c:when test="${entity.taskType eq 3 || entity.taskType eq 4}">(总部)</c:when>
-										<c:when test="${entity.taskType eq 6 || entity.taskType eq 7 || entity.taskType eq 8}">(片区)</c:when>
-										<c:otherwise>(未知)</c:otherwise>
+										<c:when test="${entity.toUserNames ne null}">审批人`${entity.toUserNames}`</c:when>
+										<c:otherwise>
+											${entity.toDepartmentNames}-${entity.toPositionNames ne null ? entity.toPositionNames : '未知'}
+											<c:choose>
+												<c:when test="${entity.taskType eq 1 || entity.taskType eq 2}">(校区)</c:when>
+												<c:when test="${entity.taskType eq 3 || entity.taskType eq 4}">(总部)</c:when>
+												<c:when test="${entity.taskType eq 6 || entity.taskType eq 7 || entity.taskType eq 8}">(片区)</c:when>
+												<c:otherwise>(未知)</c:otherwise>
+											</c:choose>
+										</c:otherwise>
 									</c:choose>
 									审批
 								</td>
@@ -150,20 +162,25 @@
 						<logic:iterate name="entity" property="applyForm" id="entity">
 							<tr>
 								<td width="18%" class="audit${entity.auditState}" style="line-height: 35px;">
-									${entity.toDepartmentNames}-${entity.toPositionNames ne null ? entity.toPositionNames : '未知'}
 									<c:choose>
-										<c:when test="${entity.taskType eq 1 || entity.taskType eq 2}">(校区)</c:when>
-										<c:when test="${entity.taskType eq 3 || entity.taskType eq 4}">(总部)</c:when>
-										<c:when test="${entity.taskType eq 6 || entity.taskType eq 7 || entity.taskType eq 8}">(片区)</c:when>
-										<c:when test="${entity.taskType eq 5}">(调动/晋升校区)</c:when>
-										<c:otherwise>未知</c:otherwise>
+										<c:when test="${entity.toUserNames ne null}">审批人`${entity.toUserNames}`</c:when>
+										<c:otherwise>
+											${entity.toDepartmentNames}-${entity.toPositionNames ne null ? entity.toPositionNames : '未知'}
+											<c:choose>
+												<c:when test="${entity.taskType eq 1 || entity.taskType eq 2}">(校区)</c:when>
+												<c:when test="${entity.taskType eq 3 || entity.taskType eq 4}">(总部)</c:when>
+												<c:when test="${entity.taskType eq 6 || entity.taskType eq 7 || entity.taskType eq 8}">(片区)</c:when>
+												<c:when test="${entity.taskType eq 5}">(调动/晋升校区)</c:when>
+												<c:otherwise>未知</c:otherwise>
+											</c:choose>
+										</c:otherwise>
 									</c:choose>
 									审批
 								</td>
 								<td style="padding:0 5px;">
 									<c:choose>
 										<c:when test="${entity.auditState eq 1}">
-											<c:if test="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.positionId eq entity.toPositionIds && sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.departmentId eq entity.toDepartmentIds && sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.districtId eq entity.toDistrictIds && tm:ifGranted('_FUNCKEY_HRM_DEVELOP_APPROVE')}">
+											<c:if test="${(sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.employeeId eq entity.toUserIds || ( sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.positionId eq entity.toPositionIds && sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.departmentId eq entity.toDepartmentIds && sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.districtId eq entity.toDistrictIds)) && tm:ifGranted('_FUNCKEY_HRM_DEVELOP_APPROVE')}">
 												<c:if test="${entity.toDistrictIds eq null || sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.districtId eq entity.toDistrictIds}">
 													<table style="padding:5px 0; width:100%;" cellpadding="0" cellspacing="0" id="auditForm${entity.id}">
 														<tr>

@@ -365,6 +365,7 @@ extends FlowBaseAction
 						entity.setCurrentProcDepId(procForm.getToDepartmentIds());
 						entity.setCurrentProcPosId(procForm.getToPositionIds());
 						entity.setCurrentProcDistrictId(procForm.getToDistrictIds());
+						entity.setCurrentProcUserId(procForm.getToUserIds());
 					}
 					else
 					{
@@ -407,21 +408,31 @@ extends FlowBaseAction
 							districtId = entity.getEmployee().getEmployeeDistrict().getId();
 						}
 						
-						List<ModelHrmEmployee> employees = this.serviceHrmEmployee.getByOrganization(
-							districtId, procForm.getToDepartmentIds(), procForm.getToPositionIds());
-						
 						StringBuilder builder = new StringBuilder();
-						for (int i = 0, size = employees.size(); i <  size; i++)
+						
+						if (UtilString.isNotEmpty(procForm.getToDistrictIds(), 
+								procForm.getToDepartmentIds(), procForm.getToPositionIds()))
 						{
-							ModelHrmEmployee employee = employees.get(i);
+							List<ModelHrmEmployee> employees = this.serviceHrmEmployee.getByOrganization(
+								districtId, procForm.getToDepartmentIds(), procForm.getToPositionIds());
 							
-							// ensures specified district equals the district of employee.
-							if (entity.getCurrentProcDistrictId() == null || 
-									entity.getCurrentProcDistrictId().equals(employee.getEmployeeDistrict().getId()))
+							for (int i = 0, size = employees.size(); i <  size; i++)
 							{
-								builder.append(employee.getId());
-								builder.append(",");
+								ModelHrmEmployee employee = employees.get(i);
+								
+								// ensures specified district equals the district of employee.
+								if (entity.getCurrentProcDistrictId() == null || 
+										entity.getCurrentProcDistrictId().equals(employee.getEmployeeDistrict().getId()))
+								{
+									builder.append(employee.getId());
+									builder.append(",");
+								}
 							}
+						}
+						
+						if (UtilString.isNotEmpty(entity.getCurrentProcUserId()))
+						{
+							builder.append(entity.getCurrentProcUserId());
 						}
 						
 						this.sendMessage("my.approval.audit.hrm", 
@@ -516,6 +527,7 @@ extends FlowBaseAction
 						// 审批结束, 审批退回/不通过/通过
 						entity.setCurrentProcDepId(null);
 						entity.setCurrentProcPosId(null);
+						entity.setCurrentProcUserId(null);
 					}
 					else
 					{
@@ -523,6 +535,7 @@ extends FlowBaseAction
 						entity.setCurrentProcDepId(procForm.getToDepartmentIds());
 						entity.setCurrentProcPosId(procForm.getToPositionIds());
 						entity.setCurrentProcDistrictId(procForm.getToDistrictIds());
+						entity.setCurrentProcUserId(procForm.getToUserIds());
 					}
 					
 					// 关联绑定历史审核数据

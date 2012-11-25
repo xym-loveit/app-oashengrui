@@ -25,6 +25,7 @@
 		<forward name="form.flow.task.type.slotDepsAgainst" path="form.flow.task.type.slotDepsAgainst" />
 		<forward name="form.flow.task.type.slotDepsSingle" path="form.flow.task.type.slotDepsSingle" />
 		<forward name="form.flow.task.type.depsAgainstSlot" path="form.flow.task.type.depsAgainstSlot" />
+		<forward name="form.flow.task.type.personalAudit" path="form.flow.task.type.personalAudit" />
 	</global-forwards>
 	
 	<action-mappings>

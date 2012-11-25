@@ -137,11 +137,11 @@ extends ServiceGenericImpl<ModelFinanExpense> implements ServiceFinanExpense
 			{
 				// 过滤审批中的记录
 				criteria.add(Restrictions.sqlRestriction(
-					"(cproc_depid = " + 
-						ContextUtil.getCurrentUser().getDepartmentId() + " and cproc_posid= " + 
-						ContextUtil.getCurrentUser().getPositionId() + " and " +
-						"(cproc_disid = " + 
-							ContextUtil.getCurrentUser().getDistrictId() + "))"
+						"(cproc_userid = " + ContextUtil.getCurrentUser().getEmployeeId() + " or (cproc_depid = " + 
+								ContextUtil.getCurrentUser().getDepartmentId() + " and cproc_posid= " + 
+								ContextUtil.getCurrentUser().getPositionId() + " and " +
+								"(cproc_disid = " + 
+									ContextUtil.getCurrentUser().getDistrictId() + ")))"
 					)
 				);
 			}

@@ -59,6 +59,7 @@
 					<c:if test="${(typeSlug eq 'hrm' && istran ne null) || (taskType ne null && taskType eq 5)}">
 					<option value="5" ${taskType ne null && taskType eq 5 ? "selected='selected'" : ""}>调动/晋升校区</option>
 					</c:if>
+					<option value="9" ${taskType ne null && taskType eq 9 ? "selected='selected'" : ""}>个人审批</option>
 				</select>
 			</div>
 			<div id="form_box" style="padding: 10px 0;clear:both">

@@ -756,7 +756,7 @@ extends BaseAppAction
 						
 						// 根据参数前缀获取对应的数组参数数据
 						Map<String, List<String>> paramValues = 
-								this.getAllRequestParameters(request, new String[] { "depId", "depName", "posId", "posName"} );
+								this.getAllRequestParameters(request, new String[] { "depId", "depName", "posId", "posName", "emp.id", "emp.fullName"} );
 						
 						if (paramValues != null && paramValues.size() > 0)
 						{
@@ -768,6 +768,11 @@ extends BaseAppAction
 									UtilString.join(paramValues.get("posId"), ","));
 							procTaskEntity.setToPositionNames(
 									UtilString.join(paramValues.get("posName"), ","));
+							
+							procTaskEntity.setToUserIds(
+									UtilString.join(paramValues.get("emp.id"), ","));
+							procTaskEntity.setToUserNames(
+									UtilString.join(paramValues.get("emp.fullName"), ","));
 						}
 						
 						procTaskEntity.setProcessTaskType(Integer.parseInt(procTaskType));
@@ -1039,7 +1044,8 @@ extends BaseAppAction
 					processTaskType.equals(ModelProcessTask.EProcessTaskType.TRANSFER_DEPS.getValue()) || 
 					processTaskType.equals(ModelProcessTask.EProcessTaskType.SLOT_DEPS_AGAINST.getValue()) || 
 					processTaskType.equals(ModelProcessTask.EProcessTaskType.SLOT_DEPS_SINGLE.getValue()) || 
-					processTaskType.equals(ModelProcessTask.EProcessTaskType.DEPS_AGAINST_SLOT.getValue());
+					processTaskType.equals(ModelProcessTask.EProcessTaskType.DEPS_AGAINST_SLOT.getValue()) || 
+					processTaskType.equals(ModelProcessTask.EProcessTaskType.PERSONAL_AUDIT.getValue());
 		}
 		
 		return false;
@@ -1086,6 +1092,10 @@ extends BaseAppAction
 			else if (processTaskType.equals(ModelProcessTask.EProcessTaskType.DEPS_AGAINST_SLOT.getValue()))
 			{
 				return ModelProcessTask.EProcessTaskType.DEPS_AGAINST_SLOT.getText();
+			}
+			else if (processTaskType.equals(ModelProcessTask.EProcessTaskType.PERSONAL_AUDIT.getValue()))
+			{
+				return ModelProcessTask.EProcessTaskType.PERSONAL_AUDIT.getText();
 			}
 		}
 		
