@@ -115,7 +115,12 @@
 						</c:choose>
 						</td>
 						<td>
-							<a href="app/system/account.do?action=dialogUserRole&uid=${user.id}" target="dialog" title="权限设置" class="oplink" width="504" height="448" rel="sysmgr_account_roleset">权限设置</a>
+							<c:choose>
+								<c:when test="${tm:ifGranted('__ALL,_FUNCKEY_ADMIN_ACCOUNT_ROLE_SET')}">
+									<a href="app/system/account.do?action=dialogUserRole&uid=${user.id}" target="dialog" title="权限设置" class="oplink" width="504" height="448" rel="sysmgr_account_roleset">权限设置</a>
+								</c:when>
+							<c:otherwise><label class="opdisabled" title="您没有权限进行用户权限设置">---</label></c:otherwise>
+						</c:choose>
 						</td>
 					</tr>
 				</logic:iterate>
