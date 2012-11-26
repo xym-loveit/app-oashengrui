@@ -44,7 +44,7 @@
 <div class="pageContent" id="tree_rolefuncs">
 	<div class="pageFormContent" layoutH="58">
 		<logic:present name="rootMenus">
-			<ul class="tree treeFolder treeCheck expand" layoutH="8">
+			<ul class="tree treeFolder treeCheck expand">
 				<logic:iterate name="rootMenus" id="root" indexId="idx">
 					<li treeicon="${root.menuIcon}"><a id="mtlink_${root.id}" href="javascript:void(0);" ${view ne null ? 'readonly' : ''} ${role ne null && tm:inRange(role.menuIds, root.id, ',') ? 'checked="true"': ''}>
 						<span type="menu" alt="${root.id}">${root.menuTitle}</span></a>
