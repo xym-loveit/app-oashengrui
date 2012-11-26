@@ -168,13 +168,13 @@ ${tm:fileRestore(entity['attachFiles'])}
 					<tr>
 						<td class='field'>所属项目</td>
 						<td colspan="4"><input name="projectCatalog" type="text" style="width: 96%" value="${entity ne null ? entity.projectCatalog : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
-						<td class='field'>项目负责人</td>
+						<%--<td class='field'>项目负责人</td>
 						<td colspan="2">
 							<input id="inputEmpId" name="projectOwner.id" value="${entity ne null ? entity.projectOwner.id : ''}" type="hidden"/>
 							<input class="required" style="width: 86%" name="projectOwner.fullName" type="text" value="${entity ne null ? entity.projectOwner.empName : ''}" <c:choose><c:when test="${op ne null && (op eq 'view' || op eq 'edit')}">readonly</c:when> <c:otherwise>postField="fullName" suggestFields="fullName,districtName" suggestUrl="app/base.do?action=lookupEmployeeByName" lookupGroup="projectOwner" </c:otherwise></c:choose>/>
-						</td>
+						</td>--%>
 						<td class='field'>附件张数</td>
-						<td><input name="attachCount" type="text" class="number" style="width: 80%;" value="${entity ne null ? entity.attachCount : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
+						<td colspan="4"><input name="attachCount" type="text" class="number" style="width: 80%;" value="${entity ne null ? entity.attachCount : ''}" <c:if test="${op ne null && op eq 'view'}">readonly</c:if>/></td>
 					</tr>
 					<tr>
 						<td class='field'>供应商姓名</td>
