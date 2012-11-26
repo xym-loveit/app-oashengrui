@@ -110,9 +110,9 @@
 							<td>${entity.entryDepartment ne null ? entity.entryDepartment.depName : ''}</td>
 							<td>${entity.entryPosition ne null ? entity.entryPosition.positionName : ''}</td>
 							<td>${entity.entryCharger ne null ? entity.entryCharger.fullName : ''}</td>
-							<td><fmt:formatDate value="${entity.entryPlanDate}" pattern="yyyy-MM-dd hh:mm:ss" /></td>
+							<td><fmt:formatDate value="${entity.entryPlanDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 							<td>${entity.finalStatus ne null ? (entity.finalStatus eq 0 ? '待入职' : (entity.finalStatus eq 1 ? '已入职' : '未到岗')) : '---'}</td>
-							<td><c:if test="${entity.entryActDate ne null}"><fmt:formatDate value="${entity.entryActDate}" pattern="yyyy-MM-dd hh:mm:ss" /></c:if></td>
+							<td><c:if test="${entity.entryActDate ne null}"><fmt:formatDate value="${entity.entryActDate}" pattern="yyyy-MM-dd HH:mm:ss" /></c:if></td>
 							<td>${entity.inspectStatus ne null ? (entity.inspectStatus eq 0 ? '考察中' : (entity.inspectStatus eq 1 ? '考察通过' : '考察不通过')) : '---'}</td>
 							<td>
 								<c:choose>

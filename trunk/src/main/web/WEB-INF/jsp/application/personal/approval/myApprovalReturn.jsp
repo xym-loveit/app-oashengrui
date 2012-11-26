@@ -78,8 +78,8 @@
 							[${newsinfo.dictionary.name}] &nbsp&nbsp&nbsp “${newsinfo.newsSubject}” &nbsp&nbsp&nbsp<c:choose><c:when test="${newsinfo.status eq 2 }">新闻审批通过</c:when><c:when test="${newsinfo.status eq 3 }">新闻审批退回</c:when></c:choose>
 						</td>
 						<td>${newsinfo.user.fullName}</td>
-						<td><c:if test="${newsinfo.updateTime ne null}"><fmt:formatDate value="${newsinfo.updateTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
-						<td><c:if test="${newsinfo.myLastAuditTime ne null}"><fmt:formatDate value="${newsinfo.myLastAuditTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
+						<td><c:if test="${newsinfo.updateTime ne null}"><fmt:formatDate value="${newsinfo.updateTime}" pattern="yyyy-MM-dd HH:mm" /></c:if></td>
+						<td><c:if test="${newsinfo.myLastAuditTime ne null}"><fmt:formatDate value="${newsinfo.myLastAuditTime}" pattern="yyyy-MM-dd HH:mm" /></c:if></td>
 						<td><a class="oplink" href="app/admin/news.do?action=actionNewsScan&id=${newsinfo.id }&op=view" target="dialog" width="900" height="600" title="新闻审批" rel="dia_admin_entryapproval-id">详细</a></td>
 					</tr>
 				</logic:iterate>
@@ -92,8 +92,8 @@
 							[${entity.jobHireDistrict.districtName}   ${entity.jobHireDepartment.depName}]&nbsp&nbsp “${entity.jobHireTitle}”&nbsp&nbsp招聘
 						</td>
 						<td>${entity.postAuthorName}</td>
-						<td><c:if test="${entity.postDate ne null}"><fmt:formatDate value="${entity.postDate}" pattern="yyyy-MM-dd hh:mm"/></c:if></td>
-						<td><c:if test="${entity.myLastAuditTime ne null}"><fmt:formatDate value="${entity.myLastAuditTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
+						<td><c:if test="${entity.postDate ne null}"><fmt:formatDate value="${entity.postDate}" pattern="yyyy-MM-dd HH:mm"/></c:if></td>
+						<td><c:if test="${entity.myLastAuditTime ne null}"><fmt:formatDate value="${entity.myLastAuditTime}" pattern="yyyy-MM-dd HH:mm" /></c:if></td>
 						<td><a class="oplink" href="app/hrm/hire.do?action=hrmPageJobDetail&id=${entity.id}&op=view" target="dialog" title="岗位详细" width="960" height="420">详细</a></td>
 					</tr>
 				</logic:iterate>
@@ -111,8 +111,8 @@
 							</c:choose>
 						</td>
 						<td>${task.taskOriginator.empName }</td>
-						<td><c:if test="${task.createTime ne null}"><fmt:formatDate value="${task.createTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
-						<td><c:if test="${task.myLastAuditTime ne null}"><fmt:formatDate value="${task.myLastAuditTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
+						<td><c:if test="${task.createTime ne null}"><fmt:formatDate value="${task.createTime}" pattern="yyyy-MM-dd HH:mm" /></c:if></td>
+						<td><c:if test="${task.myLastAuditTime ne null}"><fmt:formatDate value="${task.myLastAuditTime}" pattern="yyyy-MM-dd HH:mm" /></c:if></td>
 						<td><a href="app/admin/task.do?action=dialogTaskPage&id=${task.id}&op=view" target="dialog" title="任务‘${task.taskName}’-查看" width="750" height="530" class="oplink">详细</a></td>
 					</tr>
 				</logic:iterate>
@@ -130,8 +130,8 @@
 							</c:choose>
 						</td>
 						<td>${project.employee.empName }</td>
-						<td><c:if test="${project.entryDateTime ne null}"><fmt:formatDate value="${project.entryDateTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
-						<td><c:if test="${project.myLastAuditTime ne null}"><fmt:formatDate value="${project.myLastAuditTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
+						<td><c:if test="${project.entryDateTime ne null}"><fmt:formatDate value="${project.entryDateTime}" pattern="yyyy-MM-dd HH:mm" /></c:if></td>
+						<td><c:if test="${project.myLastAuditTime ne null}"><fmt:formatDate value="${project.myLastAuditTime}" pattern="yyyy-MM-dd HH:mm" /></c:if></td>
 						<td><a class="oplink" href="app/finan/project.do?action=diaglogFinaProjectPage&id=${project.id}&op=view" target="dialog" title="查看‘${project.employee.empName}’新项目申请单-${project.formNo}" width="1150" height="640" rel="approval_project_${project.id}">审批</a></td>
 					</tr>
 				</logic:iterate>
@@ -149,8 +149,8 @@
 							</c:choose>
 						</td>
 						<td>${finanInfo.employee.empName }</td>
-						<td><c:if test="${finanInfo.entryDateTime ne null}"><fmt:formatDate value="${finanInfo.entryDateTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
-						<td><c:if test="${finanInfo.myLastAuditTime ne null}"><fmt:formatDate value="${finanInfo.myLastAuditTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
+						<td><c:if test="${finanInfo.entryDateTime ne null}"><fmt:formatDate value="${finanInfo.entryDateTime}" pattern="yyyy-MM-dd HH:mm" /></c:if></td>
+						<td><c:if test="${finanInfo.myLastAuditTime ne null}"><fmt:formatDate value="${finanInfo.myLastAuditTime}" pattern="yyyy-MM-dd HH:mm" /></c:if></td>
 						<td><a class="oplink" href="app/finan/expense.do?action=diaglogFinaExpensePage&id=${finanInfo.id}&op=view" target="dialog" title="查看‘${finanInfo.employee.empName}’合同申请单-${finanInfo.formNo}" width="1150" height="640" >详细</a></td>
 					</tr>
 				</logic:iterate>
@@ -168,8 +168,8 @@
 							</c:choose>
 						</td>
 						<td>${contractInfo.employee.empName }</td>
-						<td><c:if test="${contractInfo.entryDateTime ne null}"><fmt:formatDate value="${contractInfo.entryDateTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
-						<td><c:if test="${contractInfo.myLastAuditTime ne null}"><fmt:formatDate value="${contractInfo.myLastAuditTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
+						<td><c:if test="${contractInfo.entryDateTime ne null}"><fmt:formatDate value="${contractInfo.entryDateTime}" pattern="yyyy-MM-dd HH:mm" /></c:if></td>
+						<td><c:if test="${contractInfo.myLastAuditTime ne null}"><fmt:formatDate value="${contractInfo.myLastAuditTime}" pattern="yyyy-MM-dd HH:mm" /></c:if></td>
 						<td><a class="oplink" href="app/finan/contract.do?action=diaglogFinaContractPage&id=${contractInfo.id}&op=view" target="dialog" title="查看‘${contractInfo.employee.empName}’合同申请单-${contractInfo.formNo}" width="1150" height="640" >详细</a></td>
 					</tr>
 				</logic:iterate>
@@ -190,8 +190,8 @@
 									</c:choose>
 								</td>
 								<td>${type.employee.empName }</td>
-								<td><c:if test="${type.entryDateTime ne null}"><fmt:formatDate value="${type.entryDateTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
-								<td><c:if test="${type.myLastAuditTime ne null}"><fmt:formatDate value="${type.myLastAuditTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
+								<td><c:if test="${type.entryDateTime ne null}"><fmt:formatDate value="${type.entryDateTime}" pattern="yyyy-MM-dd HH:mm" /></c:if></td>
+								<td><c:if test="${type.myLastAuditTime ne null}"><fmt:formatDate value="${type.myLastAuditTime}" pattern="yyyy-MM-dd HH:mm" /></c:if></td>
 								<td><a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">详细</a></td>
 							</tr>
 						</c:when>
@@ -213,8 +213,8 @@
 									</c:choose>
 								</td>
 								<td>${type.employee.empName }</td>
-								<td><c:if test="${type.entryDateTime ne null}"><fmt:formatDate value="${type.entryDateTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
-								<td><c:if test="${type.myLastAuditTime ne null}"><fmt:formatDate value="${type.myLastAuditTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
+								<td><c:if test="${type.entryDateTime ne null}"><fmt:formatDate value="${type.entryDateTime}" pattern="yyyy-MM-dd HH:mm" /></c:if></td>
+								<td><c:if test="${type.myLastAuditTime ne null}"><fmt:formatDate value="${type.myLastAuditTime}" pattern="yyyy-MM-dd HH:mm" /></c:if></td>
 								<td><a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">详细</a></td>
 							</tr>
 						</c:when>
@@ -236,8 +236,8 @@
 									</c:choose>
 								</td>
 								<td>${type.employee.empName }</td>
-								<td><c:if test="${type.entryDateTime ne null}"><fmt:formatDate value="${type.entryDateTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
-								<td><c:if test="${type.myLastAuditTime ne null}"><fmt:formatDate value="${type.myLastAuditTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
+								<td><c:if test="${type.entryDateTime ne null}"><fmt:formatDate value="${type.entryDateTime}" pattern="yyyy-MM-dd HH:mm" /></c:if></td>
+								<td><c:if test="${type.myLastAuditTime ne null}"><fmt:formatDate value="${type.myLastAuditTime}" pattern="yyyy-MM-dd HH:mm" /></c:if></td>
 								<td><a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">详细</a></td>
 							</tr>
 						</c:when>
@@ -260,8 +260,8 @@
 									</c:choose>
 								</td>
 								<td>${type.employee.empName }</td>
-								<td><c:if test="${type.entryDateTime ne null}"><fmt:formatDate value="${type.entryDateTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
-								<td><c:if test="${type.myLastAuditTime ne null}"><fmt:formatDate value="${type.myLastAuditTime}" pattern="yyyy-MM-dd hh:mm" /></c:if></td>
+								<td><c:if test="${type.entryDateTime ne null}"><fmt:formatDate value="${type.entryDateTime}" pattern="yyyy-MM-dd HH:mm" /></c:if></td>
+								<td><c:if test="${type.myLastAuditTime ne null}"><fmt:formatDate value="${type.myLastAuditTime}" pattern="yyyy-MM-dd HH:mm" /></c:if></td>
 								<td><a class="oplink" href="app/personal/application_form.do?action=dialogApplicationFormPage&formId=${type.id}&op=view" target="dialog" title="查看‘${type.employee.empName}’人资申请单-${type.formNo}" width="1150" height="640" rel="dia_myformapplication_view_${type.id}">详细</a></td>
 							</tr>
 						</c:when>

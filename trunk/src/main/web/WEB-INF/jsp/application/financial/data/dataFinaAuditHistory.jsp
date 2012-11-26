@@ -39,7 +39,7 @@
 					<tr>
 						<td>${entry.auditState eq 2 ? '通过' : (entry.auditState eq 3 ? '不通过' : '退回')}</td>
 						<td>${entry.auditUserNames}</td>
-						<td><fmt:formatDate value="${entry.auditDate}" pattern="yyyy-MM-dd hh:mm:ss" /></td>
+						<td><fmt:formatDate value="${entry.auditDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 						<td>${entry.auditIdea}</td>
 					</tr>
 				</logic:iterate>

@@ -822,7 +822,7 @@ implements ServiceWorkFlow
 	{
 		if (procForm != null)
 		{
-			return !UtilString.isNotEmpty(procForm.getToPositionIds()) || 
+			return (!UtilString.isNotEmpty(procForm.getToPositionIds()) && !UtilString.isNotEmpty(procForm.getToUserIds())) || 
 					(procForm.getAuditState() != null && ModelProcessForm.EProcessFormStatus.IGNORED.getValue().equals(procForm.getAuditState()));
 		}
 		
