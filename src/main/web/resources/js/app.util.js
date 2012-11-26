@@ -956,6 +956,7 @@ function getHtmlContent(wrapper_id, title)
 	html += ".tblcolor td.field {background-color: #CFDBEC; line-height: 35px; text-align: center; margin: 0; font-size: 9pt}";
 	html += ".tblcolor input.textInput {float:none;margin-left: 5px;}";
 	html += ".export_present {display: block;}";
+	html += ".export_hidden {display: none;}";
 	html += "</style>";
 	html += "</head>"
 	html += "<body>";

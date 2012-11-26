@@ -538,19 +538,36 @@ extends ModelBase implements UserDetails
 		}
 		else
 		{
-			if (this.position != null && this.position.getRoles() != null)
+			int size = 0;
+			if (this.position != null && UtilCollection.isNotEmpty(this.position.getRoles()))
 			{
-				GrantedAuthority[] arrayOfGrantedAuthority = 
-						(GrantedAuthority[])this.position.getRoles().toArray(new GrantedAuthority[this.position.getRoles().size() + 1]);
-				
-				arrayOfGrantedAuthority[(arrayOfGrantedAuthority.length - 1)] = new GrantedAuthorityImpl(ModelAppRole.ROLE_PUBLIC);
-				
-				return arrayOfGrantedAuthority;
+				size += this.position.getRoles().size();
 			}
-			else
+			if (this.roles != null && UtilCollection.isNotEmpty(this.roles))
 			{
-				return new GrantedAuthority[] {new GrantedAuthorityImpl(ModelAppRole.ROLE_PUBLIC)};
+				size += this.roles.size();
 			}
+		
+			int count = 0;
+			GrantedAuthority[] arrayOfGrantedAuthority = new GrantedAuthority[size + 1];
+			if (this.position != null && UtilCollection.isNotEmpty(this.position.getRoles()))
+			{
+				for (ModelAppRole role : this.position.getRoles())
+				{
+					arrayOfGrantedAuthority[count++] = role;
+				}
+			}
+			if (this.roles != null && UtilCollection.isNotEmpty(this.roles))
+			{
+				for (ModelAppRole role : this.roles)
+				{
+					arrayOfGrantedAuthority[count++] = role;
+				}
+			}
+			
+			arrayOfGrantedAuthority[(arrayOfGrantedAuthority.length - 1)] = new GrantedAuthorityImpl(ModelAppRole.ROLE_PUBLIC);
+			
+			return arrayOfGrantedAuthority;
 		}
 	}
 	
