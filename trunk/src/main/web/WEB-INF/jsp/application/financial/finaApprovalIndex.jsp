@@ -21,14 +21,14 @@
 	td.finished {background-color: #ddd;}
 </style>
 
-<form id="pagerForm" method="post" action="app/finan/${PAGE_TYPE eq 'FE' ? 'expense' : 'contract'}.do?action=pageFina${PAGE_TYPE eq 'FE' ? 'Expense' : 'Contract'}Index">
+<form id="pagerForm" method="post" action="app/finan/${PAGE_TYPE eq 'FE' ? 'expense' : (PAGE_TYPE eq 'FC' ? 'contract' : 'project')}.do?action=pageFina${PAGE_TYPE eq 'FE' ? 'Expense' : (PAGE_TYPE eq 'FC' ? 'Contract' : 'Project')}Index">
 	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
 	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
 </form>
 
 <!-- SearchBar -->
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="app/finan/${PAGE_TYPE eq 'FE' ? 'expense' : 'contract'}.do?action=pageFina${PAGE_TYPE eq 'FE' ? 'Expense' : 'Contract'}Index" method="post" id="searchForm" rel="pagerForm">
+	<form onsubmit="return navTabSearch(this);" action="app/finan/${PAGE_TYPE eq 'FE' ? 'expense' : (PAGE_TYPE eq 'FC' ? 'contract' : 'project')}.do?action=pageFina${PAGE_TYPE eq 'FE' ? 'Expense' : (PAGE_TYPE eq 'FC' ? 'Contract' : 'Project')}Index" method="post" id="searchForm" rel="pagerForm">
 		<div class="searchBar">
 			<table class="searchContent">
 				<tr>

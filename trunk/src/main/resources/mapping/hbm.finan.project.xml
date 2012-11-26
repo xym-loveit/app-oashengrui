@@ -81,10 +81,12 @@
         	<column name="emp_id" />
         </many-to-one>
         
+       <!-- 
        <many-to-one name="projectOwner" class="org.shengrui.oa.model.hrm.ModelHrmEmployee">
         	<column name="project_owner" />
         </many-to-one> 
-        
+       -->
+         
         <many-to-one name="empDistrict" class="org.shengrui.oa.model.system.ModelSchoolDistrict">
         	<column name="emp_district" />
         </many-to-one>

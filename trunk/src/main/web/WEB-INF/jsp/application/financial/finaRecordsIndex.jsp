@@ -26,7 +26,7 @@
 	}
 </script>
 
-<form id="pagerForm" method="post" action="app/finan/${PAGE_TYPE eq 'FE' ? 'expense' : 'contract'}.do?action=pageFina${PAGE_TYPE eq 'FE' ? 'Expense' : 'Contract'}Records">
+<form id="pagerForm" method="post" action="app/finan/${PAGE_TYPE eq 'FE' ? 'expense' : (PAGE_TYPE eq 'FC' ? 'contract' : 'project')}.do?action=pageFina${PAGE_TYPE eq 'FE' ? 'Expense' : (PAGE_TYPE eq 'FC' ? 'Contract' : 'Project')}Records">
 	<input type="hidden" name="pageNum" value="${pagingBean ne null ? pagingBean.currentPage : 1}" />
 	<input type="hidden" name="numPerPage" value="${pagingBean ne null ? pagingBean.pageSize : 20}" />
 	<input type="hidden" name="currentindex" value="${currentindex ne null ? currentindex : 0}" />
@@ -34,7 +34,7 @@
 
 <!-- SearchBar -->
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="app/finan/${PAGE_TYPE eq 'FE' ? 'expense' : 'contract'}.do?action=pageFina${PAGE_TYPE eq 'FE' ? 'Expense' : 'Contract'}Records" method="post" id="searchForm" rel="pagerForm">
+	<form onsubmit="return navTabSearch(this);" action="app/finan/${PAGE_TYPE eq 'FE' ? 'expense' : (PAGE_TYPE eq 'FC' ? 'contract' : 'project')}.do?action=pageFina${PAGE_TYPE eq 'FE' ? 'Expense' : (PAGE_TYPE eq 'FC' ? 'Contract' : 'Project')}Records" method="post" id="searchForm" rel="pagerForm">
 		<div class="searchBar">
 			<table class="searchContent" id="record_form">
 				<tr>
