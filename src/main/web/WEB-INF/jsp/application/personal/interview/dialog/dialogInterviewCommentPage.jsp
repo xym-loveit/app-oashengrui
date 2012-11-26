@@ -121,7 +121,7 @@
 							<tr target="interview_id" rel="${entity.id}">
 								<td>${entity.interviewer.fullName}</td>
 								<td>${entity.sessionSN eq 1 ? '一面' : (entity.sessionSN eq 2 ? '二面' : (entity.sessionSN eq 3 ? '三面' : '未知'))}</td>
-								<td><fmt:formatDate  value="${entity.interviewDate}" pattern="yyyy.MM.dd hh:mm:ss" /></td>
+								<td><fmt:formatDate  value="${entity.interviewDate}" pattern="yyyy.MM.dd HH:mm:ss" /></td>
 								<td class="iflag-${entity.interviewStatus}">${entity.interviewStatus eq 0 ? '待面试' : (entity.interviewStatus eq 1 ? '面试' : (entity.interviewStatus eq 2 ? '通过' : (entity.interviewStatus eq 3 ? '淘汰' : (entity.interviewStatus eq 4 ? '未到' : ''))))}</td>
 								<td>${entity.interviewComments}</td>
 								<td><!--<a class="oplink" href="app/hrm.do?action=hrmPageJobDetail&id=1" target="ajaxdo" title="下载附件">下载</a>--></td>

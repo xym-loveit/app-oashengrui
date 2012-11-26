@@ -156,7 +156,7 @@
 					</td>
 					<td>${news.district.districtName}</td>
 					<td class="${news.department ne null && news.department.delFlag eq 1 ? 'delflag' : ''}">${news.department.depName}</td>
-					<td><c:if test="${news.updateTime ne null}"><fmt:formatDate value="${news.updateTime}" pattern="yyyy-MM-dd hh:mm:ss" /></c:if></td>
+					<td><c:if test="${news.updateTime ne null}"><fmt:formatDate value="${news.updateTime}" pattern="yyyy-MM-dd HH:mm:ss" /></c:if></td>
 					<td> 
 					<c:choose>
 						<c:when test="${tm:ifGranted('_FUNCKEY_ADMIN_NEWS_DELETE') }">

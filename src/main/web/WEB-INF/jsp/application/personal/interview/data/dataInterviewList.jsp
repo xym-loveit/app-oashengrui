@@ -46,7 +46,7 @@
 					<td>${entity.jobHireIssue.resume.mobilePhone}</td>
 					<td>${entity.jobHireIssue.resume.source eq 0 ? '手工输入' : (entity.jobHireIssue.resume.source eq 1 ? '内部申请' : (entity.jobHireIssue.resume.source eq 2 ? '内部推荐' : entity.jobHireIssue.resume.source eq 3 ? '外部申请' : ''))}</td>
 					<td class="thover">${entity.sessionSN eq 1 ? '一面' : (entity.sessionSN eq 2 ? '二面' : '三面')}</td>
-					<td class="thover"><fmt:formatDate  value="${entity.interviewDate}" pattern="yyyy-MM-dd hh:mm:ss" /></td>
+					<td class="thover"><fmt:formatDate  value="${entity.interviewDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 					<td class="thover">${entity.interviewAddress}</td>
 					<td>
 						<c:choose>

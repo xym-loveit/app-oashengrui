@@ -166,7 +166,7 @@
 							</td>
 							<td>${newsInfo.district.districtName}</td>
 							<td class="${newsInfo.department ne null && newsInfo.department.delFlag eq 1 ? 'delflag' : ''}">${newsInfo.department.depName}</td>
-							<td><c:if test="${newsInfo.updateTime ne null}"><fmt:formatDate value="${newsInfo.updateTime}" pattern="yyyy-MM-dd hh:mm:ss" /></c:if></td>
+							<td><c:if test="${newsInfo.updateTime ne null}"><fmt:formatDate value="${newsInfo.updateTime}" pattern="yyyy-MM-dd HH:mm:ss" /></c:if></td>
 							<td>
 							<c:if test="${tm:ifGranted('_FUNCKEY_ADMIN_NEWS_APPROVING') }">
 								<a class="oplink" href="app/admin.do?action=adminPageEntryDetail&id=${newsInfo.id }&op=view" target="dialog" width="900" height="500" title="新闻审批" rel="dia_admin_entryapproval-id">审批</a>
