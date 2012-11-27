@@ -294,8 +294,10 @@ extends BaseFinanAction
 			projectInfo.setEmpDistrict(
 					this.serviceSchoolDistrict.get(request.getParameter("emp.districtId")));
 			
+			/*
 			projectInfo.setProjectOwner(
 					this.serviceHrmEmployee.get(request.getParameter("projectOwner.id")));
+			*/
 			
 			projectInfo.setEmpPhoneNo(
 					request.getParameter("emp.phoneNo"));
