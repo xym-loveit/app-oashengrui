@@ -92,19 +92,21 @@
 					<td class="field" align="right">教师星级：</td>
 					<td style="padding: 5px;"><!--  Change employee.phoneNo to teacherStar/consultStar -->
 						<select class="combox" name="teacherStar" style="width:60px">
-							<option value="1" ${employee ne null && employee.teacherStar eq 1 ? 'selected="selected"' : ''}>一星</option>
-							<option value="2" ${employee ne null && employee.teacherStar eq 2 ? 'selected="selected"' : ''}>二星</option>
-							<option value="3" ${employee ne null && employee.teacherStar eq 3 ? 'selected="selected"' : ''}>三星</option>
-							<option value="4" ${employee ne null && employee.teacherStar eq 4 ? 'selected="selected"' : ''}>四星</option>
+							<logic:present name="teacherStar">
+								<logic:iterate name="teacherStar" id="entity">
+									<option value="${entity.value}" ${employee ne null && employee.teacherStar eq entity.value ? 'selected="selected"' : ''}>${entity.name}</option>
+								</logic:iterate>
+							</logic:present>
 						</select>
 					</td>
 					<td align="right">咨询师星级：</td>
 					<td style="padding: 5px;">
 						<select class="combox" name="consultStar" style="width:60px">
-							<option value="1" ${employee ne null && employee.consultStar eq 1 ? 'selected="selected"' : ''}>一星</option>
-							<option value="2" ${employee ne null && employee.consultStar eq 2 ? 'selected="selected"' : ''}>二星</option>
-							<option value="3" ${employee ne null && employee.consultStar eq 3 ? 'selected="selected"' : ''}>三星</option>
-							<option value="4" ${employee ne null && employee.consultStar eq 4 ? 'selected="selected"' : ''}>四星</option>
+							<logic:present name="counselorStar">
+								<logic:iterate name="counselorStar" id="entity">
+									<option value="${entity.value}" ${employee ne null && employee.consultStar eq entity.value ? 'selected="selected"' : ''}>${entity.name}</option>
+								</logic:iterate>
+							</logic:present>
 						</select>
 					</td>
 					<td colspan="4"></td>
