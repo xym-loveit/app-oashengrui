@@ -39,10 +39,10 @@
          <property name="onboardStatus" type="java.lang.Integer">
             <column name="onboard_status" />
         </property>
-         <property name="teacherStar" type="java.lang.Integer">
+         <property name="teacherStar" type="java.lang.String">
             <column name="teacher_star" />
         </property>
-         <property name="consultStar" type="java.lang.Integer">
+         <property name="consultStar" type="java.lang.String">
             <column name="consult_star" />
         </property>
          <property name="teachClass" type="java.lang.String">

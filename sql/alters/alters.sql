@@ -73,3 +73,9 @@ INSERT INTO `app_sroa`.`app_function` (`func_id`, `func_key`, `func_name`, `func
 -- Added by Jeccy.Zhao on 2012-11-26
 --
 ALTER TABLE `app_finan_project` CHANGE `project_owner` `project_owner` BIGINT( 20 ) NULL COMMENT '项目负责人';
+
+--
+-- Added by Jeccy.Zhao on 2012-12-09
+--
+ALTER TABLE  `app_hrm_employee` CHANGE  `teacher_star`  `teacher_star` VARCHAR( 20 ) NULL DEFAULT NULL ,
+CHANGE  `consult_star`  `consult_star` VARCHAR( 20 ) NULL DEFAULT NULL;

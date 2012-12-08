@@ -123,8 +123,8 @@ extends BaseHrmAction
 				ModelHrmEmployee employeeInfo = this.serviceHrmEmployee.get(employeeId);
 				if (employeeInfo != null)
 				{
-					employeeInfo.setTeacherStar(Integer.parseInt(teacherStar));
-					employeeInfo.setConsultStar(Integer.parseInt(consultStar));
+					employeeInfo.setTeacherStar(teacherStar);
+					employeeInfo.setConsultStar(consultStar);
 					employeeInfo.setTeachClass(teachClass);
 					employeeInfo.setTeachSubject(teachSubject);
 					
@@ -373,6 +373,9 @@ extends BaseHrmAction
 					
 					request.setAttribute("positions", 
 							this.getPositionByDepartment(employeeInfo.getEmployeeDepartment().getId()));
+					
+					request.setAttribute("teacherStar", this.serviceAppDictionary.getByType("teacher"));
+					request.setAttribute("counselorStar", this.serviceAppDictionary.getByType("counselor"));
 				}
 			}
 			else

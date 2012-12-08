@@ -106,12 +106,12 @@ extends ModelBase
 	/**
 	 * 教师星级
 	 */
-	private Integer teacherStar;
+	private String teacherStar;
 	
 	/**
 	 * 咨询师星级
 	 */
-	private Integer consultStar;
+	private String consultStar;
 	
 	/**
 	 * 教授年级
@@ -359,19 +359,19 @@ extends ModelBase
 		this.teachSubject = teachSubject;
 	}
 
-	public Integer getTeacherStar() {
+	public String getTeacherStar() {
 		return teacherStar;
 	}
 
-	public void setTeacherStar(Integer teacherStar) {
+	public void setTeacherStar(String teacherStar) {
 		this.teacherStar = teacherStar;
 	}
 
-	public Integer getConsultStar() {
+	public String getConsultStar() {
 		return consultStar;
 	}
 
-	public void setConsultStar(Integer consultStar) {
+	public void setConsultStar(String consultStar) {
 		this.consultStar = consultStar;
 	}
 
