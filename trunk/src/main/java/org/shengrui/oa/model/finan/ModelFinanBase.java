@@ -141,15 +141,50 @@ extends ModelBase
 	protected Integer empDistrictId;
 	
 	/**
+	 * 审批状态 (临时变量)
+	 */
+	protected Integer auditStatus;
+	
+	/**
 	 * 审批状态 (临时变量, 主要用于记录状态过滤...)
 	 */
 	protected Integer[] condAuditStates;
-	
 	
 	/**
 	 * 当前审批环节
 	 */
 	protected ModelProcessForm currentProcessForm;
+	
+	/**
+	 * The enumeration of audit status
+	 * 
+	 * @author Jeccy.Zhao
+	 *
+	 */
+	public static enum EAuditStatus
+	{
+		ALL(-1, "all"),											// 所有
+		AUDITING (1, "auditing"),   						// 审批中
+		ACCOMPLISHED(2, "accomplished");				// 审批结束
+		
+		private Integer value;
+		private String text;
+		
+		EAuditStatus (Integer value, String text)
+		{
+			this.value = value;
+			this.text = text;
+		}
+		
+		public Integer getValue(){
+			return value;
+		}
+		
+		public String getText()
+		{
+			return this.text;
+		}
+	}
 	
 	public ModelProcessType getApplyFormType() 
 	{
@@ -504,5 +539,15 @@ extends ModelBase
 			}
 		}
 		return null;
+	}
+	
+	public Integer getAuditStatus()
+	{
+		return auditStatus;
+	}
+
+	public void setAuditStatus(Integer auditStatus)
+	{
+		this.auditStatus = auditStatus;
 	}
 }

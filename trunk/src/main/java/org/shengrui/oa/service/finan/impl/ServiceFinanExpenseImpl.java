@@ -8,6 +8,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import org.shengrui.oa.dao.finan.DAOFinanExpense;
+import org.shengrui.oa.model.finan.ModelFinanBase;
 import org.shengrui.oa.model.finan.ModelFinanExpense;
 import org.shengrui.oa.service.finan.ServiceFinanExpense;
 import org.shengrui.oa.util.ContextUtil;
@@ -105,6 +106,18 @@ extends ServiceGenericImpl<ModelFinanExpense> implements ServiceFinanExpense
 			else if (entity.getEmpDistrictId() != null && entity.getEmpDistrictId() > -1)
 			{
 				criteria.createCriteria("empDistrict").add(Restrictions.eq("id", entity.getEmpDistrictId().toString()));
+			}
+			
+			if (entity.getAuditStatus() != null && entity.getAuditStatus() > ModelFinanBase.EAuditStatus.ALL.getValue())
+			{
+				if (entity.getAuditStatus().equals(ModelFinanBase.EAuditStatus.AUDITING.getValue()))
+				{
+					criteria.add(Restrictions.isNull("auditState"));
+				}
+				else
+				{
+					criteria.add(Restrictions.sqlRestriction("audit_state > 1"));
+				}
 			}
 			
 			if (entity.getAuditState() != null && entity.getAuditState() > -1)
