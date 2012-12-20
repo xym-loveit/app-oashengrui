@@ -33,7 +33,7 @@
 			<table class="searchContent">
 				<tr>
 					<td>
-						<label style="width: 60px">所属校区：</label>
+						<label style="width: 55px">所属校区：</label>
 						<select class="combox" name="empDistrictId" id="combox_district_emp${PAGE_TYPE}">
 							<option value="-1">所有校区</option>
 							<logic:present name="districts">
@@ -44,7 +44,7 @@
 						</select>
 					</td>
 					<td>
-						<label style="width: 60px">申请类型：</label>
+						<label style="width: 55px">申请类型：</label>
 						<select class="combox" name="applyFormTypeId">
 							<option value="-1">所有</option>
 							<logic:present name="types">
@@ -55,7 +55,7 @@
 						</select>
 					</td>
 					<td>
-						<label style="width: 60px">审批状态：</label>
+						<label style="width: 55px">审批状态：</label>
 						<select class="combox" name="auditStatus">
 							<option value="-1">所有</option>
 							<option value="1" ${formEntity ne null && formEntity.auditStatus eq 1 ? 'selected="selected"' : ''}>审批中</option>
@@ -63,12 +63,12 @@
 						</select>
 					</td>
 					<td>
-						<label style="width: 60px">审批结果：</label>
+						<label style="width: 55px">审批结果：</label>
 						<select class="combox" name="auditState">
 							<option value="-1">所有</option>
 							<option value="1" ${formEntity ne null && formEntity.auditState eq 1 ? 'selected="selected"' : ''}>---(还未审批结束)</option>
 							<option value="2" ${formEntity ne null && formEntity.auditState eq 2 ? 'selected="selected"' : ''}>审批通过</option>
-							<option value="3" ${formEntity ne null && formEntity.auditState eq 3 ? 'selected="selected"' : ''}>审批未通过</option>
+					  <!--  <option value="3" ${formEntity ne null && formEntity.auditState eq 3 ? 'selected="selected"' : ''}>审批未通过</option> -->
 							<option value="4" ${formEntity ne null && formEntity.auditState eq 4 ? 'selected="selected"' : ''}>审批退回</option>
 						</select>
 					</td>
