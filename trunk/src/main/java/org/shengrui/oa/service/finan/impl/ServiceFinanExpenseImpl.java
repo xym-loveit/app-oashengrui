@@ -116,7 +116,7 @@ extends ServiceGenericImpl<ModelFinanExpense> implements ServiceFinanExpense
 				}
 				else
 				{
-					criteria.add(Restrictions.sqlRestriction("audit_state > 1"));
+					criteria.add(Restrictions.sqlRestriction("audit_state > " + ModelFinanBase.EAuditStatus.AUDITING.getValue()));
 				}
 			}
 			
