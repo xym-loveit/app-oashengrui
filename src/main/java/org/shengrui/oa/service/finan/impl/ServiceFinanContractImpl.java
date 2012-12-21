@@ -110,7 +110,7 @@ extends ServiceGenericImpl<ModelFinanContract> implements ServiceFinanContract
 			{
 				if (entity.getAuditStatus().equals(ModelFinanBase.EAuditStatus.AUDITING.getValue()))
 				{
-					criteria.add(Restrictions.isNull("auditState"));
+					criteria.add(Restrictions.or(Restrictions.isNull("auditState"), Restrictions.eq("auditState", ModelFinanBase.EAuditStatus.AUDITING.getValue())));
 				}
 				else
 				{
