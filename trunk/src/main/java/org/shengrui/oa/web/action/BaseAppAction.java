@@ -911,8 +911,15 @@ extends BaseAction
 		String level = request.getParameter("level");
 		try 
 		{
+			
+			if (!isChinese(level))
+			{
+				level = new String(level.getBytes("ISO-8859-1"), "UTF-8");
+			}
+			
 			List<ModelAppDictionary> list = this.serviceAppDictionary.getByTypeAndLevel(
-					type, new String(level.getBytes("ISO-8859-1"), "UTF-8"));
+					type, level);
+			
 			if (list != null)
 			{
 				StringBuilder sb = new StringBuilder();
@@ -1366,6 +1373,48 @@ extends BaseAction
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * Indicates whether the specified character chinese or not
+	 * 
+	 * @param c
+	 * @return
+	 */
+	private static boolean isChinese(char c) 
+	{
+		Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
+		
+		 if (ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS  
+                || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS  
+                || ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A  
+                || ub == Character.UnicodeBlock.GENERAL_PUNCTUATION  
+                || ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION  
+                || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) {  
+            return true;  
+        }  
+		
+		return false;
+	}
+	
+	/**
+	 * Indicates whether the specified text or not.
+	 * 
+	 * @param text
+	 * @return
+	 */
+	protected boolean isChinese(String text)
+	{
+		char[] chars = text.toCharArray(); 
+		for (char ch : chars)
+		{
+			if (!isChinese(ch))
+			{
+				return false;
+			}
+		}
+		
+		return true;
 	}
 	
 	public ServiceSchoolDepartment getServiceSchoolDepartment()
